@@ -1,0 +1,29 @@
+@import "/src/components/common-styles/";
+
+.popup {
+  &_map {
+  }
+  &_content {
+    background-color: $color-additional-background;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    bottom: 0;
+    width: 70vw;
+    z-index: 10;
+    transition: $transiton;
+  }
+}
+.active {
+  left: 0;
+}
+
+.button {
+  &_icon {
+    font-size: 20px;
+    transition: $transiton;
+  }
+  &:hover &_icon {
+    color: $color-main-gold;
+  }
+}

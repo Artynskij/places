@@ -1,0 +1,81 @@
+@import "/src/components/common-styles/";
+.slider{
+  &_title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  &_arrows{
+    display: flex;
+    gap: $gap;
+  }
+}
+.slider_ctn {
+  position: relative;
+  // max-width: 100vw;
+}
+.arrow_next,
+.arrow_prev {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+
+
+  color: $color-main-black;
+  padding: 10px;
+  background-color: rgba(255, 251, 251, 0.363);
+  backdrop-filter: blur(1px);
+  cursor: pointer;
+  border: 1px solid $color-main-grey;
+  transition: $transiton;
+  &:hover {
+    border-color: $color-main-gold;
+  }
+  &:active {
+    border-color: $color-main-blue;
+  }
+  &_icon {
+    font-size: 20px;
+  }
+}
+// .arrow_prev {
+//   left: -10px;
+// }
+// .arrow_next {
+//   right: -10px;
+// }
+
+.disable_arrow {
+  color: $color-main-grey;
+  border-color: $color-main-grey;
+  &:hover {
+    border-color: $color-main-grey;
+  }
+  &:active {
+    border-color: $color-main-grey;
+  }
+}
+
+.skeleton {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  &_slide {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  &_image{
+    width: 100%;
+    height: 230px;
+
+  }
+  &_button{
+    width: 100%;
+    // height: 300px;
+  }
+}
+

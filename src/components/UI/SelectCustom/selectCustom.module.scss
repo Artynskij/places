@@ -1,0 +1,80 @@
+@import "/src/components/common-styles/";
+
+.select {
+  position: relative;
+  min-width: 150px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid $color-main-grey;
+  border-radius: $border-radius-small;
+  transition: $transiton;
+  &_value {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+    background-color: transparent;
+
+    transition: $transiton;
+    & span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 150px;
+    }
+    &_icon {
+      font-size: 20px;
+      transition: $transiton;
+      .select.active & {
+        transform: rotate(180deg);
+      }
+    }
+
+    &:hover &_icon {
+      color: $color-main-gold;
+    }
+
+    .select.active &_icon {
+      color: $color-main-gold;
+    }
+  }
+  &_options {
+    opacity: 0;
+    pointer-events: none;
+    border-radius: 10px;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1;
+    top: calc(100% + 5px);
+    right: 0;
+    left: 0;
+    background-color: $color-main-white;
+    transition: $transiton;
+    border: 1px solid $color-main-gold;
+    &_item {
+      padding: 5px;
+      cursor: pointer;
+      transition: $transiton;
+      &:hover {
+        color: $color-main-white;
+        background-color: $color-main-black;
+      }
+      &_active {
+        color: $color-main-white;
+        background-color: $color-main-black;
+      }
+    }
+  }
+  &:hover {
+    border-color: $color-main-gold;
+  }
+  &.active {
+    border-color: $color-main-gold;
+  }
+  &.active &_options {
+    pointer-events: all;
+    opacity: 1;
+  }
+}

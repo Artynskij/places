@@ -1,0 +1,55 @@
+@import "/src/components/common-styles/";
+
+.block {
+  width: 100%;
+  padding: 32px 0;
+  border-bottom: 1px solid black;
+  &_title {
+    display: flex;
+    align-items: center;
+    gap: $gap;
+    margin-bottom: 10px;
+    cursor: pointer;
+    &_text {
+      @extend %Text18;
+    }
+    &_icon {
+      transform: rotate(0);
+      font-size: 20px;
+      transition: $transiton;
+    }
+    &:hover &_icon {
+      color: $color-main-gold;
+    }
+  }
+  &_list {
+    display: flex;
+    flex-direction: column;
+    @extend %Text14;
+    gap: 2px;
+    max-height: 0;
+    overflow: hidden;
+    transition: $transiton;
+  
+    &_item {
+    }
+    &_itemDropdown {
+      display: none;
+    }
+    &_active &_itemDropdown {
+      display: block;
+    }
+  }
+  &_openAll {
+    @extend %Text14;
+    margin-top: 20px;
+    // width: fit-content;
+    padding: 7px 8px;
+  }
+  &_active &_list {
+    max-height: 10000px;
+  }
+  &_active &_title_icon {
+    transform: rotate(-180deg);
+  }
+}

@@ -1,0 +1,81 @@
+@import "/src/components/common-styles/";
+.title {
+  margin-bottom: 20px;
+}
+.account {
+  margin-bottom: 20px;
+  &_title {
+    margin-bottom: 20px;
+  }
+  &_addBut {
+    margin-bottom: 20px;
+  }
+  &_content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    gap: $gap;
+    &_item {
+      //   width: fit-content;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      border-radius: 10px;
+      gap: $gap;
+      background-color: $color-main-white;
+
+      &_count {
+        @extend %Text18;
+      }
+      &_name {
+        @extend %Text18;
+        text-transform: uppercase;
+      }
+      &_refillBut {
+        width: 100%;
+      }
+    }
+  }
+}
+.history {
+  &_title {
+    margin-bottom: 20px;
+  }
+  &_content {
+    &_title {
+      display: grid;
+      grid-template-columns: 100px 1fr 140px 200px 150px;
+      padding: 10px 7px;
+      background-color: $color-main-white;
+      border-radius: 10px;
+    }
+    &_list {
+      display: flex;
+      flex-direction: column;
+      &_item {
+        display: grid;
+        grid-template-columns: 100px 1fr 100px 200px 150px;
+        padding: 15px 7px;
+        border-bottom: 1px solid $color-main-grey-light;
+        // &:last-child{
+        //     border-bottom-color: transparent;
+        // }
+        &_status {
+          padding: 7px 8px;
+          width: fit-content;
+          border-radius: 10px;
+          &[data-status="error"] {
+            background-color: red;
+          }
+          &[data-status="fulfilled"] {
+            background-color: green;
+          }
+          &[data-status="pending"] {
+            background-color: yellow;
+          }
+        }
+      }
+    }
+  }
+}

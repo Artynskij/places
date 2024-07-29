@@ -1,0 +1,14 @@
+@import "/src/components/common-styles";
+
+.icon {
+  &_globe {
+    color: $color-main-black;
+    cursor: pointer;
+    transition: $transiton;
+    width: 22px;
+    height: 22px;
+    &:hover {
+      color: $color-main-blue;
+    }
+  }
+}

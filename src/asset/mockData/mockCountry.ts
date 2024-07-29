@@ -1,0 +1,85 @@
+export const countries = [
+  {
+    id: 1,
+    title: "Казахстан",
+    videoSrc: "/mock/polandVideoMock.mp4",
+    posterSrc: "/mock/restMock.jpg",
+  },
+];
+
+export const mockDistrict = [
+  {
+    id: 1,
+    title: "Алматинская область",
+    value: "almatydistrict",
+    img: "/mock/almatydistrict.jpeg",
+    link: "/kazahstan/almatydistrict",
+    videoSrc: "/mock/almatydistrict.jpeg",
+    posterSrc: "/mock/almatydistrict.jpeg",
+  },
+  {
+    id: 2,
+    title: "Акмолинская область",
+    value: "akmolindistrict",
+    img: "/mock/akmolindistrict.jpg",
+    link: "/kazahstan/akmolindistrict",
+    videoSrc: "/mock/akmolindistrict.jpg",
+    posterSrc: "/mock/akmolindistrict.jpg",
+  },
+  {
+    id: 3,
+    title: "Атырауская область",
+    value: "atyraydistrict",
+    img: "/mock/atyraydistrict.jpg",
+    link: "/kazahstan/atyraydistrict",
+    videoSrc: "/mock/atyraydistrict.jpg",
+    posterSrc: "/mock/atyraydistrict.jpg",
+  },
+  {
+    id: 4,
+    title: "Туркестанская область",
+    value: "turkestandistrict",
+    img: "/mock/turkestandistrict.jpg",
+    link: "/kazahstan/turkestandistrict",
+    videoSrc: "/mock/turkestandistrict.jpg",
+    posterSrc: "/mock/turkestandistrict.jpg",
+  },
+];
+export const mockTowns = [
+  {
+    id: 1,
+    title: "Алматы",
+    value: "almaty",
+    img: "/mock/almaty.jpg",
+    link: "/kazahstan/almatydistrict/almaty",
+    videoSrc: "/mock/almaty.jpg",
+    posterSrc: "/mock/almaty.jpg",
+  },
+  {
+    id: 2,
+    title: "Астана",
+    value: "astana",
+    img: "/mock/astana.jpg",
+    link: "/kazahstan/akmolindistrict/astana",
+    videoSrc: "/mock/astana.jpg",
+    posterSrc: "/mock/astana.jpg",
+  },
+  {
+    id: 3,
+    title: "Атырау",
+    value: "atyray",
+    img: "/mock/atyray.jpg",
+    link: "/kazahstan/atyraydistrict/atyray",
+    videoSrc: "/mock/atyray.jpg",
+    posterSrc: "/mock/atyray.jpg",
+  },
+  {
+    id: 4,
+    title: "Шымкент",
+    value: "shymkent",
+    img: "/mock/shymkent.jpg",
+    link: "/kazahstan/turkestandistrict/shymkent",
+    videoSrc: "/mock/shymkent.jpg",
+    posterSrc: "/mock/shymkent.jpg",
+  },
+];

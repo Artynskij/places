@@ -1,0 +1,92 @@
+@import "/src/components/common-styles/";
+.card {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: $color-main-white;
+  border-radius: 10px;
+
+  padding: 32px;
+  &_title {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: $gap;
+    margin-bottom: 32px;
+    &_left {
+      display: flex;
+      flex-direction: column;
+      gap: $gap;
+    }
+    &_right {
+      display: flex;
+      align-items: center;
+      & button {
+        @extend %Text14;
+      }
+    }
+
+    &_rating {
+      display: flex;
+      align-items: center;
+      gap: $gap;
+      @extend %Text14;
+      &_icon {
+        color: $color-main-blue;
+        font-size: 16px;
+      }
+    }
+    &_text {
+      @extend %Text18;
+    }
+
+    &_location {
+      @extend %Text14;
+      color: $color-main-grey;
+      display: flex;
+      align-items: center;
+      &_icon {
+        font-size: 16px;
+      }
+    }
+    .card &_button {
+      border-color: $color-main-grey;
+    }
+    &_icon {
+      font-size: 16px;
+      transition: $transiton;
+    }
+    &_button:hover &_icon {
+      color: $color-main-gold;
+    }
+  }
+  &_img {
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    // height: 50%;
+    &_type {
+      @extend %Text12;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      margin: 16px;
+    }
+    &_img {
+      display: block;
+      width: 100%;
+      object-fit: cover;
+      max-height: 190px;
+    }
+  }
+}
+@media screen and (max-width: $media-tablet) {
+  .card_img_img {
+    max-height: 240px;
+  }
+}
+@media screen and (max-width: $media-phone) {
+  .card {
+    padding: 16px;
+  }
+}

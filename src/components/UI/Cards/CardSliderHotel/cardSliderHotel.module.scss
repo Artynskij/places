@@ -1,0 +1,99 @@
+@import "/src/components/common-styles";
+.card {
+  display: grid;
+  grid-template-rows: 320px 1fr;
+  gap: 16px;
+  &_image {
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    &_image {
+      // height: 320px;
+      // width: auto;
+      min-width: 100%;
+      object-fit: cover;
+    }
+    &_type {
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      //   background-color: red;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 16px;
+      @extend %Text14;
+      color: $color-main-white;
+
+      &_text {
+        background-color: $color-main-blue;
+        padding: 7.5px 10px;
+        border-radius: 6px;
+        transition: $transiton;
+        cursor: pointer;
+        &:hover {
+          background-color: $color-main-blue_hover;
+        }
+      }
+      &_icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $color-main-blue;
+        transition: $transiton;
+        cursor: pointer;
+        &_icon {
+          font-size: 18px;
+          &:active {
+            transform: scale(1.3);
+          }
+        }
+        &:hover {
+          background-color: $color-main-blue_hover;
+        }
+      }
+    }
+  }
+  &_description {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    &_rating {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      @extend %Text14;
+      &_icon {
+        transform: translate(0, -1px);
+        font-size: 18px;
+        color: $color-main-blue;
+        margin-right: 4px;
+      }
+    }
+    &_title {
+      @extend %Text18;
+    }
+    &_subtitle {
+      @extend %Text14;
+      color: $color-main-grey;
+      margin-top: -10px;
+    }
+    &_location {
+      @extend %Text14;
+      color: $color-main-grey;
+      transition: $transiton;
+      cursor: pointer;
+      &:hover {
+        color: $color-main-blue;
+      }
+      &_icon {
+        font-size: 12px;
+        margin-right: 4px;
+      }
+    }
+  }
+}
