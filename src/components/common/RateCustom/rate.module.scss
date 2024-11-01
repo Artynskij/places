@@ -1,0 +1,56 @@
+@import "/src/asset/common-styles/";
+.rating {
+  display: flex;
+  align-items: center;
+}
+
+.heartContainer {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+}
+
+.heartFull,
+.heartEmpty {
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.heartFull {
+  background-image: url("/icons/path-to-full-heart.png"); /* иконка полного сердечка */
+}
+
+.heartEmpty {
+  background-image: url("/icons/path-to-empty-heart.png"); /* иконка пустого сердечка */
+}
+
+.heartPartial {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-image: url("/icons/path-to-full-heart.png"); /* иконка заполненного сердечка */
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+.heartPartialTwo {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background-image: url("/icons/path-to-empty-heart.png"); /* иконка заполненного сердечка */
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.rateAnt {
+    color: $color-main-gold !important;
+}
+.rateAnt li {
+  margin-inline-end: 0px !important;
+}

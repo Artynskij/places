@@ -2,7 +2,7 @@
 
 import { FC, useEffect, useRef, useState } from "react";
 import style from "./selectCustom.module.scss";
-import { IconArrowDown } from "../Icons";
+import { IconArrowDown } from "../../common/Icons";
 import { ISelectOption } from "@/types/IType";
 
 interface ISelectProps {

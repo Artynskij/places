@@ -37,3 +37,10 @@ export interface IDataWalletHistory {
   date: string;
   status: { value: string; name: string };
 }
+
+export interface IImageData {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+}

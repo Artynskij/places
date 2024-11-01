@@ -1,9 +1,9 @@
 // .checkBox {
-//   background-color: red;
+//   //   background-color: red;
 //   &_root {
-//     background-color: green;
+//     // background-color: green;
 //   }
-//   & .ant-checkbox-inner{
-//     background-color: green;
+//   & .ant-checkbox-checked .ant-checkbox-inner {
+//     background-color: green !important;
 //   }
 // }

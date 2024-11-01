@@ -1,0 +1,102 @@
+@import "/src/asset/common-styles/";
+
+.container {
+  min-height: 90vh;
+  // position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  align-items: center;
+}
+
+.form {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 56px 32px;
+  background-color: $color-main-white;
+  border-radius: 20px;
+  min-width: 530px;
+  max-width: 50vw;
+  &_ctnTitle {
+    margin-bottom: 16px;
+  }
+  &_ctnInput {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  &_ctnButton {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+  }
+  &_button {
+    &_forgot {
+      text-align: center;
+      margin-top: 20px;
+      transition: $transiton;
+      cursor: pointer;
+      &:hover {
+        color: $color-main-gold;
+      }
+    }
+
+    .form &_submit,
+    .form &_google {
+      width: 100%;
+      padding-top: 21px;
+      padding-bottom: 21px;
+    }
+    .form &_google {
+      border-color: $color-main-grey;
+      &:hover {
+        border-color: $color-main-gold;
+      }
+    }
+    &_google_icon {
+      transition: $transiton;
+    }
+    &_google:hover &_google_icon {
+      color: $color-main-gold;
+    }
+  }
+  &_textOr {
+  }
+  &_footer {
+    margin-top: 20px;
+    text-align: center;
+    &_link {
+      color: $color-main-blue;
+      transition: $transiton;
+      &:hover {
+        color: $color-main-gold;
+      }
+    }
+  }
+}
+.image {
+  z-index: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  // border-radius: 20px;
+  // max-height: 500px;
+}
+@media screen and (max-width: $media-phone) {
+  .form {
+    min-width: 280px;
+    padding: 20px;
+  }
+}

@@ -1,4 +1,4 @@
-@import "/src/components/common-styles/";
+@import "/src/asset/common-styles/";
 
 .modal {
   display: flex;
@@ -14,37 +14,44 @@
   &_content {
     display: flex;
     flex-direction: column;
+
     height: 50vh;
     width: 80vw;
     border-radius: 10px;
-    padding: 20px;
+
     background-color: $color-main-background;
     transition: $transiton;
     transform: scale(0);
     position: relative;
+
     &_title {
+      padding: 20px 20px 0 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
     &_children {
+      position: relative;
+      padding: 10px 20px 20px 20px;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      overflow: auto;
     }
   }
-  &_active &_content {
-    pointer-events: all;
-    transform: scale(1);
-  }
-  &_active {
-    display: flex;
-    // transform: scale(1);
-  }
+
   &_close {
     // position: absolute;
     // right: 20px;
     // top: 20px;
   }
+}
+.modal_active > .modal_content {
+  pointer-events: all;
+  transform: scale(1);
+}
+.modal_active {
+  display: flex;
+  // transform: scale(1);
 }

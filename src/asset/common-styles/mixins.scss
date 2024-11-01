@@ -1,0 +1,21 @@
+@import "./variables.scss";
+@mixin minmaxHeight($min, $max) {
+  min-height: $min;
+  max-height: $max;
+}
+
+@mixin mediaNetbook() {
+  @media screen and (max-width: $media-netbook) {
+    @content;
+  }
+}
+@mixin mediaTablet() {
+  @media screen and (max-width: $media-tablet) {
+    @content;
+  }
+}
+@mixin mediaPhone() {
+  @media screen and (max-width: $media-phone) {
+    @content;
+  }
+}

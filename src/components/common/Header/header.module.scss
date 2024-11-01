@@ -1,0 +1,51 @@
+@import "/src/asset/common-styles/";
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  padding: 10px 0;
+  background: $color-main-background;
+  & .container {
+    @extend %display-between;
+    gap: $gap;
+  }
+}
+
+.logo {
+  &_small{
+    display: none;
+  }
+}
+
+.right {
+  @extend %display-center;
+  gap: 10px;
+  &_lang {
+  }
+  &_auth {
+    &_button {
+      @extend %Text14;
+      text-wrap: nowrap;
+    }
+  }
+}
+@media screen and (max-width: $media-tablet) {
+  .nav_block {
+    display: none;
+  }
+
+  .right {
+    display: none;
+  }
+}
+@media screen and (max-width: $media-mini-phone) {
+  .logo {
+    &_small{
+      display: block;
+    }
+    &_big{
+      display: none;
+    }
+  }
+}

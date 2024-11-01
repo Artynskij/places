@@ -2,7 +2,10 @@
   "Header": {
     "text": {
       "navigation": {
-        "mainPageLink": "All countries"
+        "mainPageLink": "All countries",
+        "newsLink": "News",
+        "recommendLink": "Recommendations",
+        "reviewsLink": "Reviews"
       },
       "finderPlaceholder": "Find",
       "buttonLogin": "Login",
@@ -33,12 +36,15 @@
       "description": "All about Kazakhstan. Where to eat in Kazakhstan. What to see in Kazakhstan. Where to go in Kazakhstan. Where to spend the night in Kazakhstan. Hotels in Kazakhstan. Motels in Kazakhstan."
     },
     "text": {
+      "showMore": "Show more",
+      "hidden": "Hide",
       "buttonWatchAll": "Watch all",
       "sliderSleep": "Where to stay",
       "sliderEat": "Where to eat",
       "sliderRelax": "What to see",
       "sliderDistrict": "Regions",
-      "sliderTown": "Towns"
+      "sliderTown": "Towns",
+      "sliderNeighbor": "Neighboring countries"
     }
   },
   "AuthPage": {

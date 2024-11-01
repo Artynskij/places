@@ -14,41 +14,27 @@ import { TabStatOwner } from "./TabStatOwner/TabStatOwner";
 import { TabWalletOwner } from "./TabWalletOwner/TabWalletOwner";
 import { SwitcherProfileContent } from "../../../_component/Switcher/Switcher";
 
-
 export const ContentComponent = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [activeTab, setActiveTab] = useState<string | null>(
-    searchParams.get("tab")
-  );
-
-  // useEffect(() => {
-  //   setActiveTab(searchParams.get("tab"));
-  //   if (!activeTab) {
-  //     router.push(`${pathname}?tab=${switcherTabOwnerData[0].value}`);
-  //     setActiveTab(switcherTabOwnerData[0].value);
-  //   }
-  // }, [searchParams]);
   return (
     <>
       <div className={style.switcher}>
         <SwitcherProfileContent
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
           data={switcherTabOwnerData}
         />
       </div>
 
       <div className={style.switcher_content}>
-        {activeTab === "object" ? (
+        {searchParams.get("tab") === "object" ? (
           <TabObjectsOwner></TabObjectsOwner>
-        ) : activeTab === "marketing" ? (
+        ) : searchParams.get("tab") === "marketing" ? (
           <TabMarketingOwner></TabMarketingOwner>
-        ) : activeTab === "history" ? (
+        ) : searchParams.get("tab") === "history" ? (
           <TabHistoryOwner></TabHistoryOwner>
-        ) : activeTab === "stat" ? (
+        ) : searchParams.get("tab") === "stat" ? (
           <TabStatOwner></TabStatOwner>
         ) : (
           <TabWalletOwner></TabWalletOwner>

@@ -1,0 +1,49 @@
+@import "/src/asset/common-styles/";
+
+.icon {
+  &_globe {
+    color: $color-main-black;
+    cursor: pointer;
+    transition: $transiton;
+    width: 22px;
+    height: 22px;
+    &:hover {
+      color: $color-main-blue;
+    }
+  }
+}
+
+.classmates {
+  color: $social-classmates-color;
+} // Одноклассники
+.facebook {
+  color: $social-facebook-color;
+} // Facebook
+.linkedin {
+  color: $social-linkedin-color;
+} // LinkedIn
+.skype {
+  color: $social-skype-color;
+} // Skype
+.telegram {
+  color: $social-telegram-color;
+} // Telegram
+.twitter {
+  color: $social-twitter-color;
+} // Twitter
+.viber {
+  color: $social-viber-color;
+} // Viber
+.vk {
+  color: $social-vk-color;
+} // ВКонтакте
+.whatsapp {
+  color: $social-whatsapp-color;
+} // WhatsApp
+.icon_social {
+  transition: $transiton;
+  &:hover {
+    opacity: .8;
+    transform: scale(1.1);
+  }
+}

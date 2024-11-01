@@ -1,6 +1,6 @@
 import { Button } from "@/components/UI/Button/Button";
 import style from "./objectsOwner.module.scss";
-import { IconPlus } from "@/components/UI/Icons";
+import { IconPlus } from "@/components/common/Icons";
 
 import { CardObjectOwner } from "./CardObjectOwner/CardObjectOwner";
 import { mockObjectsHotels } from "@/asset/mockData/mockObject";
@@ -21,7 +21,13 @@ export const TabObjectsOwner = () => {
       </div>
       <div className={style.list}>
         {mockObjectsHotels.map((item, index) => {
-          return <CardObjectOwner editObjectText={t("objectTab.editObject")} data={item} key={index} />;
+          return (
+            <CardObjectOwner
+              editObjectText={t("objectTab.editObject")}
+              data={item}
+              key={index}
+            />
+          );
         })}
       </div>
     </>

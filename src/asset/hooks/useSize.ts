@@ -1,20 +1,22 @@
 "use client";
 import { useState, useEffect } from "react";
+import { CONSTANTS_SCREENS } from "../constants/ScreensConst";
 
-export const SCREEN_SM = 576;
-export const SCREEN_MD = 768;
-export const SCREEN_LG = 992;
-export const SCREEN_XL = 1200;
-export const SCREEN_XXL = 1400;
-
-export const useResize = () => {
-  const [width, setWidth] = useState(window.innerWidth);
+export const useSize = () => {
+  // Проверяем наличие window
+  const [width, setWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 0
+  );
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const handleResize = (event: any) => {
       setWidth(event.target.innerWidth);
     };
+
     window.addEventListener("resize", handleResize);
+    
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -22,10 +24,16 @@ export const useResize = () => {
 
   return {
     width,
-    isScreenSm: width >= SCREEN_SM,
-    isScreenMd: width >= SCREEN_MD,
-    isScreenLg: width >= SCREEN_LG,
-    isScreenXl: width >= SCREEN_XL,
-    isScreenXxl: width >= SCREEN_XXL,
+    isSmallMobile: width <= CONSTANTS_SCREENS.SCREEN_MINI_PHONE,
+    isMobile:
+      width > CONSTANTS_SCREENS.SCREEN_MINI_PHONE &&
+      width <= CONSTANTS_SCREENS.SCREEN_PHONE,
+    isTablet:
+      width > CONSTANTS_SCREENS.SCREEN_PHONE &&
+      width <= CONSTANTS_SCREENS.SCREEN_TABLET,
+    isNetBook:
+      width > CONSTANTS_SCREENS.SCREEN_TABLET &&
+      width <= CONSTANTS_SCREENS.SCREEN_NETBOOK,
+    isDesktop: width > CONSTANTS_SCREENS.SCREEN_NETBOOK,
   };
 };

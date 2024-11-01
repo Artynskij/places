@@ -5,7 +5,7 @@ import style from "./walletOwner.module.scss";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
-import { IconPlus } from "@/components/UI/Icons";
+import { IconPlus } from "@/components/common/Icons";
 import { mockCurrency, mockWalletHistory } from "@/asset/mockData/mockWallet";
 
 import { IDataCurrency, IDataWalletHistory } from "@/types/IType";

@@ -1,4 +1,4 @@
-@import "/src/components/common-styles";
+@import "/src/asset/common-styles/";
 .button {
   @extend %display-center;
   gap: $gap;
@@ -13,7 +13,6 @@
   &:hover {
     border-color: $color-main-gold;
   }
- 
 }
 .button_light {
   @extend %display-center;
@@ -29,7 +28,6 @@
   &:hover {
     border-color: $color-main-gold;
   }
-  
 }
 .button_close {
   color: $color-main-black;
@@ -46,4 +44,7 @@
   &:hover {
     border-color: $color-main-gold;
   }
+}
+.button_active {
+  border-color: $color-main-gold;
 }

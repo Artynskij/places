@@ -1,0 +1,34 @@
+.queryListCafe {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-medium;
+  &_item {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-small;
+    &_title {
+      @extend %Text14;
+      font-weight: 700;
+    }
+    &_value {
+      @extend %Text12;
+    }
+  }
+}
+
+.queryListHotel {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $gap-small;
+  flex-wrap: wrap;
+  &_item {
+    display: flex;
+    align-items: center;
+  }
+}
+.info_icon_query {
+  margin-right: 5px;
+}
+.button_queryList {
+  width: fit-content;
+}

@@ -1,0 +1,56 @@
+$color-main-background: rgba(255, 255, 255, 1);
+$color-additional-background:  rgba(245, 245, 247, 1);
+
+$color-main-gold: #bea97c;
+$color-main-blue: #005ba1;
+$color-main-black: #111216;
+$color-main-white: #ffffff;
+
+$color-main-grey: rgba(124, 124, 124, 1);
+$color-main-grey-light: #f4f4f4;
+$color-overlay: rgba(0, 0, 0, 0.3);
+
+$color-main-blue_hover: #237fc6;
+
+$color-gradient-bg-banner: linear-gradient(
+    0deg,
+    rgba(20, 17, 85, 0.12),
+    rgba(20, 17, 85, 0.12)
+  ),
+  linear-gradient(180deg, rgba(48, 45, 129, 0) 0%, rgba(6, 4, 53, 0.2) 100%);
+$color-gradient-bg-card: linear-gradient(
+    0deg,
+    rgba(20, 17, 85, 0.12),
+    rgba(20, 17, 85, 0.12) 0%
+  ),
+  linear-gradient(180deg, rgba(48, 45, 129, 0), rgba(6, 4, 53, 0.6) 100%);
+
+// соц сети цвета
+$social-classmates-color: #ee8208;    // Одноклассники
+$social-facebook-color: #1877f2;      // Facebook
+$social-linkedin-color: #0077b5;      // LinkedIn
+$social-skype-color: #00aff0;         // Skype
+$social-telegram-color: #0088cc;      // Telegram
+$social-twitter-color: #000000;       // Twitter
+$social-viber-color: #7360f2;         // Viber
+$social-vk-color: #4c75a3;            // ВКонтакте
+$social-whatsapp-color: #25d366;      // WhatsApp
+
+$gap: 8px;
+$gap-small: 8px;
+$gap-medium: 12px;
+$gap-big: 20px;
+
+$border-radius-5: 5px;
+$border-radius-10: 10px;
+$border-radius-20: 20px;
+$border-radius-small: 100px;
+
+$media-netbook: 1280px;
+$media-tablet: 1024px;
+$media-phone: 768px;
+$media-mini-phone: 350px;
+
+$transiton: all 0.3s;
+
+$box-shadow-default:1px 1px 6px 2px $color-main-blue_hover

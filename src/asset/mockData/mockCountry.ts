@@ -2,6 +2,21 @@ export const countries = [
   {
     id: 1,
     title: "Казахстан",
+    value: "kazahstan",
+    videoSrc: "/mock/polandVideoMock.mp4",
+    posterSrc: "/mock/restMock.jpg",
+  },
+  {
+    id: 2,
+    title: "Россия",
+    value: "russia",
+    videoSrc: "/mock/polandVideoMock.mp4",
+    posterSrc: "/mock/restMock.jpg",
+  },
+  {
+    id: 3,
+    title: "Беларусь",
+    value: "belarus",
     videoSrc: "/mock/polandVideoMock.mp4",
     posterSrc: "/mock/restMock.jpg",
   },
@@ -16,6 +31,7 @@ export const mockDistrict = [
     link: "/kazahstan/almatydistrict",
     videoSrc: "/mock/almatydistrict.jpeg",
     posterSrc: "/mock/almatydistrict.jpeg",
+    location: "Казахстан",
   },
   {
     id: 2,
@@ -25,6 +41,7 @@ export const mockDistrict = [
     link: "/kazahstan/akmolindistrict",
     videoSrc: "/mock/akmolindistrict.jpg",
     posterSrc: "/mock/akmolindistrict.jpg",
+    location: "Казахстан",
   },
   {
     id: 3,
@@ -34,6 +51,7 @@ export const mockDistrict = [
     link: "/kazahstan/atyraydistrict",
     videoSrc: "/mock/atyraydistrict.jpg",
     posterSrc: "/mock/atyraydistrict.jpg",
+    location: "Казахстан",
   },
   {
     id: 4,
@@ -43,6 +61,7 @@ export const mockDistrict = [
     link: "/kazahstan/turkestandistrict",
     videoSrc: "/mock/turkestandistrict.jpg",
     posterSrc: "/mock/turkestandistrict.jpg",
+    location: "Казахстан",
   },
 ];
 export const mockTowns = [
@@ -54,6 +73,7 @@ export const mockTowns = [
     link: "/kazahstan/almatydistrict/almaty",
     videoSrc: "/mock/almaty.jpg",
     posterSrc: "/mock/almaty.jpg",
+    location: "Казахстан",
   },
   {
     id: 2,
@@ -63,6 +83,7 @@ export const mockTowns = [
     link: "/kazahstan/akmolindistrict/astana",
     videoSrc: "/mock/astana.jpg",
     posterSrc: "/mock/astana.jpg",
+    location: "Казахстан",
   },
   {
     id: 3,
@@ -72,6 +93,7 @@ export const mockTowns = [
     link: "/kazahstan/atyraydistrict/atyray",
     videoSrc: "/mock/atyray.jpg",
     posterSrc: "/mock/atyray.jpg",
+    location: "Казахстан",
   },
   {
     id: 4,
@@ -81,5 +103,6 @@ export const mockTowns = [
     link: "/kazahstan/turkestandistrict/shymkent",
     videoSrc: "/mock/shymkent.jpg",
     posterSrc: "/mock/shymkent.jpg",
+    location: "Казахстан",
   },
 ];

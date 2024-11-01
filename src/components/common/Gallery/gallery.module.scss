@@ -1,0 +1,95 @@
+.skeleton {
+  height: 472px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: $gap-small;
+
+  &_slide {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  &_slide:first-child {
+    grid-area: 1 / 1 / 3 / 3;
+  }
+  &_image {
+    width: 100%;
+    height: 100%;
+  }
+  &_button {
+    width: 100%;
+  }
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 232px 232px;
+  gap: $gap-small;
+}
+.image__main,
+.image__additional {
+  border-radius: $border-radius-20;
+  overflow: hidden;
+  cursor: pointer;
+  & img {
+    width: 100%;
+    height: 100%;
+    transform: scale(1.1);
+    object-fit: cover;
+    transition: $transiton;
+  }
+  &:hover img {
+    transform: scale(1);
+  }
+}
+.image__main {
+  grid-area: 1 / 1 / 3 / 3;
+}
+.image__additional {
+}
+.album {
+  &_grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  &_item {
+    border-radius: $border-radius-5;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: $transiton;
+    cursor: pointer;
+    &:hover{
+      transform: scale(1.02);
+      box-shadow: $box-shadow-default;
+    }
+  }
+  &_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+@include mediaTablet {
+  .image__additional {
+    grid-column: 3/5;
+  }
+}
+@include mediaPhone {
+  .gallery {
+    display: block;
+    position: relative;
+  }
+  .image__additional {
+    width: 100%;
+    height: 264px;
+    & img {
+      transform: scale(1);
+    }
+  }
+}

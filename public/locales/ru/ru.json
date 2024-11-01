@@ -2,7 +2,10 @@
   "Header": {
     "text": {
       "navigation": {
-        "mainPageLink": "Все Страны"
+        "mainPageLink": "Все Страны",
+        "newsLink": "Новости",
+        "recommendLink": "Советы",
+        "reviewsLink": "Обзоры"
       },
       "finderPlaceholder": "Поиск",
       "buttonLogin": "Вход в личный кабинет",
@@ -33,12 +36,15 @@
       "description": "Все о Казахстане. Где поесть в Казахстане. Что посмотреть в Казахстане. Куда сходить в Казахстане. Где переночевать в Казахстане. Отели в Казахстане. Мотели в Казахстане."
     },
     "text": {
+      "showMore": "Показать больше",
+      "hidden": "Скрыть",
       "buttonWatchAll": "Посмотреть всё",
       "sliderSleep": "Где остановиться",
       "sliderEat": "Где поесть",
       "sliderRelax": "Что посмотреть",
       "sliderDistrict": "Регионы",
-      "sliderTown": "Города"
+      "sliderTown": "Города",
+      "sliderNeighbor": "Страны соседи"
     }
   },
   "AuthPage": {
@@ -62,7 +68,7 @@
     }
   },
   "ProfilePage": {
-    "header":{
+    "header": {
       "editProfile": "Редактировать профиль"
     },
     "switcher": {
@@ -77,12 +83,12 @@
       "wallet": "кошелёк"
     },
     "status": {
-      "past":"Прошла",
-      "future":"Будет",
-      "pending":"В обработке",
-      "fulfilled":"Выполнено",
-      "present":"Проходит",
-      "error":"Ошибка"
+      "past": "Прошла",
+      "future": "Будет",
+      "pending": "В обработке",
+      "fulfilled": "Выполнено",
+      "present": "Проходит",
+      "error": "Ошибка"
     },
     "tableOptions": {
       "type": "Тип рекламы",

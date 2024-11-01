@@ -9,15 +9,14 @@ import { TabInterestUser } from "./TabInterestUser/TabIterestUser";
 import { TabTravelMap } from "./TabTravelMap/TabTravelMap";
 import { SwitcherProfileContent } from "../../../_component/Switcher/Switcher";
 
-
 export const ContentComponent = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [activeTab, setActiveTab] = useState<string | null>(
-    searchParams.get("tab")
-  );
+  // const [activeTab, setActiveTab] = useState<string | null>(
+  //   searchParams.get("tab")
+  // );
   // useEffect(() => {
   //   setActiveTab(searchParams.get("tab"));
   //   if (!activeTab) {
@@ -29,17 +28,17 @@ export const ContentComponent = () => {
     <>
       <div className={style.switcher}>
         <SwitcherProfileContent
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
+          // activeTab={activeTab}
+          // setActiveTab={setActiveTab}
           data={switcherTabUserData}
         />
       </div>
       <div className={style.switcher_content}>
-        {activeTab === "trip" ? (
+        {searchParams.get("tab") === "trip" ? (
           <TabTripUser></TabTripUser>
-        ) : activeTab === "review" ? (
+        ) : searchParams.get("tab") === "review" ? (
           <TabReviewUser></TabReviewUser>
-        ) : activeTab === "interest" ? (
+        ) : searchParams.get("tab") === "interest" ? (
           <TabInterestUser></TabInterestUser>
         ) : (
           <TabTravelMap></TabTravelMap>

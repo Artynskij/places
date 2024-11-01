@@ -1,0 +1,47 @@
+
+
+.param_ctn{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $color-additional-background;
+  padding: 10px;
+  border-radius: $border-radius-20;
+  margin-bottom: 10px;
+  gap: $gap-big;
+}
+
+.list {
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $gap;
+  
+  &_item {
+    display: flex;
+    align-items: center;
+    padding: 9.5px 16px;
+    gap: $gap;
+    border: 1px solid $color-main-grey;
+    border-radius: $border-radius-small;
+    cursor: pointer;
+    transition: $transiton;
+    &_text {
+      @extend %Text14;
+    }
+    &_icon {
+      font-size: 20px;
+      transition: $transiton;
+    }
+    &:hover &_icon {
+      color: $color-main-gold;
+    }
+    &:hover {
+      border-color: $color-main-gold;
+    }
+  }
+}
+.buttonResetAll{
+  height: fit-content;
+}

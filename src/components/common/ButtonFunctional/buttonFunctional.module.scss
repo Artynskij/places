@@ -1,0 +1,44 @@
+.share {
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: $gap-small;
+  transition: $transiton;
+  &:hover {
+    color: $color-main-gold;
+  }
+  &.active {
+    color: $color-main-gold;
+  }
+  &_popup {
+    color: $color-main-black;
+    position: absolute;
+    top: calc(100% + 20px);
+    right: 0;
+    background-color: $color-additional-background;
+    padding: 5px;
+    border-radius: $border-radius-5;
+    transition: $transiton;
+
+    &_list {
+      display: flex;
+      gap: $gap-small;
+      &_item {
+        font-size: 20px;
+      }
+    }
+  }
+}
+.like {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: $gap-small;
+  transition: $transiton;
+  &:hover {
+    color: $color-main-gold;
+  }
+}

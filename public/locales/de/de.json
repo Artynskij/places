@@ -2,7 +2,10 @@
   "Header": {
     "text": {
       "navigation": {
-        "mainPageLink": "Alle Länder"
+        "mainPageLink": "Alle Länder",
+        "newsLink": "Новости",
+        "recommendLink": "Советы",
+        "reviewsLink": "Обзоры"
       },
       "finderPlaceholder": "Suche",
       "buttonLogin": "Anmelden",

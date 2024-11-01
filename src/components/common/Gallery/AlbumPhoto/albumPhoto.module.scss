@@ -1,0 +1,27 @@
+.album {
+  &_item {
+    position: relative;
+    border-radius: $border-radius-5;
+
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: $transiton;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.04);
+      box-shadow: $box-shadow-default;
+    }
+  }
+  &_img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.activePhoto{
+  border: 3px solid $color-main-gold;
+  border-radius: $border-radius-10;
+  overflow: hidden;
+}

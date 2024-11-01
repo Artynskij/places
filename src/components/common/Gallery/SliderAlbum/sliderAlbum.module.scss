@@ -1,0 +1,138 @@
+.slider_ctn {
+
+  position: relative;
+  display: grid;
+grid-template-rows: 1fr 0 100px;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+}
+.arrow_next,
+.arrow_prev {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  position: absolute;
+  top: 35%;
+
+  z-index: 2;
+  //   font-size: 30px;
+
+  color: $color-main-black;
+  padding: 0;
+  background-color: rgba(255, 251, 251, 0.363);
+  backdrop-filter: blur(1px);
+  cursor: pointer;
+  border: 2px solid $color-main-grey;
+  transition: $transiton;
+  &:hover {
+    border-color: $color-main-gold;
+  }
+  &:active {
+    border-color: $color-main-blue;
+  }
+  &_icon {
+    font-size: 40px;
+  }
+}
+.arrow_prev {
+  left: -10px;
+}
+.arrow_next {
+  right: -10px;
+}
+
+.disable_arrow {
+  color: $color-main-grey;
+  border-color: $color-main-grey;
+  &:hover {
+    border-color: $color-main-grey;
+  }
+  &:active {
+    border-color: $color-main-grey;
+  }
+}
+
+.skeleton {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  &_slide {
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  &_image {
+    width: 100%;
+    height: 300px;
+  }
+  &_button {
+    width: 100%;
+  }
+}
+
+.album_slider {
+  &_item {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: $transiton;
+    cursor: grab;
+  }
+  &_img {
+    // object-fit: cover;
+    width: auto;
+    height: auto;
+  }
+}
+.pagination {
+  height: 100%;
+  &_bullet {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: $transiton;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+    &_img {
+      border-radius: $border-radius-10;
+      height: 100%;
+    }
+  }
+}
+.button_back {
+  position: absolute;
+  z-index: 2;
+  top: calc(10px + 20px);
+  left: calc(20px + 20px);
+  padding: 7px 10px;
+  border-radius: $border-radius-20;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: $gap-small;
+  background-color: $color-additional-background;
+  transition: $transiton;
+  border: 1px solid transparent;
+
+  &_icon {
+    transition: $transiton;
+  }
+  &:hover {
+    border-color: $color-main-gold;
+  }
+  &:hover &_icon {
+    color: $color-main-gold;
+  }
+}
+@include mediaNetbook {
+  .arrow_prev,
+  .arrow_next {
+    display: none;
+  }
+}

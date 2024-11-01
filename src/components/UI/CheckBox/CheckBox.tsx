@@ -15,7 +15,7 @@ export const CheckBox: FC<ICheckBox> = ({ name, value }) => {
       <Checkbox
       
         rootClassName={style.checkBox_root}
-        className={style.checkBox}
+        // className={style.checkBox}
         value={value}
       >
         {name}

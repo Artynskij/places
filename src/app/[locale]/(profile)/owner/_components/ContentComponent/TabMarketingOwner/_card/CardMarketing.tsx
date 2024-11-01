@@ -2,12 +2,11 @@
 
 import { FC, useEffect, useState } from "react";
 import style from "./cardMarketing.module.scss";
+
+
+import { IconPlus } from "@/components/common/Icons";
+import { FormMarketing } from "@/components/common/Form/FormMarketing/FormMarketing";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
-
-import { FormMarketing } from "@/components/UI/Form/FormMarketing/FormMarketing";
-import { IconPlus } from "@/components/UI/Icons";
-
-
 
 interface IMarketing {
   id: number;
@@ -25,7 +24,7 @@ interface ICardMarketingProps {
 }
 export const CardMarketing: FC<ICardMarketingProps> = ({
   data,
-  setRefreshCookie
+  setRefreshCookie,
   // setMainMarketingObj,
 }) => {
   const [modalActive, setModalActive] = useState(false);
@@ -38,12 +37,12 @@ export const CardMarketing: FC<ICardMarketingProps> = ({
 
   return (
     <>
-      <div  className={style.card}>
+      <div className={style.card}>
         <h4>{data.name}</h4>
 
         <div className={style.card_description}>{data.description}</div>
         <div className={style.card_price}>{data.price}р.</div>
-        <IconPlus className={style.card_button} onClick={openModal}/>
+        <IconPlus className={style.card_button} onClick={openModal} />
       </div>
 
       <ModalCustom
@@ -53,7 +52,6 @@ export const CardMarketing: FC<ICardMarketingProps> = ({
       >
         {modalActive && (
           <FormMarketing
-            
             setRefreshCookie={setRefreshCookie}
             data={data}
             setModalActive={setModalActive}

@@ -1,6 +1,6 @@
 import { Button } from "@/components/UI/Button/Button";
 import style from "./userComponent.module.scss";
-import { IconEdit } from "@/components/UI/Icons/IconEdit/IconEdit";
+import { IconEdit } from "@/components/common/Icons/IconEdit/IconEdit";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
@@ -29,7 +29,7 @@ export const UserComponent = () => {
         </div>
         <div className={style.middle_edit}>
           <Button
-            text={t('editProfile')}
+            text={t("editProfile")}
             className={style.middle_edit_button}
             icon={<IconEdit className={style.middle_edit_button_icon} />}
             type="light"

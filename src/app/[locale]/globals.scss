@@ -1,4 +1,4 @@
-@import "/src/components/common-styles";
+@import "/src/asset/common-styles/";
 
 @import "normalize.css";
 :root {
@@ -163,9 +163,7 @@ h4 {
 section {
   margin: 50px 0;
 }
-/* main{
-  min-height: max-content;
-} */
+
 header .ant-select:hover {
   border-color: $color-main-gold !important;
 }
@@ -192,6 +190,20 @@ header .ant-checkbox-checked .ant-checkbox-inner {
 }
 header .ant-checkbox-wrapper:hover .ant-checkbox-inner {
   border-color: $color-main-gold !important;
+}
+#filter .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: $color-main-gold !important;
+  border-color: $color-main-gold !important;
+}
+#filter .ant-checkbox-wrapper:hover .ant-checkbox-inner {
+  border-color: $color-main-gold !important;
+}
+.swiper-wrapper {
+  align-items: stretch;
+}
+.swiper-slide {
+  height: auto !important;
+  display: flex !important;
 }
 @media screen and (max-width: $media-tablet) {
   h1 {
@@ -236,4 +248,24 @@ header .ant-checkbox-wrapper:hover .ant-checkbox-inner {
     font-weight: 500;
     line-height: 29px;
   }
+}
+::-webkit-scrollbar {
+  width: 10px;
+  /* ширина для вертикального скролла */
+  height: 2px;
+  /* высота для горизонтального скролла */
+  background-color: #c0c9d3;
+  border-radius: 9em;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #464040;
+  border-radius: 9em;
+  /* box-shadow: inset 1px 1px 10px #f3faf7; */
+  transition: all 0.2s;
+  cursor: n-resize;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #253861;
 }

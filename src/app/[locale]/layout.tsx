@@ -3,17 +3,18 @@ import { Inter } from "next/font/google";
 
 import "./globals.scss";
 
-import { Header } from "@/components/UI/Header/Header";
-import { Footer } from "@/components/UI/Footer/Footer";
+import { Footer } from "@/components/common/Footer/Footer";
 
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import ClientOnly from "@/components/UI/ATest/ClientOnly";
-import { ToastProvider } from "@/components/UI/ATest/ToasterProvider";
+import ClientOnly from "@/components/ATest/ClientOnly";
+import { ToastProvider } from "@/components/ATest/ToasterProvider";
 import { IPageProps } from "@/types/IType";
 import { locales } from "@/config";
 import { ReactNode } from "react";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
+import { Header } from "@/components/common/Header/Header";
+import { ReduxProvider } from "@/store/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 type Props = {
@@ -46,18 +47,20 @@ export default async function RootLayout({
       <link rel="icon" href="/icons/favicon small.svg" sizes="any" />
 
       <body className={inter.className}>
-        <AntdRegistry>
-          <NextIntlClientProvider messages={messages}>
-            <Header />
+        <ReduxProvider>
+          <AntdRegistry>
+            <NextIntlClientProvider messages={messages}>
+              <Header />
 
-            {/* <ClientOnly>
-            <ToastProvider />
-          </ClientOnly> */}
-            <main>{children}</main>
+              {/* <ClientOnly>
+                    <ToastProvider />
+                  </ClientOnly> */}
+              <main>{children}</main>
 
-            <Footer />
-          </NextIntlClientProvider>
-        </AntdRegistry>
+              <Footer />
+            </NextIntlClientProvider>
+          </AntdRegistry>
+        </ReduxProvider>
       </body>
     </html>
   );

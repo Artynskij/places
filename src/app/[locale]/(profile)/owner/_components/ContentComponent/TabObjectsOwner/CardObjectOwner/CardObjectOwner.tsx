@@ -1,4 +1,4 @@
-import { IconEdit, IconLocation, IconStar } from "@/components/UI/Icons";
+import { IconEdit, IconLocation, IconStar } from "@/components/common/Icons";
 import style from "./cardObjectOwner.module.scss";
 import { IDataCardSlider } from "@/types/ICards";
 import { FC } from "react";
@@ -9,7 +9,10 @@ interface ICardObjectOwner {
   data: IDataCardSlider;
   editObjectText: string;
 }
-export const CardObjectOwner: FC<ICardObjectOwner> = ({ data,editObjectText }) => {
+export const CardObjectOwner: FC<ICardObjectOwner> = ({
+  data,
+  editObjectText,
+}) => {
   return (
     <div className={style.card}>
       <div className={style.card_title}>

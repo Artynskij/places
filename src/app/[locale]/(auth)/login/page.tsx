@@ -1,4 +1,4 @@
-import { FormLogin } from "@/components/UI/Form/Auth/FormLogin/FormLogin";
+import { FormLogin } from "@/components/common/Form/Auth/FormLogin/FormLogin";
 import { IPageProps } from "@/types/IType";
 
 // import { GoogleMaps } from "@/components/UI/Map/Map/MapGoogle";

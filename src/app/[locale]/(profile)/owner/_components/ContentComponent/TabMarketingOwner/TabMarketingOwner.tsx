@@ -6,7 +6,7 @@ import { Button } from "@/components/UI/Button/Button";
 import { useEffect, useState } from "react";
 import { useCookie } from "@/asset/hooks/useCookie";
 import { IDataAdvertisingCookie, IDataAdvertisingItem } from "@/types/IType";
-import { IconDelete } from "@/components/UI/Icons";
+import { IconDelete } from "@/components/common/Icons";
 import { useTranslations } from "next-intl";
 
 export const TabMarketingOwner = () => {
@@ -49,7 +49,9 @@ export const TabMarketingOwner = () => {
       {mockMarketing.map((item, index) => {
         return (
           <div className={style.group} key={index}>
-            <h2 className={style.group_title}>{t(`marketingTab.${item.name}`)}</h2>
+            <h2 className={style.group_title}>
+              {t(`marketingTab.${item.name}`)}
+            </h2>
             <div className={style.group_content}>
               <div className={style.group_content_title}>
                 <span>{t("tableOptions.type")}</span>
@@ -119,7 +121,8 @@ export const TabMarketingOwner = () => {
           <div className={style.choice_pay}>
             <Button onClick={clickPay} text={t("marketingTab.pay")} />
             <span className={style.choice_pay_price}>
-            {t("marketingTab.cost")} - {advertising.price ? advertising.price : 0}р.
+              {t("marketingTab.cost")} -{" "}
+              {advertising.price ? advertising.price : 0}р.
             </span>
           </div>
         </div>

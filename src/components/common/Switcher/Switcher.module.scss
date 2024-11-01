@@ -1,0 +1,12 @@
+.switcher {
+  display: flex;
+  gap: 5px;
+
+  color: $color-main-grey-light;
+  @extend %Text14;
+  &_item {
+    padding: 10px;
+
+ 
+  }
+}

@@ -9,6 +9,7 @@ interface IButton {
   icon?: ReactNode;
   typeLogic?: "button" | "reset" | "submit";
   inlineStyle?: React.CSSProperties;
+  active?:boolean
 }
 
 export const Button: FC<IButton> = ({
@@ -19,6 +20,7 @@ export const Button: FC<IButton> = ({
   icon,
   typeLogic,
   inlineStyle,
+  active
 }) => {
   return (
     <button
@@ -27,7 +29,7 @@ export const Button: FC<IButton> = ({
       onClick={onClick}
       className={`${
         type === "light" ? style.button_light : style.button
-      } ${className}`}
+      } ${className} ${active && style.button_active}`}
     >
       {icon}
       <span>{text}</span>

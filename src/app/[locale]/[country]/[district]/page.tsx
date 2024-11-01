@@ -13,14 +13,12 @@ import {
   mockObjectsRelax,
 } from "@/asset/mockData/mockObject";
 
-import { CardInfo } from "@/components/UI/Cards/CardInfo/CardInfo";
+import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 
-import { Breadcrumb } from "@/components/UI/BreadCrumb/Breadcrumb";
-
-import { CardSliderHotel } from "@/components/UI/Cards";
-import { CardSliderLocation } from "@/components/UI/Cards/CardSliderLocation/CardSliderLocation";
-import { SliderMainComponent } from "../_components/SliderMainComponent/SliderMainComponent";
+import { Slider } from "../../../../components/common/Slider/Slider";
 import { useTranslations } from "next-intl";
+import { CardInfo, CardSliderHotel } from "@/components/common/Cards";
+import { CardSliderLocation } from "@/components/common/Cards/CardSliderLocation/CardSliderLocation";
 
 export async function generateMetadata({
   params,
@@ -38,7 +36,7 @@ interface IProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default function CountryPage({ params, searchParams }: IProps) {
+export default function DistrictPage({ params, searchParams }: IProps) {
   const countryData = mockDistrict.find(
     (item) => item.value === params.district
   ) as any;
@@ -85,11 +83,11 @@ export default function CountryPage({ params, searchParams }: IProps) {
         </div>
 
         <div className={style.slider}>
-          <SliderMainComponent id={1}>
+          <Slider id={1}>
             {mockObjectsHotels.map((item) => {
               return <CardSliderHotel key={item.id} {...item} />;
             })}
-          </SliderMainComponent>
+          </Slider>
         </div>
       </section>
       <section className={style.slider_block}>
@@ -100,11 +98,11 @@ export default function CountryPage({ params, searchParams }: IProps) {
           </Link>
         </div>
         <div className={style.slider}>
-          <SliderMainComponent id={2}>
+          <Slider id={2}>
             {mockObjectsCafe.map((item) => {
               return <CardSliderHotel key={item.id} {...item} />;
             })}
-          </SliderMainComponent>
+          </Slider>
         </div>
       </section>
       <section className={style.slider_block}>
@@ -115,11 +113,11 @@ export default function CountryPage({ params, searchParams }: IProps) {
           </Link>
         </div>
         <div className={style.slider}>
-          <SliderMainComponent id={3}>
+          <Slider id={3}>
             {mockObjectsRelax.map((item) => {
               return <CardSliderHotel key={item.id} {...item} />;
             })}
-          </SliderMainComponent>
+          </Slider>
         </div>
       </section>
       {/* <section className={style.slider_block}>
@@ -145,11 +143,11 @@ export default function CountryPage({ params, searchParams }: IProps) {
           </Link>
         </div>
         <div className={style.slider}>
-          <SliderMainComponent id={5}>
+          <Slider id={5}>
             {mockTowns.map((item) => {
               return <CardSliderLocation key={item.id} {...item} />;
             })}
-          </SliderMainComponent>
+          </Slider>
         </div>
       </section>
     </div>
