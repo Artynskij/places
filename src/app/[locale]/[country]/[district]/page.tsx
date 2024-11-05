@@ -17,7 +17,7 @@ import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 
 import { Slider } from "../../../../components/common/Slider/Slider";
 import { useTranslations } from "next-intl";
-import { CardInfo, CardSliderHotel } from "@/components/common/Cards";
+import { CardInfo, CardSliderMainPage } from "@/components/common/Cards";
 import { CardSliderLocation } from "@/components/common/Cards/CardSliderLocation/CardSliderLocation";
 
 export async function generateMetadata({
@@ -85,7 +85,7 @@ export default function DistrictPage({ params, searchParams }: IProps) {
         <div className={style.slider}>
           <Slider id={1}>
             {mockObjectsHotels.map((item) => {
-              return <CardSliderHotel key={item.id} {...item} />;
+              return <CardSliderMainPage key={item.id} {...item} />;
             })}
           </Slider>
         </div>
@@ -100,7 +100,7 @@ export default function DistrictPage({ params, searchParams }: IProps) {
         <div className={style.slider}>
           <Slider id={2}>
             {mockObjectsCafe.map((item) => {
-              return <CardSliderHotel key={item.id} {...item} />;
+              return <CardSliderMainPage key={item.id} {...item} />;
             })}
           </Slider>
         </div>
@@ -115,7 +115,7 @@ export default function DistrictPage({ params, searchParams }: IProps) {
         <div className={style.slider}>
           <Slider id={3}>
             {mockObjectsRelax.map((item) => {
-              return <CardSliderHotel key={item.id} {...item} />;
+              return <CardSliderMainPage key={item.id} {...item} />;
             })}
           </Slider>
         </div>

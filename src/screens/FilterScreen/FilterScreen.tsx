@@ -9,7 +9,7 @@ import { ParamComponent } from "./_components/ContentComponent/ParamComponent/Pa
 import { mockFilterSliderCard } from "@/asset/mockData/mockFilterSlider";
 import { mockObjectsHotels } from "@/asset/mockData/mockObject";
 import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
-import { CardSliderHotel } from "@/components/common/Cards";
+import { CardSliderMainPage } from "@/components/common/Cards";
 import { Button } from "@/components/UI/Button/Button";
 
 import { RootState, useAppDispatch } from "@/store/store";
@@ -61,7 +61,7 @@ export default function FilterScreen({
           ) : (
             <div className={style.table}>
               {mockObjectsHotels.map((item) => {
-                return <CardSliderHotel key={item.id} {...item} />;
+                return <CardSliderMainPage key={item.id} {...item} />;
               })}
             </div>
           )}

@@ -1,15 +1,15 @@
-"use client";
-import { FC, useState } from "react";
-import style from "./cardSliderHotel.module.scss";
+import { FC } from "react";
+import style from "./cardSliderMainPage.module.scss";
 import { IDataCardSlider } from "@/types/ICards";
 import Image from "next/image";
 import { IconLike, IconLocation, IconStar } from "@/components/common/Icons";
-import { RateCustom } from "@/components/common/RateCustom/RateCustom";
+
 import { ShareButton } from "@/components/common/ButtonFunctional/ShareButton";
 import Link from "next/link";
 import { LikeButton } from "@/components/common/ButtonFunctional/LikeButton";
+import { RateMain } from "../../RateCustom/RateMain";
 
-export const CardSliderHotel: FC<IDataCardSlider> = ({
+export const CardSliderMainPage: FC<IDataCardSlider> = ({
   img,
   location,
   rating,
@@ -56,7 +56,7 @@ export const CardSliderHotel: FC<IDataCardSlider> = ({
       </div>
       <div className={style.description}>
         <div className={style.description_rating}>
-          <RateCustom defaultValue={rating} disabled={true} />
+          <RateMain defaultValue={rating} disabled={true} />
 
           <span>{rating}</span>
           <span>-</span>

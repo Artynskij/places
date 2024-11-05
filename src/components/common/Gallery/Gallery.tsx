@@ -40,7 +40,7 @@ export const Gallery: FC<IGallery> = ({ images }) => {
           {images.slice(1, 3).map((item, index) => {
             return (
               <div
-                onClick={() => handlerOpenAlbum(index)}
+                onClick={() => handlerOpenAlbum(index+1)}
                 key={index}
                 className={style.image__additional}
               >
@@ -74,8 +74,7 @@ export const Gallery: FC<IGallery> = ({ images }) => {
             return (
               <div
                 onClick={() =>{
-                  
-                  handlerOpenAlbum(index)}}
+                  handlerOpenAlbum(index+1)}}
                 key={index}
                 className={style.image__additional}
               >

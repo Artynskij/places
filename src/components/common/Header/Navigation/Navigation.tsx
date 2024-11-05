@@ -26,12 +26,7 @@ export const Navigation = () => {
         <Link href={"/kazahstan"}>
           <li>{t('text.navigation.reviewsLink')}</li>
         </Link>
-        <Link href={"/user"}>
-          <li>testUser</li>
-        </Link>
-        <Link href={"/owner"}>
-          <li>testOwner</li>
-        </Link>
+    
       </menu>
     </nav>
   );

@@ -27,7 +27,7 @@ export const Slider: FC<ISlider> = ({ id, children }) => {
 
   const settings: SwiperOptions = {
     modules: [Navigation],
-    slidesPerView: 1.1,
+    slidesPerView: 1.3,
 
     // loadOnTransitionStart: true, // Опционально: загружает изображения при начале перехода
 

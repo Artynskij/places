@@ -40,10 +40,13 @@
 .whatsapp {
   color: $social-whatsapp-color;
 } // WhatsApp
+.instagram {
+ color:$social-instagram-color
+} // WhatsApp
 .icon_social {
   transition: $transiton;
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
     transform: scale(1.1);
   }
 }

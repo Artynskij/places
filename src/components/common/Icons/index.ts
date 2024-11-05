@@ -22,7 +22,7 @@ import { IconTwitter } from "./Social/IconTwitter";
 import { IconViber } from "./Social/IconViber";
 import { IconVk } from "./Social/IconVk";
 import { IconWhatApp } from "./Social/IconWhatApp";
-
+import { IconInstagram } from "./Social/IconInstagram";
 
 export {
   IconArrowDown,
@@ -48,4 +48,5 @@ export {
   IconVk,
   IconWhatApp,
   IconGallery,
+  IconInstagram,
 };

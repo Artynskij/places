@@ -24,7 +24,7 @@ export const InfoSection: FC<IInfoSection> = ({ searchParams }) => {
     } else {
       setShowMoreTiles(false);
     }
-  }, [sizeScreen]);
+  }, []);
 
   return (
     <section className={style.info_block}>

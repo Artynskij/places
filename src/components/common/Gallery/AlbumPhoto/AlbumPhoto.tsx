@@ -1,4 +1,5 @@
-import { FC, useEffect, useRef, useState } from "react";
+"use client";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import {
   Gallery as GridGallery,
   ThumbnailImageComponentImageProps,
@@ -16,14 +17,18 @@ interface IAlbumPhoto {
   setActivePhotoIndex: (item: number) => void;
 }
 
-export const AlbumPhoto: FC<IAlbumPhoto> = ({ imageUrls, activePhotoIndex, setActivePhotoIndex }) => {
+export const AlbumPhoto: FC<IAlbumPhoto> = ({
+  imageUrls,
+  activePhotoIndex,
+  setActivePhotoIndex,
+}) => {
   const [images, setImages] = useState<IImageData[]>([]);
 
   const [typeView, setTypeView] = useState<"slider" | "list">("list");
 
   // Используем реф для хранения загруженных изображений
   const loadedImagesRef = useRef<IImageData[]>([]);
-
+  const activeImageRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const fetchImages = async () => {
       if (loadedImagesRef.current.length === 0) {
@@ -59,18 +64,38 @@ export const AlbumPhoto: FC<IAlbumPhoto> = ({ imageUrls, activePhotoIndex, setAc
     fetchImages();
   }, [imageUrls]);
 
+  useEffect(() => {
+    if (typeView === "list") {
+      // Добавляем небольшую задержку для обеспечения доступности activeImageRef
+      setTimeout(() => {
+        if (activeImageRef.current) {
+          activeImageRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      }, 100); // задержка в 100 миллисекунд
+    }
+  }, [typeView]);
+
   const ImageComponent = ({
     imageProps,
   }: {
     imageProps: ThumbnailImageComponentImageProps;
   }) => {
+    if (+imageProps.key - 1 === activePhotoIndex) {
+      setTypeView("list");
+    }
     return (
       <div
         onClick={() => {
-          setActivePhotoIndex(+imageProps.key)
+          setActivePhotoIndex(+imageProps.key);
           setTypeView("slider");
         }}
-        className={`${style.album_item} ${imageProps.key === activePhotoIndex && style.activePhoto}`}
+        ref={+imageProps.key === activePhotoIndex ? activeImageRef : null}
+        className={`${style.album_item} ${
+          imageProps.key === activePhotoIndex && style.activePhoto
+        }`}
       >
         <Image
           className={`${style.album_img} `}
@@ -94,8 +119,13 @@ export const AlbumPhoto: FC<IAlbumPhoto> = ({ imageUrls, activePhotoIndex, setAc
         />
       ) : (
         <>
-       
-          <SliderAlbum activePhotoIndex={activePhotoIndex} setActivePhotoIndex={setActivePhotoIndex} setTypeView={setTypeView} data={images} id={1} />
+          <SliderAlbum
+            activePhotoIndex={activePhotoIndex}
+            setActivePhotoIndex={setActivePhotoIndex}
+            setTypeView={setTypeView}
+            data={images}
+            id={1}
+          />
         </>
       )}
     </>

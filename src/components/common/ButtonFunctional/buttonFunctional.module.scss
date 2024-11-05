@@ -1,4 +1,7 @@
-.share {
+.like,
+.share,
+.contact,
+.shedule {
   cursor: pointer;
   position: relative;
   display: flex;
@@ -9,36 +12,61 @@
   &:hover {
     color: $color-main-gold;
   }
+}
+.share_popup,
+.contact_popup {
+  color: $color-main-black;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 2;
+  background-color: $color-additional-background;
+  padding: 5px;
+  border-radius: $border-radius-5;
+  transition: $transiton;
+  @extend %Text14;
+  & h4 {
+    padding-bottom: 5px;
+    border-bottom: 1px solid $color-main-black;
+  }
+}
+.share {
   &.active {
     color: $color-main-gold;
   }
-  &_popup {
-    color: $color-main-black;
-    position: absolute;
-    top: calc(100% + 20px);
-    right: 0;
-    background-color: $color-additional-background;
-    padding: 5px;
-    border-radius: $border-radius-5;
-    transition: $transiton;
-
-    &_list {
-      display: flex;
-      gap: $gap-small;
-      &_item {
-        font-size: 20px;
-      }
+  &_popup_list {
+    display: flex;
+    gap: $gap-small;
+    &_item {
+      font-size: 20px;
     }
   }
 }
+
 .like {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: $gap-small;
-  transition: $transiton;
-  &:hover {
-    color: $color-main-gold;
+}
+.contact {
+  &_popup {
+    right: auto;
+    padding: 20px;
+    .contact &_list{
+      display: flex;
+      flex-direction: column;
+      gap: $gap-medium;
+      padding: 10px 0;
+      &_item a{
+        display: flex;
+        align-items: center;
+        gap: $gap-small;
+        transition: $transiton;
+        &:hover span{
+          color: $color-main-gold;
+        }
+       
+      }
+      &_item_icon{
+        font-size: 16px;
+      }
+    }
   }
 }

@@ -1,4 +1,5 @@
 import { IDataCardSlider } from "@/types/ICards";
+import { number } from "yup";
 
 export const mockObjectsHotels: IDataCardSlider[] = [
   {
@@ -314,7 +315,6 @@ export const mockObjectForObjectPage = {
   category: "Кафе",
   register: true,
   img: [
-  
     "/mock/mockObjErevan-2.jpg",
     "/mock/mockObjErevan-3.jpg",
     "/mock/mockObjErevan-4.jpg",
@@ -378,6 +378,10 @@ export const mockObjectForObjectPage = {
     mail: "info@yeremyanprojects.com",
     website: "https://www.yeremyanprojects.com/en/restaurants/tavern-yerevan",
     menu: "https://www.yeremyanprojects.com/en/restaurants/tavern-yerevan",
+    telegram: { value: "artyn_artem" },
+    viber: { value: "+375291747494" },
+    whatsapp: { value: "+375291747494" },
+    instagram: { value: "aartynskij" },
   },
   info: {
     priceRating: { title: "средний", count: 2 },

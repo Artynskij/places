@@ -1,5 +1,5 @@
 $color-main-background: rgba(255, 255, 255, 1);
-$color-additional-background:  rgba(245, 245, 247, 1);
+$color-additional-background: rgba(245, 245, 247, 1);
 
 $color-main-gold: #bea97c;
 $color-main-blue: #005ba1;
@@ -26,15 +26,16 @@ $color-gradient-bg-card: linear-gradient(
   linear-gradient(180deg, rgba(48, 45, 129, 0), rgba(6, 4, 53, 0.6) 100%);
 
 // соц сети цвета
-$social-classmates-color: #ee8208;    // Одноклассники
-$social-facebook-color: #1877f2;      // Facebook
-$social-linkedin-color: #0077b5;      // LinkedIn
-$social-skype-color: #00aff0;         // Skype
-$social-telegram-color: #0088cc;      // Telegram
-$social-twitter-color: #000000;       // Twitter
-$social-viber-color: #7360f2;         // Viber
-$social-vk-color: #4c75a3;            // ВКонтакте
-$social-whatsapp-color: #25d366;      // WhatsApp
+$social-classmates-color: #ee8208; // Одноклассники
+$social-facebook-color: #1877f2; // Facebook
+$social-linkedin-color: #0077b5; // LinkedIn
+$social-skype-color: #00aff0; // Skype
+$social-telegram-color: #0088cc; // Telegram
+$social-twitter-color: #000000; // Twitter
+$social-viber-color: #7360f2; // Viber
+$social-vk-color: #4c75a3; // ВКонтакте
+$social-whatsapp-color: #25d366; // WhatsApp
+$social-instagram-color: #C13584; // instagram
 
 $gap: 8px;
 $gap-small: 8px;
@@ -53,4 +54,4 @@ $media-mini-phone: 350px;
 
 $transiton: all 0.3s;
 
-$box-shadow-default:1px 1px 6px 2px $color-main-blue_hover
+$box-shadow-default: 1px 1px 6px 2px $color-main-blue_hover;

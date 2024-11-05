@@ -17,8 +17,11 @@ import { Slider } from "../../components/common/Slider/Slider";
 
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 
-import { CardSliderHotel } from "@/components/common/Cards";
-import { CardSliderLocation } from "@/components/common/Cards/CardSliderLocation/CardSliderLocation";
+import {
+  CardSliderMainPage,
+  CardSliderLocation,
+} from "@/components/common/Cards";
+
 import { IPageProps } from "@/types/IType";
 
 import { useTranslations } from "next-intl";
@@ -64,7 +67,7 @@ export default function CountryScreen({ params, searchParams }: IProps) {
         <div className={style.slider}>
           <Slider id={1}>
             {mockObjectsHotels.map((item) => {
-              return <CardSliderHotel key={item.id} {...item} />;
+              return <CardSliderMainPage key={item.id} {...item} />;
             })}
           </Slider>
         </div>
@@ -79,7 +82,7 @@ export default function CountryScreen({ params, searchParams }: IProps) {
         <div className={style.slider}>
           <Slider id={2}>
             {mockObjectsCafe.map((item) => {
-              return <CardSliderHotel key={item.id} {...item} />;
+              return <CardSliderMainPage key={item.id} {...item} />;
             })}
           </Slider>
         </div>
@@ -94,7 +97,7 @@ export default function CountryScreen({ params, searchParams }: IProps) {
         <div className={style.slider}>
           <Slider id={3}>
             {mockObjectsRelax.map((item) => {
-              return <CardSliderHotel key={item.id} {...item} />;
+              return <CardSliderMainPage key={item.id} {...item} />;
             })}
           </Slider>
         </div>

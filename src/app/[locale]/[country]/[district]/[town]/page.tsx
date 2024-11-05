@@ -17,7 +17,7 @@ import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 
 import { Slider } from "../../../../../components/common/Slider/Slider";
 import { useTranslations } from "next-intl";
-import { CardInfo, CardSliderHotel } from "@/components/common/Cards";
+import { CardInfo, CardSliderMainPage } from "@/components/common/Cards";
 
 interface IProps {
   params: { country: string; district: string; town: string };
@@ -81,7 +81,7 @@ export default function TownPage({ params, searchParams }: IProps) {
         <div className={style.slider}>
           <Slider id={1}>
             {mockObjectsHotels.map((item) => {
-              return <CardSliderHotel key={item.id} {...item} />;
+              return <CardSliderMainPage key={item.id} {...item} />;
             })}
           </Slider>
         </div>
@@ -96,7 +96,7 @@ export default function TownPage({ params, searchParams }: IProps) {
         <div className={style.slider}>
           <Slider id={2}>
             {mockObjectsCafe.map((item) => {
-              return <CardSliderHotel key={item.id} {...item} />;
+              return <CardSliderMainPage key={item.id} {...item} />;
             })}
           </Slider>
         </div>
@@ -111,7 +111,7 @@ export default function TownPage({ params, searchParams }: IProps) {
         <div className={style.slider}>
           <Slider id={3}>
             {mockObjectsRelax.map((item) => {
-              return <CardSliderHotel key={item.id} {...item} />;
+              return <CardSliderMainPage key={item.id} {...item} />;
             })}
           </Slider>
         </div>

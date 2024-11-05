@@ -15,49 +15,63 @@ export const Header = () => {
   const t = useTranslations("Header");
 
   return (
-    <header className={style.header}>
-      <div className={"container " + style.container}>
-        <div className={style.logo}>
-          <Link href={"/"}>
-            <div className={style.logo_small}>
-              <Image
-                width={38}
-                height={38}
-                src={"/icons/favicon big.svg"}
-                alt="logo"
-              />
-            </div>
-            <div className={style.logo_big}>
-              <Image
-                width={172}
-                height={38}
-                src={"/icons/logo.svg"}
-                alt="logo"
-              />
-            </div>
-          </Link>
-        </div>
-
-        <Finder />
-        <div className={style.nav_block}>
-          <Navigation />
-        </div>
-
-        <div className={style.right}>
-          <div className={style.right_lang}>
-            <SelectLang />
-          </div>
-          <div className={style.right_auth}>
-            <Link href={"/login"}>
-              <Button
-                className={style.right_auth_button}
-                text={t("text.buttonLogin")}
-              />
+    <>
+      <header className={style.header}>
+        <div className={"container " + style.container}>
+          <div className={style.logo}>
+            <Link href={"/"}>
+              <div className={style.logo_small}>
+                <Image
+                  width={38}
+                  height={38}
+                  src={"/icons/favicon big.svg"}
+                  alt="logo"
+                />
+              </div>
+              <div className={style.logo_big}>
+                <Image
+                  width={172}
+                  height={38}
+                  src={"/icons/logo.svg"}
+                  alt="logo"
+                />
+              </div>
             </Link>
           </div>
+
+          <Finder />
+          <div className={style.nav_block}>
+            <Navigation />
+          </div>
+
+          <div className={style.right}>
+            <div className={style.right_lang}>
+              <SelectLang />
+            </div>
+            <div className={style.right_auth}>
+              <Link href={"/login"}>
+                <Button
+                  className={style.right_auth_button}
+                  text={t("text.buttonLogin")}
+                />
+              </Link>
+            </div>
+          </div>
+          <Burger />
         </div>
-        <Burger />
+      </header>
+      <div
+        className={`container ${style.test}`}
+        style={{  }}
+      >
+        Тестовые страницы{" "}
+        <Link className={style.test_link} href={"/user"}>
+          <li>Лк туриста</li>
+        </Link>
+        <Link className={style.test_link} href={"/owner"}>
+          <li>Лк Владельца</li>
+        </Link>
       </div>
-    </header>
+    </>
   );
 };

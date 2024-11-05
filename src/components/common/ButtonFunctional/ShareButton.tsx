@@ -3,6 +3,7 @@
 import { FC, useEffect, useState, useRef } from "react";
 import { IconShare } from "../Icons/IconShare/IconShare";
 import style from "./buttonFunctional.module.scss";
+import Link from "next/link";
 import {
   IconClassmates,
   IconFacebook,
@@ -43,7 +44,6 @@ export const ShareButton: FC<IShareButton> = ({
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    // Проверяем, есть ли клик вне модала
     if (
       blockShareRef.current &&
       !blockShareRef.current.contains(event.target as Node)
@@ -61,81 +61,31 @@ export const ShareButton: FC<IShareButton> = ({
   }, []);
 
   // Ссылки для соцсетей
-
-  const shareOnTelegram = () => {
-    window.open(
-      `https://t.me/share/url?url=${encodeURIComponent(
-        linkPage
-      )}&text=${encodeURIComponent(importTitle || "")}`,
-      "_blank"
-    );
-  };
-
-  const shareOnWhatsApp = () => {
-    window.open(
-      `https://api.whatsapp.com/send?text=${encodeURIComponent(
-        `${importTitle || ""} ${linkPage}`
-      )}`,
-      "_blank"
-    );
-  };
-
-  const shareOnVk = () => {
-    window.open(
-      `https://vk.com/share.php?url=${encodeURIComponent(linkPage)}`,
-      "_blank"
-    );
-  };
-
-  const shareOnFacebook = () => {
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        linkPage
-      )}`,
-      "_blank"
-    );
-  };
-
-  const shareOnLinkedin = () => {
-    window.open(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-        linkPage
-      )}`,
-      "_blank"
-    );
-  };
-
-  const shareOnTwitter = () => {
-    window.open(
-      `https://twitter.com/share?url=${encodeURIComponent(
-        linkPage
-      )}&text=${encodeURIComponent(importTitle || "")}`,
-      "_blank"
-    );
-  };
-
-  const shareOnViber = () => {
-    window.open(
-      `viber://forward?text=${encodeURIComponent(
-        `${importTitle || ""} ${linkPage}`
-      )}`
-    );
-  };
-
-  const shareOnSkype = () => {
-    window.open(
-      `https://web.skype.com/share?url=${encodeURIComponent(linkPage)}`,
-      "_blank"
-    );
-  };
-
-  const shareOnClassmates = () => {
-    window.open(
-      `https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.shareUrl=${encodeURIComponent(
-        linkPage
-      )}`,
-      "_blank"
-    );
+  const getShareUrl = (network: string) => {
+    const encodedLink = encodeURIComponent(linkPage);
+    const encodedTitle = encodeURIComponent(importTitle || "");
+    switch (network) {
+      case "telegram":
+        return `https://t.me/share/url?url=${encodedLink}&text=${encodedTitle}`;
+      case "whatsapp":
+        return `https://api.whatsapp.com/send?text=${encodedTitle} ${encodedLink}`;
+      case "vk":
+        return `https://vk.com/share.php?url=${encodedLink}`;
+      case "facebook":
+        return `https://www.facebook.com/sharer/sharer.php?u=${encodedLink}`;
+      case "linkedin":
+        return `https://www.linkedin.com/sharing/share-offsite/?url=${encodedLink}`;
+      case "twitter":
+        return `https://twitter.com/share?url=${encodedLink}&text=${encodedTitle}`;
+      case "viber":
+        return `viber://forward?text=${encodedTitle} ${encodedLink}`;
+      case "skype":
+        return `https://web.skype.com/share?url=${encodedLink}`;
+      case "classmates":
+        return `https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.shareUrl=${encodedLink}`;
+      default:
+        return "";
+    }
   };
 
   return (
@@ -151,42 +101,33 @@ export const ShareButton: FC<IShareButton> = ({
       {popupActive && (
         <div className={style.share_popup}>
           <div className={style.share_popup_list}>
-            <IconClassmates
-              onClick={shareOnClassmates}
-              className={style.share_popup_list_item}
-            />
-            <IconFacebook
-              onClick={shareOnFacebook}
-              className={style.share_popup_list_item}
-            />
-            <IconLinkedin
-              onClick={shareOnLinkedin}
-              className={style.share_popup_list_item}
-            />
-            <IconSkype
-              onClick={shareOnSkype}
-              className={style.share_popup_list_item}
-            />
-            <IconTelegram
-              onClick={shareOnTelegram}
-              className={style.share_popup_list_item}
-            />
-            <IconTwitter
-              onClick={shareOnTwitter}
-              className={style.share_popup_list_item}
-            />
-            <IconViber
-              onClick={shareOnViber}
-              className={style.share_popup_list_item}
-            />
-            <IconVk
-              onClick={shareOnVk}
-              className={style.share_popup_list_item}
-            />
-            <IconWhatApp
-              onClick={shareOnWhatsApp}
-              className={style.share_popup_list_item}
-            />
+            <Link href={getShareUrl("classmates")} target="_blank">
+              <IconClassmates className={style.share_popup_list_item} />
+            </Link>
+            <Link href={getShareUrl("facebook")} target="_blank">
+              <IconFacebook className={style.share_popup_list_item} />
+            </Link>
+            <Link href={getShareUrl("linkedin")} target="_blank">
+              <IconLinkedin className={style.share_popup_list_item} />
+            </Link>
+            <Link href={getShareUrl("skype")} target="_blank">
+              <IconSkype className={style.share_popup_list_item} />
+            </Link>
+            <Link href={getShareUrl("telegram")} target="_blank">
+              <IconTelegram className={style.share_popup_list_item} />
+            </Link>
+            <Link href={getShareUrl("twitter")} target="_blank">
+              <IconTwitter className={style.share_popup_list_item} />
+            </Link>
+            <Link href={getShareUrl("viber")} target="_blank">
+              <IconViber className={style.share_popup_list_item} />
+            </Link>
+            <Link href={getShareUrl("vk")} target="_blank">
+              <IconVk className={style.share_popup_list_item} />
+            </Link>
+            <Link href={getShareUrl("whatsapp")} target="_blank">
+              <IconWhatApp className={style.share_popup_list_item} />
+            </Link>
           </div>
         </div>
       )}

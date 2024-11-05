@@ -1,78 +1,82 @@
 .slider_ctn {
-
   position: relative;
   display: grid;
-grid-template-rows: 1fr 0 100px;
+  grid-template-rows: 1fr 0 100px;
   gap: 10px;
   width: 100%;
   height: 100%;
-}
-.arrow_next,
-.arrow_prev {
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  border-radius: 50%;
-  position: absolute;
-  top: 35%;
-
-  z-index: 2;
-  //   font-size: 30px;
-
-  color: $color-main-black;
-  padding: 0;
-  background-color: rgba(255, 251, 251, 0.363);
-  backdrop-filter: blur(1px);
-  cursor: pointer;
-  border: 2px solid $color-main-grey;
-  transition: $transiton;
-  &:hover {
-    border-color: $color-main-gold;
+  :global(.swiper-thumbs .swiper-slide) {
+    opacity: 0.5 !important;
   }
-  &:active {
-    border-color: $color-main-blue;
+  :global(.swiper-thumbs .swiper-slide-thumb-active) {
+    opacity: 1 !important;
   }
-  &_icon {
-    font-size: 40px;
-  }
-}
-.arrow_prev {
-  left: -10px;
-}
-.arrow_next {
-  right: -10px;
-}
-
-.disable_arrow {
-  color: $color-main-grey;
-  border-color: $color-main-grey;
-  &:hover {
-    border-color: $color-main-grey;
-  }
-  &:active {
-    border-color: $color-main-grey;
-  }
-}
-
-.skeleton {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  &_slide {
-    min-height: 320px;
+  .arrow_next,
+  .arrow_prev {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 50%;
+    position: absolute;
+    top: 35%;
+
+    z-index: 2;
+    //   font-size: 30px;
+
+    color: $color-main-black;
+    padding: 0;
+    background-color: rgba(255, 251, 251, 0.363);
+    backdrop-filter: blur(1px);
+    cursor: pointer;
+    border: 2px solid $color-main-grey;
+    transition: $transiton;
+    &:hover {
+      border-color: $color-main-gold;
+    }
+    &:active {
+      border-color: $color-main-blue;
+    }
+    &_icon {
+      font-size: 40px;
+    }
+  }
+  .arrow_prev {
+    left: -10px;
+  }
+  .arrow_next {
+    right: -10px;
+  }
+
+  .disable_arrow {
+    color: $color-main-grey;
+    border-color: $color-main-grey;
+    &:hover {
+      border-color: $color-main-grey;
+    }
+    &:active {
+      border-color: $color-main-grey;
+    }
+  }
+
+  .skeleton {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
-  }
-  &_image {
-    width: 100%;
-    height: 300px;
-  }
-  &_button {
-    width: 100%;
+    &_slide {
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    &_image {
+      width: 100%;
+      height: 300px;
+    }
+    &_button {
+      width: 100%;
+    }
   }
 }
-
 .album_slider {
   &_item {
     width: 100%;
@@ -82,9 +86,10 @@ grid-template-rows: 1fr 0 100px;
     cursor: grab;
   }
   &_img {
-    // object-fit: cover;
+    object-fit: cover;
     width: auto;
     height: auto;
+    border-radius: $border-radius-5;
   }
 }
 .pagination {
@@ -93,15 +98,17 @@ grid-template-rows: 1fr 0 100px;
     width: 100%;
     height: 100%;
     position: relative;
-    transition: $transiton;
+
     cursor: pointer;
 
-    &:hover {
-      transform: scale(1.05);
-    }
     &_img {
       border-radius: $border-radius-10;
       height: 100%;
+      transition: $transiton;
+      object-fit: cover;
+      &:hover {
+        transform: scale(1.05);
+      }
     }
   }
 }

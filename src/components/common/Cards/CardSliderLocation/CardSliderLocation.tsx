@@ -36,7 +36,7 @@ export const CardSliderLocation: FC<IDataCardSliderLocation> = ({
           loading="lazy"
           className={style.card_image_image}
           width={448}
-          height={320}
+          height={220}
           src={img}
           alt={img}
         />

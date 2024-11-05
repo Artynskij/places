@@ -1,24 +1,19 @@
 import React from "react";
 import styles from "./rate.module.scss";
-import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
-import { IoHeart, IoHeartOutline } from "react-icons/io5";
 
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { FaReceipt } from "react-icons/fa";
 import { Flex, Rate } from "antd";
 
-const customIcons: Record<number, React.ReactNode> = {
-  1: <FrownOutlined />,
-  2: <FrownOutlined />,
-  3: <MehOutlined />,
-  4: <SmileOutlined />,
-  5: <SmileOutlined />,
-};
-interface IRateCustom {
+interface IRateCafe {
   defaultValue: number;
   disabled?: boolean;
+  classNameIcon?: string;
 }
-export const RateCustom: React.FC<IRateCustom> = ({
+export const RateCafe: React.FC<IRateCafe> = ({
   defaultValue: defaultValue,
   disabled: disabled,
+  classNameIcon,
 }) => (
   <Flex gap="middle" vertical>
     {/* <Rate defaultValue={2} character={({ index = 0 }) => index + 1} /> */}
@@ -26,7 +21,8 @@ export const RateCustom: React.FC<IRateCustom> = ({
       className={styles.rateAnt}
       disabled={disabled}
       defaultValue={defaultValue}
-      character={<IoHeart />}
+      character={<FaReceipt className={classNameIcon} />}
+      count={3}
     />
   </Flex>
 );

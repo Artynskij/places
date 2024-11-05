@@ -19,3 +19,8 @@
     @content;
   }
 }
+@mixin mediaMiniPhone() {
+  @media screen and (max-width: $media-mini-phone) {
+    @content;
+  }
+}

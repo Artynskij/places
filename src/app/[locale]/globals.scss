@@ -1,6 +1,10 @@
 @import "/src/asset/common-styles/";
 
 @import "normalize.css";
+
+* {
+  // outline: 1px solid green !important;
+}
 :root {
   // --max-width: 1100px;
   // --border-radius: 12px;
@@ -205,6 +209,7 @@ header .ant-checkbox-wrapper:hover .ant-checkbox-inner {
   height: auto !important;
   display: flex !important;
 }
+
 @media screen and (max-width: $media-tablet) {
   h1 {
     font-size: 84px;

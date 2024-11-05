@@ -42,9 +42,7 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
   const swiperRef = useRef<SwiperRef>(null);
   const swiperRefPagination = useRef<SwiperRef>(null);
 
-  useEffect(() => {
-    console.log(swiperRef);
-  }, []);
+
 
   const settings: SwiperOptions = {
     modules: [FreeMode, Navigation, Thumbs],
@@ -67,7 +65,6 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
   return (
     <div className={style.slider_ctn}>
       <Swiper
-        // onSlideChange={() => console.dir(swiperRef.current)}
         onSlideChange={(swiper: SwiperClass) => {
           setActivePhotoIndex(swiper.activeIndex);
         }}
@@ -79,6 +76,7 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
         onMouseDown={() => false}
         {...settings}
         style={{ width: "100%", height: "100%" }}
+       
       >
         {sliderLoad ? (
           <>
@@ -87,6 +85,7 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
                 <div key={index} className={style.album_slider_item}>
                   <Image
                     fill
+                    sizes="80vw"
                     className={style.album_slider_img}
                     src={item.src}
                     alt="test"
@@ -114,6 +113,8 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
         onMouseDown={() => false}
         {...settingsPagination}
         style={{ width: "100%", height: "100%" }}
+      
+        slideActiveClass={style.pagination_bullet_active}
       >
         {sliderLoad ? (
           <div className={style.pagination}>
@@ -122,6 +123,7 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
                 <div key={index} className={style.pagination_bullet}>
                   <Image
                     fill
+                    sizes="10vw"
                     className={style.pagination_bullet_img}
                     src={item.src}
                     alt="test"

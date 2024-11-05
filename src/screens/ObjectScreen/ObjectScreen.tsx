@@ -6,7 +6,7 @@ import { IconGlobe, IconLike, IconLocation } from "@/components/common/Icons";
 import { IconShare } from "@/components/common/Icons/IconShare/IconShare";
 import { ShareButton } from "@/components/common/ButtonFunctional/ShareButton";
 import { LikeButton } from "@/components/common/ButtonFunctional/LikeButton";
-import { RateCustom } from "@/components/common/RateCustom/RateCustom";
+
 import { IconMessage } from "@/components/common/Icons/IconMessage/IconMessage";
 import { IconDone } from "@/components/common/Icons/IconDone/IconDone";
 import { IconPhone } from "@/components/common/Icons/IconPhone/IconPhone";
@@ -14,11 +14,15 @@ import Link from "next/link";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { useState } from "react";
 import { mockObjectForObjectPage } from "@/asset/mockData/mockObject";
-import { RateReceiptCustom } from "@/components/common/RateCustom/RateReceipt";
+
 import { QueryHotel } from "./_components/QueryBlock/QueryHotel";
 import { QueryCafe } from "./_components/QueryBlock/QueryCafe";
 import Image from "next/image";
 import { Gallery } from "@/components/common/Gallery/Gallery";
+import { RateCafe } from "@/components/common/RateCustom/RateCafe";
+import { RateMain } from "@/components/common/RateCustom/RateMain";
+import { RateHotel } from "@/components/common/RateCustom/RateHotel";
+import { ContactButton } from "@/components/common/ButtonFunctional/ContactButton";
 
 interface IProps {
   params: { country: string; district: string; town: string };
@@ -54,25 +58,35 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
         <div className={style.title_block}>
           <div className={style.title_block_titleCtn}>
             <h3>{data.title}</h3>
-            <div className={style.title_block_register}>
-              {data.register ? (
-                <>
-                  <IconDone className={style.title_iconCheck} />
-                  Владелец зареган
-                </>
-              ) : (
-                "не зареган"
-              )}
+            <div className={style.title_block_rate}>
+              <RateCafe
+                disabled
+                defaultValue={data.info.priceRating.count}
+                classNameIcon={style.title_block_rate_icon}
+              />
+              {/* <RateHotel
+                disabled
+                defaultValue={data.info.priceRating.count}
+                classNameIcon={style.title_block_rate_icon}
+              /> */}
             </div>
           </div>
-
-          <div>{data.info.priceRating.count} Звезды или чек</div>
+          <div className={style.title_block_register}>
+            {data.register ? (
+              <>
+                <IconDone className={style.title_iconCheck} />
+                Владелец зарегистрирован
+              </>
+            ) : (
+              "не зареган"
+            )}
+          </div>
         </div>
 
         <div className={style.title_right}>
           <div className={style.title_type}>{data.category}</div>
           <div className={style.title_rating}>
-            {data.rating.main}rateComponent
+            <RateMain defaultValue={data.rating.main} disabled />
           </div>
           <div className={style.title_location}>
             <IconLocation />
@@ -85,18 +99,16 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
           <li className={style.underTitle_list_item}>
             {data.location.address}
           </li>
-          <li style={{ color: "red" }} className={style.underTitle_list_item}>
-            Контакты попап
+          <li  className={style.underTitle_list_item}>
+           <ContactButton contactData={data.contacts}  textButton="Контакты"/>
           </li>
           <li className={style.underTitle_list_item}>
             <Link target="_blank" href={data.contacts.website}>
-              {" "}
               Вебсайт
             </Link>
           </li>
           <li className={style.underTitle_list_item}>
             <Link target="_blank" href={data.contacts.menu}>
-              {" "}
               Меню
             </Link>
           </li>
@@ -106,7 +118,7 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
         </ul>
       </div>
       <section>
-        <Gallery images={data.img}/>
+        <Gallery images={data.img} />
       </section>
       <section className={style.info}>
         <div className={style.info_column}>
@@ -116,7 +128,7 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
               <h2>{data.rating.main}</h2>
               <div className={style.info_rating_main_score}>
                 <span>{`(${data.rating.reviews} отзывов)`}</span>
-                <RateCustom defaultValue={data.rating.main} disabled />
+                <RateMain defaultValue={data.rating.main} disabled />
               </div>
             </div>
             <ul className={style.info_rating_list}>
@@ -126,7 +138,7 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
                     <span>{rate.title}</span>
                     <div className={style.info_rating_list_item_score}>
                       <span>{rate.value}</span>
-                      <RateCustom defaultValue={rate.value} disabled />
+                      <RateMain defaultValue={rate.value} disabled />
                     </div>
                   </li>
                 );
@@ -136,10 +148,7 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
               <div className={style.info_class_title}>
                 Чек: {data.info.priceRating.title}
               </div>
-              <RateReceiptCustom
-                disabled
-                defaultValue={data.info.priceRating.count}
-              />
+              <RateCafe disabled defaultValue={data.info.priceRating.count} />
             </div>
           </div>
           <Button
@@ -181,8 +190,8 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
             <Image
               className={style.info_map_image}
               alt="map"
-              width={380}
-              height={265}
+              width={480}
+              height={365}
               src={"/mock/mockObjErevan-map.jpg"}
             />
           </div>
