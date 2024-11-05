@@ -13,7 +13,12 @@ import { IconPhone } from "@/components/common/Icons/IconPhone/IconPhone";
 import Link from "next/link";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { useState } from "react";
-import { mockObjectForObjectPage } from "@/asset/mockData/mockObject";
+import {
+  mockObjectForObjectPage,
+  mockObjectsCafe,
+  mockObjectsHotels,
+  mockObjectsRelax,
+} from "@/asset/mockData/mockObject";
 
 import { QueryHotel } from "./_components/QueryBlock/QueryHotel";
 import { QueryCafe } from "./_components/QueryBlock/QueryCafe";
@@ -23,6 +28,9 @@ import { RateCafe } from "@/components/common/RateCustom/RateCafe";
 import { RateMain } from "@/components/common/RateCustom/RateMain";
 import { RateHotel } from "@/components/common/RateCustom/RateHotel";
 import { ContactButton } from "@/components/common/ButtonFunctional/ContactButton";
+import { ScheduleButton } from "@/components/common/ButtonFunctional/ScheduleButton";
+import { Slider } from "@/components/common/Slider/Slider";
+import { CardSliderMainPage } from "@/components/common/Cards";
 
 interface IProps {
   params: { country: string; district: string; town: string };
@@ -99,8 +107,8 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
           <li className={style.underTitle_list_item}>
             {data.location.address}
           </li>
-          <li  className={style.underTitle_list_item}>
-           <ContactButton contactData={data.contacts}  textButton="Контакты"/>
+          <li className={style.underTitle_list_item}>
+            <ContactButton contactData={data.contacts} textButton="Контакты" />
           </li>
           <li className={style.underTitle_list_item}>
             <Link target="_blank" href={data.contacts.website}>
@@ -112,8 +120,11 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
               Меню
             </Link>
           </li>
-          <li style={{ color: "red" }} className={style.underTitle_list_item}>
-            Время работы попап
+          <li className={style.underTitle_list_item}>
+            <ScheduleButton
+              scheduleData={data.schedule}
+              textButton="Время работы"
+            />
           </li>
         </ul>
       </div>
@@ -197,8 +208,63 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
           </div>
         </div>
       </section>
-      <section>слайдер</section>
-
+      <section className={style.slider_block}>
+        <div className={style.slider_block_title}>
+          <h2>Рекомендуемые объекты питания</h2>
+          <Link href={"/filter"} className={style.slider_block_title_button}>
+            Смотреть больше
+          </Link>
+        </div>
+        <div className={style.slider}>
+          <Slider id={1}>
+            {mockObjectsCafe.map((item) => {
+              return <CardSliderMainPage key={item.id} {...item} />;
+            })}
+          </Slider>
+        </div>
+      </section>
+      <section className={style.slider_block}>
+        <div className={style.slider_block_title}>
+          <h2>Рекомендуемые объекты места для жилья</h2>
+          <Link href={"/filter"} className={style.slider_block_title_button}>
+            Смотреть больше
+          </Link>
+        </div>
+        <div className={style.slider}>
+          <Slider id={2}>
+            {mockObjectsHotels.map((item) => {
+              return <CardSliderMainPage key={item.id} {...item} />;
+            })}
+          </Slider>
+        </div>
+      </section>
+      <section className={style.slider_block}>
+        <div className={style.slider_block_title}>
+          <h2>Рекомендуемые объекты места поблизости</h2>
+          <Link href={"/filter"} className={style.slider_block_title_button}>
+            Смотреть больше
+          </Link>
+        </div>
+        <div className={style.slider}>
+          <Slider id={3}>
+            {mockObjectsRelax.map((item) => {
+              return <CardSliderMainPage key={item.id} {...item} />;
+            })}
+          </Slider>
+        </div>
+      </section>
+      <section className={style.offer}>
+        <div className={style.offer_ctn}>
+          <h4>Эта страница вашего объекта ?</h4>
+          <div className={style.offer_description}>
+            Вы являетесь владельцем или управляющим этого объекта?
+            Зарегистрируйтесь бесплатно в качестве владельца объекта, чтобы
+            отвечать на отзывы, обновлять свой профиль и выполнять многие другие
+            действия.
+          </div>
+          <Button className={style.offer_button} text="Бесплатная регистрация" />
+        </div>
+      </section>
       <ModalCustom
         setActive={setModalDetails}
         active={modalDetails}

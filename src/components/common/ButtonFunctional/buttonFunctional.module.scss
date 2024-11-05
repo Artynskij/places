@@ -1,7 +1,7 @@
 .like,
 .share,
 .contact,
-.shedule {
+.schedule {
   cursor: pointer;
   position: relative;
   display: flex;
@@ -14,7 +14,8 @@
   }
 }
 .share_popup,
-.contact_popup {
+.contact_popup,
+.schedule_popup {
   color: $color-main-black;
   position: absolute;
   top: calc(100% + 10px);
@@ -49,22 +50,44 @@
   &_popup {
     right: auto;
     padding: 20px;
-    .contact &_list{
+    .contact &_list {
       display: flex;
       flex-direction: column;
       gap: $gap-medium;
       padding: 10px 0;
-      &_item a{
+      &_item a {
         display: flex;
         align-items: center;
         gap: $gap-small;
         transition: $transiton;
-        &:hover span{
+        &:hover span {
           color: $color-main-gold;
         }
+      }
+      &_item_icon {
+        font-size: 16px;
+      }
+    }
+  }
+}
+.schedule {
+  &_popup {
+    cursor: default;
+    right: auto;
+    padding: 20px;
+    .schedule &_list {
+      display: flex;
+      flex-direction: column;
+      gap: $gap-medium;
+      padding: 10px 0;
+      &_item {
+        display: flex;
+        align-items: center;
+        gap: $gap-small;
+        transition: $transiton;
        
       }
-      &_item_icon{
+      &_item_icon {
         font-size: 16px;
       }
     }

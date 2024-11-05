@@ -1,7 +1,7 @@
 .card_ctn {
   width: 100%;
   display: grid;
-  grid-template-rows: 180px 1fr;
+  grid-template-rows: 220px 1fr;
   gap: 16px;
   background-color: $color-additional-background;
   padding: 13px 10px;
@@ -71,7 +71,7 @@
   &_rating {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 5px;
     @extend %Text14;
     // &_icon {
     //   transform: translate(0, -1px);

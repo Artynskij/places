@@ -54,7 +54,7 @@ export const Slider: FC<ISlider> = ({ id, children }) => {
   return (
     <div className={style.slider_ctn}>
       <Swiper
-        onSlideChange={() => console.dir(swiperRef.current)}
+        // onSlideChange={() => console.dir(swiperRef.current)}
         onSwiper={(swiper: any) => setSliderLoad(true)}
         ref={swiperRef}
         {...settings}

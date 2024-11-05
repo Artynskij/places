@@ -95,7 +95,7 @@
       text-wrap: nowrap;
       position: relative;
       transition: $transiton;
-      &:hover{
+      &:hover {
         color: $color-main-gold;
       }
     }
@@ -237,7 +237,45 @@
     margin-right: 5px;
   }
 }
+.slider_block {
+  &_title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    &_button {
+      @extend %Text14;
 
+      padding: 11.5px 16px;
+
+      border: 1px solid $color-main-grey;
+      border-radius: $border-radius-small;
+      transition: $transiton;
+      cursor: pointer;
+      &:hover {
+        border-color: $color-main-gold;
+      }
+      h2 {
+      }
+    }
+  }
+}
+.offer {
+  &_ctn {
+    padding: 30px;
+    background-color: $color-additional-background;
+    border-radius: $border-radius-20;
+    display: flex;
+    flex-direction: column;
+    gap: $gap-big
+  }
+  &_description {
+    @extend %Text14;
+  }
+  &_button{
+    width: fit-content;
+  }
+}
 @include mediaTablet {
   .underHeader {
     &_ctn {

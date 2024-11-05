@@ -38,12 +38,7 @@ export const CardSliderMainPage: FC<IDataCardSlider> = ({
             classNameButton={style.image_type_icon}
             classNameIcon={style.image_type_icon_icon}
           />
-          {/* <div onClick={clickLike} className={style.image_type_icon}>
-            <IconLike
-              active={activeLike}
-              className={style.image_type_icon_icon}
-            />
-          </div> */}
+     
         </div>
         <Image
           loading="lazy"
@@ -58,8 +53,8 @@ export const CardSliderMainPage: FC<IDataCardSlider> = ({
         <div className={style.description_rating}>
           <RateMain defaultValue={rating} disabled={true} />
 
-          <span>{rating}</span>
-          <span>-</span>
+          {/* <span>{rating}</span>
+          <span>-</span> */}
           <span>{reviews}</span>
           <span>отзывов</span>
         </div>

@@ -25,19 +25,29 @@
 
     color: $color-main-black;
     padding: 0;
-    background-color: rgba(255, 251, 251, 0.363);
-    backdrop-filter: blur(1px);
+    // background-color: rgba(255, 251, 251, 0.363);
+    background-color: $color-main-white;
+    // backdrop-filter: blur(1px);
     cursor: pointer;
-    border: 2px solid $color-main-grey;
+    // border: 2px solid $color-main-grey;
     transition: $transiton;
     &:hover {
-      border-color: $color-main-gold;
+      background-color: $color-main-blue;
+      // border-color: $color-main-gold;
     }
     &:active {
-      border-color: $color-main-blue;
+      background-color: $color-main-blue;
+      // border-color: $color-main-blue;
     }
     &_icon {
-      font-size: 40px;
+      transition: $transiton;
+      font-size: 30px;
+    }
+    &:hover &_icon {
+      color: $color-main-white;
+    }
+    &:active &_icon {
+      color: $color-main-white;
     }
   }
   .arrow_prev {
@@ -48,6 +58,7 @@
   }
 
   .disable_arrow {
+    display: none;
     color: $color-main-grey;
     border-color: $color-main-grey;
     &:hover {

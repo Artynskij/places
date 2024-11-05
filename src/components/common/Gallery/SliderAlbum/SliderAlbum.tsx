@@ -57,10 +57,21 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
   };
   const settingsPagination: SwiperOptions = {
     modules: [FreeMode, Thumbs],
+   
+    slidesPerView: 3,
     spaceBetween: 10,
-    slidesPerView: 7,
     freeMode: true,
     watchSlidesProgress: true,
+    breakpoints: {
+      [CONSTANTS_SCREENS.SCREEN_NETBOOK]: {
+        slidesPerView: 7,
+        spaceBetween: 10,
+      },
+      [CONSTANTS_SCREENS.SCREEN_PHONE]: {
+        slidesPerView: 5,
+        spaceBetween: 10,
+      },
+    },
   };
   return (
     <div className={style.slider_ctn}>
