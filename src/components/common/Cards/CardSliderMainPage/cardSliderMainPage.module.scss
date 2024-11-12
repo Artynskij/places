@@ -81,9 +81,14 @@
     // }
   }
   &_title {
+    display: flex;
+
     @extend %Text18;
   }
   &_subtitle {
+    display: flex;
+    gap: 10px;
+    // align-items: center;
     @extend %Text14;
     color: $color-main-grey;
     margin-top: -10px;
@@ -101,4 +106,18 @@
       margin-right: 4px;
     }
   }
+}
+
+.rateHotel {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  // font-size: 10px;
+  &_icon{
+    color: $color-main-gold;
+    font-size: 16px;
+  }
+}
+.rateCafe {
+  font-size: 14px;
 }

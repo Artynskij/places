@@ -7,6 +7,7 @@ import { SkeletonGallery } from "./SkeletonGallery";
 import { Slider } from "../Slider/Slider";
 import { AlbumPhoto } from "./AlbumPhoto/AlbumPhoto";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
+import { Button } from "@/components/UI/Button/Button";
 
 interface IGallery {
   images: string[];
@@ -21,8 +22,8 @@ export const Gallery: FC<IGallery> = ({ images }) => {
     setLoadClient(true);
   }, []);
   function handlerOpenAlbum(index: number) {
-    setAlbumActive(true);
     setActivePhotoIndex(index);
+    setAlbumActive(true);
   }
   if (!loadClient) {
     return <SkeletonGallery />;
@@ -35,12 +36,12 @@ export const Gallery: FC<IGallery> = ({ images }) => {
             onClick={() => handlerOpenAlbum(0)}
             className={style.image__main}
           >
-            <Image width={300} height={150} alt="img" src={images[0]} />
+            <Image priority width={300} height={150} alt="img" src={images[0]} />
           </div>
           {images.slice(1, 3).map((item, index) => {
             return (
               <div
-                onClick={() => handlerOpenAlbum(index+1)}
+                onClick={() => handlerOpenAlbum(index + 1)}
                 key={index}
                 className={style.image__additional}
               >
@@ -67,14 +68,18 @@ export const Gallery: FC<IGallery> = ({ images }) => {
         </>
       ) : (
         <>
-          <div onClick={() => handlerOpenAlbum(0)} className={style.image__main}>
-            <Image width={300} height={150} alt="img" src={images[0]} />
+          <div
+            onClick={() => handlerOpenAlbum(0)}
+            className={style.image__main}
+          >
+            <Image priority width={300} height={150} alt="img" src={images[0]} />
           </div>
           {images.slice(1, 5).map((item, index) => {
             return (
               <div
-                onClick={() =>{
-                  handlerOpenAlbum(index+1)}}
+                onClick={() => {
+                  handlerOpenAlbum(index + 1);
+                }}
                 key={index}
                 className={style.image__additional}
               >
@@ -91,56 +96,18 @@ export const Gallery: FC<IGallery> = ({ images }) => {
           active={albumActive}
           setActive={setAlbumActive}
         >
-          <AlbumPhoto activePhotoIndex={activePhotoIndex} setActivePhotoIndex={setActivePhotoIndex} imageUrls={images} />
+          <AlbumPhoto
+            activePhotoIndex={activePhotoIndex}
+            setActivePhotoIndex={setActivePhotoIndex}
+            imageUrls={images}
+          />
         </ModalCustom>
       )}
+      <Button
+        onClick={() => handlerOpenAlbum(0)}
+        className={style.button_watchAll}
+        text={`Показать все ${images.length}`}
+      />
     </div>
   );
-
-  // if (sizeScreen.isTablet) {
-  //   return (
-  //     <div className={style.gallery}>
-  //       <div className={style.image__main}>
-  //         <Image width={300} height={150} alt="img" src={images[0]} />
-  //       </div>
-  //       {images.slice(1, 3).map((item, index) => {
-  //         return (
-  //           <div key={index} className={style.image__additional}>
-  //             <Image width={300} height={150} alt="img" src={item} />
-  //           </div>
-  //         );
-  //       })}
-  //     </div>
-  //   );
-  // }
-  // if (sizeScreen.isMobile) {
-  //   return (
-  //     <div>
-  //       <Slider id={1}>
-  //         {images.map((item, index) => {
-  //           return (
-  //             <div key={index} className={style.image__additional}>
-  //               <Image width={300} height={150} alt="img" src={item} />
-  //             </div>
-  //           );
-  //         })}
-  //       </Slider>
-  //     </div>
-  //   );
-  // }
-  // // для компиков
-  // return (
-  //   <div className={style.gallery}>
-  //     <div className={style.image__main}>
-  //       <Image width={300} height={150} alt="img" src={images[0]} />
-  //     </div>
-  //     {images.slice(1, 5).map((item, index) => {
-  //       return (
-  //         <div key={index} className={style.image__additional}>
-  //           <Image width={300} height={150} alt="img" src={item} />
-  //         </div>
-  //       );
-  //     })}
-  //   </div>
-  // );
 };

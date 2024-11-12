@@ -24,7 +24,10 @@ export interface IDataCardSliderLocation {
 export interface IDataCardSlider {
   id: number;
   title: string;
+  globalType: string;
   location: string;
+  hotelClass?:number;
+  costClass?:number;
   rating: number;
   reviews: number;
   type: string;
@@ -32,6 +35,7 @@ export interface IDataCardSlider {
   liked?: boolean;
   additional: string;
   description: string;
+
   coord: {
     lat: string;
     lon: string;

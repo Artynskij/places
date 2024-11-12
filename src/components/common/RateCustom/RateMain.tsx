@@ -23,8 +23,8 @@ export const RateMain: React.FC<IRateMain> = ({
   classNameIcon,
 }) => (
   <Flex gap="middle" vertical>
-    {/* <Rate defaultValue={2} character={({ index = 0 }) => index + 1} /> */}
     <Rate
+      allowHalf
       className={styles.rateAnt}
       disabled={disabled}
       defaultValue={defaultValue}

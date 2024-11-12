@@ -66,7 +66,6 @@ export const AlbumPhoto: FC<IAlbumPhoto> = ({
 
   useEffect(() => {
     if (typeView === "list") {
-      // Добавляем небольшую задержку для обеспечения доступности activeImageRef
       setTimeout(() => {
         if (activeImageRef.current) {
           activeImageRef.current.scrollIntoView({
@@ -74,7 +73,7 @@ export const AlbumPhoto: FC<IAlbumPhoto> = ({
             block: "center",
           });
         }
-      }, 100); // задержка в 100 миллисекунд
+      }, 100);
     }
   }, [typeView]);
 
@@ -83,9 +82,6 @@ export const AlbumPhoto: FC<IAlbumPhoto> = ({
   }: {
     imageProps: ThumbnailImageComponentImageProps;
   }) => {
-    if (+imageProps.key - 1 === activePhotoIndex) {
-      setTypeView("list");
-    }
     return (
       <div
         onClick={() => {

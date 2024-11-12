@@ -1,13 +1,14 @@
 import { FC } from "react";
 import style from "./cardList.module.scss";
 import Image from "next/image";
-import { IconLocation } from "@/components/common/Icons";
-
+import { IconLocation, IconStar } from "@/components/common/Icons";
 
 import { ShareButton } from "@/components/common/ButtonFunctional/ShareButton";
 import Link from "next/link";
 import { LikeButton } from "../../ButtonFunctional/LikeButton";
 import { RateMain } from "../../RateCustom/RateMain";
+import { RateCafe } from "../../RateCustom/RateCafe";
+import { IDataCardSlider } from "@/types/ICards";
 interface ICardHotelList {
   id: number;
   title: string;
@@ -23,9 +24,11 @@ interface ICardHotelList {
     lon: string;
   };
   liked: boolean;
+  costClass?: number;
+  hotelClass?: number;
 }
 
-export const CardList: FC<ICardHotelList> = ({
+export const CardList: FC<IDataCardSlider> = ({
   img,
   location,
   rating,
@@ -35,6 +38,8 @@ export const CardList: FC<ICardHotelList> = ({
   additional,
   description,
   liked = false,
+  costClass,
+  hotelClass,
 }) => {
   return (
     <Link
@@ -75,7 +80,32 @@ export const CardList: FC<ICardHotelList> = ({
           <span>{reviews}</span>
           <span>отзывов</span>
         </div>
-        {additional && <div className={style.info_subtitle}>{additional}</div>}
+        {(additional || costClass || hotelClass) && (
+          <div className={style.description_subtitle}>
+            {costClass && (
+              <>
+                <span>Средний чек : </span>
+                <span className={style.rateHotel}>
+                  <RateCafe
+                    disabled
+                    classNameIcon={style.rateCafe}
+                    defaultValue={costClass}
+                  />
+                </span>
+              </>
+            )}
+            {hotelClass && (
+              <>
+                <span>Класс отеля : </span>
+                <span className={style.rateHotel}>
+                  {Array.from({ length: hotelClass }).map((_, index) => (
+                    <IconStar key={index} className={style.rateHotel_icon} />
+                  ))}
+                </span>
+              </>
+            )}
+          </div>
+        )}
         <div className={style.info_location}>
           <IconLocation className={style.info_location_icon} />
           {location}

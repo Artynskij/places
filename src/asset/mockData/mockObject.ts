@@ -8,6 +8,7 @@ export const mockObjectsHotels: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 4.5,
     reviews: 20,
+    globalType: "hotel",
     type: "Отель",
     img: "/mock/hotel Novaotel.jpg",
     additional: "Поспи от души",
@@ -16,6 +17,7 @@ export const mockObjectsHotels: IDataCardSlider[] = [
       lat: "43.242447459980205",
       lon: "76.95849398338954",
     },
+    hotelClass: 4,
   },
   {
     id: 2,
@@ -23,6 +25,7 @@ export const mockObjectsHotels: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 4.2,
     reviews: 20,
+    globalType: "hotel",
     type: "Отель",
     img: "/mock/hotel Ricos.jpg",
 
@@ -33,6 +36,7 @@ export const mockObjectsHotels: IDataCardSlider[] = [
       lat: "43.2494907787455",
       lon: "76.93456531038055",
     },
+    hotelClass: 5,
   },
   {
     id: 3,
@@ -40,6 +44,7 @@ export const mockObjectsHotels: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 20,
+    globalType: "hotel",
     type: "Отель",
     img: "/mock/hotel Ramada.jpg",
     additional: "Поспи от души",
@@ -49,6 +54,7 @@ export const mockObjectsHotels: IDataCardSlider[] = [
       lat: "43.25537143509308",
       lon: "76.92550549688542",
     },
+    hotelClass: 1,
   },
   {
     id: 4,
@@ -56,6 +62,7 @@ export const mockObjectsHotels: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 20,
+    globalType: "hotel",
     type: "Отель",
     img: "/mock/hotel Park.jpg",
 
@@ -65,6 +72,7 @@ export const mockObjectsHotels: IDataCardSlider[] = [
       lat: "43.24385065553898",
       lon: "76.94906019688499",
     },
+    hotelClass: 3,
   },
   {
     id: 5,
@@ -72,6 +80,7 @@ export const mockObjectsHotels: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 20,
+    globalType: "hotel",
     type: "Отель",
     img: "/mock/hotel swiss.jpg",
 
@@ -82,6 +91,7 @@ export const mockObjectsHotels: IDataCardSlider[] = [
       lat: "43.19683139210787",
       lon: "76.81284431037844",
     },
+    hotelClass: 4,
   },
   {
     id: 6,
@@ -89,6 +99,7 @@ export const mockObjectsHotels: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 20,
+    globalType: "hotel",
     type: "Hotel",
     img: "/mock/hotel Kazahstan.jpg",
 
@@ -99,6 +110,7 @@ export const mockObjectsHotels: IDataCardSlider[] = [
       lat: "43.24508797538462",
       lon: "76.95766119688501",
     },
+    hotelClass: 5,
   },
 ];
 export const mockObjectsCafe: IDataCardSlider[] = [
@@ -108,6 +120,7 @@ export const mockObjectsCafe: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 2,
     reviews: 5,
+    globalType: "cafe",
     type: "Паб",
     additional: "Итальянская, Мексиканская, Американская",
     img: "/mock/rest Chechil pab.jpg",
@@ -117,6 +130,7 @@ export const mockObjectsCafe: IDataCardSlider[] = [
       lat: "43.234985",
       lon: "76.889862",
     },
+    costClass: 1,
   },
   {
     id: 2,
@@ -124,8 +138,9 @@ export const mockObjectsCafe: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 3.2,
     reviews: 20,
+    globalType: "cafe",
     type: "Кофейня",
-    additional: "$$ - $$$ • Средиземноморская, Барбекю, Белорусская",
+    additional: " Средиземноморская, Барбекю, Белорусская",
     img: "/mock/rest Befeater almaty.jpg",
     description:
       "Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. ",
@@ -133,6 +148,7 @@ export const mockObjectsCafe: IDataCardSlider[] = [
       lat: "43.251591",
       lon: "76.955521",
     },
+    costClass: 3,
   },
   {
     id: 3,
@@ -140,8 +156,9 @@ export const mockObjectsCafe: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 50,
+    globalType: "cafe",
     type: "Кофейня",
-    additional: "$$ - $$$ • Средиземноморская, Барбекю, Казахская",
+    additional: " Средиземноморская, Барбекю, Казахская",
     img: "/mock/rest Nuala.jpg",
     description:
       "Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. ",
@@ -149,6 +166,7 @@ export const mockObjectsCafe: IDataCardSlider[] = [
       lat: "43.252819",
       lon: "76.943039",
     },
+    costClass: 3,
   },
   {
     id: 4,
@@ -156,8 +174,9 @@ export const mockObjectsCafe: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 50,
+    globalType: "cafe",
     type: "Ресторан",
-    additional: "$$ - $$$ • Средиземноморская,  Американская",
+    additional: " Средиземноморская,  Американская",
     img: "/mock/rest daregjani.jpg",
     description:
       "Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. ",
@@ -165,6 +184,7 @@ export const mockObjectsCafe: IDataCardSlider[] = [
       lat: "43.256413",
       lon: "76.950035",
     },
+    costClass: 3,
   },
   {
     id: 5,
@@ -172,8 +192,9 @@ export const mockObjectsCafe: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 50,
+    globalType: "cafe",
     type: "Ресторан",
-    additional: "$$ - $$$ • Средиземноморская,  Европейская",
+    additional: " Средиземноморская,  Европейская",
     img: "/mock/rest ketchup.jpg",
     description:
       "Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. ",
@@ -181,6 +202,7 @@ export const mockObjectsCafe: IDataCardSlider[] = [
       lat: "43.251389",
       lon: "76.955566",
     },
+    costClass: 2,
   },
   {
     id: 6,
@@ -188,8 +210,9 @@ export const mockObjectsCafe: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 50,
+    globalType: "cafe",
     type: "Ресторан",
-    additional: "$$ - $$$ • Средиземноморская, Барбекю, Азиатская",
+    additional: "Средиземноморская, Барбекю, Азиатская",
     img: "/mock/rest vista.jpg",
     description:
       "Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. Тут круто. ОЧень круто. ",
@@ -197,6 +220,7 @@ export const mockObjectsCafe: IDataCardSlider[] = [
       lat: "43.219147",
       lon: "76.929245",
     },
+    costClass: 2,
   },
 ];
 export const mockObjectsRelax: IDataCardSlider[] = [
@@ -206,6 +230,7 @@ export const mockObjectsRelax: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 50,
+    globalType: "relax",
     type: "Достопримечастельность",
     img: "/mock/active Big lake.jpg",
 
@@ -223,6 +248,7 @@ export const mockObjectsRelax: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 50,
+    globalType: "relax",
     type: "Зоопарки",
     img: "/mock/active Zoo Almaty.jpg",
 
@@ -240,6 +266,7 @@ export const mockObjectsRelax: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 50,
+    globalType: "relax",
     type: "Еда и напитки",
     img: "/mock/active Arba.jpg",
 
@@ -257,6 +284,7 @@ export const mockObjectsRelax: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 50,
+    globalType: "relax",
     type: "Горы",
     img: "/mock/active Kok tobe.jpg",
 
@@ -274,6 +302,7 @@ export const mockObjectsRelax: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 50,
+    globalType: "relax",
     type: "Торговые центры",
     img: "/mock/active Dostyk Plaza.jpg",
 
@@ -292,6 +321,7 @@ export const mockObjectsRelax: IDataCardSlider[] = [
     location: "Алматы, Казахстан",
     rating: 5,
     reviews: 50,
+    globalType: "relax",
     type: "Концерты и представления",
     img: "/mock/active Teatr.jpg",
 
@@ -409,12 +439,12 @@ export const mockObjectForObjectPage = {
     },
   ],
   schedule: [
-    {day:'Пн',shedule:"11:00 – 22:00"},
-    {day:'Вт',shedule:"11:00 – 22:00"},
-    {day:'Ср',shedule:"11:00 – 22:00"},
-    {day:'Чт',shedule:"11:00 – 22:00"},
-    {day:'Пт',shedule:"11:00 – 22:00"},
-    {day:'Сб',shedule:"11:00 – 22:00"},
-    {day:'Вс',shedule:"11:00 – 22:00"},
+    { day: "Пн", shedule: "11:00 – 22:00" },
+    { day: "Вт", shedule: "11:00 – 22:00" },
+    { day: "Ср", shedule: "11:00 – 22:00" },
+    { day: "Чт", shedule: "11:00 – 22:00" },
+    { day: "Пт", shedule: "11:00 – 22:00" },
+    { day: "Сб", shedule: "11:00 – 22:00" },
+    { day: "Вс", shedule: "11:00 – 22:00" },
   ],
 };

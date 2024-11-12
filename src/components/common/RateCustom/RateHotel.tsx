@@ -6,13 +6,7 @@ import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { Flex, Rate } from "antd";
 import { IconStar } from "../Icons";
 
-// const customIcons: Record<number, React.ReactNode> = {
-//   1: <FrownOutlined />,
-//   2: <FrownOutlined />,
-//   3: <MehOutlined />,
-//   4: <SmileOutlined />,
-//   5: <SmileOutlined />,
-// };
+
 interface IRateHotel {
   defaultValue: number;
   disabled?: boolean;
