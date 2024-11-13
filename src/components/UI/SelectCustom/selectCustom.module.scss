@@ -22,7 +22,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      width: 150px;
+      min-width: 150px;
     }
     &_icon {
       font-size: 20px;
@@ -46,7 +46,7 @@
     border-radius: 10px;
     overflow: hidden;
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     top: calc(100% + 5px);
     right: 0;
     left: 0;
@@ -59,11 +59,11 @@
       transition: $transiton;
       &:hover {
         color: $color-main-white;
-        background-color: $color-main-black;
+        background-color: $color-main-blue;
       }
       &_active {
         color: $color-main-white;
-        background-color: $color-main-black;
+        background-color: $color-main-blue;
       }
     }
   }

@@ -106,7 +106,7 @@ export const Gallery: FC<IGallery> = ({ images }) => {
       <Button
         onClick={() => handlerOpenAlbum(0)}
         className={style.button_watchAll}
-        text={`Показать все ${images.length}`}
+        text={`Еще ${images.length} фото`}
       />
     </div>
   );

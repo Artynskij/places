@@ -4,6 +4,7 @@ import { FC, useState } from "react";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { Button } from "@/components/UI/Button/Button";
 import { IconMessage } from "@/components/common/Icons/IconMessage/IconMessage";
+import { Switcher } from "@/components/common/Switcher/Switcher";
 interface IQueryCafe {
   data: { title: string; value: string; key: string }[];
 }
@@ -31,7 +32,16 @@ export const QueryCafe: FC<IQueryCafe> = ({ data }) => {
         active={modalQuery}
         title="Характеристики"
       >
-        <div>Query</div>
+        <div>
+          <Switcher
+            data={data.map((item) => {
+              return { active: false, title: item.title, value: item.value };
+            })}
+            callBack={(item) => {
+              item.active = true
+            }}
+          />
+        </div>
       </ModalCustom>
     </ul>
   );

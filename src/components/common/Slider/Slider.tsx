@@ -14,6 +14,7 @@ import { IconArrowLeft } from "@/components/common/Icons/IconArrowLeft/ArrowLeft
 import { SkeletonSlider } from "./SkeletonSlider";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 
+
 interface ISlider {
   // data?: IDataCardSlider[];
   id: number;

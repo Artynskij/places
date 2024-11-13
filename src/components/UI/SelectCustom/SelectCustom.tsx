@@ -10,6 +10,9 @@ interface ISelectProps {
   onChange: (option: ISelectOption) => void;
   activeOption: string | null | undefined;
   title?: string;
+  classNameValue?:string
+  classNameCtn?:string
+  
 }
 
 export const SelectCustom: FC<ISelectProps> = ({
@@ -17,6 +20,9 @@ export const SelectCustom: FC<ISelectProps> = ({
   activeOption,
   onChange,
   title,
+  classNameValue,
+  classNameCtn
+  
 }) => {
   const [activeSelect, setActiveSelect] = useState<boolean>(false);
   // const [activeValue, setActiveValue] = useState(title || options[0].value);
@@ -45,9 +51,9 @@ export const SelectCustom: FC<ISelectProps> = ({
   return (
     <div
       ref={rootRef}
-      className={style.select + " " + (activeSelect ? style.active : "")}
+      className={`${style.select}  ${(activeSelect ? style.active : "")} ${classNameCtn}`}
     >
-      <div onClick={toggleSelect} className={style.select_value}>
+      <div onClick={toggleSelect} className={`${style.select_value} ${classNameValue}`}>
         <span>
           {options.find((item) => item.value === activeOption)?.name ||
             title ||
@@ -55,7 +61,7 @@ export const SelectCustom: FC<ISelectProps> = ({
         </span>
         <IconArrowDown className={style.select_value_icon} />
       </div>
-      <div className={style.select_options}>
+      <div className={`${style.select_options}`}>
         {options.map((item, index) => {
           let activeItem = false;
           if (item.value === activeOption) {

@@ -17,6 +17,9 @@ import { useSelector } from "react-redux";
 import { setViewType } from "@/store/slices/typeViewListSlice";
 import { CardList } from "@/components/common/Cards/CardList/CardList";
 import { Switcher } from "@/components/common/Switcher/Switcher";
+import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
+import { mockFilterSort } from "@/asset/mockData/mockFilterSort";
+import { useState } from "react";
 
 export default function FilterScreen({
   params,
@@ -25,6 +28,7 @@ export default function FilterScreen({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  const [sortActiveItem, setSortActiveItem] = useState(mockFilterSort[3].value);
   const dispatch = useAppDispatch();
   const viewType = useSelector((state: RootState) => state.viewTypeSlice);
   const handlerSwitcher = (view: { title: string; value: string }) => {
@@ -51,6 +55,18 @@ export default function FilterScreen({
         <div className={style.container_content}>
           <div className={style.param}>
             <ParamComponent />
+          </div>
+          <div className={style.sort}>
+            <span>Сортировать по</span>
+
+            <SelectCustom
+              classNameCtn={style.sort_select}
+              options={mockFilterSort}
+              activeOption={sortActiveItem}
+              onChange={(item) => {
+                setSortActiveItem(item.value);
+              }}
+            />
           </div>
           {viewType.viewType === "list" ? (
             <div className={style.list}>

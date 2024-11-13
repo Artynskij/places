@@ -27,7 +27,7 @@ export const PopupMap = () => {
             className={style.button}
             onClick={() => setMapActive(!mapActive)}
             type="blue"
-            text="map view"
+            text="Показать на карте"
             icon={<IconLocation className={style.button_icon} />}
           />
         </div>

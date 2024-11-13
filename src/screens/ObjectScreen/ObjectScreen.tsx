@@ -72,11 +72,6 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
                 defaultValue={data.info.priceRating.count}
                 classNameIcon={style.title_block_rate_icon}
               />
-              {/* <RateHotel
-                disabled
-                defaultValue={data.info.priceRating.count}
-                classNameIcon={style.title_block_rate_icon}
-              /> */}
             </div>
           </div>
           <div className={style.title_block_register}>

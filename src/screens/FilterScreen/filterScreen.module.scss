@@ -51,6 +51,19 @@
 .param {
   //   padding: 32px 0;
 }
+.sort {
+  display: flex;
+  gap: $gap-medium;
+  align-items: center;
+  background-color: rgb(245, 245, 247);
+  padding: 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  &_select {
+    width: fit-content;
+    padding: 3px 5px;
+  }
+}
 .table {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -68,6 +81,9 @@
     flex-direction: column;
     &_filter {
       display: flex;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       gap: $gap;
       padding: 0;
       background-color: transparent;

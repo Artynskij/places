@@ -15,8 +15,6 @@ interface ISwitcherProfileContentProps {
 
 export const SwitcherProfileContent: FC<ISwitcherProfileContentProps> = ({
   data,
-  // activeTab,
-  // setActiveTab,
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -48,9 +46,6 @@ export const SwitcherProfileContent: FC<ISwitcherProfileContentProps> = ({
             <Link
               key={index}
               href={`${pathname}?tab=${item.value}`}
-              // onClick={() => {
-              //   handleChangeSwitch(item);
-              // }}
               className={
                 style.switcher_item +
                 (activeTab === item.value ? " " + `${style.active}` : "")

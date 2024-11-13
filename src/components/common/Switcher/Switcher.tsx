@@ -23,7 +23,6 @@ export const Switcher: FC<ISwitcher> = ({ data, callBack }) => {
               callBack(data[index]);
             }}
             key={index}
-            // inlineStyle={{ padding: "10px" }}
             type={item.active ? "blue" : "light"}
             text={item.title}
             active={item.active ? true : false}

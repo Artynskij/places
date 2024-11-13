@@ -21,32 +21,28 @@
     top: 35%;
 
     z-index: 2;
-    //   font-size: 30px;
 
-    color: $color-main-black;
     padding: 0;
-    // background-color: rgba(255, 251, 251, 0.363);
     background-color: $color-main-white;
-    // backdrop-filter: blur(1px);
     cursor: pointer;
-    // border: 2px solid $color-main-grey;
     transition: $transiton;
-    &:hover {
-      background-color: $color-main-blue;
-      // border-color: $color-main-gold;
-    }
-    &:active {
-      background-color: $color-main-blue;
-      // border-color: $color-main-blue;
-    }
     &_icon {
+      color: $color-main-black;
       transition: $transiton;
       font-size: 30px;
     }
-    &:hover &_icon {
+    &:hover {
+      background-color: $color-main-blue;
       color: $color-main-white;
     }
-    &:active &_icon {
+    &:active {
+      background-color: $color-main-blue;
+      color: $color-main-white;
+    }
+    &_icon:hover{
+      color: $color-main-white;
+    }
+    &_icon:active{
       color: $color-main-white;
     }
   }
