@@ -205,7 +205,7 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
       </section>
       <section className={style.slider_block}>
         <div className={style.slider_block_title}>
-          <h2>Рекомендуемые объекты питания</h2>
+          <h2>Рекомендуемые объекты где поесть</h2>
           <Link href={"/filter"} className={style.slider_block_title_button}>
             Смотреть больше
           </Link>
@@ -220,7 +220,7 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
       </section>
       <section className={style.slider_block}>
         <div className={style.slider_block_title}>
-          <h2>Рекомендуемые объекты места для жилья</h2>
+          <h2>Рекомендуемые объекты места где остановиться</h2>
           <Link href={"/filter"} className={style.slider_block_title_button}>
             Смотреть больше
           </Link>
@@ -235,7 +235,7 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
       </section>
       <section className={style.slider_block}>
         <div className={style.slider_block_title}>
-          <h2>Рекомендуемые объекты места поблизости</h2>
+          <h2>Рекомендуемые объекты что посмотреть</h2>
           <Link href={"/filter"} className={style.slider_block_title_button}>
             Смотреть больше
           </Link>
