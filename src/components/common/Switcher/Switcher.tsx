@@ -1,5 +1,5 @@
 "use client";
-import { FC, useState } from "react";
+import { FC } from "react";
 
 import style from "./Switcher.module.scss";
 import { Button } from "@/components/UI/Button/Button";

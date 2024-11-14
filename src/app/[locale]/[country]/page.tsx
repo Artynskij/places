@@ -28,7 +28,7 @@ interface IProps extends IPageProps {
 export default function CountryPage({ params, searchParams }: IProps) {
   return (
     <>
-      <CountryScreen params={params} searchParams={searchParams} />
+      <CountryScreen typePage="country" params={params} searchParams={searchParams} />
     </>
   );
 }

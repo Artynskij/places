@@ -75,8 +75,8 @@ export const CardList: FC<IDataCardSlider> = ({
         <div className={style.info_rating}>
           <RateMain defaultValue={rating} disabled={true} />
 
-          <span>{rating}</span>
-          <span>-</span>
+          {/* <span>{rating}</span>
+          <span>-</span> */}
           <span>{reviews}</span>
           <span>отзывов</span>
         </div>

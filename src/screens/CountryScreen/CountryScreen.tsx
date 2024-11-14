@@ -30,15 +30,27 @@ import { InfoSection } from "./_components/InfoSection/InfoSection";
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {
     country: string;
+    district?: string;
+    town?: string;
   };
+  typePage: "country" | "district" | "town";
 }
 
-export default function CountryScreen({ params, searchParams }: IProps) {
+export default function CountryScreen({
+  params,
+  searchParams,
+  typePage,
+}: IProps) {
   const tTiles = useTranslations("Tiles");
   const seeMoreText = tTiles("text.watchAll");
   const t = useTranslations("CountryPage");
 
-  const countryData = countries[0];
+  const countryData =
+    typePage === "country"
+      ? countries[0]
+      : typePage === "district"
+      ? (mockDistrict.find((item) => item.value === params.district) as any)
+      : (mockTowns.find((item) => item.value === params.town) as any);
   return (
     <div className="container">
       <section className={style.banner}>
@@ -102,21 +114,41 @@ export default function CountryScreen({ params, searchParams }: IProps) {
           </Slider>
         </div>
       </section>
-      <section className={style.slider_block}>
-        <div className={style.slider_block_title}>
-          <h2>{t("text.sliderDistrict")}</h2>
-          <Link href={"/filter"} className={style.slider_block_title_button}>
+      {typePage === "country" && (
+        <section className={style.slider_block}>
+          <div className={style.slider_block_title}>
+            <h2>{t("text.sliderDistrict")}</h2>
+            <Link href={"/filter"} className={style.slider_block_title_button}>
+              {t("text.buttonWatchAll")}
+            </Link>
+          </div>
+          <div className={style.slider}>
+            <Slider id={4}>
+              {mockDistrict.map((item) => {
+                return <CardSliderLocation key={item.id} {...item} />;
+              })}
+            </Slider>
+          </div>
+        </section>
+      )}
+      {(typePage === "country" || typePage === "district") && (
+        <section className={style.slider_block}>
+          <div className={style.slider_block_title}>
+            <h2>{t("text.sliderTown")}</h2>
+            {/* <Link href={"/filter"} className={style.slider_block_title_button}>
             {t("text.buttonWatchAll")}
-          </Link>
-        </div>
-        <div className={style.slider}>
-          <Slider id={4}>
-            {mockDistrict.map((item) => {
-              return <CardSliderLocation key={item.id} {...item} />;
-            })}
-          </Slider>
-        </div>
-      </section>
+          </Link> */}
+          </div>
+          <div className={style.slider}>
+            <Slider id={5}>
+              {mockTowns.map((item) => {
+                return <CardSliderLocation key={item.id} {...item} />;
+              })}
+            </Slider>
+          </div>
+        </section>
+      )}
+
       <section className={style.slider_block}>
         <div className={style.slider_block_title}>
           <h2>{t("text.sliderNeighbor")}</h2>
