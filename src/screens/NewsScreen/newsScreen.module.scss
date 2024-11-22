@@ -67,10 +67,6 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 15px;
-  // background-color: $color-additional-background;
-  // padding: 15px;
-  // border-radius: $border-radius-10;
-  // // width: fit-content;
   &_title {
     @extend %Text18;
   }

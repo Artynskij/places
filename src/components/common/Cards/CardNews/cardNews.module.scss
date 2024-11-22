@@ -5,6 +5,10 @@
   overflow: hidden;
   max-height: 320px;
   margin-bottom: 10px;
+  transition: $transiton;
+  &:hover{
+    box-shadow: $box-shadow-default;
+  }
   &:last-child {
     margin-bottom: 0;
   }
@@ -73,11 +77,28 @@
     }
   }
 }
-@include mediaTablet {
-  .card_popular{
+@include mediaPhone {
+  .card_popular {
     &:hover {
       box-shadow: none;
       transform: none;
+    }
+  }
+  .card,
+  .card_popular {
+    display: flex;
+    flex-direction: column;
+  }
+  .card {
+    max-height: none;
+    & .image {
+      &_image {
+        border-radius: $border-radius-20;
+        max-height: 100%;
+      }
+    }
+    & .content {
+      padding: 15px 5px;
     }
   }
 }

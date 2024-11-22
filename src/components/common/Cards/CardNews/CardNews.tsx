@@ -1,6 +1,7 @@
 import Image from "next/image";
 import style from "./cardNews.module.scss";
 import { mockNews } from "@/asset/mockData/mockNews";
+import Link from "next/link";
 interface ICardNewsProp {
   item: (typeof mockNews)[0];
   descriptionShow?: boolean;
@@ -14,7 +15,8 @@ export const CardNews = ({
   descriptionShow = false,
 }: ICardNewsProp) => {
   return (
-    <div
+    <Link
+      href={"/news/someRubrik/someNews"}
       className={`
         ${typeNew === "main" && style.card} 
         ${typeNew === "popular" && style.card_popular}
@@ -35,6 +37,6 @@ export const CardNews = ({
           <div className={style.content_description}>{item.description}</div>
         )}
       </div>
-    </div>
+    </Link>
   );
 };

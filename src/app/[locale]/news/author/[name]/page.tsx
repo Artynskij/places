@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { IPageProps } from "@/types/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 import NewsCategoryScreen from "@/screens/NewsCategoryScreen/NewsCategoryScreen";
+import NewsAuthorScreen from "@/screens/NewsAuthorScreen/NewsAuthorScreen";
 
 export async function generateMetadata({
   params,
@@ -21,5 +22,5 @@ interface IProps extends IPageProps {
 }
 
 export default function AuthorPage({ params, searchParams }: IProps) {
-  return <div>Нейки автор</div>;
+  return <NewsAuthorScreen params={params} searchParams={searchParams} />;
 }
