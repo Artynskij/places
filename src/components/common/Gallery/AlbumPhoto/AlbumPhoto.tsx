@@ -44,7 +44,7 @@ export const AlbumPhoto: FC<IAlbumPhoto> = ({
                       src: url,
                       width: img.width || 300,
                       height: img.height || 150,
-                      alt: "Description",
+                      alt: "img.alt",
                     });
                   };
                   img.onerror = (err) => reject(err);

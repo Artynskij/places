@@ -25,10 +25,7 @@ export const CardSliderMainPage: FC<IDataCardSlider> = ({
   hotelClass,
 }) => {
   return (
-    <Link
-      href={"/kazahstan/almatydistrict/almaty/objectTest"}
-      className={style.card_ctn}
-    >
+    <div className={style.card_ctn}>
       <div className={style.image}>
         <div className={style.image_type}>
           <div className={style.image_type_text}>{type}</div>
@@ -44,14 +41,16 @@ export const CardSliderMainPage: FC<IDataCardSlider> = ({
             classNameIcon={style.image_type_icon_icon}
           />
         </div>
-        <Image
-          loading="lazy"
-          className={style.image_image}
-          width={448}
-          height={320}
-          src={img}
-          alt={img}
-        />
+        <Link href={"/kazahstan/almatydistrict/almaty/objectTest"}>
+          <Image
+            loading="lazy"
+            className={style.image_image}
+            width={448}
+            height={320}
+            src={img}
+            alt={img}
+          />
+        </Link>
       </div>
       <div className={style.description}>
         <div className={style.description_rating}>
@@ -63,7 +62,9 @@ export const CardSliderMainPage: FC<IDataCardSlider> = ({
           <span>отзывов</span>
         </div>
         <div className={style.description_title}>
-          <span>{title}</span>
+          <Link href={"/kazahstan/almatydistrict/almaty/objectTest"}>
+            <span>{title}</span>
+          </Link>
         </div>
 
         {(additional || costClass || hotelClass) && (
@@ -98,6 +99,6 @@ export const CardSliderMainPage: FC<IDataCardSlider> = ({
           {location}
         </div>
       </div>
-    </Link>
+    </div>
   );
 };

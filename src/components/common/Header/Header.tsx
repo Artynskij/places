@@ -64,12 +64,21 @@ export const Header = () => {
         className={`container ${style.test}`}
         style={{  }}
       >
-        Тестовые страницы{" "}
+        <span>Тестовые страницы</span>
         <Link className={style.test_link} href={"/user"}>
           <li>Лк туриста</li>
         </Link>
         <Link className={style.test_link} href={"/owner"}>
           <li>Лк Владельца</li>
+        </Link>
+        <Link className={style.test_link} href={"/news/someRubrik"}>
+          <li>Станица рубрик</li>
+        </Link>
+        <Link className={style.test_link} href={"/news/someRubrik/someNews"}>
+          <li>Станица новости</li>
+        </Link>
+        <Link className={style.test_link} href={"/news/author/name"}>
+          <li>Станица автора</li>
         </Link>
       </div>
     </>

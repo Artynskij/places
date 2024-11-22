@@ -18,7 +18,7 @@ import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 interface ISlider {
   // data?: IDataCardSlider[];
   id: number;
-  children: React.ReactNode[] | React.ReactNode[];
+  children: React.ReactNode[] ;
 }
 
 export const Slider: FC<ISlider> = ({ id, children }) => {

@@ -32,15 +32,23 @@
   }
 }
 .share {
+ 
   &.active {
     color: $color-main-gold;
   }
   &_popup_list {
     display: flex;
     gap: $gap-small;
+    & a {
+      display: flex;
+      align-items: center;
+    }
     &_item {
       font-size: 20px;
     }
+  }
+  &_visible{
+    
   }
 }
 

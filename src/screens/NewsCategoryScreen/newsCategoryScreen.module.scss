@@ -1,0 +1,55 @@
+.breadcrumb {
+}
+.title {
+  margin-bottom: 10px;
+}
+.content {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: $gap-big;
+  position: relative;
+  &_item:first-child {
+    grid-column: 1/2;
+  }
+  &_popular {
+    grid-column: 2/3;
+    position: sticky;
+    top: 74px;
+    height: fit-content;
+  }
+  &_item:nth-child(3) {
+    grid-column: 1/2;
+  }
+}
+.title_popular {
+  margin-bottom: 10px;
+}
+.popular_mobile {
+  display: none;
+}
+@include mediaTablet {
+  .content {
+    display: flex;
+    flex-direction: column;
+
+    &_item:first-child,
+    &_item:nth-child(2),
+    &_item:nth-child(3) {
+      grid-column: none;
+      position: static;
+    }
+    &_popular {
+      padding: 10px 0;
+      border-top: 1px solid $color-main-black;
+      border-bottom: 1px solid $color-main-black;
+    }
+  }
+  .popular_mobile {
+    display: block;
+  }
+  .popular_desktop {
+    display: none;
+  }
+}
+@include mediaPhone {
+}

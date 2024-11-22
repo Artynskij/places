@@ -31,15 +31,15 @@ export const ShareButton: FC<IShareButton> = ({
   classNameButton,
   classNameButtonActive,
   linkPage,
-  importTitle,
   textButton,
+  importTitle,
   importDescription,
 }) => {
   const [popupActive, setPopupActive] = useState(false);
   const blockShareRef = useRef<HTMLDivElement | null>(null); // Ссылка на модал
 
   const toggle = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
+    // e.preventDefault();
     setPopupActive(!popupActive);
   };
 

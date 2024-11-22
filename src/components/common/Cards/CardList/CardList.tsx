@@ -42,10 +42,7 @@ export const CardList: FC<IDataCardSlider> = ({
   hotelClass,
 }) => {
   return (
-    <Link
-      href={"/kazahstan/almatydistrict/almaty/objectTest"}
-      className={style.card}
-    >
+    <div className={style.card}>
       <div className={style.image_ctn}>
         <div className={style.image_type}>
           <div className={style.image_type_text}>{type}</div>
@@ -71,7 +68,11 @@ export const CardList: FC<IDataCardSlider> = ({
         />
       </div>
       <div className={style.info_ctn}>
-        <div className={style.info_title}>{title}</div>
+        <div className={style.info_title}>
+          <Link href={"/kazahstan/almatydistrict/almaty/objectTest"}>
+            {title}
+          </Link>
+        </div>
         <div className={style.info_rating}>
           <RateMain defaultValue={rating} disabled={true} />
 
@@ -113,6 +114,6 @@ export const CardList: FC<IDataCardSlider> = ({
 
         <div className={style.info_description}>{description}</div>
       </div>
-    </Link>
+    </div>
   );
 };

@@ -1,0 +1,123 @@
+.breadcrumb {
+}
+.content {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: $gap-big;
+  position: relative;
+  &_item:first-child {
+    grid-column: 1/2;
+  }
+  &_popular {
+    grid-column: 2/3;
+    position: sticky;
+    top: 74px;
+    height: fit-content;
+    background-color: $color-additional-background;
+    padding: 10px;
+    border-radius: $border-radius-10;
+  }
+  &_item:nth-child(3) {
+    grid-column: 1/2;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+.title {
+  margin-bottom: 10px;
+}
+.underTitle {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: $gap-medium;
+  &_author {
+  }
+  &_publicDate {
+    font-weight: 500;
+  }
+}
+.description {
+  margin-bottom: 30px;
+  @extend %Text18;
+}
+.block_mainImage {
+  & span {
+    @extend %Text12;
+    color: $color-main-grey;
+  }
+}
+.mainImage {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: $border-radius-20;
+}
+.markdownContent {
+  margin: 50px 0;
+}
+.share {
+  margin-bottom: 15px;
+}
+.tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+  // background-color: $color-additional-background;
+  // padding: 15px;
+  // border-radius: $border-radius-10;
+  // // width: fit-content;
+  &_title {
+    @extend %Text18;
+  }
+  &_list {
+    display: flex;
+    gap: 5px;
+    &_item {
+      padding: 3px;
+      border: 1.5px solid $color-main-black;
+      border-radius: $border-radius-5;
+      cursor: pointer;
+      transition: $transiton;
+      &:hover {
+        border-color: $color-main-gold;
+        border-radius: $border-radius-10;
+      }
+    }
+  }
+}
+.reaction {
+}
+.popular_title {
+  margin-bottom: 10px;
+}
+.popular_mobile {
+  display: none;
+}
+
+@include mediaTablet {
+  .content {
+    display: flex;
+    flex-direction: column;
+
+    &_item:first-child,
+    &_item:nth-child(2),
+    &_item:nth-child(3) {
+      grid-column: none;
+      position: static;
+    }
+    &_popular {
+      padding: 10px 0;
+    }
+  }
+  .popular_mobile {
+    display: block;
+  }
+  .popular_desktop {
+    display: none;
+  }
+}

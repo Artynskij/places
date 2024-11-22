@@ -10,11 +10,12 @@ import ClientOnly from "@/components/ATest/ClientOnly";
 import { ToastProvider } from "@/components/ATest/ToasterProvider";
 import { IPageProps } from "@/types/IType";
 import { locales } from "@/config";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { Header } from "@/components/common/Header/Header";
 import { ReduxProvider } from "@/store/provider";
+import Loading from "./loading";
 
 const inter = Inter({ subsets: ["latin"] });
 type Props = {
@@ -42,6 +43,7 @@ export default async function RootLayout({
 }: IRootLayoutProps) {
   unstable_setRequestLocale(locale);
   const messages = await getMessages();
+
   return (
     <html lang={locale}>
       <link rel="icon" href="/icons/favicon small.svg" sizes="any" />
@@ -55,7 +57,9 @@ export default async function RootLayout({
               {/* <ClientOnly>
                     <ToastProvider />
                   </ClientOnly> */}
-              <main>{children}</main>
+              <Suspense fallback={<Loading />}>
+                <main>{children}</main>
+              </Suspense>
 
               <Footer />
             </NextIntlClientProvider>
