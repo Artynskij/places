@@ -6,7 +6,7 @@
   max-height: 320px;
   margin-bottom: 10px;
   transition: $transiton;
-  &:hover{
+  &:hover {
     box-shadow: $box-shadow-default;
   }
   &:last-child {
@@ -25,17 +25,32 @@
     }
   }
   & .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: $gap-medium;
     background-color: $color-additional-background;
     padding: 20px;
+    
 
     &_title {
-      margin-bottom: 20px;
+      // margin-bottom: 20px;
+      // line-height: 24px;
+      @extend %Text18;
+      font-weight: 700;
     }
     &_description {
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      @extend %Text14;
+    }
+    &_additional {
+      display: flex;
+      justify-content: space-between;
+      @extend %Text12;
+      color: $color-main-grey;
     }
   }
 }
@@ -44,7 +59,8 @@
   grid-template-columns: 1fr 2fr;
   border-radius: $border-radius-5;
   overflow: hidden;
-  max-height: 320px;
+  // max-height: 320px;
+  height: 85px;
   width: 100%;
   margin-bottom: 10px;
   transition: $transiton;
@@ -67,7 +83,11 @@
   & .content {
     padding: 10px;
     &_title {
-      @extend %Text12;
+      @extend %Text14;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
     &_description {
       display: -webkit-box;
@@ -79,6 +99,7 @@
 }
 @include mediaPhone {
   .card_popular {
+    height: auto;
     &:hover {
       box-shadow: none;
       transform: none;

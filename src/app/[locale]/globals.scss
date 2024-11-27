@@ -209,8 +209,30 @@ header .ant-checkbox-wrapper:hover .ant-checkbox-inner {
   height: auto !important;
   display: flex !important;
 }
-
-@media screen and (max-width: $media-tablet) {
+.hover-underline {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    transform: scale(0);
+    transition: $transiton;
+    background-color: $color-main-gold;
+  }
+  &:hover::before {
+    transform: scale(1);
+  }
+}
+.hover-boxShadow {
+  transition: $transiton;
+  &:hover {
+    box-shadow: $box-shadow-default;
+  }
+}
+@include mediaTablet {
   h1 {
     font-size: 84px;
     font-weight: 700;
@@ -232,7 +254,7 @@ header .ant-checkbox-wrapper:hover .ant-checkbox-inner {
     line-height: 29px;
   }
 }
-@media screen and (max-width: $media-phone) {
+@include mediaPhone {
   h1 {
     font-size: 48px;
     font-weight: 700;

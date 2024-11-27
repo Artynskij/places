@@ -14,6 +14,7 @@ export const CardNews = ({
   item,
   descriptionShow = false,
 }: ICardNewsProp) => {
+  const calcTimeRead = (item.description.split(' ').length / 130 * 60).toFixed(2)
   return (
     <Link
       href={"/news/someRubrik/someNews"}
@@ -35,6 +36,12 @@ export const CardNews = ({
         <h3 className={`${style.content_title}`}>{item.title}</h3>
         {descriptionShow && (
           <div className={style.content_description}>{item.description}</div>
+        )}
+        {typeNew === "main" && (
+          <div className={style.content_additional}>
+            <div>Чтение: {calcTimeRead} секунд </div>
+            <div>{item.author.title}</div>
+          </div>
         )}
       </div>
     </Link>

@@ -11,7 +11,7 @@ import { BlockShare } from "@/components/common/BlockFunctional/BlockShare";
 import { CardNews } from "@/components/common/Cards/CardNews/CardNews";
 import { SliderPopularNews } from "../../components/common/Slider/SliderPopularNews/SliderPopularNews";
 import { Markdown } from "@/components/common/MarkDown/MarkDown";
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from "react-markdown";
 
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {
@@ -25,9 +25,6 @@ export default function NewsScreen({ params, searchParams }: IProps) {
   const popularNews = mockNews;
   return (
     <div className="container">
-      <div className={style.breadcrumb}>
-        <Breadcrumb />
-      </div>
       <section className={style.content}>
         <div className={style.content_item}>
           <PageNews data={newsData} />
@@ -57,18 +54,22 @@ interface IPageNews {
 }
 function PageNews({ data }: IPageNews) {
   return (
-    <div>
+    <div className={style.container_news}>
+      <div className={style.breadcrumb}>
+        <Breadcrumb />
+      </div>
       <h2 className={style.title}>{data.title}</h2>
       <div className={style.underTitle}>
         <div className={style.underTitle_author}>
-          Автор:
-          <Link href={`/news/author/${data.author.title}`}>
+          {`Автор: `}
+          <Link
+            className={`${"hover-underline"}`}
+            href={`/news/author/${data.author.title}`}
+          >
             {data.author.title}
           </Link>
         </div>
-        <div className={style.underTitle_publicDate}>
-          {data.date}
-        </div>
+        <div className={style.underTitle_publicDate}>{data.date}</div>
       </div>
       <div className={style.description}>{data.description}</div>
       <div className={style.block_mainImage}>

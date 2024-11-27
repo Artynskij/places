@@ -15,10 +15,13 @@
     grid-column: 2/3;
     position: sticky;
     top: 74px;
-    height: fit-content;
+    height: calc(100vh - 74px);
     background-color: $color-additional-background;
     padding: 10px;
     border-radius: $border-radius-10;
+    .popular_desktop {
+      // display: grid;
+    }
   }
   &_item:nth-child(3) {
     grid-column: 1/2;
