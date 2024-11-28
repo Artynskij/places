@@ -17,7 +17,7 @@ export const CardNews = ({
   const calcTimeRead = (item.description.split(' ').length / 130 * 60).toFixed(2)
   return (
     <Link
-      href={"/news/someRubrik/someNews"}
+      href={`/news/someRubrik/${item.slug}`}
       className={`
         ${typeNew === "main" && style.card} 
         ${typeNew === "popular" && style.card_popular}
