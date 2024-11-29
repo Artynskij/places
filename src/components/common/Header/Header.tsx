@@ -3,8 +3,7 @@ import style from "./header.module.scss";
 import { Button } from "@/components/UI/Button/Button";
 import Image from "next/image";
 import { SelectLang } from "./SelectLang/SelectLang";
-import { CiGlobe } from "react-icons/ci";
-// import { IconGlobe } from "../Icons/IconGlobe/IconGlobe";
+
 import { Navigation } from "./Navigation/Navigation";
 import { Finder } from "./Finder/Finder";
 import { Burger } from "./Burger/Burger";
@@ -74,7 +73,7 @@ export const Header = () => {
         <Link className={style.test_link} href={"/news/someRubrik"}>
           <li>Станица рубрик</li>
         </Link>
-        <Link className={style.test_link} href={"/news/someRubrik/someNews"}>
+        <Link className={style.test_link} href={"/news/someRubrik/news1"}>
           <li>Станица новости</li>
         </Link>
         <Link className={style.test_link} href={"/news/author/name"}>

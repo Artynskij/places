@@ -1,10 +1,11 @@
+$marginNews: 40px;
 .breadcrumb {
   margin-bottom: 20px;
 }
 .content {
   display: grid;
   grid-template-columns: 3fr 1fr;
-  gap: $gap-big;
+  gap: 0 $gap-big;
   position: relative;
   &_item:first-child {
     grid-column: 1/2;
@@ -19,29 +20,40 @@
     background-color: $color-additional-background;
     padding: 10px;
     border-radius: $border-radius-10;
+    .popular_desktop {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+    .popular_title {
+      margin-bottom: 10px;
+    }
+    .popular_mobile {
+      display: none;
+    }
   }
   &_item:nth-child(3) {
     grid-column: 1/2;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+  }
+  .container_news {
+    background-color: $color-additional-background;
+    border-radius: $border-radius-10;
+    padding: 30px;
+    margin-bottom: 70px;
+  }
+  &_item:nth-child(3) {
+    grid-column: 1/2;
+    display: flex;
+    flex-direction: column;
+    & .container_news:last-child {
+      margin-bottom: 0;
+    }
   }
 }
-.container_news {
-  background-color: $color-additional-background;
-  border-radius: $border-radius-10;
-  padding: 30px;
-  margin-bottom: 40px;
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-.popular_desktop {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
+
 .title {
   margin-bottom: 10px;
 }
@@ -51,6 +63,14 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: $gap-medium;
+  &_left,&_right{
+    display: flex;
+    gap: $gap-small;
+    flex-wrap: wrap;
+  }
+  &_right{
+    align-items: end;
+  }
   &_author {
     & a {
       color: $color-main-blue;
@@ -119,18 +139,18 @@
 }
 .reaction {
 }
-.popular_title {
-  margin-bottom: 10px;
-}
-.popular_mobile {
-  display: none;
-}
 
 @include mediaTablet {
   .content {
     display: flex;
     flex-direction: column;
+    gap: $gap-big;
 
+    &_item:first-child {
+      & .container_news {
+        margin-bottom: 0;
+      }
+    }
     &_item:first-child,
     &_item:nth-child(2),
     &_item:nth-child(3) {
@@ -144,15 +164,16 @@
       border-radius: 0;
       border-top: 1px solid black;
       border-bottom: 1px solid black;
+      .popular_mobile {
+        display: block;
+      }
+      .popular_desktop {
+        display: none;
+      }
     }
-  }
-  .popular_mobile {
-    display: block;
-  }
-  .popular_desktop {
-    display: none;
-  }
-  .container_news {
-    padding: 15px;
+    .container_news {
+      padding: 15px;
+      margin-bottom: 30px;
+    }
   }
 }

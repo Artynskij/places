@@ -2,6 +2,7 @@ import Image from "next/image";
 import style from "./cardNews.module.scss";
 import { mockNews } from "@/asset/mockData/mockNews";
 import Link from "next/link";
+import { BlockReadTime } from "../../BlockFunctional/BlockReadTime";
 interface ICardNewsProp {
   item: (typeof mockNews)[0];
   descriptionShow?: boolean;
@@ -14,7 +15,7 @@ export const CardNews = ({
   item,
   descriptionShow = false,
 }: ICardNewsProp) => {
-  const calcTimeRead = (item.description.split(' ').length / 130 * 60).toFixed(2)
+  // const calcTimeRead = (item.markdown.split(' ').length / 130 * 60).toFixed(2)
   return (
     <Link
       href={`/news/someRubrik/${item.slug}`}
@@ -39,7 +40,8 @@ export const CardNews = ({
         )}
         {typeNew === "main" && (
           <div className={style.content_additional}>
-            <div>Чтение: {calcTimeRead} секунд </div>
+            <BlockReadTime text={item.markdown} />
+
             <div>{item.author.title}</div>
           </div>
         )}

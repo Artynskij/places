@@ -1,20 +1,20 @@
 import Image from "next/image";
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import style from "./markdown.module.scss";
 interface IMarkdown {
   children: string;
 }
 export const Markdown = ({ children }: IMarkdown) => {
   return (
     <ReactMarkdown
+      className={style.markdown}
       components={{
-        h1: ({ node, ...props }) => <h1 style={{ color: "blue", fontSize:'22px' }} {...props} />,
-        a: ({ node, ...props }) => (
-          <a style={{ textDecoration: "underline" }} {...props} />
-        ),
+        h1: ({ node, ...props }) => <h1 {...props} />,
+        a: ({ node, ...props }) => <a {...props} />,
         img: ({ node, ...props }) => {
           if (!props.src) {
-            return <div style={{ color: "red" }}>Изображение отсутствует</div>;
+            return <div>Изображение отсутствует</div>;
           }
           return (
             <Image

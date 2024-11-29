@@ -12,6 +12,8 @@ import { IconArrowDown } from "./IconArrowDown/IconArrowDown";
 import { IconPlus } from "./IconPlus/IconPlus";
 import { IconDelete } from "./IconDelete/IconDelete";
 import { IconGallery } from "./IconGallery/IconGallery";
+import { IconClock } from "./IconClock/IconClock";
+import { IconEye } from "./IconEye/IconEye";
 
 import { IconClassmates } from "./Social/IconClassmates";
 import { IconFacebook } from "./Social/IconFacebook";
@@ -38,6 +40,10 @@ export {
   IconSearch,
   IconStar,
   IconDelete,
+  IconClock,
+  IconEye,
+
+
   IconClassmates,
   IconFacebook,
   IconLinkedin,

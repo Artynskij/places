@@ -16,6 +16,8 @@ import ReactMarkdown from "react-markdown";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useInView } from "react-intersection-observer";
+import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
+import { BlockWatchCount } from "@/components/common/BlockFunctional/BlockWhatchCount";
 
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {
@@ -32,7 +34,6 @@ export default function NewsScreen({ params, searchParams }: IProps) {
     []
   );
   function updateAnotherNews(id: number) {
-    console.log(id);
     const findNews = mockNews.find((item) => item.id === id);
     if (findNews) {
       setAnotherNews((prev) =>
@@ -70,7 +71,7 @@ export default function NewsScreen({ params, searchParams }: IProps) {
               );
             })
           ) : (
-            <div style={{color:'black'}}>Loading...</div>
+            <div style={{ color: "black" }}>Loading...</div>
           )}
         </div>
       </section>
@@ -82,35 +83,13 @@ interface IPageNews {
   updateAnotherNews: (value: number) => void;
 }
 function PageNews({ data, updateAnotherNews }: IPageNews) {
-  // const router = useRouter();
   const pathname = usePathname();
   const observerUrl = useInView({
-    threshold: 0, // Начинаем отслеживать при пересечении границы
-    rootMargin: "-50% 0px -50% 0px", // Учитываем центральную зону видимости
+    threshold: 0,
+    rootMargin: "-50% 0px -50% 0px",
   });
-  // const observerUpdate = useInView({ threshold: 0.7, triggerOnce: true });
 
   useEffect(() => {
-    // const observer = new IntersectionObserver(
-    //   ([entry]) => {
-    //     if (entry.isIntersecting) {
-    //       const pathnameArray = pathname.split("/");
-    //       pathnameArray[pathnameArray.length - 1] = data.slug;
-    //
-    //       console.log(`fetch for next`);
-
-    //       window.history.replaceState(null, "", newUrl);
-
-    //       updateAnotherNews(data.id + 1);
-    //     }
-    //   },
-    //   { threshold: 0.5 } // Срабатывает, когда 50% блока в области видимости
-    // );
-
-    // const element = document.getElementById(data.id.toString());
-    // if (element) observer.observe(element);
-
-    // return () => observer.disconnect();
     if (observerUrl.inView) {
       const pathnameArray = pathname.split("/");
       pathnameArray[pathnameArray.length - 1] = data.slug;
@@ -130,16 +109,22 @@ function PageNews({ data, updateAnotherNews }: IPageNews) {
       </div>
       <h2 className={style.title}>{data.title}</h2>
       <div className={style.underTitle}>
-        <div className={style.underTitle_author}>
-          {`Автор: `}
-          <Link
-            className={`${"hover-underline"}`}
-            href={`/news/author/${data.author.title}`}
-          >
-            {data.author.title}
-          </Link>
+        <div className={style.underTitle_left}>
+          <div className={style.underTitle_author}>
+            {`Автор: `}
+            <Link
+              className={`${"hover-underline"}`}
+              href={`/news/author/${data.author.title}`}
+            >
+              {data.author.title}
+            </Link>
+          </div>
+          <BlockWatchCount count={1000}/>
+          <BlockReadTime text={data.markdown} />
         </div>
-        <div className={style.underTitle_publicDate}>{data.date}</div>
+        <div className={style.underTitle_right}>
+          <div className={style.underTitle_publicDate}>{data.date}</div>
+        </div>
       </div>
       <div className={style.description}>{data.description}</div>
       <div className={style.block_mainImage}>

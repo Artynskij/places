@@ -54,6 +54,22 @@
   .item_count {
   }
 }
+.readTime {
+  display: flex;
+  align-items: center;
+  &_icon {
+    color: $color-main-black;
+    margin-right: 5px;
+  }
+}
+.watchCount {
+  display: flex;
+  align-items: center;
+  &_icon {
+    color: $color-main-black;
+    margin-right: 5px;
+  }
+}
 @include mediaTablet {
   .blockReaction {
     padding: 15px;

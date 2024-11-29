@@ -6,12 +6,15 @@
 .content {
   display: grid;
   grid-template-columns: 3fr 1fr;
-  gap: $gap-big;
+  gap: 0 $gap-big;
   position: relative;
   &_item:first-child {
     grid-column: 1/2;
+    margin-bottom: 10px;
   }
   &_popular {
+    display: flex;
+    flex-direction: column;
     grid-column: 2/3;
     position: sticky;
     top: 74px;
@@ -20,9 +23,16 @@
     padding: 10px;
     border-radius: $border-radius-10;
     .popular_desktop {
-      // display: grid;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+    .popular_mobile {
+      display: none;
     }
   }
+
   &_item:nth-child(3) {
     grid-column: 1/2;
   }
@@ -30,14 +40,18 @@
 .title_popular {
   margin-bottom: 10px;
 }
-.popular_mobile {
-  display: none;
-}
+
 @include mediaTablet {
   .content {
     display: flex;
     flex-direction: column;
-
+    gap: $gap-big;
+    &_item:first-child {
+      margin-bottom: 0;
+      & .container_news {
+        margin-bottom: 0;
+      }
+    }
     &_item:first-child,
     &_item:nth-child(2),
     &_item:nth-child(3) {
@@ -46,13 +60,14 @@
     }
     &_popular {
       padding: 10px 0;
+      height: auto;
+      .popular_mobile {
+        display: block;
+      }
+      .popular_desktop {
+        display: none;
+      }
     }
-  }
-  .popular_mobile {
-    display: block;
-  }
-  .popular_desktop {
-    display: none;
   }
 }
 @include mediaPhone {

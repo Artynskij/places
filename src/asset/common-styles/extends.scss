@@ -12,7 +12,7 @@
 }
 %underline {
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: calc(100% + 2px);
     left: 0;
@@ -29,6 +29,11 @@
   font-size: 18px;
   font-weight: 500;
   line-height: 25.2px;
+}
+%Text16 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
 }
 %Text14 {
   font-size: 14px;

@@ -41,6 +41,7 @@ export default function CountryScreen({
   searchParams,
   typePage,
 }: IProps) {
+  
   const tTiles = useTranslations("Tiles");
   const seeMoreText = tTiles("text.watchAll");
   const t = useTranslations("CountryPage");
