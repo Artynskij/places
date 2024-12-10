@@ -16,7 +16,7 @@ export const Header = () => {
   return (
     <>
       <header className={style.header}>
-        <div className={"container " + style.container}>
+        <div className={`container  + ${style.container}`}>
           <div className={style.logo}>
             <Link href={"/"}>
               <div className={style.logo_small}>
@@ -58,28 +58,29 @@ export const Header = () => {
           </div>
           <Burger />
         </div>
+        <div className={`container  + ${style.header__second}`}>
+          <ul>
+            <Link className={style.header__second_link} href={"/user"}>
+              <li className={"hover-underline"}>Лк туриста</li>
+            </Link>
+            <Link className={style.header__second_link} href={"/owner"}>
+              <li className={"hover-underline"}>Лк Владельца</li>
+            </Link>
+            <Link className={style.header__second_link} href={"/news/someRubrik"}>
+              <li className={"hover-underline"}>Станица рубрик</li>
+            </Link>
+            <Link className={style.header__second_link} href={"/news/someRubrik/news1"}>
+              <li className={"hover-underline"}>Станица новости</li>
+            </Link>
+            <Link className={style.header__second_link} href={"/news/author/name"}>
+              <li className={"hover-underline"}>Станица автора</li>
+            </Link>
+          </ul>
+        </div>
       </header>
-      <div
-        className={`container ${style.test}`}
-        style={{  }}
-      >
+      {/* <div className={`container ${style.test}`} style={{}}>
         <span>Тестовые страницы</span>
-        <Link className={style.test_link} href={"/user"}>
-          <li>Лк туриста</li>
-        </Link>
-        <Link className={style.test_link} href={"/owner"}>
-          <li>Лк Владельца</li>
-        </Link>
-        <Link className={style.test_link} href={"/news/someRubrik"}>
-          <li>Станица рубрик</li>
-        </Link>
-        <Link className={style.test_link} href={"/news/someRubrik/news1"}>
-          <li>Станица новости</li>
-        </Link>
-        <Link className={style.test_link} href={"/news/author/name"}>
-          <li>Станица автора</li>
-        </Link>
-      </div>
+      </div> */}
     </>
   );
 };

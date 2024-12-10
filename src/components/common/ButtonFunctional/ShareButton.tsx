@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState, useRef } from "react";
+import { FC, useEffect, useState, useRef, useCallback } from "react";
 import { IconShare } from "../Icons/IconShare/IconShare";
 import style from "./buttonFunctional.module.scss";
 import Link from "next/link";
@@ -15,6 +15,9 @@ import {
   IconVk,
   IconWhatApp,
 } from "../Icons";
+import { useSize } from "@/asset/hooks/useSize";
+import { Popup } from "../Popup/Popup";
+import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 
 interface IShareButton {
   classNameIcon?: string;
@@ -37,99 +40,144 @@ export const ShareButton: FC<IShareButton> = ({
 }) => {
   const [popupActive, setPopupActive] = useState(false);
   const blockShareRef = useRef<HTMLDivElement | null>(null); // Ссылка на модал
-
+  const useMedia = useSize();
   const toggle = (e: React.MouseEvent<HTMLDivElement>) => {
-    // e.preventDefault();
+    if (!popupActive) {
+      // document.addEventListener("mousedown", handleClickOutside);
+    }
     setPopupActive(!popupActive);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      blockShareRef.current &&
-      !blockShareRef.current.contains(event.target as Node)
-    ) {
-      setPopupActive(false);
-    }
-  };
-
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    if (popupActive) {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          blockShareRef.current &&
+          !blockShareRef.current.contains(event.target as Node)
+        ) {
+          setPopupActive(false);
+        }
+      };
+      document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  // Ссылки для соцсетей
-  const getShareUrl = (network: string) => {
-    const encodedLink = encodeURIComponent(linkPage);
-    const encodedTitle = encodeURIComponent(importTitle || "");
-    switch (network) {
-      case "telegram":
-        return `https://t.me/share/url?url=${encodedLink}&text=${encodedTitle}`;
-      case "whatsapp":
-        return `https://api.whatsapp.com/send?text=${encodedTitle} ${encodedLink}`;
-      case "vk":
-        return `https://vk.com/share.php?url=${encodedLink}`;
-      case "facebook":
-        return `https://www.facebook.com/sharer/sharer.php?u=${encodedLink}`;
-      case "linkedin":
-        return `https://www.linkedin.com/sharing/share-offsite/?url=${encodedLink}`;
-      case "twitter":
-        return `https://twitter.com/share?url=${encodedLink}&text=${encodedTitle}`;
-      case "viber":
-        return `viber://forward?text=${encodedTitle} ${encodedLink}`;
-      case "skype":
-        return `https://web.skype.com/share?url=${encodedLink}`;
-      case "classmates":
-        return `https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.shareUrl=${encodedLink}`;
-      default:
-        return "";
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
     }
-  };
+  }, [popupActive]);
 
+  const getShareUrl = useCallback(
+    (network: keyof typeof urls) => {
+      const encodedLink = encodeURIComponent(linkPage);
+      const encodedTitle = encodeURIComponent(importTitle || "");
+      const urls = {
+        telegram: `https://t.me/share/url?url=${encodedLink}&text=${encodedTitle}`,
+        whatsapp: `https://api.whatsapp.com/send?text=${encodedTitle} ${encodedLink}`,
+        vk: `https://vk.com/share.php?url=${encodedLink}`,
+        facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedLink}`,
+        linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedLink}`,
+        twitter: `https://twitter.com/share?url=${encodedLink}&text=${encodedTitle}`,
+        viber: `viber://forward?text=${encodedTitle} ${encodedLink}`,
+        skype: `https://web.skype.com/share?url=${encodedLink}`,
+        classmates: `https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.shareUrl=${encodedLink}`,
+      };
+      return urls[network] || "";
+    },
+    [linkPage, importTitle]
+  );
+  const closePopup = () => {
+    setPopupActive(false);
+  };
   return (
-    <div
-      onClick={toggle}
-      ref={blockShareRef}
-      className={`${classNameButton} ${style.share} ${
-        popupActive && classNameButtonActive
-      }`}
-    >
-      <IconShare className={classNameIcon} />
-      {textButton && <span>{textButton}</span>}
-      {popupActive && (
-        <div className={style.share_popup}>
-          <div className={style.share_popup_list}>
-            <Link href={getShareUrl("classmates")} target="_blank">
-              <IconClassmates className={style.share_popup_list_item} />
-            </Link>
-            <Link href={getShareUrl("facebook")} target="_blank">
-              <IconFacebook className={style.share_popup_list_item} />
-            </Link>
-            <Link href={getShareUrl("linkedin")} target="_blank">
-              <IconLinkedin className={style.share_popup_list_item} />
-            </Link>
-            <Link href={getShareUrl("skype")} target="_blank">
-              <IconSkype className={style.share_popup_list_item} />
-            </Link>
-            <Link href={getShareUrl("telegram")} target="_blank">
-              <IconTelegram className={style.share_popup_list_item} />
-            </Link>
-            <Link href={getShareUrl("twitter")} target="_blank">
-              <IconTwitter className={style.share_popup_list_item} />
-            </Link>
-            <Link href={getShareUrl("viber")} target="_blank">
-              <IconViber className={style.share_popup_list_item} />
-            </Link>
-            <Link href={getShareUrl("vk")} target="_blank">
-              <IconVk className={style.share_popup_list_item} />
-            </Link>
-            <Link href={getShareUrl("whatsapp")} target="_blank">
-              <IconWhatApp className={style.share_popup_list_item} />
-            </Link>
+    <div ref={blockShareRef} className={`${style.share}`}>
+      <div
+        className={` ${classNameButton}  ${
+          popupActive && classNameButtonActive
+        } ${style.share_title}`}
+        onClick={toggle}
+      >
+        <IconShare className={classNameIcon} />
+        {textButton && <span>{textButton}</span>}
+      </div>
+
+      {useMedia && (
+        <>
+          <Popup
+            active={
+              popupActive && useMedia.width < CONSTANTS_SCREENS.SCREEN_PHONE
+            }
+            closePopup={closePopup}
+            size="small"
+            title="Поделиться объектом"
+          >
+            <div className={style.share_popup_list}>
+              <Link href={getShareUrl("classmates")} target="_blank">
+                <IconClassmates className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("facebook")} target="_blank">
+                <IconFacebook className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("linkedin")} target="_blank">
+                <IconLinkedin className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("skype")} target="_blank">
+                <IconSkype className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("telegram")} target="_blank">
+                <IconTelegram className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("twitter")} target="_blank">
+                <IconTwitter className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("viber")} target="_blank">
+                <IconViber className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("vk")} target="_blank">
+                <IconVk className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("whatsapp")} target="_blank">
+                <IconWhatApp className={style.share_popup_list_item} />
+              </Link>
+            </div>
+          </Popup>
+          <div
+            className={`${style.share_popup} ${
+              popupActive &&
+              !(useMedia.width < CONSTANTS_SCREENS.SCREEN_PHONE) &&
+              style.share_popup_active
+            }`}
+          >
+            <div className={style.share_popup_list}>
+              <Link href={getShareUrl("classmates")} target="_blank">
+                <IconClassmates className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("facebook")} target="_blank">
+                <IconFacebook className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("linkedin")} target="_blank">
+                <IconLinkedin className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("skype")} target="_blank">
+                <IconSkype className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("telegram")} target="_blank">
+                <IconTelegram className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("twitter")} target="_blank">
+                <IconTwitter className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("viber")} target="_blank">
+                <IconViber className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("vk")} target="_blank">
+                <IconVk className={style.share_popup_list_item} />
+              </Link>
+              <Link href={getShareUrl("whatsapp")} target="_blank">
+                <IconWhatApp className={style.share_popup_list_item} />
+              </Link>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

@@ -33,22 +33,24 @@ export const ScheduleButton: FC<IScheduleButton> = ({
     setPopupActive(!popupActive);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      blockScheduleRef.current &&
-      !blockScheduleRef.current.contains(event.target as Node)
-    ) {
-      setPopupActive(false);
-    }
-  };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    if (popupActive) {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          blockScheduleRef.current &&
+          !blockScheduleRef.current.contains(event.target as Node)
+        ) {
+          setPopupActive(false);
+        }
+      };
+      document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [popupActive]);
 
   return (
     <div

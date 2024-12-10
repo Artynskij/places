@@ -1,8 +1,8 @@
 .card_ctn {
   width: 100%;
   display: grid;
-  grid-template-rows: 220px 1fr;
-  gap: 16px;
+  grid-template-rows: auto 1fr;
+  gap: $gap-big;
   background-color: $color-additional-background;
   padding: 13px 10px;
   border-radius: $border-radius-20;
@@ -14,7 +14,7 @@
   &_image {
     height: 100%;
     width: 100%;
-
+    aspect-ratio: 16 / 9;
     min-width: 100%;
     object-fit: cover;
   }
@@ -22,9 +22,9 @@
     z-index: 1;
     display: flex;
     align-items: center;
-    // grid-template-columns: 1fr auto;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 10px;
-    //   background-color: red;
     position: absolute;
     top: 0;
     right: 0;
@@ -42,32 +42,19 @@
         background-color: $color-main-blue_hover;
       }
     }
-    &_icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: $color-main-blue;
-      transition: $transiton;
-      cursor: pointer;
-      &_icon {
-        font-size: 18px;
-        &:active {
-          transform: scale(1.3);
-        }
-      }
-      &:hover {
-        background-color: $color-main-blue_hover;
-      }
-    }
   }
 }
 .description {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 2px;
+  &_top,
+  &_bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
   &_rating {
     display: flex;
     align-items: center;
@@ -91,7 +78,6 @@
     // align-items: center;
     @extend %Text14;
     color: $color-main-grey;
-    margin-top: -10px;
   }
   &_location {
     @extend %Text14;
@@ -107,17 +93,45 @@
     }
   }
 }
-
+.imageButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-main-blue;
+  transition: $transiton;
+  cursor: pointer;
+  &_icon {
+    font-size: 18px;
+  }
+  &:active &_icon {
+    transform: scale(1.3);
+  }
+  &:hover {
+    background-color: $color-main-blue_hover;
+  }
+  &_active {
+    color: $color-main-gold;
+  }
+}
 .rateHotel {
   display: flex;
   align-items: center;
   gap: 2px;
   // font-size: 10px;
-  &_icon{
+  &_icon {
     color: $color-main-gold;
     font-size: 16px;
   }
 }
 .rateCafe {
   font-size: 14px;
+}
+
+@include mediaPhone {
+  .imageButton_share {
+    display: none;
+  }
 }

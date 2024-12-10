@@ -19,6 +19,7 @@
       border: 1px solid $color-additional-background;
       &:hover {
         border-color: $color-main-gold;
+        color: $color-main-gold;
       }
       &_active {
         border-color: $color-main-blue;
@@ -267,12 +268,12 @@
     border-radius: $border-radius-20;
     display: flex;
     flex-direction: column;
-    gap: $gap-big
+    gap: $gap-big;
   }
   &_description {
     @extend %Text14;
   }
-  &_button{
+  &_button {
     width: fit-content;
   }
 }
@@ -282,7 +283,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 32px;
+      flex-wrap: wrap;
+      gap: $gap-small;
+      margin: 32px 0;
     }
   }
   .title {

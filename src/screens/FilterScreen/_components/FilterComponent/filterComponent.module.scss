@@ -1,7 +1,8 @@
 @import "/src/asset/common-styles/";
-.filer_map {
+.filter_map {
 }
 .filter_block {
+  overflow: auto;
   &_button {
     display: none !important;
   }
@@ -11,7 +12,7 @@
     align-items: center;
   }
 }
-@media screen and (max-width: $media-tablet) {
+@include mediaTablet {
   .filter_block {
     position: fixed;
     top: 0;
@@ -25,7 +26,7 @@
     transition: $transiton;
     &_button {
       display: flex !important;
-      width: 100%;
+      width: fit-content;
       &_icon {
         font-size: 20px;
         transition: $transiton;
@@ -40,5 +41,13 @@
   }
   .filter_block.active {
     transform: translate(0, 0);
+  }
+}
+@include mediaPhone {
+  .filter_map {
+    width: 100%;
+  }
+  .filter_block_button {
+    width: 100%;
   }
 }

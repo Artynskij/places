@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 
 import { IPageProps } from "@/types/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
-import NewsCategoryScreen from "@/screens/NewsCategoryScreen/NewsCategoryScreen";
-
-
+import NewsCategoryScreen from "@/screens/News/NewsCategoryScreen/NewsCategoryScreen";
 
 export async function generateMetadata({
   params,
@@ -25,7 +23,7 @@ interface IProps extends IPageProps {
 export default function NewsCategoryPage({ params, searchParams }: IProps) {
   return (
     <>
-      <NewsCategoryScreen params={params} searchParams={searchParams}/>
+      <NewsCategoryScreen params={params} searchParams={searchParams} />
     </>
   );
 }

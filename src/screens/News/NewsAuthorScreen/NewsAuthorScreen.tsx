@@ -3,9 +3,10 @@ import style from "./newsAuthorScreen.module.scss";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { mockNews } from "@/asset/mockData/mockNews";
 import { CardNews } from "@/components/common/Cards/CardNews/CardNews";
-import { SliderPopularNews } from "../../components/common/Slider/SliderPopularNews/SliderPopularNews";
+import { SliderPopularNews } from "../../../components/common/Slider/SliderPopularNews/SliderPopularNews";
 import { mockAuthor } from "@/asset/mockData/mockAuthor";
 import Image from "next/image";
+import { PopularNews } from "../_component/_PopularNews/_PopularNews";
 
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {
@@ -58,17 +59,11 @@ export default function NewsAuthorScreen({ params, searchParams }: IProps) {
               );
             })}
           </div>
-          <div className={`${style.content_item} ${style.content_popular}`}>
-            <h4 className={style.title_popular}>Популярное</h4>
-            <div className={style.popular_desktop}>
-              {popularNews.map((item, index) => {
-                return <CardNews typeNew="popular" key={index} item={item} />;
-              })}
-            </div>
-            <div className={style.popular_mobile}>
-              <SliderPopularNews newsPopular={popularNews} />
-            </div>
-          </div>
+
+          <PopularNews
+            popularNews={popularNews}
+            containerClass={style.content_item}
+          />
           <div className={style.content_item}>
             {newsSecond.map((item, index) => {
               return (

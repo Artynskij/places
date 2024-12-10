@@ -1,5 +1,4 @@
 .like,
-.share,
 .contact,
 .schedule {
   cursor: pointer;
@@ -11,6 +10,38 @@
   transition: $transiton;
   &:hover {
     color: $color-main-gold;
+  }
+}
+.share {
+  position: relative;
+  transition: $transiton;
+  // &:hover {
+  //   color: $color-main-gold;
+  // }
+  &_title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $gap-small;
+    cursor: pointer;
+    transition: $transiton;
+    &.active {
+      color: $color-main-gold;
+    }
+  }
+
+  &_popup_list {
+    display: flex;
+    gap: $gap-small;
+    & a {
+      display: flex;
+      align-items: center;
+    }
+    &_item {
+      font-size: 20px;
+    }
+  }
+  &_visible {
   }
 }
 .share_popup,
@@ -31,24 +62,10 @@
     border-bottom: 1px solid $color-main-black;
   }
 }
-.share {
- 
-  &.active {
-    color: $color-main-gold;
-  }
-  &_popup_list {
-    display: flex;
-    gap: $gap-small;
-    & a {
-      display: flex;
-      align-items: center;
-    }
-    &_item {
-      font-size: 20px;
-    }
-  }
-  &_visible{
-    
+.share_popup {
+  transform: scale(0);
+  &_active {
+    transform: scale(1);
   }
 }
 
@@ -93,10 +110,21 @@
         align-items: center;
         gap: $gap-small;
         transition: $transiton;
-       
       }
       &_item_icon {
         font-size: 16px;
+      }
+    }
+  }
+}
+
+@include mediaPhone {
+  .share_popup {
+    &_list {
+      justify-content: space-between;
+      flex-wrap: wrap;
+      &_item {
+        font-size: 30px;
       }
     }
   }

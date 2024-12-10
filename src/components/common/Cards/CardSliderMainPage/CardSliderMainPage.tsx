@@ -32,13 +32,14 @@ export const CardSliderMainPage: FC<IDataCardSlider> = ({
 
           <ShareButton
             linkPage="https://www.lipsum.com/"
-            classNameButton={style.image_type_icon}
-            classNameIcon={style.image_type_icon_icon}
+            classNameButton={`${style.imageButton} ${style.imageButton_share}`}
+            classNameIcon={style.imageButton_icon}
+            classNameButtonActive={`${style.imageButton_active}`}
           />
           <LikeButton
             liked={liked}
-            classNameButton={style.image_type_icon}
-            classNameIcon={style.image_type_icon_icon}
+            classNameButton={style.imageButton}
+            classNameIcon={style.imageButton_icon}
           />
         </div>
         <Link href={"/kazahstan/almatydistrict/almaty/objectTest"}>
@@ -53,50 +54,51 @@ export const CardSliderMainPage: FC<IDataCardSlider> = ({
         </Link>
       </div>
       <div className={style.description}>
-        <div className={style.description_rating}>
-          <RateMain defaultValue={rating} disabled={true} />
-
-          {/* <span>{rating}</span>
-          <span>-</span> */}
-          <span>{reviews}</span>
-          <span>отзывов</span>
-        </div>
-        <div className={style.description_title}>
-          <Link href={"/kazahstan/almatydistrict/almaty/objectTest"}>
-            <span>{title}</span>
-          </Link>
-        </div>
-
-        {(additional || costClass || hotelClass) && (
-          <div className={style.description_subtitle}>
-            {costClass && (
-              <>
-                <span>Средний чек : </span>
-                <span className={style.rateHotel}>
-                  <RateCafe
-                    disabled
-                    classNameIcon={style.rateCafe}
-                    defaultValue={costClass}
-                  />
-                </span>
-              </>
-            )}
-            {hotelClass && (
-              <>
-                <span>Класс отеля : </span>
-                <span className={style.rateHotel}>
-                  {Array.from({ length: hotelClass }).map((_, index) => (
-                    <IconStar key={index} className={style.rateHotel_icon} />
-                  ))}
-                </span>
-              </>
-            )}
+        <div className={style.description_top}>
+          <div className={style.description_rating}>
+            <RateMain defaultValue={rating} disabled={true} />
+            <span>{reviews}</span>
+            <span>отзывов</span>
           </div>
-        )}
+          <div className={style.description_title}>
+            <Link href={"/kazahstan/almatydistrict/almaty/objectTest"}>
+              <span>{title}</span>
+            </Link>
+          </div>
+        </div>
 
-        <div className={style.description_location}>
-          <IconLocation className={style.description_location_icon} />
-          {location}
+        <div className={style.description_bottom}>
+          {(additional || costClass || hotelClass) && (
+            <div className={style.description_subtitle}>
+              {costClass && (
+                <>
+                  <span>Средний чек : </span>
+                  <span className={style.rateHotel}>
+                    <RateCafe
+                      disabled
+                      classNameIcon={style.rateCafe}
+                      defaultValue={costClass}
+                    />
+                  </span>
+                </>
+              )}
+              {hotelClass && (
+                <>
+                  <span>Класс отеля : </span>
+                  <span className={style.rateHotel}>
+                    {Array.from({ length: hotelClass }).map((_, index) => (
+                      <IconStar key={index} className={style.rateHotel_icon} />
+                    ))}
+                  </span>
+                </>
+              )}
+            </div>
+          )}
+
+          <div className={style.description_location}>
+            <IconLocation className={style.description_location_icon} />
+            {location}
+          </div>
         </div>
       </div>
     </div>

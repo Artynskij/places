@@ -33,6 +33,12 @@ export const CardInfo: FC<ICardInfo> = ({
     router.push(`${pathname}?popup=${data.value}`, { scroll: false });
   }
 
+  function closePopup(_item?: boolean) {
+    setActive(false);
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("popup");
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }
   return (
     <>
       <div onClick={openPopup} className={style.card}>
@@ -61,10 +67,13 @@ export const CardInfo: FC<ICardInfo> = ({
         <div className={style.card_bg}></div>
       </div>
       <Popup
-        data={{ title: titleText, body: data.body }}
+        // data={{ title: titleText, body: data.body }}
+        title={titleText}
         active={active}
-        setActive={setActive}
-      />
+        closePopup={closePopup}
+      >
+        <div dangerouslySetInnerHTML={{ __html: data.body }}></div>
+      </Popup>
     </>
   );
 };

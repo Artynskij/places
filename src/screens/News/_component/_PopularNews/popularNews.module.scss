@@ -1,0 +1,40 @@
+.content_popular {
+  display: flex;
+  flex-direction: column;
+  grid-column: 2/3;
+  position: sticky;
+  top: 108px;
+  height: calc(100vh - 108px);
+  background-color: $color-additional-background;
+  padding: 10px;
+  border-radius: $border-radius-10;
+  .popular_desktop {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  .popular_title {
+    margin-bottom: 10px;
+  }
+  .popular_mobile {
+    display: none;
+  }
+}
+
+@include mediaTablet {
+  .content_popular {
+    padding: 10px 0;
+    height: auto;
+    background: none;
+    border-radius: 0;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    .popular_mobile {
+      display: block;
+    }
+    .popular_desktop {
+      display: none;
+    }
+  }
+}

@@ -50,7 +50,7 @@ export default async function RootLayout({
 
       <body className={inter.className}>
         <ReduxProvider>
-          {/* <AntdRegistry> */}
+          <AntdRegistry>
             <NextIntlClientProvider messages={messages}>
               <Header />
 
@@ -63,7 +63,7 @@ export default async function RootLayout({
 
               <Footer />
             </NextIntlClientProvider>
-          {/* </AntdRegistry> */}
+          </AntdRegistry>
         </ReduxProvider>
       </body>
     </html>

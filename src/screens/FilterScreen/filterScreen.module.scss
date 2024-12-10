@@ -81,6 +81,7 @@
     flex-direction: column;
     &_filter {
       display: flex;
+      flex-wrap: wrap;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;

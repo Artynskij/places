@@ -13,6 +13,7 @@
   z-index: 1000;
   transition: $transiton;
   pointer-events: none;
+  
   &_container {
     z-index: 10;
     width: 100%;
@@ -21,9 +22,14 @@
     border-radius: 20px 20px 0 0;
     transform: translate(0, 100%);
     transition: $transiton;
+    padding-top: 50px;
+  }
+  &_container__small{
+    height: fit-content;
+    padding-top: 10px;
   }
   &_content {
-    padding-top: 50px;
+    
     height: 100%;
     display: flex;
     flex-direction: column;

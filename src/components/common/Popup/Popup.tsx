@@ -9,44 +9,34 @@ import { ButtonClose } from "../../UI/Button/ButtonClose";
 
 interface IPopup {
   active: boolean;
-  setActive: (value: boolean) => void;
-  data: {
-    title: string;
-    body: string;
-  };
+  closePopup: (item?: boolean) => void;
+  title?: string;
+  children: React.ReactNode | React.ReactNode[] | null;
+  size?: "small" | "standart";
 }
-export const Popup: FC<IPopup> = ({ active, setActive, data }) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  function closePopup(_item?: boolean) {
-    setActive(false);
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("popup");
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  }
-  // function createMarkup() {
-  //   return { __html: data.body };
-  // }
-
+export const Popup: FC<IPopup> = ({
+  active,
+  closePopup,
+  title,
+  children,
+  size,
+}) => {
   return (
-    <div className={style.popup + (active ? " " + style.popup_active : "")}>
-      <div className={style.popup_container}>
+    <div className={`${style.popup} ${active ? style.popup_active : ""}`}>
+      <div
+        className={`${style.popup_container} ${
+          size === "small" ? style.popup_container__small : ""
+        }`}
+      >
         <div className={style.popup_content + " container"}>
           <div className={style.popup_content_top}>
-            <h2 className={style.popup_title}>{data.title}</h2>
+            <h2 className={style.popup_title}>{title}</h2>
             <ButtonClose onClick={closePopup} />
           </div>
-          <div
-            dangerouslySetInnerHTML={{ __html: data.body }}
-            className={style.content}
-          ></div>
-
-          {/* {data.body} */}
+          <div className={style.content}>{children}</div>
         </div>
       </div>
-      {/* {active ? <ScrollLock /> : ""} */}
+
       <Overlay active={active} setActive={closePopup} />
     </div>
   );

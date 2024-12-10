@@ -34,22 +34,23 @@ export const ContactButton: FC<IContactButton> = ({
     setPopupActive(!popupActive);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      blockContactRef.current &&
-      !blockContactRef.current.contains(event.target as Node)
-    ) {
-      setPopupActive(false);
-    }
-  };
-
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    if (popupActive) {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          blockContactRef.current &&
+          !blockContactRef.current.contains(event.target as Node)
+        ) {
+          setPopupActive(false);
+        }
+      };
+      document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [popupActive]);
 
   return (
     <div
@@ -78,7 +79,9 @@ export const ContactButton: FC<IContactButton> = ({
                   href={`https://t.me/${contactData.telegram.value}`}
                   target="_blank"
                 >
-                  <IconTelegram className={style.contact_popup_list_item_icon} />
+                  <IconTelegram
+                    className={style.contact_popup_list_item_icon}
+                  />
                   <span>Telegram</span>
                 </Link>
               </li>
@@ -113,7 +116,9 @@ export const ContactButton: FC<IContactButton> = ({
                   href={`https://instagram.com/${contactData.instagram.value}`}
                   target="_blank"
                 >
-                  <IconInstagram className={style.contact_popup_list_item_icon} />
+                  <IconInstagram
+                    className={style.contact_popup_list_item_icon}
+                  />
                   <span>Instagram</span>
                 </Link>
               </li>

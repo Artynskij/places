@@ -80,6 +80,7 @@
   top: 0;
   left: 0;
   margin: 20px;
+  z-index: 1;
 }
 @include mediaTablet {
   .image__additional {
@@ -110,12 +111,12 @@
   }
   .skeleton {
     height: 264px;
-    grid-template-columns:1fr 100px;
-    grid-template-rows:1fr;
+    grid-template-columns: 1fr 100px;
+    grid-template-rows: 1fr;
     &_slide:first-child {
       grid-area: 1 / 1 / 2 / 2;
     }
-    
+
     &_slide:nth-child(3) {
       display: none;
     }

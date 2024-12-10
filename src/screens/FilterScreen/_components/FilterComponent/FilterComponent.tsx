@@ -65,16 +65,17 @@ export const FiltersComponent = () => {
           <h2>Фильтры</h2>
           <ButtonClose onClick={closeFilter} />
         </div>
-
-        <Checkbox.Group
-          value={checkedValues}
-          defaultValue={searchParams.get("filter")?.split("%")}
-          onChange={onChangeFilter}
-        >
-          {mockFilterHotel.map((item, index) => {
-            return <BlockCheckBox key={index} data={item} />;
-          })}
-        </Checkbox.Group>
+        <div className={style.filter_block_content}>
+          <Checkbox.Group
+            value={checkedValues}
+            defaultValue={searchParams.get("filter")?.split("%")}
+            onChange={onChangeFilter}
+          >
+            {mockFilterHotel.map((item, index) => {
+              return <BlockCheckBox key={index} data={item} />;
+            })}
+          </Checkbox.Group>
+        </div>
       </div>
       <Overlay active={filterActiveMobile} setActive={setFilterActiveMobile} />
     </>

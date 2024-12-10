@@ -10,7 +10,7 @@ import Image from "next/image";
 import { BlockReaction } from "@/components/common/BlockFunctional/BlockReaction";
 import { BlockShare } from "@/components/common/BlockFunctional/BlockShare";
 import { CardNews } from "@/components/common/Cards/CardNews/CardNews";
-import { SliderPopularNews } from "../../components/common/Slider/SliderPopularNews/SliderPopularNews";
+// import { SliderPopularNews } from "../../components/common/Slider/SliderPopularNews/SliderPopularNews";
 import { Markdown } from "@/components/common/MarkDown/MarkDown";
 import ReactMarkdown from "react-markdown";
 import { useEffect, useState } from "react";
@@ -18,6 +18,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useInView } from "react-intersection-observer";
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 import { BlockWatchCount } from "@/components/common/BlockFunctional/BlockWhatchCount";
+import { PopularNews } from "../_component/_PopularNews/_PopularNews";
 
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {
@@ -48,17 +49,12 @@ export default function NewsScreen({ params, searchParams }: IProps) {
         <div className={style.content_item}>
           <PageNews updateAnotherNews={updateAnotherNews} data={newsData} />
         </div>
-        <div className={`${style.content_item} ${style.content_popular}`}>
-          <h4 className={style.popular_title}>Популярное</h4>
-          <div className={style.popular_desktop}>
-            {popularNews.map((item, index) => {
-              return <CardNews typeNew="popular" key={index} item={item} />;
-            })}
-          </div>
-          <div className={style.popular_mobile}>
-            <SliderPopularNews newsPopular={popularNews} />
-          </div>
-        </div>
+
+        <PopularNews
+          containerClass={style.content_item}
+          popularNews={popularNews}
+        />
+
         <div className={style.content_item}>
           {anotherNews.length ? (
             anotherNews.map((item, index) => {
@@ -119,7 +115,7 @@ function PageNews({ data, updateAnotherNews }: IPageNews) {
               {data.author.title}
             </Link>
           </div>
-          <BlockWatchCount count={1000}/>
+          <BlockWatchCount count={1000} />
           <BlockReadTime text={data.markdown} />
         </div>
         <div className={style.underTitle_right}>
