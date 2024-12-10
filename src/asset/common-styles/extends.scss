@@ -25,6 +25,11 @@
     min-width: 100%;
   }
 }
+%Title{
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 35.6px;
+}
 %Text18 {
   font-size: 18px;
   font-weight: 500;
@@ -45,20 +50,4 @@
   font-weight: 400;
   line-height: 16.8px;
 }
-// @media screen and (max-width: $media-tablet) {
-//   %Text18 {
-//     font-size: 18px;
-//     font-weight: 500;
-//     line-height: 25.2px;
-//   }
-//   %Text14 {
-//     font-size: 9px;
-//     font-weight: 400;
-//     line-height: 21px;
-//   }
-//   %Text12 {
-//     font-size: 12px;
-//     font-weight: 400;
-//     line-height: 16.8px;
-//   }
-// }
+

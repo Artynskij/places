@@ -3,8 +3,8 @@
   flex-direction: column;
   grid-column: 2/3;
   position: sticky;
-  top: 108px;
-  height: calc(100vh - 108px);
+  top: $header-height;
+  height: calc(100vh - $header-height);
   background-color: $color-additional-background;
   padding: 10px;
   border-radius: $border-radius-10;

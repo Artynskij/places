@@ -4,6 +4,7 @@
   z-index: 3;
   padding: 10px 0;
   background: $color-main-background;
+  min-height: $header-height;
   & .container {
     @extend %display-between;
     gap: $gap;

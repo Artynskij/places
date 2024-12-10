@@ -1,4 +1,6 @@
-@import "/src/asset/common-styles/";
+.breadcrumb{
+  margin-bottom: 30px;
+}
 .container {
   max-width: 1380px;
   display: grid;
@@ -25,20 +27,26 @@
     // border: 1px solid #bea97c;
   }
 }
-.title {
+.titleBLock {
   height: fit-content;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // margin-bottom: 32px;
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 1;
   grid-row-end: 2;
-  &_text {
+  & h1 {
+    @extend %Title;
+  }
+  &_left {
     display: flex;
     flex-direction: column;
     gap: $gap-small;
+  }
+  &_result {
+    color: $color-main-grey;
+    @extend %Text14;
   }
   &_groupButton {
     display: "flex";
@@ -75,7 +83,7 @@
   gap: $gap;
 }
 
-@media screen and (max-width: $media-tablet) {
+@include mediaTablet {
   .container {
     display: flex;
     flex-direction: column;
@@ -94,7 +102,11 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
-@media screen and (max-width: $media-phone) {
+
+@include mediaPhone {
+  .titleBLock_groupButton {
+    display: none;
+  }
   .table {
     grid-template-columns: 1fr;
   }

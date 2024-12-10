@@ -40,12 +40,12 @@ export default function FilterScreen({
         <Breadcrumb />
       </div>
       <div className={style.container}>
-        <div className={style.title}>
-          <div className={style.title_text}>
-            <h3>Где остановиться в Казахстане</h3>
-            <div className={style.title_result}>3200 результатов</div>
+        <div className={style.titleBLock}>
+          <div className={style.titleBLock_left}>
+            <h1>Где остановиться в Казахстане</h1>
+            <div className={style.titleBLock_result}>3200 результатов</div>
           </div>
-          <div className={style.title_groupButton}>
+          <div className={style.titleBLock_groupButton}>
             <Switcher data={viewType.viewData} callBack={handlerSwitcher} />
           </div>
         </div>
