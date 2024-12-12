@@ -18,6 +18,8 @@ import {
 import { useSize } from "@/asset/hooks/useSize";
 import { Popup } from "../Popup/Popup";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface IShareButton {
   classNameIcon?: string;
@@ -40,11 +42,10 @@ export const ShareButton: FC<IShareButton> = ({
 }) => {
   const [popupActive, setPopupActive] = useState(false);
   const blockShareRef = useRef<HTMLDivElement | null>(null); // Ссылка на модал
-  const useMedia = useSize();
+
+  const useMedia = useSelector((state: RootState) => state.screenSize);
+
   const toggle = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!popupActive) {
-      // document.addEventListener("mousedown", handleClickOutside);
-    }
     setPopupActive(!popupActive);
   };
 

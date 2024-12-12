@@ -56,7 +56,7 @@ export const ParamComponent = () => {
   }
   if (!dataParams) return null;
   return (
-    <div className={style.param_ctn}>
+    <div className={style.param}>
       <div className={style.list}>
         {dataParams?.map((item, index) => {
           return (

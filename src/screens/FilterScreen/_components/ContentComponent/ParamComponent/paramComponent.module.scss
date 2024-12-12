@@ -1,6 +1,6 @@
 
 
-.param_ctn{
+.param{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -44,4 +44,16 @@
 }
 .buttonResetAll{
   height: fit-content;
+}
+
+@include mediaTablet {
+  .param{
+    flex-direction: column;
+  }
+  .list{
+    display: none;
+    &_item{
+      padding: 7px 10px;
+    }
+  }
 }

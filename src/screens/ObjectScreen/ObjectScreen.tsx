@@ -41,7 +41,7 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
   const data = mockObjectForObjectPage;
   return (
     <div className="container">
-      <div className={style.underHeader_ctn}>
+      <div className={style.underHeader}>
         <div className={style.underHeader_breadcrumb}>
           <Breadcrumb />
         </div>
@@ -62,22 +62,22 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
           />
         </div>
       </div>
-      <div className={style.title_ctn}>
-        <div className={style.title_block}>
-          <div className={style.title_block_titleCtn}>
-            <h3>{data.title}</h3>
-            <div className={style.title_block_rate}>
+      <div className={style.titleBlock}>
+        <div className={style.titleBlock_left}>
+          <div className={style.titleBlock_title}>
+            <h1>{data.title}</h1>
+            <div className={style.titleBlock_class}>
               <RateCafe
                 disabled
                 defaultValue={data.info.priceRating.count}
-                classNameIcon={style.title_block_rate_icon}
+                classNameIcon={style.titleBlock_class_icon}
               />
             </div>
           </div>
-          <div className={style.title_block_register}>
+          <div className={style.titleBlock_register}>
             {data.register ? (
               <>
-                <IconDone className={style.title_iconCheck} />
+                <IconDone className={style.titleBlock_iconCheck} />
                 Владелец зарегистрирован
               </>
             ) : (
@@ -86,36 +86,36 @@ export const ObjectScreen = ({ params, searchParams }: IProps) => {
           </div>
         </div>
 
-        <div className={style.title_right}>
-          <div className={style.title_type}>{data.category}</div>
-          <div className={style.title_rating}>
+        <div className={style.titleBlock_right}>
+          <div className={style.titleBlock_type}>{data.category}</div>
+          <div className={style.titleBlock_rating}>
             <RateMain defaultValue={data.rating.main} disabled />
           </div>
-          <div className={style.title_location}>
+          <div className={style.titleBlock_location}>
             <IconLocation />
             {data.location.country}, {data.location.town}
           </div>
         </div>
       </div>
-      <div className={style.underTitle_ctn}>
-        <ul className={style.underTitle_list}>
-          <li className={style.underTitle_list_item}>
+      <div className={style.navBar}>
+        <ul className={style.navBar_list}>
+          <li className={style.navBar_list_item}>
             {data.location.address}
           </li>
-          <li className={style.underTitle_list_item}>
+          <li className={style.navBar_list_item}>
             <ContactButton contactData={data.contacts} textButton="Контакты" />
           </li>
-          <li className={style.underTitle_list_item}>
+          <li className={style.navBar_list_item}>
             <Link target="_blank" href={data.contacts.website}>
               Вебсайт
             </Link>
           </li>
-          <li className={style.underTitle_list_item}>
+          <li className={style.navBar_list_item}>
             <Link target="_blank" href={data.contacts.menu}>
               Меню
             </Link>
           </li>
-          <li className={style.underTitle_list_item}>
+          <li className={style.navBar_list_item}>
             <ScheduleButton
               scheduleData={data.schedule}
               textButton="Время работы"

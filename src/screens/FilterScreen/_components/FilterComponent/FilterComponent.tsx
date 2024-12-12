@@ -39,10 +39,13 @@ export const FiltersComponent = () => {
     }
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
-  function openFilter() {
+  function handlerResetAllParam() {
+    router.replace(`${pathname}`, { scroll: false });
+  }
+  function handlerOpenFilter() {
     setFilterActiveMobile(true);
   }
-  function closeFilter() {
+  function handlerCloseFilter() {
     setFilterActiveMobile(false);
   }
   return (
@@ -51,30 +54,48 @@ export const FiltersComponent = () => {
         <PopupMap />
       </div>
       <Button
-        className={style.filter_block_button}
-        onClick={openFilter}
-        text="Открыть фильтры"
-        icon={<IconFilter className={style.filter_block_button_icon} />}
+        className={style.filter_buttonOpen}
+        onClick={handlerOpenFilter}
+        text={`Открыть фильтры  ${
+          checkedValues.length ? "| " + checkedValues.length : ""
+        }`}
+        icon={<IconFilter className={style.filter_buttonOpen_icon} />}
       />
       <div
         className={
-          style.filter_block + " " + (filterActiveMobile && ` ${style.active}`)
+          style.filter + " " + (filterActiveMobile && ` ${style.active}`)
         }
       >
-        <div className={style.filter_block_title}>
-          <h2>Фильтры</h2>
-          <ButtonClose onClick={closeFilter} />
-        </div>
-        <div className={style.filter_block_content}>
-          <Checkbox.Group
-            value={checkedValues}
-            defaultValue={searchParams.get("filter")?.split("%")}
-            onChange={onChangeFilter}
-          >
-            {mockFilterHotel.map((item, index) => {
-              return <BlockCheckBox key={index} data={item} />;
-            })}
-          </Checkbox.Group>
+        <div className={style.filter_relative}>
+          <div className={style.filter_title}>
+            <h2>Фильтры</h2>
+            <ButtonClose onClick={handlerCloseFilter} />
+          </div>
+          <div className={style.filter_content}>
+            <Checkbox.Group
+              value={checkedValues}
+              defaultValue={searchParams.get("filter")?.split("%")}
+              onChange={onChangeFilter}
+            >
+              {mockFilterHotel.map((item, index) => {
+                return <BlockCheckBox key={index} data={item} />;
+              })}
+            </Checkbox.Group>
+          </div>
+          <div className={style.filter_buttonGroup}>
+            <Button
+              onClick={handlerCloseFilter}
+              text="Показать 1200 совпадений"
+            />
+            <Button
+              onClick={handlerResetAllParam}
+              className={`${style.filter_buttonGroup_reset} ${
+                checkedValues.length > 0 &&
+                style.filter_buttonGroup_reset_active
+              }`}
+              text="Сбросить"
+            />
+          </div>
         </div>
       </div>
       <Overlay active={filterActiveMobile} setActive={setFilterActiveMobile} />

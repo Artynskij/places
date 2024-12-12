@@ -33,6 +33,7 @@
     color: $color-main-white;
 
     &_text {
+      @extend %Text12;
       background-color: $color-main-blue;
       padding: 7.5px 10px;
       border-radius: 6px;
@@ -131,6 +132,18 @@
 }
 
 @include mediaPhone {
+  .image {
+    &_type {
+      height: 100%;
+      flex-direction: column-reverse;
+      align-items: end;
+      justify-content: space-between;
+      padding: 5px;
+      &_text {
+        padding: 5px 8px;
+      }
+    }
+  }
   .imageButton_share {
     display: none;
   }

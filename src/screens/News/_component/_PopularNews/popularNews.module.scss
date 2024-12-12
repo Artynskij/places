@@ -24,12 +24,12 @@
 
 @include mediaTablet {
   .content_popular {
-    padding: 10px 0;
+    padding: 10px 5px;
     height: auto;
-    background: none;
-    border-radius: 0;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    // background: none;
+    // border-radius: 0;
+    // border-top: 1px solid black;
+    // border-bottom: 1px solid black;
     .popular_mobile {
       display: block;
     }

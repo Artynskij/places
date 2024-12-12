@@ -57,7 +57,7 @@ export default function FilterScreen({
             <ParamComponent />
           </div>
           <div className={style.sort}>
-            <span>Сортировать по</span>
+            <span>Сортировать</span>
 
             <SelectCustom
               classNameCtn={style.sort_select}

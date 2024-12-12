@@ -54,9 +54,8 @@ export default async function RootLayout({
             <NextIntlClientProvider messages={messages}>
               <Header />
 
-              {/* <ClientOnly>
-                    <ToastProvider />
-                  </ClientOnly> */}
+              <ClientOnly />
+
               <Suspense fallback={<Loading />}>
                 <main>{children}</main>
               </Suspense>

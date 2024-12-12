@@ -14,6 +14,8 @@ Need fix:
 старые  "@types/mdx": "^2.0.13", "@mdx-js/loader": "^3.1.0", "@mdx-js/react": "^3.1.0", "@next/mdx": "^15.0.3",
 Some fix:
 1. Cabinet switcher
+2. UseSize - тригерится в каждом компоненте где вызывается. можно в редакс кинуть
+
 
 
 Before deploy:

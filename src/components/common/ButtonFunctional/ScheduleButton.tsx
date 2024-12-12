@@ -1,12 +1,13 @@
 "use client";
 
 import { FC, useEffect, useState, useRef } from "react";
-import { IconShare } from "../Icons/IconShare/IconShare";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 import style from "./buttonFunctional.module.scss";
 import { mockObjectForObjectPage } from "@/asset/mockData/mockObject";
-import Link from "next/link";
-import { IconPhone } from "../Icons/IconPhone/IconPhone";
-import { IconInstagram, IconTelegram, IconViber, IconWhatApp } from "../Icons";
+
+import { Popup } from "../Popup/Popup";
+import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 
 interface IScheduleButton {
   classNameButton?: string;
@@ -27,12 +28,11 @@ export const ScheduleButton: FC<IScheduleButton> = ({
 }) => {
   const [popupActive, setPopupActive] = useState(false);
   const blockScheduleRef = useRef<HTMLDivElement | null>(null);
-
+  const useMedia = useSelector((state: RootState) => state.screenSize);
   const toggle = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     setPopupActive(!popupActive);
   };
-
 
   useEffect(() => {
     if (popupActive) {
@@ -51,7 +51,9 @@ export const ScheduleButton: FC<IScheduleButton> = ({
       };
     }
   }, [popupActive]);
-
+  const closePopup = () => {
+    setPopupActive(false);
+  };
   return (
     <div
       ref={blockScheduleRef}
@@ -60,28 +62,50 @@ export const ScheduleButton: FC<IScheduleButton> = ({
       }`}
     >
       <span onClick={toggle}>{textButton}</span>
-      {popupActive && (
-        <div className={style.schedule_popup}>
-          <h4>{textButton}</h4>
-          <ul className={style.schedule_popup_list}>
-            {/* {ScheduleData.phoneNumber && (
-              <li className={style.Schedule_popup_list_item}>
-                <Link href={`tel:${ScheduleData.phoneNumber}`}>
-                  <IconPhone className={style.Schedule_popup_list_item_icon} />
-                  <span> {ScheduleData.phoneNumber}</span>
-                </Link>
-              </li>
-            )} */}
-            {scheduleData.map((item, index) => {
-              return (
-                <li className={style.schedule_popup_list_item} key={index}>
-                  <span>{item.day}</span>
-                  <span>{item.shedule}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+      {useMedia && (
+        <>
+          <Popup
+            active={
+              popupActive && useMedia.width < CONSTANTS_SCREENS.SCREEN_PHONE
+            }
+            closePopup={closePopup}
+            size="small"
+            title={textButton}
+          >
+            {/* <div className={style.schedule_popup}> */}
+
+            <ul className={style.schedule_popup_list}>
+              {scheduleData.map((item, index) => {
+                return (
+                  <li className={style.schedule_popup_list_item} key={index}>
+                    <span>{item.day}</span>
+                    <span>{item.shedule}</span>
+                  </li>
+                );
+              })}
+            </ul>
+            {/* </div> */}
+          </Popup>
+          <div
+            className={`${style.schedule_popup} ${
+              popupActive &&
+              !(useMedia.width < CONSTANTS_SCREENS.SCREEN_PHONE) &&
+              style.contact_popup_active
+            }`}
+          >
+            <h4>{textButton}</h4>
+            <ul className={style.schedule_popup_list}>
+              {scheduleData.map((item, index) => {
+                return (
+                  <li className={style.schedule_popup_list_item} key={index}>
+                    <span>{item.day}</span>
+                    <span>{item.shedule}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </>
       )}
     </div>
   );

@@ -1,13 +1,15 @@
 "use client";
 import Image from "next/image";
 import style from "./gallery.module.scss";
-import { useSize } from "@/asset/hooks/useSize";
+// import { useSize } from "@/asset/hooks/useSize";
 import { FC, useEffect, useState } from "react";
 import { SkeletonGallery } from "./SkeletonGallery";
 import { Slider } from "../Slider/Slider";
 import { AlbumPhoto } from "./AlbumPhoto/AlbumPhoto";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { Button } from "@/components/UI/Button/Button";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface IGallery {
   images: string[];
@@ -17,7 +19,7 @@ export const Gallery: FC<IGallery> = ({ images }) => {
   const [albumActive, setAlbumActive] = useState(false);
   const [activePhotoIndex, setActivePhotoIndex] = useState(-1);
 
-  const sizeScreen = useSize();
+  const useMedia = useSelector((state: RootState) => state.screenSize);
   useEffect(() => {
     setLoadClient(true);
   }, []);
@@ -30,13 +32,19 @@ export const Gallery: FC<IGallery> = ({ images }) => {
   }
   return (
     <div className={style.gallery}>
-      {sizeScreen.isTablet ? (
+      {useMedia.isTablet ? (
         <>
           <div
             onClick={() => handlerOpenAlbum(0)}
             className={style.image__main}
           >
-            <Image priority width={300} height={150} alt="img" src={images[0]} />
+            <Image
+              priority
+              width={300}
+              height={150}
+              alt="img"
+              src={images[0]}
+            />
           </div>
           {images.slice(1, 3).map((item, index) => {
             return (
@@ -50,7 +58,7 @@ export const Gallery: FC<IGallery> = ({ images }) => {
             );
           })}
         </>
-      ) : sizeScreen.isMobile ? (
+      ) : useMedia.isMobile || useMedia.isSmallMobile  ? (
         <>
           <Slider id={1}>
             {images.map((item, index) => {
@@ -72,7 +80,13 @@ export const Gallery: FC<IGallery> = ({ images }) => {
             onClick={() => handlerOpenAlbum(0)}
             className={style.image__main}
           >
-            <Image priority width={300} height={150} alt="img" src={images[0]} />
+            <Image
+              priority
+              width={300}
+              height={150}
+              alt="img"
+              src={images[0]}
+            />
           </div>
           {images.slice(1, 5).map((item, index) => {
             return (

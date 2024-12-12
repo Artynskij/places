@@ -57,7 +57,7 @@ export default function CountryScreen({
       <section className={style.banner}>
         <div className={style.banner_video_block}>
           <Video
-            videoSrc={countryData.videoSrc}
+            videoSrc={countryData.videoSrc || ''}
             posterSrc={countryData.posterSrc}
           />
         </div>

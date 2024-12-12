@@ -1,29 +1,19 @@
 "use client";
-import { useEffect, useState } from 'react'
+import { useScreenSizeListener } from "@/asset/hooks/useScreenSizeListener";
+import { useEffect, useState } from "react";
 
 interface ClientOnlyProps {
-    children: React.ReactNode
+  children?: React.ReactNode;
 }
 
-const ClientOnly: React.FC<ClientOnlyProps> = ({
-    children
-}) => {
+const ClientOnly: React.FC<ClientOnlyProps> = ({ children }) => {
+  const [hasMounted, setHasMounted] = useState<boolean>(false);
 
-    const [hasMounted, setHasMounted] = useState<boolean>(false);
-
-    useEffect(() => {
-        setHasMounted(true);
-    }, [])
-
-    // if (!hasMounted) {
-    //     return null;
-    // }
-
-    return (
-        <div>
-            {children}
-        </div>
-    )
-}
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+  useScreenSizeListener();
+  return <div>{children}</div>;
+};
 
 export default ClientOnly;

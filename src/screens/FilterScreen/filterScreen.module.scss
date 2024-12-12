@@ -1,4 +1,4 @@
-.breadcrumb{
+.breadcrumb {
   margin-bottom: 30px;
 }
 .container {
@@ -70,6 +70,7 @@
   &_select {
     width: fit-content;
     padding: 3px 5px;
+    @extend %Text14;
   }
 }
 .table {

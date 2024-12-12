@@ -1,12 +1,17 @@
 "use client";
 
 import { FC, useEffect, useState, useRef } from "react";
-import { IconShare } from "../Icons/IconShare/IconShare";
+
 import style from "./buttonFunctional.module.scss";
 import { mockObjectForObjectPage } from "@/asset/mockData/mockObject";
 import Link from "next/link";
 import { IconPhone } from "../Icons/IconPhone/IconPhone";
 import { IconInstagram, IconTelegram, IconViber, IconWhatApp } from "../Icons";
+
+import { Popup } from "../Popup/Popup";
+import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface IContactButton {
   classNameButton?: string;
@@ -28,7 +33,7 @@ export const ContactButton: FC<IContactButton> = ({
 }) => {
   const [popupActive, setPopupActive] = useState(false);
   const blockContactRef = useRef<HTMLDivElement | null>(null);
-
+  const useMedia = useSelector((state: RootState) => state.screenSize);
   const toggle = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     setPopupActive(!popupActive);
@@ -51,7 +56,9 @@ export const ContactButton: FC<IContactButton> = ({
       };
     }
   }, [popupActive]);
-
+  const closePopup = () => {
+    setPopupActive(false);
+  };
   return (
     <div
       ref={blockContactRef}
@@ -60,71 +67,151 @@ export const ContactButton: FC<IContactButton> = ({
       }`}
     >
       {textButton && <span onClick={toggle}>{textButton}</span>}
-      {popupActive && (
-        <div className={style.contact_popup}>
-          <h4>Контакты</h4>
-          <ul className={style.contact_popup_list}>
-            {contactData.phoneNumber && (
-              <li className={style.contact_popup_list_item}>
-                <Link href={`tel:${contactData.phoneNumber}`}>
-                  <IconPhone className={style.contact_popup_list_item_icon} />
-                  <span> {contactData.phoneNumber}</span>
-                </Link>
-              </li>
-            )}
+      {useMedia && (
+        <>
+          <Popup
+            active={
+              popupActive && useMedia.width < CONSTANTS_SCREENS.SCREEN_PHONE
+            }
+            closePopup={closePopup}
+            size="small"
+            title={textButton}
+          >
+            <ul className={style.contact_popup_list}>
+              {contactData.phoneNumber && (
+                <li className={style.contact_popup_list_item}>
+                  <Link href={`tel:${contactData.phoneNumber}`}>
+                    <IconPhone className={style.contact_popup_list_item_icon} />
+                    <span> {contactData.phoneNumber}</span>
+                  </Link>
+                </li>
+              )}
+              {contactData.telegram.value && (
+                <li className={style.contact_popup_list_item}>
+                  <Link
+                    href={`https://t.me/${contactData.telegram.value}`}
+                    target="_blank"
+                  >
+                    <IconTelegram
+                      className={style.contact_popup_list_item_icon}
+                    />
+                    <span>Telegram</span>
+                  </Link>
+                </li>
+              )}
+              {contactData.viber.value && (
+                <li className={style.contact_popup_list_item}>
+                  <Link
+                    href={`viber://contact?number=${contactData.viber.value}`}
+                    target="_blank"
+                  >
+                    <IconViber className={style.contact_popup_list_item_icon} />
+                    <span>Viber</span>
+                  </Link>
+                </li>
+              )}
+              {contactData.whatsapp.value && (
+                <li className={style.contact_popup_list_item}>
+                  <Link
+                    href={`https://wa.me/${contactData.whatsapp.value}`}
+                    target="_blank"
+                  >
+                    <IconWhatApp
+                      className={style.contact_popup_list_item_icon}
+                    />
+                    <span>Whatsapp</span>
+                  </Link>
+                </li>
+              )}
+              {contactData.instagram.value && (
+                <li className={style.contact_popup_list_item}>
+                  <Link
+                    href={`https://instagram.com/${contactData.instagram.value}`}
+                    target="_blank"
+                  >
+                    <IconInstagram
+                      className={style.contact_popup_list_item_icon}
+                    />
+                    <span>Instagram</span>
+                  </Link>
+                </li>
+              )}
+            </ul>
+            {/* </div> */}
+          </Popup>
+          <div
+            className={`${style.contact_popup} ${
+              popupActive &&
+              !(useMedia.width < CONSTANTS_SCREENS.SCREEN_PHONE) &&
+              style.contact_popup_active
+            }`}
+          >
+            <h4>Контакты</h4>
+            <ul className={style.contact_popup_list}>
+              {contactData.phoneNumber && (
+                <li className={style.contact_popup_list_item}>
+                  <Link href={`tel:${contactData.phoneNumber}`}>
+                    <IconPhone className={style.contact_popup_list_item_icon} />
+                    <span> {contactData.phoneNumber}</span>
+                  </Link>
+                </li>
+              )}
 
-            {contactData.telegram.value && (
-              <li className={style.contact_popup_list_item}>
-                <Link
-                  href={`https://t.me/${contactData.telegram.value}`}
-                  target="_blank"
-                >
-                  <IconTelegram
-                    className={style.contact_popup_list_item_icon}
-                  />
-                  <span>Telegram</span>
-                </Link>
-              </li>
-            )}
+              {contactData.telegram.value && (
+                <li className={style.contact_popup_list_item}>
+                  <Link
+                    href={`https://t.me/${contactData.telegram.value}`}
+                    target="_blank"
+                  >
+                    <IconTelegram
+                      className={style.contact_popup_list_item_icon}
+                    />
+                    <span>Telegram</span>
+                  </Link>
+                </li>
+              )}
 
-            {contactData.viber.value && (
-              <li className={style.contact_popup_list_item}>
-                <Link
-                  href={`viber://contact?number=${contactData.viber.value}`}
-                  target="_blank"
-                >
-                  <IconViber className={style.contact_popup_list_item_icon} />
-                  <span>Viber</span>
-                </Link>
-              </li>
-            )}
+              {contactData.viber.value && (
+                <li className={style.contact_popup_list_item}>
+                  <Link
+                    href={`viber://contact?number=${contactData.viber.value}`}
+                    target="_blank"
+                  >
+                    <IconViber className={style.contact_popup_list_item_icon} />
+                    <span>Viber</span>
+                  </Link>
+                </li>
+              )}
 
-            {contactData.whatsapp.value && (
-              <li className={style.contact_popup_list_item}>
-                <Link
-                  href={`https://wa.me/${contactData.whatsapp.value}`}
-                  target="_blank"
-                >
-                  <IconWhatApp className={style.contact_popup_list_item_icon} />
-                  <span>Whatsapp</span>
-                </Link>
-              </li>
-            )}
-            {contactData.instagram.value && (
-              <li className={style.contact_popup_list_item}>
-                <Link
-                  href={`https://instagram.com/${contactData.instagram.value}`}
-                  target="_blank"
-                >
-                  <IconInstagram
-                    className={style.contact_popup_list_item_icon}
-                  />
-                  <span>Instagram</span>
-                </Link>
-              </li>
-            )}
-          </ul>
-        </div>
+              {contactData.whatsapp.value && (
+                <li className={style.contact_popup_list_item}>
+                  <Link
+                    href={`https://wa.me/${contactData.whatsapp.value}`}
+                    target="_blank"
+                  >
+                    <IconWhatApp
+                      className={style.contact_popup_list_item_icon}
+                    />
+                    <span>Whatsapp</span>
+                  </Link>
+                </li>
+              )}
+              {contactData.instagram.value && (
+                <li className={style.contact_popup_list_item}>
+                  <Link
+                    href={`https://instagram.com/${contactData.instagram.value}`}
+                    target="_blank"
+                  >
+                    <IconInstagram
+                      className={style.contact_popup_list_item_icon}
+                    />
+                    <span>Instagram</span>
+                  </Link>
+                </li>
+              )}
+            </ul>
+          </div>
+        </>
       )}
     </div>
   );

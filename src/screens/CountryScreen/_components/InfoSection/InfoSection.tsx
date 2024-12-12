@@ -6,7 +6,9 @@ import { Button } from "@/components/UI/Button/Button";
 import { CardInfo } from "@/components/common/Cards";
 import { FC, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useSize } from "@/asset/hooks/useSize";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+
 interface IInfoSection {
   //   tTiles: any;
   searchParams: any;
@@ -15,11 +17,11 @@ export const InfoSection: FC<IInfoSection> = ({ searchParams }) => {
   const tTiles = useTranslations("Tiles");
   const tText = useTranslations("CountryPage.text");
   const watchAllText = tTiles("text.watchAll");
-  const sizeScreen = useSize();
+  const useMedia = useSelector((state: RootState) => state.screenSize);
   const [showMoreTiles, setShowMoreTiles] = useState(true);
 
   useEffect(() => {
-    if (sizeScreen.isDesktop || sizeScreen.isNetBook || sizeScreen.isTablet) {
+    if (useMedia?.isDesktop || useMedia?.isNetBook || useMedia?.isTablet) {
       setShowMoreTiles(true);
     } else {
       setShowMoreTiles(false);
