@@ -1,11 +1,7 @@
 import { Video } from "@/components/UI/Video/Video";
 import style from "./countryScreen.module.scss";
 import Link from "next/link";
-import {
-  countries,
-  mockDistrict,
-  mockTowns,
-} from "@/asset/mockData/mockCountry";
+import { mockDistrict, mockTowns } from "@/asset/mockData/mockCountry";
 
 import {
   mockObjectsCafe,
@@ -26,6 +22,7 @@ import { IPageProps } from "@/types/IType";
 
 import { useTranslations } from "next-intl";
 import { InfoSection } from "./_components/InfoSection/InfoSection";
+import { countriesData } from "@/asset/mockData/countries";
 
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {
@@ -47,7 +44,7 @@ export default function CountryScreen({
 
   const countryData =
     typePage === "country"
-      ? countries[0]
+      ? countriesData.find((item) => item.value === params.country) as any
       : typePage === "district"
       ? (mockDistrict.find((item) => item.value === params.district) as any)
       : (mockTowns.find((item) => item.value === params.town) as any);

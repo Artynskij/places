@@ -14,7 +14,7 @@ export const Navigation = () => {
           <Link href={"/belarus"}>CountryPage</Link>
         </li> */}
 
-        <Link href={"/kazahstan"}>
+        <Link href={"/countries"}>
           <li>{t('text.navigation.mainPageLink')}</li>
         </Link>
         <Link href={"/kazahstan"}>

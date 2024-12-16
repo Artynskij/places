@@ -1,26 +1,4 @@
-export const countries = [
-  {
-    id: 1,
-    title: "Казахстан",
-    value: "kazahstan",
-    videoSrc: "/mock/polandVideoMock.mp4",
-    posterSrc: "/mock/restMock.jpg",
-  },
-  {
-    id: 2,
-    title: "Россия",
-    value: "russia",
-    videoSrc: "/mock/polandVideoMock.mp4",
-    posterSrc: "/mock/restMock.jpg",
-  },
-  {
-    id: 3,
-    title: "Беларусь",
-    value: "belarus",
-    videoSrc: "/mock/polandVideoMock.mp4",
-    posterSrc: "/mock/restMock.jpg",
-  },
-];
+
 
 export const mockDistrict = [
   {

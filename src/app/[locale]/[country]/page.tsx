@@ -1,5 +1,5 @@
 import { Video } from "@/components/UI/Video/Video";
-import style from "./countryPage.module.scss";
+
 import Link from "next/link";
 import type { Metadata } from "next";
 

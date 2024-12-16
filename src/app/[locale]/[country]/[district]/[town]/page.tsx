@@ -1,5 +1,4 @@
 import { Video } from "@/components/UI/Video/Video";
-import style from "./townPage.module.scss";
 import Link from "next/link";
 import {
   countries,
