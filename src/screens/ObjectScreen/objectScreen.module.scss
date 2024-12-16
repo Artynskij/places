@@ -91,6 +91,19 @@
       @extend %Text18;
       position: relative;
       transition: $transiton;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 8px;
+      
+      // padding-bottom: 10px;
+      // &::before {
+      //   content: "";
+      //   height: 1.5px;
+      //   background-color: $color-main-black;
+      //   position: absolute;
+      //   top: calc(100% + 5px);
+      //   width: 100%;
+      // }
       &:hover {
         color: $color-main-gold;
       }

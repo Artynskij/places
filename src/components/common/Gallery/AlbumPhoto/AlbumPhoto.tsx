@@ -5,10 +5,8 @@ import {
   ThumbnailImageComponentImageProps,
 } from "react-grid-gallery";
 import style from "./albumPhoto.module.scss";
-import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import Image from "next/image"; // Импортируем компонент Image
 import { SliderAlbum } from "../SliderAlbum/SliderAlbum";
-import { IconArrowLeft, IconGallery } from "../../Icons";
 import { IImageData } from "@/types/IType";
 
 interface IAlbumPhoto {

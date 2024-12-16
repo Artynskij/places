@@ -25,7 +25,7 @@ export const CardSliderMainPage: FC<IDataCardSlider> = ({
   hotelClass,
 }) => {
   return (
-    <div className={style.card_ctn}>
+    <div className={style.card}>
       <div className={style.image}>
         <div className={style.image_type}>
           <div className={style.image_type_text}>{type}</div>

@@ -58,7 +58,7 @@ export const Gallery: FC<IGallery> = ({ images }) => {
             );
           })}
         </>
-      ) : useMedia.isMobile || useMedia.isSmallMobile  ? (
+      ) : useMedia.isMobile || useMedia.isSmallMobile ? (
         <>
           <Slider id={1}>
             {images.map((item, index) => {

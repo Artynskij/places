@@ -43,29 +43,32 @@ export const CardList: FC<IDataCardSlider> = ({
 }) => {
   return (
     <div className={style.card}>
-      <div className={style.image_ctn}>
+      <div className={style.image}>
         <div className={style.image_type}>
           <div className={style.image_type_text}>{type}</div>
 
           <ShareButton
             linkPage="https://www.lipsum.com/"
-            classNameButton={style.image_type_icon}
-            classNameIcon={style.image_type_icon_icon}
+            classNameButton={`${style.imageButton} ${style.imageButton_share}`}
+            classNameIcon={style.imageButton_icon}
+            classNameButtonActive={`${style.imageButton_active}`}
           />
           <LikeButton
             liked={liked}
-            classNameButton={style.image_type_icon}
-            classNameIcon={style.image_type_icon_icon}
+            classNameButton={style.imageButton}
+            classNameIcon={style.imageButton_icon}
           />
         </div>
-        <Image
-          loading="lazy"
-          className={style.image_image}
-          width={448}
-          height={220}
-          src={img}
-          alt={img}
-        />
+        <Link href={"/kazahstan/almatydistrict/almaty/objectTest"}>
+          <Image
+            loading="lazy"
+            className={style.image_image}
+            width={448}
+            height={320}
+            src={img}
+            alt={img}
+          />
+        </Link>
       </div>
       <div className={style.info_ctn}>
         <div className={style.info_title}>

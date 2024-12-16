@@ -65,7 +65,7 @@
     display: none;
   }
 }
-@include mediaMiniPhone {
+@include mediaPhone {
   .logo {
     &_small {
       display: block;

@@ -41,7 +41,6 @@ export default function CountryScreen({
   searchParams,
   typePage,
 }: IProps) {
-  
   const tTiles = useTranslations("Tiles");
   const seeMoreText = tTiles("text.watchAll");
   const t = useTranslations("CountryPage");
@@ -57,8 +56,8 @@ export default function CountryScreen({
       <section className={style.banner}>
         <div className={style.banner_video_block}>
           <Video
-            videoSrc={countryData.videoSrc || ''}
-            posterSrc={countryData.posterSrc}
+            videoSrc={countryData?.videoSrc}
+            posterSrc={countryData?.posterSrc}
           />
         </div>
         <div className={style.banner_bg}>
