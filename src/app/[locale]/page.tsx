@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 
 export default function Home() {
-  redirect('/kazahstan')
+  redirect('/countries')
   return (
     <main className={styles.main}>
       <div className={styles.description}>
