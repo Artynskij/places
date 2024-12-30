@@ -83,4 +83,14 @@ export const mockTowns = [
     posterSrc: "/mock/shymkent.jpg",
     location: "Казахстан",
   },
+  {
+    id: 4,
+    title: "Минск",
+    value: "minsk",
+    img: "/mock/minsk.jpg",
+    link: "/kazahstan/turkestandistrict/minsk",
+    videoSrc: "/mock/minsk.mp4",
+    posterSrc: "/mock/minsk.jpg",
+    location: "Беларусь",
+  },
 ];

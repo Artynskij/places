@@ -263,3 +263,11 @@ export const switcherTabOwnerData = [
   {id:4, name:'статистика', value:'stat'},
   {id:5, name:'кошелёк', value:'wallet'},
 ]
+export const switcherFinderMainPage = [
+  { title: "Искать всё", value: "all", active: true,placeHolder:'Что вы ищите' },
+  { title: "Где поесть", value: "cafe", active: false,placeHolder:'Название ресторана' },
+  { title: "Где поспать", value: "hotel", active: false,placeHolder:'Название отеля' },
+  { title: "Что посмотреть", value: "activities", active: false,placeHolder:'Название достопримечательности' },
+  { title: "Куда поехать", value: "place", active: false,placeHolder:'Название страны, города, области, штата или провинции' },
+  { title: "Что почитать", value: "news", active: false,placeHolder:'Название статьи или что-то из нее' },
+]

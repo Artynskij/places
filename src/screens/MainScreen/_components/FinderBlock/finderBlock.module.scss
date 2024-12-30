@@ -1,0 +1,113 @@
+.title {
+  @extend %Title;
+  text-align: center;
+  margin-bottom: 40px;
+}
+.switcher {
+  margin-bottom: 40px;
+}
+.form_finder {
+  display: flex;
+  justify-content: center;
+}
+.block {
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  position: relative;
+  min-width: 50vw;
+  padding: 0 18px;
+  height: 65px;
+  border: 1px solid rgb(124, 124, 124);
+  border-radius: 100px;
+  &[active-class="true"] {
+    z-index: 10;
+    background-color: $color-additional-background;
+    border-radius: $border-radius-10 $border-radius-10 0 0;
+  }
+  &_input {
+    display: grid;
+    grid-template-columns: 20px 1fr auto;
+    align-items: center;
+    grid-gap: 8px;
+    transition: all 0.3s;
+    transition: padding 0s;
+    width: 100%;
+  }
+  &_dropdown {
+    display: none;
+  }
+  &[active-class="true"] &_dropdown {
+    background-color: $color-additional-background;
+    z-index: 10;
+    position: absolute;
+    top: 100%;
+    left: -1px;
+    right: -1px;
+    display: block;
+    border: 1px solid rgb(124, 124, 124);
+    border-radius: 0 0 $border-radius-20 $border-radius-20;
+  }
+  &:hover .icon,
+  &:focus-within .icon {
+    color: $color-main-gold;
+  }
+}
+.ctnInput {
+  & input {
+    width: 100%;
+    color: #111216;
+    background-color: transparent;
+    border: none;
+  }
+}
+.dropdown {
+  & &_list {
+    padding: 15px 5px;
+    display: flex;
+    flex-direction: column;
+    gap: $gap-small;
+    &_item {
+      padding: 5px 13px;
+
+      transition: $transiton;
+      border-radius: $border-radius-10;
+      &:hover {
+        background-color: $color-main-gold;
+      }
+      &.active {
+        background-color: $color-main-gold;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+.icon {
+  font-size: 20px;
+  transition: $transiton;
+  cursor: pointer;
+}
+.iconClear {
+  font-size: 20px;
+  transition: $transiton;
+  cursor: pointer;
+  &:hover {
+    color: $color-main-gold;
+  }
+}
+@include mediaTablet {
+  .switcher {
+    display: flex;
+    overflow: auto;
+  }
+  .block {
+    width: 100%;
+    &[active-class="true"] {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}

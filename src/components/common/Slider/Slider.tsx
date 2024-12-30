@@ -60,7 +60,6 @@ export const Slider: FC<ISlider> = ({ id, children }) => {
         ref={swiperRef}
         {...settings}
         onMouseDown={() => false}
-        // navigation
       >
         {sliderLoad ? (
           <>

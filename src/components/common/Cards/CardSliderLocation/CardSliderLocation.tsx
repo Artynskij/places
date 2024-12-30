@@ -6,6 +6,7 @@ import Image from "next/image";
 
 import Link from "next/link";
 import { IconLike, IconLocation } from "@/components/common/Icons";
+import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 
 export const CardSliderLocation: FC<IDataCardSliderLocation> = ({
   img,
@@ -35,10 +36,10 @@ export const CardSliderLocation: FC<IDataCardSliderLocation> = ({
         <Image
           loading="lazy"
           className={style.card_image_image}
-          width={448}
-          height={220}
           src={img}
           alt={img}
+          fill
+          sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 90vw,(max-width: ${CONSTANTS_SCREENS.SCREEN_NETBOOK}px) 40vw, 33vw`}
         />
       </div>
       <div className={style.card_description}>

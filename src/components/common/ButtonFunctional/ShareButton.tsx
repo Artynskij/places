@@ -15,7 +15,7 @@ import {
   IconVk,
   IconWhatApp,
 } from "../Icons";
-import { useSize } from "@/asset/hooks/useSize";
+
 import { Popup } from "../Popup/Popup";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import { useSelector } from "react-redux";
@@ -46,6 +46,7 @@ export const ShareButton: FC<IShareButton> = ({
   const useMedia = useSelector((state: RootState) => state.screenSize);
 
   const toggle = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault()
     setPopupActive(!popupActive);
   };
 

@@ -61,7 +61,7 @@ export default function CountryScreen({
           <div className={style.banner_breadcrumb_block}>
             <Breadcrumb />
           </div>
-          <h1>{countryData.title}</h1>
+          <h1>{countryData?.title}</h1>
         </div>
       </section>
       <InfoSection searchParams={searchParams} />
@@ -154,7 +154,7 @@ export default function CountryScreen({
           </Link> */}
         </div>
         <div className={style.slider}>
-          <Slider id={5}>
+          <Slider id={6}>
             {mockTowns.map((item) => {
               return <CardSliderLocation key={item.id} {...item} />;
             })}

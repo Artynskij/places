@@ -3,6 +3,7 @@ import style from "./cardNews.module.scss";
 import { mockNews } from "@/asset/mockData/mockNews";
 import Link from "next/link";
 import { BlockReadTime } from "../../BlockFunctional/BlockReadTime";
+import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 interface ICardNewsProp {
   item: (typeof mockNews)[0];
   descriptionShow?: boolean;
@@ -25,13 +26,37 @@ export const CardNews = ({
         ${typeView === "inline" && style.card_inline}`}
     >
       <div className={style.image}>
-        <Image
-          className={style.image_image}
-          width={600}
-          height={320}
-          alt="Карточка"
-          src={item.image}
-        />
+        {typeNew === "main" ? (
+          <Image
+            className={style.image_image}
+            // width={600}
+            // height={320}
+            alt="Карточка"
+            src={item.image}
+            fill
+            sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 95vw,(max-width: ${CONSTANTS_SCREENS.SCREEN_TABLET}px) 50vw, 40vw`}
+          />
+        ) : typeNew === "popular" ? (
+          <Image
+            className={style.image_image}
+            // width={600}
+            // height={320}
+            alt="Карточка"
+            src={item.image}
+            fill
+            sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 90vw,(max-width: ${CONSTANTS_SCREENS.SCREEN_TABLET}px) 40vw, 10vw`}
+          />
+        ) : (
+          <Image
+            className={style.image_image}
+            // width={600}
+            // height={320}
+            alt="Карточка"
+            src={item.image}
+            fill
+            sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 90vw,(max-width: ${CONSTANTS_SCREENS.SCREEN_NETBOOK}px) 40vw, 10vw`}
+          />
+        )}
       </div>
       <div className={style.content}>
         <h3 className={`${style.content_title}`}>{item.title}</h3>

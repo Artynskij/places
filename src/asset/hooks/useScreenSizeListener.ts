@@ -8,7 +8,6 @@ export const useScreenSizeListener = () => {
   useEffect(() => {
     const handleResize = () => {
       dispatch(updateScreenSize(window.innerWidth));
-      console.log("resize");
     };
 
     window.addEventListener("resize", handleResize);

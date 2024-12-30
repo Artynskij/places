@@ -10,6 +10,7 @@ import { LikeButton } from "@/components/common/ButtonFunctional/LikeButton";
 import { RateMain } from "../../RateCustom/RateMain";
 import { RateHotel } from "../../RateCustom/RateHotel";
 import { RateCafe } from "../../RateCustom/RateCafe";
+import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 
 export const CardSliderMainPage: FC<IDataCardSlider> = ({
   img,
@@ -42,14 +43,16 @@ export const CardSliderMainPage: FC<IDataCardSlider> = ({
             classNameIcon={style.imageButton_icon}
           />
         </div>
-        <Link href={"/kazahstan/almatydistrict/almaty/objectTest"}>
+        <Link className={style.image_link} href={"/kazahstan/almatydistrict/almaty/objectTest"}>
           <Image
             loading="lazy"
             className={style.image_image}
-            width={448}
-            height={320}
+            // width={448}
+            // height={320}
+            fill
             src={img}
             alt={img}
+            sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 90vw,(max-width: ${CONSTANTS_SCREENS.SCREEN_NETBOOK}px) 40vw, 33vw`}
           />
         </Link>
       </div>

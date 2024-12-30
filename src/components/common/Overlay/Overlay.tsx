@@ -7,16 +7,21 @@ import ScrollLock from "../../UI/ScroollLock/ScrollLock";
 interface IOverlay {
   setActive: (param: boolean) => void;
   active?: boolean;
+  scrollLock?: boolean;
 }
 
-export const Overlay: FC<IOverlay> = ({ setActive, active }) => {
+export const Overlay: FC<IOverlay> = ({
+  setActive,
+  active,
+  scrollLock = true,
+}) => {
   return (
     <div
       onClick={() => setActive(false)}
       active-target={`${active}`}
       className={style.overlay}
     >
-      {active && <ScrollLock />}
+      {scrollLock && active && <ScrollLock />}
     </div>
   );
 };

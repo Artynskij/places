@@ -35,34 +35,34 @@ export const Finder = () => {
   const router = useRouter();
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "ArrowUp") {
-      setActiveIndex((prevIndex) => {
-        if (prevIndex === 0) {
-          return results.length - 1;
+    switch (e.key) {
+      case "ArrowUp":
+        setActiveIndex((prevIndex) =>
+          prevIndex === 0 ? results.length - 1 : prevIndex - 1
+        );
+        break;
+      case "ArrowDown":
+        setActiveIndex((prevIndex) =>
+          prevIndex === results.length - 1 ? 0 : prevIndex + 1
+        );
+        break;
+      case "Enter":
+        e.preventDefault();
+        if (activeIndex >= 0 && activeIndex < results.length) {
+          const url = refUl.current?.children[activeIndex] as HTMLAnchorElement;
+          console.log("Selected:", results[activeIndex]);
+          closeInput();
+          router.push("/kazahstan/almatydistrict/almaty/objectTest");
         }
-        return Math.max(prevIndex - 1, 0);
-      });
-    } else if (e.key === "ArrowDown") {
-      setActiveIndex((prevIndex) => {
-        if (prevIndex === results.length - 1) {
-          return 0;
-        }
-        return Math.min(prevIndex + 1, results.length - 1);
-      });
-    } else if (e.key === "Enter") {
-      e.preventDefault();
-
-      // Handle selection
-
-      console.log("Selected:", results[activeIndex]);
-      const url = refUl.current?.children[activeIndex] as HTMLAnchorElement;
-
-      router.push(url.pathname);
+        break;
+      default:
+        break;
     }
   };
 
   function changeInput() {
     const current = refInput.current as HTMLInputElement;
+    setActiveIndex(-1);
     if (current.value.length > 0 && !inputValueActive) {
       setInputValueActive(true);
     } else if (current.value.length === 0 && inputValueActive) {
@@ -82,6 +82,7 @@ export const Finder = () => {
     setInputValueActive(false);
   }
   function closeInput() {
+    setActiveIndex(-1);
     setSearchActive(false);
   }
   function openInput() {
@@ -109,6 +110,7 @@ export const Finder = () => {
               onKeyDown={handleKeyDown}
               ref={refInput}
               type="text"
+              maxLength={100}
             />
           </div>
           {searchActive && inputValueActive && (
@@ -124,7 +126,7 @@ export const Finder = () => {
                     <Link
                       onClick={closeInput}
                       key={item.id}
-                      href={"/test" + item.img}
+                      href={"/kazahstan/almatydistrict/almaty/objectTest"}
                     >
                       <li className={index === activeIndex ? style.active : ""}>
                         <CardSearch

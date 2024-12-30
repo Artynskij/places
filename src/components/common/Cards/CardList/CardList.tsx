@@ -9,6 +9,7 @@ import { LikeButton } from "../../ButtonFunctional/LikeButton";
 import { RateMain } from "../../RateCustom/RateMain";
 import { RateCafe } from "../../RateCustom/RateCafe";
 import { IDataCardSlider } from "@/types/ICards";
+import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 interface ICardHotelList {
   id: number;
   title: string;
@@ -59,14 +60,16 @@ export const CardList: FC<IDataCardSlider> = ({
             classNameIcon={style.imageButton_icon}
           />
         </div>
-        <Link href={"/kazahstan/almatydistrict/almaty/objectTest"}>
+        <Link className={style.image_link} href={"/kazahstan/almatydistrict/almaty/objectTest"}>
           <Image
             loading="lazy"
             className={style.image_image}
-            width={448}
-            height={320}
+            // width={448}
+            // height={320}
             src={img}
             alt={img}
+            fill
+            sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 100vw, 35vw`}
           />
         </Link>
       </div>

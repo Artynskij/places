@@ -17,7 +17,7 @@ export const CardSearch: FC<ICardSearch> = ({ src, alt, location, title }) => {
       className={style.card}
     >
       <div className={style.card_img}>
-        <Image src={src} alt={alt} width={50} height={50} />
+        <Image src={src} alt={alt} sizes="10vw" width={50} height={50} />
       </div>
       <div className={style.card_info}>
         <h3 className={style.card_info_title}>{title}</h3>

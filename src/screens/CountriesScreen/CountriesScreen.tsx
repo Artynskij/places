@@ -18,15 +18,15 @@ export default function CountriesScreen({ params, searchParams }: IProps) {
       </div>
       <section className={style.content}>
         <ul className={style.listMainland}>
-          {mainLand.map((land, index) => {
-            // if (land.countries.length === 0) return null;
+          {mainLand.map((land, indexLand) => {
+            if (land.countries.length === 0) return null;
             return (
-              <>
-                <li key={index + 1} className={style.listMainland_item}>
+              <div key={`mainland - ${indexLand + 1}`}>
+                <li className={style.listMainland_item}>
                   <h4>{land.title}</h4>
                 </li>
                 <ul className={style.listCountry}>
-                  {land.countries?.map((countryIso) => {
+                  {land.countries?.map((countryIso, index) => {
                     const findCountry = countries.find(
                       (country) => country.iso === countryIso
                     );
@@ -34,7 +34,7 @@ export default function CountriesScreen({ params, searchParams }: IProps) {
                       <Link
                         className={style.listCountry_item}
                         href={`/${findCountry?.value}`}
-                        key={findCountry?.id || index}
+                        key={`mainland - ${indexLand + 1}, country - ${index + 1}`}
                       >
                         <li>
                           <Image
@@ -50,7 +50,7 @@ export default function CountriesScreen({ params, searchParams }: IProps) {
                     );
                   })}
                 </ul>
-              </>
+              </div>
             );
           })}
         </ul>
