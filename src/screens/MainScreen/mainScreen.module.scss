@@ -121,16 +121,37 @@
     }
     width: 100%;
     grid-column: span 2;
+    position: relative;
     &_image {
       width: 100%;
+      display: flex;
       &_img {
         width: 100%;
         height: 100%;
         aspect-ratio: 16 / 9;
+        border-radius: $border-radius-20;
       }
     }
     &_content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: $color-overlay;
+      border-radius: $border-radius-20;
+      transition: $transiton;
+      &:hover {
+        background-color: transparent;
+      }
+
       &_title {
+        margin: 20px 10px;
+        border-radius: $border-radius-10;
+        color: $color-main-white;
+        text-shadow: 1px 1px 1px black;
+        font-weight: 700;
+        width: fit-content;
       }
     }
   }
@@ -193,6 +214,23 @@
         height: fit-content;
         color: $color-main-white;
         background-color: $color-blur-black;
+      }
+    }
+  }
+  .direction_content {
+    grid-template-columns: repeat(2, 1fr);
+
+    .cardDirection {
+      grid-column: span 1;
+      &:nth-child(2) {
+        grid-column: span 1;
+      }
+      &:first-child {
+        grid-column: span 2;
+      }
+      width: 100%;
+      &_content_title {
+        // font-size: 18px;
       }
     }
   }

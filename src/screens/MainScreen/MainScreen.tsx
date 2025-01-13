@@ -181,9 +181,9 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
                   />
                 </div>
                 <div className={style.cardDirection_content}>
-                  <span className={style.cardDirection_content_title}>
+                  <h4 className={style.cardDirection_content_title}>
                     {`${directionItem.location}, ${directionItem.title}`}
-                  </span>
+                  </h4>
                 </div>
               </Link>
             );
