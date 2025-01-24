@@ -9,11 +9,11 @@
       },
       "finderPlaceholder": "Find",
       "buttonLogin": "Login",
-      "finderNullFirst":"Unfortunately, according to your request",
-      "finderNullSecond":"nothing was found."
+      "finderNullFirst": "Unfortunately, according to your request",
+      "finderNullSecond": "nothing was found."
     }
   },
- "Tiles": {
+  "Tiles": {
     "text": {
       "watchAll": "Watch all",
       "generalInfo": "General Info",
@@ -53,8 +53,8 @@
       "description": "Log in to your Places gold personal account."
     },
     "text": {
-      "titleTextReg":"Register",
-      "titleTextLog":"Login",
+      "titleTextReg": "Register",
+      "titleTextLog": "Login",
       "buttonGoogleReg": "Register with Google",
       "buttonGoogleLog": "Login with Google",
       "buttonReg": "Register",
@@ -64,11 +64,11 @@
       "inputPassword": "Password",
       "inputConfirmPassword": "Confirm password",
       "footerTextReg": "You already have an account ? ",
-      "footerTextLog": "You don't have an account yet ?"  
+      "footerTextLog": "You don't have an account yet ?"
     }
   },
   "ProfilePage": {
-    "header":{
+    "header": {
       "editProfile": "Edit profile"
     },
     "switcher": {
@@ -83,12 +83,12 @@
       "wallet": "wallet"
     },
     "status": {
-      "past":"Passed",
-      "future":"Will be",
-      "pending":"In processing",
-      "fulfilled":"Done",
-      "present":"Is passing",
-      "error":"Error"
+      "past": "Passed",
+      "future": "Will be",
+      "pending": "In processing",
+      "fulfilled": "Done",
+      "present": "Is passing",
+      "error": "Error"
     },
     "tableOptions": {
       "type": "Type of advertisement",
@@ -123,5 +123,12 @@
       "replenish": "Replenish",
       "historyPayment": "Payment history"
     }
+  },
+  "CategoryNews": {
+    "news": "Tourism News",
+    "recommend": "Useful Tips and Lifehacks",
+    "overview": "Reviews",
+    "blog": "Travelers' Blog",
+    "bestDestination": "Best/Popular Destinations"
   }
 }

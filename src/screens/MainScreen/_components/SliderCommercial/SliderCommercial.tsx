@@ -1,51 +1,43 @@
 "use client";
 import { FC, useRef, useState } from "react";
-import style from "./slider.module.scss";
+import style from "./sliderCommercial.module.scss";
 
 import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 import { SwiperOptions } from "swiper/types";
 
 import "swiper/css";
 import "swiper/css/navigation";
 
-
-
 import { IconArrowRight } from "@/components/common/Icons/IconArrowRight/ArrowRightIcon";
 import { IconArrowLeft } from "@/components/common/Icons/IconArrowLeft/ArrowLeftIcon";
-import { SkeletonSlider } from "./SkeletonSlider";
-
+import { SkeletonSlider } from "./SkeletonSliderCommercial";
 interface ISlider {
   id: number;
   children: React.ReactNode[] | React.ReactNode[];
 }
 
-export const SliderMainComponent: FC<ISlider> = ({ id, children }) => {
+const SliderCommercial: FC<ISlider> = ({ id, children }) => {
   const [sliderLoad, setSliderLoad] = useState<boolean>(false);
 
   const swiperRef = useRef<SwiperRef>(null);
 
   const settings: SwiperOptions = {
-    modules: [Navigation],
+    modules: [Navigation,Autoplay],
     slidesPerView: 1,
+    loop: true,
+    autoplay: { delay: 5000, disableOnInteraction: false },
+    // autoplay = {
+    //   delay: 2500,
+    //   disableOnInteraction: false,
+    // },
     navigation: {
       prevEl: `#slider-${id}-prev`,
       nextEl: `#slider-${id}-next`,
 
       disabledClass: style.disable_arrow,
     },
-    breakpoints: {
-      1000: {
-        slidesPerView: 3,
-        spaceBetween: 8,
-      },
-      500: {
-        slidesPerView: 2,
-        spaceBetween: 8,
-      },
-    },
   };
-
   return (
     <div className={style.slider_ctn}>
       <Swiper
@@ -80,3 +72,5 @@ export const SliderMainComponent: FC<ISlider> = ({ id, children }) => {
     </div>
   );
 };
+
+export default SliderCommercial;

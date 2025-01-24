@@ -4,13 +4,14 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { createRoot } from "react-dom/client";
 import { Loader } from "@googlemaps/js-api-loader";
-
+import { useLocale } from "next-intl";
 import style from "./mapGoogle.module.scss";
 import { mockObjectsAll } from "@/asset/mockData/mockObject";
 
 export const MapGoogle = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [globalMap, setGlobalMap] = useState<google.maps.Map | null>(null);
+    const locale = useLocale() as string;
   function MarkerContent({ title }: { title: string }) {
     return (
       <div
@@ -36,7 +37,7 @@ export const MapGoogle = () => {
       const loader = new Loader({
         apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
         version: "quarterly",
-        language: "ru",
+        language: locale,
       });
       const google = await loader.load();
       const { Map } = google.maps;

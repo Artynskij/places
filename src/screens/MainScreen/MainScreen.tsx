@@ -3,38 +3,55 @@ import style from "./mainScreen.module.scss";
 import Link from "next/link";
 import { Switcher } from "@/components/common/Switcher/Switcher";
 import FinderBlock from "./_components/FinderBlock/FinderBlock";
+import SliderCommercial from "./_components/SliderCommercial/SliderCommercial";
 
 import { mockNews } from "@/asset/mockData/mockNews";
 import { mockTowns } from "@/asset/mockData/mockCountry";
+import { mockCommercialMainPage } from "@/asset/mockData/mockCommercialMainPage";
+import { newsCategoriesData } from "@/asset/mockData/data";
+import { useTranslations } from "next-intl";
 interface IProps {
   params: {};
   searchParams: { [key: string]: string | string[] | undefined };
 }
 export const MainScreen = ({ params, searchParams }: IProps) => {
   const newsData = mockNews.slice(0, 6);
-  const recommendData = mockNews.slice(1, 7);
+  const recommendData = mockNews.slice(1, 4);
   const directionData = mockTowns.slice(0, 5);
+  const t = useTranslations("CategoryNews");
   return (
     <div className={"container"}>
-      <section className={style.banner}>
-        <Image
-          alt="banner"
-          width={1200}
-          height={400}
-          sizes="100vw"
-          src={"/mock/mockBanner.webp"}
-        />
+      <section className={style.commercial}>
+        <SliderCommercial id={1}>
+          {mockCommercialMainPage.map((comItem) => {
+            return (
+              <Image
+                key={comItem.id}
+                alt="banner"
+                width={1200}
+                height={400}
+                sizes="100vw"
+                src={comItem.image}
+              />
+            );
+          })}
+        </SliderCommercial>
       </section>
       <section>
         <FinderBlock />
       </section>
+      {/* news block */}
       <section>
-        <h4 className={style.title_second}>Новости туризма</h4>
+        <h2 className={style.title_second}>
+          <Link href={`/news/${newsCategoriesData.news}`}>
+            {t(newsCategoriesData.news)}
+          </Link>
+        </h2>
         <div className={style.news_content}>
           {newsData.map((item, index) => {
             return (
               <Link
-                href={`/news/someRubrik/${item.slug}`}
+                href={`/news/${newsCategoriesData.news}/${item.slug}`}
                 key={`news-${index}`}
                 className={style.cardNews}
               >
@@ -52,22 +69,30 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
                   <span className={style.cardNews_content_title}>
                     {item.title}
                   </span>
-                  <span className={style.cardNews_content_date}>
-                    {item.date}
-                  </span>
+                  <div className={style.cardNews_content_additional}>
+                    <span className={style.cardNews_content_date}>
+                      {item.date}
+                    </span>
+                    <span className={style.cardNews_content_date}>Чтение</span>
+                  </div>
                 </div>
               </Link>
             );
           })}
         </div>
       </section>
+      {/* recommend block */}
       <section>
-        <h4 className={style.title_second}>Полезные советы, лайфхаки</h4>
+        <h2 className={style.title_second}>
+          <Link href={`/news/${newsCategoriesData.recommend}`}>
+            {t(newsCategoriesData.recommend)}
+          </Link>
+        </h2>
         <div className={style.recommend_content}>
           {recommendData.map((recItem, index) => {
             return (
               <Link
-                href={`/news/someRubrik/${recItem.slug}`}
+                href={`/news/${newsCategoriesData.recommend}/${recItem.slug}`}
                 key={`recommend-${index}`}
                 className={style.cardRecommend}
               >
@@ -85,22 +110,32 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
                   <span className={style.cardRecommend_content_title}>
                     {recItem.title}
                   </span>
-                  <span className={style.cardRecommend_content_date}>
-                    {recItem.date}
-                  </span>
+                  <div className={style.cardRecommend_content_additional}>
+                    <span className={style.cardRecommend_content_date}>
+                      {recItem.date}
+                    </span>
+                    <span className={style.cardRecommend_content_time}>
+                      Чтение
+                    </span>
+                  </div>
                 </div>
               </Link>
             );
           })}
         </div>
       </section>
+      {/* overview block */}
       <section>
-        <h4 className={style.title_second}>Обзоры</h4>
+        <h2 className={style.title_second}>
+          <Link href={`news/${newsCategoriesData.overview}`}>
+            {t(newsCategoriesData.overview)}
+          </Link>
+        </h2>
         <div className={style.recommend_content}>
           {recommendData.map((recItem, index) => {
             return (
               <Link
-                href={`/news/someRubrik/${recItem.slug}`}
+                href={`/news/${newsCategoriesData.overview}/${recItem.slug}`}
                 key={`overview-${index}`}
                 className={style.cardRecommend}
               >
@@ -118,22 +153,32 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
                   <span className={style.cardRecommend_content_title}>
                     {recItem.title}
                   </span>
-                  <span className={style.cardRecommend_content_date}>
-                    {recItem.date}
-                  </span>
+                  <div className={style.cardRecommend_content_additional}>
+                    <span className={style.cardRecommend_content_date}>
+                      {recItem.date}
+                    </span>
+                    <span className={style.cardRecommend_content_time}>
+                      Чтение
+                    </span>
+                  </div>
                 </div>
               </Link>
             );
           })}
         </div>
       </section>
+      {/* blog block */}
       <section>
-        <h4 className={style.title_second}>Блог Туристов</h4>
+        <h2 className={style.title_second}>
+          <Link href={`/news/${newsCategoriesData.blog}`}>
+            {t(newsCategoriesData.blog)}
+          </Link>
+        </h2>
         <div className={style.recommend_content}>
           {recommendData.map((recItem, index) => {
             return (
               <Link
-                href={`/news/someRubrik/${recItem.slug}`}
+                href={`/news/${newsCategoriesData.blog}/${recItem.slug}`}
                 key={`blog-${index}`}
                 className={style.cardRecommend}
               >
@@ -151,9 +196,14 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
                   <span className={style.cardRecommend_content_title}>
                     {recItem.title}
                   </span>
-                  <span className={style.cardRecommend_content_date}>
-                    {recItem.date}
-                  </span>
+                  <div className={style.cardRecommend_content_additional}>
+                    <span className={style.cardRecommend_content_date}>
+                      {recItem.date}
+                    </span>
+                    <span className={style.cardRecommend_content_time}>
+                      Чтение
+                    </span>
+                  </div>
                 </div>
               </Link>
             );
@@ -161,7 +211,7 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
         </div>
       </section>
       <section>
-        <h4 className={style.title_second}>Лучшие/Популярные направления</h4>
+        <h2 className={style.title_second}>{t("bestDestination")}</h2>
         <div className={style.direction_content}>
           {directionData.map((directionItem, index) => {
             return (
@@ -190,6 +240,7 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
           })}
         </div>
       </section>
+      
     </div>
   );
 };

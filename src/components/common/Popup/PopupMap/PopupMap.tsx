@@ -37,8 +37,8 @@ export const PopupMap = () => {
         <div
           className={style.popup_content + " " + (mapActive && style.active)}
         >
-          {/* <MapGoogle /> */}
-          {<MapLeaflet />}
+          <MapGoogle />
+          {/* {<MapLeaflet />} */}
         </div>
         <Overlay active={mapActive} setActive={setMapActive} />
       </div>

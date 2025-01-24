@@ -53,13 +53,10 @@ export default async function RootLayout({
           <AntdRegistry>
             <NextIntlClientProvider messages={messages}>
               <Header />
-
               <ClientOnly />
-
               <Suspense fallback={<Loading />}>
                 <main>{children}</main>
               </Suspense>
-
               <Footer />
             </NextIntlClientProvider>
           </AntdRegistry>

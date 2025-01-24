@@ -18,9 +18,14 @@ Need fix:
 Some fix:
 1. Cabinet switcher
 2. finder на главной и в шапке при множестве находок
-
+3. слайдеры. Вроде можно объеденить. Разница в settings и skeleton
+4. scss добавить mixins или дефолтные стили для оптимизации
 
 
 Before deploy:
 1. Почистить код на импорты 
 2. Можно объединить стили новостных скринов
+3. _components сделать иморты export default
+
+Админка:
+1. https://adminlte.io/

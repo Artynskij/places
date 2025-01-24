@@ -3,7 +3,12 @@
   min-height: $min;
   max-height: $max;
 }
-
+@mixin textCut($num) {
+  display: -webkit-box;
+  -webkit-line-clamp: $num;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 @mixin mediaNetbook() {
   @media screen and (max-width: $media-netbook) {
     @content;

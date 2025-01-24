@@ -42,18 +42,12 @@
     padding: 20px;
 
     &_title {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      @include textCut(2);
       @extend %Text18;
       font-weight: 700;
     }
     &_description {
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      @include textCut(3);
       @extend %Text14;
     }
     &_additional {
@@ -97,16 +91,10 @@
     padding: 10px;
     &_title {
       @extend %Text14;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      @include textCut(3);
     }
     &_description {
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      @include textCut(3);
     }
   }
 }
