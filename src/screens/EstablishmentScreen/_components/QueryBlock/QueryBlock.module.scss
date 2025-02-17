@@ -12,6 +12,7 @@
     }
     &_value {
       @extend %Text12;
+      @include textCut(2);
     }
   }
 }
@@ -31,4 +32,19 @@
 }
 .button_queryList {
   width: fit-content;
+}
+
+.modal {
+  &_content {
+    margin-top: 30px;
+  }
+  &_list {
+    display: none;
+
+    &__active {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: $gap-medium;
+    }
+  }
 }

@@ -1,7 +1,7 @@
 "use client";
 import { FC, useState } from "react";
 import style from "./cardSliderLocation.module.scss";
-import { IDataCardSliderLocation } from "@/types/ICards";
+import { IDataCardSliderLocation } from "@/models/ICards";
 import Image from "next/image";
 
 import Link from "next/link";

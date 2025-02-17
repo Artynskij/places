@@ -6,8 +6,11 @@ import { MapStaticGoogle } from "@/components/common/Map/Map/MapStaticGoogle";
 import { PopupMap } from "@/components/common/Popup/PopupMap/PopupMap";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { BlockCheckBox } from "./BlockCheckBox/BlockCheckBox";
-import { mockFilterHotel } from "@/asset/mockData/mockFilterCheckBox";
+import BlockCheckBox from "./BlockCheckBox/BlockCheckBox";
+import {
+  IMockBlock,
+  mockFilterHotel,
+} from "@/asset/mockData/mockFilterCheckBox";
 import { Checkbox, GetProp } from "antd";
 import { Button } from "@/components/UI/Button/Button";
 
@@ -15,8 +18,13 @@ import { ButtonClose } from "@/components/UI/Button/ButtonClose";
 
 import { IconFilter } from "@/components/common/Icons/IconFilter/IconFilter";
 import { Overlay } from "@/components/common/Overlay/Overlay";
+import { IApiTagsResponse } from "@/Api/IApi";
 
-export const FiltersComponent = () => {
+interface IFilterComponentProp {
+  dataTags?: IMockBlock[];
+}
+
+const FiltersComponent = ({ dataTags }: IFilterComponentProp) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -50,9 +58,7 @@ export const FiltersComponent = () => {
   }
   return (
     <>
-      <div className={style.filter_map}>
-        <PopupMap />
-      </div>
+      <div className={style.filter_map}>{/* <PopupMap /> */}</div>
       <Button
         className={style.filter_buttonOpen}
         onClick={handlerOpenFilter}
@@ -77,7 +83,7 @@ export const FiltersComponent = () => {
               defaultValue={searchParams.get("filter")?.split("%")}
               onChange={onChangeFilter}
             >
-              {mockFilterHotel.map((item, index) => {
+              {dataTags?.map((item, index) => {
                 return <BlockCheckBox key={index} data={item} />;
               })}
             </Checkbox.Group>
@@ -102,3 +108,5 @@ export const FiltersComponent = () => {
     </>
   );
 };
+
+export default FiltersComponent;

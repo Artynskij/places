@@ -1,4 +1,4 @@
-import { IPageProps } from "@/types/IType";
+import { IPageProps } from "@/models/IType";
 import style from "./newsAuthorScreen.module.scss";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { mockNews } from "@/asset/mockData/mockNews";

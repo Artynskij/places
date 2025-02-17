@@ -66,14 +66,20 @@ export const Header = () => {
             <Link className={style.header__second_link} href={"/owner"}>
               <li className={"hover-underline"}>Лк Владельца</li>
             </Link>
-            <Link className={style.header__second_link} href={"/news/someRubrik"}>
-              <li className={"hover-underline"}>Станица рубрик</li>
+            <Link className={style.header__second_link} href={"/news/news"}>
+              <li className={"hover-underline"}>Рубрик</li>
             </Link>
-            <Link className={style.header__second_link} href={"/news/someRubrik/news1"}>
-              <li className={"hover-underline"}>Станица новости</li>
+            <Link className={style.header__second_link} href={"/news/news/01JJPD613ZCBDVPGBKN4JG3014"}>
+              <li className={"hover-underline"}>Новости</li>
             </Link>
             <Link className={style.header__second_link} href={"/news/author/name"}>
-              <li className={"hover-underline"}>Станица автора</li>
+              <li className={"hover-underline"}>Автора</li>
+            </Link>
+            <Link className={style.header__second_link} href={"/belarus/minskObl/minsk/01JJ21RRS0YER1XH9FM4D287JY"}>
+              <li className={"hover-underline"}>Объекта</li>
+            </Link>
+            <Link className={style.header__second_link} href={"/filter"}>
+              <li className={"hover-underline"}>Фильтр</li>
             </Link>
           </ul>
         </div>

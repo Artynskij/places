@@ -184,12 +184,13 @@ export const mockFilterHotel = [
 ];
 
 export interface IMockFilter {
-  id: number;
+  id: number | string;
   name: string;
   value: string;
 }
 
 export interface IMockBlock {
+  id: number | string;
   title: string;
   value: string;
   data: IMockFilter[];

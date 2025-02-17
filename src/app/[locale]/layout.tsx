@@ -8,14 +8,14 @@ import { Footer } from "@/components/common/Footer/Footer";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import ClientOnly from "@/components/ATest/ClientOnly";
 import { ToastProvider } from "@/components/ATest/ToasterProvider";
-import { IPageProps } from "@/types/IType";
+import { IPageProps } from "@/models/IType";
 import { locales } from "@/config";
 import { ReactNode, Suspense } from "react";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { Header } from "@/components/common/Header/Header";
 import { ReduxProvider } from "@/store/provider";
-import Loading from "./loading";
+// import Loading from "../../asset/loading";
 
 const inter = Inter({ subsets: ["latin"] });
 type Props = {
@@ -37,6 +37,7 @@ export function generateStaticParams() {
 interface IRootLayoutProps extends IPageProps {
   children: React.ReactNode;
 }
+
 export default async function RootLayout({
   children,
   params: { locale },
@@ -47,16 +48,21 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <link rel="icon" href="/icons/favicon small.svg" sizes="any" />
-
+      {/* <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/antd/4.24.7/antd.min.css"
+      /> */}
       <body className={inter.className}>
         <ReduxProvider>
           <AntdRegistry>
             <NextIntlClientProvider messages={messages}>
-              <Header />
               <ClientOnly />
-              <Suspense fallback={<Loading />}>
-                <main>{children}</main>
-              </Suspense>
+              <Header />
+              {/* <Suspense fallback={<Loading />}> */}
+
+              <main style={{ minHeight: "100vh" }}>{children}</main>
+
+              {/* </Suspense> */}
               <Footer />
             </NextIntlClientProvider>
           </AntdRegistry>

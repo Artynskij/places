@@ -1,4 +1,4 @@
-import { IPageProps } from "@/types/IType";
+import { IPageProps } from "@/models/IType";
 import style from "./countriesScreen.module.scss";
 import { countriesData, mainlandData } from "@/asset/mockData/countries";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
@@ -34,7 +34,9 @@ export default function CountriesScreen({ params, searchParams }: IProps) {
                       <Link
                         className={style.listCountry_item}
                         href={`/${findCountry?.value}`}
-                        key={`mainland - ${indexLand + 1}, country - ${index + 1}`}
+                        key={`mainland - ${indexLand + 1}, country - ${
+                          index + 1
+                        }`}
                       >
                         <li>
                           <Image

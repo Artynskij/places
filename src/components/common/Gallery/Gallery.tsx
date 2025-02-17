@@ -10,11 +10,14 @@ import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { Button } from "@/components/UI/Button/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { IApiImage } from "@/Api/IApi";
+import Item from "antd/es/list/Item";
 
 interface IGallery {
-  images: string[];
+  images: IApiImage[];
+  cdnHost: string;
 }
-export const Gallery: FC<IGallery> = ({ images }) => {
+export const Gallery: FC<IGallery> = ({ images, cdnHost }) => {
   const [loadClient, setLoadClient] = useState(false);
   const [albumActive, setAlbumActive] = useState(false);
   const [activePhotoIndex, setActivePhotoIndex] = useState(-1);
@@ -40,10 +43,10 @@ export const Gallery: FC<IGallery> = ({ images }) => {
           >
             <Image
               priority
-              width={300}
-              height={150}
-              alt="img"
-              src={images[0]}
+              width={images[0].width}
+              height={images[0].height}
+              alt={images[0].details[0].value.title}
+              src={`${cdnHost}/${images[0].blobPath}`}
             />
           </div>
           {images.slice(1, 3).map((item, index) => {
@@ -53,7 +56,12 @@ export const Gallery: FC<IGallery> = ({ images }) => {
                 key={index}
                 className={style.image__additional}
               >
-                <Image width={300} height={150} alt="img" src={item} />
+                <Image
+                  width={item.width}
+                  height={item.height}
+                  alt="img"
+                  src={`${cdnHost}/${item.blobPath}`}
+                />
               </div>
             );
           })}
@@ -68,7 +76,12 @@ export const Gallery: FC<IGallery> = ({ images }) => {
                   key={index}
                   className={style.image__additional}
                 >
-                  <Image width={300} height={150} alt="img" src={item} />
+                  <Image
+                    width={item.width}
+                    height={item.height}
+                    alt="img"
+                    src={`${cdnHost}/${item.blobPath}`}
+                  />
                 </div>
               );
             })}
@@ -82,10 +95,10 @@ export const Gallery: FC<IGallery> = ({ images }) => {
           >
             <Image
               priority
-              width={300}
-              height={150}
-              alt="img"
-              src={images[0]}
+              width={images[0].width}
+              height={images[0].height}
+              alt={images[0].details[0].value.title}
+              src={`${cdnHost}/${images[0].blobPath}`}
             />
           </div>
           {images.slice(1, 5).map((item, index) => {
@@ -97,7 +110,12 @@ export const Gallery: FC<IGallery> = ({ images }) => {
                 key={index}
                 className={style.image__additional}
               >
-                <Image width={300} height={150} alt="img" src={item} />
+                <Image
+                  width={item.width}
+                  height={item.height}
+                  alt="img"
+                  src={`${cdnHost}/${item.blobPath}`}
+                />
               </div>
             );
           })}
@@ -113,7 +131,8 @@ export const Gallery: FC<IGallery> = ({ images }) => {
           <AlbumPhoto
             activePhotoIndex={activePhotoIndex}
             setActivePhotoIndex={setActivePhotoIndex}
-            imageUrls={images}
+            imagesProp={images}
+            cdnHost={cdnHost}
           />
         </ModalCustom>
       )}

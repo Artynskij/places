@@ -3,16 +3,15 @@
 import { FC, useEffect, useRef, useState } from "react";
 import style from "./selectCustom.module.scss";
 import { IconArrowDown } from "../../common/Icons";
-import { ISelectOption } from "@/types/IType";
+import { ISelectOption } from "@/models/IType";
 
 interface ISelectProps {
   options: ISelectOption[];
   onChange: (option: ISelectOption) => void;
   activeOption: string | null | undefined;
   title?: string;
-  classNameValue?:string
-  classNameCtn?:string
-  
+  classNameValue?: string;
+  classNameCtn?: string;
 }
 
 export const SelectCustom: FC<ISelectProps> = ({
@@ -21,8 +20,7 @@ export const SelectCustom: FC<ISelectProps> = ({
   onChange,
   title,
   classNameValue,
-  classNameCtn
-  
+  classNameCtn,
 }) => {
   const [activeSelect, setActiveSelect] = useState<boolean>(false);
   // const [activeValue, setActiveValue] = useState(title || options[0].value);
@@ -51,9 +49,14 @@ export const SelectCustom: FC<ISelectProps> = ({
   return (
     <div
       ref={rootRef}
-      className={`${style.select}  ${(activeSelect ? style.active : "")} ${classNameCtn}`}
+      className={`${style.select}  ${
+        activeSelect ? style.active : ""
+      } ${classNameCtn}`}
     >
-      <div onClick={toggleSelect} className={`${style.select_value} ${classNameValue}`}>
+      <div
+        onClick={toggleSelect}
+        className={`${style.select_value} ${classNameValue}`}
+      >
         <span>
           {options.find((item) => item.value === activeOption)?.name ||
             title ||

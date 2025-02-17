@@ -5,7 +5,7 @@ import {
   IDataAdvertisingCookie,
   IDataAdvertisingItem,
   ISelectOption,
-} from "@/types/IType";
+} from "@/models/IType";
 
 import { mockSelectSquare } from "@/asset/mockData/mockMarketing";
 import { useCookie } from "@/asset/hooks/useCookie";

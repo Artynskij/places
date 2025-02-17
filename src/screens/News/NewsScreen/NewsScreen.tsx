@@ -1,6 +1,6 @@
 "use client";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
-import { IPageProps } from "@/types/IType";
+import { IPageProps } from "@/models/IType";
 
 import style from "./newsScreen.module.scss";
 import { mockNews } from "@/asset/mockData/mockNews";
@@ -19,27 +19,35 @@ import { useInView } from "react-intersection-observer";
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 import { BlockWatchCount } from "@/components/common/BlockFunctional/BlockWhatchCount";
 import { PopularNews } from "../_component/_PopularNews/_PopularNews";
+import { IApiArticle } from "@/Api/IApi";
+import { ApiArticle } from "@/Api/Api";
 
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {
     category: string;
     news: string;
   };
+  articleData: IApiArticle;
 }
-export default function NewsScreen({ params, searchParams }: IProps) {
-  const newsData = mockNews.find((item) => item.slug === params.news) as any;
-  const anotherNewsData = mockNews.slice(1, mockNews.length);
+export default function NewsScreen({
+  params,
+  searchParams,
+  articleData,
+}: IProps) {
+  const api = new ApiArticle();
+
   const popularNews = mockNews;
-  useEffect(() => {}, []);
-  const [anotherNews, setAnotherNews] = useState<[] | (typeof mockNews)[0][]>(
-    []
-  );
-  function updateAnotherNews(id: number) {
-    const findNews = mockNews.find((item) => item.id === id);
-    if (findNews) {
-      setAnotherNews((prev) =>
-        prev.some((news) => news.id === id) ? prev : [...prev, findNews]
-      );
+  // useEffect(() => {}, []);
+  const [anotherNews, setAnotherNews] = useState<[] | IApiArticle[]>([]);
+  const [countAnotherArticle, setCountAnotherArticle] = useState<number>(1);
+  async function updateAnotherNews() {
+    const newArticle = await api.getArticlesByPagination({
+      pagination: { page: countAnotherArticle, pageSize: 1 },
+    });
+
+    if (newArticle && newArticle[0]) {
+      setAnotherNews((prev) => [...prev, newArticle[0]]);
+      setCountAnotherArticle(countAnotherArticle + 1);
     }
   }
 
@@ -47,7 +55,7 @@ export default function NewsScreen({ params, searchParams }: IProps) {
     <div className="container">
       <section className={style.content}>
         <div className={style.content_item}>
-          <PageNews updateAnotherNews={updateAnotherNews} data={newsData} />
+          <PageNews updateAnotherNews={updateAnotherNews} data={articleData} />
         </div>
 
         <PopularNews
@@ -75,8 +83,8 @@ export default function NewsScreen({ params, searchParams }: IProps) {
   );
 }
 interface IPageNews {
-  data: (typeof mockNews)[0];
-  updateAnotherNews: (value: number) => void;
+  data: IApiArticle;
+  updateAnotherNews: () => void;
 }
 function PageNews({ data, updateAnotherNews }: IPageNews) {
   const pathname = usePathname();
@@ -88,53 +96,57 @@ function PageNews({ data, updateAnotherNews }: IPageNews) {
   useEffect(() => {
     if (observerUrl.inView) {
       const pathnameArray = pathname.split("/");
-      pathnameArray[pathnameArray.length - 1] = data.slug;
+      pathnameArray[pathnameArray.length - 1] = data.article.Id;
       const newUrl = pathnameArray.join("/");
       window.history.replaceState(null, "", newUrl);
-      updateAnotherNews(data.id + 1);
+      updateAnotherNews();
     }
   }, [observerUrl.inView]);
   return (
     <div
       ref={observerUrl.ref}
-      id={data.id.toString()}
+      id={data.article.Id}
       className={style.container_news}
     >
       <div className={style.breadcrumb}>
         <Breadcrumb />
       </div>
-      <h2 className={style.title}>{data.title}</h2>
+      <h2 className={style.title}>{data.content.content[0].value.title}</h2>
       <div className={style.underTitle}>
         <div className={style.underTitle_left}>
           <div className={style.underTitle_author}>
             {`Автор: `}
             <Link
               className={`${"hover-underline"}`}
-              href={`/news/author/${data.author.title}`}
+              href={`/news/author/${data.content.content[0].value.author}`}
             >
-              {data.author.title}
+              {data.content.content[0].value.author}
             </Link>
           </div>
           <BlockWatchCount count={1000} />
-          <BlockReadTime text={data.markdown} />
+          <BlockReadTime text={data.content.content[0].value.markdown} />
         </div>
         <div className={style.underTitle_right}>
-          <div className={style.underTitle_publicDate}>{data.date}</div>
+          <div className={style.underTitle_publicDate}>
+            {data.content.content[0].value.date}
+          </div>
         </div>
       </div>
-      <div className={style.description}>{data.description}</div>
+      <div className={style.description}>
+        {data.content.content[0].value.description}
+      </div>
       <div className={style.block_mainImage}>
         <Image
           className={style.mainImage}
           width={600}
           height={300}
           alt="img"
-          src={data.image}
+          src={data.content.content[0].value.image}
         />
         <span>Подпись фото</span>
       </div>
       <div className={style.markdownContent}>
-        <Markdown>{data.markdown}</Markdown>
+        <Markdown>{data.content.content[0].value.markdown}</Markdown>
       </div>
       <div className={style.share}>
         <BlockShare linkPage="https://www.lipsum.com/" />
@@ -149,7 +161,7 @@ function PageNews({ data, updateAnotherNews }: IPageNews) {
         </div>
       </div>
       <div className={style.reaction}>
-        <BlockReaction reactions={data.reactions} />
+        <BlockReaction reactions={data.content.content[0].value.reactions} />
       </div>
     </div>
   );

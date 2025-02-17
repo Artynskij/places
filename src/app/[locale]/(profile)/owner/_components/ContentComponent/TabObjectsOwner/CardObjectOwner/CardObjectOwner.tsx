@@ -1,6 +1,6 @@
 import { IconEdit, IconLocation, IconStar } from "@/components/common/Icons";
 import style from "./cardObjectOwner.module.scss";
-import { IDataCardSlider } from "@/types/ICards";
+import { IDataCardSlider } from "@/models/ICards";
 import { FC } from "react";
 import { Button } from "@/components/UI/Button/Button";
 import Image from "next/image";

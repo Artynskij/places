@@ -1,7 +1,7 @@
 import Image from "next/image";
 import style from "./mainScreen.module.scss";
 import Link from "next/link";
-import { Switcher } from "@/components/common/Switcher/Switcher";
+
 import FinderBlock from "./_components/FinderBlock/FinderBlock";
 import SliderCommercial from "./_components/SliderCommercial/SliderCommercial";
 
@@ -10,15 +10,23 @@ import { mockTowns } from "@/asset/mockData/mockCountry";
 import { mockCommercialMainPage } from "@/asset/mockData/mockCommercialMainPage";
 import { newsCategoriesData } from "@/asset/mockData/data";
 import { useTranslations } from "next-intl";
-interface IProps {
-  params: {};
-  searchParams: { [key: string]: string | string[] | undefined };
+import { ApiEstablishment } from "@/Api/Api";
+import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
+import { IPageProps } from "@/models/IType";
+import { IFrontArticle } from "@/models";
+
+interface IProps extends IPageProps {
+  params: IPageProps["params"] & {};
+  articlesData: IFrontArticle[];
 }
-export const MainScreen = ({ params, searchParams }: IProps) => {
-  const newsData = mockNews.slice(0, 6);
-  const recommendData = mockNews.slice(1, 4);
+export const MainScreen = ({ params, searchParams, articlesData }: IProps) => {
+  const newsData = articlesData.slice(0, 6);
+  const recommendData = articlesData.slice(1, 4);
   const directionData = mockTowns.slice(0, 5);
   const t = useTranslations("CategoryNews");
+  // const api = new ApiEstablishment();
+  // api.getEstablishmentByPagination({ page: 1, pageSize: 1 });
+
   return (
     <div className={"container"}>
       <section className={style.commercial}>
@@ -51,7 +59,7 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
           {newsData.map((item, index) => {
             return (
               <Link
-                href={`/news/${newsCategoriesData.news}/${item.slug}`}
+                href={`/news/${newsCategoriesData.news}/${item.article.Id}`}
                 key={`news-${index}`}
                 className={style.cardNews}
               >
@@ -61,19 +69,23 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
                     width={300}
                     height={150}
                     sizes="30vw"
-                    src={item.image}
+                    src={item.content.content[0].value.image}
                     alt="photo"
                   />
                 </div>
                 <div className={style.cardNews_content}>
                   <span className={style.cardNews_content_title}>
-                    {item.title}
+                    {item.content.content[0].value.title}
                   </span>
                   <div className={style.cardNews_content_additional}>
                     <span className={style.cardNews_content_date}>
-                      {item.date}
+                      {item.content.content[0].value.date}
                     </span>
-                    <span className={style.cardNews_content_date}>Чтение</span>
+                    <span className={style.cardNews_content_date}>
+                      <BlockReadTime
+                        text={item.content.content[0].value.markdown}
+                      />
+                    </span>
                   </div>
                 </div>
               </Link>
@@ -92,7 +104,7 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
           {recommendData.map((recItem, index) => {
             return (
               <Link
-                href={`/news/${newsCategoriesData.recommend}/${recItem.slug}`}
+                href={`/news/${newsCategoriesData.recommend}/${recItem.article.Id}`}
                 key={`recommend-${index}`}
                 className={style.cardRecommend}
               >
@@ -102,20 +114,22 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
                     width={300}
                     height={150}
                     sizes="30vw"
-                    src={recItem.image}
+                    src={recItem.content.content[0].value.image}
                     alt="photo"
                   />
                 </div>
                 <div className={style.cardRecommend_content}>
                   <span className={style.cardRecommend_content_title}>
-                    {recItem.title}
+                    {recItem.content.content[0].value.title}
                   </span>
                   <div className={style.cardRecommend_content_additional}>
                     <span className={style.cardRecommend_content_date}>
-                      {recItem.date}
+                      {recItem.content.content[0].value.date}
                     </span>
                     <span className={style.cardRecommend_content_time}>
-                      Чтение
+                      <BlockReadTime
+                        text={recItem.content.content[0].value.markdown}
+                      />
                     </span>
                   </div>
                 </div>
@@ -135,7 +149,7 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
           {recommendData.map((recItem, index) => {
             return (
               <Link
-                href={`/news/${newsCategoriesData.overview}/${recItem.slug}`}
+                href={`/news/${newsCategoriesData.overview}/${recItem.article.Id}`}
                 key={`overview-${index}`}
                 className={style.cardRecommend}
               >
@@ -145,20 +159,22 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
                     width={300}
                     height={150}
                     sizes="30vw"
-                    src={recItem.image}
+                    src={recItem.content.content[0].value.image}
                     alt="photo"
                   />
                 </div>
                 <div className={style.cardRecommend_content}>
                   <span className={style.cardRecommend_content_title}>
-                    {recItem.title}
+                    {recItem.content.content[0].value.title}
                   </span>
                   <div className={style.cardRecommend_content_additional}>
                     <span className={style.cardRecommend_content_date}>
-                      {recItem.date}
+                      {recItem.content.content[0].value.date}
                     </span>
                     <span className={style.cardRecommend_content_time}>
-                      Чтение
+                      <BlockReadTime
+                        text={recItem.content.content[0].value.markdown}
+                      />
                     </span>
                   </div>
                 </div>
@@ -178,7 +194,7 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
           {recommendData.map((recItem, index) => {
             return (
               <Link
-                href={`/news/${newsCategoriesData.blog}/${recItem.slug}`}
+                href={`/news/${newsCategoriesData.blog}/${recItem.article.Id}`}
                 key={`blog-${index}`}
                 className={style.cardRecommend}
               >
@@ -188,20 +204,22 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
                     width={300}
                     height={150}
                     sizes="30vw"
-                    src={recItem.image}
+                    src={recItem.content.content[0].value.image}
                     alt="photo"
                   />
                 </div>
                 <div className={style.cardRecommend_content}>
                   <span className={style.cardRecommend_content_title}>
-                    {recItem.title}
+                    {recItem.content.content[0].value.title}
                   </span>
                   <div className={style.cardRecommend_content_additional}>
                     <span className={style.cardRecommend_content_date}>
-                      {recItem.date}
+                      {recItem.content.content[0].value.date}
                     </span>
                     <span className={style.cardRecommend_content_time}>
-                      Чтение
+                      <BlockReadTime
+                        text={recItem.content.content[0].value.markdown}
+                      />
                     </span>
                   </div>
                 </div>
@@ -240,7 +258,6 @@ export const MainScreen = ({ params, searchParams }: IProps) => {
           })}
         </div>
       </section>
-      
     </div>
   );
 };

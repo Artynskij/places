@@ -18,11 +18,15 @@ import {
   CardSliderLocation,
 } from "@/components/common/Cards";
 
-import { IPageProps } from "@/types/IType";
+import { IPageProps } from "@/models/IType";
 
-import { useTranslations } from "next-intl";
+// import { useTranslations } from "next-intl";
 import { InfoSection } from "./_components/InfoSection/InfoSection";
 import { countriesData } from "@/asset/mockData/countries";
+import { ApiEstablishment } from "@/Api/Api";
+import { GetServerSideProps } from "next";
+import { IApiEstablishmentsResponse } from "@/Api/IApi";
+import { getTranslations } from "next-intl/server";
 
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {
@@ -31,23 +35,27 @@ interface IProps extends IPageProps {
     town?: string;
   };
   typePage: "country" | "district" | "town";
+  data: IApiEstablishmentsResponse;
 }
 
-export default function CountryScreen({
+export default async function CountryScreen({
   params,
   searchParams,
   typePage,
-}: IProps) {
-  const tTiles = useTranslations("Tiles");
+  data,
+}: // ,
+IProps) {
+  const tTiles = await getTranslations("Tiles");
   const seeMoreText = tTiles("text.watchAll");
-  const t = useTranslations("CountryPage");
+  const t = await getTranslations("CountryPage");
 
   const countryData =
     typePage === "country"
-      ? countriesData.find((item) => item.value === params.country) as any
+      ? (countriesData.find((item) => item.value === params.country) as any)
       : typePage === "district"
       ? (mockDistrict.find((item) => item.value === params.district) as any)
       : (mockTowns.find((item) => item.value === params.town) as any);
+
   return (
     <div className="container">
       <section className={style.banner}>
@@ -75,13 +83,20 @@ export default function CountryScreen({
 
         <div className={style.slider}>
           <Slider id={1}>
-            {mockObjectsHotels.map((item) => {
-              return <CardSliderMainPage key={item.id} {...item} />;
+            {data.establishmentItems.map((item) => {
+              return (
+                <CardSliderMainPage
+                  key={item.establishment.Id}
+                  data={item}
+                  cdnName={data.cdnHost}
+                  langUI={params.locale}
+                />
+              );
             })}
           </Slider>
         </div>
       </section>
-      <section className={style.slider_block}>
+      {/* <section className={style.slider_block}>
         <div className={style.slider_block_title}>
           <h2>{t("text.sliderEat")}</h2>
           <Link href={"/filter"} className={style.slider_block_title_button}>
@@ -110,7 +125,7 @@ export default function CountryScreen({
             })}
           </Slider>
         </div>
-      </section>
+      </section> */}
       {typePage === "country" && (
         <section className={style.slider_block}>
           <div className={style.slider_block_title}>

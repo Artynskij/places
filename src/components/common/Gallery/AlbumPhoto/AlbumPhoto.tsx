@@ -7,60 +7,27 @@ import {
 import style from "./albumPhoto.module.scss";
 import Image from "next/image"; // Импортируем компонент Image
 import { SliderAlbum } from "../SliderAlbum/SliderAlbum";
-import { IImageData } from "@/types/IType";
+import { IImageData } from "@/models/IType";
+import { IApiImage } from "@/Api/IApi";
 
 interface IAlbumPhoto {
-  imageUrls: string[];
+  imagesProp: IApiImage[];
+  cdnHost: string;
   activePhotoIndex: number;
   setActivePhotoIndex: (item: number) => void;
 }
 
 export const AlbumPhoto: FC<IAlbumPhoto> = ({
-  imageUrls,
+  imagesProp,
+  cdnHost,
   activePhotoIndex,
   setActivePhotoIndex,
 }) => {
-  const [images, setImages] = useState<IImageData[]>([]);
-
   const [typeView, setTypeView] = useState<"slider" | "list">("list");
 
   // Используем реф для хранения загруженных изображений
-  const loadedImagesRef = useRef<IImageData[]>([]);
-  const activeImageRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const fetchImages = async () => {
-      if (loadedImagesRef.current.length === 0) {
-        try {
-          const fetchedImages = await Promise.all(
-            imageUrls.map(
-              (url) =>
-                new Promise<IImageData>((resolve, reject) => {
-                  const img = new window.Image();
-                  img.src = url; // Загружаем изображение
-                  img.onload = () => {
-                    resolve({
-                      src: url,
-                      width: img.width || 300,
-                      height: img.height || 150,
-                      alt: "img.alt",
-                    });
-                  };
-                  img.onerror = (err) => reject(err);
-                })
-            )
-          );
-          loadedImagesRef.current = fetchedImages; // Сохраняем загруженные изображения в реф
-          setImages(fetchedImages); // Устанавливаем загруженные изображения в состояние
-        } catch (error) {
-          console.error("Ошибка загрузки изображений:", error);
-        }
-      } else {
-        setImages(loadedImagesRef.current); // Если изображения уже загружены, просто устанавливаем их в состояние
-      }
-    };
 
-    fetchImages();
-  }, [imageUrls]);
+  const activeImageRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (typeView === "list") {
@@ -94,7 +61,7 @@ export const AlbumPhoto: FC<IAlbumPhoto> = ({
         <Image
           className={`${style.album_img} `}
           src={imageProps.src}
-          alt={imageProps.alt || ""}
+          alt={imageProps.alt || "no alt"}
           width={300}
           height={150}
           loading="lazy"
@@ -108,7 +75,14 @@ export const AlbumPhoto: FC<IAlbumPhoto> = ({
       {typeView === "list" ? (
         <GridGallery
           enableImageSelection={false}
-          images={images}
+          images={imagesProp.map((item) => {
+            return {
+              height: item.height,
+              width: item.width,
+              src: `${cdnHost}/${item.blobPath}`,
+              alt: item.details[0].value.title,
+            };
+          })}
           thumbnailImageComponent={ImageComponent}
         />
       ) : (
@@ -117,7 +91,8 @@ export const AlbumPhoto: FC<IAlbumPhoto> = ({
             activePhotoIndex={activePhotoIndex}
             setActivePhotoIndex={setActivePhotoIndex}
             setTypeView={setTypeView}
-            data={images}
+            data={imagesProp}
+            cdnHost={cdnHost}
             id={1}
           />
         </>

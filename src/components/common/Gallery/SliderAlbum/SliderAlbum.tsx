@@ -19,9 +19,11 @@ import { IconArrowLeft } from "@/components/common/Icons/IconArrowLeft/ArrowLeft
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import Image from "next/image";
 import { IconGallery } from "../../Icons";
+import { IApiImage } from "@/Api/IApi";
 
 interface ISliderAlbum {
-  data: { src: string; width: number; height: number; alt: string }[];
+  data: IApiImage[];
+  cdnHost: string;
   id: number;
   activePhotoIndex: number;
   setActivePhotoIndex: (item: number) => void;
@@ -31,6 +33,7 @@ interface ISliderAlbum {
 export const SliderAlbum: FC<ISliderAlbum> = ({
   id,
   data,
+  cdnHost,
   activePhotoIndex,
   setActivePhotoIndex,
   setTypeView,
@@ -41,8 +44,6 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
 
   const swiperRef = useRef<SwiperRef>(null);
   const swiperRefPagination = useRef<SwiperRef>(null);
-
-
 
   const settings: SwiperOptions = {
     modules: [FreeMode, Navigation, Thumbs],
@@ -57,7 +58,7 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
   };
   const settingsPagination: SwiperOptions = {
     modules: [FreeMode, Thumbs],
-   
+
     slidesPerView: 3,
     spaceBetween: 10,
     freeMode: true,
@@ -87,7 +88,6 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
         onMouseDown={() => false}
         {...settings}
         style={{ width: "100%", height: "100%" }}
-       
       >
         {sliderLoad ? (
           <>
@@ -95,11 +95,13 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
               <SwiperSlide key={index}>
                 <div key={index} className={style.album_slider_item}>
                   <Image
-                    fill
-                    sizes="80vw"
+                    // fill
+                    width={item.width}
+                    height={item.height}
+                    sizes="100vw"
                     className={style.album_slider_img}
-                    src={item.src}
-                    alt="test"
+                    src={`${cdnHost}/${item.blobPath}`}
+                    alt={item.details[0].value.title}
                   />
                 </div>
               </SwiperSlide>
@@ -124,7 +126,6 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
         onMouseDown={() => false}
         {...settingsPagination}
         style={{ width: "100%", height: "100%" }}
-      
         slideActiveClass={style.pagination_bullet_active}
       >
         {sliderLoad ? (
@@ -136,8 +137,8 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
                     fill
                     sizes="10vw"
                     className={style.pagination_bullet_img}
-                    src={item.src}
-                    alt="test"
+                    src={`${cdnHost}/${item.blobPath}`}
+                    alt={item.details[0].value.title}
                   />
                 </div>
               </SwiperSlide>

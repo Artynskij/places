@@ -39,10 +39,10 @@
       background-color: $color-main-blue;
       color: $color-main-white;
     }
-    &_icon:hover{
+    &_icon:hover {
       color: $color-main-white;
     }
-    &_icon:active{
+    &_icon:active {
       color: $color-main-white;
     }
   }
@@ -86,6 +86,9 @@
 }
 .album_slider {
   &_item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
     position: relative;
@@ -96,6 +99,8 @@
     object-fit: cover;
     width: auto;
     height: auto;
+    max-height: 100%;
+    max-width: 100%;
     border-radius: $border-radius-5;
   }
 }

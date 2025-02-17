@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
-import { IPageProps } from "@/types/IType";
+import { IPageProps } from "@/models/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 import NewsScreen from "@/screens/News/NewsScreen/NewsScreen";
-
+import { ApiArticle } from "@/Api/Api";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -22,10 +23,22 @@ interface IProps extends IPageProps {
   };
 }
 
-export default function NewsCategoryPage({ params, searchParams }: IProps) {
+export default async function NewsCategoryPage({
+  params,
+  searchParams,
+}: IProps) {
+  const apiArticles = new ApiArticle();
+  const article = await apiArticles.getArticleById(params.news, params.locale);
+  if (!article) {
+    notFound();
+  }
   return (
     <>
-      <NewsScreen params={params} searchParams={searchParams} />
+      <NewsScreen
+        articleData={article}
+        params={params}
+        searchParams={searchParams}
+      />
     </>
   );
 }

@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FC, useEffect, useState } from "react";
 
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
-import { ISelectOption } from "@/types/IType";
+import { ISelectOption } from "@/models/IType";
 import { useTranslations } from "next-intl";
 
 interface ISwitcherProfileContentProps {

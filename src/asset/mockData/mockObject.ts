@@ -1,4 +1,4 @@
-import { IDataCardSlider } from "@/types/ICards";
+import { IDataCardSlider } from "@/models/ICards";
 import { number } from "yup";
 
 export const mockObjectsHotels: IDataCardSlider[] = [

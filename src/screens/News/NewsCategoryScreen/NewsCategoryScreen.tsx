@@ -1,5 +1,4 @@
-
-import { IPageProps } from "@/types/IType";
+import { IPageProps } from "@/models/IType";
 import style from "./newsCategoryScreen.module.scss";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { mockNews } from "@/asset/mockData/mockNews";
@@ -15,7 +14,6 @@ interface IProps extends IPageProps {
 }
 
 export default function NewsCategoryScreen({ params, searchParams }: IProps) {
-  
   const t = useTranslations("CategoryNews");
 
   const newsFirst = mockNews.filter((item, index) => {
@@ -32,7 +30,7 @@ export default function NewsCategoryScreen({ params, searchParams }: IProps) {
         <Breadcrumb />
       </div>
       <section>
-        <h2 className={style.title}>{t(params.category) || 'some'}</h2>
+        <h2 className={style.title}>{t(params.category) || "some"}</h2>
         <div className={style.content}>
           <div className={style.content_item}>
             {newsFirst.map((item, index) => {

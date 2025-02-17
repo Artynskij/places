@@ -5,7 +5,7 @@ import { CardMarketing } from "./_card/CardMarketing";
 import { Button } from "@/components/UI/Button/Button";
 import { useEffect, useState } from "react";
 import { useCookie } from "@/asset/hooks/useCookie";
-import { IDataAdvertisingCookie, IDataAdvertisingItem } from "@/types/IType";
+import { IDataAdvertisingCookie, IDataAdvertisingItem } from "@/models/IType";
 import { IconDelete } from "@/components/common/Icons";
 import { useTranslations } from "next-intl";
 

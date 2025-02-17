@@ -8,45 +8,25 @@ import Link from "next/link";
 import { LikeButton } from "../../ButtonFunctional/LikeButton";
 import { RateMain } from "../../RateCustom/RateMain";
 import { RateCafe } from "../../RateCustom/RateCafe";
-import { IDataCardSlider } from "@/types/ICards";
+import { IDataCardSlider } from "@/models/ICards";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
-interface ICardHotelList {
-  id: number;
-  title: string;
-  location: string;
-  rating: number;
-  reviews: number;
-  type: string;
-  img: string;
-  additional: string;
-  description: string;
-  coord: {
-    lat: string;
-    lon: string;
-  };
-  liked: boolean;
-  costClass?: number;
-  hotelClass?: number;
-}
+import { IApiEstablishment } from "@/Api/IApi";
+import { RateHotel } from "../../RateCustom/RateHotel";
 
-export const CardList: FC<IDataCardSlider> = ({
-  img,
-  location,
-  rating,
-  reviews,
-  title,
-  type,
-  additional,
-  description,
-  liked = false,
-  costClass,
-  hotelClass,
-}) => {
+interface ICardHotelList {
+  data: IApiEstablishment;
+  cdnName: string;
+  langUI: string;
+}
+export const CardList: FC<ICardHotelList> = ({ data, cdnName, langUI }) => {
+  if (!data.content) return null;
   return (
     <div className={style.card}>
       <div className={style.image}>
         <div className={style.image_type}>
-          <div className={style.image_type_text}>{type}</div>
+          <div className={style.image_type_text}>
+            {data.establishment.Category.Content?.details[0].value || "false"}
+          </div>
 
           <ShareButton
             linkPage="https://www.lipsum.com/"
@@ -55,70 +35,78 @@ export const CardList: FC<IDataCardSlider> = ({
             classNameButtonActive={`${style.imageButton_active}`}
           />
           <LikeButton
-            liked={liked}
+            liked={false}
             classNameButton={style.imageButton}
             classNameIcon={style.imageButton_icon}
           />
         </div>
-        <Link className={style.image_link} href={"/kazahstan/almatydistrict/almaty/objectTest"}>
+        <Link
+          className={style.image_link}
+          href={`/belarus/minskoblast/minsk/${data.establishment.Id}`}
+        >
           <Image
             loading="lazy"
             className={style.image_image}
             // width={448}
             // height={320}
-            src={img}
-            alt={img}
             fill
+            src={`${cdnName}/${data.content?.media.gallery[0].blobPath}`}
+            alt={
+              data.content?.media.gallery[0].details[0].value.title || "image"
+            }
             sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 100vw, 35vw`}
           />
         </Link>
       </div>
       <div className={style.info_ctn}>
         <div className={style.info_title}>
-          <Link href={"/kazahstan/almatydistrict/almaty/objectTest"}>
-            {title}
+          <Link href={`/belarus/minskoblast/minsk/${data.establishment.Id}`}>
+            {data.content?.value[0]?.value.details.title}
           </Link>
         </div>
         <div className={style.info_rating}>
-          <RateMain defaultValue={rating} disabled={true} />
+          <RateMain
+            defaultValue={data.establishment.Rates.Rate}
+            disabled={true}
+          />
 
           {/* <span>{rating}</span>
           <span>-</span> */}
-          <span>{reviews}</span>
+          <span>{data.establishment.Rates.Count}</span>
           <span>отзывов</span>
         </div>
-        {(additional || costClass || hotelClass) && (
+        {
           <div className={style.description_subtitle}>
-            {costClass && (
+            {data.establishment.Type.Name === "EATER" && (
               <>
-                <span>Средний чек : </span>
-                <span className={style.rateHotel}>
-                  <RateCafe
-                    disabled
-                    classNameIcon={style.rateCafe}
-                    defaultValue={costClass}
-                  />
-                </span>
+                {/* <span className={style.rateHotel}> */}
+                <RateCafe
+                  disabled
+                  classNameIcon={style.rateCafe}
+                  defaultValue={3}
+                />
+                {/* </span> */}
               </>
             )}
-            {hotelClass && (
+            {data.establishment.Type.Name === "ACCOMMODATION" && (
               <>
-                <span>Класс отеля : </span>
-                <span className={style.rateHotel}>
-                  {Array.from({ length: hotelClass }).map((_, index) => (
-                    <IconStar key={index} className={style.rateHotel_icon} />
-                  ))}
-                </span>
+                <RateHotel
+                  disabled
+                  defaultValue={4}
+                  classNameIcon={style.titleBlock_class_icon}
+                />
               </>
             )}
           </div>
-        )}
+        }
         <div className={style.info_location}>
           <IconLocation className={style.info_location_icon} />
-          {location}
+          {data.content?.value[0]?.value.location.street1}
         </div>
 
-        <div className={style.info_description}>{description}</div>
+        <div className={style.info_description}>
+          {data.content?.value[0].value.details.description}
+        </div>
       </div>
     </div>
   );

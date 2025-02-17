@@ -130,5 +130,25 @@
     "overview": "Обзоры",
     "blog": "Блог Туристов",
     "bestDestination": "Лучшие/Популярные направления"
+  },
+  "EstablishmentPage": {
+    "rates": {
+      "ratingsWord": "оценок",
+      "Rooms": "Номера",
+      "PriceQuality": "Цена/качество",
+      "Clean": "Чистота",
+      "Location": "Расположение",
+      "Service": "Обслуживание",
+
+      "Atmosphere": "Атмосфера",
+      "Food": "Качество еды",
+      "Value": "шляпа"
+    },
+    "queryTitle": {
+      "roomFeatures": "Оснащенность номера",
+      "roomTypes": "Типы номеров",
+      "propertyAmenities": "Услуги и удобства в отеле",
+      "styleRankings": "Стили отеля"
+    }
   }
 }

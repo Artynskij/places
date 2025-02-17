@@ -17,11 +17,11 @@ interface IRateMain {
   disabled?: boolean;
   classNameIcon?: string;
 }
-export const RateMain: React.FC<IRateMain> = ({
+export const RateMain = ({
   defaultValue: defaultValue,
   disabled: disabled,
   classNameIcon,
-}) => (
+}:IRateMain) => (
   <Flex gap="middle" vertical>
     <Rate
       allowHalf
@@ -29,6 +29,7 @@ export const RateMain: React.FC<IRateMain> = ({
       disabled={disabled}
       defaultValue={defaultValue}
       character={<IoHeart className={classNameIcon} />}
+      
     />
   </Flex>
 );

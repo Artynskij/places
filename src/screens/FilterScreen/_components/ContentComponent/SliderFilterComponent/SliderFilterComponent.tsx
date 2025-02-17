@@ -8,7 +8,7 @@ import { SwiperOptions } from "swiper/types";
 import "swiper/css";
 import "swiper/css/navigation";
 
-import { IDataCardSliderFilter } from "@/types/ICards";
+import { IDataCardSliderFilter } from "@/models/ICards";
 
 import { IconArrowRight, IconArrowLeft } from "@/components/common/Icons";
 

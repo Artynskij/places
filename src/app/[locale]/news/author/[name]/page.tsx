@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { IPageProps } from "@/types/IType";
+import { IPageProps } from "@/models/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 import NewsCategoryScreen from "@/screens/News/NewsCategoryScreen/NewsCategoryScreen";
 import NewsAuthorScreen from "@/screens/News/NewsAuthorScreen/NewsAuthorScreen";

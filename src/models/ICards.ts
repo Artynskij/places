@@ -35,7 +35,6 @@ export interface IDataCardSlider {
   liked?: boolean;
   additional: string;
   description: string;
-
   coord: {
     lat: string;
     lon: string;

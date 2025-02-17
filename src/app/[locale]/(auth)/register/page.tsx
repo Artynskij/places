@@ -1,5 +1,5 @@
 import { FormRegister } from "@/components/common/Form/Auth/FormRegister/FormRegister";
-import { IPageProps } from "@/types/IType";
+import { IPageProps } from "@/models/IType";
 
 // import { GoogleMaps } from "@/components/UI/Map/Map/MapGoogle";
 

@@ -5,12 +5,17 @@ import { useEffect, useState } from "react";
 import style from "./paramComponent.module.scss";
 import { IconCancel } from "@/components/common/Icons/IconCancel/IconCancel";
 import {
+  IMockBlock,
   IMockFilter,
   mockFilterHotel,
 } from "@/asset/mockData/mockFilterCheckBox";
 import { Button } from "@/components/UI/Button/Button";
 
-export const ParamComponent = () => {
+interface IParamComponentProp {
+  dataTags?: IMockBlock[];
+}
+
+const ParamComponent = ({dataTags}: IParamComponentProp) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -23,7 +28,7 @@ export const ParamComponent = () => {
       return;
     }
     const filteredSearchParamsArray: IMockFilter[] = [];
-    mockFilterHotel.forEach((block) => {
+    dataTags?.forEach((block) => {
       block.data.forEach((blockItem) => {
         if (
           searchParamsArray.find((searchItem) => searchItem === blockItem.value)
@@ -80,3 +85,5 @@ export const ParamComponent = () => {
     </div>
   );
 };
+
+export default ParamComponent;

@@ -1,4 +1,4 @@
-import { IPageProps } from "@/types/IType";
+import { IPageProps } from "@/models/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 import NewsCategoryScreen from "@/screens/News/NewsCategoryScreen/NewsCategoryScreen";
 import { newsCategoriesData } from "@/asset/mockData/data";
@@ -40,7 +40,6 @@ export default function NewsCategoryPage({ params, searchParams }: IProps) {
 
   if (!categoryName) {
     notFound(); // Если категории нет, показываем 404
-    return null;
   }
 
   return (

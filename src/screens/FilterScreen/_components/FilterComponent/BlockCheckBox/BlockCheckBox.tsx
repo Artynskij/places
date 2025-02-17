@@ -9,7 +9,7 @@ import { IconArrowDown } from "@/components/common/Icons/IconArrowDown/IconArrow
 interface IBlockCheckBox {
   data: IMockBlock;
 }
-export const BlockCheckBox: FC<IBlockCheckBox> = ({ data }) => {
+const BlockCheckBox: FC<IBlockCheckBox> = ({ data }) => {
   const [blockActive, setBlockActive] = useState(true);
   const [listBlockActive, setListBlockActive] = useState(false);
   function switchBlock() {
@@ -53,3 +53,4 @@ export const BlockCheckBox: FC<IBlockCheckBox> = ({ data }) => {
     </div>
   );
 };
+export default BlockCheckBox;

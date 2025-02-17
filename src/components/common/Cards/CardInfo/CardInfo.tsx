@@ -6,7 +6,7 @@ import style from "./cardInfo.module.scss";
 
 import Image, { StaticImageData } from "next/image";
 
-import { IDataCardInfo } from "@/types/ICards";
+import { IDataCardInfo } from "@/models/ICards";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { IconArrowRight } from "@/components/common/Icons";
 import { Popup } from "@/components/common/Popup/Popup";
