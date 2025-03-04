@@ -60,10 +60,10 @@ export const Header = () => {
         </div>
         <div className={`container  + ${style.header__second}`}>
           <ul>
-            <Link className={style.header__second_link} href={"/user"}>
+            <Link className={style.header__second_link} href={"/user/whois"}>
               <li className={"hover-underline"}>Лк туриста</li>
             </Link>
-            <Link className={style.header__second_link} href={"/owner"}>
+            <Link className={style.header__second_link} href={"/owner/whois"}>
               <li className={"hover-underline"}>Лк Владельца</li>
             </Link>
             <Link className={style.header__second_link} href={"/news/news"}>
@@ -74,6 +74,9 @@ export const Header = () => {
             </Link>
             <Link className={style.header__second_link} href={"/news/author/name"}>
               <li className={"hover-underline"}>Автора</li>
+            </Link>
+            <Link className={style.header__second_link} href={"/tourist/username"}>
+              <li className={"hover-underline"}>Турист</li>
             </Link>
             <Link className={style.header__second_link} href={"/belarus/minskObl/minsk/01JJ21RRS0YER1XH9FM4D287JY"}>
               <li className={"hover-underline"}>Объекта</li>

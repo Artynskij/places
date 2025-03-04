@@ -6,8 +6,9 @@ import { FC, useState } from "react";
 import { CheckBox } from "@/components/UI/CheckBox/CheckBox";
 import { Button } from "@/components/UI/Button/Button";
 import { IconArrowDown } from "@/components/common/Icons/IconArrowDown/IconArrowDown";
+import { IBlockFilterFront } from "@/models/frontend/tags/tagsBlock.front";
 interface IBlockCheckBox {
-  data: IMockBlock;
+  data: IBlockFilterFront;
 }
 const BlockCheckBox: FC<IBlockCheckBox> = ({ data }) => {
   const [blockActive, setBlockActive] = useState(true);
@@ -21,7 +22,7 @@ const BlockCheckBox: FC<IBlockCheckBox> = ({ data }) => {
   return (
     <div className={style.block + ` ${blockActive && style.block_active}`}>
       <div onClick={switchBlock} className={style.block_title}>
-        <span className={style.block_title_text}>{data.title}</span>
+        <span className={style.block_title_text}>{data.groupKey.name}</span>
         <IconArrowDown className={style.block_title_icon} />
       </div>
       <div
@@ -29,7 +30,7 @@ const BlockCheckBox: FC<IBlockCheckBox> = ({ data }) => {
           style.block_list + ` ${listBlockActive && style.block_list_active}`
         }
       >
-        {data.data.map((item, index) => {
+        {data.tags.map((item, index) => {
           if (index <= 3) {
             return (
               <div key={item.id} className={style.block_list_item}>

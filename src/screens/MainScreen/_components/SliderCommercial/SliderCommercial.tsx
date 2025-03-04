@@ -3,11 +3,12 @@ import { FC, useRef, useState } from "react";
 import style from "./sliderCommercial.module.scss";
 
 import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
+import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import { SwiperOptions } from "swiper/types";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 import { IconArrowRight } from "@/components/common/Icons/IconArrowRight/ArrowRightIcon";
 import { IconArrowLeft } from "@/components/common/Icons/IconArrowLeft/ArrowLeftIcon";
@@ -23,19 +24,23 @@ const SliderCommercial: FC<ISlider> = ({ id, children }) => {
   const swiperRef = useRef<SwiperRef>(null);
 
   const settings: SwiperOptions = {
-    modules: [Navigation,Autoplay],
+    modules: [Navigation, Autoplay, Pagination],
     slidesPerView: 1,
     loop: true,
     autoplay: { delay: 5000, disableOnInteraction: false },
-    // autoplay = {
-    //   delay: 2500,
-    //   disableOnInteraction: false,
-    // },
+
     navigation: {
       prevEl: `#slider-${id}-prev`,
       nextEl: `#slider-${id}-next`,
 
       disabledClass: style.disable_arrow,
+    },
+    pagination: {
+      clickable: true,
+      el: `#slider-${id}-pagination`,
+      renderBullet: function (index, className) {
+        return `<span class="${className} ${style.pagination_bullet}"></span>`;
+      },
     },
   };
   return (
@@ -46,6 +51,7 @@ const SliderCommercial: FC<ISlider> = ({ id, children }) => {
         ref={swiperRef}
         {...settings}
         onMouseDown={() => false}
+
         // navigation
       >
         {sliderLoad ? (
@@ -68,6 +74,7 @@ const SliderCommercial: FC<ISlider> = ({ id, children }) => {
         <div id={`slider-${id}-next`} className={style.arrow_next}>
           <IconArrowRight className={style.arrow_next_icon} />
         </div>
+        <div className={style.pagination} id={`slider-${id}-pagination`}></div>
       </div>
     </div>
   );

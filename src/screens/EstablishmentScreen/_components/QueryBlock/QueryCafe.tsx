@@ -8,51 +8,67 @@ import { Button } from "@/components/UI/Button/Button";
 import { IconMessage } from "@/components/common/Icons/IconMessage/IconMessage";
 import { Switcher } from "@/components/common/Switcher/Switcher";
 import { useTranslations } from "use-intl";
+import { ITagsBlockFront } from "@/models/frontend/tags/tagsBlock.front";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { Popup } from "@/components/common/Popup/Popup";
 interface IQueryCafe {
-  data: { key: string; value: string[], title:string }[];
+  data: ITagsBlockFront[];
 }
 
 const QueryCafe: FC<IQueryCafe> = ({ data }) => {
   // const t = useTranslations("EstablishmentPage");
 
   const [modalQuery, setModalQuery] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<string>(
-    data[0]?.title
-  );
-
+  const [activeTab, setActiveTab] = useState<string>(data[0]?.groupKey.name);
+  const useMedia = useSelector((state: RootState) => state.screenSize);
+  const closeModal = () => {
+    setModalQuery(false);
+  };
+  const openModal = () => {
+    setModalQuery(true);
+  };
   return (
-    <ul className={style.queryListCafe}>
+    <ul onClick={() => console.log(useMedia)} className={style.queryListCafe}>
       {data.map((tagBlock, index) => {
         return (
           <li key={index} className={style.queryListCafe_item}>
             <div className={style.queryListCafe_item_title}>
-              {tagBlock.title}
+              {tagBlock.groupKey.name}
             </div>
             <div className={style.queryListCafe_item_value}>
-              {tagBlock.value.join(", ")}
+              {tagBlock.tags.map((item, index) => {
+                return (
+                  <span key={item.id}>
+                    {item.name}
+                    {index !== tagBlock.tags.length -1 ? ", " : "."}
+                  </span>
+                );
+              })}
             </div>
           </li>
         );
       })}
       <Button
-        onClick={() => setModalQuery(!modalQuery)}
+        onClick={openModal}
         className={style.button_queryList}
         type="light"
         text="Подробнее"
       />
+
       <ModalCustom
         setActive={setModalQuery}
         active={modalQuery}
         title="Характеристики"
+        view="small"
       >
-        <div>
+        <div style={{display:'flex', flexDirection:'column'}}>
           <Switcher
             data={data.map((tagBlock, index) => {
               return {
-                active:
-                  activeTab === tagBlock.title ? true : false,
-                title: tagBlock.title,
-                value: tagBlock.value.join(","),
+                active: activeTab === tagBlock.groupKey.name ? true : false,
+                title: tagBlock.groupKey.name,
+                value: tagBlock.tags.map((item) => item.name).join(","),
               };
             })}
             callBack={(item) => {
@@ -63,15 +79,15 @@ const QueryCafe: FC<IQueryCafe> = ({ data }) => {
           <div className={style.modal_content}>
             {data.map((tagBlock) => (
               <ul
-                key={tagBlock.key}
+                key={tagBlock.groupKey.value}
                 className={`${style.modal_list} ${
-                  tagBlock.title === activeTab &&
+                  tagBlock.groupKey.name === activeTab &&
                   style.modal_list__active
                 }`}
               >
-                {tagBlock.value.map((tag) => (
-                  <li key={tag} className={style.modal_list_item}>
-                    {tag}
+                {tagBlock.tags.map((tag) => (
+                  <li key={tag.id} className={style.modal_list_item}>
+                    {tag.name}
                   </li>
                 ))}
               </ul>

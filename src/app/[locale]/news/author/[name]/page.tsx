@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 
 import { IPageProps } from "@/models/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
-import NewsCategoryScreen from "@/screens/News/NewsCategoryScreen/NewsCategoryScreen";
-import NewsAuthorScreen from "@/screens/News/NewsAuthorScreen/NewsAuthorScreen";
+import NewsCategoryScreen from "@/screens/(News)/NewsCategoryScreen/NewsCategoryScreen";
+import NewsAuthorScreen from "@/screens/(News)/NewsAuthorScreen/NewsAuthorScreen";
 
 export async function generateMetadata({
   params,

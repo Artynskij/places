@@ -1,0 +1,62 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: $gap-medium;
+}
+.avatar_block {
+  & img {
+    max-height: 300px;
+    aspect-ratio: 1/1;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: $border-radius-10;
+  }
+}
+.info {
+  &_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    & > div:first-child {
+      display: flex;
+      flex-direction: column;
+      gap: $gap-small;
+    }
+    gap: $gap-small;
+    & a {
+      position: relative;
+      color: $color-main-blue;
+      @include underline($color-main-blue_hover);
+    }
+  }
+
+  &_name {
+    @extend %Text18;
+  }
+  &_username {
+    @extend %Text12;
+  }
+
+  &_buttons {
+    display: flex;
+    gap: $gap-big;
+  }
+  &_shareButton {
+    padding: 11.5px 16px;
+    background-color: $color-main-blue;
+    color: $color-main-white;
+    border-radius: $border-radius-20;
+  }
+}
+@include mediaTablet {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  .info{
+    &_buttons{
+      flex-direction: column;
+    }
+  }
+}

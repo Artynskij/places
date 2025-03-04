@@ -1,7 +1,8 @@
-import { ApiEstablishment, ApiTags } from "@/Api/Api";
 import { EstablishmentScreen } from "@/screens/EstablishmentScreen/EstablishmentScreen";
 import { IPageProps } from "@/models/IType";
 import { notFound } from "next/navigation";
+import { EstablishmentService } from "@/Api/establishment/establishment.service";
+import { TagsService } from "@/Api/tags/tag.service";
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {
     country: string;
@@ -23,12 +24,12 @@ export default async function EstablishmentPage({
   params,
   searchParams,
 }: IProps) {
-  const apiEst = new ApiEstablishment();
-  const apiTags = new ApiTags();
+  const apiEst = new EstablishmentService();
+  const apiTags = new TagsService();
 
   const dataNearEstablishment = await apiEst.getEstablishmentByPagination({
     pagination: { page: 1, pageSize: 5 },
-    // lang: params.locale,
+    lang: params.locale,
   });
 
   const dataEstablishment = await apiEst.getEstablishmentById(
@@ -36,50 +37,23 @@ export default async function EstablishmentPage({
     params.locale
   );
 
-  const dataTags = await apiTags.getAllTagsOfEstablishment({
+
+  const dataTags = await apiTags.getAllTagsOfEstablishmentFilter({
     establishmentIds: [params.establishment],
     lang: params.locale,
   });
   if (!dataNearEstablishment || !dataEstablishment || !dataTags) {
     notFound();
   }
-  console.log(dataTags);
-
-  const transformTags = dataTags.reduce((acc, item) => {
-    const key = item.TagCategory.Name;
-    const value = item.Content?.details[0].value;
-    const title = item.TagCategory.Content?.details[0].value;
-    if (key === "starRating" || key === "priceTypes") return acc;
-    if (acc[key]) {
-      acc[key].value.push(value);
-    } else {
-      acc[key] = {
-        value: [value],
-        title,
-      };
-    }
-
-    return acc;
-  }, {} as Record<string, { value: string[]; title: string }>);
-  const newType = Object.entries(transformTags).map(
-    ([key, { value, title }]) => ({
-      key,
-      value: value,
-      title,
-    })
+  const _indexClassTag = dataTags.indexOf(
+    dataTags.filter((item) => item.groupKey.value === "starRating")[0]
   );
-  const findClassTag = dataTags?.find(
-    (item) =>
-      item.TagCategory.Name === "starRating" ||
-      item.TagCategory.Name === "priceTypes"
-  );
-  const classTag = {
-    key: findClassTag?.TagCategory.Name as string,
-    value: findClassTag?.Content?.details[0].value as string,
-    title: findClassTag?.TagCategory.Content?.details[0].value as string,
-    count: +(findClassTag?.Content?.details[0].value
-      .split(" ")[0]
-      .replace(",", ".") as string),
+  const classTag = dataTags.splice(_indexClassTag, _indexClassTag);
+  const modifyClassTag = {
+    ...classTag[0],
+    count: +(
+      classTag[0].tags[0].name.split(" ")[0].replace(",", ".") as string
+    ),
   };
 
   return (
@@ -88,8 +62,9 @@ export default async function EstablishmentPage({
       searchParams={searchParams}
       dataNearEstablishment={dataNearEstablishment}
       dataEstablishment={dataEstablishment}
-      dataTags={newType}
-      classTag={classTag}
+      dataTags={dataTags}
+      classTag={modifyClassTag}
+      // testTags={testTags}
     />
   );
 }

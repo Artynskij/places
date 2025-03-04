@@ -19,28 +19,39 @@ export const ModalCustom: FC<IModalProps> = ({
   title,
   view = "small",
 }) => {
+  // const viewModal: {
+  //   over: React.CSSProperties;
+  //   big: React.CSSProperties;
+  //   middle: React.CSSProperties;
+  //   small: React.CSSProperties;
+  // } = {
+  //   over: {
+  //     height: "99vh",
+  //     width: "99vw",
+  //   },
+  //   big: {
+  //     height: "90vh",
+  //     width: "90vw",
+  //   },
+  //   middle: {
+  //     height: "80vh",
+  //     width: "80vw",
+  //   },
+  //   small: {
+  //     height: "50vh",
+  //     width: "80vw",
+  //   },
+  // };
   const viewModal: {
-    over: React.CSSProperties;
-    big: React.CSSProperties;
-    middle: React.CSSProperties;
-    small: React.CSSProperties;
+    over: string;
+    big: string;
+    middle: string;
+    small: string;
   } = {
-    over: {
-      height: "99vh",
-      width: "99vw",
-    },
-    big: {
-      height: "90vh",
-      width: "90vw",
-    },
-    middle: {
-      height: "80vh",
-      width: "80vw",
-    },
-    small: {
-      height: "50vh",
-      width: "80vw",
-    },
+    over: style.view_content_over,
+    big: style.view_content_big,
+    middle: style.view_content_middle,
+    small:  style.view_content_small,
   };
 
   return (
@@ -48,7 +59,7 @@ export const ModalCustom: FC<IModalProps> = ({
       <div
         className={`${style.modal}  ${active ? " " + style.modal_active : ""}`}
       >
-        <div style={viewModal[view]} className={style.modal_content}>
+        <div  className={`${style.modal_content} ${viewModal[view]}`}>
           <div className={style.modal_content_title}>
             <h4>{title}</h4>
             <ButtonClose

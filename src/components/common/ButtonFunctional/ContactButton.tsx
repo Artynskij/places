@@ -12,7 +12,7 @@ import { Popup } from "../Popup/Popup";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { IApiContacts } from "@/Api/IApi";
+import { IContactsEntity } from "@/models";
 
 interface IContactButton {
   classNameButton?: string;
@@ -20,7 +20,7 @@ interface IContactButton {
   importTitle?: string;
   importDescription?: string;
   textButton?: string;
-  contactData: IApiContacts | null;
+  contactData: IContactsEntity | null;
 }
 
 export const ContactButton: FC<IContactButton> = ({
@@ -63,8 +63,8 @@ export const ContactButton: FC<IContactButton> = ({
   return (
     <div
       ref={blockContactRef}
-      className={`${classNameButton} ${style.contact} ${
-        popupActive && classNameButtonActive
+      className={`${classNameButton || ""} ${style.contact} ${
+        (popupActive && classNameButtonActive) || ""
       }`}
     >
       {textButton && <span onClick={toggle}>{textButton}</span>}

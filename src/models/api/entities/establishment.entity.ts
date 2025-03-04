@@ -1,0 +1,53 @@
+import { ICategoryEntity } from "./category.entity";
+import { IContactsEntity } from "./parts/contact.entity";
+import { IContentEntity } from "./parts/content.entity";
+import { IImageEntity } from "./parts/image.entity";
+import { IRateEntity } from "./parts/rate.entity";
+
+export interface IEstablishmentEntity {
+  establishment: {
+    Id: string;
+    Latitude: string;
+    Longitude: string;
+    PostalCode: string;
+    ContentId: string;
+    Moderate: null | boolean;
+    Type: {
+      Id: string;
+      Name: "ACCOMMODATION" | "EATER" | "ATTRACTION";
+      RefName: string;
+      ContentId: string;
+      Content: IContentEntity;
+    };
+    Category: ICategoryEntity;
+    Contacts: IContactsEntity | null;
+    Locations: {} | null;
+    Rates: IRateEntity;
+  };
+  content: {
+    id: string;
+    type: string;
+    collection: string;
+    value: {
+      lang: string;
+      value: {
+        details: {
+          title: string;
+          description: string;
+        };
+        seoTrip: {
+          key: string;
+          value: string;
+        }[];
+
+        location: {
+          street1: string;
+          street2: string;
+        };
+      };
+    }[];
+    media: {
+      gallery: IImageEntity[];
+    };
+  };
+}

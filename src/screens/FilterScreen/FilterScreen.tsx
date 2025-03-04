@@ -18,25 +18,24 @@ import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 import { mockFilterSort } from "@/asset/mockData/mockFilterSort";
 import { useEffect, useState } from "react";
 import { IPageProps } from "@/models/IType";
-import {
-  IApiEstablishmentsResponse,
-  IApiTag,
-  IApiTagsResponse,
-} from "@/Api/IApi";
+
 import { Pagination, PaginationProps } from "antd";
 import { IMockBlock } from "@/asset/mockData/mockFilterCheckBox";
+import { IEstablishmentItemsResponse } from "@/models/api/response/establishment/IEstablishment.response";
+import { ITagsBlockFront } from "@/models/frontend/tags/tagsBlock.front";
+import { PaginationAnt } from "@/components/common/Pagination/PaginationAnt";
 
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {};
-  dataEstablishment: IApiEstablishmentsResponse;
-  dataOfTags: any;
-  dataTest: any;
+  dataEstablishment: IEstablishmentItemsResponse;
+  blockTags: ITagsBlockFront[];
+  dataTest?: any;
 }
 export default function FilterScreen({
   params,
   searchParams,
   dataEstablishment,
-  dataOfTags,
+  blockTags,
   dataTest,
 }: IProps) {
   const [sortActiveItem, setSortActiveItem] = useState(mockFilterSort[3].value);
@@ -48,7 +47,7 @@ export default function FilterScreen({
   useEffect(() => {
     console.log("mounted");
 
-    console.log(dataOfTags);
+    console.log(blockTags);
     console.log(dataTest);
   }, []);
   return (
@@ -69,11 +68,11 @@ export default function FilterScreen({
           </div>
         </div>
         <div id={"filter"} className={style.container_filter}>
-          <FiltersComponent dataTags={dataOfTags} />
+          <FiltersComponent dataTags={blockTags} />
         </div>
         <div className={style.container_content}>
           <div className={style.param}>
-            <ParamComponent dataTags={dataOfTags} />
+            <ParamComponent dataTags={blockTags} />
           </div>
           <div className={style.sort}>
             <span>Сортировать</span>
@@ -116,20 +115,7 @@ export default function FilterScreen({
           )}
 
           <>
-            <Pagination
-              // showSizeChanger
-              // onShowSizeChange={onShowSizeChange}
-              defaultCurrent={3}
-              total={500}
-            />
-            {/* <br />
-            <Pagination
-              showSizeChanger
-              // onShowSizeChange={onShowSizeChange}
-              defaultCurrent={3}
-              total={500}
-              disabled
-            /> */}
+            <PaginationAnt defaultPage={1} totalCount={100}/>
           </>
         </div>
       </div>

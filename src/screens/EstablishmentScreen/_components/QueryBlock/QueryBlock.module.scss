@@ -48,3 +48,31 @@
     }
   }
 }
+@include mediaTablet{
+  .modal {
+
+    &_list {
+    
+  
+      &__active {
+     
+        grid-template-columns: repeat(2, 1fr);
+   
+      }
+    }
+  }
+}
+@include mediaPhone{
+  .modal {
+
+    &_list {
+    
+  
+      &__active {
+     
+        grid-template-columns: repeat(1, 1fr);
+   
+      }
+    }
+  }
+}

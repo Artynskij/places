@@ -1,10 +1,14 @@
-import { IApiArticle } from "@/models";
-import { IPaginationCredentials } from "../api.type";
+import { IArticleEntity } from "@/models";
+
 import apiClient from "../ApiClient";
+import { IPaginationArticleRequest } from "@/models/api/request/article/IPaginationArticle.request";
 
 export default class ArticleApi {
   constructor() {}
-  async getArticleById(id: string, lang: string): Promise<IApiArticle | null> {
+  async getArticleById(
+    id: string,
+    lang: string
+  ): Promise<IArticleEntity | null> {
     try {
       const response = await apiClient.get(
         `/articles-of-business/${id}?lang=${lang}`
@@ -17,8 +21,8 @@ export default class ArticleApi {
   }
 
   async getArticlesByPagination(
-    body: IPaginationCredentials
-  ): Promise<IApiArticle[] | null> {
+    body: IPaginationArticleRequest
+  ): Promise<IArticleEntity[] | null> {
     try {
       const response = await apiClient.post(
         `/articles-of-business/getAll`,

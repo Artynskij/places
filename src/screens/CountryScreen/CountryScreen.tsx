@@ -23,10 +23,11 @@ import { IPageProps } from "@/models/IType";
 // import { useTranslations } from "next-intl";
 import { InfoSection } from "./_components/InfoSection/InfoSection";
 import { countriesData } from "@/asset/mockData/countries";
-import { ApiEstablishment } from "@/Api/Api";
+
 import { GetServerSideProps } from "next";
-import { IApiEstablishmentsResponse } from "@/Api/IApi";
+
 import { getTranslations } from "next-intl/server";
+import { IEstablishmentItemsResponse } from "@/models/api/response/establishment/IEstablishment.response";
 
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {
@@ -35,7 +36,7 @@ interface IProps extends IPageProps {
     town?: string;
   };
   typePage: "country" | "district" | "town";
-  data: IApiEstablishmentsResponse;
+  data: IEstablishmentItemsResponse;
 }
 
 export default async function CountryScreen({

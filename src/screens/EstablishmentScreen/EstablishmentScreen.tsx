@@ -12,13 +12,8 @@ import { IconDone } from "@/components/common/Icons/IconDone/IconDone";
 import { IconPhone } from "@/components/common/Icons/IconPhone/IconPhone";
 import Link from "next/link";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
-import { useState } from "react";
-import {
-  mockObjectForObjectPage,
-  mockObjectsCafe,
-  mockObjectsHotels,
-  mockObjectsRelax,
-} from "@/asset/mockData/mockObject";
+import { useEffect, useState } from "react";
+import { mockObjectForObjectPage } from "@/asset/mockData/mockObject";
 
 import { QueryHotel } from "./_components/QueryBlock/QueryHotel";
 import QueryCafe from "./_components/QueryBlock/QueryCafe";
@@ -31,15 +26,17 @@ import { ContactButton } from "@/components/common/ButtonFunctional/ContactButto
 import { ScheduleButton } from "@/components/common/ButtonFunctional/ScheduleButton";
 import { Slider } from "@/components/common/Slider/Slider";
 import { CardSliderMainPage } from "@/components/common/Cards";
-import {
-  IApiEstablishmentResponse,
-  IApiEstablishmentsResponse,
-  IApiTag,
-} from "@/Api/IApi";
+
 import { IPageProps } from "@/models/IType";
 import { useTranslations } from "next-intl";
+import {
+  IEstablishmentItemsResponse,
+  IEstablishmentResponse,
+} from "@/models/api/response/establishment/IEstablishment.response";
+import { ITagFront } from "@/models/frontend/tags/tag.front";
+import { ITagsBlockFront } from "@/models/frontend/tags/tagsBlock.front";
+import { ITagClassFront } from "@/models/frontend/tags/tagClass.front";
 
-interface ITag {}
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {
     country: string;
@@ -48,10 +45,11 @@ interface IProps extends IPageProps {
     establishment: string;
   };
 
-  dataEstablishment: IApiEstablishmentResponse;
-  dataNearEstablishment: IApiEstablishmentsResponse;
-  dataTags: { key: string; value: string[]; title: string }[];
-  classTag: { key: string; value: string; title: string; count: number };
+  dataEstablishment: IEstablishmentResponse;
+  dataNearEstablishment: IEstablishmentItemsResponse;
+  dataTags: ITagsBlockFront[];
+  classTag: ITagClassFront;
+  // testTags: ITagsBlockFront[];
 }
 export const EstablishmentScreen = ({
   params,
@@ -60,12 +58,14 @@ export const EstablishmentScreen = ({
   dataNearEstablishment,
   dataTags,
   classTag,
+  // testTags,
 }: IProps) => {
   const [modalDetails, setModalDetails] = useState<boolean>(false);
   const t = useTranslations("EstablishmentPage");
 
   const data = dataEstablishment;
   const fuckData = mockObjectForObjectPage;
+
   return (
     <div className="container">
       <div className={style.underHeader}>
@@ -350,7 +350,7 @@ export const EstablishmentScreen = ({
               {data.establishment.establishment.Type.Name ===
                 "ACCOMMODATION" && (
                 <>
-                  <div className={style.info_class_title}>{classTag.title}</div>
+                  <div className={style.info_class_title}>{classTag.groupKey.name}</div>
                   <RateHotel
                     disabled
                     defaultValue={classTag.count}
@@ -384,6 +384,7 @@ export const EstablishmentScreen = ({
           <ModalCustom
             setActive={setModalDetails}
             active={modalDetails}
+            
             title="Описание"
           >
             <div>

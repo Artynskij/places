@@ -1,6 +1,7 @@
-import { IApiArticle } from "@/models";
-import { IPaginationCredentials } from "../api.type";
+import { IArticleEntity } from "@/models";
+
 import ArticleApi from "./article.endpoints";
+import { IPaginationArticleRequest } from "@/models/api/request/article/IPaginationArticle.request";
 
 export class ArticleService {
   private articleApi: ArticleApi;
@@ -9,14 +10,17 @@ export class ArticleService {
     this.articleApi = new ArticleApi();
   }
 
-  async getArticleById(id: string, lang: string): Promise<IApiArticle | null> {
+  async getArticleById(
+    id: string,
+    lang: string
+  ): Promise<IArticleEntity | null> {
     const response = await this.articleApi.getArticleById(id, lang);
     return response ? response : null;
   }
 
   async getArticlesByPagination(
-    body: IPaginationCredentials
-  ): Promise<IApiArticle[] | null> {
+    body: IPaginationArticleRequest
+  ): Promise<IArticleEntity[] | null> {
     const response = await this.articleApi.getArticlesByPagination(body);
     return response ? response : null;
   }

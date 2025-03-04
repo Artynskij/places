@@ -1,6 +1,6 @@
 import { IPageProps } from "@/models/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
-import NewsCategoryScreen from "@/screens/News/NewsCategoryScreen/NewsCategoryScreen";
+import NewsCategoryScreen from "@/screens/(News)/NewsCategoryScreen/NewsCategoryScreen";
 import { newsCategoriesData } from "@/asset/mockData/data";
 import { notFound } from "next/navigation";
 

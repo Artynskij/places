@@ -11,7 +11,15 @@
   }
 }
 .title_second {
-  margin-bottom: 40px;
+  & a {
+    position: relative;
+    @include underline($color-main-blue_hover);
+    transition: $transiton;
+  }
+  & a:hover {
+    color: $color-main-blue_hover;
+  }
+  margin-bottom: 20px;
 }
 .news_content {
   display: grid;
@@ -190,7 +198,6 @@
       &_content {
         padding: 7px 5px;
         gap: $gap-small;
-
         &_date,
         &_title {
         }
@@ -279,6 +286,13 @@
   }
   .recommend_content {
     .cardRecommend {
+      &_content {
+        &_title,
+        &_date {
+          font-size: 12px;
+          line-height: 1.2em;
+        }
+      }
     }
   }
 }

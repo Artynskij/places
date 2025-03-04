@@ -1,7 +1,7 @@
-import { IPaginationCredentials } from "../api.type";
-import { IApiEstablishment } from "../IApi";
+import { IPaginationEstablishmentRequest } from "@/models/api/request/establishment/IPaginationEstablishment.request";
 import EstablishmentApi from "./establishment.endpoints";
-import { IApiEstablishmentResponse, IApiEstablishmentsResponse } from "./types";
+
+import { IEstablishmentItemsResponse, IEstablishmentResponse } from "@/models/api/response/establishment/IEstablishment.response";
 
 export class EstablishmentService {
   private establishmentApi: EstablishmentApi;
@@ -10,7 +10,7 @@ export class EstablishmentService {
     this.establishmentApi = new EstablishmentApi();
   }
 
-  async getAllEstablishments(): Promise<IApiEstablishmentResponse | null> {
+  async getAllEstablishments(): Promise<IEstablishmentItemsResponse | null> {
     const response = await this.establishmentApi.getAllEstablishment();
     return response ? response : null;
   }
@@ -18,14 +18,14 @@ export class EstablishmentService {
   async getEstablishmentById(
     id: string,
     lang: string
-  ): Promise<IApiEstablishmentResponse | null> {
+  ): Promise<IEstablishmentResponse | null> {
     const response = await this.establishmentApi.getEstablishmentById(id, lang);
     return response ? response : null;
   }
 
   async getEstablishmentByPagination(
-    body: IPaginationCredentials
-  ): Promise<IApiEstablishmentsResponse | null> {
+    body: IPaginationEstablishmentRequest
+  ): Promise<IEstablishmentItemsResponse | null> {
     const response = await this.establishmentApi.getEstablishmentByPagination(
       body
     );

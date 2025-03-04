@@ -10,12 +10,13 @@ import {
   mockFilterHotel,
 } from "@/asset/mockData/mockFilterCheckBox";
 import { Button } from "@/components/UI/Button/Button";
+import { IBlockFilterFront } from "@/models/frontend/tags/tagsBlock.front";
 
 interface IParamComponentProp {
-  dataTags?: IMockBlock[];
+  dataTags?: IBlockFilterFront[];
 }
 
-const ParamComponent = ({dataTags}: IParamComponentProp) => {
+const ParamComponent = ({ dataTags }: IParamComponentProp) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -29,7 +30,7 @@ const ParamComponent = ({dataTags}: IParamComponentProp) => {
     }
     const filteredSearchParamsArray: IMockFilter[] = [];
     dataTags?.forEach((block) => {
-      block.data.forEach((blockItem) => {
+      block.tags.forEach((blockItem) => {
         if (
           searchParamsArray.find((searchItem) => searchItem === blockItem.value)
         )

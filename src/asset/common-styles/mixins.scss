@@ -3,6 +3,21 @@
   min-height: $min;
   max-height: $max;
 }
+@mixin underline ($color) {
+  &::before {
+    content: "";
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    height: 2px;
+    min-width: 0px;
+    transition: $transiton;
+    background-color: $color;
+  }
+  &:hover::before {
+    min-width: 100%;
+  }
+}
 @mixin textCut($num) {
   display: -webkit-box;
   -webkit-line-clamp: $num;

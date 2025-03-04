@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 
 import { IPageProps } from "@/models/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
-import NewsScreen from "@/screens/News/NewsScreen/NewsScreen";
-import { ApiArticle } from "@/Api/Api";
+import NewsScreen from "@/screens/(News)/NewsScreen/NewsScreen";
+
 import { notFound } from "next/navigation";
+import { ArticleService } from "@/Api/article/article.service";
 
 export async function generateMetadata({
   params,
@@ -27,7 +28,7 @@ export default async function NewsCategoryPage({
   params,
   searchParams,
 }: IProps) {
-  const apiArticles = new ApiArticle();
+  const apiArticles = new ArticleService();
   const article = await apiArticles.getArticleById(params.news, params.locale);
   if (!article) {
     notFound();

@@ -5,19 +5,18 @@ import Link from "next/link";
 import FinderBlock from "./_components/FinderBlock/FinderBlock";
 import SliderCommercial from "./_components/SliderCommercial/SliderCommercial";
 
-import { mockNews } from "@/asset/mockData/mockNews";
 import { mockTowns } from "@/asset/mockData/mockCountry";
 import { mockCommercialMainPage } from "@/asset/mockData/mockCommercialMainPage";
 import { newsCategoriesData } from "@/asset/mockData/data";
 import { useTranslations } from "next-intl";
-import { ApiEstablishment } from "@/Api/Api";
+
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
-import { IPageProps } from "@/models/IType";
-import { IFrontArticle } from "@/models";
+
+import { IArticleFront, IPageProps } from "@/models";
 
 interface IProps extends IPageProps {
   params: IPageProps["params"] & {};
-  articlesData: IFrontArticle[];
+  articlesData: IArticleFront[];
 }
 export const MainScreen = ({ params, searchParams, articlesData }: IProps) => {
   const newsData = articlesData.slice(0, 6);

@@ -1,11 +1,14 @@
-import {  IApiTag, IPaginationCredentials } from "../api.type";
+import {
+  IEstablishmentResponse,
+  IEstablishmentItemsResponse,
+} from "@/models/api/response/establishment/IEstablishment.response";
 import apiClient from "../ApiClient";
-import { IApiEstablishmentResponse, IApiEstablishmentsResponse } from "./types";
+import { IPaginationEstablishmentRequest } from "@/models/api/request/establishment/IPaginationEstablishment.request";
 
 export default class EstablishmentApi {
   constructor() {}
 
-  async getAllEstablishment(): Promise<IApiEstablishmentResponse | null> {
+  async getAllEstablishment(): Promise<IEstablishmentItemsResponse | null> {
     try {
       const response = await apiClient.get(`/establishment`);
       return response.data;
@@ -16,8 +19,8 @@ export default class EstablishmentApi {
   }
 
   async getEstablishmentByPagination(
-    body: IPaginationCredentials
-  ): Promise<IApiEstablishmentsResponse | null> {
+    body: IPaginationEstablishmentRequest
+  ): Promise<IEstablishmentItemsResponse | null> {
     try {
       const response = await apiClient.post(`/establishment/getAll`, body);
       return response.data;
@@ -30,30 +33,12 @@ export default class EstablishmentApi {
   async getEstablishmentById(
     id: string,
     lang: string
-  ): Promise<IApiEstablishmentResponse | null> {
+  ): Promise<IEstablishmentResponse | null> {
     try {
       const response = await apiClient.get(`/establishment/${id}?lang=${lang}`);
       return response.data;
     } catch (error) {
       console.error(`Ошибка при получении заведения с ID ${id}:`, error);
-      return null;
-    }
-  }
-
-  async getTagsOfEstablishment(
-    id: string[],
-    lang: string
-  ): Promise<IApiTag[] | null> {
-    try {
-      const response = await apiClient.get(
-        `/tags-of-establishments?establishmentId=${id.join(",")}&lang=${lang}`
-      );
-      return response.data;
-    } catch (error) {
-      console.error(
-        `Ошибка при получении тегов для заведения с ID ${id}:`,
-        error
-      );
       return null;
     }
   }

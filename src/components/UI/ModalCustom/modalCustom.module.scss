@@ -1,9 +1,24 @@
-@import "/src/asset/common-styles/";
-
+.view_content {
+  &_over {
+    height: "99vh";
+    width: "99vw";
+  }
+  &_big {
+    height: "90vh";
+    width: "90vw";
+  }
+  &_middle {
+    height: "80vh";
+    width: "80vw";
+  }
+  &_small {
+    height: "50vh";
+    width: "80vw";
+  }
+}
 .modal {
   display: flex;
-  justify-content: center;
-  align-items: center;
+
   position: fixed;
   top: 0;
   left: 0;
@@ -14,7 +29,7 @@
   &_content {
     display: flex;
     flex-direction: column;
-
+    margin: auto auto;
     height: 50vh;
     width: 80vw;
     border-radius: 10px;
@@ -54,4 +69,12 @@
 .modal_active {
   display: flex;
   // transform: scale(1);
+}
+@include mediaTablet {
+  .view_content_small {
+    width: 100vw;
+    height: 90vh;
+    margin-bottom: 0;
+    border-radius: 10px 10px 0 0;
+  }
 }

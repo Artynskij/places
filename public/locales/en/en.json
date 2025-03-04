@@ -76,6 +76,11 @@
       "review": "my grades",
       "interest": "my interests",
       "travelMap": "travel map",
+      "publications": "publications",
+      "photos": "photos",
+      "videos": "videos",
+      "reviews": "reviews / ratings",
+
       "object": "my objects",
       "marketing": "promotion",
       "history": "order history",

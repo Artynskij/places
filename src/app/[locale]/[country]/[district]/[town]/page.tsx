@@ -1,7 +1,8 @@
 import CountryScreen from "@/screens/CountryScreen/CountryScreen";
 import { IPageProps } from "@/models/IType";
-import { ApiEstablishment } from "@/Api/Api";
+
 import { notFound } from "next/navigation";
+import { EstablishmentService } from "@/Api/establishment/establishment.service";
 
 export async function generateMetadata({
   params,
@@ -20,7 +21,7 @@ interface IProps extends IPageProps {
   };
 }
 export default async function TownPage({ params, searchParams }: IProps) {
-  const api = new ApiEstablishment();
+  const api = new EstablishmentService();
 
   const data = await api.getEstablishmentByPagination({
     pagination: { page: 1, pageSize: 5 },

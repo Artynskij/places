@@ -15,20 +15,22 @@ interface ISwitcher {
 export const Switcher: FC<ISwitcher> = ({ data, callBack }) => {
   return (
     <div className={style.switcher}>
-      {data.map((item, index) => {
-        return (
-          <Button
-            className={style.switcher_item}
-            onClick={() => {
-              callBack(data[index]);
-            }}
-            key={index}
-            type={item.active ? "blue" : "light"}
-            text={item.title}
-            active={item.active ? true : false}
-          />
-        );
-      })}
+      <div className={style.switcher_list}>
+        {data.map((item, index) => {
+          return (
+            <Button
+              className={style.switcher_item}
+              onClick={() => {
+                callBack(data[index]);
+              }}
+              key={index}
+              type={item.active ? "blue" : "light"}
+              text={item.title}
+              active={item.active ? true : false}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

@@ -13,7 +13,7 @@ import {
 } from "@/components/common/Icons";
 import { Overlay } from "@/components/common/Overlay/Overlay";
 import { Button } from "@/components/UI/Button/Button";
-import { switcherFinderMainPage } from "@/asset/mockData/data";
+import { switcherFinderMainPage } from "@/asset/mockData/switcherTabsPage";
 
 const FinderBlock = () => {
   const Router = useRouter();

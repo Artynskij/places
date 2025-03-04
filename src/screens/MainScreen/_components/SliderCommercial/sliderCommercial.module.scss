@@ -1,6 +1,6 @@
-@import "/src/asset/common-styles/";
 .slider_ctn {
   position: relative;
+  margin-bottom: 30px;
 }
 .arrow_next,
 .arrow_prev {
@@ -37,7 +37,19 @@
 .arrow_next {
   right: -10px;
 }
-
+.pagination {
+  // background-color: red;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  // top: calc(100% + 20px);
+  bottom: -20px !important;
+  &_bullet {
+    width: 10px;
+    height: 10px;
+  }
+}
 .disable_arrow {
   color: $color-main-grey;
   border-color: $color-main-grey;
@@ -60,12 +72,11 @@
     flex-direction: column;
     gap: 8px;
   }
-  &_image{
+  &_image {
     width: 100%;
     height: 300px;
-
   }
-  &_button{
+  &_button {
     width: 100%;
   }
 }
