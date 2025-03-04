@@ -115,7 +115,7 @@ export default function FilterScreen({
           )}
 
           <>
-            <PaginationAnt defaultPage={1} totalCount={100}/>
+            <PaginationAnt defaultPage={1} totalCount={100} />
           </>
         </div>
       </div>

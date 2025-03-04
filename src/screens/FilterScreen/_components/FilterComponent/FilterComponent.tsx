@@ -18,10 +18,10 @@ import { ButtonClose } from "@/components/UI/Button/ButtonClose";
 
 import { IconFilter } from "@/components/common/Icons/IconFilter/IconFilter";
 import { Overlay } from "@/components/common/Overlay/Overlay";
-import { IBlockFilterFront } from "@/models/frontend/tags/tagsBlock.front";
+import { ITagsBlockFront } from "@/models/frontend/tags/tagsBlock.front";
 
 interface IFilterComponentProp {
-  dataTags?: IBlockFilterFront[];
+  dataTags?: ITagsBlockFront[];
 }
 
 const FiltersComponent = ({ dataTags }: IFilterComponentProp) => {
