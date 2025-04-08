@@ -26,7 +26,7 @@ export const PaginationAnt = (prop: IPaginationAntProp) => {
     } else {
       params.delete("page");
     }
-    router.replace(`${pathname}`, { scroll: false });
+    router.replace(`${pathname}?${params.toString()}`);
     setCurrent(page);
   };
   return (

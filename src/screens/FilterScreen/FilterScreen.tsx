@@ -1,124 +1,119 @@
 "use client";
+import { Suspense, useEffect, useState } from "react";
+
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import style from "./filterScreen.module.scss";
 
 import FiltersComponent from "./_components/FilterComponent/FilterComponent";
 import ParamComponent from "./_components/ContentComponent/ParamComponent/ParamComponent";
 
-import { mockObjectsHotels } from "@/asset/mockData/mockObject";
-
+import { PaginationAnt } from "@/components/common/Pagination/PaginationAnt";
 import { CardSliderMainPage } from "@/components/common/Cards";
-
-import { RootState, useAppDispatch } from "@/store/store";
-import { useSelector } from "react-redux";
-import { setViewType } from "@/store/slices/typeViewListSlice";
 import { CardList } from "@/components/common/Cards/CardList/CardList";
 import { Switcher } from "@/components/common/Switcher/Switcher";
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
-import { mockFilterSort } from "@/asset/mockData/mockFilterSort";
-import { useEffect, useState } from "react";
-import { IPageProps } from "@/models/IType";
 
-import { Pagination, PaginationProps } from "antd";
-import { IMockBlock } from "@/asset/mockData/mockFilterCheckBox";
-import { IEstablishmentItemsResponse } from "@/models/api/response/establishment/IEstablishment.response";
-import { ITagsBlockFront } from "@/models/frontend/tags/tagsBlock.front";
-import { PaginationAnt } from "@/components/common/Pagination/PaginationAnt";
+import { mockFilterSort } from "@/asset/mockData/mockFilterSort";
+
+import { IPageProps } from "@/lib/models/IType";
+
+import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
+
+import { IEstablishmentFront } from "@/lib/models";
+import { useViewTypeList } from "@/lib/context";
 
 interface IProps extends IPageProps {
-  params: IPageProps["params"] & {};
-  dataEstablishment: IEstablishmentItemsResponse;
-  blockTags: ITagsBlockFront[];
-  dataTest?: any;
+    params: IPageProps["params"] & {};
+    dataEstablishment: IEstablishmentFront[];
+    blockTags: ITagsBlockFront[];
 }
 export default function FilterScreen({
-  params,
-  searchParams,
-  dataEstablishment,
-  blockTags,
-  dataTest,
+    params,
+    searchParams,
+    dataEstablishment,
+    blockTags,
 }: IProps) {
-  const [sortActiveItem, setSortActiveItem] = useState(mockFilterSort[3].value);
-  const dispatch = useAppDispatch();
-  const viewType = useSelector((state: RootState) => state.viewTypeSlice);
-  const handlerSwitcher = (view: { title: string; value: string }) => {
-    dispatch(setViewType(view.value as "list" | "table"));
-  };
-  useEffect(() => {
-    console.log("mounted");
+    const [sortActiveItem, setSortActiveItem] = useState(
+        mockFilterSort[3].value
+    );
+    const viewType = useViewTypeList();
 
-    console.log(blockTags);
-    console.log(dataTest);
-  }, []);
-  return (
-    <div className="container">
-      <div className={style.breadcrumb}>
-        <Breadcrumb />
-      </div>
-      <div className={style.container}>
-        <div className={style.titleBLock}>
-          <div className={style.titleBLock_left}>
-            <h1>Где остановиться в Казахстане</h1>
-            <div className={style.titleBLock_result}>
-              {dataEstablishment.establishmentItems.length} результатов
+    return (
+        <div className="container">
+            <div className={style.breadcrumb}>
+                <Breadcrumb />
             </div>
-          </div>
-          <div className={style.titleBLock_groupButton}>
-            <Switcher data={viewType.viewData} callBack={handlerSwitcher} />
-          </div>
-        </div>
-        <div id={"filter"} className={style.container_filter}>
-          <FiltersComponent dataTags={blockTags} />
-        </div>
-        <div className={style.container_content}>
-          <div className={style.param}>
-            <ParamComponent dataTags={blockTags} />
-          </div>
-          <div className={style.sort}>
-            <span>Сортировать</span>
+            <div className={style.container}>
+                <div className={style.titleBLock}>
+                    <div className={style.titleBLock_left}>
+                        <h1>Где остановиться в Казахстане</h1>
+                        <div className={style.titleBLock_result}>
+                            {dataEstablishment.length} результатов
+                        </div>
+                    </div>
+                    <div className={style.titleBLock_groupButton}>
+                        <Switcher
+                            data={viewType.viewData}
+                            callBack={() => viewType.toggleType()}
+                        />
+                    </div>
+                </div>
+                <div id={"filter"} className={style.container_filter}>
+                    <Suspense fallback={null}>
+                        <FiltersComponent dataTags={blockTags} />
+                    </Suspense>
+                </div>
+                <div className={style.container_content}>
+                    <div className={style.param}>
+                        <Suspense fallback={null}>
+                            <ParamComponent dataTags={blockTags} />
+                        </Suspense>
+                    </div>
+                    <div className={style.sort}>
+                        <span>Сортировать</span>
 
-            <SelectCustom
-              classNameCtn={style.sort_select}
-              options={mockFilterSort}
-              activeOption={sortActiveItem}
-              onChange={(item) => {
-                setSortActiveItem(item.value);
-              }}
-            />
-          </div>
-          {viewType.viewType === "list" ? (
-            <div className={style.list}>
-              {dataEstablishment.establishmentItems.map((item) => {
-                return (
-                  <CardList
-                    cdnName={dataEstablishment.cdnHost}
-                    key={item.establishment.Id}
-                    data={item}
-                    langUI={params.locale}
-                  />
-                );
-              })}
-            </div>
-          ) : (
-            <div className={style.table}>
-              {dataEstablishment.establishmentItems.map((item) => {
-                return (
-                  <CardSliderMainPage
-                    langUI={params.locale}
-                    cdnName={dataEstablishment.cdnHost}
-                    data={item}
-                    key={item.establishment.Id}
-                  />
-                );
-              })}
-            </div>
-          )}
+                        <SelectCustom
+                            classNameCtn={style.sort_select}
+                            options={mockFilterSort}
+                            activeOption={sortActiveItem}
+                            onChange={(item) => {
+                                setSortActiveItem(item.value);
+                            }}
+                        />
+                    </div>
+                    {viewType.typeView === "list" ? (
+                        <div className={style.list}>
+                            {dataEstablishment.map((establishment) => {
+                                return (
+                                    <CardList
+                                        key={establishment.id}
+                                        dataEstablishment={establishment}
+                                        langUI={params.locale}
+                                    />
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <div className={style.table}>
+                            {dataEstablishment.map((establishment) => {
+                                return (
+                                    <CardSliderMainPage
+                                        key={establishment.id}
+                                        langUI={params.locale}
+                                        dataEstablishment={establishment}
+                                    />
+                                );
+                            })}
+                        </div>
+                    )}
 
-          <>
-            <PaginationAnt defaultPage={1} totalCount={100} />
-          </>
+                    <PaginationAnt
+                        pageSize={30}
+                        defaultPage={30}
+                        totalCount={90}
+                    />
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }

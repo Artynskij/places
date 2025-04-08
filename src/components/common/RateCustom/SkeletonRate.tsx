@@ -1,5 +1,5 @@
 import { Skeleton } from "antd";
-import style from "./sliderCommercial.module.scss";
+import style from "./rate.module.scss";
 
 export default function SkeletonRate ()  {
   const inlineStyle = {
@@ -8,9 +8,9 @@ export default function SkeletonRate ()  {
   };
   return (
     <div className={style.skeleton}>
-      <div className={style.skeleton_slide}>
+      <div className={style.skeleton_block}>
         <Skeleton.Button
-          rootClassName={style.skeleton_image}
+          rootClassName={style.skeleton_button}
           style={inlineStyle}
           active={true}
         />

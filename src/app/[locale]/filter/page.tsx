@@ -1,9 +1,11 @@
 import { IMockBlock } from "@/asset/mockData/mockFilterCheckBox";
 import FilterScreen from "@/screens/FilterScreen/FilterScreen";
-import { IPageProps } from "@/models/IType";
+import { IPageProps } from "@/lib/models/IType";
 import { notFound } from "next/navigation";
-import { EstablishmentService } from "@/Api/establishment/establishment.service";
-import { TagsService } from "@/Api/tags/tag.service";
+
+import { IEstablishmentFront } from "@/lib/models";
+import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
+import { TagsService } from "@/lib/Api/tags/tag.service";
 
 // export async function generateMetadata({
 //   params,
@@ -16,41 +18,46 @@ import { TagsService } from "@/Api/tags/tag.service";
 // }
 
 interface IProps extends IPageProps {
-  params: IPageProps["params"] & {
-    // country: string;
-  };
+    params: IPageProps["params"] & {
+        // country: string;
+    };
 }
 
 export default async function FilterPage({ params, searchParams }: IProps) {
-  const filterQuery = searchParams.filter?.toString().split("%");
+    const filterQuery = searchParams?.filter?.toString().split("%");
+    const currentPageQuery = searchParams?.page?.toString();
 
-  const apiEst = new EstablishmentService();
-  const apiTags = new TagsService();
-  // const apiCategory = new ApiCategory();
-  const data = await apiEst.getEstablishmentByPagination({
-    lang: params.locale,
-    pagination: { page: 1, pageSize: 30 },
-    filter: { tagsIds: filterQuery || [] },
-  });
+    const apiEst = new EstablishmentService();
+    const apiTags = new TagsService();
 
-  // const tags = await api.getAllTagsOfEstablishment(
-  //   data?.establishmentItems.map((item) => item.establishment.Id),
-  //   params.locale
-  // );
-  const blockTags = await apiTags.getAllTagsOfEstablishmentFilter({
-    lang: params.locale,
-    establishmentIds:
-      data?.establishmentItems.map((item) => item.establishment.Id) || [],
-  });
-  if (!blockTags || !data) notFound();
+    const data = await apiEst.getEstablishmentByPagination({
+        lang: params.locale,
+        pagination: {
+            page: currentPageQuery ? +currentPageQuery / 30 : 1,
+            pageSize: 30,
+        },
+        filter: { tagsIds: filterQuery || [] },
+    });
 
-  return (
-    <FilterScreen
-      dataEstablishment={data}
-      blockTags={blockTags}
-      params={params}
-      searchParams={searchParams}
-      // dataTest={blockTags}
-    />
-  );
+    // const tags = await api.getAllTagsOfEstablishment(
+    //   data?.establishmentItems.map((item) => item.establishment.Id),
+    //   params.locale
+    // );
+    if (!data) notFound();
+    const blockTags = await apiTags.getAllTagsOfEstablishmentFilter({
+        lang: params.locale,
+        establishmentIds:
+            data?.map((item: IEstablishmentFront) => item.id) || [],
+    });
+    if (!blockTags) notFound();
+
+    return (
+        <FilterScreen
+            dataEstablishment={data}
+            blockTags={blockTags}
+            params={params}
+            searchParams={searchParams}
+            // dataTest={blockTags}
+        />
+    );
 }

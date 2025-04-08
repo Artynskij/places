@@ -1,9 +1,13 @@
+'use client'
 import React from "react";
 import styles from "./rate.module.scss";
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 
-import { Flex, Rate } from "antd";
+import { Flex } from "antd";
+
+import dynamic from "next/dynamic";
+import SkeletonRate from "./SkeletonRate";
 
 // const customIcons: Record<number, React.ReactNode> = {
 //   1: <FrownOutlined />,
@@ -12,6 +16,10 @@ import { Flex, Rate } from "antd";
 //   4: <SmileOutlined />,
 //   5: <SmileOutlined />,
 // };
+const Rate = dynamic(() => import("antd").then((mod) => mod.Rate), {
+  ssr: false, // Отключаем SSR для этого компонента
+  loading: () => <SkeletonRate />,
+});
 interface IRateMain {
   defaultValue: number;
   disabled?: boolean;
@@ -21,7 +29,7 @@ export const RateMain = ({
   defaultValue: defaultValue,
   disabled: disabled,
   classNameIcon,
-}:IRateMain) => (
+}: IRateMain) => (
   <Flex gap="middle" vertical>
     <Rate
       allowHalf
@@ -29,7 +37,6 @@ export const RateMain = ({
       disabled={disabled}
       defaultValue={defaultValue}
       character={<IoHeart className={classNameIcon} />}
-      
     />
   </Flex>
 );

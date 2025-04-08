@@ -10,6 +10,7 @@ import { ButtonClose } from "@/components/UI/Button/ButtonClose";
 
 import { Overlay } from "@/components/common/Overlay/Overlay";
 import { Button } from "@/components/UI/Button/Button";
+import Profile from "../Profile/Profile";
 
 export const Burger = () => {
   const [burgerActive, setBurgerActive] = useState<boolean>(false);
@@ -41,11 +42,12 @@ export const Burger = () => {
         <div className={style.block_menu}>
           <ul className={style.menu_list}>
             <li className={style.menu_item}>
-              <Button
+              {/* <Button
                 type="blue"
                 className={style.right_auth_button}
                 text="Вход в личный кабинет"
-              />
+              /> */}
+              <Profile/>
               <SelectLang />
             </li>
 

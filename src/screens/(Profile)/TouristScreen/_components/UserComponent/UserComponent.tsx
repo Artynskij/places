@@ -1,16 +1,25 @@
 import { Button } from "@/components/UI/Button/Button";
 import style from "./userComponent.module.scss";
-import { IconEdit } from "@/components/common/Icons/IconEdit/IconEdit";
+
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ShareButton } from "@/components/common/ButtonFunctional/ShareButton";
 import { mockTourist } from "@/asset/mockData/mockTourist";
 import { data } from "@maptiler/sdk";
 import Link from "next/link";
-
-export const UserComponent = () => {
+import {
+  IconSettings,
+  IconEdit,
+  IconFollow,
+  IconUnfollow,
+} from "@/components/common/Icons";
+import { SubscribeButton } from "@/components/common/ButtonFunctional/SubsribeButton";
+interface IUserComponent {
+  dataUser: (typeof mockTourist)[0];
+}
+export const UserComponent = ({ dataUser }: IUserComponent) => {
   const t = useTranslations("ProfilePage.header");
-  const dataUser = mockTourist;
+
   return (
     <>
       <div className={style.container}>
@@ -19,10 +28,13 @@ export const UserComponent = () => {
         </div>
         <div className={style.info_container}>
           <div>
-            <div className={style.info_name}>{dataUser.name}</div>
-            <div className={style.info_username}>{dataUser.username}</div>
+            <div className={style.info_name}>
+              <span>{dataUser.name}</span>
+              <SubscribeButton />
+            </div>
+            <div className={style.info_username}>@{dataUser.username}</div>
             <div className={style.info_status}>
-              Статус путшественника: беженец премиум
+              Статус путшественника: {dataUser.status.value}
             </div>
             <div className={style.info_hometown}>
               Я из:
@@ -54,6 +66,10 @@ export const UserComponent = () => {
               linkPage=""
             />
           </div>
+        </div>
+        <div className={style.manageProfile}>
+          {/* <Button icon={<IconEdit/>} text="редактировать профиль"/>
+          <Button icon={<IconSettings/>} text="настройки профиля"/> */}
         </div>
       </div>
     </>

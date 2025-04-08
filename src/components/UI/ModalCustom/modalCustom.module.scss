@@ -1,21 +1,3 @@
-.view_content {
-  &_over {
-    height: "99vh";
-    width: "99vw";
-  }
-  &_big {
-    height: "90vh";
-    width: "90vw";
-  }
-  &_middle {
-    height: "80vh";
-    width: "80vw";
-  }
-  &_small {
-    height: "50vh";
-    width: "80vw";
-  }
-}
 .modal {
   display: flex;
 
@@ -69,6 +51,24 @@
 .modal_active {
   display: flex;
   // transform: scale(1);
+}
+.view_content {
+  &_over {
+    height: 99vh;
+    width: 99vw;
+  }
+  &_big {
+    height: 90vh;
+    width: 90vw;
+  }
+  &_middle {
+    height: 80vh;
+    width: 80vw;
+  }
+  &_small {
+    height: 50vh;
+    width: 80vw;
+  }
 }
 @include mediaTablet {
   .view_content_small {

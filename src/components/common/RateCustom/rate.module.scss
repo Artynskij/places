@@ -51,8 +51,17 @@
 .rateAnt {
   // display: flex;
   // flex-direction: column;
-    color: $color-main-gold !important;
+  color: $color-main-gold !important;
 }
 .rateAnt li {
   margin-inline-end: 0px !important;
+}
+.skeleton {
+  &_block {
+    display: flex;
+  }
+  &_button {
+    min-width: 100px;
+    min-height: 20px;
+  }
 }

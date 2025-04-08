@@ -1,22 +1,21 @@
-
-import { IPageProps } from "@/models";
+import { IPageProps } from "@/lib/models";
 import UsersScreen from "@/screens/(Profile)/UserScreen/UserScreen";
 export async function generateMetadata({
-  params,
+    params,
 }: {
-  params: { username: string };
+    params: { username: string };
 }) {
-  return {
-    title: `${process.env.BASE_NAME} | ${params.username}`,
-  };
+    return {
+        title: `${process.env.BASE_NAME} | ${params.username}`,
+    };
 }
 
 interface IProps extends IPageProps {
-  params: IPageProps["params"] & {
-    username: string;
-  };
+    params: IPageProps["params"] & {
+        username: string;
+    };
 }
 
 export default function UserPage({ params, searchParams }: IProps) {
-  return <UsersScreen params={params} searchParams={searchParams} />;
+    return <UsersScreen params={params}  />;
 }

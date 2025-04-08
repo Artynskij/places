@@ -274,6 +274,59 @@
     }
   }
 }
+.reviews {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-big;
+  & h2 {
+  }
+  &_block {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: $gap-big;
+    position: relative;
+  }
+  &_stat {
+    max-height: calc(100vh - $header-height);
+    height: fit-content;
+    position: sticky;
+    top: $header-height;
+    padding: 30px 15px;
+    border-radius: $border-radius-10;
+    background-color: $color-additional-background;
+    display: flex;
+    flex-direction: column;
+    gap: $gap-big;
+    &_title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: $gap-small;
+    }
+    &_transcriptList {
+      &_item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: $gap-small;
+      }
+    }
+    &_additionalList {
+      &_item {
+        display: flex;
+        justify-content: space-between;
+        gap: $gap-small;
+        &_score {
+          display: flex;
+          gap: $gap-small;
+        }
+      }
+    }
+  }
+  &_list {
+    overflow: auto;
+  }
+}
 .offer {
   &_ctn {
     padding: 30px;

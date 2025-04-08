@@ -1,6 +1,6 @@
 .container {
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 3fr 1fr;
   gap: $gap-medium;
 }
 .avatar_block {
@@ -33,6 +33,17 @@
 
   &_name {
     @extend %Text18;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $gap-small;
+    span {
+      display: block;
+    }
+    button {
+      @extend %Text14;
+      padding: 7px 10px;
+    }
   }
   &_username {
     @extend %Text12;
@@ -49,13 +60,18 @@
     border-radius: $border-radius-20;
   }
 }
+.manageProfile {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-small;
+}
 @include mediaTablet {
   .container {
     display: flex;
     flex-direction: column;
   }
-  .info{
-    &_buttons{
+  .info {
+    &_buttons {
       flex-direction: column;
     }
   }

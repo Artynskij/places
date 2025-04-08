@@ -49,7 +49,7 @@ export const mockTowns = [
     value: "almaty",
     img: "/mock/almaty.jpg",
     link: "/kazahstan/almatydistrict/almaty",
-    videoSrc: "/mock/almaty.jpg",
+    videoSrc: "/mock/mockBelaruVideo.mp4",
     posterSrc: "/mock/almaty.jpg",
     location: "Казахстан",
   },

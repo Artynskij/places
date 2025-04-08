@@ -1,0 +1,165 @@
+.cardReview {
+  display: flex;
+  flex-direction: column;
+
+  gap: $gap-big;
+  background: $color-additional-background;
+  padding: 30px;
+  border-radius: $border-radius-20;
+  @extend %Text14;
+  overflow: hidden;
+}
+.user {
+  display: flex;
+  justify-content: space-between;
+  gap: $gap-big;
+  &_left {
+    display: flex;
+    gap: $gap-big;
+  }
+  &_right {
+    
+  }
+  &_avatar {
+    & img {
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+  &_info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &_name {
+    & span {
+      font-weight: 700;
+    }
+  }
+  &_dateReview {
+    color: $color-main-grey;
+    @extend %Text12;
+  }
+}
+.album {
+  display: flex;
+  gap: $gap-small;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    height: 8px; // Высота скроллбара
+  }
+  &::-webkit-scrollbar-thumb {
+    cursor: grab;
+  }
+  &_image {
+    & img {
+      width: auto;
+      max-height: 200px;
+      border-radius: $border-radius-5;
+    }
+  }
+}
+.reviewBody {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-small;
+  padding-bottom: 20px;
+  border-bottom: 1px solid $color-main-grey;
+  &_title {
+    font-weight: 700;
+  }
+  &_dateVisit {
+    color: $color-main-grey;
+    @extend %Text12;
+  }
+  &_description {
+  }
+  &__mainRate {
+  }
+  &_additionalRate {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    &_rate {
+      display: flex;
+      gap: $gap-small;
+    }
+  }
+}
+.establishment {
+  display: flex;
+  align-items: center;
+  gap: $gap-big;
+  background: $color-main-background;
+  border-radius: $border-radius-5;
+  &_image {
+    & img {
+      object-fit: cover;
+      border-radius: $border-radius-5;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      height: 100%;
+      max-width: 300px;
+    }
+  }
+  &_right {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-medium;
+    padding: 10px;
+  }
+  &_rate {
+    display: flex;
+    align-items: center;
+    gap: $gap-small;
+  }
+  &_title {
+    @extend %Text18;
+  }
+
+  &_location {
+    display: flex;
+    align-items: center;
+    color: $color-main-grey;
+    @extend %Text14;
+  }
+}
+// .reaction {
+//   &_icon {
+//     font-size: 24px;
+//     cursor: pointer;
+//     transition: $transiton;
+//     &:hover {
+//       transform: scale(1.1);
+//     }
+//   }
+//   &_like {
+//     color: green;
+//   }
+//   &_dislike {
+//     color: red;
+//   }
+// }
+@include mediaPhone {
+  .user {
+    &_left {
+      flex-direction: column;
+    }
+    &_right {
+    //   align-items: center;
+    }
+  }
+  .reviewBody {
+    &_additionalRate {
+      grid-template-columns: 1fr;
+    }
+  }
+  .establishment {
+    flex-direction: column;
+    align-items: normal;
+    &_image {
+      & img {
+        max-width: none;
+      }
+    }
+  }
+}

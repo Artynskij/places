@@ -1,50 +1,50 @@
-import { IPageProps } from "@/models/IType";
+import { IPageProps } from "@/lib/models/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 import NewsCategoryScreen from "@/screens/(News)/NewsCategoryScreen/NewsCategoryScreen";
-import { newsCategoriesData } from "@/asset/mockData/data";
+import { newsCategoriesData } from "@/asset/constants/data";
 import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
-  return Object.keys(newsCategoriesData).map((category) => ({
-    category,
-  }));
+    return Object.keys(newsCategoriesData).map((category) => ({
+        category,
+    }));
 }
 export async function generateMetadata({
-  params,
+    params,
 }: {
-  params: { category: string };
+    params: { category: string };
 }) {
-  const categoryName = Object.keys(newsCategoriesData).find(
-    (category) => params.category === category
-  );
+    const categoryName = Object.keys(newsCategoriesData).find(
+        (category) => params.category === category
+    );
 
-  if (!categoryName) {
-    return {};
-  }
-  return {
-    title: `${process.env.BASE_NAME} | ${params.category}`,
-    description: `Explore the ${params.category} section on our website.`,
-  };
+    if (!categoryName) {
+        return {};
+    }
+    return {
+        title: `${process.env.BASE_NAME} | ${params.category}`,
+        description: `Explore the ${params.category} section on our website.`,
+    };
 }
 
 interface IProps extends IPageProps {
-  params: IPageProps["params"] & {
-    category: string;
-  };
+    params: IPageProps["params"] & {
+        category: string;
+    };
 }
 
 export default function NewsCategoryPage({ params, searchParams }: IProps) {
-  const categoryName = Object.keys(newsCategoriesData).find(
-    (category) => params.category === category
-  );
+    const categoryName = Object.keys(newsCategoriesData).find(
+        (category) => params.category === category
+    );
 
-  if (!categoryName) {
-    notFound(); // Если категории нет, показываем 404
-  }
+    if (!categoryName) {
+        notFound(); // Если категории нет, показываем 404
+    }
 
-  return (
-    <>
-      <NewsCategoryScreen params={params} searchParams={searchParams} />
-    </>
-  );
+    return (
+        <>
+            <NewsCategoryScreen params={params} searchParams={searchParams} />
+        </>
+    );
 }

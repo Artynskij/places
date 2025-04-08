@@ -34,7 +34,7 @@ const nextConfig = {
     ],
   },
 };
-
+// output: 'export'
 // Merge MDX config with Next.js config
 // export default withMDX(nextConfig)
 // export default withNextIntl(nextConfig);

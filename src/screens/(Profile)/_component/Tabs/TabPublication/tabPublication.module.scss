@@ -1,8 +1,8 @@
-.recommend_content {
+.publication_content {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: $gap-big;
-  .cardRecommend {
+  .cardArticle {
     display: grid;
     grid-template-rows: auto 1fr;
     gap: $gap-big;

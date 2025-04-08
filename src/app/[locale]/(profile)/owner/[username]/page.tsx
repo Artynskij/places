@@ -1,21 +1,21 @@
-import { IPageProps } from "@/models";
+import { IPageProps } from "@/lib/models";
 import OwnerScreen from "@/screens/(Profile)/OwnerScreen/OwnerScreen";
 export async function generateMetadata({
-  params,
+    params,
 }: {
-  params: { username: string };
+    params: { username: string };
 }) {
-  return {
-    title: `${process.env.BASE_NAME} | ${params.username}`,
-  };
+    return {
+        title: `${process.env.BASE_NAME} | ${params.username}`,
+    };
 }
 
 interface IProps extends IPageProps {
-  params: IPageProps["params"] & {
-    username: string;
-  };
+    params: IPageProps["params"] & {
+        username: string;
+    };
 }
 
 export default function OwnerPage({ params, searchParams }: IProps) {
-  return <OwnerScreen params={params} searchParams={searchParams}/>;
+    return <OwnerScreen params={params} />;
 }

@@ -70,11 +70,31 @@
     margin-right: 5px;
   }
 }
+.blockLikeDislike {
+  display: flex;
+  align-items: center;
+  gap: $gap-big;
+  &_icon {
+    font-size: 24px;
+    cursor: pointer;
+    transition: $transiton;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+  &_like {
+    color: green;
+  }
+  &_dislike {
+    color: red;
+  }
+}
 @include mediaTablet {
   .blockReaction {
     padding: 15px;
   }
 }
+
 @include mediaMiniPhone {
   .blockReaction {
     &_list {

@@ -22,6 +22,7 @@ interface ISlider {
 }
 
 export const Slider: FC<ISlider> = ({ id, children }) => {
+ 
   const [sliderLoad, setSliderLoad] = useState<boolean>(false);
 
   const swiperRef = useRef<SwiperRef>(null);
