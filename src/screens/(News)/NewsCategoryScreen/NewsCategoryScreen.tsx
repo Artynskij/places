@@ -5,7 +5,7 @@ import { mockNews } from "@/asset/mockData/mockNews";
 import { CardNews } from "@/components/common/Cards/CardNews/CardNews";
 
 import { PopularNews } from "../_component/_PopularNews/_PopularNews";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -13,8 +13,8 @@ interface IProps extends IPageProps {
     };
 }
 
-export default function NewsCategoryScreen({ params, searchParams }: IProps) {
-    const t = useTranslations("CategoryNews");
+export default async function NewsCategoryScreen({ params, searchParams }: IProps) {
+    const t = await getTranslations("CategoryNews");
 
     const newsFirst = mockNews.filter((item, index) => {
         return index < 5 && item;

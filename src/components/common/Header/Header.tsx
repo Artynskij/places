@@ -12,10 +12,11 @@ import { mockTourist } from "@/asset/mockData/mockTourist";
 import { Button } from "@/components/UI/Button/Button";
 import { ROUTES } from "@/lib/config/Routes";
 import { Suspense } from "react";
+import { getTranslations } from "next-intl/server";
 
 // { locale }: { locale: string }
-export const Header = () => {
-    // const t = useTranslations("Header");
+export const Header = async () => {
+    const tHeader = await getTranslations("Header");
 
     // const SelectLang = dynamic(
     //     () => import("./SelectLang/SelectLang").then((mod) => mod.SelectLang),
@@ -50,7 +51,7 @@ export const Header = () => {
 
                     <Finder />
                     <div className={style.nav_block}>
-                        <Navigation />
+                        <Navigation translations={tHeader} />
                     </div>
 
                     <div className={style.right}>
@@ -69,7 +70,9 @@ export const Header = () => {
                             <Profile />
                         </div>
                     </div>
-                    <Burger />
+                    <Suspense fallback={<div>Burger</div>}>
+                        <Burger />
+                    </Suspense>
                 </div>
                 <div className={`container  + ${style.header__second}`}>
                     <ul>
@@ -134,9 +137,6 @@ export const Header = () => {
                     </ul>
                 </div>
             </header>
-            {/* <div className={`container ${style.test}`} style={{}}>
-        <span>Тестовые страницы</span>
-      </div> */}
         </>
     );
 };

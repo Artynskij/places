@@ -1,3 +1,4 @@
+"use client";
 import style from "./switcher.module.scss";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -6,6 +7,7 @@ import { FC, useEffect, useState } from "react";
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 import { ISelectOption } from "@/lib/models/IType";
 import { useTranslations } from "next-intl";
+// import { getTranslations } from "next-intl/server";
 
 interface ISwitcherProfileContentProps {
     data: ISelectOption[];

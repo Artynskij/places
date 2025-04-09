@@ -64,13 +64,13 @@ export default async function RootLayout({
                             <AllContextProvider>
                                 <ClientOnly />
                                 <Header />
-                                <Suspense fallback={<Loading />}>
+                              
 
                                 <main style={{ minHeight: "100vh" }}>
                                     {children}
                                 </main>
 
-                                </Suspense>
+                                
                                 <Footer />
                             </AllContextProvider>
                         </NextIntlClientProvider>

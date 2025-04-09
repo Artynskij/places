@@ -8,7 +8,7 @@ export const ROUTES = {
     COUNTRIES:'/countries',
     AUTH: { REGISTER: "/register", LOGIN: "/login" },
     PROFILE: {
-        OWNER: (username: string) => `/profile/${username}`,
+        OWNER: (username: string) => `/owner/${username}`,
         TOURIST: (username: string) => `/tourist/${username}`,
         USER: (username: string) => `/user/${username}`,
     },
@@ -16,11 +16,11 @@ export const ROUTES = {
     NEWS: {
         CATEGORY: (category: INewsCategory) => `/news/${category}`,
         NEWS: (category: INewsCategory, news: string) =>
-            `news/${category}/${news}`,
+            `/news/${category}/${news}`,
         AUTHOR: (author: string) => `/news/author/${author}`,
     },
     LOCATION: {
-        COUNTRY: (country: string) => `${country}`,
+        COUNTRY: (country: string) => `/${country}`,
         DISTRICT: (country: string, district: string) =>
             `/${country}/${district}`,
         TOWN: (country: string, district: string, town: string) =>

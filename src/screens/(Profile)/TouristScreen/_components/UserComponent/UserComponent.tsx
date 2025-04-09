@@ -2,23 +2,18 @@ import { Button } from "@/components/UI/Button/Button";
 import style from "./userComponent.module.scss";
 
 import Image from "next/image";
-import { useTranslations } from "next-intl";
 import { ShareButton } from "@/components/common/ButtonFunctional/ShareButton";
 import { mockTourist } from "@/asset/mockData/mockTourist";
 import { data } from "@maptiler/sdk";
 import Link from "next/link";
-import {
-  IconSettings,
-  IconEdit,
-  IconFollow,
-  IconUnfollow,
-} from "@/components/common/Icons";
+
 import { SubscribeButton } from "@/components/common/ButtonFunctional/SubsribeButton";
+import { getTranslations } from "next-intl/server";
 interface IUserComponent {
   dataUser: (typeof mockTourist)[0];
 }
-export const UserComponent = ({ dataUser }: IUserComponent) => {
-  const t = useTranslations("ProfilePage.header");
+export const UserComponent = async ({ dataUser }: IUserComponent) => {
+  const t = await getTranslations("ProfilePage.header");
 
   return (
     <>

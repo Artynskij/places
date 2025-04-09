@@ -1,5 +1,5 @@
 "use client";
-import { FC, useEffect, useState } from "react";
+import { FC, Suspense, useEffect, useState, useTransition } from "react";
 
 import style from "./burger.module.scss";
 
@@ -11,53 +11,59 @@ import { ButtonClose } from "@/components/UI/Button/ButtonClose";
 import { Overlay } from "@/components/common/Overlay/Overlay";
 import { Button } from "@/components/UI/Button/Button";
 import Profile from "../Profile/Profile";
+import { useTranslations } from "use-intl";
 
 export const Burger = () => {
-  const [burgerActive, setBurgerActive] = useState<boolean>(false);
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  useEffect(() => {
-    if (burgerActive) {
-      setBurgerActive(false);
-    }
-  }, [searchParams, pathname]);
-  const closeBurger = () => {
-    setBurgerActive(false);
-  };
-  const toggleBurger = () => {
-    setBurgerActive((prev) => !prev);
-  };
-  return (
-    <>
-      <div
-        onClick={toggleBurger}
-        active-target={`${burgerActive}`}
-        className={style.ctn_burger}
-      >
-        <div className={style.burger}></div>
-      </div>
+    const [burgerActive, setBurgerActive] = useState<boolean>(false);
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const tHeader = useTranslations("Header");
+    useEffect(() => {
+        if (burgerActive) {
+            setBurgerActive(false);
+        }
+    }, [searchParams, pathname]);
+    const closeBurger = () => {
+        setBurgerActive(false);
+    };
+    const toggleBurger = () => {
+        setBurgerActive((prev) => !prev);
+    };
+    return (
+        <>
+            <div
+                onClick={toggleBurger}
+                active-target={`${burgerActive}`}
+                className={style.ctn_burger}
+            >
+                <div className={style.burger}></div>
+            </div>
 
-      <div active-target={`${burgerActive}`} className={style.block}>
-        <ButtonClose onClick={closeBurger} className={style.block_close_btn} />
-        <div className={style.block_menu}>
-          <ul className={style.menu_list}>
-            <li className={style.menu_item}>
-              {/* <Button
+            <div active-target={`${burgerActive}`} className={style.block}>
+                <ButtonClose
+                    onClick={closeBurger}
+                    className={style.block_close_btn}
+                />
+                <div className={style.block_menu}>
+                    <ul className={style.menu_list}>
+                        <li className={style.menu_item}>
+                            {/* <Button
                 type="blue"
                 className={style.right_auth_button}
                 text="Вход в личный кабинет"
               /> */}
-              <Profile/>
-              <SelectLang />
-            </li>
+                            <Profile />
 
-            <li className={style.menu_item}>
-              <Navigation />
-            </li>
-          </ul>
-        </div>
-      </div>
-      <Overlay active={burgerActive} setActive={setBurgerActive} />
-    </>
-  );
+                            <SelectLang />
+                        </li>
+
+                        <li className={style.menu_item}>
+                            <Navigation translations={tHeader} />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <Overlay active={burgerActive} setActive={setBurgerActive} />
+        </>
+    );
 };

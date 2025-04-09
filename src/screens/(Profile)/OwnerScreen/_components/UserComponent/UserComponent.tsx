@@ -2,10 +2,10 @@ import { Button } from "@/components/UI/Button/Button";
 import style from "./userComponent.module.scss";
 import { IconEdit } from "@/components/common/Icons/IconEdit/IconEdit";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-export const UserComponent = () => {
-  const t = useTranslations("ProfilePage.header");
+export const UserComponent = async () => {
+  const t = await getTranslations("ProfilePage.header");
   return (
     <>
       <div className={style.background}>

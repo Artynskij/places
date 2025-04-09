@@ -14,7 +14,7 @@ import {
 
 import { IPageProps } from "@/lib/models/IType";
 
-// import { useTranslations } from "next-intl";
+
 import { InfoSection } from "./_components/InfoSection/InfoSection";
 import { countriesData } from "@/asset/constants/countries";
 

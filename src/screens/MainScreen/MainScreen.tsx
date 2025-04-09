@@ -8,21 +8,22 @@ import SliderCommercial from "./_components/SliderCommercial/SliderCommercial";
 import { mockTowns } from "@/asset/mockData/mockCountry";
 import { mockCommercialMainPage } from "@/asset/mockData/mockCommercialMainPage";
 import { newsCategoriesData } from "@/asset/constants/data";
-import { useTranslations } from "next-intl";
+
 
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 
 import { IArticleFront, IPageProps } from "@/lib/models";
+import { getTranslations } from "next-intl/server";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {};
     articlesData: IArticleFront[] | [];
 }
-export const MainScreen = ({ params, searchParams, articlesData }: IProps) => {
+export const MainScreen = async ({ params, searchParams, articlesData }: IProps) => {
     const newsData = articlesData.slice(0, 6);
     const recommendData = articlesData.slice(1, 4);
     const directionData = mockTowns.slice(0, 5);
-    const t = useTranslations("CategoryNews");
+    const t = await getTranslations("CategoryNews");
     // const api = new ApiEstablishment();
     // api.getEstablishmentByPagination({ page: 1, pageSize: 1 });
 
