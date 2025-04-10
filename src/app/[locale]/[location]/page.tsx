@@ -15,16 +15,16 @@ import { EstablishmentService } from "@/lib/Api/establishment/establishment.serv
 export async function generateMetadata({
     params,
 }: {
-    params: { country: string };
+    params: { location: string };
 }) {
     return {
-        title: `${process.env.BASE_NAME} | ${params.country}`,
+        title: `${process.env.BASE_NAME} | ${params.location}`,
     };
 }
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
-        country: string;
+        location: string;
     };
 }
 

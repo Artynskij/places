@@ -19,7 +19,7 @@ import { TagsService } from "@/lib/Api/tags/tag.service";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
-        // country: string;
+        location: string;
     };
 }
 

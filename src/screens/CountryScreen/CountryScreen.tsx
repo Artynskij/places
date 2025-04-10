@@ -14,7 +14,6 @@ import {
 
 import { IPageProps } from "@/lib/models/IType";
 
-
 import { InfoSection } from "./_components/InfoSection/InfoSection";
 import { countriesData } from "@/asset/constants/countries";
 
@@ -23,14 +22,15 @@ import { GetServerSideProps } from "next";
 import { getTranslations } from "next-intl/server";
 
 import { IEstablishmentFront } from "@/lib/models";
+import { ROUTES } from "@/lib/config/Routes";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
-        country: string;
+        location: string;
         district?: string;
         town?: string;
     };
-    typePage: "country" | "district" | "town";
+    typePage?: "country" | "district" | "town";
     dataEstablishment: IEstablishmentFront[];
 }
 
@@ -44,16 +44,20 @@ export default async function CountryScreen({
     const seeMoreText = tTiles("text.watchAll");
     const t = await getTranslations("CountryPage");
 
-    const countryData =
-        typePage === "country"
-            ? (countriesData.find(
-                  (item) => item.value === params.country
-              ) as any)
-            : typePage === "district"
-            ? (mockDistrict.find(
-                  (item) => item.value === params.district
-              ) as any)
-            : (mockTowns.find((item) => item.value === params.town) as any);
+    const countryData = countriesData.find(
+        (item) => item.id === params.location
+    ) as any;
+
+    // const countryData =
+    //     typePage === "country"
+    //         ? (countriesData.find(
+    //               (item) => item.value === params.country
+    //           ) as any)
+    //         : typePage === "district"
+    //         ? (mockDistrict.find(
+    //               (item) => item.value === params.district
+    //           ) as any)
+    //         : (mockTowns.find((item) => item.value === params.town) as any);
 
     return (
         <div className="container">
@@ -76,7 +80,7 @@ export default async function CountryScreen({
                 <div className={style.slider_block_title}>
                     <h2>{t("text.sliderSleep")}</h2>
                     <Link
-                        href={"/filter"}
+                        href={ROUTES.FILTER(`${params.location}`)}
                         className={style.slider_block_title_button}
                     >
                         {t("text.buttonWatchAll")}
@@ -84,11 +88,11 @@ export default async function CountryScreen({
                 </div>
 
                 <div className={style.slider}>
-                    <Slider id={100}>
+                    <Slider id={1}>
                         {dataEstablishment.map((establishment) => {
                             return (
                                 <CardSliderMainPage
-                                    key={establishment.id + "100"}
+                                    key={establishment.id }
                                     dataEstablishment={establishment}
                                     langUI={params.locale}
                                 />
@@ -100,7 +104,7 @@ export default async function CountryScreen({
             {/* <section className={style.slider_block}>
         <div className={style.slider_block_title}>
           <h2>{t("text.sliderEat")}</h2>
-          <Link href={"/filter"} className={style.slider_block_title_button}>
+          <Link href={ROUTES.FILTER('belarus')} className={style.slider_block_title_button}>
             {t("text.buttonWatchAll")}
           </Link>
         </div>
@@ -115,7 +119,7 @@ export default async function CountryScreen({
       <section className={style.slider_block}>
         <div className={style.slider_block_title}>
           <h2>{t("text.sliderRelax")}</h2>
-          <Link href={"/filter"} className={style.slider_block_title_button}>
+          <Link href={ROUTES.FILTER('belarus')} className={style.slider_block_title_button}>
             {t("text.buttonWatchAll")}
           </Link>
         </div>
@@ -127,12 +131,12 @@ export default async function CountryScreen({
           </Slider>
         </div>
       </section> */}
-            {typePage === "country" && (
+            {/* {typePage === "country" && (
                 <section className={style.slider_block}>
                     <div className={style.slider_block_title}>
                         <h2>{t("text.sliderDistrict")}</h2>
                         <Link
-                            href={"/filter"}
+                            href={ROUTES.FILTER('belarus')}
                             className={style.slider_block_title_button}
                         >
                             {t("text.buttonWatchAll")}
@@ -170,9 +174,9 @@ export default async function CountryScreen({
                         </Slider>
                     </div>
                 </section>
-            )}
+            )} */}
 
-            <section className={style.slider_block}>
+            {/* <section className={style.slider_block}>
                 <div className={style.slider_block_title}>
                     <h2>{t("text.sliderNeighbor")}</h2>
                 </div>
@@ -185,7 +189,7 @@ export default async function CountryScreen({
                         })}
                     </Slider>
                 </div>
-            </section>
+            </section> */}
         </div>
     );
 }

@@ -13,6 +13,7 @@ import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 
 import { RateHotel } from "../../RateCustom/RateHotel";
 import { IEstablishmentFront } from "@/lib/models";
+import { ROUTES } from "@/lib/config/Routes";
 
 interface ICardHotelList {
     dataEstablishment: IEstablishmentFront;
@@ -43,7 +44,7 @@ export const CardList: FC<ICardHotelList> = ({ dataEstablishment, langUI }) => {
                 </div>
                 <Link
                     className={style.image_link}
-                    href={`/belarus/minskoblast/minsk/${dataEstablishment.id}`}
+                    href={ROUTES.LOCATION.ESTABLISHMENT('belarus',`${dataEstablishment.id}`)}
                 >
                     <Image
                         loading="lazy"
@@ -62,7 +63,7 @@ export const CardList: FC<ICardHotelList> = ({ dataEstablishment, langUI }) => {
             <div className={style.info_ctn}>
                 <div className={style.info_title}>
                     <Link
-                        href={`/belarus/minskoblast/minsk/${dataEstablishment.id}`}
+                        href={ROUTES.LOCATION.ESTABLISHMENT('belarus',`${dataEstablishment.id}`)}
                     >
                         {dataEstablishment.title}
                     </Link>

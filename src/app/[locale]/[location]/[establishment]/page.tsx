@@ -51,7 +51,7 @@ export default async function EstablishmentPage({
     const classTag = dataTags.splice(_indexClassTag, _indexClassTag);
     const modifyClassTag = {
         ...classTag[0],
-        count: +(classTag[0].tags[0].name
+        count: +(classTag[0]?.tags[0].name
             .split(" ")[0]
             .replace(",", ".") as string),
     };

@@ -1,9 +1,8 @@
-import CountryScreen from "@/screens/CountryScreen/CountryScreen";
+import CountryScreen from "@/screens/LocationScreen/CountryScreen";
 import { IPageProps } from "@/lib/models/IType";
 
 import { notFound } from "next/navigation";
 import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
-
 
 export async function generateMetadata({
     params,

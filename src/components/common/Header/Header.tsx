@@ -121,8 +121,6 @@ export const Header = async () => {
                             className={style.header__second_link}
                             href={ROUTES.LOCATION.ESTABLISHMENT(
                                 "belarus",
-                                "minskObl",
-                                "minsk",
                                 "01JJ21RRS0YER1XH9FM4D287JY"
                             )}
                         >
@@ -130,7 +128,7 @@ export const Header = async () => {
                         </Link>
                         <Link
                             className={style.header__second_link}
-                            href={ROUTES.FILTER}
+                            href={ROUTES.FILTER('belarus')}
                         >
                             <li className={"hover-underline"}>Фильтр</li>
                         </Link>

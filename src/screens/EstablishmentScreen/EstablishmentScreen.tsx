@@ -50,7 +50,7 @@ interface IProps extends IPageProps {
     dataEstablishment: IEstablishmentFront;
     dataNearEstablishment: IEstablishmentFront[];
     dataTags: ITagsBlockFront[];
-    classTag: ITagClassFront;
+    classTag?: ITagClassFront;
     // testTags: ITagsBlockFront[];
 }
 export const EstablishmentScreen = ({
@@ -104,7 +104,7 @@ IProps) => {
                                 "EATER" && (
                                 <RateCafe
                                     disabled
-                                    defaultValue={classTag.count || 0}
+                                    defaultValue={classTag?.count || 0}
                                     classNameIcon={style.titleBlock_class_icon}
                                 />
                             )}
@@ -112,7 +112,7 @@ IProps) => {
                                 "ACCOMMODATION" && (
                                 <RateHotel
                                     disabled
-                                    defaultValue={classTag.count || 0}
+                                    defaultValue={classTag?.count || 0}
                                     classNameIcon={style.titleBlock_class_icon}
                                 />
                             )}
@@ -258,15 +258,17 @@ IProps) => {
                                 "ACCOMMODATION" && (
                                 <>
                                     <div className={style.info_class_title}>
-                                        {classTag.groupKey.name}
+                                        {classTag?.groupKey.name}
                                     </div>
-                                    <RateHotel
-                                        disabled
-                                        defaultValue={classTag.count}
-                                        classNameIcon={
-                                            style.titleBlock_class_icon
-                                        }
-                                    />
+                                    {classTag && (
+                                        <RateHotel
+                                            disabled
+                                            defaultValue={classTag.count}
+                                            classNameIcon={
+                                                style.titleBlock_class_icon
+                                            }
+                                        />
+                                    )}
                                 </>
                             )}
                         </div>

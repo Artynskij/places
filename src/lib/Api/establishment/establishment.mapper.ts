@@ -29,7 +29,7 @@ export default class EstablishmentMapper {
                 return { key: key, value: value };
             })
             .filter((item) => item);
-            
+
         const galleryImages: IImageFront[] =
             establishment.content.media.gallery.map((image) => {
                 return {
@@ -62,7 +62,7 @@ export default class EstablishmentMapper {
             },
             contacts: establishment.establishment.Contacts,
             media: {
-                cdnHost: cdnHost,
+                cdnHost: "http://172.27.20.200:49160/cdn/",
                 gallery: galleryImages,
             },
             seo: establishment.content.value[0].value.seoTrip,

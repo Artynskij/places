@@ -37,7 +37,7 @@ export default function CountriesScreen({ params, searchParams }: IProps) {
                                                     className={
                                                         style.listCountry_item
                                                     }
-                                                    href={`/${findCountry?.value}`}
+                                                    href={`/${findCountry?.id}`}
                                                     key={`mainland - ${
                                                         indexLand + 1
                                                     }, country - ${index + 1}`}

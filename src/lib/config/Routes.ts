@@ -12,7 +12,7 @@ export const ROUTES = {
         TOURIST: (username: string) => `/tourist/${username}`,
         USER: (username: string) => `/user/${username}`,
     },
-    FILTER: "/filter",
+    FILTER: (location: string) => `/${location}/filter`,
     NEWS: {
         CATEGORY: (category: INewsCategory) => `/news/${category}`,
         NEWS: (category: INewsCategory, news: string) =>
@@ -20,16 +20,16 @@ export const ROUTES = {
         AUTHOR: (author: string) => `/news/author/${author}`,
     },
     LOCATION: {
-        COUNTRY: (country: string) => `/${country}`,
-        DISTRICT: (country: string, district: string) =>
-            `/${country}/${district}`,
-        TOWN: (country: string, district: string, town: string) =>
-            `/${country}/${district}/${town}`,
+        LOCATION: (location: string) => `/${location}`,
+        // DISTRICT: (country: string, district: string) =>
+        //     `/${country}/${district}`,
+        // TOWN: (country: string, district: string, town: string) =>
+        //     `/${country}/${district}/${town}`,
         ESTABLISHMENT: (
-            country: string,
-            district: string,
-            town: string,
+            location: string,
+            // district: string,
+            // town: string,
             establishment: string
-        ) => `/${country}/${district}/${town}/${establishment}`,
+        ) => `/${location}/${establishment}`,
     },
 };

@@ -1,4 +1,5 @@
 import { ICategoryEntity } from "./category.entity";
+import { ILocationsEntity } from "./locations.entity";
 import { IContactsEntity } from "./parts/contact.entity";
 import { IContentEntity } from "./parts/content.entity";
 import { IImageEntity } from "./parts/image.entity";
@@ -21,7 +22,7 @@ export interface IEstablishmentEntity {
     };
     Category: ICategoryEntity;
     Contacts: IContactsEntity | null;
-    Locations: {} | null;
+    Locations: ILocationsEntity | null;
     Rates: IRateEntity;
   };
   content: {

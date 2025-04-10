@@ -23,7 +23,9 @@ import { IEstablishmentFront } from "@/lib/models";
 import { useViewTypeList } from "@/lib/context";
 
 interface IProps extends IPageProps {
-    params: IPageProps["params"] & {};
+    params: IPageProps["params"] & {
+        location:string
+    };
     dataEstablishment: IEstablishmentFront[];
     blockTags: ITagsBlockFront[];
 }
@@ -46,7 +48,7 @@ export default function FilterScreen({
             <div className={style.container}>
                 <div className={style.titleBLock}>
                     <div className={style.titleBLock_left}>
-                        <h1>Где остановиться в Казахстане</h1>
+                        <h1>Где остановиться в {params.location}</h1>
                         <div className={style.titleBLock_result}>
                             {dataEstablishment.length} результатов
                         </div>
