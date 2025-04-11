@@ -207,7 +207,7 @@ IProps) => {
                     <li className={style.navBar_list_item}>
                         Время работы
                         {/* <ScheduleButton
-              scheduleData={data.schedule}
+              scheduleData={dataEstablishment..schedule}
               textButton="Время работы"
             /> */}
                     </li>
@@ -283,7 +283,7 @@ IProps) => {
                                 "ACCOMMODATION" && (
                                 <>
                                     <div className={style.info_class_title}>
-                                        {classTag?.groupKey?.name}
+                                        Звездность
                                     </div>
                                     {classTag && (
                                         <RateHotel
