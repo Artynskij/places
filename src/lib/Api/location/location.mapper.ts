@@ -6,7 +6,7 @@ export default class LocationMapper {
     transformToFront(location: ILocationsEntity): ILocationFront {
         return {
             id: location.location.Id,
-            value: location.content.details[0].value,
+            value: location?.content?.details[0].value || '',
             locationType: {
                 id: location.location.LocationType.Id,
                 value: location.location.LocationType.Name,

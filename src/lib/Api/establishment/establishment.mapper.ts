@@ -64,11 +64,11 @@ export default class EstablishmentMapper {
                 },
                 town: {
                     id:
-                        establishment.establishment.Locations?.content
-                            .details[0]._id || "",
+                        establishment.establishment.Locations?.Content
+                            ?.details[0]._id || "",
                     value:
-                        establishment.establishment.Locations?.content
-                            .details[0].value || "",
+                        establishment.establishment.Locations?.Content
+                            ?.details[0].value || "",
                 },
                 street: establishment.content.value[0].value.location.street1,
                 latitude: establishment.establishment.Latitude,
