@@ -1,3 +1,4 @@
+import { ITypesOfEstablishment } from "../../IType";
 import { ICategoryEntity } from "./category.entity";
 import { ILocationsEntity } from "./locations.entity";
 import { IContactsEntity } from "./parts/contact.entity";
@@ -15,7 +16,7 @@ export interface IEstablishmentEntity {
     Moderate: null | boolean;
     Type: {
       Id: string;
-      Name: "ACCOMMODATION" | "EATER" | "ATTRACTION";
+      Name: ITypesOfEstablishment;
       RefName: string;
       ContentId: string;
       Content: IContentEntity;

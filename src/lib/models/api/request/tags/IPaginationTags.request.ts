@@ -1,5 +1,7 @@
 import { IPaginationRequest } from "../IPagination.request";
 
 export interface ITagsOfEstablishmentRequest extends IPaginationRequest {
-  establishmentIds: number[] | string[];
+    establishmentIds?: number[] | string[];
+    
+    locationId?: string;
 }

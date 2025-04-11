@@ -15,31 +15,46 @@ import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 
 import { mockFilterSort } from "@/asset/mockData/mockFilterSort";
 
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps, ITypesOfEstablishment } from "@/lib/models/IType";
 
 import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 
 import { IEstablishmentFront } from "@/lib/models";
 import { useViewTypeList } from "@/lib/context";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
-        location:string
+        location: string;
+        typeEstablishment: ITypesOfEstablishment;
     };
     dataEstablishment: IEstablishmentFront[];
     blockTags: ITagsBlockFront[];
+    locationData: ILocationFront| null;
 }
 export default function FilterScreen({
     params,
     searchParams,
     dataEstablishment,
     blockTags,
+    locationData,
 }: IProps) {
     const [sortActiveItem, setSortActiveItem] = useState(
         mockFilterSort[3].value
     );
     const viewType = useViewTypeList();
+    const getClientBaseUrl = () => {
+        // Проверяем, что код выполняется на клиенте (в браузере)
+        if (typeof window !== "undefined") {
+            return window.location.origin;
+        }
+        // Возвращаем пустую строку или дефолтное значение для SSR
+        return "";
+    };
 
+    // Использование:
+    const baseUrl = getClientBaseUrl();
     return (
         <div className="container">
             <div className={style.breadcrumb}>
@@ -48,9 +63,18 @@ export default function FilterScreen({
             <div className={style.container}>
                 <div className={style.titleBLock}>
                     <div className={style.titleBLock_left}>
-                        <h1>Где остановиться в {params.location}</h1>
+                        <h1>
+                            {`${
+                                TYPES_OF_ESTABLISHMENT[params.typeEstablishment]
+                                    ?.secondValue
+                            } в ${locationData?.value}`}
+                        </h1>
                         <div className={style.titleBLock_result}>
-                            {dataEstablishment.length} результатов
+                            {
+                                dataEstablishment[0].location.info
+                                    .totalEstablishment
+                            }{" "}
+                            результатов
                         </div>
                     </div>
                     <div className={style.titleBLock_groupButton}>
@@ -91,6 +115,8 @@ export default function FilterScreen({
                                         key={establishment.id}
                                         dataEstablishment={establishment}
                                         langUI={params.locale}
+                                        locationId={params.location}
+                                        baseUrl={baseUrl}
                                     />
                                 );
                             })}
@@ -103,6 +129,8 @@ export default function FilterScreen({
                                         key={establishment.id}
                                         langUI={params.locale}
                                         dataEstablishment={establishment}
+                                        locationId={params.location}
+                                        baseUrl={baseUrl}
                                     />
                                 );
                             })}
@@ -112,7 +140,10 @@ export default function FilterScreen({
                     <PaginationAnt
                         pageSize={30}
                         defaultPage={30}
-                        totalCount={90}
+                        totalCount={
+                            dataEstablishment[0].location.info
+                                .totalEstablishment || 90
+                        }
                     />
                 </div>
             </div>

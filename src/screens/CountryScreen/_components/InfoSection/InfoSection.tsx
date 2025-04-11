@@ -8,12 +8,15 @@ import { FC, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { ILocationFront } from "@/lib/models/frontend/location/location.front";
+import { ROUTES } from "@/lib/config/Routes";
 
 interface IInfoSection {
     //   tTiles: any;
     searchParams: any;
+    townsData: ILocationFront[] | null;
 }
-export const InfoSection: FC<IInfoSection> = ({ searchParams }) => {
+export const InfoSection: FC<IInfoSection> = ({ searchParams, townsData }) => {
     const tTiles = useTranslations("Tiles");
     const tText = useTranslations("CountryPage.text");
     const watchAllText = tTiles("text.watchAll");
@@ -35,6 +38,7 @@ export const InfoSection: FC<IInfoSection> = ({ searchParams }) => {
                 if (index > 5 && !showMoreTiles) {
                     return;
                 }
+
                 return (
                     <CardInfo
                         activeParam={activeParam}
@@ -44,6 +48,25 @@ export const InfoSection: FC<IInfoSection> = ({ searchParams }) => {
                         seeMoreText={watchAllText}
                         key={item.id}
                         data={item}
+                        markDownContent={
+                            item.value === "towns" && townsData
+                                ? transformToMarkdown(
+                                      townsData.filter(
+                                          (item) =>
+                                              item.locationType.value ===
+                                                  "CITY" || "VILLAGE"
+                                      )
+                                  )
+                                : item.value === "regions" && townsData
+                                ? transformToMarkdown(
+                                      townsData.filter(
+                                          (item) =>
+                                              item.locationType.value ===
+                                              "REGION"
+                                      )
+                                  )
+                                : item.body
+                        }
                     />
                 );
             })}
@@ -56,3 +79,12 @@ export const InfoSection: FC<IInfoSection> = ({ searchParams }) => {
         </section>
     );
 };
+function transformToMarkdown(towns: ILocationFront[]): string {
+    const returned = towns.map(
+        (item) =>
+            `<a href=${ROUTES.LOCATION.LOCATION(`${item.id}`)}><span>${
+                item.value
+            }</span><span>${item.locationType.value}</span></a>`
+    );
+    return returned.join(" ");
+}

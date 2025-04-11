@@ -12,7 +12,7 @@ export const ROUTES = {
         TOURIST: (username: string) => `/tourist/${username}`,
         USER: (username: string) => `/user/${username}`,
     },
-    FILTER: (location: string) => `/${location}/filter`,
+    FILTER: (location: string, typeEst:string) => `/${location}/${typeEst}/filter`,
     NEWS: {
         CATEGORY: (category: INewsCategory) => `/news/${category}`,
         NEWS: (category: INewsCategory, news: string) =>
@@ -28,8 +28,8 @@ export const ROUTES = {
         ESTABLISHMENT: (
             location: string,
             // district: string,
-            // town: string,
+            typeEst: string,
             establishment: string
-        ) => `/${location}/${establishment}`,
+        ) => `/${location}/${typeEst}/${establishment}`,
     },
 };

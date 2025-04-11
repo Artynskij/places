@@ -48,3 +48,4 @@ export interface IImageData {
 
 
 // After Api
+export type ITypesOfEstablishment  = 'ATTRACTION'| 'EATER' | 'ACCOMMODATION'

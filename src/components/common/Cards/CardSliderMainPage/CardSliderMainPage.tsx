@@ -13,16 +13,22 @@ import { RateCafe } from "../../RateCustom/RateCafe";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { headers } from "next/headers";
 
 interface ICardSliderMainPage {
     dataEstablishment: IEstablishmentFront;
     langUI?: string;
+    locationId: string;
+    baseUrl:string
 }
 export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
     dataEstablishment,
     langUI,
+    locationId,
+    baseUrl
 }) => {
-    // if (!dataEstablishment.) return null;
+   
     return (
         <div className={style.card}>
             <div className={style.image}>
@@ -32,7 +38,14 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                     </div>
 
                     <ShareButton
-                        linkPage="https://www.lipsum.com/"
+                        linkPage={baseUrl}
+                        linkData={[
+                            dataEstablishment.location.town.id,
+                            TYPES_OF_ESTABLISHMENT[
+                                dataEstablishment.typeEstablishment
+                            ].key,
+                            dataEstablishment.id,
+                        ]}
                         classNameButton={`${style.imageButton} ${style.imageButton_share}`}
                         classNameIcon={style.imageButton_icon}
                         classNameButtonActive={`${style.imageButton_active}`}
@@ -45,7 +58,13 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                 </div>
                 <Link
                     className={style.image_link}
-                    href={ROUTES.LOCATION.ESTABLISHMENT('belarus',`${dataEstablishment.id}`)}
+                    href={ROUTES.LOCATION.ESTABLISHMENT(
+                        locationId,
+                        TYPES_OF_ESTABLISHMENT[
+                            dataEstablishment.typeEstablishment
+                        ].key,
+                        `${dataEstablishment.id}`
+                    )}
                 >
                     <Image
                         loading="lazy"
@@ -73,7 +92,13 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                     </div>
                     <div className={style.description_title}>
                         <Link
-                            href={ROUTES.LOCATION.ESTABLISHMENT('belarus',`${dataEstablishment.id}`)}
+                            href={ROUTES.LOCATION.ESTABLISHMENT(
+                                locationId,
+                                TYPES_OF_ESTABLISHMENT[
+                                    dataEstablishment.typeEstablishment
+                                ].key,
+                                `${dataEstablishment.id}`
+                            )}
                         >
                             <span>{dataEstablishment.title}</span>
                         </Link>
@@ -108,12 +133,17 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
             </div>
           )} */}
 
-                    <div className={style.description_location}>
+                    <Link
+                        href={ROUTES.LOCATION.LOCATION(
+                            dataEstablishment.location.town.id
+                        )}
+                        className={style.description_location}
+                    >
                         <IconLocation
                             className={style.description_location_icon}
                         />
-                        {dataEstablishment.location.street}
-                    </div>
+                        {dataEstablishment.location.town.value}
+                    </Link>
                 </div>
             </div>
         </div>

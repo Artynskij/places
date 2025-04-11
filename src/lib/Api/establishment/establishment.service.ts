@@ -23,7 +23,7 @@ export class EstablishmentService {
             ? response.establishmentItems.map((establishment) => {
                   return this.establishmentMapper.transformToFront({
                       establishment: establishment,
-                      cdnHost: response.cdnHost,
+                      info: {cdnHost:response.cdnHost, totalEstablishment:response.total},
                   });
               })
             : null;
@@ -40,7 +40,7 @@ export class EstablishmentService {
         return response
             ? this.establishmentMapper.transformToFront({
                   establishment: response.establishment,
-                  cdnHost: response.cdnHost,
+                  info: {cdnHost:response.cdnHost},
               })
             : null;
     }
@@ -61,7 +61,7 @@ export class EstablishmentService {
                   .map((establishment) => {
                       return this.establishmentMapper.transformToFront({
                           establishment: establishment,
-                          cdnHost: response.cdnHost,
+                          info: {cdnHost:response.cdnHost, totalEstablishment:response.total},
                       });
                   })
             : null;

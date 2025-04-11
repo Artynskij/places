@@ -13,6 +13,7 @@ import { Popup } from "@/components/common/Popup/Popup";
 
 interface ICardInfo {
     data: IDataCardInfo;
+    markDownContent:string;
     activeParam: boolean;
     titleText: string;
     seeMoreText: string;
@@ -20,6 +21,7 @@ interface ICardInfo {
 
 export const CardInfo: FC<ICardInfo> = ({
     data,
+    markDownContent,
     activeParam,
     titleText,
     seeMoreText,
@@ -72,7 +74,7 @@ export const CardInfo: FC<ICardInfo> = ({
                 active={active}
                 closePopup={closePopup}
             >
-                <div dangerouslySetInnerHTML={{ __html: data.body }}></div>
+                <div className={style.htmlMarkdown} dangerouslySetInnerHTML={{ __html: markDownContent }}></div>
             </Popup>
         </>
     );

@@ -14,13 +14,21 @@ import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import { RateHotel } from "../../RateCustom/RateHotel";
 import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 
 interface ICardHotelList {
     dataEstablishment: IEstablishmentFront;
     // cdnName: string;
     langUI: string;
+    locationId: string;
+    baseUrl: string;
 }
-export const CardList: FC<ICardHotelList> = ({ dataEstablishment, langUI }) => {
+export const CardList: FC<ICardHotelList> = ({
+    dataEstablishment,
+    langUI,
+    locationId,
+    baseUrl,
+}) => {
     // if (!data.content) return null;
     return (
         <div className={style.card}>
@@ -31,7 +39,14 @@ export const CardList: FC<ICardHotelList> = ({ dataEstablishment, langUI }) => {
                     </div>
 
                     <ShareButton
-                        linkPage="https://www.lipsum.com/"
+                        linkData={[
+                            dataEstablishment.location.town.id,
+                            TYPES_OF_ESTABLISHMENT[
+                                dataEstablishment.typeEstablishment
+                            ].key,
+                            dataEstablishment.id,
+                        ]}
+                        linkPage={baseUrl}
                         classNameButton={`${style.imageButton} ${style.imageButton_share}`}
                         classNameIcon={style.imageButton_icon}
                         classNameButtonActive={`${style.imageButton_active}`}
@@ -44,7 +59,13 @@ export const CardList: FC<ICardHotelList> = ({ dataEstablishment, langUI }) => {
                 </div>
                 <Link
                     className={style.image_link}
-                    href={ROUTES.LOCATION.ESTABLISHMENT('belarus',`${dataEstablishment.id}`)}
+                    href={ROUTES.LOCATION.ESTABLISHMENT(
+                        locationId,
+                        TYPES_OF_ESTABLISHMENT[
+                            dataEstablishment.typeEstablishment
+                        ].key,
+                        `${dataEstablishment.id}`
+                    )}
                 >
                     <Image
                         loading="lazy"
@@ -63,7 +84,13 @@ export const CardList: FC<ICardHotelList> = ({ dataEstablishment, langUI }) => {
             <div className={style.info_ctn}>
                 <div className={style.info_title}>
                     <Link
-                        href={ROUTES.LOCATION.ESTABLISHMENT('belarus',`${dataEstablishment.id}`)}
+                        href={ROUTES.LOCATION.ESTABLISHMENT(
+                            locationId,
+                            TYPES_OF_ESTABLISHMENT[
+                                dataEstablishment.typeEstablishment
+                            ].key,
+                            dataEstablishment.id
+                        )}
                     >
                         {dataEstablishment.title}
                     </Link>
@@ -106,7 +133,7 @@ export const CardList: FC<ICardHotelList> = ({ dataEstablishment, langUI }) => {
                 }
                 <div className={style.info_location}>
                     <IconLocation className={style.info_location_icon} />
-                    {dataEstablishment.location.street}
+                    {dataEstablishment.location.town.value}
                 </div>
 
                 <div className={style.info_description}>

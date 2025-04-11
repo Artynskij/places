@@ -13,6 +13,7 @@ import { Button } from "@/components/UI/Button/Button";
 import { ROUTES } from "@/lib/config/Routes";
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 
 // { locale }: { locale: string }
 export const Header = async () => {
@@ -56,18 +57,18 @@ export const Header = async () => {
 
                     <div className={style.right}>
                         <div className={style.right_lang}>
-                            <Suspense fallback={<div>select lang</div>}>
+                            {/* <Suspense fallback={<div>select lang</div>}>
                                 <SelectLang />
-                            </Suspense>
+                            </Suspense> */}
                         </div>
                         <div className={style.right_auth}>
-                            {/* <Link href={"/login"}>
-                <Button
-                  className={style.right_auth_button}
-                  text={t("text.buttonLogin")}
-                />
-              </Link> */}
-                            <Profile />
+                            <Link href={"/login"}>
+                                <Button
+                                    className={style.right_auth_button}
+                                    text={tHeader("text.buttonLogin")}
+                                />
+                            </Link>
+                            {/* <Profile /> */}
                         </div>
                     </div>
                     <Suspense fallback={<div>Burger</div>}>
@@ -120,7 +121,8 @@ export const Header = async () => {
                         <Link
                             className={style.header__second_link}
                             href={ROUTES.LOCATION.ESTABLISHMENT(
-                                "belarus",
+                                "01H9ZFTX89YTPD7QJW7N5EAWQP",
+                                TYPES_OF_ESTABLISHMENT.ACCOMMODATION.key,
                                 "01JJ21RRS0YER1XH9FM4D287JY"
                             )}
                         >
@@ -128,7 +130,10 @@ export const Header = async () => {
                         </Link>
                         <Link
                             className={style.header__second_link}
-                            href={ROUTES.FILTER('belarus')}
+                            href={ROUTES.FILTER(
+                                "01HMY6V2B4YK8M9V4R6JQ3W5XT",
+                                TYPES_OF_ESTABLISHMENT.ACCOMMODATION.key
+                            )}
                         >
                             <li className={"hover-underline"}>Фильтр</li>
                         </Link>

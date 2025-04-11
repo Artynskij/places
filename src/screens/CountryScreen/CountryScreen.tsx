@@ -23,6 +23,9 @@ import { getTranslations } from "next-intl/server";
 
 import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { ILocationFront } from "@/lib/models/frontend/location/location.front";
+import { headers } from "next/headers";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -31,7 +34,13 @@ interface IProps extends IPageProps {
         town?: string;
     };
     typePage?: "country" | "district" | "town";
-    dataEstablishment: IEstablishmentFront[];
+    dataEstablishment: {
+        eater: IEstablishmentFront[] | [];
+        accommodation: IEstablishmentFront[] | [];
+        attraction: IEstablishmentFront[] | [];
+    };
+    locationData: ILocationFront | null;
+    townsData:ILocationFront[] | null
 }
 
 export default async function CountryScreen({
@@ -39,6 +48,8 @@ export default async function CountryScreen({
     searchParams,
     typePage,
     dataEstablishment,
+    locationData,
+    townsData
 }: IProps) {
     const tTiles = await getTranslations("Tiles");
     const seeMoreText = tTiles("text.watchAll");
@@ -48,17 +59,15 @@ export default async function CountryScreen({
         (item) => item.id === params.location
     ) as any;
 
-    // const countryData =
-    //     typePage === "country"
-    //         ? (countriesData.find(
-    //               (item) => item.value === params.country
-    //           ) as any)
-    //         : typePage === "district"
-    //         ? (mockDistrict.find(
-    //               (item) => item.value === params.district
-    //           ) as any)
-    //         : (mockTowns.find((item) => item.value === params.town) as any);
+    // получение урла
+    const headersList = headers();
 
+    // Получаем host (localhost:3000) и протокол (http/https)
+    const host = headersList.get("host");
+    const protocol = headersList.get("x-forwarded-proto") || "http"; // учитываем прокси
+
+    // Собираем базовый URL (http://localhost:3000)
+    const baseUrl = `${protocol}://${host}`;
     return (
         <div className="container">
             <section className={style.banner}>
@@ -72,15 +81,18 @@ export default async function CountryScreen({
                     <div className={style.banner_breadcrumb_block}>
                         <Breadcrumb />
                     </div>
-                    <h1>{countryData?.title}</h1>
+                    <h1>{locationData?.value || "Нету локации"}</h1>
                 </div>
             </section>
-            <InfoSection searchParams={searchParams} />
+            <InfoSection townsData={townsData} searchParams={searchParams} />
             <section className={style.slider_block}>
                 <div className={style.slider_block_title}>
                     <h2>{t("text.sliderSleep")}</h2>
                     <Link
-                        href={ROUTES.FILTER(`${params.location}`)}
+                        href={ROUTES.FILTER(
+                            params.location,
+                            TYPES_OF_ESTABLISHMENT.ACCOMMODATION.key
+                        )}
                         className={style.slider_block_title_button}
                     >
                         {t("text.buttonWatchAll")}
@@ -89,48 +101,80 @@ export default async function CountryScreen({
 
                 <div className={style.slider}>
                     <Slider id={1}>
-                        {dataEstablishment.map((establishment) => {
+                        {dataEstablishment.accommodation.map(
+                            (establishment) => {
+                                return (
+                                    <CardSliderMainPage
+                                        key={establishment.id}
+                                        dataEstablishment={establishment}
+                                        langUI={params.locale}
+                                        locationId={params.location}
+                                        baseUrl={baseUrl}
+                                    />
+                                );
+                            }
+                        )}
+                    </Slider>
+                </div>
+            </section>
+            <section className={style.slider_block}>
+                <div className={style.slider_block_title}>
+                    <h2>{t("text.sliderEat")}</h2>
+                    <Link
+                        href={ROUTES.FILTER(
+                            params.location,
+                            TYPES_OF_ESTABLISHMENT.EATER.key
+                        )}
+                        className={style.slider_block_title_button}
+                    >
+                        {t("text.buttonWatchAll")}
+                    </Link>
+                </div>
+                <div className={style.slider}>
+                    <Slider id={2}>
+                        {dataEstablishment.eater.map((establishment) => {
                             return (
                                 <CardSliderMainPage
-                                    key={establishment.id }
+                                    key={establishment.id}
                                     dataEstablishment={establishment}
                                     langUI={params.locale}
+                                    locationId={params.location}
+                                    baseUrl={baseUrl}
                                 />
                             );
                         })}
                     </Slider>
                 </div>
             </section>
-            {/* <section className={style.slider_block}>
-        <div className={style.slider_block_title}>
-          <h2>{t("text.sliderEat")}</h2>
-          <Link href={ROUTES.FILTER('belarus')} className={style.slider_block_title_button}>
-            {t("text.buttonWatchAll")}
-          </Link>
-        </div>
-        <div className={style.slider}>
-          <Slider id={2}>
-            {mockObjectsCafe.map((item) => {
-              return <CardSliderMainPage key={item.id} {...item} />;
-            })}
-          </Slider>
-        </div>
-      </section>
-      <section className={style.slider_block}>
-        <div className={style.slider_block_title}>
-          <h2>{t("text.sliderRelax")}</h2>
-          <Link href={ROUTES.FILTER('belarus')} className={style.slider_block_title_button}>
-            {t("text.buttonWatchAll")}
-          </Link>
-        </div>
-        <div className={style.slider}>
-          <Slider id={3}>
-            {mockObjectsRelax.map((item) => {
-              return <CardSliderMainPage key={item.id} {...item} />;
-            })}
-          </Slider>
-        </div>
-      </section> */}
+            <section className={style.slider_block}>
+                <div className={style.slider_block_title}>
+                    <h2>{t("text.sliderRelax")}</h2>
+                    <Link
+                        href={ROUTES.FILTER(
+                            params.location,
+                            TYPES_OF_ESTABLISHMENT.ATTRACTION.key
+                        )}
+                        className={style.slider_block_title_button}
+                    >
+                        {t("text.buttonWatchAll")}
+                    </Link>
+                </div>
+                <div className={style.slider}>
+                    <Slider id={3}>
+                        {dataEstablishment.attraction.map((establishment) => {
+                            return (
+                                <CardSliderMainPage
+                                    key={establishment.id}
+                                    dataEstablishment={establishment}
+                                    langUI={params.locale}
+                                    locationId={params.location}
+                                    baseUrl={baseUrl}
+                                />
+                            );
+                        })}
+                    </Slider>
+                </div>
+            </section>
             {/* {typePage === "country" && (
                 <section className={style.slider_block}>
                     <div className={style.slider_block_title}>

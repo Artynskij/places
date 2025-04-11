@@ -5,7 +5,9 @@ export interface IPaginationEstablishmentRequest extends IPaginationRequest {
     typeIds?: number[] | string[];
     categoryIds?: number[] | string[];
     tagsIds?: number[] | string[];
+    locationId?:string;
   };
+  
   pagination: {
     page: number;
     pageSize: number;

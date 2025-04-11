@@ -9,12 +9,21 @@ import Link from "next/link";
 
 import { SubscribeButton } from "@/components/common/ButtonFunctional/SubsribeButton";
 import { getTranslations } from "next-intl/server";
+import { headers } from "next/headers";
 interface IUserComponent {
   dataUser: (typeof mockTourist)[0];
 }
 export const UserComponent = async ({ dataUser }: IUserComponent) => {
   const t = await getTranslations("ProfilePage.header");
+// получение урла
+    const headersList = headers();
 
+    // Получаем host (localhost:3000) и протокол (http/https)
+    const host = headersList.get("host");
+    const protocol = headersList.get("x-forwarded-proto") || "http"; // учитываем прокси
+
+    // Собираем базовый URL (http://localhost:3000)
+    const baseUrl = `${protocol}://${host}`;
   return (
     <>
       <div className={style.container}>
@@ -56,9 +65,11 @@ export const UserComponent = async ({ dataUser }: IUserComponent) => {
             <Button text={`Подписчики ${dataUser.subscribe.yourSubscriber}`} />
             <Button text={`Подписки ${dataUser.subscribe.youSubscribe}`} />
             <ShareButton
+
               classNameButton={style.info_shareButton}
               textButton="Поделиться"
-              linkPage=""
+              linkPage={baseUrl}
+              linkData={['tourist']}
             />
           </div>
         </div>

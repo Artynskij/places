@@ -28,7 +28,7 @@ import { ScheduleButton } from "@/components/common/ButtonFunctional/ScheduleBut
 import { Slider } from "@/components/common/Slider/Slider";
 import { CardSliderMainPage } from "@/components/common/Cards";
 
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps, ITypesOfEstablishment } from "@/lib/models/IType";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
@@ -39,16 +39,21 @@ import { mockReviews } from "@/asset/mockData/mockReviews";
 import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
 import { IEstablishmentFront } from "@/lib/models";
 
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
-        country: string;
-        district: string;
-        town: string;
+        location: string;
+        typeOfEstablishment: ITypesOfEstablishment;
         establishment: string;
     };
 
     dataEstablishment: IEstablishmentFront;
-    dataNearEstablishment: IEstablishmentFront[];
+    dataNearEstablishment: {
+        eater: IEstablishmentFront[] | [];
+        accommodation: IEstablishmentFront[] | [];
+        attraction: IEstablishmentFront[] | [];
+    };
     dataTags: ITagsBlockFront[];
     classTag?: ITagClassFront;
     // testTags: ITagsBlockFront[];
@@ -67,6 +72,18 @@ IProps) => {
     const tRate = useTranslations("Rates");
     const mockEaterData = mockObjectForObjectPage;
     const reviewData = mockReviews;
+
+    const getClientBaseUrl = () => {
+        // Проверяем, что код выполняется на клиенте (в браузере)
+        if (typeof window !== "undefined") {
+            return window.location.origin;
+        }
+        // Возвращаем пустую строку или дефолтное значение для SSR
+        return "";
+    };
+
+    // Использование:
+    const baseUrl = getClientBaseUrl();
 
     return (
         <div className="container">
@@ -91,7 +108,14 @@ IProps) => {
                         }
                         classNameIcon={style.underHeader_groupButtons_icon}
                         textButton="Поделиться"
-                        linkPage="https://www.lipsum.com/"
+                        linkPage={baseUrl}
+                        linkData={[
+                            dataEstablishment.location.town.id,
+                            TYPES_OF_ESTABLISHMENT[
+                                dataEstablishment.typeEstablishment
+                            ].key,
+                            dataEstablishment.id,
+                        ]}
                     />
                 </div>
             </div>
@@ -446,25 +470,18 @@ IProps) => {
                 </div>
                 <div className={style.slider}>
                     <Slider id={1}>
-                        {dataNearEstablishment.map((establishment) => {
+                        {dataNearEstablishment.eater.map((establishment) => {
                             return (
                                 <CardSliderMainPage
                                     key={establishment.id}
                                     dataEstablishment={establishment}
                                     langUI={params.locale}
+                                    locationId={params.location}
+                                    baseUrl={baseUrl}
                                 />
                             );
                         })}
                     </Slider>
-                    {dataNearEstablishment.map((establishment) => {
-                        return (
-                            <CardSliderMainPage
-                                key={establishment.id}
-                                dataEstablishment={establishment}
-                                langUI={params.locale}
-                            />
-                        );
-                    })}
                 </div>
             </section>
             <section className={style.slider_block}>
@@ -479,12 +496,14 @@ IProps) => {
                 </div>
                 <div className={style.slider}>
                     <Slider id={2}>
-                        {dataNearEstablishment.map((establishment) => {
+                        {dataNearEstablishment.accommodation.map((establishment) => {
                             return (
                                 <CardSliderMainPage
                                     key={establishment.id}
                                     dataEstablishment={establishment}
                                     langUI={params.locale}
+                                    locationId={params.location}
+                                    baseUrl={baseUrl}
                                 />
                             );
                         })}
@@ -503,12 +522,14 @@ IProps) => {
                 </div>
                 <div className={style.slider}>
                     <Slider id={3}>
-                        {dataNearEstablishment.map((establishment) => {
+                        {dataNearEstablishment.attraction.map((establishment) => {
                             return (
                                 <CardSliderMainPage
                                     key={establishment.id}
                                     dataEstablishment={establishment}
                                     langUI={params.locale}
+                                    locationId={params.location}
+                                    baseUrl={baseUrl}
                                 />
                             );
                         })}

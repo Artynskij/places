@@ -5,13 +5,16 @@ import {
 } from "@/lib/models";
 interface ITransformToFront {
     establishment: IEstablishmentEntity;
-    cdnHost: string;
+    info: {
+        cdnHost: string;
+        totalEstablishment?: number;
+    };
 }
 export default class EstablishmentMapper {
     constructor() {}
     transformToFront({
         establishment,
-        cdnHost,
+        info,
     }: ITransformToFront): IEstablishmentFront {
         if (
             !establishment?.content ||
@@ -55,14 +58,29 @@ export default class EstablishmentMapper {
                 additional: additionalRates,
             },
             location: {
+                country: {
+                    id: "",
+                    value: null,
+                },
+                town: {
+                    id:
+                        establishment.establishment.Locations?.content
+                            .details[0]._id || "",
+                    value:
+                        establishment.establishment.Locations?.content
+                            .details[0].value || "",
+                },
                 street: establishment.content.value[0].value.location.street1,
                 latitude: establishment.establishment.Latitude,
                 longitude: establishment.establishment.Longitude,
                 postalCode: establishment.establishment.PostalCode,
+                info: {
+                    totalEstablishment: info?.totalEstablishment || null,
+                },
             },
             contacts: establishment.establishment.Contacts,
             media: {
-                cdnHost: "http://172.27.20.200:49160/cdn/",
+                cdnHost: info.cdnHost, //"http://172.27.20.200:49160/cdn/"
                 gallery: galleryImages,
             },
             seo: establishment.content.value[0].value.seoTrip,
