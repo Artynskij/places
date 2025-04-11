@@ -86,7 +86,7 @@ function transformToMarkdown(towns: ILocationFront[]): string {
         (item) =>
             `<a href=${ROUTES.LOCATION.LOCATION(`${item.id}`)}><span>${
                 item.value
-            }</span><span>${item.locationType.value}</span></a>`
+            }</span></a>`
     );
     return returned.join(" ");
 }
