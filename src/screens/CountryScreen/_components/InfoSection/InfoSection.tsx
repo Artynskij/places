@@ -54,7 +54,9 @@ export const InfoSection: FC<IInfoSection> = ({ searchParams, townsData }) => {
                                       townsData.filter(
                                           (item) =>
                                               item.locationType.value ===
-                                                  "CITY" || "VILLAGE"
+                                                  "CITY" ||
+                                              item.locationType.value ===
+                                                  "VILLAGE"
                                       )
                                   )
                                 : item.value === "regions" && townsData

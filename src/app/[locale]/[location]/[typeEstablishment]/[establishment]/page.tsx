@@ -55,6 +55,7 @@ export default async function EstablishmentPage({
         apiEstablishment.getEstablishmentById(
             params.establishment,
             params.locale
+
         ),
         apiEstablishment.getEstablishmentByPagination({
             pagination: { page: 1, pageSize: 10 },

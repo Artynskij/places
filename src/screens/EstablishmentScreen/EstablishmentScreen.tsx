@@ -40,6 +40,7 @@ import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
 import { IEstablishmentFront } from "@/lib/models";
 
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { ROUTES } from "@/lib/config/Routes";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -282,7 +283,7 @@ IProps) => {
                                 "ACCOMMODATION" && (
                                 <>
                                     <div className={style.info_class_title}>
-                                        {classTag?.groupKey.name}
+                                        {classTag?.groupKey?.name}
                                     </div>
                                     {classTag && (
                                         <RateHotel
@@ -462,7 +463,10 @@ IProps) => {
                 <div className={style.slider_block_title}>
                     <h2>Рекомендуем где поесть</h2>
                     <Link
-                        href={"/filter"}
+                        href={ROUTES.FILTER(
+                            params.location,
+                            TYPES_OF_ESTABLISHMENT.EATER.key
+                        )}
                         className={style.slider_block_title_button}
                     >
                         Смотреть больше
@@ -488,7 +492,10 @@ IProps) => {
                 <div className={style.slider_block_title}>
                     <h2>Рекомендуем где остановиться</h2>
                     <Link
-                        href={"/filter"}
+                        href={ROUTES.FILTER(
+                            params.location,
+                            TYPES_OF_ESTABLISHMENT.ACCOMMODATION.key
+                        )}
                         className={style.slider_block_title_button}
                     >
                         Смотреть больше
@@ -496,17 +503,19 @@ IProps) => {
                 </div>
                 <div className={style.slider}>
                     <Slider id={2}>
-                        {dataNearEstablishment.accommodation.map((establishment) => {
-                            return (
-                                <CardSliderMainPage
-                                    key={establishment.id}
-                                    dataEstablishment={establishment}
-                                    langUI={params.locale}
-                                    locationId={params.location}
-                                    baseUrl={baseUrl}
-                                />
-                            );
-                        })}
+                        {dataNearEstablishment.accommodation.map(
+                            (establishment) => {
+                                return (
+                                    <CardSliderMainPage
+                                        key={establishment.id}
+                                        dataEstablishment={establishment}
+                                        langUI={params.locale}
+                                        locationId={params.location}
+                                        baseUrl={baseUrl}
+                                    />
+                                );
+                            }
+                        )}
                     </Slider>
                 </div>
             </section>
@@ -514,7 +523,10 @@ IProps) => {
                 <div className={style.slider_block_title}>
                     <h2>Рекомендуем что посмотреть</h2>
                     <Link
-                        href={"/filter"}
+                        href={ROUTES.FILTER(
+                            params.location,
+                            TYPES_OF_ESTABLISHMENT.ATTRACTION.key
+                        )}
                         className={style.slider_block_title_button}
                     >
                         Смотреть больше
@@ -522,17 +534,19 @@ IProps) => {
                 </div>
                 <div className={style.slider}>
                     <Slider id={3}>
-                        {dataNearEstablishment.attraction.map((establishment) => {
-                            return (
-                                <CardSliderMainPage
-                                    key={establishment.id}
-                                    dataEstablishment={establishment}
-                                    langUI={params.locale}
-                                    locationId={params.location}
-                                    baseUrl={baseUrl}
-                                />
-                            );
-                        })}
+                        {dataNearEstablishment.attraction.map(
+                            (establishment) => {
+                                return (
+                                    <CardSliderMainPage
+                                        key={establishment.id}
+                                        dataEstablishment={establishment}
+                                        langUI={params.locale}
+                                        locationId={params.location}
+                                        baseUrl={baseUrl}
+                                    />
+                                );
+                            }
+                        )}
                     </Slider>
                 </div>
             </section>

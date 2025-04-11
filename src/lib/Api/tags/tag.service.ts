@@ -39,7 +39,7 @@ export class TagsService {
                     }),
                     groupKey: {
                         id: cat.TagCategory.Id,
-                        name: cat.TagCategory.Content.details[0].value,
+                        name: cat.TagCategory.Name || cat.TagCategory.Content.details[0].value ,
                         value: cat.TagCategory.Name,
                     },
                 };

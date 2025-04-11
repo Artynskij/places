@@ -141,6 +141,7 @@
       "roomFeatures": "Оснащенность номера",
       "roomTypes": "Типы номеров",
       "propertyAmenities": "Услуги и удобства в отеле",
+      "languagesSpoken":"Языки",
       "styleRankings": "Стили отеля"
     }
   },
@@ -155,6 +156,6 @@
 
     "Atmosphere": "Атмосфера",
     "Food": "Качество еды",
-    "Value": "шляпа"
+    "Value": "цена/качество"
   }
 }
