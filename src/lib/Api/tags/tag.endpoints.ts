@@ -10,7 +10,7 @@ import {
 } from "@/lib/models/api/response/tags/ITags.response";
 
 export class TagsApi {
-    async getAllTagsOfEstablishment(
+    async getAllTagsOfEstablishments(
         body: ITagsOfEstablishmentRequest
     ): Promise<ITagsOfEstablishmentResponse[] | null> {
         try {

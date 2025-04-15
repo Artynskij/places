@@ -1,17 +1,13 @@
 "use client";
 import style from "./establishmentScreen.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 
 import { Button } from "@/components/UI/Button/Button";
-import { IconGlobe, IconLike, IconLocation } from "@/components/common/Icons";
-import { IconShare } from "@/components/common/Icons/IconShare/IconShare";
+
 import { ShareButton } from "@/components/common/ButtonFunctional/ShareButton";
 import { LikeButton } from "@/components/common/ButtonFunctional/LikeButton";
 
-import { IconMessage } from "@/components/common/Icons/IconMessage/IconMessage";
-import { IconDone } from "@/components/common/Icons/IconDone/IconDone";
-import { IconPhone } from "@/components/common/Icons/IconPhone/IconPhone";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 
 import { mockObjectForObjectPage } from "@/asset/mockData/mockObject";
@@ -24,7 +20,7 @@ import { RateCafe } from "@/components/common/RateCustom/RateCafe";
 import { RateMain } from "@/components/common/RateCustom/RateMain";
 import { RateHotel } from "@/components/common/RateCustom/RateHotel";
 import { ContactButton } from "@/components/common/ButtonFunctional/ContactButton";
-import { ScheduleButton } from "@/components/common/ButtonFunctional/ScheduleButton";
+
 import { Slider } from "@/components/common/Slider/Slider";
 import { CardSliderMainPage } from "@/components/common/Cards";
 
@@ -32,7 +28,6 @@ import { IPageProps, ITypesOfEstablishment } from "@/lib/models/IType";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-import { ITagFront } from "@/lib/models/frontend/tags/tag.front";
 import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 import { ITagClassFront } from "@/lib/models/frontend/tags/tagClass.front";
 import { mockReviews } from "@/asset/mockData/mockReviews";
@@ -41,6 +36,13 @@ import { IEstablishmentFront } from "@/lib/models";
 
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { ROUTES } from "@/lib/config/Routes";
+import {
+    IconDone,
+    IconLocation,
+    IconMessage,
+    IconPhone,
+} from "@/components/common/Icons";
+import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -73,18 +75,9 @@ IProps) => {
     const tRate = useTranslations("Rates");
     const mockEaterData = mockObjectForObjectPage;
     const reviewData = mockReviews;
+    console.log(dataTags);
 
-    const getClientBaseUrl = () => {
-        // Проверяем, что код выполняется на клиенте (в браузере)
-        if (typeof window !== "undefined") {
-            return window.location.origin;
-        }
-        // Возвращаем пустую строку или дефолтное значение для SSR
-        return "";
-    };
-
-    // Использование:
-    const baseUrl = getClientBaseUrl();
+    const baseUrl = useBaseUrl();
 
     return (
         <div className="container">
@@ -144,7 +137,7 @@ IProps) => {
                         </div>
                     </div>
                     <div className={style.titleBlock_register}>
-                        {true ? (
+                        {false ? (
                             <>
                                 <IconDone
                                     className={style.titleBlock_iconCheck}
@@ -216,6 +209,7 @@ IProps) => {
             <section className={style.gallery_block}>
                 <Gallery
                     cdnHost={dataEstablishment.media.cdnHost}
+                    titleEstablishment={dataEstablishment.title}
                     images={dataEstablishment.media.gallery}
                 />
             </section>
@@ -268,8 +262,7 @@ IProps) => {
                                 "EATER" && (
                                 <>
                                     <div className={style.info_class_title}>
-                                        Чек:{" "}
-                                        {mockEaterData.info.priceRating.title}
+                                        Чек: default
                                     </div>
                                     <RateCafe
                                         disabled
@@ -288,7 +281,7 @@ IProps) => {
                                     {classTag && (
                                         <RateHotel
                                             disabled
-                                            defaultValue={classTag.count}
+                                            defaultValue={classTag.count || 0}
                                             classNameIcon={
                                                 style.titleBlock_class_icon
                                             }
@@ -299,12 +292,14 @@ IProps) => {
                         </div>
                     </div>
                     <div className={style.info_bestReview}></div>
-                    {/* <Button
-            className={style.button_estimate}
-            icon={<IconMessage className={style.info_icon_message} />}
-            type="light"
-            text="Поставить оценку"
-          /> */}
+                    <Button
+                        className={style.button_estimate}
+                        icon={
+                            <IconMessage className={style.info_icon_message} />
+                        }
+                        type="light"
+                        text="Поставить оценку"
+                    />
                 </div>
                 <div className={style.info_column}>
                     <h4>Описание</h4>

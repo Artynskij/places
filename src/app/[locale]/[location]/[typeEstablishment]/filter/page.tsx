@@ -34,7 +34,7 @@ export default async function FilterPage({ params, searchParams }: IProps) {
     const apiTags = new TagsService();
     const apiLocation = new LocationService();
 
-    const [data, blockTags, locationData] = await Promise.all([
+    const [dataEstablishments, blockTags, locationData] = await Promise.all([
         apiEst.getEstablishmentByPagination({
             lang: params.locale,
             pagination: {
@@ -50,26 +50,25 @@ export default async function FilterPage({ params, searchParams }: IProps) {
         }),
         apiTags.getAllTagsOfEstablishmentFilter({
             lang: params.locale,
-            // establishmentIds:
-            //     data?.map((item: IEstablishmentFront) => item.id) || [],
-
             locationId: params.location,
         }),
         apiLocation.getLocationById(params.location, params.locale),
     ]);
-  
-    if (!data) notFound();
-
-    if (!blockTags) notFound();
+    if (!dataEstablishments || !blockTags) notFound();
+    const tagsClassEstablishment = await apiTags.getStarsAndPriceOfAllEstablishment({
+        lang: params.locale,
+        establishmentIds:dataEstablishments?.map(item => item.id)
+    });
+    
 
     return (
         <FilterScreen
-            dataEstablishment={data}
+            dataEstablishment={dataEstablishments}
             blockTags={blockTags}
             params={params}
             searchParams={searchParams}
             locationData={locationData}
-            // dataTest={blockTags}
+            tagsClassEstablishment={tagsClassEstablishment}
         />
     );
 }

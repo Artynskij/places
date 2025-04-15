@@ -18,7 +18,7 @@ interface IInfoSection {
 }
 export const InfoSection: FC<IInfoSection> = ({ searchParams, townsData }) => {
     const tTiles = useTranslations("Tiles");
-    const tText = useTranslations("CountryPage.text");
+    const tText = useTranslations("LocationPage.text");
     const watchAllText = tTiles("text.watchAll");
     const useMedia = useSelector((state: RootState) => state.screenSize);
     const [showMoreTiles, setShowMoreTiles] = useState(true);

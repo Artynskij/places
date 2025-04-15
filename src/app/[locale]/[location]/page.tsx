@@ -6,12 +6,13 @@ import type { Metadata } from "next";
 import { IPageProps } from "@/lib/models/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 
-import CountryScreen from "@/screens/CountryScreen/CountryScreen";
+import LocationScreen from "@/screens/LocationScreen/LocationScreen";
 import { Loader } from "@/components/common/Loader/Loader";
 import { notFound } from "next/navigation";
 import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
+import { TagsService } from "@/lib/Api/tags/tag.service";
 
 export async function generateMetadata({
     params,
@@ -33,6 +34,7 @@ export default async function CountryPage({ params, searchParams }: IProps) {
     // Пример запроса данных через API (если данные нужны на сервере)
     const apiEstablishment = new EstablishmentService();
     const apiLocation = new LocationService();
+    const apiTags = new TagsService()
 
     const [
         eaterEstablishment,
@@ -79,11 +81,16 @@ export default async function CountryPage({ params, searchParams }: IProps) {
             
         }),
     ]);
-    if (!eaterEstablishment || !locationData) notFound();
+
+    if (!eaterEstablishment || !accommodationEstablishment || !locationData) notFound();
+    const tagsClassEstablishment = await apiTags.getStarsAndPriceOfAllEstablishment({
+        lang: params.locale,
+        establishmentIds:[...(eaterEstablishment?.map(item => item.id)), ...(accommodationEstablishment?.map(item => item.id))]
+    });
     return (
         <>
-            <CountryScreen
-                typePage="country"
+            <LocationScreen
+                // typePage="country"
                 params={params}
                 searchParams={searchParams}
                 dataEstablishment={{
@@ -93,6 +100,7 @@ export default async function CountryPage({ params, searchParams }: IProps) {
                 }}
                 locationData={locationData}
                 townsData={townsData}
+                tagsClassEstablishment={tagsClassEstablishment}
             />
         </>
     );

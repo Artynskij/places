@@ -64,8 +64,7 @@ export default class EstablishmentMapper {
                 },
                 town: {
                     id:
-                        establishment.establishment.Locations?.Content
-                            ?.details[0]._id || "",
+                        establishment.establishment.Locations?.Id || "",
                     value:
                         establishment.establishment.Locations?.Content
                             ?.details[0].value || "",

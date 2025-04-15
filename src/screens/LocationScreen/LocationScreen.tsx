@@ -1,5 +1,5 @@
 import { Video } from "@/components/UI/Video/Video";
-import style from "./countryScreen.module.scss";
+import style from "./locationScreen.module.scss";
 import Link from "next/link";
 import { mockDistrict, mockTowns } from "@/asset/mockData/mockCountry";
 
@@ -21,11 +21,15 @@ import { GetServerSideProps } from "next";
 
 import { getTranslations } from "next-intl/server";
 
-import { IEstablishmentFront } from "@/lib/models";
+import {
+    IEstablishmentFront,
+    ITagClassWithEstablishmentFront,
+} from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
-import { headers } from "next/headers";
+
+import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -40,34 +44,28 @@ interface IProps extends IPageProps {
         attraction: IEstablishmentFront[] | [];
     };
     locationData: ILocationFront | null;
-    townsData:ILocationFront[] | null
+    townsData: ILocationFront[] | null;
+    tagsClassEstablishment: ITagClassWithEstablishmentFront[] | null;
 }
 
-export default async function CountryScreen({
+export default async function LocationScreen({
     params,
     searchParams,
     typePage,
     dataEstablishment,
     locationData,
-    townsData
+    townsData,
+    tagsClassEstablishment,
 }: IProps) {
     const tTiles = await getTranslations("Tiles");
     const seeMoreText = tTiles("text.watchAll");
-    const t = await getTranslations("CountryPage");
+    const t = await getTranslations("LocationPage");
 
     const countryData = countriesData.find(
         (item) => item.id === params.location
     ) as any;
 
-    // получение урла
-    const headersList = headers();
-
-    // Получаем host (localhost:3000) и протокол (http/https)
-    const host = headersList.get("host");
-    const protocol = headersList.get("x-forwarded-proto") || "http"; // учитываем прокси
-
-    // Собираем базовый URL (http://localhost:3000)
-    const baseUrl = `${protocol}://${host}`;
+    const baseUrl = await getBaseUrlServer();
     return (
         <div className="container">
             <section className={style.banner}>
@@ -103,6 +101,10 @@ export default async function CountryScreen({
                     <Slider id={1}>
                         {dataEstablishment.accommodation.map(
                             (establishment) => {
+                                const tagClass = tagsClassEstablishment?.find(
+                                    (tag) =>
+                                        tag.establishmentId === establishment.id
+                                );
                                 return (
                                     <CardSliderMainPage
                                         key={establishment.id}
@@ -110,6 +112,7 @@ export default async function CountryScreen({
                                         langUI={params.locale}
                                         locationId={params.location}
                                         baseUrl={baseUrl}
+                                        classCount={tagClass?.tag.count}
                                     />
                                 );
                             }
@@ -133,6 +136,10 @@ export default async function CountryScreen({
                 <div className={style.slider}>
                     <Slider id={2}>
                         {dataEstablishment.eater.map((establishment) => {
+                             const tagClass = tagsClassEstablishment?.find(
+                                (tag) =>
+                                    tag.establishmentId === establishment.id
+                            );
                             return (
                                 <CardSliderMainPage
                                     key={establishment.id}
@@ -140,6 +147,7 @@ export default async function CountryScreen({
                                     langUI={params.locale}
                                     locationId={params.location}
                                     baseUrl={baseUrl}
+                                    classCount={tagClass?.tag.count}
                                 />
                             );
                         })}

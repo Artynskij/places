@@ -6,7 +6,6 @@ export interface ITagsOfEstablishmentResponse {
   Id: string;
   TagId: string;
   EstablishmentId: string;
-  
   Tag: ITagEntity;
   Establishment: {
     Id: string;

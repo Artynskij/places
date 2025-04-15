@@ -4,13 +4,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import style from "./paramComponent.module.scss";
 import { IconCancel } from "@/components/common/Icons/IconCancel/IconCancel";
-import {
-    IMockBlock,
-    IMockFilter,
-    mockFilterHotel,
-} from "@/asset/mockData/mockFilterCheckBox";
+
 import { Button } from "@/components/UI/Button/Button";
-import { ITagsBlockFront } from "@/lib/models";
+import { ITagFront, ITagsBlockFront } from "@/lib/models";
 
 interface IParamComponentProp {
     dataTags?: ITagsBlockFront[];
@@ -20,7 +16,7 @@ const ParamComponent = ({ dataTags }: IParamComponentProp) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const [dataParams, setDataParams] = useState<IMockFilter[] | null>();
+    const [dataParams, setDataParams] = useState<ITagFront[] | null>();
 
     useEffect(() => {
         const searchParamsArray = searchParams.get("filter")?.split("%");
@@ -28,12 +24,12 @@ const ParamComponent = ({ dataTags }: IParamComponentProp) => {
             setDataParams(null);
             return;
         }
-        const filteredSearchParamsArray: IMockFilter[] = [];
+        const filteredSearchParamsArray: ITagFront[] = [];
         dataTags?.forEach((block) => {
             block.tags.forEach((blockItem) => {
                 if (
                     searchParamsArray.find(
-                        (searchItem) => searchItem === blockItem.value
+                        (searchItem) => searchItem === blockItem.key
                     )
                 )
                     filteredSearchParamsArray.push(blockItem);
@@ -44,15 +40,15 @@ const ParamComponent = ({ dataTags }: IParamComponentProp) => {
         // ...
     }, [searchParams]);
 
-    function removeParam(clickItem: IMockFilter) {
+    function removeParam(clickItem: ITagFront) {
         const params = new URLSearchParams(searchParams.toString());
         const filterValue = dataParams?.filter(
-            (item) => item.value !== clickItem.value
+            (item) => item.key !== clickItem.key
         );
         if (filterValue?.length !== 0) {
             params.set(
                 "filter",
-                filterValue?.map((item) => item.value)?.join("%") || "123"
+                filterValue?.map((item) => item.key)?.join("%") || "123"
             );
         } else {
             params.delete("filter");
@@ -74,7 +70,7 @@ const ParamComponent = ({ dataTags }: IParamComponentProp) => {
                             key={index}
                         >
                             <span className={style.list_item_text}>
-                                {item.name}
+                                {item.value}
                             </span>
                             <IconCancel className={style.list_item_icon} />
                         </div>

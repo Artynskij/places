@@ -9,7 +9,9 @@ interface ICheckBox {
   value: string;
 }
 
-export const CheckBox: FC<ICheckBox> = ({ name, value }) => {
+export const CheckBox: FC<ICheckBox> = ({ value, name }) => {
+
+  
   return (
     <>
       <Checkbox

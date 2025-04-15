@@ -15,20 +15,23 @@ import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { headers } from "next/headers";
+import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
 
 interface ICardSliderMainPage {
     dataEstablishment: IEstablishmentFront;
     langUI?: string;
     locationId: string;
-    baseUrl:string
+    baseUrl: string;
+    classCount?: number;
 }
 export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
     dataEstablishment,
     langUI,
     locationId,
-    baseUrl
+    baseUrl,
+    classCount,
 }) => {
-   
+    //    const baseUrls= getBaseUrlServer()
     return (
         <div className={style.card}>
             <div className={style.image}>
@@ -132,7 +135,32 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
               )}
             </div>
           )} */}
+                    <div className={style.description_subtitle}>
+                        {dataEstablishment.typeEstablishment === "EATER" && (
+                            <>
+                                {/* <span className={style.rateHotel}> */}
+                                <span>Средний чек :</span>
+                                <RateCafe
+                                    disabled
+                                    classNameIcon={style.rateCafe}
+                                    defaultValue={classCount || 0}
+                                />
 
+                                {/* </span> */}
+                            </>
+                        )}
+                        {dataEstablishment.typeEstablishment ===
+                            "ACCOMMODATION" && (
+                            <>
+                                <span>Класс отеля :</span>
+                                <RateHotel
+                                    disabled
+                                    defaultValue={classCount || 0}
+                                    classNameIcon={style.titleBlock_class_icon}
+                                />
+                            </>
+                        )}
+                    </div>
                     <Link
                         href={ROUTES.LOCATION.LOCATION(
                             dataEstablishment.location.town.id

@@ -22,12 +22,14 @@ interface ICardHotelList {
     langUI: string;
     locationId: string;
     baseUrl: string;
+    classCount?: number;
 }
 export const CardList: FC<ICardHotelList> = ({
     dataEstablishment,
     langUI,
     locationId,
     baseUrl,
+    classCount,
 }) => {
     // if (!data.content) return null;
     return (
@@ -111,20 +113,23 @@ export const CardList: FC<ICardHotelList> = ({
                         {dataEstablishment.typeEstablishment === "EATER" && (
                             <>
                                 {/* <span className={style.rateHotel}> */}
+                                <span>Средний чек :</span>
                                 <RateCafe
                                     disabled
                                     classNameIcon={style.rateCafe}
-                                    defaultValue={3}
+                                    defaultValue={classCount || 0}
                                 />
+
                                 {/* </span> */}
                             </>
                         )}
                         {dataEstablishment.typeEstablishment ===
                             "ACCOMMODATION" && (
                             <>
+                            <span>Класс отеля :</span>
                                 <RateHotel
                                     disabled
-                                    defaultValue={4}
+                                    defaultValue={classCount || 0}
                                     classNameIcon={style.titleBlock_class_icon}
                                 />
                             </>

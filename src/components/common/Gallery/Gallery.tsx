@@ -15,9 +15,10 @@ import { IImageFront } from "@/lib/models";
 
 interface IGallery {
     images: IImageFront[];
+    titleEstablishment:string;
     cdnHost: string;
 }
-export const Gallery: FC<IGallery> = ({ images, cdnHost }) => {
+export const Gallery: FC<IGallery> = ({ images, cdnHost,titleEstablishment }) => {
     const [loadClient, setLoadClient] = useState(false);
     const [albumActive, setAlbumActive] = useState(false);
     const [activePhotoIndex, setActivePhotoIndex] = useState(-1);
@@ -123,7 +124,7 @@ export const Gallery: FC<IGallery> = ({ images, cdnHost }) => {
             )}
             {albumActive && (
                 <ModalCustom
-                    title="ObjectName"
+                    title={titleEstablishment}
                     view="over"
                     active={albumActive}
                     setActive={setAlbumActive}

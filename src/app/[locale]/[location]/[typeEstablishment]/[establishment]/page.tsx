@@ -90,12 +90,12 @@ export default async function EstablishmentPage({
         notFound();
     }
     const _indexClassTag = dataTags.indexOf(
-        dataTags.filter((item) => item.groupKey.value === "starRating")[0]
+        dataTags.filter((item) => item.groupKey.key === "starRating")[0]
     );
     const classTag = dataTags.splice(_indexClassTag, _indexClassTag);
     const modifyClassTag = {
         ...classTag[0],
-        count: +(classTag[0]?.tags[0].name
+        count: +(classTag[0]?.tags[0].value
             .split(" ")[0]
             .replace(",", ".") as string),
     };

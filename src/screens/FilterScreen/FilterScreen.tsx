@@ -19,10 +19,15 @@ import { IPageProps, ITypesOfEstablishment } from "@/lib/models/IType";
 
 import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 
-import { IEstablishmentFront } from "@/lib/models";
+import {
+    IEstablishmentFront,
+    ITagClassWithEstablishmentFront,
+} from "@/lib/models";
 import { useViewTypeList } from "@/lib/context";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
+import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
+import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -31,7 +36,8 @@ interface IProps extends IPageProps {
     };
     dataEstablishment: IEstablishmentFront[];
     blockTags: ITagsBlockFront[];
-    locationData: ILocationFront| null;
+    locationData: ILocationFront | null;
+    tagsClassEstablishment: ITagClassWithEstablishmentFront[] | null;
 }
 export default function FilterScreen({
     params,
@@ -39,22 +45,15 @@ export default function FilterScreen({
     dataEstablishment,
     blockTags,
     locationData,
+    tagsClassEstablishment,
 }: IProps) {
     const [sortActiveItem, setSortActiveItem] = useState(
         mockFilterSort[3].value
     );
-    const viewType = useViewTypeList();
-    const getClientBaseUrl = () => {
-        // Проверяем, что код выполняется на клиенте (в браузере)
-        if (typeof window !== "undefined") {
-            return window.location.origin;
-        }
-        // Возвращаем пустую строку или дефолтное значение для SSR
-        return "";
-    };
 
-    // Использование:
-    const baseUrl = getClientBaseUrl();
+    const viewType = useViewTypeList();
+
+    const baseUrl = useBaseUrl();
     return (
         <div className="container">
             <div className={style.breadcrumb}>
@@ -71,7 +70,7 @@ export default function FilterScreen({
                         </h1>
                         <div className={style.titleBLock_result}>
                             {
-                                dataEstablishment[0].location.info
+                                dataEstablishment[0]?.location.info
                                     .totalEstablishment
                             }{" "}
                             результатов
@@ -110,6 +109,11 @@ export default function FilterScreen({
                     {viewType.typeView === "list" ? (
                         <div className={style.list}>
                             {dataEstablishment.map((establishment) => {
+                                const tagClass = tagsClassEstablishment?.find(
+                                    (tag) =>
+                                        tag.establishmentId === establishment.id
+                                );
+
                                 return (
                                     <CardList
                                         key={establishment.id}
@@ -117,6 +121,7 @@ export default function FilterScreen({
                                         langUI={params.locale}
                                         locationId={params.location}
                                         baseUrl={baseUrl}
+                                        classCount={tagClass?.tag.count}
                                     />
                                 );
                             })}
@@ -124,6 +129,10 @@ export default function FilterScreen({
                     ) : (
                         <div className={style.table}>
                             {dataEstablishment.map((establishment) => {
+                                const tagClass = tagsClassEstablishment?.find(
+                                    (tag) =>
+                                        tag.establishmentId === establishment.id
+                                );
                                 return (
                                     <CardSliderMainPage
                                         key={establishment.id}
@@ -131,6 +140,7 @@ export default function FilterScreen({
                                         dataEstablishment={establishment}
                                         locationId={params.location}
                                         baseUrl={baseUrl}
+                                        classCount={tagClass?.tag.count}
                                     />
                                 );
                             })}
@@ -141,7 +151,7 @@ export default function FilterScreen({
                         pageSize={30}
                         defaultPage={30}
                         totalCount={
-                            dataEstablishment[0].location.info
+                            dataEstablishment[0]?.location.info
                                 .totalEstablishment || 90
                         }
                     />

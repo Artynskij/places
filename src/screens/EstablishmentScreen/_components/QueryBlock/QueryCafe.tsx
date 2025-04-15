@@ -20,7 +20,7 @@ const QueryCafe: FC<IQueryCafe> = ({ data }) => {
     // const t = useTranslations("EstablishmentPage");
 
     const [modalQuery, setModalQuery] = useState<boolean>(false);
-    const [activeTab, setActiveTab] = useState<string>(data[0]?.groupKey.name);
+    const [activeTab, setActiveTab] = useState<string>(data[0]?.groupKey.value);
     const useMedia = useSelector((state: RootState) => state.screenSize);
     const closeModal = () => {
         setModalQuery(false);
@@ -37,13 +37,13 @@ const QueryCafe: FC<IQueryCafe> = ({ data }) => {
                 return (
                     <li key={index} className={style.queryListCafe_item}>
                         <div className={style.queryListCafe_item_title}>
-                            {tagBlock.groupKey.name}
+                            {tagBlock.groupKey.value}
                         </div>
                         <div className={style.queryListCafe_item_value}>
                             {tagBlock.tags.map((item, index) => {
                                 return (
                                     <span key={item.id}>
-                                        {item.name}
+                                        {item.value}
                                         {index !== tagBlock.tags.length - 1
                                             ? ", "
                                             : "."}
@@ -72,12 +72,12 @@ const QueryCafe: FC<IQueryCafe> = ({ data }) => {
                         data={data.map((tagBlock, index) => {
                             return {
                                 active:
-                                    activeTab === tagBlock.groupKey.name
+                                    activeTab === tagBlock.groupKey.value
                                         ? true
                                         : false,
-                                title: tagBlock.groupKey.name,
+                                title: tagBlock.groupKey.value,
                                 value: tagBlock.tags
-                                    .map((item) => item.name)
+                                    .map((item) => item.value)
                                     .join(","),
                             };
                         })}
@@ -91,7 +91,7 @@ const QueryCafe: FC<IQueryCafe> = ({ data }) => {
                             <ul
                                 key={tagBlock.groupKey.value}
                                 className={`${style.modal_list} ${
-                                    tagBlock.groupKey.name === activeTab &&
+                                    tagBlock.groupKey.value === activeTab &&
                                     style.modal_list__active
                                 }`}
                             >
@@ -100,7 +100,7 @@ const QueryCafe: FC<IQueryCafe> = ({ data }) => {
                                         key={tag.id}
                                         className={style.modal_list_item}
                                     >
-                                        {tag.name}
+                                        {tag.value}
                                     </li>
                                 ))}
                             </ul>

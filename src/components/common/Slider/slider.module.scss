@@ -4,6 +4,7 @@
 }
 .arrow_next,
 .arrow_prev {
+  user-select: none;
   display: flex;
   align-items: center;
   overflow: hidden;
