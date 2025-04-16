@@ -1,4 +1,4 @@
-import { IContentEntity } from "./parts/content.entity";
+import {  IContentLocationEntity } from "./parts/content.entity";
 
 export interface ILocationsEntity {
     location:{
@@ -13,6 +13,6 @@ export interface ILocationsEntity {
         };
     },
    
-    content?: IContentEntity;
-    Content?: IContentEntity;
+    content?: IContentLocationEntity;
+    Content?: IContentLocationEntity;
 }

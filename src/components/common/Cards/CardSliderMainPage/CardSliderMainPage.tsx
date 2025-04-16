@@ -36,9 +36,19 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
         <div className={style.card}>
             <div className={style.image}>
                 <div className={style.image_type}>
-                    <div className={style.image_type_text}>
-                        {dataEstablishment.category || "false"}
-                    </div>
+                    <Link
+                        href={ROUTES.FILTER_WITH_QUERY(
+                            locationId,
+                            TYPES_OF_ESTABLISHMENT[
+                                dataEstablishment.typeEstablishment
+                            ].key,
+                            dataEstablishment.category.id,
+                            "c"
+                        )}
+                        className={style.image_type_text}
+                    >
+                        {dataEstablishment.category.value || "false"}
+                    </Link>
 
                     <ShareButton
                         linkPage={baseUrl}
@@ -91,7 +101,7 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                             disabled={true}
                         />
                         <span>{dataEstablishment.rates.count}</span>
-                        <span>отзывов</span>
+                        <span>оценок</span>
                     </div>
                     <div className={style.description_title}>
                         <Link

@@ -1,7 +1,7 @@
 import {
     IEstablishmentEntity,
     IEstablishmentFront,
-    IImageFront,
+    IMediaFront,
 } from "@/lib/models";
 interface ITransformToFront {
     establishment: IEstablishmentEntity;
@@ -33,7 +33,7 @@ export default class EstablishmentMapper {
             })
             .filter((item) => item);
 
-        const galleryImages: IImageFront[] =
+        const galleryImages: IMediaFront[] =
             establishment.content.media.gallery.map((image) => {
                 return {
                     title: image.details[0].value.title,
@@ -50,8 +50,12 @@ export default class EstablishmentMapper {
             description:
                 establishment.content.value[0].value.details.description,
             typeEstablishment: establishment.establishment.Type.Name,
-            category:
-                establishment.establishment.Category.Content.details[0].value,
+            category: {
+                id: establishment.establishment.Category.Id,
+                key:establishment.establishment.Category.Id,
+                value: establishment.establishment.Category.Content.details[0]
+                    .value,
+            },
             rates: {
                 main: establishment.establishment.Rates.Rate,
                 count: establishment.establishment.Rates.Count,
@@ -59,12 +63,16 @@ export default class EstablishmentMapper {
             },
             location: {
                 country: {
-                    id: "",
+                    id:
+                        establishment.establishment.Locations?.Path.split(
+                            "."
+                        )[1] || "",
                     value: null,
                 },
+                pathBreadcrumb:
+                    establishment.establishment.Locations?.Path || "",
                 town: {
-                    id:
-                        establishment.establishment.Locations?.Id || "",
+                    id: establishment.establishment.Locations?.Id || "",
                     value:
                         establishment.establishment.Locations?.Content
                             ?.details[0].value || "",

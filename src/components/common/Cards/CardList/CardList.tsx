@@ -19,7 +19,7 @@ import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 interface ICardHotelList {
     dataEstablishment: IEstablishmentFront;
     // cdnName: string;
-    langUI: string;
+    langUI?: string;
     locationId: string;
     baseUrl: string;
     classCount?: number;
@@ -36,9 +36,19 @@ export const CardList: FC<ICardHotelList> = ({
         <div className={style.card}>
             <div className={style.image}>
                 <div className={style.image_type}>
-                    <div className={style.image_type_text}>
-                        {dataEstablishment.category || "false"}
-                    </div>
+                    <Link
+                        href={ROUTES.FILTER_WITH_QUERY(
+                            locationId,
+                            TYPES_OF_ESTABLISHMENT[
+                                dataEstablishment.typeEstablishment
+                            ].key,
+                            dataEstablishment.category.id,
+                            "c"
+                        )}
+                        className={style.image_type_text}
+                    >
+                        {dataEstablishment.category.value || "false"}
+                    </Link>
 
                     <ShareButton
                         linkData={[
@@ -106,7 +116,7 @@ export const CardList: FC<ICardHotelList> = ({
                     {/* <span>{rating}</span>
           <span>-</span> */}
                     <span>{dataEstablishment.rates.count}</span>
-                    <span>отзывов</span>
+                    <span>оценок</span>
                 </div>
                 {
                     <div className={style.description_subtitle}>
@@ -126,7 +136,7 @@ export const CardList: FC<ICardHotelList> = ({
                         {dataEstablishment.typeEstablishment ===
                             "ACCOMMODATION" && (
                             <>
-                            <span>Класс отеля :</span>
+                                <span>Класс отеля :</span>
                                 <RateHotel
                                     disabled
                                     defaultValue={classCount || 0}
@@ -136,10 +146,15 @@ export const CardList: FC<ICardHotelList> = ({
                         )}
                     </div>
                 }
-                <div className={style.info_location}>
+                <Link
+                    href={ROUTES.LOCATION.LOCATION(
+                        dataEstablishment.location.town.id
+                    )}
+                    className={style.info_location}
+                >
                     <IconLocation className={style.info_location_icon} />
                     {dataEstablishment.location.town.value}
-                </div>
+                </Link>
 
                 <div className={style.info_description}>
                     {dataEstablishment.description}

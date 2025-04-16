@@ -28,6 +28,12 @@ interface IProps extends IPageProps {
 
 export default async function FilterPage({ params, searchParams }: IProps) {
     const filterQuery = searchParams?.filter?.toString().split("%");
+    const tagsQuery = filterQuery
+        ?.filter((query) => query.includes("t"))
+        .map((queryTag) => queryTag.replace("t", ""));
+    const categoriesQuery = filterQuery
+        ?.filter((query) => query.includes("c"))
+        .map((queryTag) => queryTag.replace("c", ""));
     const currentPageQuery = searchParams?.page?.toString();
 
     const apiEst = new EstablishmentService();
@@ -41,9 +47,9 @@ export default async function FilterPage({ params, searchParams }: IProps) {
                 page: currentPageQuery ? +currentPageQuery / 30 : 1,
                 pageSize: 30,
             },
-
             filter: {
-                tagsIds: filterQuery || [],
+                tagsIds: tagsQuery || [],
+                categoryIds: categoriesQuery || [],
                 typeIds: [TYPES_OF_ESTABLISHMENT[params.typeEstablishment].id],
                 locationId: params.location,
             },
@@ -51,15 +57,17 @@ export default async function FilterPage({ params, searchParams }: IProps) {
         apiTags.getAllTagsOfEstablishmentFilter({
             lang: params.locale,
             locationId: params.location,
+            establishmentTypeId:
+                TYPES_OF_ESTABLISHMENT[params.typeEstablishment].id,
         }),
         apiLocation.getLocationById(params.location, params.locale),
     ]);
     if (!dataEstablishments || !blockTags) notFound();
-    const tagsClassEstablishment = await apiTags.getStarsAndPriceOfAllEstablishment({
-        lang: params.locale,
-        establishmentIds:dataEstablishments?.map(item => item.id)
-    });
-    
+    const tagsClassEstablishment =
+        await apiTags.getStarsAndPriceOfAllEstablishment({
+            lang: params.locale,
+            establishmentIds: dataEstablishments?.map((item) => item.id),
+        });
 
     return (
         <FilterScreen

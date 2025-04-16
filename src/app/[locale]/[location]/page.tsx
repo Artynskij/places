@@ -34,7 +34,7 @@ export default async function CountryPage({ params, searchParams }: IProps) {
     // Пример запроса данных через API (если данные нужны на сервере)
     const apiEstablishment = new EstablishmentService();
     const apiLocation = new LocationService();
-    const apiTags = new TagsService()
+    const apiTags = new TagsService();
 
     const [
         eaterEstablishment,
@@ -70,27 +70,31 @@ export default async function CountryPage({ params, searchParams }: IProps) {
 
             lang: params.locale,
         }),
-        apiLocation.getLocationById(params.location, params.locale),
+        apiLocation.getLocationById(params.location),
         apiLocation.getListLocationInside({
             lang: params.locale,
             locationId: params.location,
-            pagination:{
+            pagination: {
                 page: 1,
                 pageSize: 1000,
-            }
-            
+            },
         }),
     ]);
 
-    if (!eaterEstablishment || !accommodationEstablishment || !locationData) notFound();
-    const tagsClassEstablishment = await apiTags.getStarsAndPriceOfAllEstablishment({
-        lang: params.locale,
-        establishmentIds:[...(eaterEstablishment?.map(item => item.id)), ...(accommodationEstablishment?.map(item => item.id))]
-    });
+    if (!eaterEstablishment || !accommodationEstablishment || !locationData)
+        notFound();
+    const tagsClassEstablishment =
+        await apiTags.getStarsAndPriceOfAllEstablishment({
+            lang: params.locale,
+            establishmentIds: [
+                ...eaterEstablishment?.map((item) => item.id),
+                ...accommodationEstablishment?.map((item) => item.id),
+            ],
+        });
+
     return (
         <>
             <LocationScreen
-                // typePage="country"
                 params={params}
                 searchParams={searchParams}
                 dataEstablishment={{
@@ -105,3 +109,5 @@ export default async function CountryPage({ params, searchParams }: IProps) {
         </>
     );
 }
+
+

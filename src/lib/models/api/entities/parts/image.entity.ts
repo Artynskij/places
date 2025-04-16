@@ -1,6 +1,6 @@
 export interface IImageEntity {
   id: string;
-  refId: number;
+  refId?: number;
   type: string;
   details: {
     lang: string;
@@ -10,8 +10,8 @@ export interface IImageEntity {
   }[];
   width: number;
   height: number;
-  refUrl: string;
-  refFileName: string;
+  refUrl?: string;
+  refFileName?: string;
   fileName: string;
   blobPath: string;
 }

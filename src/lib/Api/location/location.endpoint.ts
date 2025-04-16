@@ -6,11 +6,11 @@ export default class LocationApi {
     constructor() {}
     async getLocationById(
         id: string,
-        lang: string
+        lang?: string
     ): Promise<ILocationsEntity | null> {
         try {
             const response = await apiClient.get(
-                `/locations/${id}?lang=${lang}`
+                lang ? `/locations/${id}?lang=${lang}` : `/locations/${id}`
             );
             return response.data;
         } catch (error) {

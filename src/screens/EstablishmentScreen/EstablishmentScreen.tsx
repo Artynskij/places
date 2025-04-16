@@ -1,6 +1,6 @@
 "use client";
 import style from "./establishmentScreen.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 
 import { Button } from "@/components/UI/Button/Button";
@@ -43,6 +43,7 @@ import {
     IconPhone,
 } from "@/components/common/Icons";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
+import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -60,6 +61,8 @@ interface IProps extends IPageProps {
     dataTags: ITagsBlockFront[];
     classTag?: ITagClassFront;
     // testTags: ITagsBlockFront[];
+    // locationData: ILocationFront;
+    locationCountryData: ILocationFront;
 }
 export const EstablishmentScreen = ({
     params,
@@ -68,14 +71,14 @@ export const EstablishmentScreen = ({
     dataNearEstablishment,
     dataTags,
     classTag,
+    // locationData,
+    locationCountryData,
 }: // testTags,
 IProps) => {
     const [modalDetails, setModalDetails] = useState<boolean>(false);
     const t = useTranslations("EstablishmentPage");
     const tRate = useTranslations("Rates");
-    const mockEaterData = mockObjectForObjectPage;
     const reviewData = mockReviews;
-    console.log(dataTags);
 
     const baseUrl = useBaseUrl();
 
@@ -145,7 +148,7 @@ IProps) => {
                                 Владелец зарегистрирован
                             </>
                         ) : (
-                            "не зарегистрирован "
+                            "Владелец не зарегистрирован "
                         )}
                     </div>
                 </div>
@@ -162,14 +165,18 @@ IProps) => {
                     </div>
                     <div className={style.titleBlock_location}>
                         <IconLocation />
-                        {"Беларусь"}, {"Минск"}
+                        {locationCountryData.value},{" "}
+                        {dataEstablishment.location.town.value}
                     </div>
                 </div>
             </div>
             <div className={style.navBar}>
                 <ul className={style.navBar_list}>
                     <li className={style.navBar_list_item}>
-                        {dataEstablishment.location.street}
+                        {dataEstablishment.location.street &&
+                            `${dataEstablishment.location.street} - `}
+                        {dataEstablishment.location.town.value},{" "}
+                        {locationCountryData.value}
                     </li>
                     <li className={style.navBar_list_item}>
                         <ContactButton
@@ -184,7 +191,7 @@ IProps) => {
                         >
                             {dataEstablishment.contacts?.Web
                                 ? "Вебсайт"
-                                : "Добавить Вебсайт"}
+                                : "Вебсайт"}
                         </Link>
                     </li>
                     <li className={style.navBar_list_item}>
@@ -192,9 +199,7 @@ IProps) => {
                             target="_blank"
                             href={dataEstablishment.contacts?.Web || ""}
                         >
-                            {dataEstablishment.contacts?.Menu
-                                ? "Меню"
-                                : "Добавить  Меню"}
+                            {dataEstablishment.contacts?.Menu ? "Меню" : "Меню"}
                         </Link>
                     </li>
                     <li className={style.navBar_list_item}>
@@ -262,13 +267,11 @@ IProps) => {
                                 "EATER" && (
                                 <>
                                     <div className={style.info_class_title}>
-                                        Чек: default
+                                        Чек:
                                     </div>
                                     <RateCafe
                                         disabled
-                                        defaultValue={
-                                            mockEaterData.info.priceRating.count
-                                        }
+                                        defaultValue={classTag?.count || 0}
                                     />
                                 </>
                             )}
@@ -334,7 +337,10 @@ IProps) => {
                             <IconLocation
                                 className={style.info_icon_location}
                             />
-                            {dataEstablishment.location.street}
+                            {dataEstablishment.location.street &&
+                                `${dataEstablishment.location.street} - `}
+                            {dataEstablishment.location.town.value},{" "}
+                            {locationCountryData.value}
                         </div>
                         {dataEstablishment.contacts?.Phone && (
                             <Link

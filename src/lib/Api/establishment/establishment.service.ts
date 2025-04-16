@@ -23,7 +23,10 @@ export class EstablishmentService {
             ? response.establishmentItems.map((establishment) => {
                   return this.establishmentMapper.transformToFront({
                       establishment: establishment,
-                      info: {cdnHost:response.cdnHost, totalEstablishment:response.total},
+                      info: {
+                          cdnHost: response.cdnHost,
+                          totalEstablishment: response.total,
+                      },
                   });
               })
             : null;
@@ -40,7 +43,7 @@ export class EstablishmentService {
         return response
             ? this.establishmentMapper.transformToFront({
                   establishment: response.establishment,
-                  info: {cdnHost:response.cdnHost},
+                  info: { cdnHost: response.cdnHost },
               })
             : null;
     }
@@ -50,7 +53,8 @@ export class EstablishmentService {
     ): Promise<IEstablishmentFront[] | null> {
         const response =
             await this.establishmentApi.getEstablishmentByPagination(body);
-        return response 
+
+        return response
             ? response.establishmentItems
                   .filter(
                       (establishment) =>
@@ -61,7 +65,10 @@ export class EstablishmentService {
                   .map((establishment) => {
                       return this.establishmentMapper.transformToFront({
                           establishment: establishment,
-                          info: {cdnHost:response.cdnHost, totalEstablishment:response.total},
+                          info: {
+                              cdnHost: response.cdnHost,
+                              totalEstablishment: response.total,
+                          },
                       });
                   })
             : null;

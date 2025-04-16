@@ -16,7 +16,7 @@ export const TYPES_OF_ESTABLISHMENT = {
     ACCOMMODATION: {
         key:'ACCOMMODATION',
         title: "Размещение",
-        secondValue: "Где поспать",
+        secondValue: "Где остановиться",
         id: "01JPZCJQQ5EG9J38P5YQJPSEVW",
     },
 };

@@ -43,7 +43,7 @@ interface IProps extends IPageProps {
         accommodation: IEstablishmentFront[] | [];
         attraction: IEstablishmentFront[] | [];
     };
-    locationData: ILocationFront | null;
+    locationData: ILocationFront;
     townsData: ILocationFront[] | null;
     tagsClassEstablishment: ITagClassWithEstablishmentFront[] | null;
 }
@@ -60,10 +60,7 @@ export default async function LocationScreen({
     const tTiles = await getTranslations("Tiles");
     const seeMoreText = tTiles("text.watchAll");
     const t = await getTranslations("LocationPage");
-
-    const countryData = countriesData.find(
-        (item) => item.id === params.location
-    ) as any;
+    const cdnHost = dataEstablishment.attraction[0]?.media.cdnHost;
 
     const baseUrl = await getBaseUrlServer();
     return (
@@ -71,8 +68,12 @@ export default async function LocationScreen({
             <section className={style.banner}>
                 <div className={style.banner_video_block}>
                     <Video
-                        videoSrc={countryData?.videoSrc}
-                        posterSrc={countryData?.posterSrc}
+                        videoSrc={
+                            locationData.media
+                                ? `${cdnHost}/${locationData.media[0].blobPath}`
+                                : ""
+                        }
+                        posterSrc={"/mock/restMock.jpg"}
                     />
                 </div>
                 <div className={style.banner_bg}>
@@ -82,7 +83,7 @@ export default async function LocationScreen({
                     <h1>{locationData?.value || "Нету локации"}</h1>
                 </div>
             </section>
-            <InfoSection townsData={townsData} searchParams={searchParams} />
+            <InfoSection rootLocationPath={locationData.pathBreadcrumb} townsData={townsData} searchParams={searchParams} />
             <section className={style.slider_block}>
                 <div className={style.slider_block_title}>
                     <h2>{t("text.sliderSleep")}</h2>
@@ -136,7 +137,7 @@ export default async function LocationScreen({
                 <div className={style.slider}>
                     <Slider id={2}>
                         {dataEstablishment.eater.map((establishment) => {
-                             const tagClass = tagsClassEstablishment?.find(
+                            const tagClass = tagsClassEstablishment?.find(
                                 (tag) =>
                                     tag.establishmentId === establishment.id
                             );

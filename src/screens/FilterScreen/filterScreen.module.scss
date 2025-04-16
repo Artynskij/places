@@ -1,114 +1,118 @@
 .breadcrumb {
-  margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 .container {
-  max-width: 1380px;
-  display: grid;
-  gap: 10px;
-  grid-template-columns: auto calc(100% - 324px + 10px);
-  grid-template-rows: auto 1fr;
-
-  &_filter {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 1;
-    grid-row-end: 3;
-    padding: 24px;
-    background-color: $color-additional-background;
-    border-radius: 20px;
-    height: fit-content;
-  }
-  &_content {
-    // max-width: 70vw;
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 2;
-    grid-row-end: 3;
-    // border: 1px solid #bea97c;
-  }
+    max-width: 1380px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto calc(100% - 324px + 10px);
+    grid-template-rows: auto 1fr;
+    position: relative;
+    overflow: auto;
+    &_filter {
+        position: sticky;
+        // top: $header-height;
+        top: 0;
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 3;
+        padding: 24px;
+        background-color: $color-additional-background;
+        border-radius: 20px;
+        height: fit-content;
+    }
+    &_content {
+        // max-width: 70vw;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        // border: 1px solid #bea97c;
+    }
 }
 .titleBLock {
-  height: fit-content;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  grid-column-start: 2;
-  grid-column-end: 3;
-  grid-row-start: 1;
-  grid-row-end: 2;
-  & h1 {
-    @extend %Title;
-  }
-  &_left {
+    height: fit-content;
     display: flex;
-    flex-direction: column;
-    gap: $gap-small;
-  }
-  &_result {
-    color: $color-main-grey;
-    @extend %Text14;
-  }
-  &_groupButton {
-    display: "flex";
-    gap: $gap-small;
-  }
+    justify-content: space-between;
+    align-items: center;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    & h1 {
+        @extend %Title;
+    }
+    &_left {
+        display: flex;
+        flex-direction: column;
+        gap: $gap-small;
+    }
+    &_result {
+        color: $color-main-grey;
+        @extend %Text14;
+    }
+    &_groupButton {
+        display: "flex";
+        gap: $gap-small;
+    }
 }
 .slider {
-  margin: 48px 0;
+    margin: 48px 0;
 }
 .param {
-  //   padding: 32px 0;
+    //   padding: 32px 0;
 }
 .sort {
-  display: flex;
-  gap: $gap-medium;
-  align-items: center;
-  background-color: rgb(245, 245, 247);
-  padding: 10px;
-  border-radius: 20px;
-  margin-bottom: 10px;
-  &_select {
-    width: fit-content;
-    padding: 3px 5px;
-    @extend %Text14;
-  }
+    display: flex;
+    gap: $gap-medium;
+    align-items: center;
+    background-color: rgb(245, 245, 247);
+    padding: 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    &_select {
+        width: fit-content;
+        padding: 3px 5px;
+        @extend %Text14;
+    }
 }
 .table {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: $gap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $gap;
 }
 .list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: $gap;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $gap;
 }
 
 @include mediaTablet {
-  .container {
-    display: flex;
-    flex-direction: column;
-    &_filter {
-      display: flex;
-      flex-wrap: wrap;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      gap: $gap;
-      padding: 0;
-      background-color: transparent;
+    .container {
+        display: flex;
+        flex-direction: column;
+        &_filter {
+            display: flex;
+            flex-wrap: wrap;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            gap: $gap;
+            padding: 0;
+            background-color: transparent;
+        }
     }
-  }
-  .table {
-    grid-template-columns: repeat(2, 1fr);
-  }
+    .table {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @include mediaPhone {
-  .titleBLock_groupButton {
-    display: none;
-  }
-  .table {
-    grid-template-columns: 1fr;
-  }
+    .titleBLock_groupButton {
+        display: none;
+    }
+    .table {
+        grid-template-columns: 1fr;
+    }
 }

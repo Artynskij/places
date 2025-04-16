@@ -1,13 +1,13 @@
 import { ITypesOfEstablishment } from "../../IType";
 import { IContactsFront } from "../parts/contacts/contacts.frontPart";
-import { IImageFront } from "../parts/image/image.frontPart";
+import { IMediaFront } from "../parts/media/media.frontPart";
 
 export interface IEstablishmentFront {
     id: string;
     title: string;
     description: string;
     typeEstablishment: ITypesOfEstablishment;
-    category: string;
+    category: { id: string; value: string; key: string };
     rates: {
         main: number;
         count: number;
@@ -32,6 +32,7 @@ export interface IEstablishmentFront {
         latitude: string;
         longitude: string;
         postalCode: string;
+        pathBreadcrumb: string;
         info: {
             totalEstablishment: number | null;
         };
@@ -39,7 +40,7 @@ export interface IEstablishmentFront {
     contacts: IContactsFront | null;
     media: {
         cdnHost: string;
-        gallery: IImageFront[];
+        gallery: IMediaFront[];
     };
     seo: { key: string; value: string }[];
 }

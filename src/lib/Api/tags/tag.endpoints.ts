@@ -26,7 +26,7 @@ export class TagsApi {
     }
     async getAllTagsOfEstablishmentFilter(
         body: ITagsOfEstablishmentRequest
-    ): Promise<ITagsOfEstablishmentFilterResponse[] | null> {
+    ): Promise<ITagsOfEstablishmentFilterResponse | null> {
         try {
             const response = await apiClient.post(
                 `/tags-of-establishments/get-all-filters`,

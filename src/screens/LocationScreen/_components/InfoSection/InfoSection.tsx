@@ -15,13 +15,27 @@ interface IInfoSection {
     //   tTiles: any;
     searchParams: any;
     townsData: ILocationFront[] | null;
+    rootLocationPath: string;
 }
-export const InfoSection: FC<IInfoSection> = ({ searchParams, townsData }) => {
+export const InfoSection: FC<IInfoSection> = ({
+    searchParams,
+    townsData,
+    rootLocationPath,
+}) => {
     const tTiles = useTranslations("Tiles");
     const tText = useTranslations("LocationPage.text");
     const watchAllText = tTiles("text.watchAll");
     const useMedia = useSelector((state: RootState) => state.screenSize);
     const [showMoreTiles, setShowMoreTiles] = useState(true);
+    const nextLevelPathLengthOfRootLocation = rootLocationPath.length + 27;
+    const towns = townsData?.filter(
+        (town) => town.locationType.value === "CITY"
+    );
+    const districts = townsData?.filter(
+        (town) =>
+            town.locationType.value === "DISTRICT" &&
+            town.pathBreadcrumb.length === nextLevelPathLengthOfRootLocation
+    );
 
     useEffect(() => {
         if (useMedia?.isDesktop || useMedia?.isNetBook || useMedia?.isTablet) {
@@ -33,8 +47,8 @@ export const InfoSection: FC<IInfoSection> = ({ searchParams, townsData }) => {
 
     return (
         <section className={style.info_block}>
-            {informationCards.map((item, index) => {
-                const activeParam = searchParams["popup"] === item.value;
+            {informationCards.map((infoCard, index) => {
+                const activeParam = searchParams["popup"] === infoCard.value;
                 if (index > 5 && !showMoreTiles) {
                     return;
                 }
@@ -46,28 +60,30 @@ export const InfoSection: FC<IInfoSection> = ({ searchParams, townsData }) => {
                             `text.${informationCards[index].title}`
                         )}
                         seeMoreText={watchAllText}
-                        key={item.id}
-                        data={item}
+                        key={infoCard.id}
+                        data={infoCard}
                         markDownContent={
-                            item.value === "towns" && townsData
+                            infoCard.value === "towns" && townsData
                                 ? transformToMarkdown(
                                       townsData.filter(
-                                          (item) =>
-                                              item.locationType.value ===
+                                          (town) =>
+                                              town.locationType.value ===
                                                   "CITY" ||
-                                              item.locationType.value ===
+                                              town.locationType.value ===
                                                   "VILLAGE"
                                       )
                                   )
-                                : item.value === "regions" && townsData
+                                : infoCard.value === "regions" && townsData
                                 ? transformToMarkdown(
                                       townsData.filter(
-                                          (item) =>
-                                              item.locationType.value ===
-                                              "REGION"
+                                          (town) =>
+                                              town.locationType.value ===
+                                                  "REGION" &&
+                                              town.pathBreadcrumb.length ===
+                                                  nextLevelPathLengthOfRootLocation
                                       )
                                   )
-                                : item.body
+                                : infoCard.body
                         }
                     />
                 );

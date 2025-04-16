@@ -10,27 +10,48 @@ import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEs
 export default class TagsMapper {
     constructor() {}
     transformToFront(
-        tags: ITagsOfEstablishmentFilterResponse[] | null
+        tags: ITagsOfEstablishmentFilterResponse | null
     ): ITagsBlockFront[] | null {
-        const mappingData: ITagsBlockFront[] | undefined = tags?.map((cat) => {
-            return {
-                tags: cat.Tags.map((tag) => {
-                    return {
-                        id: tag.Id,
-                        value: tag.Content.details[0].value,
-                        key: tag.Id,
-                    };
-                }),
-                groupKey: {
-                    id: cat.TagCategory.Id,
-                    value:
-                        cat.TagCategory.Name ||
-                        cat.TagCategory.Content.details[0].value,
-                    key: cat.TagCategory.Name,
-                },
-            };
-        });
-        return mappingData || null;
+        const mappingTags: ITagsBlockFront[] | null =
+            tags?.tagsAndCategories.map((groupTag) => {
+                return {
+                    groupKey: {
+                        id: groupTag.TagCategory.Id,
+                        value:
+                            groupTag.TagCategory.Name ||
+                            groupTag.TagCategory.Content.details[0].value,
+                        key: groupTag.TagCategory.Name,
+                    },
+                    tags: groupTag.Tags.map((tag) => {
+                        return {
+                            id: tag.Id,
+                            key: `t${tag.Id}`,
+                            value: tag.Content.details[0].value,
+                        };
+                    }),
+                };
+            }) || null;
+        const mappingCategories: ITagsBlockFront | null = tags
+            ? {
+                  groupKey: {
+                      id: "123",
+                      key: "categories",
+                      value: "Категории",
+                  },
+                  tags: tags?.categories.map((cat) => {
+                      return {
+                          id: cat.Id,
+                          key: `c${cat.Id}`,
+                          value: cat.Content.details[0].value,
+                      };
+                  }),
+              }
+            : null;
+        if (mappingCategories && mappingTags) {
+            mappingTags?.unshift(mappingCategories);
+        }
+
+        return mappingTags || null;
     }
     transformTagWithEstablishment(
         tags: ITagsOfEstablishmentResponse[] | null
@@ -55,7 +76,7 @@ export default class TagsMapper {
             }) || null;
         return mappingData;
     }
-    // TODO add priceRating with establishment EATER
+    // TODO: add priceRating with establishment EATER
     transformClassTag(
         tags: ITagsOfEstablishmentResponse[] | null
     ): ITagClassWithEstablishmentFront[] | null {
@@ -66,7 +87,9 @@ export default class TagsMapper {
 
         const mappingDataWithCount: ITagClassWithEstablishmentFront[] =
             mappingData.map((tag) => {
-                const count = +tag.tag.value.split(" ")[0];
+                const count = +(tag.tag.value
+                    .split(" ")[0]
+                    .replace(",", ".") as string);
                 return {
                     categoryTag: tag.categoryTag,
                     establishmentId: tag.establishmentId,

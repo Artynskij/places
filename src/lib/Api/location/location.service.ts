@@ -12,10 +12,11 @@ export class LocationService {
     }
     async getLocationById(
         id: string,
-        lang: string
+        lang?: string
     ): Promise<ILocationFront | null> {
         const response = await this.locationApi.getLocationById(id, lang);
-        return response ? this.locationMapper.transformToFront(response) : null;
+        const mappingData = response ? this.locationMapper.transformToFront(response) : null
+        return mappingData;
     }
     async getListLocationInside(
         body: ILocationInsidePaginationRequest

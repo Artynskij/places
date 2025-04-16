@@ -26,6 +26,8 @@ export default class EstablishmentApi {
                 `/establishment/getAll`,
                 body
             );
+           
+            
             return response.data;
         } catch (error) {
             console.error(

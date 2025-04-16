@@ -1,4 +1,4 @@
-export interface IImageFront {
+export interface IMediaFront {
   title: string;
   width: number;
   height: number;
