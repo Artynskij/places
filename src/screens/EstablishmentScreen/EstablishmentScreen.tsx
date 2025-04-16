@@ -155,7 +155,7 @@ IProps) => {
 
                 <div className={style.titleBlock_right}>
                     <div className={style.titleBlock_type}>
-                        {dataEstablishment.category}
+                        {dataEstablishment.category.value}
                     </div>
                     <div className={style.titleBlock_rating}>
                         <RateMain

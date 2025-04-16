@@ -19,11 +19,11 @@ import { IconArrowLeft } from "@/components/common/Icons/IconArrowLeft/ArrowLeft
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import Image from "next/image";
 import { IconGallery } from "../../Icons";
-import { IImageFront } from "@/lib/models";
+import { IMediaFront } from "@/lib/models";
 // import { IApiImage } from "@/Api/IApi";
 
 interface ISliderAlbum {
-    data: IImageFront[];
+    data: IMediaFront[];
 
     cdnHost: string;
     id: number;

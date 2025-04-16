@@ -8,10 +8,10 @@ import style from "./albumPhoto.module.scss";
 import Image from "next/image"; // Импортируем компонент Image
 import { SliderAlbum } from "../SliderAlbum/SliderAlbum";
 
-import { IImageFront } from "@/lib/models";
+import { IMediaFront } from "@/lib/models";
 
 interface IAlbumPhoto {
-    images: IImageFront[];
+    images: IMediaFront[];
     cdnHost: string;
     activePhotoIndex: number;
     setActivePhotoIndex: (item: number) => void;

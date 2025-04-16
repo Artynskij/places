@@ -11,10 +11,10 @@ import { Button } from "@/components/UI/Button/Button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 
-import { IImageFront } from "@/lib/models";
+import { IMediaFront } from "@/lib/models";
 
 interface IGallery {
-    images: IImageFront[];
+    images: IMediaFront[];
     titleEstablishment:string;
     cdnHost: string;
 }
