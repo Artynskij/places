@@ -8,11 +8,13 @@
     grid-template-columns: auto calc(100% - 324px + 10px);
     grid-template-rows: auto 1fr;
     position: relative;
-    overflow: auto;
+    min-height: 100vh;
+    // overflow: auto;
     &_filter {
         position: sticky;
         // top: $header-height;
-        top: 0;
+        top: $header-height;
+        max-height: calc(100vh - $header-height - 100px);
         grid-column-start: 1;
         grid-column-end: 2;
         grid-row-start: 1;
@@ -21,6 +23,7 @@
         background-color: $color-additional-background;
         border-radius: 20px;
         height: fit-content;
+        overflow: auto;
     }
     &_content {
         // max-width: 70vw;
@@ -98,6 +101,7 @@
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+            position: static;
             gap: $gap;
             padding: 0;
             background-color: transparent;

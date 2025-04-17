@@ -84,12 +84,7 @@ export default async function EstablishmentPage({
         dataEstablishment.location.country.id,
         params.locale
     );
-    if (
-        !eaterNearEstablishment ||
-        !tagsEstablishment ||
-       
-        !locationCountryData
-    ) {
+    if (!eaterNearEstablishment || !tagsEstablishment || !locationCountryData) {
         notFound();
     }
     // TODO: mapper tag
@@ -99,13 +94,13 @@ export default async function EstablishmentPage({
             (item) => item.groupKey.key === "starRating"
         )[0]
     );
-    const classTag =  tagsEstablishment.splice(_indexClassTag, 1) ;
-    const modifyClassTag = {
-        ...classTag[0],
-        count: +(classTag[0]?.tags[0].value
-            .split(" ")[0]
-            .replace(",", ".") as string),
-    };
+    const classTag = tagsEstablishment.splice(_indexClassTag, 1)[0];
+    const modifyClassTag = classTag
+        ? {
+              ...classTag,
+              count: +classTag?.tags[0].value?.split(" ")[0].replace(",", "."),
+          }
+        : null;
 
     return (
         <EstablishmentScreen

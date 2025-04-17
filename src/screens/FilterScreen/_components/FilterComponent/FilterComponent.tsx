@@ -57,7 +57,7 @@ const FiltersComponent = ({ dataTags }: IFilterComponentProp) => {
         setFilterActiveMobile(false);
     }
     return (
-        <>
+        <div>
             <div className={style.filter_map}>{/* <PopupMap /> */}</div>
             <Button
                 className={style.filter_buttonOpen}
@@ -114,7 +114,7 @@ const FiltersComponent = ({ dataTags }: IFilterComponentProp) => {
                 active={filterActiveMobile}
                 setActive={setFilterActiveMobile}
             />
-        </>
+        </div>
     );
 };
 

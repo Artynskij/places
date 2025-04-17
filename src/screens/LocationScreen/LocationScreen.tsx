@@ -43,7 +43,7 @@ interface IProps extends IPageProps {
         accommodation: IEstablishmentFront[] | [];
         attraction: IEstablishmentFront[] | [];
     };
-    locationData: ILocationFront;
+    locationData: ILocationFront | null;
     townsData: ILocationFront[] | null;
     tagsClassEstablishment: ITagClassWithEstablishmentFront[] | null;
 }
@@ -69,7 +69,7 @@ export default async function LocationScreen({
                 <div className={style.banner_video_block}>
                     <Video
                         videoSrc={
-                            locationData.media
+                            locationData?.media
                                 ? `${cdnHost}/${locationData.media[0].blobPath}`
                                 : ""
                         }
@@ -83,7 +83,7 @@ export default async function LocationScreen({
                     <h1>{locationData?.value || "Нету локации"}</h1>
                 </div>
             </section>
-            <InfoSection rootLocationPath={locationData.pathBreadcrumb} townsData={townsData} searchParams={searchParams} />
+            <InfoSection rootLocationPath={''} townsData={townsData} searchParams={searchParams} />
             <section className={style.slider_block}>
                 <div className={style.slider_block_title}>
                     <h2>{t("text.sliderSleep")}</h2>

@@ -22,6 +22,7 @@
   transition: $transiton;
   @extend %Text14;
   transform: scale(0);
+  width: max-content;
   &_active {
     transform: scale(1);
   }

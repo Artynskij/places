@@ -83,11 +83,11 @@ export default function FilterScreen({
                         />
                     </div>
                 </div>
-                <div id={"filter"} className={style.container_filter}>
+                <aside id={"filter"} className={style.container_filter}>
                     <Suspense fallback={null}>
                         <FiltersComponent dataTags={blockTags} />
                     </Suspense>
-                </div>
+                </aside>
                 <div className={style.container_content}>
                     <div className={style.param}>
                         <Suspense fallback={null}>

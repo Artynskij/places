@@ -15,7 +15,7 @@ interface IInfoSection {
     //   tTiles: any;
     searchParams: any;
     townsData: ILocationFront[] | null;
-    rootLocationPath: string;
+    rootLocationPath: string ;
 }
 export const InfoSection: FC<IInfoSection> = ({
     searchParams,

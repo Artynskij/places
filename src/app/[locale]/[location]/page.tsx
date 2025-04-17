@@ -13,6 +13,7 @@ import { EstablishmentService } from "@/lib/Api/establishment/establishment.serv
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 import { TagsService } from "@/lib/Api/tags/tag.service";
+import { countriesData } from "@/asset/constants/countries";
 
 export async function generateMetadata({
     params,
@@ -35,24 +36,20 @@ export default async function CountryPage({ params, searchParams }: IProps) {
     const apiEstablishment = new EstablishmentService();
     const apiLocation = new LocationService();
     const apiTags = new TagsService();
+    const isRussia = "01HMY6V2B1XZ0J3P5EQ9F2K4VG" === params.location;
+    const eaterEstablishment = isRussia
+        ? null
+        : await apiEstablishment.getEstablishmentByPagination({
+              pagination: { page: 1, pageSize: 10 },
+              filter: {
+                  typeIds: [TYPES_OF_ESTABLISHMENT.EATER.id],
+                  locationId: params.location,
+              },
 
-    const [
-        eaterEstablishment,
-        accommodationEstablishment,
-        attractionEstablishment,
-        locationData,
-        townsData,
-    ] = await Promise.all([
-        apiEstablishment.getEstablishmentByPagination({
-            pagination: { page: 1, pageSize: 10 },
-            filter: {
-                typeIds: [TYPES_OF_ESTABLISHMENT.EATER.id],
-                locationId: params.location,
-            },
-
-            lang: params.locale,
-        }),
-        apiEstablishment.getEstablishmentByPagination({
+              lang: params.locale,
+          });
+    const accommodationEstablishment =
+        await apiEstablishment.getEstablishmentByPagination({
             pagination: { page: 1, pageSize: 10 },
             filter: {
                 typeIds: [TYPES_OF_ESTABLISHMENT.ACCOMMODATION.id],
@@ -60,8 +57,9 @@ export default async function CountryPage({ params, searchParams }: IProps) {
             },
 
             lang: params.locale,
-        }),
-        apiEstablishment.getEstablishmentByPagination({
+        });
+    const attractionEstablishment =
+        await apiEstablishment.getEstablishmentByPagination({
             pagination: { page: 1, pageSize: 10 },
             filter: {
                 typeIds: [TYPES_OF_ESTABLISHMENT.ATTRACTION.id],
@@ -69,26 +67,24 @@ export default async function CountryPage({ params, searchParams }: IProps) {
             },
 
             lang: params.locale,
-        }),
-        apiLocation.getLocationById(params.location),
-        apiLocation.getListLocationInside({
-            lang: params.locale,
-            locationId: params.location,
-            pagination: {
-                page: 1,
-                pageSize: 1000,
-            },
-        }),
-    ]);
+        });
+    const locationData = await apiLocation.getLocationById(params.location);
+    const townsData = await apiLocation.getListLocationInside({
+        lang: params.locale,
+        locationId: params.location,
+        pagination: {
+            page: 1,
+            pageSize: 1000,
+        },
+    });
 
-    if (!eaterEstablishment || !accommodationEstablishment || !locationData)
-        notFound();
+    // if (!locationData || !eaterEstablishment || !accommodationEstablishment) notFound();
     const tagsClassEstablishment =
         await apiTags.getStarsAndPriceOfAllEstablishment({
             lang: params.locale,
             establishmentIds: [
-                ...eaterEstablishment?.map((item) => item.id),
-                ...accommodationEstablishment?.map((item) => item.id),
+                ...(eaterEstablishment?.map((item) => item.id) || []),
+                ...(accommodationEstablishment?.map((item) => item.id) || []),
             ],
         });
 
@@ -109,5 +105,3 @@ export default async function CountryPage({ params, searchParams }: IProps) {
         </>
     );
 }
-
-
