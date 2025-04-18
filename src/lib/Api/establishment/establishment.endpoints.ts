@@ -31,8 +31,7 @@ export default class EstablishmentApi {
             return response.data;
         } catch (error) {
             console.error(
-                "Ошибка при получении заведений с пагинацией:",
-                error
+                "Ошибка при получении заведений с пагинацией:"
             );
             return null;
         }
@@ -48,7 +47,7 @@ export default class EstablishmentApi {
             );
             return response.data;
         } catch (error) {
-            console.error(`Ошибка при получении заведения с ID ${id}:`, error);
+            console.error(`Ошибка при получении заведения с ID ${id}:`);
             return null;
         }
     }

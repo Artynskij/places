@@ -14,7 +14,7 @@ export default class LocationApi {
             );
             return response.data;
         } catch (error) {
-            console.error(`Ошибка при получении локации с ID ${id}:`, error);
+            console.error(`Ошибка при получении локации с ID ${id}:`);
             return null;
         }
     }
@@ -26,8 +26,8 @@ export default class LocationApi {
             return response.data;
         } catch (error) {
             console.error(
-                `Ошибка при получении внутренних локаций с пагинацией:`,
-                error
+                `Ошибка при получении внутренних локаций с пагинацией:`
+            
             );
             return null;
         }

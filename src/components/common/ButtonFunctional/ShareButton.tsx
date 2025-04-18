@@ -87,7 +87,7 @@ export const ShareButton: FC<IShareButton> = ({
       };
       return urls[network] || "";
     },
-    [linkPage, importTitle]
+    [importTitle]
   );
   const closePopup = () => {
     setPopupActive(false);

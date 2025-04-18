@@ -32,22 +32,20 @@ interface IProps extends IPageProps {
 }
 
 export default async function CountryPage({ params, searchParams }: IProps) {
-    // Пример запроса данных через API (если данные нужны на сервере)
     const apiEstablishment = new EstablishmentService();
     const apiLocation = new LocationService();
     const apiTags = new TagsService();
-    const isRussia = "01HMY6V2B1XZ0J3P5EQ9F2K4VG" === params.location;
-    const eaterEstablishment = isRussia
-        ? null
-        : await apiEstablishment.getEstablishmentByPagination({
-              pagination: { page: 1, pageSize: 10 },
-              filter: {
-                  typeIds: [TYPES_OF_ESTABLISHMENT.EATER.id],
-                  locationId: params.location,
-              },
 
-              lang: params.locale,
-          });
+    const eaterEstablishment =
+        await apiEstablishment.getEstablishmentByPagination({
+            pagination: { page: 1, pageSize: 10 },
+            filter: {
+                typeIds: [TYPES_OF_ESTABLISHMENT.EATER.id],
+                locationId: params.location,
+            },
+
+            lang: params.locale,
+        });
     const accommodationEstablishment =
         await apiEstablishment.getEstablishmentByPagination({
             pagination: { page: 1, pageSize: 10 },
@@ -78,7 +76,7 @@ export default async function CountryPage({ params, searchParams }: IProps) {
         },
     });
 
-    // if (!locationData || !eaterEstablishment || !accommodationEstablishment) notFound();
+    if (!locationData) notFound();
     const tagsClassEstablishment =
         await apiTags.getStarsAndPriceOfAllEstablishment({
             lang: params.locale,

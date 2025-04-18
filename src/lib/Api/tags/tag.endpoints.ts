@@ -20,7 +20,7 @@ export class TagsApi {
             );
             return response.data;
         } catch (error) {
-            console.error(`Ошибка при получении всех тегов:`, error);
+            console.error(`Ошибка при получении всех тегов:`);
             return null;
         }
     }
@@ -34,7 +34,7 @@ export class TagsApi {
             );
             return response.data;
         } catch (error) {
-            console.error(`Ошибка при получении всех тегов:`, error);
+            console.error(`Ошибка при получении всех тегов:`);
             return null;
         }
     }

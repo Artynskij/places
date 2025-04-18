@@ -65,7 +65,7 @@ export const MapLeaflet = () => {
         .setMaxWidth("300px")
         .addTo(map.current);
     });
-  }, [almaty.lng, almaty.lat, zoom]);
+  }, [almaty.lng, almaty.lat, zoom, locale]);
 
   return (
     <div className={style.map}>

@@ -6,7 +6,7 @@ export const useBaseUrl = () => {
     const locale = useLocale();
     useEffect(() => {
         setBaseUrl(window.location.origin + "/" + locale);
-    }, []);
+    }, [locale]);
 
     return baseUrl;
 };

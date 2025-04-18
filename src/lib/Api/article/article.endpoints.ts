@@ -15,7 +15,7 @@ export default class ArticleApi {
             );
             return response.data;
         } catch (error) {
-            console.error(`Ошибка при получении статьи с ID ${id}:`, error);
+            console.error(`Ошибка при получении статьи с ID ${id}:`);
             return null;
         }
     }
@@ -30,7 +30,7 @@ export default class ArticleApi {
             );
             return response.data;
         } catch (error) {
-            console.error("Ошибка при получении статей с пагинацией:", error);
+            console.error("Ошибка при получении статей с пагинацией:");
             return null;
         }
     }
