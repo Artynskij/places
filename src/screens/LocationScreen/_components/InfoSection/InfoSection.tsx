@@ -15,7 +15,7 @@ interface IInfoSection {
     //   tTiles: any;
     searchParams: any;
     townsData: ILocationFront[] | null;
-    rootLocationPath: string ;
+    rootLocationPath: string;
 }
 export const InfoSection: FC<IInfoSection> = ({
     searchParams,
@@ -33,7 +33,8 @@ export const InfoSection: FC<IInfoSection> = ({
     );
     const districts = townsData?.filter(
         (town) =>
-            town.locationType.value === "DISTRICT" &&
+            (town.locationType.value === "DISTRICT" ||
+                town.locationType.value === "REGION") &&
             town.pathBreadcrumb.length === nextLevelPathLengthOfRootLocation
     );
 
@@ -78,9 +79,11 @@ export const InfoSection: FC<IInfoSection> = ({
                                       townsData.filter(
                                           (town) =>
                                               town.locationType.value ===
-                                                  "REGION" &&
-                                              town.pathBreadcrumb.length ===
-                                                  nextLevelPathLengthOfRootLocation
+                                                  "REGION" ||
+                                              (town.locationType.value ===
+                                                  "DISTRICT") &&
+                                                  town.pathBreadcrumb.length ===
+                                                      nextLevelPathLengthOfRootLocation
                                       )
                                   )
                                 : infoCard.body
