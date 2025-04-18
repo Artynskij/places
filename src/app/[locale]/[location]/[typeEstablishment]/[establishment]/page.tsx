@@ -98,7 +98,7 @@ export default async function EstablishmentPage({
     const modifyClassTag = classTag
         ? {
               ...classTag,
-              count: +classTag?.tags[0].value?.split(" ")[0].replace(",", "."),
+              count: +classTag?.tags[0]?.value?.split(" ")[0].replace(",", "."),
           }
         : null;
 

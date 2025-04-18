@@ -63,15 +63,15 @@ export default async function RootLayout({
                         <NextIntlClientProvider messages={messages}>
                             <AllContextProvider>
                                 <ClientOnly />
-                                <Header />
-                              
+                                <Suspense fallback={<Loading />}>
+                                    <Header />
 
-                                <main style={{ minHeight: "100vh" }}>
-                                    {children}
-                                </main>
+                                    <main style={{ minHeight: "100vh" }}>
+                                        {children}
+                                    </main>
 
-                                
-                                <Footer />
+                                    <Footer />
+                                </Suspense>
                             </AllContextProvider>
                         </NextIntlClientProvider>
                     </AntdRegistry>
