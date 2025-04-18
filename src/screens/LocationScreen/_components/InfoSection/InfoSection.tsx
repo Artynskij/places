@@ -78,12 +78,12 @@ export const InfoSection: FC<IInfoSection> = ({
                                 ? transformToMarkdown(
                                       townsData.filter(
                                           (town) =>
-                                              town.locationType.value ===
-                                                  "REGION" ||
                                               (town.locationType.value ===
-                                                  "DISTRICT") &&
-                                                  town.pathBreadcrumb.length ===
-                                                      nextLevelPathLengthOfRootLocation
+                                                  "REGION" ||
+                                                  town.locationType.value ===
+                                                      "DISTRICT") &&
+                                              town.pathBreadcrumb.length ===
+                                                  nextLevelPathLengthOfRootLocation
                                       )
                                   )
                                 : infoCard.body
