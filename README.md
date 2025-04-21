@@ -5,7 +5,7 @@
 
 ## Разработка
 
-Основной код находится в ветке [`project-code`](https://github.com/Artynskij/places/dev)
+Основной код находится в ветке [`project-code`](https://github.com/Artynskij/places/tree/dev)
 
 
 
