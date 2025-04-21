@@ -63,7 +63,6 @@ export default async function CountryPage({ params, searchParams }: IProps) {
                 typeIds: [TYPES_OF_ESTABLISHMENT.ATTRACTION.id],
                 locationId: params.location,
             },
-
             lang: params.locale,
         });
     const locationData = await apiLocation.getLocationById(params.location);

@@ -29,12 +29,16 @@ export const InfoSection: FC<IInfoSection> = ({
     const [showMoreTiles, setShowMoreTiles] = useState(true);
     const nextLevelPathLengthOfRootLocation = rootLocationPath.length + 27;
     const towns = townsData?.filter(
-        (town) => town.locationType.value === "CITY"
+        (town) =>
+            town.locationType.value === "CITY" ||
+            town.locationType.value === "TOWN" ||
+            town.locationType.value === "CAPITAL"
     );
+
     const districts = townsData?.filter(
         (town) =>
-            (town.locationType.value === "DISTRICT" ||
-                town.locationType.value === "REGION") &&
+            (town.locationType.value === "REGION" ||
+                town.locationType.value === "DISTRICT") &&
             town.pathBreadcrumb.length === nextLevelPathLengthOfRootLocation
     );
 
@@ -64,28 +68,10 @@ export const InfoSection: FC<IInfoSection> = ({
                         key={infoCard.id}
                         data={infoCard}
                         markDownContent={
-                            infoCard.value === "towns" && townsData
-                                ? transformToMarkdown(
-                                      townsData.filter(
-                                          (town) =>
-                                              town.locationType.value ===
-                                                  "CITY" ||
-                                              town.locationType.value ===
-                                                  "VILLAGE"
-                                      )
-                                  )
-                                : infoCard.value === "regions" && townsData
-                                ? transformToMarkdown(
-                                      townsData.filter(
-                                          (town) =>
-                                              (town.locationType.value ===
-                                                  "REGION" ||
-                                                  town.locationType.value ===
-                                                      "DISTRICT") &&
-                                              town.pathBreadcrumb.length ===
-                                                  nextLevelPathLengthOfRootLocation
-                                      )
-                                  )
+                            infoCard.value === "towns" && towns
+                                ? transformToMarkdown(towns)
+                                : infoCard.value === "regions" && districts
+                                ? transformToMarkdown(districts)
                                 : infoCard.body
                         }
                     />

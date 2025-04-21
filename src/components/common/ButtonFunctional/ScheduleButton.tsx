@@ -8,105 +8,132 @@ import { mockObjectForObjectPage } from "@/asset/mockData/mockObject";
 
 import { Popup } from "../Popup/Popup";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
+import { IScheduleFront } from "@/lib/models/frontend/schedule/shedule.front";
+import { useTranslations } from "next-intl";
 
 interface IScheduleButton {
-  classNameButton?: string;
-  classNameButtonActive?: string;
-  importTitle?: string;
-  importDescription?: string;
-  textButton?: string;
-  scheduleData: typeof mockObjectForObjectPage.schedule;
+    classNameButton?: string;
+    classNameButtonActive?: string;
+    // importTitle?: string;
+    // importDescription?: string;
+    // textButton?: string;
+    scheduleData: IScheduleFront[] | null;
 }
 
 export const ScheduleButton: FC<IScheduleButton> = ({
-  classNameButton,
-  classNameButtonActive,
-  importTitle,
-  textButton,
-  importDescription,
-  scheduleData,
+    classNameButton,
+    classNameButtonActive,
+    // textButton,
+    scheduleData,
 }) => {
-  const [popupActive, setPopupActive] = useState(false);
-  const blockScheduleRef = useRef<HTMLDivElement | null>(null);
-  const useMedia = useSelector((state: RootState) => state.screenSize);
-  const toggle = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setPopupActive(!popupActive);
-  };
+    const [popupActive, setPopupActive] = useState(false);
+    const blockScheduleRef = useRef<HTMLDivElement | null>(null);
+    const t = useTranslations('Schedule')
+    const useMedia = useSelector((state: RootState) => state.screenSize);
+    const toggle = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setPopupActive(!popupActive);
+    };
 
-  useEffect(() => {
-    if (popupActive) {
-      const handleClickOutside = (event: MouseEvent) => {
-        if (
-          blockScheduleRef.current &&
-          !blockScheduleRef.current.contains(event.target as Node)
-        ) {
-          setPopupActive(false);
+    useEffect(() => {
+        if (popupActive) {
+            const handleClickOutside = (event: MouseEvent) => {
+                if (
+                    blockScheduleRef.current &&
+                    !blockScheduleRef.current.contains(event.target as Node)
+                ) {
+                    setPopupActive(false);
+                }
+            };
+            document.addEventListener("mousedown", handleClickOutside);
+
+            return () => {
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
         }
-      };
-      document.addEventListener("mousedown", handleClickOutside);
-
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }
-  }, [popupActive]);
-  const closePopup = () => {
-    setPopupActive(false);
-  };
-  return (
-    <div
-      ref={blockScheduleRef}
-      className={`${classNameButton} ${style.schedule} ${
-        popupActive && classNameButtonActive
-      }`}
-    >
-      <span onClick={toggle}>{textButton}</span>
-      {useMedia && (
-        <>
-          <Popup
-            active={
-              popupActive && useMedia.width < CONSTANTS_SCREENS.SCREEN_PHONE
-            }
-            closePopup={closePopup}
-            size="small"
-            title={textButton}
-          >
-            {/* <div className={style.schedule_popup}> */}
-
-            <ul className={style.schedule_popup_list}>
-              {scheduleData.map((item, index) => {
-                return (
-                  <li className={style.schedule_popup_list_item} key={index}>
-                    <span>{item.day}</span>
-                    <span>{item.shedule}</span>
-                  </li>
-                );
-              })}
-            </ul>
-            {/* </div> */}
-          </Popup>
-          <div
-            className={`${style.schedule_popup} ${
-              popupActive &&
-              !(useMedia.width < CONSTANTS_SCREENS.SCREEN_PHONE) &&
-              style.contact_popup_active
+        
+        
+    }, [popupActive]);
+    const closePopup = () => {
+        setPopupActive(false);
+    };
+    return (
+        <div
+            ref={blockScheduleRef}
+            className={`${classNameButton} ${style.schedule} ${
+                popupActive && classNameButtonActive
             }`}
-          >
-            <h4>{textButton}</h4>
-            <ul className={style.schedule_popup_list}>
-              {scheduleData.map((item, index) => {
-                return (
-                  <li className={style.schedule_popup_list_item} key={index}>
-                    <span>{item.day}</span>
-                    <span>{item.shedule}</span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </>
-      )}
-    </div>
-  );
+        >
+            <span onClick={toggle}>{t('title')}</span>
+            {useMedia && (
+                <>
+                    <Popup
+                        active={
+                            popupActive &&
+                            useMedia.width < CONSTANTS_SCREENS.SCREEN_PHONE
+                        }
+                        closePopup={closePopup}
+                        size="small"
+                        title={t('title')}
+                    >
+                        {/* <div className={style.schedule_popup}> */}
+
+                        <ul className={style.schedule_popup_list}>
+                          
+                            {scheduleData
+                                ? scheduleData.map((scheduleItem, index) => {
+                                      return (
+                                          <li
+                                              className={
+                                                  style.schedule_popup_list_item
+                                              }
+                                              key={index}
+                                          >
+                                              <span>{scheduleItem.day}</span>
+                                              <span>
+                                                  {scheduleItem.openTime} -{" "}
+                                                  {scheduleItem.closeTime}
+                                              </span>
+                                          </li>
+                                      );
+                                  })
+                                : t('noSchedule')}
+                        </ul>
+                        {/* </div> */}
+                    </Popup>
+                    <div
+                        className={`${style.schedule_popup} ${
+                            popupActive &&
+                            !(
+                                useMedia.width < CONSTANTS_SCREENS.SCREEN_PHONE
+                            ) &&
+                            style.contact_popup_active
+                        }`}
+                    >
+                        <h4>{t('title')}</h4>
+                        <ul className={style.schedule_popup_list}>
+                            {scheduleData
+                                ? scheduleData.map((scheduleItem, index) => {
+                                      return (
+                                          <li
+                                              className={
+                                                  style.schedule_popup_list_item
+                                              }
+                                              key={index}
+                                          >
+                                              <span>{t(scheduleItem.day)}</span>
+                                              <span>
+                                                  {scheduleItem.openTime} -{" "}
+                                                  {scheduleItem.closeTime}
+                                              </span>
+                                          </li>
+                                      );
+                                  })
+                                : t('noSchedule')}
+                        </ul>
+                    </div>
+                </>
+            )}
+        </div>
+    );
 };

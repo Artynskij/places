@@ -1,4 +1,4 @@
-"use client";
+
 import style from "./establishmentScreen.module.scss";
 import { useEffect, useState } from "react";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
@@ -44,6 +44,11 @@ import {
 } from "@/components/common/Icons";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
+import { IScheduleFront } from "@/lib/models/frontend/schedule/shedule.front";
+import { ScheduleButton } from "@/components/common/ButtonFunctional/ScheduleButton";
+import DescriptionBlock from "./_components/DescriptionBlock/DescriptionBlock";
+import { getTranslations } from "next-intl/server";
+import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -63,8 +68,9 @@ interface IProps extends IPageProps {
     // testTags: ITagsBlockFront[];
     // locationData: ILocationFront;
     locationCountryData: ILocationFront;
+    scheduleData: IScheduleFront[] | null;
 }
-export const EstablishmentScreen = ({
+export const EstablishmentScreen = async ({
     params,
     searchParams,
     dataEstablishment,
@@ -73,14 +79,14 @@ export const EstablishmentScreen = ({
     classTag,
     // locationData,
     locationCountryData,
-}: // testTags,
-IProps) => {
-    const [modalDetails, setModalDetails] = useState<boolean>(false);
-    const t = useTranslations("EstablishmentPage");
-    const tRate = useTranslations("Rates");
+    scheduleData,
+}: IProps) => {
+    // const [modalDetails, setModalDetails] = useState<boolean>(false);
+    const t = await getTranslations("EstablishmentPage");
+    const tRate = await getTranslations("Rates");
     const reviewData = mockReviews;
 
-    const baseUrl = useBaseUrl();
+    const baseUrl = await getBaseUrlServer();
 
     return (
         <div className="container">
@@ -203,11 +209,8 @@ IProps) => {
                         </Link>
                     </li>
                     <li className={style.navBar_list_item}>
-                        Время работы
-                        {/* <ScheduleButton
-              scheduleData={dataEstablishment..schedule}
-              textButton="Время работы"
-            /> */}
+                        {/* Время работы */}
+                        <ScheduleButton scheduleData={scheduleData} />
                     </li>
                 </ul>
             </div>
@@ -309,7 +312,7 @@ IProps) => {
                     </Link>
                 </div>
                 <div className={style.info_column}>
-                    <h4>Описание</h4>
+                    {/* <h4>Описание</h4>
                     {dataEstablishment.description && (
                         <div className={style.info_description}>
                             <div className={style.info_description_text}>
@@ -331,7 +334,13 @@ IProps) => {
                         title="Описание"
                     >
                         <div>{dataEstablishment.description}</div>
-                    </ModalCustom>
+                    </ModalCustom> */}
+                    {dataEstablishment.description && (
+                        <DescriptionBlock
+                            description={dataEstablishment.description}
+                        />
+                    )}
+
                     <QueryCafe data={dataTags} />
                 </div>
                 <div className={style.info_column}>

@@ -5,6 +5,7 @@ import { EstablishmentService } from "@/lib/Api/establishment/establishment.serv
 import { TagsService } from "@/lib/Api/tags/tag.service";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
+import { ScheduleService } from "@/lib/Api/schedule/schedule.service";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -29,6 +30,7 @@ export default async function EstablishmentPage({
     const apiEstablishment = new EstablishmentService();
     const apiTags = new TagsService();
     const apiLocation = new LocationService();
+    const apiSchedule = new ScheduleService();
 
     const [
         dataEstablishment,
@@ -84,6 +86,7 @@ export default async function EstablishmentPage({
         dataEstablishment.location.country.id,
         params.locale
     );
+    const scheduleData = await apiSchedule.getLocationById(params.establishment)
     if (!eaterNearEstablishment || !tagsEstablishment || !locationCountryData) {
         notFound();
     }
@@ -115,6 +118,7 @@ export default async function EstablishmentPage({
             classTag={modifyClassTag}
             // locationData={locationData}
             locationCountryData={locationCountryData}
+            scheduleData={scheduleData}
         />
     );
 }

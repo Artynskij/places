@@ -110,6 +110,7 @@
       &_item {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         gap: $gap-small;
         transition: $transiton;
         color: $color-main-black;
