@@ -30,6 +30,11 @@ export default class TagsMapper {
                         key: groupTag.TagCategory.Name,
                     },
                     tags: groupTag.Tags.map((tag) => {
+                        const countPrice =
+                            groupTag.TagCategory.Name ===
+                            CONSTANT_CATEGORY_CLASS_TAG.price
+                                ? this.createClassCount(tag, "price")
+                                : null;
                         const countStar =
                             groupTag.TagCategory.Name ===
                             CONSTANT_CATEGORY_CLASS_TAG.star
@@ -42,7 +47,7 @@ export default class TagsMapper {
                             secondaryValue:
                                 tag.Content.details[0].secondaryValue || null,
                             iconName: tag.Content.details[0].cIcon || null,
-                            count: countStar || null,
+                            count: countStar || countPrice || null,
                         };
                     }),
                 };
@@ -78,9 +83,14 @@ export default class TagsMapper {
         const mappingData: ITagWithEstablishmentFront[] | null =
             tags?.map((tag) => {
                 // if(tag.Tag.TagCategory.Name === CATEGORY_CLASS_TAG.star) re
-                const countPrice = null;
+                const countPrice =
+                    tag.Tag.TagCategory.Name ===
+                    CONSTANT_CATEGORY_CLASS_TAG.price
+                        ? this.createClassCount(tag.Tag, "price")
+                        : null;
                 const countStar =
-                    tag.Tag.TagCategory.Name === CONSTANT_CATEGORY_CLASS_TAG.star
+                    tag.Tag.TagCategory.Name ===
+                    CONSTANT_CATEGORY_CLASS_TAG.star
                         ? this.createClassCount(tag.Tag, "star")
                         : null;
                 return {
@@ -92,7 +102,7 @@ export default class TagsMapper {
                         secondaryValue:
                             tag.Tag.Content.details[0].secondaryValue || null,
                         iconName: tag.Tag.Content.details[0].cIcon || null,
-                        count: countStar || null,
+                        count: countStar || countPrice || null,
                     },
                     categoryTag: {
                         id: tag.Tag.TagCategory.Id,
@@ -110,10 +120,20 @@ export default class TagsMapper {
         type: "star" | "price"
     ): number {
         if (type === "star") {
-            const count = +tagClass.Content.details[0].value
-                ?.split(" ")[0]
-                .replace(",", ".");
+            const starEntity = tagClass.Content.details[0].value;
+            const count = +starEntity?.split(" ")[0].replace(",", ".");
 
+            return count;
+        } else if (type === "price") {
+            const priceEntity = tagClass.Content.details[0].secondaryValue;
+            const count =
+                priceEntity === "$"
+                    ? 1
+                    : priceEntity === "$$-$$$"
+                    ? 2
+                    : priceEntity === "$$$$"
+                    ? 3
+                    : 0;
             return count;
         } else {
             return 0;

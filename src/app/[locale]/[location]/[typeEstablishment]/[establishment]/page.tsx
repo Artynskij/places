@@ -94,7 +94,7 @@ export default async function EstablishmentPage({
         notFound();
     }
     // TODO: mapper tag
-    const classTag = tagsEstablishment.find(tag => tag.groupKey.key === CONSTANT_CATEGORY_CLASS_TAG.star);
+    const classTag = tagsEstablishment.find(tag => tag.groupKey.key === CONSTANT_CATEGORY_CLASS_TAG.star || tag.groupKey.key === CONSTANT_CATEGORY_CLASS_TAG.price);
 
     return (
         <EstablishmentScreen
