@@ -63,11 +63,11 @@ export default async function FilterPage({ params, searchParams }: IProps) {
         apiLocation.getLocationById(params.location, params.locale),
     ]);
     if (!dataEstablishments || !blockTags) notFound();
-    const tagsClassEstablishment =
-        await apiTags.getStarsAndPriceOfAllEstablishment({
-            lang: params.locale,
-            establishmentIds: dataEstablishments?.map((item) => item.id),
-        });
+    const tagsClassEstablishment = await apiTags.getStarsAndPriceOfAllEstablishment({
+        lang: params.locale,
+        establishmentIds: dataEstablishments?.map((item) => item.id),
+    });
+   
 
     return (
         <FilterScreen

@@ -6,6 +6,9 @@ export interface IContentEntity {
         lang: string;
         value: string;
         _id: string;
+        secondaryValue?: string | null;
+        cName?: string | null;
+        cIcon?: string | null;
     }[];
 }
 export interface IContentLocationEntity extends IContentEntity {

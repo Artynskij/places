@@ -1,7 +1,7 @@
-import { IDayOfWeek } from "../../common/IDayOfWeek";
+import { TDayOfWeek } from "../../common/TDayOfWeek";
 
 export interface IScheduleEntity {
-    Day: IDayOfWeek;
+    Day: TDayOfWeek;
     OpenTime: string;
     CloseTime: string;
 }

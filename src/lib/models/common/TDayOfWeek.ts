@@ -1,0 +1,1 @@
+export type TDayOfWeek = 'mon'|'tue'|'wed'|'thu'|'fri'|'sat'|'sun';

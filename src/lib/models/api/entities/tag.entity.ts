@@ -1,7 +1,7 @@
-import { ICategoryEntity } from './category.entity';
-import { IContentEntity } from './parts/content.entity';
+import { IContentEntity } from "./parts/content.entity";
+import { ITagCategoryEntity } from "./parts/tagCategory.entity";
 export interface ITagEntity {
-  Id: string;
-  TagCategory: ICategoryEntity;
-  Content: IContentEntity;
+    Id: string;
+    TagCategory: ITagCategoryEntity;
+    Content: IContentEntity;
 }

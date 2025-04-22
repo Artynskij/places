@@ -10,20 +10,22 @@ import { IconLocation, IconThumbDown, IconThumbUp } from "../../Icons";
 import { useState } from "react";
 import { BlockLikeDislike } from "../../BlockFunctional/BlockLikeDislike";
 import { IEstablishmentFront } from "@/lib/models";
+import { useTranslations } from "next-intl";
 
 interface ICardReview {
     review: (typeof mockReviews)[0];
     establishmentReview?: IEstablishmentFront | null;
-    tRate: (value: string) => string;
+    // tRate: (value: string) => string;
 }
 export const CardReview = ({
     review,
     establishmentReview,
-    tRate,
+    // tRate,
 }: ICardReview) => {
     const [reactionLike, setReactionLike] = useState<"like" | "dislike" | null>(
         null
     );
+    const tRate = useTranslations("Rates")
     const handleLike = () => {
         reactionLike === "like"
             ? setReactionLike(null)

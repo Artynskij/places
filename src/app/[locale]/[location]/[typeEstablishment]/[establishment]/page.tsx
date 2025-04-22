@@ -6,6 +6,7 @@ import { TagsService } from "@/lib/Api/tags/tag.service";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 import { ScheduleService } from "@/lib/Api/schedule/schedule.service";
+import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -86,24 +87,14 @@ export default async function EstablishmentPage({
         dataEstablishment.location.country.id,
         params.locale
     );
-    const scheduleData = await apiSchedule.getLocationById(params.establishment)
+    const scheduleData = await apiSchedule.getLocationById(
+        params.establishment
+    );
     if (!eaterNearEstablishment || !tagsEstablishment || !locationCountryData) {
         notFound();
     }
     // TODO: mapper tag
-
-    const _indexClassTag = tagsEstablishment.indexOf(
-        tagsEstablishment.filter(
-            (item) => item.groupKey.key === "starRating"
-        )[0]
-    );
-    const classTag = tagsEstablishment.splice(_indexClassTag, 1)[0];
-    const modifyClassTag = classTag
-        ? {
-              ...classTag,
-              count: +classTag?.tags[0]?.value?.split(" ")[0].replace(",", "."),
-          }
-        : null;
+    const classTag = tagsEstablishment.find(tag => tag.groupKey.key === CONSTANT_CATEGORY_CLASS_TAG.star);
 
     return (
         <EstablishmentScreen
@@ -115,7 +106,7 @@ export default async function EstablishmentPage({
             }}
             dataEstablishment={dataEstablishment}
             dataTags={tagsEstablishment}
-            classTag={modifyClassTag}
+            classTag={classTag}
             // locationData={locationData}
             locationCountryData={locationCountryData}
             scheduleData={scheduleData}

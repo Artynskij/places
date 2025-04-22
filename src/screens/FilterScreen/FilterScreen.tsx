@@ -21,7 +21,7 @@ import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 
 import {
     IEstablishmentFront,
-    ITagClassWithEstablishmentFront,
+    // ITagClassWithEstablishmentFront,
 } from "@/lib/models";
 import { useViewTypeList } from "@/lib/context";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
@@ -37,7 +37,7 @@ interface IProps extends IPageProps {
     dataEstablishment: IEstablishmentFront[];
     blockTags: ITagsBlockFront[];
     locationData: ILocationFront | null;
-    tagsClassEstablishment: ITagClassWithEstablishmentFront[] | null;
+    tagsClassEstablishment: ITagWithEstablishmentFront[] | null;
 }
 export default function FilterScreen({
     params,
@@ -52,6 +52,7 @@ export default function FilterScreen({
     );
 
     const viewType = useViewTypeList();
+
 
     const baseUrl = useBaseUrl();
     return (
@@ -121,7 +122,7 @@ export default function FilterScreen({
                                         langUI={params.locale}
                                         locationId={params.location}
                                         baseUrl={baseUrl}
-                                        classCount={tagClass?.tag.count}
+                                        classCount={tagClass?.tag.count || 0}
                                     />
                                 );
                             })}
@@ -140,7 +141,7 @@ export default function FilterScreen({
                                         dataEstablishment={establishment}
                                         locationId={params.location}
                                         baseUrl={baseUrl}
-                                        classCount={tagClass?.tag.count}
+                                        classCount={tagClass?.tag.count || 0}
                                     />
                                 );
                             })}

@@ -26,7 +26,7 @@ export interface IEstablishmentEntity {
             ContentId: string;
             Content: IContentEntity;
         };
-        Category: ICategoryEntity;
+        Categories: ICategoryEntity[];
         Contacts: IContactsEntity | null;
         Locations: ILocationsInEstablishment | null;
         Rates: IRateEntity;

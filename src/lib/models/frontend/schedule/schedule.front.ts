@@ -1,7 +1,7 @@
-import { IDayOfWeek } from "../../common/IDayOfWeek";
+import { TDayOfWeek } from "../../common/TDayOfWeek";
 
 export interface IScheduleFront {
-    day: IDayOfWeek;
+    day: TDayOfWeek;
     openTime: string;
     closeTime: string;
 }

@@ -28,19 +28,23 @@ export const InfoSection: FC<IInfoSection> = ({
     const useMedia = useSelector((state: RootState) => state.screenSize);
     const [showMoreTiles, setShowMoreTiles] = useState(true);
     const nextLevelPathLengthOfRootLocation = rootLocationPath.length + 27;
-    const towns = townsData?.filter(
-        (town) =>
-            town.locationType.value === "CITY" ||
-            town.locationType.value === "TOWN" ||
-            town.locationType.value === "CAPITAL"
-    );
+    const towns = townsData
+        ?.filter(
+            (town) =>
+                town.locationType.value === "CITY" ||
+                town.locationType.value === "TOWN" ||
+                town.locationType.value === "CAPITAL"
+        )
+        .sort((a, b) => a.value.localeCompare(b.value));
 
-    const districts = townsData?.filter(
-        (town) =>
-            (town.locationType.value === "REGION" ||
-                town.locationType.value === "DISTRICT") &&
-            town.pathBreadcrumb.length === nextLevelPathLengthOfRootLocation
-    );
+    const districts = townsData
+        ?.filter(
+            (town) =>
+                (town.locationType.value === "REGION" ||
+                    town.locationType.value === "DISTRICT") &&
+                town.pathBreadcrumb.length === nextLevelPathLengthOfRootLocation
+        )
+        .sort((a, b) => a.value.localeCompare(b.value));
 
     useEffect(() => {
         if (useMedia?.isDesktop || useMedia?.isNetBook || useMedia?.isTablet) {

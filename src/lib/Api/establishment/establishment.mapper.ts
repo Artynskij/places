@@ -51,9 +51,9 @@ export default class EstablishmentMapper {
                 establishment.content.value[0].value.details.description,
             typeEstablishment: establishment.establishment.Type.Name,
             category: {
-                id: establishment.establishment.Category?.Id || '',
-                key:establishment.establishment.Category?.Id || '',
-                value: establishment.establishment.Category?.Content.details[0]
+                id: establishment.establishment.Categories[0]?.Id || '',
+                key:establishment.establishment.Categories[0]?.Id || '',
+                value: establishment.establishment.Categories[0]?.Content.details[0]
                     .value || '',
             },
             rates: {

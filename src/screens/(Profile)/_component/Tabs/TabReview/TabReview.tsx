@@ -148,7 +148,7 @@ const TabReview = ({ dataUser }: ITabReview) => {
                         key={index}
                         establishmentReview={establishmentReview}
                         review={review}
-                        tRate={tRate}
+                        // tRate={tRate}
                     />
                 );
             })}

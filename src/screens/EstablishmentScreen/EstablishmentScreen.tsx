@@ -1,6 +1,6 @@
-
+// "use client";
 import style from "./establishmentScreen.module.scss";
-import { useEffect, useState } from "react";
+
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 
 import { Button } from "@/components/UI/Button/Button";
@@ -29,10 +29,10 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
-import { ITagClassFront } from "@/lib/models/frontend/tags/tagClass.front";
+// import { ITagClassFront } from "@/lib/models/frontend/tags/tagClass.front";
 import { mockReviews } from "@/asset/mockData/mockReviews";
 import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
-import { IEstablishmentFront } from "@/lib/models";
+import { IEstablishmentFront, ITagFront } from "@/lib/models";
 
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { ROUTES } from "@/lib/config/Routes";
@@ -44,7 +44,7 @@ import {
 } from "@/components/common/Icons";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
-import { IScheduleFront } from "@/lib/models/frontend/schedule/shedule.front";
+import { IScheduleFront } from "@/lib/models/frontend/schedule/schedule.front";
 import { ScheduleButton } from "@/components/common/ButtonFunctional/ScheduleButton";
 import DescriptionBlock from "./_components/DescriptionBlock/DescriptionBlock";
 import { getTranslations } from "next-intl/server";
@@ -64,7 +64,7 @@ interface IProps extends IPageProps {
         attraction: IEstablishmentFront[] | [];
     };
     dataTags: ITagsBlockFront[];
-    classTag?: ITagClassFront | null;
+    classTag?: ITagsBlockFront | null;
     // testTags: ITagsBlockFront[];
     // locationData: ILocationFront;
     locationCountryData: ILocationFront;
@@ -81,8 +81,6 @@ export const EstablishmentScreen = async ({
     locationCountryData,
     scheduleData,
 }: IProps) => {
-    // const [modalDetails, setModalDetails] = useState<boolean>(false);
-    const t = await getTranslations("EstablishmentPage");
     const tRate = await getTranslations("Rates");
     const reviewData = mockReviews;
 
@@ -131,7 +129,7 @@ export const EstablishmentScreen = async ({
                                 "EATER" && (
                                 <RateCafe
                                     disabled
-                                    defaultValue={classTag?.count || 0}
+                                    defaultValue={classTag?.tags[0].count || 0}
                                     classNameIcon={style.titleBlock_class_icon}
                                 />
                             )}
@@ -139,7 +137,7 @@ export const EstablishmentScreen = async ({
                                 "ACCOMMODATION" && (
                                 <RateHotel
                                     disabled
-                                    defaultValue={classTag?.count || 0}
+                                    defaultValue={classTag?.tags[0].count || 0}
                                     classNameIcon={style.titleBlock_class_icon}
                                 />
                             )}
@@ -274,7 +272,7 @@ export const EstablishmentScreen = async ({
                                     </div>
                                     <RateCafe
                                         disabled
-                                        defaultValue={classTag?.count || 0}
+                                        defaultValue={classTag?.tags[0].count || 0}
                                     />
                                 </>
                             )}
@@ -287,7 +285,7 @@ export const EstablishmentScreen = async ({
                                     {classTag && (
                                         <RateHotel
                                             disabled
-                                            defaultValue={classTag.count || 0}
+                                            defaultValue={classTag.tags[0].count || 0}
                                             classNameIcon={
                                                 style.titleBlock_class_icon
                                             }
@@ -312,29 +310,6 @@ export const EstablishmentScreen = async ({
                     </Link>
                 </div>
                 <div className={style.info_column}>
-                    {/* <h4>Описание</h4>
-                    {dataEstablishment.description && (
-                        <div className={style.info_description}>
-                            <div className={style.info_description_text}>
-                                {dataEstablishment.description}
-                            </div>
-
-                            <Button
-                                onClick={() => setModalDetails(!modalDetails)}
-                                className={style.button_queryList}
-                                type="light"
-                                text="Подробнее"
-                            />
-                        </div>
-                    )}
-
-                    <ModalCustom
-                        setActive={setModalDetails}
-                        active={modalDetails}
-                        title="Описание"
-                    >
-                        <div>{dataEstablishment.description}</div>
-                    </ModalCustom> */}
                     {dataEstablishment.description && (
                         <DescriptionBlock
                             description={dataEstablishment.description}
@@ -557,7 +532,7 @@ export const EstablishmentScreen = async ({
                             return (
                                 <CardReview
                                     key={index}
-                                    tRate={tRate}
+                                    // tRate={tRate}
                                     review={review}
                                 />
                             );

@@ -8,7 +8,7 @@ import { mockObjectForObjectPage } from "@/asset/mockData/mockObject";
 
 import { Popup } from "../Popup/Popup";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
-import { IScheduleFront } from "@/lib/models/frontend/schedule/shedule.front";
+import { IScheduleFront } from "@/lib/models/frontend/schedule/schedule.front";
 import { useTranslations } from "next-intl";
 
 interface IScheduleButton {
@@ -28,7 +28,7 @@ export const ScheduleButton: FC<IScheduleButton> = ({
 }) => {
     const [popupActive, setPopupActive] = useState(false);
     const blockScheduleRef = useRef<HTMLDivElement | null>(null);
-    const t = useTranslations('Schedule')
+    const t = useTranslations("Schedule");
     const useMedia = useSelector((state: RootState) => state.screenSize);
     const toggle = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -51,8 +51,6 @@ export const ScheduleButton: FC<IScheduleButton> = ({
                 document.removeEventListener("mousedown", handleClickOutside);
             };
         }
-        
-        
     }, [popupActive]);
     const closePopup = () => {
         setPopupActive(false);
@@ -64,7 +62,7 @@ export const ScheduleButton: FC<IScheduleButton> = ({
                 popupActive && classNameButtonActive
             }`}
         >
-            <span onClick={toggle}>{t('title')}</span>
+            <span onClick={toggle}>{t("title")}</span>
             {useMedia && (
                 <>
                     <Popup
@@ -74,12 +72,11 @@ export const ScheduleButton: FC<IScheduleButton> = ({
                         }
                         closePopup={closePopup}
                         size="small"
-                        title={t('title')}
+                        title={t("title")}
                     >
                         {/* <div className={style.schedule_popup}> */}
 
                         <ul className={style.schedule_popup_list}>
-                          
                             {scheduleData
                                 ? scheduleData.map((scheduleItem, index) => {
                                       return (
@@ -97,7 +94,7 @@ export const ScheduleButton: FC<IScheduleButton> = ({
                                           </li>
                                       );
                                   })
-                                : t('noSchedule')}
+                                : t("noSchedule")}
                         </ul>
                         {/* </div> */}
                     </Popup>
@@ -110,7 +107,7 @@ export const ScheduleButton: FC<IScheduleButton> = ({
                             style.contact_popup_active
                         }`}
                     >
-                        <h4>{t('title')}</h4>
+                        <h4>{t("title")}</h4>
                         <ul className={style.schedule_popup_list}>
                             {scheduleData
                                 ? scheduleData.map((scheduleItem, index) => {
@@ -129,7 +126,7 @@ export const ScheduleButton: FC<IScheduleButton> = ({
                                           </li>
                                       );
                                   })
-                                : t('noSchedule')}
+                                : t("noSchedule")}
                         </ul>
                     </div>
                 </>

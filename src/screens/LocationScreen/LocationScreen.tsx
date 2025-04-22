@@ -21,15 +21,13 @@ import { GetServerSideProps } from "next";
 
 import { getTranslations } from "next-intl/server";
 
-import {
-    IEstablishmentFront,
-    ITagClassWithEstablishmentFront,
-} from "@/lib/models";
+import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
+import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -45,7 +43,7 @@ interface IProps extends IPageProps {
     };
     locationData: ILocationFront;
     townsData: ILocationFront[] | null;
-    tagsClassEstablishment: ITagClassWithEstablishmentFront[] | null;
+    tagsClassEstablishment: ITagWithEstablishmentFront[] | null;
 }
 
 export default async function LocationScreen({
@@ -83,7 +81,11 @@ export default async function LocationScreen({
                     <h1>{locationData?.value || "Нету локации"}</h1>
                 </div>
             </section>
-            <InfoSection rootLocationPath={locationData.pathBreadcrumb} townsData={townsData} searchParams={searchParams} />
+            <InfoSection
+                rootLocationPath={locationData.pathBreadcrumb}
+                townsData={townsData}
+                searchParams={searchParams}
+            />
             <section className={style.slider_block}>
                 <div className={style.slider_block_title}>
                     <h2>{t("text.sliderSleep")}</h2>
@@ -113,7 +115,7 @@ export default async function LocationScreen({
                                         langUI={params.locale}
                                         locationId={params.location}
                                         baseUrl={baseUrl}
-                                        classCount={tagClass?.tag.count}
+                                        classCount={tagClass?.tag.count || 0}
                                     />
                                 );
                             }
@@ -148,7 +150,7 @@ export default async function LocationScreen({
                                     langUI={params.locale}
                                     locationId={params.location}
                                     baseUrl={baseUrl}
-                                    classCount={tagClass?.tag.count}
+                                    classCount={tagClass?.tag.count || 0}
                                 />
                             );
                         })}

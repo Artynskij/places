@@ -9,7 +9,8 @@ import {
 import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 import TagsMapper from "./tag.mapper";
 import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
-import { ITagClassWithEstablishmentFront } from "@/lib/models";
+import { ITagFront } from "@/lib/models";
+// import { ITagClassFront, ITagClassWithEstablishmentFront } from "@/lib/models";
 
 export class TagsService {
     private tagsApi: TagsApi;
@@ -18,29 +19,32 @@ export class TagsService {
         this.tagsApi = new TagsApi();
         this.tagsMapper = new TagsMapper();
     }
-    async getStarsAndPriceOfAllEstablishment(
-        body: ITagsOfEstablishmentRequest
-    ): Promise<ITagClassWithEstablishmentFront[] | null> {
-        const response = await this.tagsApi.getAllTagsOfEstablishments(body);
-        const mappingData =
-            this.tagsMapper.transformClassTag(response);
-        return mappingData ? mappingData : null;
-    }
-    async getAllTagsOfEstablishment(
-        body: ITagsOfEstablishmentRequest
-    ): Promise<ITagsOfEstablishmentResponse[] | null> {
-        const response = await this.tagsApi.getAllTagsOfEstablishments(body);
-        return response ? response : null;
-    }
     async getAllTagsOfEstablishmentFilter(
         body: ITagsOfEstablishmentRequest
     ): Promise<ITagsBlockFront[] | null> {
         const response = await this.tagsApi.getAllTagsOfEstablishmentFilter(
             body
         );
-        const mappingData=
-            this.tagsMapper.transformToFront(response);
+        const mappingData = this.tagsMapper.tagBlock(response);
         return mappingData;
     }
-
+  
+    async getAllTagsOfEstablishment(
+        body: ITagsOfEstablishmentRequest
+    ): Promise<ITagWithEstablishmentFront[] | null> {
+        const response = await this.tagsApi.getAllTagsOfEstablishments(body);
+        const mappingData = this.tagsMapper.tagWithEstablishment(response)
+        return mappingData ? mappingData : null;
+    }
+     async getStarsAndPriceOfAllEstablishment(
+        body: ITagsOfEstablishmentRequest
+    ): Promise<ITagWithEstablishmentFront[] | null> {
+        const mappingData = await this.getAllTagsOfEstablishment(body);
+        const classTagsOfEstablishments = mappingData?.filter(item => item.tag.count);
+        return classTagsOfEstablishments ? classTagsOfEstablishments : null;
+    }
+    // separationClassTag(tags: ITagsBlockFront[]): ITagsBlockFront | null {
+    //     const classTag = this.tagsMapper.separationClassTag(tags);
+    //     return classTag;
+    // }
 }

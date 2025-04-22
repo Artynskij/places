@@ -11,7 +11,6 @@ export * from "./frontend/article/article.front";
 export * from "./frontend/category/category.front";
 export * from "./frontend/establishment/establishment.front";
 export * from "./frontend/tags/tag.front";
-export * from "./frontend/tags/tagClass.front";
 export * from "./frontend/tags/tagsBlock.front";
 export * from "./frontend/parts/contacts/contacts.frontPart";
 export * from "./frontend/parts/media/media.frontPart";
