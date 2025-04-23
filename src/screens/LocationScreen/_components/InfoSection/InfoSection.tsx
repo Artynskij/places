@@ -52,7 +52,7 @@ export const InfoSection: FC<IInfoSection> = ({
         } else {
             setShowMoreTiles(false);
         }
-    }, []);
+    }, [useMedia]);
 
     return (
         <section className={style.info_block}>

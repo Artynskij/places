@@ -7,11 +7,13 @@ interface IPaginationAntProp {
     totalCount: number;
     defaultPage: number;
     pageSize: number;
+    setIsLoading: (state: boolean) => void;
 }
 export const PaginationAnt: FC<IPaginationAntProp> = ({
     totalCount,
     defaultPage,
     pageSize,
+    setIsLoading,
 }) => {
     const [current, setCurrent] = useState(1);
     const router = useRouter();
@@ -24,6 +26,7 @@ export const PaginationAnt: FC<IPaginationAntProp> = ({
         }
     }, [searchParams, pageSize]);
     const onChange: PaginationProps["onChange"] = (page) => {
+        setIsLoading(true);
         const params = new URLSearchParams(searchParams.toString());
         if (page > 1) {
             params.set("page", `${page * 30}`);

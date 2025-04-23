@@ -61,7 +61,7 @@ export default function FilterScreen({
     const viewType = useViewTypeList();
 
     const totalEstablishmentCount =
-        establishmentList[0]?.location.info.totalEstablishment;
+        establishmentList[0]?.location.info.totalEstablishment || 0;
     const baseUrl = useBaseUrl();
     return (
         <div className="container">
@@ -79,7 +79,7 @@ export default function FilterScreen({
                             } в ${locationData?.value}`}
                         </h1>
                         <div className={style.titleBLock_result}>
-                            {totalEstablishmentCount || 0} результатов
+                            {totalEstablishmentCount} результатов
                         </div>
                     </div>
                     <div className={style.titleBLock_groupButton}>
@@ -92,9 +92,7 @@ export default function FilterScreen({
                 <div id={"filter"} className={style.container_filter}>
                     <Suspense fallback={<Loader />}>
                         <FiltersComponent
-                            totalEstablishmentCount={
-                                totalEstablishmentCount || 0
-                            }
+                            totalEstablishmentCount={totalEstablishmentCount}
                             dataTags={blockTags}
                             setIsLoading={setIsLoading}
                         />
@@ -103,7 +101,10 @@ export default function FilterScreen({
                 <div className={style.container_content}>
                     <div className={style.param}>
                         <Suspense fallback={<Loader />}>
-                            <ParamComponent setIsLoading={setIsLoading} dataTags={blockTags} />
+                            <ParamComponent
+                                setIsLoading={setIsLoading}
+                                dataTags={blockTags}
+                            />
                         </Suspense>
                     </div>
                     {/* <div className={style.sort}>
@@ -118,7 +119,7 @@ export default function FilterScreen({
                             }}
                         />
                     </div> */}
-                    {viewType.typeView === "list" ? (
+                    {establishmentList.length ? viewType.typeView === "list" ? (
                         <div className={style.list}>
                             {establishmentList.map((establishment) => {
                                 const tagClass = tagsClassEstablishment?.find(
@@ -157,13 +158,15 @@ export default function FilterScreen({
                                 );
                             })}
                         </div>
+                    ) : <div>По данным характеристикам заведений не найдено</div>}
+                    {totalEstablishmentCount > 30 && (
+                        <PaginationAnt
+                            pageSize={30}
+                            defaultPage={30}
+                            totalCount={totalEstablishmentCount}
+                            setIsLoading={setIsLoading}
+                        />
                     )}
-
-                    <PaginationAnt
-                        pageSize={30}
-                        defaultPage={30}
-                        totalCount={totalEstablishmentCount || 0}
-                    />
                 </div>
             </div>
         </div>

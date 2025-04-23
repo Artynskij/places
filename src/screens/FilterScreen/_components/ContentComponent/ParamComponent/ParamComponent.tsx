@@ -39,7 +39,7 @@ const ParamComponent = ({ dataTags, setIsLoading }: IParamComponentProp) => {
         setDataParams(filteredSearchParamsArray);
         // You can now use the current URL
         // ...
-    }, [searchParams]);
+    }, [searchParams, dataTags]);
 
     function removeParam(clickItem: ITagFront) {
         setIsLoading(true);

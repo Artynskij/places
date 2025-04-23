@@ -2,20 +2,32 @@
 
 import { IMockBlock } from "@/asset/mockData/mockFilterCheckBox";
 import style from "./blockCheckBox.module.scss";
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { CheckBox } from "@/components/UI/CheckBox/CheckBox";
 import { Button } from "@/components/UI/Button/Button";
 import { IconArrowDown } from "@/components/common/Icons/IconArrowDown/IconArrowDown";
-import { ITagsBlockFront } from "@/lib/models";
+import { ITagFront, ITagsBlockFront } from "@/lib/models";
 
 interface IBlockCheckBox {
-    data: ITagsBlockFront;
+    tagsGroup: ITagsBlockFront;
+    checkedValues: string[];
 }
-const BlockCheckBox: FC<IBlockCheckBox> = ({ data }) => {
+const BlockCheckBox: FC<IBlockCheckBox> = ({ tagsGroup, checkedValues }) => {
     const [blockActive, setBlockActive] = useState(true);
     const [listBlockActive, setListBlockActive] = useState(false);
+    const sortedTags: ITagFront[] = (function () {
+        const selectedTags: ITagFront[] = [];
+        const otherTags: ITagFront[] = [];
 
-    
+        tagsGroup.tags.forEach((tag) => {
+            checkedValues.includes(tag.key)
+                ? selectedTags.push(tag)
+                : otherTags.push(tag);
+        });
+
+        return [...selectedTags, ...otherTags];
+    })();
+
     function switchBlock() {
         setBlockActive(!blockActive);
     }
@@ -26,7 +38,7 @@ const BlockCheckBox: FC<IBlockCheckBox> = ({ data }) => {
         <div className={style.block + ` ${blockActive && style.block_active}`}>
             <div onClick={switchBlock} className={style.block_title}>
                 <span className={style.block_title_text}>
-                    {data.groupKey.value}
+                    {tagsGroup.groupKey.value}
                 </span>
                 <IconArrowDown className={style.block_title_icon} />
             </div>
@@ -36,13 +48,10 @@ const BlockCheckBox: FC<IBlockCheckBox> = ({ data }) => {
                     ` ${listBlockActive && style.block_list_active}`
                 }
             >
-                {data.tags.map((tag, index) => {
+                {sortedTags.map((tag, index) => {
                     if (index <= 3) {
                         return (
-                            <div
-                                key={tag.id}
-                                className={style.block_list_item}
-                            >
+                            <div key={tag.id} className={style.block_list_item}>
                                 <CheckBox name={tag.value} value={tag.key} />
                             </div>
                         );

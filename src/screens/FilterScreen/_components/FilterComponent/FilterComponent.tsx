@@ -99,7 +99,7 @@ const FiltersComponent = ({
                         >
                             {dataTags?.map((item, index) => {
                                 return (
-                                    <BlockCheckBox key={index} data={item} />
+                                    <BlockCheckBox checkedValues={checkedValues} key={index} tagsGroup={item} />
                                 );
                             })}
                         </Checkbox.Group>
