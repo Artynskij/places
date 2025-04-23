@@ -19,18 +19,24 @@ import { ButtonClose } from "@/components/UI/Button/ButtonClose";
 import { IconFilter } from "@/components/common/Icons/IconFilter/IconFilter";
 import { Overlay } from "@/components/common/Overlay/Overlay";
 import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
+import { Loader } from "@/components/common/Loader/Loader";
 
 interface IFilterComponentProp {
     dataTags?: ITagsBlockFront[];
+    totalEstablishmentCount: number ;
 }
 
-const FiltersComponent = ({ dataTags }: IFilterComponentProp) => {
+const FiltersComponent = ({
+    dataTags,
+    totalEstablishmentCount,
+}: IFilterComponentProp) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
     const [filterActiveMobile, setFilterActiveMobile] = useState(false);
     const [checkedValues, setCheckedValues] = useState<string[]>([]);
+
     useEffect(() => {
         const filterValues = searchParams.get("filter")?.split("%") || [];
         setCheckedValues(filterValues);
@@ -97,7 +103,7 @@ const FiltersComponent = ({ dataTags }: IFilterComponentProp) => {
                     <div className={style.filter_buttonGroup}>
                         <Button
                             onClick={handlerCloseFilter}
-                            text="Показать 1200 совпадений"
+                            text={`Показать ${totalEstablishmentCount || 0} совпадений`}
                         />
                         <Button
                             onClick={handlerResetAllParam}

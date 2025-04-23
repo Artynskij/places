@@ -115,7 +115,7 @@ export const CardList: FC<ICardHotelList> = ({
 
                     {/* <span>{rating}</span>
           <span>-</span> */}
-                    <span>{dataEstablishment.rates.count}</span>
+                    <span>{dataEstablishment.rates.count || 0}</span>
                     <span>оценок</span>
                 </div>
                 {

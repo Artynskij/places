@@ -1,3 +1,3 @@
 export const Breadcrumb = () => {
-  return <>breadcrumb</>;
+  return <></>;
 };

@@ -34,7 +34,7 @@ interface IProps extends IPageProps {
         location: string;
         typeEstablishment: ITypesOfEstablishment;
     };
-    dataEstablishment: IEstablishmentFront[];
+    establishmentList: IEstablishmentFront[];
     blockTags: ITagsBlockFront[];
     locationData: ILocationFront | null;
     tagsClassEstablishment: ITagWithEstablishmentFront[] | null;
@@ -42,7 +42,7 @@ interface IProps extends IPageProps {
 export default function FilterScreen({
     params,
     searchParams,
-    dataEstablishment,
+    establishmentList,
     blockTags,
     locationData,
     tagsClassEstablishment,
@@ -53,7 +53,8 @@ export default function FilterScreen({
 
     const viewType = useViewTypeList();
 
-
+    const totalEstablishmentCount =
+        establishmentList[0]?.location.info.totalEstablishment;
     const baseUrl = useBaseUrl();
     return (
         <div className="container">
@@ -70,11 +71,7 @@ export default function FilterScreen({
                             } в ${locationData?.value}`}
                         </h1>
                         <div className={style.titleBLock_result}>
-                            {
-                                dataEstablishment[0]?.location.info
-                                    .totalEstablishment
-                            }{" "}
-                            результатов
+                            {totalEstablishmentCount || 0} результатов
                         </div>
                     </div>
                     <div className={style.titleBLock_groupButton}>
@@ -86,7 +83,12 @@ export default function FilterScreen({
                 </div>
                 <aside id={"filter"} className={style.container_filter}>
                     <Suspense fallback={null}>
-                        <FiltersComponent dataTags={blockTags} />
+                        <FiltersComponent
+                            totalEstablishmentCount={
+                                totalEstablishmentCount || 0
+                            }
+                            dataTags={blockTags}
+                        />
                     </Suspense>
                 </aside>
                 <div className={style.container_content}>
@@ -95,7 +97,7 @@ export default function FilterScreen({
                             <ParamComponent dataTags={blockTags} />
                         </Suspense>
                     </div>
-                    <div className={style.sort}>
+                    {/* <div className={style.sort}>
                         <span>Сортировать</span>
 
                         <SelectCustom
@@ -106,10 +108,10 @@ export default function FilterScreen({
                                 setSortActiveItem(item.value);
                             }}
                         />
-                    </div>
+                    </div> */}
                     {viewType.typeView === "list" ? (
                         <div className={style.list}>
-                            {dataEstablishment.map((establishment) => {
+                            {establishmentList.map((establishment) => {
                                 const tagClass = tagsClassEstablishment?.find(
                                     (tag) =>
                                         tag.establishmentId === establishment.id
@@ -129,7 +131,7 @@ export default function FilterScreen({
                         </div>
                     ) : (
                         <div className={style.table}>
-                            {dataEstablishment.map((establishment) => {
+                            {establishmentList.map((establishment) => {
                                 const tagClass = tagsClassEstablishment?.find(
                                     (tag) =>
                                         tag.establishmentId === establishment.id
@@ -151,10 +153,7 @@ export default function FilterScreen({
                     <PaginationAnt
                         pageSize={30}
                         defaultPage={30}
-                        totalCount={
-                            dataEstablishment[0]?.location.info
-                                .totalEstablishment || 90
-                        }
+                        totalCount={totalEstablishmentCount || 0}
                     />
                 </div>
             </div>

@@ -8,6 +8,8 @@ import { EstablishmentService } from "@/lib/Api/establishment/establishment.serv
 import { TagsService } from "@/lib/Api/tags/tag.service";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
+import { Suspense } from "react";
+import { Loader } from "@/components/common/Loader/Loader";
 
 // export async function generateMetadata({
 //   params,
@@ -40,7 +42,7 @@ export default async function FilterPage({ params, searchParams }: IProps) {
     const apiTags = new TagsService();
     const apiLocation = new LocationService();
 
-    const [dataEstablishments, blockTags, locationData] = await Promise.all([
+    const [establishmentList, blockTags, locationData] = await Promise.all([
         apiEst.getEstablishmentByPagination({
             lang: params.locale,
             pagination: {
@@ -62,16 +64,16 @@ export default async function FilterPage({ params, searchParams }: IProps) {
         }),
         apiLocation.getLocationById(params.location, params.locale),
     ]);
-    if (!dataEstablishments || !blockTags) notFound();
-    const tagsClassEstablishment = await apiTags.getStarsAndPriceOfAllEstablishment({
-        lang: params.locale,
-        establishmentIds: dataEstablishments?.map((item) => item.id),
-    });
-   
+    if (!establishmentList || !blockTags) notFound();
+    const tagsClassEstablishment =
+        await apiTags.getStarsAndPriceOfAllEstablishment({
+            lang: params.locale,
+            establishmentIds: establishmentList?.map((item) => item.id),
+        });
 
     return (
         <FilterScreen
-            dataEstablishment={dataEstablishments}
+            establishmentList={establishmentList}
             blockTags={blockTags}
             params={params}
             searchParams={searchParams}

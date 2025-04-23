@@ -49,7 +49,7 @@ export default class TagsMapper {
                             iconName: tag.Content.details[0].cIcon || null,
                             count: countStar || countPrice || null,
                         };
-                    }),
+                    }).filter(item => item.value),
                 };
             }) || null;
         const mappingCategories: ITagsBlockFront | null = tags

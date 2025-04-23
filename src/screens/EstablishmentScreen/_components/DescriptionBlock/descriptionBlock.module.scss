@@ -1,0 +1,10 @@
+.info_description {
+    @extend %Text14;
+
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(217, 217, 217, 1);
+    &_text {
+      @include textCut(4);
+      margin-bottom: 20px;
+    }
+  }

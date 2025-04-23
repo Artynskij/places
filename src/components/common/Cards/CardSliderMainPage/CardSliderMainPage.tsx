@@ -100,7 +100,7 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                             defaultValue={dataEstablishment.rates.main}
                             disabled={true}
                         />
-                        <span>{dataEstablishment.rates.count}</span>
+                        <span>{dataEstablishment.rates.count || 0}</span>
                         <span>оценок</span>
                     </div>
                     <div className={style.description_title}>

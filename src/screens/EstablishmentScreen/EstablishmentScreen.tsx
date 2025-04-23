@@ -152,7 +152,9 @@ export const EstablishmentScreen = async ({
                                 Владелец зарегистрирован
                             </>
                         ) : (
-                            "Владелец не зарегистрирован "
+                            <Link className="hover-underline" href={"#offer"}>
+                                Владелец не зарегистрирован
+                            </Link>
                         )}
                     </div>
                 </div>
@@ -226,7 +228,7 @@ export const EstablishmentScreen = async ({
                         <div className={style.info_rating_main}>
                             <h2>{dataEstablishment.rates.main}</h2>
                             <div className={style.info_rating_main_score}>
-                                <span>{`(${dataEstablishment.rates.count} оценок)`}</span>
+                                <span>{`(${dataEstablishment.rates.count || 0} оценок)`}</span>
                                 <RateMain
                                     defaultValue={dataEstablishment.rates.main}
                                     disabled
@@ -272,7 +274,9 @@ export const EstablishmentScreen = async ({
                                     </div>
                                     <RateCafe
                                         disabled
-                                        defaultValue={classTag?.tags[0].count || 0}
+                                        defaultValue={
+                                            classTag?.tags[0].count || 0
+                                        }
                                     />
                                 </>
                             )}
@@ -285,7 +289,9 @@ export const EstablishmentScreen = async ({
                                     {classTag && (
                                         <RateHotel
                                             disabled
-                                            defaultValue={classTag.tags[0].count || 0}
+                                            defaultValue={
+                                                classTag.tags[0].count || 0
+                                            }
                                             classNameIcon={
                                                 style.titleBlock_class_icon
                                             }
@@ -540,7 +546,7 @@ export const EstablishmentScreen = async ({
                     </div>
                 </div>
             </section>
-            <section className={style.offer}>
+            <section id="offer" className={style.offer}>
                 <div className={style.offer_ctn}>
                     <h4>Эта страница вашего объекта ?</h4>
                     <div className={style.offer_description}>
