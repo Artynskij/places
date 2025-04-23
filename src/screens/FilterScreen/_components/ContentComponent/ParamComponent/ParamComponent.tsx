@@ -10,9 +10,10 @@ import { ITagFront, ITagsBlockFront } from "@/lib/models";
 
 interface IParamComponentProp {
     dataTags?: ITagsBlockFront[];
+    setIsLoading: (state: boolean) => void;
 }
 
-const ParamComponent = ({ dataTags }: IParamComponentProp) => {
+const ParamComponent = ({ dataTags, setIsLoading }: IParamComponentProp) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
@@ -41,6 +42,7 @@ const ParamComponent = ({ dataTags }: IParamComponentProp) => {
     }, [searchParams]);
 
     function removeParam(clickItem: ITagFront) {
+        setIsLoading(true);
         const params = new URLSearchParams(searchParams.toString());
         const filterValue = dataParams?.filter(
             (item) => item.key !== clickItem.key

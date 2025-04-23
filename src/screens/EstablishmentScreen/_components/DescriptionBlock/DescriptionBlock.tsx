@@ -23,6 +23,13 @@ const DescriptionBlock: FC<IDescriptionBlock> = ({ description }) => {
                     text="Подробнее"
                 />
             </div>
+            <ModalCustom
+                setActive={setModalDetails}
+                active={modalDetails}
+                title="Описание"
+            >
+                <div>{description}</div>
+            </ModalCustom>
         </>
     );
 };

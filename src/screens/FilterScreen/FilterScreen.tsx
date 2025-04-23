@@ -28,6 +28,8 @@ import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
+import { Loader } from "@/components/common/Loader/Loader";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -50,7 +52,12 @@ export default function FilterScreen({
     const [sortActiveItem, setSortActiveItem] = useState(
         mockFilterSort[3].value
     );
-
+    const searchParamsClient = useSearchParams();
+    const pathname = usePathname();
+    const [isLoading, setIsLoading] = useState(false); // Добавляем состояние загрузки
+    useEffect(() => {
+        setIsLoading(false); // Скрываем лоадер при изменении URL
+    }, [pathname, searchParamsClient]);
     const viewType = useViewTypeList();
 
     const totalEstablishmentCount =
@@ -58,6 +65,7 @@ export default function FilterScreen({
     const baseUrl = useBaseUrl();
     return (
         <div className="container">
+            {isLoading && <Loader />}
             <div className={style.breadcrumb}>
                 <Breadcrumb />
             </div>
@@ -82,19 +90,20 @@ export default function FilterScreen({
                     </div>
                 </div>
                 <aside id={"filter"} className={style.container_filter}>
-                    <Suspense fallback={null}>
+                    <Suspense fallback={<Loader />}>
                         <FiltersComponent
                             totalEstablishmentCount={
                                 totalEstablishmentCount || 0
                             }
                             dataTags={blockTags}
+                            setIsLoading={setIsLoading}
                         />
                     </Suspense>
                 </aside>
                 <div className={style.container_content}>
                     <div className={style.param}>
-                        <Suspense fallback={null}>
-                            <ParamComponent dataTags={blockTags} />
+                        <Suspense fallback={<Loader />}>
+                            <ParamComponent setIsLoading={setIsLoading} dataTags={blockTags} />
                         </Suspense>
                     </div>
                     {/* <div className={style.sort}>

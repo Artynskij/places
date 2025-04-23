@@ -23,17 +23,19 @@ import { Loader } from "@/components/common/Loader/Loader";
 
 interface IFilterComponentProp {
     dataTags?: ITagsBlockFront[];
-    totalEstablishmentCount: number ;
+    totalEstablishmentCount: number;
+    setIsLoading: (state: boolean) => void;
 }
 
 const FiltersComponent = ({
     dataTags,
     totalEstablishmentCount,
+    setIsLoading,
 }: IFilterComponentProp) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
-
+    // const [isLoading, setIsLoading] = useState(false); // Добавляем состояние загрузки
     const [filterActiveMobile, setFilterActiveMobile] = useState(false);
     const [checkedValues, setCheckedValues] = useState<string[]>([]);
 
@@ -45,6 +47,7 @@ const FiltersComponent = ({
     const onChangeFilter: GetProp<typeof Checkbox.Group, "onChange"> = (
         checkedValues
     ) => {
+        setIsLoading(true); // Показываем лоадер перед навигацией
         const params = new URLSearchParams(searchParams.toString());
         if (checkedValues.length === 0) {
             params.delete("filter");
@@ -62,6 +65,7 @@ const FiltersComponent = ({
     function handlerCloseFilter() {
         setFilterActiveMobile(false);
     }
+
     return (
         <div>
             <div className={style.filter_map}>{/* <PopupMap /> */}</div>
@@ -103,7 +107,9 @@ const FiltersComponent = ({
                     <div className={style.filter_buttonGroup}>
                         <Button
                             onClick={handlerCloseFilter}
-                            text={`Показать ${totalEstablishmentCount || 0} совпадений`}
+                            text={`Показать ${
+                                totalEstablishmentCount || 0
+                            } совпадений`}
                         />
                         <Button
                             onClick={handlerResetAllParam}
