@@ -58,6 +58,7 @@ const ParamComponent = ({ dataTags, setIsLoading }: IParamComponentProp) => {
         router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     }
     function handlerResetAllParam() {
+        setIsLoading(true);
         router.replace(`${pathname}`, { scroll: false });
     }
     if (!dataParams) return null;

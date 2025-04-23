@@ -228,7 +228,9 @@ export const EstablishmentScreen = async ({
                         <div className={style.info_rating_main}>
                             <h2>{dataEstablishment.rates.main}</h2>
                             <div className={style.info_rating_main_score}>
-                                <span>{`(${dataEstablishment.rates.count || 0} оценок)`}</span>
+                                <span>{`(${
+                                    dataEstablishment.rates.count || 0
+                                } оценок)`}</span>
                                 <RateMain
                                     defaultValue={dataEstablishment.rates.main}
                                     disabled
@@ -286,17 +288,16 @@ export const EstablishmentScreen = async ({
                                     <div className={style.info_class_title}>
                                         Звездность
                                     </div>
-                                    {classTag && (
-                                        <RateHotel
-                                            disabled
-                                            defaultValue={
-                                                classTag.tags[0].count || 0
-                                            }
-                                            classNameIcon={
-                                                style.titleBlock_class_icon
-                                            }
-                                        />
-                                    )}
+
+                                    <RateHotel
+                                        disabled
+                                        defaultValue={
+                                            classTag?.tags[0].count || 0
+                                        }
+                                        classNameIcon={
+                                            style.titleBlock_class_icon
+                                        }
+                                    />
                                 </>
                             )}
                         </div>

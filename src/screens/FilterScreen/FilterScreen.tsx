@@ -89,7 +89,7 @@ export default function FilterScreen({
                         />
                     </div>
                 </div>
-                <aside id={"filter"} className={style.container_filter}>
+                <div id={"filter"} className={style.container_filter}>
                     <Suspense fallback={<Loader />}>
                         <FiltersComponent
                             totalEstablishmentCount={
@@ -99,7 +99,7 @@ export default function FilterScreen({
                             setIsLoading={setIsLoading}
                         />
                     </Suspense>
-                </aside>
+                </div>
                 <div className={style.container_content}>
                     <div className={style.param}>
                         <Suspense fallback={<Loader />}>
