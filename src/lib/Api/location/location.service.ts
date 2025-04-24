@@ -15,7 +15,9 @@ export class LocationService {
         lang?: string
     ): Promise<ILocationFront | null> {
         const response = await this.locationApi.getLocationById(id, lang);
-        const mappingData = response ? this.locationMapper.transformToFront(response) : null
+        const mappingData = response
+            ? this.locationMapper.transformToFront(response)
+            : null;
         return mappingData;
     }
     async getListLocationInside(
@@ -23,9 +25,11 @@ export class LocationService {
     ): Promise<ILocationFront[] | null> {
         const response = await this.locationApi.getListLocationInside(body);
         return response
-            ? response.map((location) =>
-                  this.locationMapper.transformToFront(location)
-              )
+            ? response
+                  .map((location) =>
+                      this.locationMapper.transformToFront(location)
+                  )
+                  .sort((a, b) => a.value.localeCompare(b.value))
             : null;
     }
 }

@@ -85,7 +85,6 @@ export default async function CountryPage({ params, searchParams }: IProps) {
             ],
         });
 
-    console.log("locationPage");
 
     return (
         <>

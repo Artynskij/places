@@ -29,29 +29,24 @@ export const InfoSection: FC<IInfoSection> = ({
     const [showMoreTiles, setShowMoreTiles] = useState(true);
     const nextLevelPathLengthOfRootLocation = rootLocationPath.length + 27;
     const towns = townsData
-        ?.filter(
-            (town) =>
-                town.locationType.value === "CITY" ||
-                town.locationType.value === "TOWN" ||
-                town.locationType.value === "CAPITAL"
+        ?.filter((town) =>
+            ["CITY", "TOWN", "CAPITAL"].includes(town.locationType.value)
         )
-        .sort((a, b) => a.value.localeCompare(b.value));
+        
 
     const districts = townsData
         ?.filter(
-            (town) =>
-                (town.locationType.value === "REGION" ||
-                    town.locationType.value === "DISTRICT") &&
-                town.pathBreadcrumb.length === nextLevelPathLengthOfRootLocation
+            (district) =>
+                ["REGION", "DISTRICT"].includes(district.locationType.value) &&
+                district.pathBreadcrumb.length === nextLevelPathLengthOfRootLocation
         )
-        .sort((a, b) => a.value.localeCompare(b.value));
+      
 
     useEffect(() => {
-        if (useMedia?.isDesktop || useMedia?.isNetBook || useMedia?.isTablet) {
-            setShowMoreTiles(true);
-        } else {
-            setShowMoreTiles(false);
-        }
+        // Автоматическое управление отображением плиток на основе размера экрана
+        setShowMoreTiles(
+            !!(useMedia?.isDesktop || useMedia?.isNetBook || useMedia?.isTablet)
+        );
     }, [useMedia]);
 
     return (
@@ -90,12 +85,11 @@ export const InfoSection: FC<IInfoSection> = ({
         </section>
     );
 };
-function transformToMarkdown(towns: ILocationFront[]): string {
-    const returned = towns.map(
-        (item) =>
-            `<a href=${ROUTES.LOCATION.LOCATION(`${item.id}`)}><span>${
-                item.value
-            }</span></a>`
-    );
-    return returned.join(" ");
+
+function transformToMarkdown(locations: ILocationFront[]): string {
+    return locations
+        .map(
+            (item) => `- [${item.value}](${ROUTES.LOCATION.LOCATION(item.id)}){ .testik }`
+        )
+        .join("\n");
 }

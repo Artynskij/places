@@ -10,6 +10,7 @@ import { IDataCardInfo } from "@/lib/models/ICards";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { IconArrowRight } from "@/components/common/Icons";
 import { Popup } from "@/components/common/Popup/Popup";
+import { Markdown } from "../../MarkDown/MarkDown";
 
 interface ICardInfo {
     data: IDataCardInfo;
@@ -74,7 +75,8 @@ export const CardInfo: FC<ICardInfo> = ({
                 active={active}
                 closePopup={closePopup}
             >
-                <div className={style.htmlMarkdown} dangerouslySetInnerHTML={{ __html: markDownContent }}></div>
+                {/* <div className={style.htmlMarkdown} dangerouslySetInnerHTML={{ __html: markDownContent }}></div> */}
+                <Markdown>{markDownContent}</Markdown>
             </Popup>
         </>
     );

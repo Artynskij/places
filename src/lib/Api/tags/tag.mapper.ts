@@ -51,7 +51,7 @@ export default class TagsMapper {
                         };
                     }).filter(item => item.value),
                 };
-            }) || null;
+            }).sort((a, b) => a.groupKey.value.localeCompare(b.groupKey.value)) || null;
         const mappingCategories: ITagsBlockFront | null = tags
             ? {
                   groupKey: {

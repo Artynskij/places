@@ -15,18 +15,17 @@ interface IBlockCheckBox {
 const BlockCheckBox: FC<IBlockCheckBox> = ({ tagsGroup, checkedValues }) => {
     const [blockActive, setBlockActive] = useState(true);
     const [listBlockActive, setListBlockActive] = useState(false);
-    const sortedTags: ITagFront[] = (function () {
-        const selectedTags: ITagFront[] = [];
-        const otherTags: ITagFront[] = [];
-
-        tagsGroup.tags.forEach((tag) => {
-            checkedValues.includes(tag.key)
-                ? selectedTags.push(tag)
-                : otherTags.push(tag);
-        });
-
-        return [...selectedTags, ...otherTags];
-    })();
+    const sortedTags: ITagFront[] = tagsGroup.tags.sort((a, b) => {
+        const aChecked = checkedValues.includes(a.key);
+        const bChecked = checkedValues.includes(b.key);
+        
+        // Сначала сравниваем по статусу выбранности
+        if (aChecked && !bChecked) return -1;
+        if (!aChecked && bChecked) return 1;
+        
+        // Если оба выбранные или невыбранные - сортируем по алфавиту
+        return a.value.localeCompare(b.value);
+    });
 
     function switchBlock() {
         setBlockActive(!blockActive);
