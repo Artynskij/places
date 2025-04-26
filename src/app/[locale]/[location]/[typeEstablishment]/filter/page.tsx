@@ -56,12 +56,15 @@ export default async function FilterPage({ params, searchParams }: IProps) {
                 locationId: params.location,
             },
         }),
-        apiTags.getAllTagsOfEstablishmentFilter({
-            lang: params.locale,
-            locationId: params.location,
-            establishmentTypeId:
-                TYPES_OF_ESTABLISHMENT[params.typeEstablishment].id,
-        }),
+        apiTags.getAllTagsOfEstablishmentFilter(
+            {
+                lang: params.locale,
+                locationId: params.location,
+                establishmentTypeId:
+                    TYPES_OF_ESTABLISHMENT[params.typeEstablishment].id,
+            },
+            tagsQuery || null
+        ),
         apiLocation.getLocationById(params.location, params.locale),
     ]);
     if (!establishmentList || !blockTags) notFound();

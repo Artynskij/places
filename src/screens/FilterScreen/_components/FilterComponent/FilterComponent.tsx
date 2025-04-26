@@ -97,9 +97,9 @@ const FiltersComponent = ({
                                 ?.split("%")}
                             onChange={onChangeFilter}
                         >
-                            {dataTags?.map((item, index) => {
+                            {dataTags?.map((item) => {
                                 return (
-                                    <BlockCheckBox checkedValues={checkedValues} key={index} tagsGroup={item} />
+                                    <BlockCheckBox checkedValues={checkedValues} key={item.groupKey.id} tagsGroup={item} />
                                 );
                             })}
                         </Checkbox.Group>

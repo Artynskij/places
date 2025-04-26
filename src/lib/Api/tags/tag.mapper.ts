@@ -17,41 +17,65 @@ import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEs
 export default class TagsMapper {
     constructor() {}
     tagBlock(
-        tags: ITagsOfEstablishmentFilterResponse | null
+        tags: ITagsOfEstablishmentFilterResponse | null,
+        checkedValues: string[] | null
     ): ITagsBlockFront[] | null {
         const mappingTags: ITagsBlockFront[] | null =
-            tags?.tagsAndCategories.map((groupTag) => {
-                return {
-                    groupKey: {
-                        id: groupTag.TagCategory.Id,
-                        value:
-                            groupTag.TagCategory.Content.details[0].value ||
-                            groupTag.TagCategory.Name,
-                        key: groupTag.TagCategory.Name,
-                    },
-                    tags: groupTag.Tags.map((tag) => {
-                        const countPrice =
-                            groupTag.TagCategory.Name ===
-                            CONSTANT_CATEGORY_CLASS_TAG.price
-                                ? this.createClassCount(tag, "price")
-                                : null;
-                        const countStar =
-                            groupTag.TagCategory.Name ===
-                            CONSTANT_CATEGORY_CLASS_TAG.star
-                                ? this.createClassCount(tag, "star")
-                                : null;
-                        return {
-                            id: tag.Id,
-                            key: `t${tag.Id}`,
-                            value: tag.Content.details[0].value,
-                            secondaryValue:
-                                tag.Content.details[0].secondaryValue || null,
-                            iconName: tag.Content.details[0].cIcon || null,
-                            count: countStar || countPrice || null,
-                        };
-                    }).filter(item => item.value),
-                };
-            }).sort((a, b) => a.groupKey.value.localeCompare(b.groupKey.value)) || null;
+            tags?.tagsAndCategories
+                .map((groupTag) => {
+                    return {
+                        groupKey: {
+                            id: groupTag.TagCategory.Id,
+                            value:
+                                groupTag.TagCategory.Content.details[0].value ||
+                                groupTag.TagCategory.Name,
+                            key: groupTag.TagCategory.Name,
+                        },
+                        tags: groupTag.Tags.map((tag) => {
+                            const countPrice =
+                                groupTag.TagCategory.Name ===
+                                CONSTANT_CATEGORY_CLASS_TAG.price
+                                    ? this.createClassCount(tag, "price")
+                                    : null;
+                            const countStar =
+                                groupTag.TagCategory.Name ===
+                                CONSTANT_CATEGORY_CLASS_TAG.star
+                                    ? this.createClassCount(tag, "star")
+                                    : null;
+                            return {
+                                id: tag.Id,
+                                key: `t${tag.Id}`,
+                                value: tag.Content.details[0].value,
+                                secondaryValue:
+                                    tag.Content.details[0].secondaryValue ||
+                                    null,
+                                iconName: tag.Content.details[0].cIcon || null,
+                                count: countStar || countPrice || null,
+                            };
+                        })
+                            .filter((item) => item.value)
+                            .sort((a, b) => {
+                                const aChecked =
+                                    checkedValues?.includes(a.key.replace('t','')) ??
+                                    false;
+                                const bChecked =
+                                    checkedValues?.includes(b.key.replace('t','')) ??
+                                    false;
+
+                           
+                                // 1. Сначала выбранные элементы
+                                if (aChecked !== bChecked) {
+                                    return aChecked ? -1 : 1;
+                                }
+
+                                // Если оба выбранные или невыбранные - сортируем по алфавиту
+                                return a.value.localeCompare(b.value);
+                            }),
+                    };
+                })
+                .sort((a, b) =>
+                    a.groupKey.value.localeCompare(b.groupKey.value)
+                ) || null;
         const mappingCategories: ITagsBlockFront | null = tags
             ? {
                   groupKey: {

@@ -20,27 +20,30 @@ export class TagsService {
         this.tagsMapper = new TagsMapper();
     }
     async getAllTagsOfEstablishmentFilter(
-        body: ITagsOfEstablishmentRequest
+        body: ITagsOfEstablishmentRequest,
+        checkedValue: string[] | null
     ): Promise<ITagsBlockFront[] | null> {
         const response = await this.tagsApi.getAllTagsOfEstablishmentFilter(
             body
         );
-        const mappingData = this.tagsMapper.tagBlock(response);
+        const mappingData = this.tagsMapper.tagBlock(response, checkedValue);
         return mappingData;
     }
-  
+
     async getAllTagsOfEstablishment(
         body: ITagsOfEstablishmentRequest
     ): Promise<ITagWithEstablishmentFront[] | null> {
         const response = await this.tagsApi.getAllTagsOfEstablishments(body);
-        const mappingData = this.tagsMapper.tagWithEstablishment(response)
+        const mappingData = this.tagsMapper.tagWithEstablishment(response);
         return mappingData ? mappingData : null;
     }
-     async getStarsAndPriceOfAllEstablishment(
+    async getStarsAndPriceOfAllEstablishment(
         body: ITagsOfEstablishmentRequest
     ): Promise<ITagWithEstablishmentFront[] | null> {
         const mappingData = await this.getAllTagsOfEstablishment(body);
-        const classTagsOfEstablishments = mappingData?.filter(item => item.tag.count);
+        const classTagsOfEstablishments = mappingData?.filter(
+            (item) => item.tag.count
+        );
         return classTagsOfEstablishments ? classTagsOfEstablishments : null;
     }
     // separationClassTag(tags: ITagsBlockFront[]): ITagsBlockFront | null {
