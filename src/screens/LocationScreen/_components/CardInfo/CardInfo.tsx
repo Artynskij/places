@@ -10,14 +10,22 @@ import { IDataCardInfo } from "@/lib/models/ICards";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { IconArrowRight } from "@/components/common/Icons";
 import { Popup } from "@/components/common/Popup/Popup";
-import { Markdown } from "../../MarkDown/MarkDown";
+import { Markdown } from "../../../../components/common/MarkDown/MarkDown";
+import TileContent from "../Tiles/TileContent";
+import { TTilesContent } from "@/lib/models/common/TTilesContent";
+import { ILocationFront } from "@/lib/models/frontend/location/location.front";
+
+// import  TileContent  from "@/screens/LocationScreen/_components/Tiles/TileContent";
 
 interface ICardInfo {
     data: IDataCardInfo;
-    markDownContent:string;
+    markDownContent?: string;
     activeParam: boolean;
     titleText: string;
     seeMoreText: string;
+    typeTileContent: TTilesContent;
+    dataTileContent: ILocationFront[] | null;
+    rootLocationPath:string
 }
 
 export const CardInfo: FC<ICardInfo> = ({
@@ -26,6 +34,9 @@ export const CardInfo: FC<ICardInfo> = ({
     activeParam,
     titleText,
     seeMoreText,
+    typeTileContent,
+    dataTileContent,
+    rootLocationPath
 }) => {
     const [active, setActive] = useState<boolean>(activeParam);
     const router = useRouter();
@@ -75,8 +86,8 @@ export const CardInfo: FC<ICardInfo> = ({
                 active={active}
                 closePopup={closePopup}
             >
-                {/* <div className={style.htmlMarkdown} dangerouslySetInnerHTML={{ __html: markDownContent }}></div> */}
-                <Markdown>{markDownContent}</Markdown>
+                <TileContent rootLocationPath={rootLocationPath} dataTileContent={dataTileContent} typeTileContent={typeTileContent} />
+                {/* <Markdown>{markDownContent}</Markdown> */}
             </Popup>
         </>
     );

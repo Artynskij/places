@@ -41,9 +41,10 @@ interface IProps extends IPageProps {
         accommodation: IEstablishmentFront[] | [];
         attraction: IEstablishmentFront[] | [];
     };
-    locationData: ILocationFront;
+    locationData: ILocationFront ;
     townsData: ILocationFront[] | null;
     tagsClassEstablishment: ITagWithEstablishmentFront[] | null;
+    dataTileContent: ILocationFront[] | null;
 }
 
 export default async function LocationScreen({
@@ -54,6 +55,7 @@ export default async function LocationScreen({
     locationData,
     townsData,
     tagsClassEstablishment,
+    dataTileContent,
 }: IProps) {
     const tTiles = await getTranslations("Tiles");
     const seeMoreText = tTiles("text.watchAll");
@@ -85,7 +87,10 @@ export default async function LocationScreen({
                 rootLocationPath={locationData.pathBreadcrumb}
                 townsData={townsData}
                 searchParams={searchParams}
+                dataTileContent={dataTileContent}
             />
+           
+
             <section className={style.slider_block}>
                 <div className={style.slider_block_title}>
                     <h2>{t("text.sliderSleep")}</h2>

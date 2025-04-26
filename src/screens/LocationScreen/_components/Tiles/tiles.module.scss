@@ -1,0 +1,25 @@
+.input {
+    width: 320px !important;
+    margin-bottom: 30px !important;
+}
+
+.location_list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: $gap-big;
+    margin: 0 10px 10px 0;
+    // height: 100%;
+    li {
+        padding: 8px 10px;
+        border-radius: $border-radius-5;
+        border: 1px solid $color-main-grey;
+        transition: $transiton;
+        &:hover {
+            border-color: $color-main-gold;
+            border-radius: $border-radius-10;
+            color: $color-main-gold;
+        }
+    }
+    span {
+    }
+}

@@ -27,4 +27,22 @@ export default class LocationMapper {
         };
         return maddingData;
     }
+    transformToTowns(locations: ILocationFront[]): ILocationFront[] {
+        const towns = locations?.filter((town) =>
+            ["CITY", "TOWN", "CAPITAL"].includes(town.locationType.value)
+        );
+        return towns;
+    }
+    transformToDistricts(
+        locations: ILocationFront[],
+        nextLevelPathLengthOfRootLocation: number
+    ): ILocationFront[] {
+        const districts = locations?.filter(
+            (district) =>
+                ["REGION", "DISTRICT"].includes(district.locationType.value) &&
+                district.pathBreadcrumb.length ===
+                    nextLevelPathLengthOfRootLocation
+        );
+        return districts;
+    }
 }

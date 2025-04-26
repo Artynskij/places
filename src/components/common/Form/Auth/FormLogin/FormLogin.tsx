@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 import { useTranslations } from "next-intl";
-import { InputForm } from "@/components/UI/Input/InputForm";
+import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 import { Button } from "@/components/UI/Button/Button";
 import { IconGoogle } from "@/components/common/Icons/IconGoogle/IconGoogle";
 import { useAlertMessage, useNotification } from "@/lib/context";

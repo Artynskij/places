@@ -85,7 +85,6 @@ export default async function CountryPage({ params, searchParams }: IProps) {
             ],
         });
 
-
     return (
         <>
             <LocationScreen
@@ -99,6 +98,7 @@ export default async function CountryPage({ params, searchParams }: IProps) {
                 locationData={locationData}
                 townsData={townsData}
                 tagsClassEstablishment={tagsClassEstablishment}
+                dataTileContent={townsData}
             />
         </>
     );

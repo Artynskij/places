@@ -1,0 +1,29 @@
+.inputCtn {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid $color-main-black;
+    border-radius: $border-radius-5;
+    width: fit-content;
+    transition: $transiton;
+
+    &:hover {
+        border-color: $color-main-blue;
+    }
+    &:focus-within {
+        border-color: $color-main-blue;
+    }
+    margin-bottom: 20px;
+}
+
+.input {
+    border: none;
+}
+.buttonDelete {
+    border-radius: $border-radius-5;
+    cursor: pointer;
+    transition: $transiton;
+    &:hover {
+        color: $color-main-blue;
+    }
+}
