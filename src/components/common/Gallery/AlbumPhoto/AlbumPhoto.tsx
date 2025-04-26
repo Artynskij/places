@@ -15,6 +15,8 @@ interface IAlbumPhoto {
     cdnHost: string;
     activePhotoIndex: number;
     setActivePhotoIndex: (item: number) => void;
+    typeView: "slider" | "list";
+    setTypeView: (value:"slider" | "list") => void
 }
 
 export const AlbumPhoto: FC<IAlbumPhoto> = ({
@@ -22,9 +24,9 @@ export const AlbumPhoto: FC<IAlbumPhoto> = ({
     cdnHost,
     activePhotoIndex,
     setActivePhotoIndex,
+    typeView,
+    setTypeView,
 }) => {
-    const [typeView, setTypeView] = useState<"slider" | "list">("list");
-
     // Используем реф для хранения загруженных изображений
 
     const activeImageRef = useRef<HTMLDivElement | null>(null);

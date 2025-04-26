@@ -15,13 +15,18 @@ import { IMediaFront } from "@/lib/models";
 
 interface IGallery {
     images: IMediaFront[];
-    titleEstablishment:string;
+    titleEstablishment: string;
     cdnHost: string;
 }
-export const Gallery: FC<IGallery> = ({ images, cdnHost,titleEstablishment }) => {
+export const Gallery: FC<IGallery> = ({
+    images,
+    cdnHost,
+    titleEstablishment,
+}) => {
     const [loadClient, setLoadClient] = useState(false);
     const [albumActive, setAlbumActive] = useState(false);
     const [activePhotoIndex, setActivePhotoIndex] = useState(-1);
+    const [typeView, setTypeView] = useState<"slider" | "list">("list");
 
     const useMedia = useSelector((state: RootState) => state.screenSize);
     useEffect(() => {
@@ -29,6 +34,12 @@ export const Gallery: FC<IGallery> = ({ images, cdnHost,titleEstablishment }) =>
     }, []);
     function handlerOpenAlbum(index: number) {
         setActivePhotoIndex(index);
+        setTypeView('list')
+        setAlbumActive(true);
+    }
+    function handlerOpenSlider(index: number){
+        setActivePhotoIndex(index);
+        setTypeView('slider')
         setAlbumActive(true);
     }
     if (!loadClient) {
@@ -53,7 +64,7 @@ export const Gallery: FC<IGallery> = ({ images, cdnHost,titleEstablishment }) =>
                     {images.slice(1, 3).map((item, index) => {
                         return (
                             <div
-                                onClick={() => handlerOpenAlbum(index + 1)}
+                                onClick={() => handlerOpenSlider(index + 1)}
                                 key={index}
                                 className={style.image__additional}
                             >
@@ -91,7 +102,7 @@ export const Gallery: FC<IGallery> = ({ images, cdnHost,titleEstablishment }) =>
             ) : (
                 <>
                     <div
-                        onClick={() => handlerOpenAlbum(0)}
+                        onClick={() => handlerOpenSlider(0)}
                         className={style.image__main}
                     >
                         <Image
@@ -106,7 +117,7 @@ export const Gallery: FC<IGallery> = ({ images, cdnHost,titleEstablishment }) =>
                         return (
                             <div
                                 onClick={() => {
-                                    handlerOpenAlbum(index + 1);
+                                    handlerOpenSlider(index + 1);
                                 }}
                                 key={index}
                                 className={style.image__additional}
@@ -134,6 +145,8 @@ export const Gallery: FC<IGallery> = ({ images, cdnHost,titleEstablishment }) =>
                         setActivePhotoIndex={setActivePhotoIndex}
                         images={images}
                         cdnHost={cdnHost}
+                        setTypeView={setTypeView}
+                        typeView={typeView}
                     />
                 </ModalCustom>
             )}
