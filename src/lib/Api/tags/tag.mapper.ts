@@ -83,7 +83,7 @@ export default class TagsMapper {
                       key: "categories",
                       value: "Категории",
                   },
-                  tags: tags?.categories.map((cat) => {
+                  tags: tags.categories.map((cat) => {
                       return {
                           id: cat.Id,
                           key: `c${cat.Id}`,
@@ -92,7 +92,9 @@ export default class TagsMapper {
                               cat.Content.details[0].secondaryValue || null,
                           iconName: cat.Content.details[0].cIcon || null,
                       };
-                  }),
+                  }).sort((a, b) =>
+                    a.value.localeCompare(b.value)
+                ),
               }
             : null;
         if (mappingCategories && mappingTags) {
