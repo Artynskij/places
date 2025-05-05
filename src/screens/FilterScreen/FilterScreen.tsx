@@ -14,8 +14,8 @@ import { Switcher } from "@/components/common/Switcher/Switcher";
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 
 import { mockFilterSort } from "@/asset/mockData/mockFilterSort";
-
-import { IPageProps, ITypesOfEstablishment } from "@/lib/models/IType";
+import { ITypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { IPageProps } from "@/lib/models/IType";
 
 import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 
@@ -119,46 +119,60 @@ export default function FilterScreen({
                             }}
                         />
                     </div> */}
-                    {establishmentList.length ? viewType.typeView === "list" ? (
-                        <div className={style.list}>
-                            {establishmentList.map((establishment) => {
-                                const tagClass = tagsClassEstablishment?.find(
-                                    (tag) =>
-                                        tag.establishmentId === establishment.id
-                                );
+                    {establishmentList.length ? (
+                        viewType.typeView === "list" ? (
+                            <div className={style.list}>
+                                {establishmentList.map((establishment) => {
+                                    const tagClass =
+                                        tagsClassEstablishment?.find(
+                                            (tag) =>
+                                                tag.establishmentId ===
+                                                establishment.id
+                                        );
 
-                                return (
-                                    <CardList
-                                        key={establishment.id}
-                                        dataEstablishment={establishment}
-                                        langUI={params.locale}
-                                        locationId={params.location}
-                                        baseUrl={baseUrl}
-                                        classCount={tagClass?.tag.count || 0}
-                                    />
-                                );
-                            })}
-                        </div>
+                                    return (
+                                        <CardList
+                                            key={establishment.id}
+                                            dataEstablishment={establishment}
+                                            langUI={params.locale}
+                                            locationId={params.location}
+                                            baseUrl={baseUrl}
+                                            classCount={
+                                                tagClass?.tag.count || 0
+                                            }
+                                        />
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            <div className={style.table}>
+                                {establishmentList.map((establishment) => {
+                                    const tagClass =
+                                        tagsClassEstablishment?.find(
+                                            (tag) =>
+                                                tag.establishmentId ===
+                                                establishment.id
+                                        );
+                                    return (
+                                        <CardSliderMainPage
+                                            key={establishment.id}
+                                            langUI={params.locale}
+                                            dataEstablishment={establishment}
+                                            locationId={params.location}
+                                            baseUrl={baseUrl}
+                                            classCount={
+                                                tagClass?.tag.count || 0
+                                            }
+                                        />
+                                    );
+                                })}
+                            </div>
+                        )
                     ) : (
-                        <div className={style.table}>
-                            {establishmentList.map((establishment) => {
-                                const tagClass = tagsClassEstablishment?.find(
-                                    (tag) =>
-                                        tag.establishmentId === establishment.id
-                                );
-                                return (
-                                    <CardSliderMainPage
-                                        key={establishment.id}
-                                        langUI={params.locale}
-                                        dataEstablishment={establishment}
-                                        locationId={params.location}
-                                        baseUrl={baseUrl}
-                                        classCount={tagClass?.tag.count || 0}
-                                    />
-                                );
-                            })}
+                        <div>
+                            По данным характеристикам заведений не найдено
                         </div>
-                    ) : <div>По данным характеристикам заведений не найдено</div>}
+                    )}
                     {totalEstablishmentCount > 30 && (
                         <PaginationAnt
                             pageSize={30}

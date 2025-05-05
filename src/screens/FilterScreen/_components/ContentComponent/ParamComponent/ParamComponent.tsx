@@ -7,6 +7,7 @@ import { IconCancel } from "@/components/common/Icons/IconCancel/IconCancel";
 
 import { Button } from "@/components/UI/Button/Button";
 import { ITagFront, ITagsBlockFront } from "@/lib/models";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SerachParamsConst";
 
 interface IParamComponentProp {
     dataTags?: ITagsBlockFront[];
@@ -20,7 +21,7 @@ const ParamComponent = ({ dataTags, setIsLoading }: IParamComponentProp) => {
     const [dataParams, setDataParams] = useState<ITagFront[] | null>();
 
     useEffect(() => {
-        const searchParamsArray = searchParams.get("filter")?.split("%");
+        const searchParamsArray = searchParams.get(CONSTANT_SEARCH_PARAMS.FILTER)?.split("%");
         if (!searchParamsArray) {
             setDataParams(null);
             return;
@@ -49,11 +50,12 @@ const ParamComponent = ({ dataTags, setIsLoading }: IParamComponentProp) => {
         );
         if (filterValue?.length !== 0) {
             params.set(
-                "filter",
+                CONSTANT_SEARCH_PARAMS.FILTER,
                 filterValue?.map((item) => item.key)?.join("%") || "123"
             );
         } else {
-            params.delete("filter");
+            params.delete(CONSTANT_SEARCH_PARAMS.FILTER);
+            params.delete(CONSTANT_SEARCH_PARAMS.PAGE);
         }
         router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     }

@@ -33,6 +33,10 @@ export class TagsService {
     async getAllTagsOfEstablishment(
         body: ITagsOfEstablishmentRequest
     ): Promise<ITagWithEstablishmentFront[] | null> {
+        if (!body.establishmentIds || !body.establishmentIds.length) {
+            console.log("Ошибка при запросе за tags.");
+            return null;
+        }
         const response = await this.tagsApi.getAllTagsOfEstablishments(body);
         const mappingData = this.tagsMapper.tagWithEstablishment(response);
         return mappingData ? mappingData : null;
@@ -40,6 +44,11 @@ export class TagsService {
     async getStarsAndPriceOfAllEstablishment(
         body: ITagsOfEstablishmentRequest
     ): Promise<ITagWithEstablishmentFront[] | null> {
+        if (!body.establishmentIds || !body.establishmentIds.length) {
+            console.log("Ошибка при запросе за classTags. ");
+
+            return null;
+        }
         const mappingData = await this.getAllTagsOfEstablishment(body);
         const classTagsOfEstablishments = mappingData?.filter(
             (item) => item.tag.count

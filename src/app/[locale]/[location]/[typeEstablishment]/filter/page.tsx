@@ -1,6 +1,6 @@
 import { IMockBlock } from "@/asset/mockData/mockFilterCheckBox";
 import FilterScreen from "@/screens/FilterScreen/FilterScreen";
-import { IPageProps, ITypesOfEstablishment } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/IType";
 import { notFound } from "next/navigation";
 
 import { IEstablishmentFront } from "@/lib/models";
@@ -10,6 +10,7 @@ import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 import { Suspense } from "react";
 import { Loader } from "@/components/common/Loader/Loader";
+import { ITypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 
 // export async function generateMetadata({
 //   params,
@@ -30,12 +31,14 @@ interface IProps extends IPageProps {
 
 export default async function FilterPage({ params, searchParams }: IProps) {
     const filterQuery = searchParams?.filter?.toString().split("%");
-    const tagsQuery = filterQuery
-        ?.filter((query) => query.includes("t"))
-        .map((queryTag) => queryTag.replace("t", ""));
-    const categoriesQuery = filterQuery
-        ?.filter((query) => query.includes("c"))
-        .map((queryTag) => queryTag.replace("c", ""));
+    const tagsQuery =
+        filterQuery
+            ?.filter((query) => query.includes("t"))
+            .map((queryTag) => queryTag.replace("t", "")) || [];
+    const categoriesQuery =
+        filterQuery
+            ?.filter((query) => query.includes("c"))
+            .map((queryTag) => queryTag.replace("c", "")) || [];
     const currentPageQuery = searchParams?.page?.toString();
 
     const apiEst = new EstablishmentService();
@@ -63,7 +66,7 @@ export default async function FilterPage({ params, searchParams }: IProps) {
                 establishmentTypeId:
                     TYPES_OF_ESTABLISHMENT[params.typeEstablishment].id,
             },
-            tagsQuery || null
+            filterQuery || null
         ),
         apiLocation.getLocationById(params.location, params.locale),
     ]);

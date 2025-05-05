@@ -1,4 +1,5 @@
-import { ITypesOfEstablishment } from "../../IType";
+
+import { ITypesOfEstablishment } from "../../common/TTypesEstablishment";
 import { IContactsFront } from "../parts/contacts/contacts.frontPart";
 import { IMediaFront } from "../parts/media/media.frontPart";
 

@@ -1,5 +1,5 @@
 import { EstablishmentScreen } from "@/screens/EstablishmentScreen/EstablishmentScreen";
-import { IPageProps, ITypesOfEstablishment } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/IType";
 import { notFound } from "next/navigation";
 import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
 import { TagsService } from "@/lib/Api/tags/tag.service";
@@ -7,6 +7,7 @@ import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 import { ScheduleService } from "@/lib/Api/schedule/schedule.service";
 import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag";
+import { ITypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -71,10 +72,13 @@ export default async function EstablishmentPage({
 
             lang: params.locale,
         }),
-        apiTags.getAllTagsOfEstablishmentFilter({
-            establishmentIds: [params.establishment],
-            lang: params.locale,
-        }),
+        apiTags.getAllTagsOfEstablishmentFilter(
+            {
+                establishmentIds: [params.establishment],
+                lang: params.locale,
+            },
+            []
+        ),
     ]);
     if (!dataEstablishment) notFound();
     // TODO delete this

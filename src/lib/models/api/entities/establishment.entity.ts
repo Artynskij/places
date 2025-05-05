@@ -1,4 +1,5 @@
-import { ITypesOfEstablishment } from "../../IType";
+
+import { ITypesOfEstablishment } from "../../common/TTypesEstablishment";
 import { ICategoryEntity } from "./category.entity";
 import { ILocationsEntity } from "./locations.entity";
 import { IContactsEntity } from "./parts/contact.entity";

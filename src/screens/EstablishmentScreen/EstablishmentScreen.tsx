@@ -24,7 +24,7 @@ import { ContactButton } from "@/components/common/ButtonFunctional/ContactButto
 import { Slider } from "@/components/common/Slider/Slider";
 import { CardSliderMainPage } from "@/components/common/Cards";
 
-import { IPageProps, ITypesOfEstablishment } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/IType";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
@@ -49,6 +49,7 @@ import { ScheduleButton } from "@/components/common/ButtonFunctional/ScheduleBut
 import DescriptionBlock from "./_components/DescriptionBlock/DescriptionBlock";
 import { getTranslations } from "next-intl/server";
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
+import { ITypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {

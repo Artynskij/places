@@ -20,7 +20,7 @@ export class TagsApi {
             );
             return response.data;
         } catch (error) {
-            console.error(`Ошибка при получении всех тегов:`);
+            console.error(`Ошибка при получении всех тегов: для establishemnt`);
             return null;
         }
     }
@@ -34,7 +34,7 @@ export class TagsApi {
             );
             return response.data;
         } catch (error) {
-            console.error(`Ошибка при получении всех тегов:`);
+            console.error(`Ошибка при получении всех тегов: для блока фильтров`);
             return null;
         }
     }
