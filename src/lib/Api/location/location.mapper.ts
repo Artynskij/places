@@ -17,10 +17,10 @@ export default class LocationMapper {
             }) || null;
         const maddingData = {
             id: location.location.Id,
-            value: location?.content?.details[0].value || "",
+            title: location?.content?.details[0].value || "",
             locationType: {
                 id: location.location.LocationType.Id,
-                value: location.location.LocationType.Name,
+                title: location.location.LocationType.Name,
             },
             pathBreadcrumb: location.location.Path,
             media: mediaFiles,
@@ -29,7 +29,7 @@ export default class LocationMapper {
     }
     transformToTowns(locations: ILocationFront[]): ILocationFront[] {
         const towns = locations?.filter((town) =>
-            ["CITY", "TOWN", "CAPITAL"].includes(town.locationType.value)
+            ["CITY", "TOWN", "CAPITAL"].includes(town.locationType.title)
         );
         return towns;
     }
@@ -39,7 +39,7 @@ export default class LocationMapper {
     ): ILocationFront[] {
         const districts = locations?.filter(
             (district) =>
-                ["REGION", "DISTRICT"].includes(district.locationType.value) &&
+                ["REGION", "DISTRICT"].includes(district.locationType.title) &&
                 district.pathBreadcrumb.length ===
                     nextLevelPathLengthOfRootLocation
         );

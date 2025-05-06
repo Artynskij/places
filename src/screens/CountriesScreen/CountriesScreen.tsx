@@ -14,7 +14,7 @@ export default function CountriesScreen({ params, searchParams }: IProps) {
     return (
         <div className="container">
             <div className={style.breadcrumb}>
-                <Breadcrumb />
+                <Breadcrumb links={[{ title: "Мир" }]} />
             </div>
             <section className={style.content}>
                 <ul className={style.listMainland}>

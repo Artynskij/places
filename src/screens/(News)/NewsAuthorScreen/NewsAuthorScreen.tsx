@@ -26,7 +26,7 @@ export default function NewsAuthorScreen({ params, searchParams }: IProps) {
     return (
         <div className="container">
             <div className={style.breadcrumb}>
-                <Breadcrumb />
+                <Breadcrumb links={[{title:authorData.name}]}/>
             </div>
             <section>
                 <div className={style.author}>

@@ -1,4 +1,5 @@
 "use client";
+import style from "./paginationAnt.module.scss";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Pagination } from "antd";
 import { PaginationProps } from "antd/lib";
@@ -15,37 +16,49 @@ export const PaginationAnt: FC<IPaginationAntProp> = ({
     pageSize,
     setIsLoading,
 }) => {
-    const [current, setCurrent] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
     useEffect(() => {
         const page = searchParams.get("page");
         if (page) {
-            setCurrent(parseInt(page) / pageSize);
+            setCurrentPage(parseInt(page) / pageSize);
         }
     }, [searchParams, pageSize]);
     const onChange: PaginationProps["onChange"] = (page) => {
         setIsLoading(true);
         const params = new URLSearchParams(searchParams.toString());
         if (page > 1) {
-            params.set("page", `${page * 30}`);
+            params.set("page", `${page * pageSize}`);
         } else {
             params.delete("page");
         }
         router.replace(`${pathname}?${params.toString()}`);
-        setCurrent(page);
+        setCurrentPage(page);
     };
+    const startCountItems = currentPage * pageSize - pageSize + 1;
+    const endCountItems = (currentPage + 1) * pageSize - pageSize;
     return (
-        <Pagination
-            // showSizeChanger
-            // onShowSizeChange={onShowSizeChange}
-            onChange={onChange}
-            // defaultCurrent={1}
-            current={current}
-            total={totalCount}
-            defaultPageSize={defaultPage}
-            showSizeChanger={false}
-        />
+        <div className={style.pagination_ctn}>
+            <Pagination
+                // showSizeChanger
+                // onShowSizeChange={onShowSizeChange}
+                onChange={onChange}
+                // defaultCurrent={1}
+                current={currentPage}
+                total={totalCount}
+                defaultPageSize={defaultPage}
+                showSizeChanger={false}
+            />
+            <div className={style.pagination_info}>
+                <span>Показаны результаты </span>
+                <span>
+                    {startCountItems}-
+                    {endCountItems > totalCount ? totalCount : endCountItems}
+                </span>
+                <span> из {totalCount}</span>
+            </div>
+        </div>
     );
 };

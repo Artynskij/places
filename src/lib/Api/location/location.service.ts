@@ -29,7 +29,18 @@ export class LocationService {
                   .map((location) =>
                       this.locationMapper.transformToFront(location)
                   )
-                  .sort((a, b) => a.value.localeCompare(b.value))
+                  .sort((a, b) => a.title.localeCompare(b.title))
+            : null;
+    }
+    async getBreadcrumbData(body: {
+        ids: string;
+        lang: string;
+    }): Promise<ILocationFront[] | null> {
+        const response = await this.locationApi.getBreadcrumbData(body);
+        return response
+            ? response.map((location) =>
+                  this.locationMapper.transformToFront(location)
+              )
             : null;
     }
 }

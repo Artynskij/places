@@ -84,7 +84,10 @@ export default async function CountryPage({ params, searchParams }: IProps) {
                 ...(accommodationEstablishment?.map((item) => item.id) || []),
             ],
         });
-
+    const breadcrumbData = await apiLocation.getBreadcrumbData({
+        ids: locationData.pathBreadcrumb,
+        lang: params.locale,
+    });
     return (
         <>
             <LocationScreen
@@ -99,6 +102,7 @@ export default async function CountryPage({ params, searchParams }: IProps) {
                 townsData={townsData}
                 tagsClassEstablishment={tagsClassEstablishment}
                 dataTileContent={townsData}
+                breadcrumbData={breadcrumbData}
             />
         </>
     );

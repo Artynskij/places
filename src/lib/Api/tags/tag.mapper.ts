@@ -57,13 +57,9 @@ export default class TagsMapper {
                               .filter((item) => item.value)
                               .sort((a, b) => {
                                   const aChecked =
-                                      checkedValues?.includes(
-                                          a.key.replace("t", "")
-                                      ) ?? false;
+                                      checkedValues?.includes(a.key) ?? false;
                                   const bChecked =
-                                      checkedValues?.includes(
-                                          b.key.replace("t", "")
-                                      ) ?? false;
+                                      checkedValues?.includes(b.key) ?? false;
 
                                   // 1. Сначала выбранные элементы
                                   if (aChecked !== bChecked) {
@@ -100,11 +96,9 @@ export default class TagsMapper {
                       })
                       .sort((a, b) => {
                           const aChecked =
-                              checkedValues?.includes(a.key.replace("c", "")) ??
-                              false;
+                              checkedValues?.includes(a.key) ?? false;
                           const bChecked =
-                              checkedValues?.includes(b.key.replace("c", "")) ??
-                              false;
+                              checkedValues?.includes(b.key) ?? false;
 
                           // 1. Сначала выбранные элементы
                           if (aChecked !== bChecked) {

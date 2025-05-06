@@ -13,7 +13,10 @@ interface IProps extends IPageProps {
     };
 }
 
-export default async function NewsCategoryScreen({ params, searchParams }: IProps) {
+export default async function NewsCategoryScreen({
+    params,
+    searchParams,
+}: IProps) {
     const t = await getTranslations("CategoryNews");
 
     const newsFirst = mockNews.filter((item, index) => {
@@ -27,7 +30,7 @@ export default async function NewsCategoryScreen({ params, searchParams }: IProp
     return (
         <div className="container">
             <div className={style.breadcrumb}>
-                <Breadcrumb />
+                <Breadcrumb links={[{ title: t(params.category)}]} />
             </div>
             <section>
                 <h2 className={style.title}>{t(params.category) || "some"}</h2>

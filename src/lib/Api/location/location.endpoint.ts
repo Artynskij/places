@@ -26,9 +26,20 @@ export default class LocationApi {
             return response.data;
         } catch (error) {
             console.error(
-                `Ошибка при получении внутренних локаций с пагинацией:`
-            
+                `Ошибка при получении внутренних локаций с пагинацией.`
             );
+            return null;
+        }
+    }
+    async getBreadcrumbData(body: { ids: string; lang: string }): Promise<ILocationsEntity[] | null> {
+        try {
+            const response = await apiClient.post(
+                `/locations/get-all-breadcrumbs`,
+                body
+            );
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при получении breadcrumbs.`);
             return null;
         }
     }

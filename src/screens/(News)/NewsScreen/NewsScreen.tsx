@@ -21,10 +21,14 @@ import { PopularNews } from "../_component/_PopularNews/_PopularNews";
 
 import { IArticleFront } from "@/lib/models/frontend/article/article.front";
 import { ArticleService } from "@/lib/Api/article/article.service";
+import { useTranslations } from "next-intl";
+import { ROUTES } from "@/lib/config/Routes";
+import { newsCategoriesData } from "@/asset/constants/data";
+import BlockNews from "./_components/BlockNews";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
-        category: string;
+        category: (typeof newsCategoriesData)[keyof typeof newsCategoriesData];
         news: string;
     };
     articleData: IArticleFront | null;
@@ -40,6 +44,7 @@ export default function NewsScreen({
     
     const [anotherNews, setAnotherNews] = useState<[] | IArticleFront[]>([]);
     const [countAnotherArticle, setCountAnotherArticle] = useState<number>(1);
+    
     async function updateAnotherNews() {
         const newArticle = await api.getArticlesByPagination({
             pagination: { page: countAnotherArticle, pageSize: 1 },
@@ -56,9 +61,10 @@ export default function NewsScreen({
         <div className="container">
             <section className={style.content}>
                 <div className={style.content_item}>
-                    <PageNews
+                    <BlockNews
                         updateAnotherNews={updateAnotherNews}
                         article={articleData}
+                        params={params}
                     />
                 </div>
 
@@ -71,10 +77,11 @@ export default function NewsScreen({
                     {anotherNews.length ? (
                         anotherNews.map((item, index) => {
                             return (
-                                <PageNews
+                                <BlockNews
                                     updateAnotherNews={updateAnotherNews}
                                     key={index}
-                                    article={item}
+                                    article={item} 
+                                    params={params}
                                 />
                             );
                         })
@@ -86,86 +93,4 @@ export default function NewsScreen({
         </div>
     );
 }
-interface IPageNews {
-    article: IArticleFront | null;
-    updateAnotherNews: () => void;
-}
-function PageNews({ article, updateAnotherNews }: IPageNews) {
-    const pathname = usePathname();
-    const observerUrl = useInView({
-        threshold: 0,
-        rootMargin: "-50% 0px -50% 0px",
-    });
 
-    useEffect(() => {
-        if (observerUrl.inView && article) {
-            const pathnameArray = pathname.split("/");
-            pathnameArray[pathnameArray.length - 1] = article.id;
-            const newUrl = pathnameArray.join("/");
-            window.history.replaceState(null, "", newUrl);
-            updateAnotherNews();
-        }
-    }, [observerUrl.inView]);
-    if (!article) return <div>Данные по этой новости утеряны</div>;
-    return (
-        <div
-            ref={observerUrl.ref}
-            id={article.id}
-            className={style.container_news}
-        >
-            <div className={style.breadcrumb}>
-                <Breadcrumb />
-            </div>
-            <h2 className={style.title}>{article.title}</h2>
-            <div className={style.underTitle}>
-                <div className={style.underTitle_left}>
-                    <div className={style.underTitle_author}>
-                        {`Автор: `}
-                        <Link
-                            className={`${"hover-underline"}`}
-                            href={`/news/author/${article.author}`}
-                        >
-                            {article.author}
-                        </Link>
-                    </div>
-                    <BlockWatchCount count={1000} />
-                    <BlockReadTime text={article.markdown} />
-                </div>
-                <div className={style.underTitle_right}>
-                    <div className={style.underTitle_publicDate}>
-                        {article.date}
-                    </div>
-                </div>
-            </div>
-            <div className={style.description}>{article.description}</div>
-            <div className={style.block_mainImage}>
-                <Image
-                    className={style.mainImage}
-                    width={600}
-                    height={300}
-                    alt="img"
-                    src={article.titleImage}
-                />
-                <span>Подпись фото</span>
-            </div>
-            <div className={style.markdownContent}>
-                <Markdown>{article.markdown}</Markdown>
-            </div>
-            <div className={style.share}>
-                <BlockShare linkPage="https://www.lipsum.com/" />
-            </div>
-
-            <div className={style.tags}>
-                <div className={style.tags_title}>Теги : </div>
-                <div className={style.tags_list}>
-                    <div className={style.tags_list_item}>Беларусь</div>
-                    <div className={style.tags_list_item}>Природа</div>
-                    <div className={style.tags_list_item}>Топ</div>
-                </div>
-            </div>
-            <div className={style.reaction}>
-                <BlockReaction reactions={article.reactions} />
-            </div>
-        </div>
-    );
-}

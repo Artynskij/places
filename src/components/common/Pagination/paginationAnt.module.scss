@@ -1,0 +1,12 @@
+.pagination {
+    &_ctn {
+        display: flex;
+        flex-direction: column;
+        gap: $gap-small;
+        padding: 10px 0;
+    }
+    &_info {
+        @extend %Text14;
+        color: $color-main-grey;
+    }
+}

@@ -41,10 +41,11 @@ interface IProps extends IPageProps {
         accommodation: IEstablishmentFront[] | [];
         attraction: IEstablishmentFront[] | [];
     };
-    locationData: ILocationFront ;
+    locationData: ILocationFront;
     townsData: ILocationFront[] | null;
     tagsClassEstablishment: ITagWithEstablishmentFront[] | null;
     dataTileContent: ILocationFront[] | null;
+    breadcrumbData: ILocationFront[] | null;
 }
 
 export default async function LocationScreen({
@@ -56,6 +57,7 @@ export default async function LocationScreen({
     townsData,
     tagsClassEstablishment,
     dataTileContent,
+    breadcrumbData,
 }: IProps) {
     const tTiles = await getTranslations("Tiles");
     const seeMoreText = tTiles("text.watchAll");
@@ -78,9 +80,18 @@ export default async function LocationScreen({
                 </div>
                 <div className={style.banner_bg}>
                     <div className={style.banner_breadcrumb_block}>
-                        <Breadcrumb />
+                        {breadcrumbData && (
+                            <Breadcrumb
+                                links={[...breadcrumbData.map((crumb) => {
+                                    return {
+                                        title: crumb.title,
+                                        href: crumb.id,
+                                    };
+                                }), {title:locationData.title}]}
+                            />
+                        )}
                     </div>
-                    <h1>{locationData?.value || "Нету локации"}</h1>
+                    <h1>{locationData?.title || "Нету локации"}</h1>
                 </div>
             </section>
             <InfoSection
@@ -89,7 +100,6 @@ export default async function LocationScreen({
                 searchParams={searchParams}
                 dataTileContent={dataTileContent}
             />
-           
 
             <section className={style.slider_block}>
                 <div className={style.slider_block_title}>
