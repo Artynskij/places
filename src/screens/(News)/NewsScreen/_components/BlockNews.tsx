@@ -4,12 +4,11 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useTranslations } from "next-intl";
 
-import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
 import { ROUTES } from "@/lib/config/Routes";
 
 import { IArticleFront, IPageProps } from "@/lib/models";
 
-import style from './blockNews.module.scss'
+import style from "./blockNews.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,17 +23,22 @@ interface IBlockNews {
     article: IArticleFront | null;
     updateAnotherNews: () => void;
     params: IPageProps["params"] & {
-        category: (typeof CONSTANT_CATEGORIES_NEWS)[keyof typeof CONSTANT_CATEGORIES_NEWS];
+        category: TCategoriesNews;
         news: string;
     };
 }
-export default function BlockNews({ article, updateAnotherNews, params }: IBlockNews) {
+export default function BlockNews({
+    article,
+    updateAnotherNews,
+    params,
+}: IBlockNews) {
     const pathname = usePathname();
     const observerUrl = useInView({
         threshold: 0,
         rootMargin: "-50% 0px -50% 0px",
     });
     const tCategoryNews = useTranslations("CategoryNews");
+    // TODO warning
     useEffect(() => {
         if (observerUrl.inView && article) {
             const pathnameArray = pathname.split("/");
@@ -44,6 +48,7 @@ export default function BlockNews({ article, updateAnotherNews, params }: IBlock
             updateAnotherNews();
         }
     }, [observerUrl.inView]);
+
     if (!article) return <div>Данные по этой новости утеряны</div>;
     return (
         <div

@@ -29,7 +29,7 @@ const TabPublication = () => {
             .then((res) => {
                 setPublication(res);
             });
-    }, []);
+    }, [locale]);
     // return <Skeleton />;
     if (!publications) return <Skeleton />;
     return (

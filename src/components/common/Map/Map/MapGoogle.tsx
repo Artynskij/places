@@ -111,7 +111,7 @@ export const MapGoogle = () => {
 
         root.render(<p>This child is placed inside the parent div.</p>);
         console.log(markerContent);
-    }, []);
+    }, [locale]);
 
     return (
         <>

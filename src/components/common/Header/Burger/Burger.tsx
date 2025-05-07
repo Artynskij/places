@@ -14,15 +14,17 @@ import Profile from "../Profile/Profile";
 import { useTranslations } from "use-intl";
 
 export const Burger = () => {
-    const [burgerActive, setBurgerActive] = useState<boolean>(false);
-    const searchParams = useSearchParams();
+    // const searchParams = useSearchParams();
     const pathname = usePathname();
+
     const tHeader = useTranslations("Header");
+    const [burgerActive, setBurgerActive] = useState<boolean>(false);
+
     useEffect(() => {
-        if (burgerActive) {
-            setBurgerActive(false);
-        }
-    }, [searchParams, pathname]);
+        setBurgerActive(false);
+        
+    }, [pathname]);
+    
     const closeBurger = () => {
         setBurgerActive(false);
     };

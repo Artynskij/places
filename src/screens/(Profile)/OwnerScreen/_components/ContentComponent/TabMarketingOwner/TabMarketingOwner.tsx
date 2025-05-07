@@ -27,7 +27,7 @@ export const TabMarketingOwner = () => {
             : null;
         setAdvertising(getAdvertising);
         setRefreshCookie(false);
-    }, [refreshCookie]);
+    }, [refreshCookie, cookie]);
 
     function clickPay() {}
     function deleteChoice(indexItem: number) {
