@@ -12,8 +12,9 @@ import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
         location: string;
-        typeOfEstablishment: TTypesOfEstablishment;
+        typeEstablishment: TTypesOfEstablishment;
         establishment: string;
+        
     };
 }
 export async function generateMetadata({
