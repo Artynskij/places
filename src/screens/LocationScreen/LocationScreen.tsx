@@ -84,8 +84,8 @@ export default async function LocationScreen({
                     <div className={style.banner_breadcrumb_block}>
                         {filteredBreadcrumb && (
                             <Breadcrumb
+                                type="location"
                                 links={[
-                                    { title: "Мир", href: ROUTES.COUNTRIES },
                                     ...filteredBreadcrumb.map((crumb) => {
                                         return {
                                             title: crumb.title,

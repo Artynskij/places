@@ -75,7 +75,6 @@ export default function FilterScreen({
                 {filteredBreadcrumb && (
                     <Breadcrumb
                         links={[
-                            { title: "Мир", href: ROUTES.COUNTRIES },
                             ...filteredBreadcrumb.map((crumb) => {
                                 return {
                                     title: crumb.title,
@@ -85,7 +84,7 @@ export default function FilterScreen({
                             {
                                 title: TYPES_OF_ESTABLISHMENT[
                                     params.typeEstablishment
-                                ].title,
+                                ].secondValue,
                             },
                         ]}
                     />

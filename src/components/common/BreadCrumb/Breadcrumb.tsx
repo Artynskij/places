@@ -5,8 +5,9 @@ import { BreadcrumbItemType } from "antd/es/breadcrumb/Breadcrumb";
 import Link from "next/link";
 interface IBreadcrumb {
     links: { title: string; href?: string }[];
+    type?: "location";
 }
-export const Breadcrumb = ({ links }: IBreadcrumb) => {
+export const Breadcrumb = ({ links, type }: IBreadcrumb) => {
     const menuItems = [
         {
             key: "1",
@@ -45,8 +46,13 @@ export const Breadcrumb = ({ links }: IBreadcrumb) => {
             ),
         },
     ];
-    const breadcrumbItems: BreadcrumbItemType[] = links ;
-
+    const breadcrumbItems: BreadcrumbItemType[] = links;
+    if (type === "location") {
+        breadcrumbItems.unshift({
+            title: "Все страны",
+            href: ROUTES.COUNTRIES,
+        });
+    }
     return (
         <div className={style.breadcrumb_ctn}>
             <BreadcrumbAnt

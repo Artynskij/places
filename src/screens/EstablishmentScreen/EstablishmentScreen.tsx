@@ -49,7 +49,7 @@ import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
         location: string;
-        typeOfEstablishment: TTypesOfEstablishment;
+        typeEstablishment: TTypesOfEstablishment;
         establishment: string;
     };
 
@@ -65,6 +65,7 @@ interface IProps extends IPageProps {
     // locationData: ILocationFront;
     locationCountryData: ILocationFront;
     scheduleData: IScheduleFront[] | null;
+    breadcrumbData: ILocationFront[] | null;
 }
 export const EstablishmentScreen = async ({
     params,
@@ -76,17 +77,46 @@ export const EstablishmentScreen = async ({
     // locationData,
     locationCountryData,
     scheduleData,
+    breadcrumbData,
 }: IProps) => {
     const tRate = await getTranslations("Rates");
     const reviewData = mockReviews;
 
     const baseUrl = await getBaseUrlServer();
-
+    const filteredBreadcrumb =
+        breadcrumbData?.slice(1, breadcrumbData.length + 1) || null;
+    const pisun = TYPES_OF_ESTABLISHMENT[params.typeEstablishment].title;
     return (
         <div className="container">
             <div className={style.underHeader}>
                 <div className={style.underHeader_breadcrumb}>
-                    <Breadcrumb links={[{title:'est'}]} />
+                    {filteredBreadcrumb && (
+                        <Breadcrumb
+                            type="location"
+                            links={[
+                                ...filteredBreadcrumb.map((crumb) => {
+                                    return {
+                                        title: crumb.title,
+                                        href: ROUTES.LOCATION.LOCATION(
+                                            crumb.id
+                                        ),
+                                    };
+                                }),
+                                {
+                                    title: TYPES_OF_ESTABLISHMENT[
+                                        params.typeEstablishment
+                                    ].secondValue,
+                                    href: ROUTES.FILTER(
+                                        dataEstablishment.location.town.id,
+                                        TYPES_OF_ESTABLISHMENT[
+                                            params.typeEstablishment
+                                        ].key
+                                    ),
+                                },
+                                { title: dataEstablishment.title },
+                            ]}
+                        />
+                    )}
                 </div>
                 <div className={style.underHeader_groupButtons}>
                     <LikeButton

@@ -15,7 +15,7 @@ export default function CountriesScreen({ params, searchParams }: IProps) {
     return (
         <div className="container">
             <div className={style.breadcrumb}>
-                <Breadcrumb links={[{ title: "Мир" }]} />
+                <Breadcrumb links={[{ title: "Все страны" }]} />
             </div>
             <section className={style.content}>
                 <ul className={style.listMainland}>
@@ -25,8 +25,10 @@ export default function CountriesScreen({ params, searchParams }: IProps) {
                             <div key={`continent - ${indexLand + 1}`}>
                                 <li className={style.listMainland_item}>
                                     <Link
-                                        href={ROUTES.LOCATION.LOCATION(land.id || '')}
-                                    > 
+                                        href={ROUTES.LOCATION.LOCATION(
+                                            land.id || ""
+                                        )}
+                                    >
                                         <h4>{land.title}</h4>
                                     </Link>
                                 </li>

@@ -82,10 +82,10 @@ export default async function EstablishmentPage({
     ]);
     if (!dataEstablishment) notFound();
     // TODO delete this
-    // const locationData = await apiLocation.getLocationById(
-    //     dataEstablishment?.location.town.id,
-    //     params.locale
-    // );
+    const locationData = await apiLocation.getLocationById(
+        dataEstablishment?.location.town.id,
+        params.locale
+    );
 
     const locationCountryData = await apiLocation.getLocationById(
         dataEstablishment.location.country.id,
@@ -103,7 +103,10 @@ export default async function EstablishmentPage({
             tag.groupKey.key === CONSTANT_CATEGORY_CLASS_TAG.star ||
             tag.groupKey.key === CONSTANT_CATEGORY_CLASS_TAG.price
     );
-
+    const breadcrumbData = await apiLocation.getBreadcrumbData({
+        ids: locationData?.pathBreadcrumb || '',
+        lang: params.locale,
+    });
     return (
         <EstablishmentScreen
             params={params}
@@ -118,6 +121,7 @@ export default async function EstablishmentPage({
             // locationData={locationData}
             locationCountryData={locationCountryData}
             scheduleData={scheduleData}
+            breadcrumbData={breadcrumbData}
         />
     );
 }
