@@ -180,7 +180,7 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                         <IconLocation
                             className={style.description_location_icon}
                         />
-                        {dataEstablishment.location.town.value}
+                        {dataEstablishment.location.town.title}
                     </Link>
                 </div>
             </div>

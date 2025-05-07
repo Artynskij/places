@@ -10,7 +10,7 @@ import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 import { Suspense } from "react";
 import { Loader } from "@/components/common/Loader/Loader";
-import { ITypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 
 // export async function generateMetadata({
 //   params,
@@ -25,7 +25,7 @@ import { ITypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
         location: string;
-        typeEstablishment: ITypesOfEstablishment;
+        typeEstablishment: TTypesOfEstablishment;
     };
 }
 
@@ -76,7 +76,10 @@ export default async function FilterPage({ params, searchParams }: IProps) {
             lang: params.locale,
             establishmentIds: establishmentList?.map((item) => item.id),
         });
-
+    const breadcrumbData = await apiLocation.getBreadcrumbData({
+        ids: locationData?.pathBreadcrumb || "",
+        lang: params.locale,
+    });
     return (
         <FilterScreen
             establishmentList={establishmentList}
@@ -85,6 +88,7 @@ export default async function FilterPage({ params, searchParams }: IProps) {
             searchParams={searchParams}
             locationData={locationData}
             tagsClassEstablishment={tagsClassEstablishment}
+            breadcrumbData={breadcrumbData}
         />
     );
 }

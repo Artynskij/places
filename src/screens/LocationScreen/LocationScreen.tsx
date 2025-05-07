@@ -65,6 +65,8 @@ export default async function LocationScreen({
     const cdnHost = dataEstablishment.attraction[0]?.media.cdnHost;
 
     const baseUrl = await getBaseUrlServer();
+    const filteredBreadcrumb =
+        breadcrumbData?.slice(1, breadcrumbData.length - 1) || null;
     return (
         <div className="container">
             <section className={style.banner}>
@@ -80,14 +82,20 @@ export default async function LocationScreen({
                 </div>
                 <div className={style.banner_bg}>
                     <div className={style.banner_breadcrumb_block}>
-                        {breadcrumbData && (
+                        {filteredBreadcrumb && (
                             <Breadcrumb
-                                links={[...breadcrumbData.map((crumb) => {
-                                    return {
-                                        title: crumb.title,
-                                        href: crumb.id,
-                                    };
-                                }), {title:locationData.title}]}
+                                links={[
+                                    { title: "Мир", href: ROUTES.COUNTRIES },
+                                    ...filteredBreadcrumb.map((crumb) => {
+                                        return {
+                                            title: crumb.title,
+                                            href: ROUTES.LOCATION.LOCATION(
+                                                crumb.id
+                                            ),
+                                        };
+                                    }),
+                                    { title: locationData.title },
+                                ]}
                             />
                         )}
                     </div>

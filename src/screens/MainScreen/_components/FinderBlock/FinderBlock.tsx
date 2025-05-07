@@ -14,20 +14,31 @@ import {
 import { Overlay } from "@/components/common/Overlay/Overlay";
 import { Button } from "@/components/UI/Button/Button";
 import { switcherFinderMainPage } from "@/asset/constants/switcherTabsPage";
+import { ROUTES } from "@/lib/config/Routes";
+import { useLocale } from "next-intl";
+import { IEstablishmentFront } from "@/lib/models";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
+import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
 
 const FinderBlock = () => {
-    const Router = useRouter();
+    const apiEstablishment = new EstablishmentService();
+    const router = useRouter();
+    const locale = useLocale();
+
     const switcherDataStart = switcherFinderMainPage;
     const refInput = useRef<HTMLInputElement>(null);
     const refUl = useRef<HTMLUListElement>(null);
 
     const [switcherData, setSwitcherData] = useState(switcherDataStart);
 
-    const [results, setResults] = useState(mockFinder);
+    const [results, setResults] = useState<IEstablishmentFront[] | null>(null);
+    const [resultLoaded, setResultLoaded] = useState<boolean>(false);
     const [activeIndex, setActiveIndex] = useState(-1);
     const [inputValueActive, setInputValueActive] = useState(false);
     const [searchActive, setSearchActive] = useState(false);
-    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    const handlerKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (!results) return;
         switch (e.key) {
             case "ArrowUp":
                 setActiveIndex((prevIndex) =>
@@ -42,19 +53,25 @@ const FinderBlock = () => {
             case "Enter":
                 e.preventDefault();
                 if (activeIndex >= 0 && activeIndex < results.length) {
-                    const url = refUl.current?.children[
-                        activeIndex
-                    ] as HTMLAnchorElement;
+                    const establishment = results[activeIndex];
                     console.log("Selected:", results[activeIndex]);
-                    closeInput();
-                    Router.push("/kazahstan/almatydistrict/almaty/objectTest");
+                    handlerCloseInput();
+                    router.push(
+                        ROUTES.LOCATION.ESTABLISHMENT(
+                            establishment.location.town.id,
+                            TYPES_OF_ESTABLISHMENT[
+                                establishment.typeEstablishment
+                            ].key,
+                            establishment.id
+                        )
+                    );
                 }
                 break;
             default:
                 break;
         }
     };
-    function changeInput() {
+    function handlerChangeInput() {
         const current = refInput.current as HTMLInputElement;
         setActiveIndex(-1);
         if (current.value.length > 0 && !inputValueActive) {
@@ -62,27 +79,32 @@ const FinderBlock = () => {
         } else if (current.value.length === 0 && inputValueActive) {
             setInputValueActive(false);
         }
-        const newData = mockFinder.filter(
-            (item) =>
-                item.title.includes(current.value) ||
-                item.location.includes(current.value)
-        );
-        setResults(newData);
+
+        setResults(null); // TODO
     }
-    function clearInput() {
+    function handlerClearInput() {
         const current = refInput.current as HTMLInputElement;
         current.value = "";
-        setResults(mockFinder);
+        setResults(null); // TODO
         setInputValueActive(false);
         setActiveIndex(-1);
     }
-    function closeInput() {
+    function handlerCloseInput() {
         setActiveIndex(-1);
         setSearchActive(false);
     }
     function openInput() {
         if (searchActive !== false) return;
         setSearchActive(true);
+        apiEstablishment
+            .getEstablishmentByPagination({
+                lang: locale,
+                pagination: { page: 1, pageSize: 10 },
+            })
+            .then((res) => {
+                setResults(res);
+                setResultLoaded(true);
+            });
     }
     return (
         <>
@@ -114,7 +136,7 @@ const FinderBlock = () => {
                     <div className={style.block_input}>
                         {searchActive ? (
                             <IconArrowLeft
-                                onClick={closeInput}
+                                onClick={handlerCloseInput}
                                 className={style.icon}
                             />
                         ) : (
@@ -127,8 +149,8 @@ const FinderBlock = () => {
                                     switcherData.find((item) => item.active)
                                         ?.placeHolder || "Усё"
                                 }
-                                onChange={changeInput}
-                                onKeyDown={handleKeyDown}
+                                onChange={handlerChangeInput}
+                                onKeyDown={handlerKeyDown}
                                 ref={refInput}
                                 type="text"
                                 maxLength={100}
@@ -136,7 +158,7 @@ const FinderBlock = () => {
                         </div>
                         {searchActive && inputValueActive && (
                             <IconCancel
-                                onClick={clearInput}
+                                onClick={handlerClearInput}
                                 className={style.iconClear}
                             />
                         )}
@@ -144,45 +166,54 @@ const FinderBlock = () => {
                     </div>
                     <div className={style.block_dropdown}>
                         <div className={style.dropdown}>
-                            <ul className={style.dropdown_list} ref={refUl}>
-                                {results.length > 0 ? (
-                                    results.map((item, index) => {
-                                        return (
-                                            <Link
-                                                onClick={closeInput}
-                                                key={item.id}
-                                                href={
-                                                    "/kazahstan/almatydistrict/almaty/objectTest"
-                                                }
-                                                className={`${
-                                                    style.dropdown_list_item
-                                                } ${
-                                                    index === activeIndex
-                                                        ? style.active
-                                                        : ""
-                                                }`}
-                                            >
-                                                <li
-                                                // className={index === activeIndex ? style.active : ""}
+                            {resultLoaded ? (
+                                <ul className={style.dropdown_list} ref={refUl}>
+                                    {results && results.length > 0 ? (
+                                        results.map((establishment, index) => {
+                                            return (
+                                                <Link
+                                                    onClick={handlerCloseInput}
+                                                    key={establishment.id}
+                                                    href={ROUTES.LOCATION.ESTABLISHMENT(
+                                                        establishment.location
+                                                            .town.id,
+                                                        TYPES_OF_ESTABLISHMENT[
+                                                            establishment
+                                                                .typeEstablishment
+                                                        ].key,
+                                                        establishment.id
+                                                    )}
+                                                    className={`${
+                                                        style.dropdown_list_item
+                                                    } ${
+                                                        index === activeIndex
+                                                            ? style.active
+                                                            : ""
+                                                    }`}
                                                 >
-                                                    <CardSearch
-                                                        location={item.location}
-                                                        title={item.title}
-                                                        alt={item.img}
-                                                        src={item.img}
-                                                    />
-                                                </li>
-                                            </Link>
-                                        );
-                                    })
-                                ) : (
-                                    <span>
-                                        {"По запросу"}{" "}
-                                        {`"${refInput.current?.value}"`}{" "}
-                                        {"Ничего не найдено"}
-                                    </span>
-                                )}
-                            </ul>
+                                                    <li
+                                                    // className={index === activeIndex ? style.active : ""}
+                                                    >
+                                                        <CardSearch
+                                                            establishment={
+                                                                establishment
+                                                            }
+                                                        />
+                                                    </li>
+                                                </Link>
+                                            );
+                                        })
+                                    ) : (
+                                        <span>
+                                            {"По запросу"}{" "}
+                                            {`"${refInput.current?.value}"`}{" "}
+                                            {"Ничего не найдено"}
+                                        </span>
+                                    )}
+                                </ul>
+                            ) : (
+                                <SpinnerAnt size="large" />
+                            )}
                         </div>
                     </div>
                 </div>

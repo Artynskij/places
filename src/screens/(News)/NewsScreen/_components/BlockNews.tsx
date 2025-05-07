@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useTranslations } from "next-intl";
 
-import { newsCategoriesData } from "@/asset/constants/data";
+import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
 import { ROUTES } from "@/lib/config/Routes";
 
 import { IArticleFront, IPageProps } from "@/lib/models";
@@ -24,7 +24,7 @@ interface IBlockNews {
     article: IArticleFront | null;
     updateAnotherNews: () => void;
     params: IPageProps["params"] & {
-        category: (typeof newsCategoriesData)[keyof typeof newsCategoriesData];
+        category: (typeof CONSTANT_CATEGORIES_NEWS)[keyof typeof CONSTANT_CATEGORIES_NEWS];
         news: string;
     };
 }

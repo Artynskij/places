@@ -39,7 +39,9 @@ export default class LocationMapper {
     ): ILocationFront[] {
         const districts = locations?.filter(
             (district) =>
-                ["REGION", "DISTRICT"].includes(district.locationType.title) &&
+                ["REGION", "DISTRICT", "COUNTRY", "CONTINENT"].includes(
+                    district.locationType.title
+                ) &&
                 district.pathBreadcrumb.length ===
                     nextLevelPathLengthOfRootLocation
         );

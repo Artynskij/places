@@ -1,16 +1,17 @@
 import { IPageProps } from "@/lib/models/IType";
 import style from "./countriesScreen.module.scss";
-import { countriesData, mainlandData } from "@/asset/constants/countries";
+import { countriesData, continentsData } from "@/asset/constants/countries";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import Image from "next/image";
 import Link from "next/link";
+import { ROUTES } from "@/lib/config/Routes";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"];
 }
 export default function CountriesScreen({ params, searchParams }: IProps) {
     const countries = countriesData;
-    const mainLand = mainlandData;
+    const continents = continentsData;
     return (
         <div className="container">
             <div className={style.breadcrumb}>
@@ -18,12 +19,16 @@ export default function CountriesScreen({ params, searchParams }: IProps) {
             </div>
             <section className={style.content}>
                 <ul className={style.listMainland}>
-                    {mainLand.map((land, indexLand) => {
-                        if (land.countries.length === 0) return null;
+                    {continents.map((land, indexLand) => {
+                        if (!land.countries.length) return null;
                         return (
-                            <div key={`mainland - ${indexLand + 1}`}>
+                            <div key={`continent - ${indexLand + 1}`}>
                                 <li className={style.listMainland_item}>
-                                    <h4>{land.title}</h4>
+                                    <Link
+                                        href={ROUTES.LOCATION.LOCATION(land.id || '')}
+                                    > 
+                                        <h4>{land.title}</h4>
+                                    </Link>
                                 </li>
                                 <ul className={style.listCountry}>
                                     {land.countries?.map(
@@ -38,7 +43,7 @@ export default function CountriesScreen({ params, searchParams }: IProps) {
                                                         style.listCountry_item
                                                     }
                                                     href={`/${findCountry?.id}`}
-                                                    key={`mainland - ${
+                                                    key={`continent - ${
                                                         indexLand + 1
                                                     }, country - ${index + 1}`}
                                                 >

@@ -1,1 +1,1 @@
-export type ITypesOfEstablishment = "ATTRACTION" | "EATER" | "ACCOMMODATION";
+export type TTypesOfEstablishment = "ATTRACTION" | "EATER" | "ACCOMMODATION";

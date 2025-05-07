@@ -1,7 +1,6 @@
-import { newsCategoriesData } from "@/asset/constants/data";
 
-type INewsCategory =
-    (typeof newsCategoriesData)[keyof typeof newsCategoriesData];
+
+
 export const ROUTES = {
     MAIN: "/",
     COUNTRIES: "/countries",
@@ -20,8 +19,8 @@ export const ROUTES = {
         typeTag: "c" | "t"
     ) => `/${location}/${typeEst}/filter?filter=${typeTag}${tagId}`,
     NEWS: {
-        CATEGORY: (category: INewsCategory) => `/news/${category}`,
-        NEWS: (category: INewsCategory, news: string) =>
+        CATEGORY: (category: TCategoriesNews) => `/news/${category}`,
+        NEWS: (category: TCategoriesNews, news: string) =>
             `/news/${category}/${news}`,
         AUTHOR: (author: string) => `/news/author/${author}`,
     },

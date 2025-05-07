@@ -3,7 +3,7 @@ import { IArticleFront } from "@/lib/models";
 import style from "./tabPublication.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-import { newsCategoriesData } from "@/asset/constants/data";
+import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 import { useEffect, useState } from "react";
 
@@ -38,7 +38,7 @@ const TabPublication = () => {
                 {publications.map((article, index) => {
                     return (
                         <Link
-                            href={`/news/${newsCategoriesData.recommend}/${article.id}`}
+                            href={`/news/${CONSTANT_CATEGORIES_NEWS.recommend}/${article.id}`}
                             key={`recommend-${index}`}
                             className={style.cardArticle}
                         >

@@ -7,6 +7,7 @@ import NewsScreen from "@/screens/(News)/NewsScreen/NewsScreen";
 import { notFound } from "next/navigation";
 import { ArticleService } from "@/lib/Api/article/article.service";
 
+
 export async function generateMetadata({
     params,
 }: {
@@ -19,7 +20,7 @@ export async function generateMetadata({
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
-        category: string;
+        category: TCategoriesNews;
         news: string;
     };
 }
@@ -39,6 +40,7 @@ export default async function NewsCategoryPage({
             <NewsScreen
                 articleData={article}
                 params={params}
+
                 // searchParams={searchParams}
             />
         </>

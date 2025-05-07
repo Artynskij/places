@@ -8,11 +8,6 @@ import { Button } from "@/components/UI/Button/Button";
 import { ShareButton } from "@/components/common/ButtonFunctional/ShareButton";
 import { LikeButton } from "@/components/common/ButtonFunctional/LikeButton";
 
-import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
-
-import { mockObjectForObjectPage } from "@/asset/mockData/mockObject";
-
-import { QueryHotel } from "./_components/QueryBlock/QueryHotel";
 import QueryCafe from "./_components/QueryBlock/QueryCafe";
 import Image from "next/image";
 import { Gallery } from "@/components/common/Gallery/Gallery";
@@ -42,19 +37,19 @@ import {
     IconMessage,
     IconPhone,
 } from "@/components/common/Icons";
-import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
+
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 import { IScheduleFront } from "@/lib/models/frontend/schedule/schedule.front";
 import { ScheduleButton } from "@/components/common/ButtonFunctional/ScheduleButton";
 import DescriptionBlock from "./_components/DescriptionBlock/DescriptionBlock";
 import { getTranslations } from "next-intl/server";
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
-import { ITypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
         location: string;
-        typeOfEstablishment: ITypesOfEstablishment;
+        typeOfEstablishment: TTypesOfEstablishment;
         establishment: string;
     };
 
@@ -91,7 +86,7 @@ export const EstablishmentScreen = async ({
         <div className="container">
             <div className={style.underHeader}>
                 <div className={style.underHeader_breadcrumb}>
-                    <Breadcrumb />
+                    <Breadcrumb links={[{title:'est'}]} />
                 </div>
                 <div className={style.underHeader_groupButtons}>
                     <LikeButton
@@ -172,8 +167,8 @@ export const EstablishmentScreen = async ({
                     </div>
                     <div className={style.titleBlock_location}>
                         <IconLocation />
-                        {locationCountryData.value},{" "}
-                        {dataEstablishment.location.town.value}
+                        {locationCountryData.title},{" "}
+                        {dataEstablishment.location.town.title}
                     </div>
                 </div>
             </div>
@@ -182,8 +177,8 @@ export const EstablishmentScreen = async ({
                     <li className={style.navBar_list_item}>
                         {dataEstablishment.location.street &&
                             `${dataEstablishment.location.street} - `}
-                        {dataEstablishment.location.town.value},{" "}
-                        {locationCountryData.value}
+                        {dataEstablishment.location.town.title},{" "}
+                        {locationCountryData.title}
                     </li>
                     <li className={style.navBar_list_item}>
                         <ContactButton
@@ -335,8 +330,8 @@ export const EstablishmentScreen = async ({
                             />
                             {dataEstablishment.location.street &&
                                 `${dataEstablishment.location.street} - `}
-                            {dataEstablishment.location.town.value},{" "}
-                            {locationCountryData.value}
+                            {dataEstablishment.location.town.title},
+                            {locationCountryData.title}
                         </div>
                         {dataEstablishment.contacts?.Phone && (
                             <Link

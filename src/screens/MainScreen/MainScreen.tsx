@@ -7,19 +7,23 @@ import SliderCommercial from "./_components/SliderCommercial/SliderCommercial";
 
 import { mockTowns } from "@/asset/mockData/mockCountry";
 import { mockCommercialMainPage } from "@/asset/mockData/mockCommercialMainPage";
-import { newsCategoriesData } from "@/asset/constants/data";
-
+import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
 
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 
 import { IArticleFront, IPageProps } from "@/lib/models";
 import { getTranslations } from "next-intl/server";
+import { ROUTES } from "@/lib/config/Routes";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {};
     articlesData: IArticleFront[] | [];
 }
-export const MainScreen = async ({ params, searchParams, articlesData }: IProps) => {
+export const MainScreen = async ({
+    params,
+    searchParams,
+    articlesData,
+}: IProps) => {
     const newsData = articlesData.slice(0, 6);
     const recommendData = articlesData.slice(1, 4);
     const directionData = mockTowns.slice(0, 5);
@@ -51,15 +55,19 @@ export const MainScreen = async ({ params, searchParams, articlesData }: IProps)
             {/* news block */}
             <section>
                 <h2 className={style.title_second}>
-                    <Link href={`/news/${newsCategoriesData.news}`}>
-                        {t(newsCategoriesData.news)}
+                    <Link
+                        href={ROUTES.NEWS.CATEGORY(
+                            CONSTANT_CATEGORIES_NEWS.news
+                        )}
+                    >
+                        {t(CONSTANT_CATEGORIES_NEWS.news)}
                     </Link>
                 </h2>
                 <div className={style.news_content}>
                     {newsData.map((item, index) => {
                         return (
                             <Link
-                                href={`/news/${newsCategoriesData.news}/${item.id}`}
+                                href={`/news/${CONSTANT_CATEGORIES_NEWS.news}/${item.id}`}
                                 key={`news-${index}`}
                                 className={style.cardNews}
                             >
@@ -110,15 +118,19 @@ export const MainScreen = async ({ params, searchParams, articlesData }: IProps)
             {/* recommend block */}
             <section>
                 <h2 className={style.title_second}>
-                    <Link href={`/news/${newsCategoriesData.recommend}`}>
-                        {t(newsCategoriesData.recommend)}
+                    <Link
+                        href={ROUTES.NEWS.CATEGORY(
+                            CONSTANT_CATEGORIES_NEWS.recommend
+                        )}
+                    >
+                        {t(CONSTANT_CATEGORIES_NEWS.recommend)}
                     </Link>
                 </h2>
                 <div className={style.recommend_content}>
                     {recommendData.map((recItem, index) => {
                         return (
                             <Link
-                                href={`/news/${newsCategoriesData.recommend}/${recItem.id}`}
+                                href={`/news/${CONSTANT_CATEGORIES_NEWS.recommend}/${recItem.id}`}
                                 key={`recommend-${index}`}
                                 className={style.cardRecommend}
                             >
@@ -173,15 +185,19 @@ export const MainScreen = async ({ params, searchParams, articlesData }: IProps)
             {/* overview block */}
             <section>
                 <h2 className={style.title_second}>
-                    <Link href={`news/${newsCategoriesData.overview}`}>
-                        {t(newsCategoriesData.overview)}
+                    <Link
+                        href={ROUTES.NEWS.CATEGORY(
+                            CONSTANT_CATEGORIES_NEWS.overview
+                        )}
+                    >
+                        {t(CONSTANT_CATEGORIES_NEWS.overview)}
                     </Link>
                 </h2>
                 <div className={style.recommend_content}>
                     {recommendData.map((recItem, index) => {
                         return (
                             <Link
-                                href={`/news/${newsCategoriesData.overview}/${recItem.id}`}
+                                href={`/news/${CONSTANT_CATEGORIES_NEWS.overview}/${recItem.id}`}
                                 key={`overview-${index}`}
                                 className={style.cardRecommend}
                             >
@@ -236,15 +252,19 @@ export const MainScreen = async ({ params, searchParams, articlesData }: IProps)
             {/* blog block */}
             <section>
                 <h2 className={style.title_second}>
-                    <Link href={`/news/${newsCategoriesData.blog}`}>
-                        {t(newsCategoriesData.blog)}
+                    <Link
+                        href={ROUTES.NEWS.CATEGORY(
+                            CONSTANT_CATEGORIES_NEWS.blog
+                        )}
+                    >
+                        {t(CONSTANT_CATEGORIES_NEWS.blog)}
                     </Link>
                 </h2>
                 <div className={style.recommend_content}>
                     {recommendData.map((recItem, index) => {
                         return (
                             <Link
-                                href={`/news/${newsCategoriesData.blog}/${recItem.id}`}
+                                href={`/news/${CONSTANT_CATEGORIES_NEWS.blog}/${recItem.id}`}
                                 key={`blog-${index}`}
                                 className={style.cardRecommend}
                             >

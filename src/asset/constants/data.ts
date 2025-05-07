@@ -254,7 +254,7 @@ export const informationCards = [
 
 
 
-export const newsCategoriesData = {
+export const CONSTANT_CATEGORIES_NEWS = {
   news: "news",
   recommend: "recommend",
   overview: "overview",

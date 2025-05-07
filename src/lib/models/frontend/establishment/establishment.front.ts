@@ -1,5 +1,5 @@
 
-import { ITypesOfEstablishment } from "../../common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "../../common/TTypesEstablishment";
 import { IContactsFront } from "../parts/contacts/contacts.frontPart";
 import { IMediaFront } from "../parts/media/media.frontPart";
 
@@ -7,7 +7,7 @@ export interface IEstablishmentFront {
     id: string;
     title: string;
     description: string;
-    typeEstablishment: ITypesOfEstablishment;
+    typeEstablishment: TTypesOfEstablishment;
     category: { id: string; value: string; key: string };
     rates: {
         main: number;
@@ -27,8 +27,8 @@ export interface IEstablishmentFront {
         } | null)[];
     };
     location: {
-        country: { id: string; value: string | null };
-        town: { id: string; value: string };
+        country: { id: string; title: string | null };
+        town: { id: string; title: string };
         street: string;
         latitude: string;
         longitude: string;

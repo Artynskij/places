@@ -7,12 +7,12 @@ import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 import { ScheduleService } from "@/lib/Api/schedule/schedule.service";
 import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag";
-import { ITypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
         location: string;
-        typeOfEstablishment: ITypesOfEstablishment;
+        typeOfEstablishment: TTypesOfEstablishment;
         establishment: string;
     };
 }

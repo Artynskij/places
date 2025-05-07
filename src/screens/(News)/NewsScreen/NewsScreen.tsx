@@ -23,12 +23,12 @@ import { IArticleFront } from "@/lib/models/frontend/article/article.front";
 import { ArticleService } from "@/lib/Api/article/article.service";
 import { useTranslations } from "next-intl";
 import { ROUTES } from "@/lib/config/Routes";
-import { newsCategoriesData } from "@/asset/constants/data";
+
 import BlockNews from "./_components/BlockNews";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
-        category: (typeof newsCategoriesData)[keyof typeof newsCategoriesData];
+        category: TCategoriesNews;
         news: string;
     };
     articleData: IArticleFront | null;

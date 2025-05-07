@@ -33,7 +33,9 @@ const TileLocations = ({
               );
     const locationsInputFilter = valueInput
         ? locationsFiltered.filter((location) =>
-              location.value.toLocaleLowerCase().includes(valueInput.toLocaleLowerCase())
+              location.title
+                  .toLocaleLowerCase()
+                  .includes(valueInput.toLocaleLowerCase())
           )
         : locationsFiltered;
     return (
@@ -51,7 +53,7 @@ const TileLocations = ({
                                   key={index}
                                   href={ROUTES.LOCATION.LOCATION(location.id)}
                               >
-                                  <li>{location.value}</li>
+                                  <li>{location.title}</li>
                               </Link>
                           );
                       })

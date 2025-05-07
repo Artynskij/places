@@ -1,7 +1,7 @@
 import { IPageProps } from "@/lib/models/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 import NewsCategoryScreen from "@/screens/(News)/NewsCategoryScreen/NewsCategoryScreen";
-import { newsCategoriesData } from "@/asset/constants/data";
+import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
 import { notFound } from "next/navigation";
 // для SSG
 // export async function generateStaticParams() {
@@ -14,7 +14,7 @@ export async function generateMetadata({
 }: {
     params: { category: string };
 }) {
-    const categoryName = Object.keys(newsCategoriesData).find(
+    const categoryName = Object.keys(CONSTANT_CATEGORIES_NEWS).find(
         (category) => params.category === category
     );
 
@@ -34,7 +34,7 @@ interface IProps extends IPageProps {
 }
 
 export default function NewsCategoryPage({ params, searchParams }: IProps) {
-    const categoryName = Object.keys(newsCategoriesData).find(
+    const categoryName = Object.keys(CONSTANT_CATEGORIES_NEWS).find(
         (category) => params.category === category
     );
 

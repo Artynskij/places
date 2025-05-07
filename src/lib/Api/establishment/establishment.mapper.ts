@@ -67,13 +67,13 @@ export default class EstablishmentMapper {
                         establishment.establishment.Locations?.Path.split(
                             "."
                         )[1] || "",
-                    value: null,
+                    title: null,
                 },
                 pathBreadcrumb:
                     establishment.establishment.Locations?.Path || "",
                 town: {
                     id: establishment.establishment.Locations?.Id || "",
-                    value:
+                    title:
                         establishment.establishment.Locations?.Content
                             ?.details[0].value || "",
                 },

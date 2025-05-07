@@ -14,7 +14,7 @@ import { Switcher } from "@/components/common/Switcher/Switcher";
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 
 import { mockFilterSort } from "@/asset/mockData/mockFilterSort";
-import { ITypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 import { IPageProps } from "@/lib/models/IType";
 
 import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
@@ -30,16 +30,18 @@ import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
 import { Loader } from "@/components/common/Loader/Loader";
 import { usePathname, useSearchParams } from "next/navigation";
+import { ROUTES } from "@/lib/config/Routes";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
         location: string;
-        typeEstablishment: ITypesOfEstablishment;
+        typeEstablishment: TTypesOfEstablishment;
     };
     establishmentList: IEstablishmentFront[];
     blockTags: ITagsBlockFront[];
     locationData: ILocationFront | null;
     tagsClassEstablishment: ITagWithEstablishmentFront[] | null;
+    breadcrumbData: ILocationFront[] | null;
 }
 export default function FilterScreen({
     params,
@@ -48,6 +50,7 @@ export default function FilterScreen({
     blockTags,
     locationData,
     tagsClassEstablishment,
+    breadcrumbData,
 }: IProps) {
     const [sortActiveItem, setSortActiveItem] = useState(
         mockFilterSort[3].value
@@ -63,11 +66,30 @@ export default function FilterScreen({
     const totalEstablishmentCount =
         establishmentList[0]?.location.info.totalEstablishment || 0;
     const baseUrl = useBaseUrl();
+    const filteredBreadcrumb =
+        breadcrumbData?.slice(1, breadcrumbData.length) || null;
     return (
         <div className="container">
             {isLoading && <Loader />}
             <div className={style.breadcrumb}>
-                <Breadcrumb />
+                {filteredBreadcrumb && (
+                    <Breadcrumb
+                        links={[
+                            { title: "Мир", href: ROUTES.COUNTRIES },
+                            ...filteredBreadcrumb.map((crumb) => {
+                                return {
+                                    title: crumb.title,
+                                    href: ROUTES.LOCATION.LOCATION(crumb.id),
+                                };
+                            }),
+                            {
+                                title: TYPES_OF_ESTABLISHMENT[
+                                    params.typeEstablishment
+                                ].title,
+                            },
+                        ]}
+                    />
+                )}
             </div>
             <div className={style.container}>
                 <div className={style.titleBLock}>
@@ -76,7 +98,7 @@ export default function FilterScreen({
                             {`${
                                 TYPES_OF_ESTABLISHMENT[params.typeEstablishment]
                                     ?.secondValue
-                            } в ${locationData?.value}`}
+                            } в ${locationData?.title}`}
                         </h1>
                         <div className={style.titleBLock_result}>
                             {totalEstablishmentCount} результатов

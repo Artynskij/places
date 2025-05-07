@@ -1,13 +1,27 @@
-export const mainlandData = [
+export const continentsData = [
     {
+        id: "01JQW070SRWCJNZQSADN4V7GTC",
         key: "europe",
         title: "Европа",
-        countries: ["arm", "by", "geo", "kz", "rus"],
+        countries: ["by", "geo", "rus", "tur"],
     },
     {
+        id: "01JQW073XKYH7JV2XPNK1KFJZS",
         key: "asia",
         title: "Азия",
-        countries: ["are", "tur"],
+        countries: ["arm", "kz"],
+    },
+    {
+        id: "01JQW073Z15ETXHPA1PZJR99EW",
+        key: "africa",
+        title: "Африка",
+        countries: [],
+    },
+    {
+        id: "01JQW07H4EMGT8G6HP5GDVFMVB",
+        key: "middleEast",
+        title: "Ближкий Восток",
+        countries: ["are"],
     },
     {
         key: "northAmerica",
@@ -19,11 +33,7 @@ export const mainlandData = [
         title: "Южная Америка",
         countries: [],
     },
-    {
-        key: "africa",
-        title: "Африка",
-        countries: [],
-    },
+
     {
         key: "oceania",
         title: "Австралия и океания",

@@ -153,7 +153,7 @@ export const CardList: FC<ICardHotelList> = ({
                     className={style.info_location}
                 >
                     <IconLocation className={style.info_location_icon} />
-                    {dataEstablishment.location.town.value}
+                    {dataEstablishment.location.town.title}
                 </Link>
 
                 <div className={style.info_description}>
