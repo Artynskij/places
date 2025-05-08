@@ -19,8 +19,8 @@ export const SliderPopularNews: FC<ISliderPopularNews> = ({ newsPopular }) => {
     <>
       {clientLoad && useMedia.width < 1025 && (
         <Slider id={1}>
-          {newsPopular.map((item, index) => {
-            return <CardNews typeNew="popular" key={index} item={item} />;
+          {newsPopular.map((article, index) => {
+            return <CardNews typeNew="popular" key={index} article={article} />;
           })}
         </Slider>
       )}

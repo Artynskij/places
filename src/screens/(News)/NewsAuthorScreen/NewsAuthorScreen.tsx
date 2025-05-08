@@ -7,26 +7,34 @@ import { SliderPopularNews } from "../../../components/common/Slider/SliderPopul
 import { mockAuthor } from "@/asset/mockData/mockAuthor";
 import Image from "next/image";
 import { PopularNews } from "../_component/_PopularNews/_PopularNews";
+import { IArticleFront } from "@/lib/models";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
         name: string;
     };
+    mainNews: IArticleFront[] | [];
+    popularNews: IArticleFront[] | [];
 }
 
-export default function NewsAuthorScreen({ params, searchParams }: IProps) {
-    const newsFirst = mockNews.filter((item, index) => {
+export default function NewsAuthorScreen({
+    params,
+    searchParams,
+    mainNews,
+    popularNews,
+}: IProps) {
+    const newsFirst = mainNews.filter((item, index) => {
         return index < 5 && item;
-    }) as typeof mockNews;
-    const newsSecond = mockNews.filter((item, index) => {
+    });
+    const newsSecond = mainNews.filter((item, index) => {
         return index >= 5 && item;
-    }) as typeof mockNews;
-    const popularNews = mockNews;
+    });
+    // const popularNews = mockNews;
     const authorData = mockAuthor;
     return (
         <div className="container">
             <div className={style.breadcrumb}>
-                <Breadcrumb links={[{title:authorData.name}]}/>
+                <Breadcrumb links={[{ title: authorData.name }]} />
             </div>
             <section>
                 <div className={style.author}>
@@ -48,13 +56,13 @@ export default function NewsAuthorScreen({ params, searchParams }: IProps) {
 
                 <div className={style.content}>
                     <div className={style.content_item}>
-                        {newsFirst.map((item, index) => {
+                        {newsFirst.map((article, index) => {
                             return (
                                 <CardNews
                                     typeNew="main"
                                     descriptionShow
                                     key={index}
-                                    item={item}
+                                    article={article}
                                 />
                             );
                         })}
@@ -65,13 +73,13 @@ export default function NewsAuthorScreen({ params, searchParams }: IProps) {
                         containerClass={style.content_item}
                     />
                     <div className={style.content_item}>
-                        {newsSecond.map((item, index) => {
+                        {newsSecond.map((article, index) => {
                             return (
                                 <CardNews
                                     typeNew="main"
                                     descriptionShow
                                     key={index}
-                                    item={item}
+                                    article={article}
                                 />
                             );
                         })}

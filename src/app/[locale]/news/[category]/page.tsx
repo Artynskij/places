@@ -3,6 +3,7 @@ import { unstable_setRequestLocale } from "next-intl/server";
 import NewsCategoryScreen from "@/screens/(News)/NewsCategoryScreen/NewsCategoryScreen";
 import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
 import { notFound } from "next/navigation";
+import { ArticleService } from "@/lib/Api/article/article.service";
 // для SSG
 // export async function generateStaticParams() {
 //     return Object.keys(newsCategoriesData).map((category) => ({
@@ -33,18 +34,37 @@ interface IProps extends IPageProps {
     };
 }
 
-export default function NewsCategoryPage({ params, searchParams }: IProps) {
+export default async function NewsCategoryPage({
+    params,
+    searchParams,
+}: IProps) {
+    const apiArticles = new ArticleService();
+
     const categoryName = Object.keys(CONSTANT_CATEGORIES_NEWS).find(
         (category) => params.category === category
     );
-
+    const mainNews =
+        (await apiArticles.getArticlesByPagination({
+            lang: params.locale,
+            pagination: { page: 1, pageSize: 8 },
+        })) || [];
+    const popularNews =
+        (await apiArticles.getArticlesByPagination({
+            lang: params.locale,
+            pagination: { page: 1, pageSize: 8 },
+        })) || [];
     if (!categoryName) {
-        notFound(); // Если категории нет, показываем 404
+        notFound();
     }
 
     return (
         <>
-            <NewsCategoryScreen params={params} searchParams={searchParams} />
+            <NewsCategoryScreen
+                params={params}
+                searchParams={searchParams}
+                mainNews={mainNews}
+                popularNews={popularNews}
+            />
         </>
     );
 }

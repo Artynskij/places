@@ -7,7 +7,6 @@ import NewsScreen from "@/screens/(News)/NewsScreen/NewsScreen";
 import { notFound } from "next/navigation";
 import { ArticleService } from "@/lib/Api/article/article.service";
 
-
 export async function generateMetadata({
     params,
 }: {
@@ -34,13 +33,17 @@ export default async function NewsCategoryPage({
         params.news,
         params.locale
     );
-
+    const popularNews =
+        (await apiArticles.getArticlesByPagination({
+            lang: params.locale,
+            pagination: { page: 1, pageSize: 8 },
+        })) || [];
     return (
         <>
             <NewsScreen
                 articleData={article}
                 params={params}
-
+                popularNews={popularNews}
                 // searchParams={searchParams}
             />
         </>
