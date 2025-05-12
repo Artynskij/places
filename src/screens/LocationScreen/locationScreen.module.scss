@@ -1,71 +1,69 @@
 // @import "/src/asset/common-styles/";
 .banner {
-  color: $color-main-white;
+    color: $color-main-white;
 
-  position: relative;
-  background-color: transparent;
-  border-radius: 20px;
-  overflow: hidden;
-  max-height: 80vh;
-  margin: 0;
-  &_breadcrumb_block {
-    z-index: 1;
-  }
+    position: relative;
+    background-color: transparent;
+    border-radius: 20px;
+    overflow: hidden;
+    max-height: 80vh;
+    margin: 0;
+    &_breadcrumb_block {
+        z-index: 1;
+    }
 
-  &_video_block {
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-  }
-  &_bg {
-    z-index: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: $color-gradient-bg-banner;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 32px;
-  }
-  & h1 {
-    z-index: 1;
-  }
+    &_video_block {
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+    }
+    &_bg {
+        z-index: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: $color-gradient-bg-banner;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 32px;
+    }
+    & h1 {
+        z-index: 1;
+    }
 }
 
-
 .slider_block {
-  &_title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    &_button {
-      @extend %Text14;
+    &_title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        &_button {
+            @extend %Text14;
 
-      padding: 11.5px 16px;
+            padding: 11.5px 16px;
 
-      border: 1px solid $color-main-grey;
-      border-radius: $border-radius-small;
-      transition: $transiton;
-      cursor: pointer;
-      &:hover {
-        border-color: $color-main-gold;
-      }
-      h2 {
-      }
+            border: 1px solid $color-main-grey;
+            border-radius: $border-radius-small;
+            transition: $transition;
+            cursor: pointer;
+            &:hover {
+                border-color: $color-main-gold;
+            }
+            h2 {
+            }
+        }
     }
-  }
 }
 .slider {
 }
 @include mediaTablet {
-  .banner_bg {
-    padding: 15px;
-  }
+    .banner_bg {
+        padding: 15px;
+    }
 }
 @include mediaPhone {
-
 }

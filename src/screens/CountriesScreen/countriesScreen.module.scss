@@ -3,43 +3,42 @@
 .content {
 }
 .content .listMainland {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  &_item {
-    @extend %Text18;
-    margin-bottom: 10px;
-  }
+    &_item {
+        @extend %Text18;
+        margin-bottom: 10px;
+    }
 }
 .content .listCountry {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: $gap-small;
-  margin-bottom: 80px;
-  &_item {
-    // width: fit-content;
-    padding: 10px 15px;
-    background-color: $color-additional-background;
-    border-radius: $border-radius-5;
-    transition: $transiton;
-    & > li {
-      display: flex;
-      align-items: center;
-      gap: $gap-small;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: $gap-small;
+    margin-bottom: 80px;
+    &_item {
+        // width: fit-content;
+        padding: 10px 15px;
+        background-color: $color-additional-background;
+        border-radius: $border-radius-5;
+        transition: $transition;
+        & > li {
+            display: flex;
+            align-items: center;
+            gap: $gap-small;
+        }
+        &:hover {
+            box-shadow: $box-shadow-default;
+        }
+        &_image {
+            height: auto;
+            width: auto;
+            max-width: 46px;
+            aspect-ratio: 12/7;
+            border-radius: $border-radius-5;
+        }
     }
-    &:hover {
-      box-shadow: $box-shadow-default;
-    }
-    &_image {
-      height: auto;
-      width: auto;
-      max-width: 46px;
-      aspect-ratio: 12/7;
-      border-radius: $border-radius-5;
-    }
-  }
 }
-
 
 @include mediaTablet {
     .content .listCountry {

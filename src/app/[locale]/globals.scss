@@ -220,7 +220,7 @@ header .ant-checkbox-wrapper:hover .ant-checkbox-inner {
         height: 1px;
         width: 100%;
         transform: scale(0);
-        transition: $transiton;
+        transition: $transition;
         background-color: $color-main-gold;
     }
     &:hover::before {
@@ -228,7 +228,7 @@ header .ant-checkbox-wrapper:hover .ant-checkbox-inner {
     }
 }
 .hover-boxShadow {
-    transition: $transiton;
+    transition: $transition;
     &:hover {
         box-shadow: $box-shadow-default;
     }

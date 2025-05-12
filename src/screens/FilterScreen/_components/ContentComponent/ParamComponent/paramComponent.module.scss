@@ -1,59 +1,57 @@
-
-
-.param{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: $color-additional-background;
-  padding: 10px;
-  border-radius: $border-radius-20;
-  margin-bottom: 10px;
-  gap: $gap-big;
+.param {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $color-additional-background;
+    padding: 10px;
+    border-radius: $border-radius-20;
+    margin-bottom: 10px;
+    gap: $gap-big;
 }
 
 .list {
-  max-width: 100%;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: $gap;
-  
-  &_item {
+    max-width: 100%;
     display: flex;
     align-items: center;
-    padding: 9.5px 16px;
+    flex-wrap: wrap;
     gap: $gap;
-    border: 1px solid $color-main-grey;
-    border-radius: $border-radius-small;
-    cursor: pointer;
-    transition: $transiton;
-    &_text {
-      @extend %Text14;
+
+    &_item {
+        display: flex;
+        align-items: center;
+        padding: 9.5px 16px;
+        gap: $gap;
+        border: 1px solid $color-main-grey;
+        border-radius: $border-radius-small;
+        cursor: pointer;
+        transition: $transition;
+        &_text {
+            @extend %Text14;
+        }
+        &_icon {
+            font-size: 20px;
+            transition: $transition;
+        }
+        &:hover &_icon {
+            color: $color-main-gold;
+        }
+        &:hover {
+            border-color: $color-main-gold;
+        }
     }
-    &_icon {
-      font-size: 20px;
-      transition: $transiton;
-    }
-    &:hover &_icon {
-      color: $color-main-gold;
-    }
-    &:hover {
-      border-color: $color-main-gold;
-    }
-  }
 }
-.buttonResetAll{
-  height: fit-content;
+.buttonResetAll {
+    height: fit-content;
 }
 
 @include mediaTablet {
-  .param{
-    flex-direction: column;
-  }
-  .list{
-    display: none;
-    &_item{
-      padding: 7px 10px;
+    .param {
+        flex-direction: column;
     }
-  }
+    .list {
+        display: none;
+        &_item {
+            padding: 7px 10px;
+        }
+    }
 }

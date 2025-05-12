@@ -5,7 +5,7 @@
     border: 1px solid $color-main-black;
     border-radius: $border-radius-5;
     width: fit-content;
-    transition: $transiton;
+    transition: $transition;
 
     &:hover {
         border-color: $color-main-blue;
@@ -22,7 +22,7 @@
 .buttonDelete {
     border-radius: $border-radius-5;
     cursor: pointer;
-    transition: $transiton;
+    transition: $transition;
     &:hover {
         color: $color-main-blue;
     }

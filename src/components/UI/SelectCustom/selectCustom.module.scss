@@ -1,80 +1,80 @@
 @import "/src/asset/common-styles/";
 
 .select {
-  position: relative;
-  min-width: 150px;
-  width: 100%;
-  padding: 10px;
-  border: 1px solid $color-main-grey;
-  border-radius: $border-radius-small;
-  transition: $transiton;
-  &_value {
+    position: relative;
+    min-width: 150px;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    padding: 5px;
-    background-color: transparent;
+    padding: 10px;
+    border: 1px solid $color-main-grey;
+    border-radius: $border-radius-small;
+    transition: $transition;
+    &_value {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        padding: 5px;
+        background-color: transparent;
 
-    transition: $transiton;
-    & span {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 150px;
-    }
-    &_icon {
-      font-size: 20px;
-      transition: $transiton;
-      .select.active & {
-        transform: rotate(180deg);
-      }
-    }
+        transition: $transition;
+        & span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 150px;
+        }
+        &_icon {
+            font-size: 20px;
+            transition: $transition;
+            .select.active & {
+                transform: rotate(180deg);
+            }
+        }
 
-    &:hover &_icon {
-      color: $color-main-gold;
-    }
+        &:hover &_icon {
+            color: $color-main-gold;
+        }
 
-    .select.active &_icon {
-      color: $color-main-gold;
+        .select.active &_icon {
+            color: $color-main-gold;
+        }
     }
-  }
-  &_options {
-    opacity: 0;
-    pointer-events: none;
-    border-radius: 10px;
-    overflow: hidden;
-    position: absolute;
-    z-index: 2;
-    top: calc(100% + 5px);
-    right: 0;
-    left: 0;
-    background-color: $color-main-white;
-    transition: $transiton;
-    border: 1px solid $color-main-gold;
-    &_item {
-      padding: 5px;
-      cursor: pointer;
-      transition: $transiton;
-      &:hover {
-        color: $color-main-white;
-        background-color: $color-main-blue;
-      }
-      &_active {
-        color: $color-main-white;
-        background-color: $color-main-blue;
-      }
+    &_options {
+        opacity: 0;
+        pointer-events: none;
+        border-radius: 10px;
+        overflow: hidden;
+        position: absolute;
+        z-index: 2;
+        top: calc(100% + 5px);
+        right: 0;
+        left: 0;
+        background-color: $color-main-white;
+        transition: $transition;
+        border: 1px solid $color-main-gold;
+        &_item {
+            padding: 5px;
+            cursor: pointer;
+            transition: $transition;
+            &:hover {
+                color: $color-main-white;
+                background-color: $color-main-blue;
+            }
+            &_active {
+                color: $color-main-white;
+                background-color: $color-main-blue;
+            }
+        }
     }
-  }
-  &:hover {
-    border-color: $color-main-gold;
-  }
-  &.active {
-    border-color: $color-main-gold;
-  }
-  &.active &_options {
-    pointer-events: all;
-    opacity: 1;
-  }
+    &:hover {
+        border-color: $color-main-gold;
+    }
+    &.active {
+        border-color: $color-main-gold;
+    }
+    &.active &_options {
+        pointer-events: all;
+        opacity: 1;
+    }
 }

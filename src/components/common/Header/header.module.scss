@@ -1,50 +1,50 @@
 .header {
-  position: sticky;
-  top: 0;
-  z-index: 3;
-  padding: 10px 0;
-  background: $color-main-background;
-  min-height: $header-height;
-  & .container {
-    @extend %display-between;
-    gap: $gap;
-    margin-bottom: 10px;
-  }
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    padding: 10px 0;
+    background: $color-main-background;
+    min-height: $header-height;
+    & .container {
+        @extend %display-between;
+        gap: $gap;
+        margin-bottom: 10px;
+    }
 }
 
 .logo {
-  &_small {
-    display: none;
-  }
+    &_small {
+        display: none;
+    }
 }
 
 .right {
-  @extend %display-center;
-  gap: 10px;
-  &_lang {
-  }
-  &_auth {
-    &_button {
-      @extend %Text14;
-      text-wrap: nowrap;
+    @extend %display-center;
+    gap: 10px;
+    &_lang {
     }
-  }
+    &_auth {
+        &_button {
+            @extend %Text14;
+            text-wrap: nowrap;
+        }
+    }
 }
 .header__second {
-  & ul {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    gap: 10px;
-    padding-bottom: 5px;
-  }
-
-  &_link {
-    transition: $transiton;
-    &:hover {
-      color: $color-main-gold;
+    & ul {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        gap: 10px;
+        padding-bottom: 5px;
     }
-  }
+
+    &_link {
+        transition: $transition;
+        &:hover {
+            color: $color-main-gold;
+        }
+    }
 }
 // .test {
 //   color: black;
@@ -57,21 +57,21 @@
 
 // }
 @include mediaTablet {
-  .nav_block {
-    display: none;
-  }
+    .nav_block {
+        display: none;
+    }
 
-  .right {
-    display: none;
-  }
+    .right {
+        display: none;
+    }
 }
 @include mediaPhone {
-  .logo {
-    &_small {
-      display: block;
+    .logo {
+        &_small {
+            display: block;
+        }
+        &_big {
+            display: none;
+        }
     }
-    &_big {
-      display: none;
-    }
-  }
 }

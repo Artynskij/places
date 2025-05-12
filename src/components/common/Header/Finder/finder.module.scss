@@ -1,137 +1,136 @@
 @import "/src/asset/common-styles/";
 .header_item {
-  height: 100%;
-  position: relative;
-  @extend %display-center;
-  cursor: pointer;
+    height: 100%;
+    position: relative;
+    @extend %display-center;
+    cursor: pointer;
 }
 .block {
-  width: 100%;
-  padding: 11px 16px;
-  border: 1px solid $color-main-grey;
-  border-radius: 100px;
-  min-width: 10px;
-  &:hover,
-  &:focus-within {
-    border-color: $color-main-gold;
-  }
-  &_input {
-    display: grid;
-    grid-template-columns: 20px 1fr ;
-    gap: 8px;
-    transition: $transiton;
-    transition: padding 0s;
-  }
-  &:hover .icon,
-  &:focus-within .icon {
-    color: $color-main-gold;
-  }
-  &_dropdown {
-    position: relative;
-  }
+    width: 100%;
+    padding: 11px 16px;
+    border: 1px solid $color-main-grey;
+    border-radius: 100px;
+    min-width: 10px;
+    &:hover,
+    &:focus-within {
+        border-color: $color-main-gold;
+    }
+    &_input {
+        display: grid;
+        grid-template-columns: 20px 1fr;
+        gap: 8px;
+        transition: $transition;
+        transition: padding 0s;
+    }
+    &:hover .icon,
+    &:focus-within .icon {
+        color: $color-main-gold;
+    }
+    &_dropdown {
+        position: relative;
+    }
 }
 
 .icon {
-  font-size: 20px;
-  transition: $transiton;
+    font-size: 20px;
+    transition: $transition;
 }
 .iconClear {
-  font-size: 20px;
-  transition: $transiton;
-  &:hover {
-    color: $color-main-gold;
-  }
+    font-size: 20px;
+    transition: $transition;
+    &:hover {
+        color: $color-main-gold;
+    }
 }
 .ctnInput {
-  & input {
-    width: 90%;
-    color: $color-main-black;
-    background-color: transparent;
-    border: none;
-    &:focus-visible {
-      outline: 0;
-      border-color: $color-main-gold;
+    & input {
+        width: 90%;
+        color: $color-main-black;
+        background-color: transparent;
+        border: none;
+        &:focus-visible {
+            outline: 0;
+            border-color: $color-main-gold;
+        }
     }
-  }
 }
 .dropdown {
-  display: none;
-  padding: 7px 0;
-  & ul {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  & li {
-    padding: 5px 16px;
-    background-color: transparent;
-    transition: $transiton;
-    overflow: hidden;
+    display: none;
+    padding: 7px 0;
+    & ul {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    & li {
+        padding: 5px 16px;
+        background-color: transparent;
+        transition: $transition;
+        overflow: hidden;
 
-    &:hover {
-      background-color: $color-main-gold;
-      border-radius: 10px;
+        &:hover {
+            background-color: $color-main-gold;
+            border-radius: 10px;
+        }
+        &.active {
+            background-color: $color-main-gold;
+            border-radius: 10px;
+        }
     }
-    &.active {
-      background-color: $color-main-gold;
-      border-radius: 10px;
+    & li.active {
+        background-color: $color-main-gold;
+        border-radius: 10px;
     }
-    
-  }
-  & li.active {
-    background-color: $color-main-gold;
-    border-radius: 10px;
-  }
 }
 .block[active-class="true"] {
-  min-width: 50vw;
-  max-width: 70vw;
-  overflow: hidden;
-  transition: $transiton;
-  position: absolute;
-  top: -20px;
-  left: 0;
-  z-index: 10;
-  background-color: $color-main-white;
+    min-width: 50vw;
+    max-width: 70vw;
+    overflow: hidden;
+    transition: $transition;
+    position: absolute;
+    top: -20px;
+    left: 0;
+    z-index: 10;
+    background-color: $color-main-white;
 
-  border-radius: 12px;
+    border-radius: 12px;
 
-  & .block_input {
-    border-bottom: 1px solid black;
-    padding-bottom: 10px;
-    grid-template-columns: 20px 1fr 20px;
-    & .ctnInput {
-      width: 100%;
-      & input {
-        width: 100%;
-      }
-      &_clear {
-        font-size: 20px;
-      }
+    & .block_input {
+        border-bottom: 1px solid black;
+        padding-bottom: 10px;
+        grid-template-columns: 20px 1fr 20px;
+        & .ctnInput {
+            width: 100%;
+            & input {
+                width: 100%;
+            }
+            &_clear {
+                font-size: 20px;
+            }
+        }
     }
-  }
-  & .dropdown {
-    display: block;
-  }
+    & .dropdown {
+        display: block;
+    }
 }
 
 @media screen and (max-width: $media-tablet) {
-  .block[active-class="true"] {
-    position: fixed;
-    top: 20px;
-    left: 20%;
-  }
+    .block[active-class="true"] {
+        position: fixed;
+        top: 20px;
+        left: 20%;
+    }
 }
 @media screen and (max-width: $media-phone) {
-  .header_item {
-    width: 100%;
-  }
-  .block[active-class="true"] {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    max-width: 100vw;
-    height: 80vh;
-  }
+    .header_item {
+        width: 100%;
+    }
+    .block[active-class="true"] {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        max-width: 100vw;
+        height: 80vh;
+    }
 }

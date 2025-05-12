@@ -1,73 +1,72 @@
 @import "/src/asset/common-styles/";
 
 .history {
-  &_title {
-    margin-bottom: 20px;
-  }
-  &_content {
     &_title {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      padding: 10px 7px;
-      background-color: $color-main-white;
-      border-radius: 10px;
+        margin-bottom: 20px;
     }
-    &_list {
-      display: flex;
-      flex-direction: column;
+    &_content {
+        &_title {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            padding: 10px 7px;
+            background-color: $color-main-white;
+            border-radius: 10px;
+        }
+        &_list {
+            display: flex;
+            flex-direction: column;
 
-      &_item {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: $gap;
+            &_item {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                gap: $gap;
+                align-items: center;
+                padding: 15px 7px;
+                border-bottom: 1px solid $color-main-white;
+                transition: $transition;
+                & span {
+                    @extend %Text14;
+                }
+                &_type {
+                    padding: 7px 8px;
+                    width: fit-content;
+                    border-radius: 10px;
+                    background-color: $color-main-white;
+                    @extend %Text18;
+                }
+                &_status {
+                    padding: 7px 8px;
+                    width: fit-content;
+                    border-radius: 10px;
+
+                    &[data-status="past"] {
+                        background-color: red;
+                    }
+                    &[data-status="future"] {
+                        background-color: yellowgreen;
+                    }
+                    &[data-status="present"] {
+                        background-color: green;
+                    }
+                    &[data-status="pending"] {
+                        background-color: yellow;
+                    }
+                }
+
+                &_button {
+                    padding: 10px;
+                    width: fit-content;
+                }
+            }
+        }
+    }
+
+    &_pay {
+        display: flex;
         align-items: center;
-        padding: 15px 7px;
-        border-bottom: 1px solid $color-main-white;
-        transition: $transiton;
-        & span {
-          @extend %Text14;
+        gap: 10px;
+        &_price {
+            @extend %Text14;
         }
-        &_type {
-          padding: 7px 8px;
-          width: fit-content;
-          border-radius: 10px;
-          background-color: $color-main-white;
-          @extend %Text18;
-        }
-        &_status {
-          padding: 7px 8px;
-          width: fit-content;
-          border-radius: 10px;
-
-          &[data-status="past"] {
-            background-color: red;
-          }
-          &[data-status="future"] {
-            background-color: yellowgreen;
-          }
-          &[data-status="present"] {
-            background-color: green;
-          }
-          &[data-status="pending"] {
-            background-color: yellow;
-          }
-        }
-
-        
-        &_button {
-          padding: 10px;
-          width: fit-content;
-        }
-      }
     }
-  }
-
-  &_pay {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    &_price {
-      @extend %Text14;
-    }
-  }
 }

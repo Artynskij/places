@@ -1,50 +1,50 @@
 @import "/src/asset/common-styles/";
 .card {
-  // display: grid;
-  // grid-template-columns: repeat(3, 1fr);
-  // border: 2px solid transparent;
-  // padding: 10px;
-  // border-radius: 10px;
-  // background-color: $color-main-grey-light;
-  // cursor: pointer;
-  // transition: $transiton;
-
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr 50px;
-  align-items: center;
-  padding: 15px 7px;
-  background-color: transparent;
-  border-bottom: 1px solid $color-main-grey-light;
-  // cursor: pointer;
-  // transition: $transiton;
-
-  &:hover {
-    // border-color: $color-main-gold;
-    // border: 1px solid $color-main-gold;
-    // transform: scale(1.01);
+    // display: grid;
+    // grid-template-columns: repeat(3, 1fr);
+    // border: 2px solid transparent;
+    // padding: 10px;
     // border-radius: 10px;
-  }
-  & > div {
-    // display: flex;
-    // justify-content: center;
-  }
-  &_title {
-  }
-  &_calendar {
-  }
-  &_description {
-  }
-  &_price {
-  }
-  &_button {
-    color: $color-main-blue;
-    font-size: 30px;
-    transition: $transiton;
-    cursor: pointer;
-    &:hover{
-      color: $color-main-gold;
+    // background-color: $color-main-grey-light;
+    // cursor: pointer;
+    // transition: $transition;
+
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr 50px;
+    align-items: center;
+    padding: 15px 7px;
+    background-color: transparent;
+    border-bottom: 1px solid $color-main-grey-light;
+    // cursor: pointer;
+    // transition: $transition;
+
+    &:hover {
+        // border-color: $color-main-gold;
+        // border: 1px solid $color-main-gold;
+        // transform: scale(1.01);
+        // border-radius: 10px;
     }
-  }
+    & > div {
+        // display: flex;
+        // justify-content: center;
+    }
+    &_title {
+    }
+    &_calendar {
+    }
+    &_description {
+    }
+    &_price {
+    }
+    &_button {
+        color: $color-main-blue;
+        font-size: 30px;
+        transition: $transition;
+        cursor: pointer;
+        &:hover {
+            color: $color-main-gold;
+        }
+    }
 }
 // .modal {
 //   &_content {

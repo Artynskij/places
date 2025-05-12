@@ -1,50 +1,50 @@
 @import "/src/asset/common-styles/";
 .footer {
-  z-index: 1;
-  & .container {
-    display: flex;
-    justify-content: space-between;
-    gap: $gap;
-    padding-top: 48px;
-    padding-bottom: 48px;
-    color: $color-main-grey;
-  }
-
-  &_left {
-    display: flex;
-    gap: $gap;
-  }
-  &_center {
-  }
-  &_right {
-    display: flex;
-    gap: $gap;
-  }
-  &_item {
-    cursor: pointer;
-    transition: $transiton;
-    &:hover {
-      color: $color-main-black;
-    }
-  }
-}
-@media screen and (max-width: $media-tablet) {
-  .footer {
+    z-index: 1;
     & .container {
-      // flex-direction: column;
+        display: flex;
+        justify-content: space-between;
+        gap: $gap;
+        padding-top: 48px;
+        padding-bottom: 48px;
+        color: $color-main-grey;
     }
+
     &_left {
-      flex-direction: column;
+        display: flex;
+        gap: $gap;
+    }
+    &_center {
     }
     &_right {
-      flex-direction: column;
+        display: flex;
+        gap: $gap;
     }
-  }
+    &_item {
+        cursor: pointer;
+        transition: $transition;
+        &:hover {
+            color: $color-main-black;
+        }
+    }
+}
+@media screen and (max-width: $media-tablet) {
+    .footer {
+        & .container {
+            // flex-direction: column;
+        }
+        &_left {
+            flex-direction: column;
+        }
+        &_right {
+            flex-direction: column;
+        }
+    }
 }
 @media screen and (max-width: $media-phone) {
-  .footer {
-    & .container {
-      flex-direction: column;
+    .footer {
+        & .container {
+            flex-direction: column;
+        }
     }
-  }
 }

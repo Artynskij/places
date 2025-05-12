@@ -1,155 +1,155 @@
 .card {
-  width: 100%;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  gap: $gap-big;
-  background-color: $color-additional-background;
-  padding: 13px 10px;
-  border-radius: $border-radius-20;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: $gap-big;
+    background-color: $color-additional-background;
+    padding: 13px 10px;
+    border-radius: $border-radius-20;
 }
 .image {
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-  &_link {
-    display: block;
+    border-radius: 12px;
     overflow: hidden;
     position: relative;
-    height: 100%;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    min-width: 100%;
-  }
-  &_image {
-    object-fit: cover;
-  }
-  &_type {
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 10px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 16px;
-    @extend %Text14;
-    color: $color-main-white;
-
-    &_text {
-      @extend %Text12;
-      background-color: $color-main-blue;
-      padding: 7.5px 10px;
-      border-radius: 6px;
-      transition: $transiton;
-      cursor: pointer;
-      &:hover {
-        background-color: $color-main-blue_hover;
-      }
+    &_link {
+        display: block;
+        overflow: hidden;
+        position: relative;
+        height: 100%;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        min-width: 100%;
     }
-  }
+    &_image {
+        object-fit: cover;
+    }
+    &_type {
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 10px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 16px;
+        @extend %Text14;
+        color: $color-main-white;
+
+        &_text {
+            @extend %Text12;
+            background-color: $color-main-blue;
+            padding: 7.5px 10px;
+            border-radius: 6px;
+            transition: $transition;
+            cursor: pointer;
+            &:hover {
+                background-color: $color-main-blue_hover;
+            }
+        }
+    }
 }
 .description {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 2px;
-  &_top,
-  &_bottom {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-  }
-  &_rating {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    @extend %Text14;
-    // &_icon {
-    //   transform: translate(0, -1px);
-    //   font-size: 18px;
-    //   color: $color-main-blue;
-    //   margin-right: 4px;
-    // }
-  }
-  &_title {
-    display: flex;
+    justify-content: space-between;
+    gap: 2px;
+    &_top,
+    &_bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    &_rating {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        @extend %Text14;
+        // &_icon {
+        //   transform: translate(0, -1px);
+        //   font-size: 18px;
+        //   color: $color-main-blue;
+        //   margin-right: 4px;
+        // }
+    }
+    &_title {
+        display: flex;
 
-    @extend %Text18;
-  }
-  &_subtitle {
-    display: flex;
-    gap: 10px;
-    // align-items: center;
-    @extend %Text14;
-    color: $color-main-grey;
-  }
-  &_location {
-    @extend %Text14;
-    color: $color-main-grey;
-    transition: $transiton;
-    cursor: pointer;
-    &:hover {
-      color: $color-main-blue;
+        @extend %Text18;
     }
-    &_icon {
-      font-size: 12px;
-      margin-right: 4px;
+    &_subtitle {
+        display: flex;
+        gap: 10px;
+        // align-items: center;
+        @extend %Text14;
+        color: $color-main-grey;
     }
-  }
+    &_location {
+        @extend %Text14;
+        color: $color-main-grey;
+        transition: $transition;
+        cursor: pointer;
+        &:hover {
+            color: $color-main-blue;
+        }
+        &_icon {
+            font-size: 12px;
+            margin-right: 4px;
+        }
+    }
 }
 .imageButton {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: $color-main-blue;
-  transition: $transiton;
-  cursor: pointer;
-  &_icon {
-    font-size: 18px;
-  }
-  &:active &_icon {
-    transform: scale(1.3);
-  }
-  &:hover {
-    background-color: $color-main-blue_hover;
-  }
-  &_active {
-    color: $color-main-gold;
-  }
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $color-main-blue;
+    transition: $transition;
+    cursor: pointer;
+    &_icon {
+        font-size: 18px;
+    }
+    &:active &_icon {
+        transform: scale(1.3);
+    }
+    &:hover {
+        background-color: $color-main-blue_hover;
+    }
+    &_active {
+        color: $color-main-gold;
+    }
 }
 .rateHotel {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  // font-size: 10px;
-  &_icon {
-    color: $color-main-gold;
-    font-size: 16px;
-  }
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    // font-size: 10px;
+    &_icon {
+        color: $color-main-gold;
+        font-size: 16px;
+    }
 }
 .rateCafe {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @include mediaPhone {
-  .image {
-    &_type {
-      height: 100%;
-      flex-direction: column-reverse;
-      align-items: end;
-      justify-content: space-between;
-      padding: 5px;
-      &_text {
-        padding: 5px 8px;
-      }
+    .image {
+        &_type {
+            height: 100%;
+            flex-direction: column-reverse;
+            align-items: end;
+            justify-content: space-between;
+            padding: 5px;
+            &_text {
+                padding: 5px 8px;
+            }
+        }
     }
-  }
-  .imageButton_share {
-    display: none;
-  }
+    .imageButton_share {
+        display: none;
+    }
 }

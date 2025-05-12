@@ -36,7 +36,7 @@
         left: 40%;
         // right: 0;
         // bottom: 0;
-        transition: $transiton;
+        transition: $transition;
         // transform: translate(40%, 20%);
     }
     &_icon_default {
@@ -58,7 +58,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        transition: $transiton;
+        transition: $transition;
     }
     &:hover &_icon_default {
         transform: translate(-20px, -20px);
@@ -82,9 +82,9 @@
     flex-wrap: wrap;
 
     & a {
-      display: flex;
-      flex-direction: column;
-      gap: $gap-small;
+        display: flex;
+        flex-direction: column;
+        gap: $gap-small;
         padding: 10px;
         border-radius: $border-radius-5;
         border: 1px solid $color-main-grey;

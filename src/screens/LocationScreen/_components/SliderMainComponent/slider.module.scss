@@ -1,70 +1,69 @@
 @import "/src/asset/common-styles/";
 .slider_ctn {
-  position: relative;
+    position: relative;
 }
 .arrow_next,
 .arrow_prev {
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  border-radius: 50%;
-  position: absolute;
-  top: 35%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 50%;
+    position: absolute;
+    top: 35%;
 
-  z-index: 2;
-  //   font-size: 30px;
+    z-index: 2;
+    //   font-size: 30px;
 
-  color: $color-main-black;
-  padding: 0;
-  background-color: rgba(255, 251, 251, 0.363);
-  backdrop-filter: blur(1px);
-  cursor: pointer;
-  border: 2px solid $color-main-grey;
-  transition: $transiton;
-  &:hover {
-    border-color: $color-main-gold;
-  }
-  &:active {
-    border-color: $color-main-blue;
-  }
-  &_icon {
-    font-size: 40px;
-  }
+    color: $color-main-black;
+    padding: 0;
+    background-color: rgba(255, 251, 251, 0.363);
+    backdrop-filter: blur(1px);
+    cursor: pointer;
+    border: 2px solid $color-main-grey;
+    transition: $transition;
+    &:hover {
+        border-color: $color-main-gold;
+    }
+    &:active {
+        border-color: $color-main-blue;
+    }
+    &_icon {
+        font-size: 40px;
+    }
 }
 .arrow_prev {
-  left: -10px;
+    left: -10px;
 }
 .arrow_next {
-  right: -10px;
+    right: -10px;
 }
 
 .disable_arrow {
-  color: $color-main-grey;
-  border-color: $color-main-grey;
-  &:hover {
+    color: $color-main-grey;
     border-color: $color-main-grey;
-  }
-  &:active {
-    border-color: $color-main-grey;
-  }
+    &:hover {
+        border-color: $color-main-grey;
+    }
+    &:active {
+        border-color: $color-main-grey;
+    }
 }
 
 .skeleton {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  &_slide {
-    min-height: 320px;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
-  }
-  &_image{
-    width: 100%;
-    height: 300px;
-
-  }
-  &_button{
-    width: 100%;
-  }
+    &_slide {
+        min-height: 320px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    &_image {
+        width: 100%;
+        height: 300px;
+    }
+    &_button {
+        width: 100%;
+    }
 }

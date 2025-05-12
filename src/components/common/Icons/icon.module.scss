@@ -1,58 +1,58 @@
 .icon {
-  &_globe {
-    color: $color-main-black;
-    cursor: pointer;
-    transition: $transiton;
-    font-size: 22px;
-    &:hover {
-      color: $color-main-blue;
+    &_globe {
+        color: $color-main-black;
+        cursor: pointer;
+        transition: $transition;
+        font-size: 22px;
+        &:hover {
+            color: $color-main-blue;
+        }
     }
-  }
-  &_settings {
-    font-size: 22px;
-  }
-  &_exit {
-    font-size: 20px;
-  }
-  &_person {
-    font-size: 22px;
-  }
+    &_settings {
+        font-size: 22px;
+    }
+    &_exit {
+        font-size: 20px;
+    }
+    &_person {
+        font-size: 22px;
+    }
 }
 
 .classmates {
-  color: $social-classmates-color;
+    color: $social-classmates-color;
 } // Одноклассники
 .facebook {
-  color: $social-facebook-color;
+    color: $social-facebook-color;
 } // Facebook
 .linkedin {
-  color: $social-linkedin-color;
+    color: $social-linkedin-color;
 } // LinkedIn
 .skype {
-  color: $social-skype-color;
+    color: $social-skype-color;
 } // Skype
 .telegram {
-  color: $social-telegram-color;
+    color: $social-telegram-color;
 } // Telegram
 .twitter {
-  color: $social-twitter-color;
+    color: $social-twitter-color;
 } // Twitter
 .viber {
-  color: $social-viber-color;
+    color: $social-viber-color;
 } // Viber
 .vk {
-  color: $social-vk-color;
+    color: $social-vk-color;
 } // ВКонтакте
 .whatsapp {
-  color: $social-whatsapp-color;
+    color: $social-whatsapp-color;
 } // WhatsApp
 .instagram {
-  color: $social-instagram-color;
+    color: $social-instagram-color;
 } // WhatsApp
 .icon_social {
-  transition: $transiton;
-  &:hover {
-    opacity: 0.8;
-    transform: scale(1.1);
-  }
+    transition: $transition;
+    &:hover {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
 }

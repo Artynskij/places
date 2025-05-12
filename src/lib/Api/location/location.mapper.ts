@@ -15,7 +15,7 @@ export default class LocationMapper {
                     type: mediaItem.type,
                 };
             }) || null;
-        const maddingData = {
+        const mappingData = {
             id: location.location.Id,
             title: location?.content?.details[0].value || "",
             locationType: {
@@ -25,7 +25,7 @@ export default class LocationMapper {
             pathBreadcrumb: location.location.Path,
             media: mediaFiles,
         };
-        return maddingData;
+        return mappingData;
     }
     transformToTowns(locations: ILocationFront[]): ILocationFront[] {
         const towns = locations?.filter((town) =>

@@ -1,50 +1,50 @@
 @import "/src/asset/common-styles/";
 .button {
-  @extend %display-center;
-  gap: $gap;
-  background-color: $color-main-blue;
-  color: $color-main-white;
-  border-radius: 100px;
-  padding: 11.5px 16px;
-  border: 2px solid transparent;
-  cursor: pointer;
-  transition: $transiton;
-  text-wrap: nowrap;
-  &:hover {
-    border-color: $color-main-gold;
-  }
+    @extend %display-center;
+    gap: $gap;
+    background-color: $color-main-blue;
+    color: $color-main-white;
+    border-radius: 100px;
+    padding: 11.5px 16px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: $transition;
+    text-wrap: nowrap;
+    &:hover {
+        border-color: $color-main-gold;
+    }
 }
 .button_light {
-  @extend %display-center;
-  gap: $gap;
-  background-color: $color-main-white;
-  color: $color-main-black;
-  border-radius: 100px;
-  padding: 11.5px 16px;
-  border: 2px solid $color-main-grey-light;
-  cursor: pointer;
-  transition: $transiton;
-  text-wrap: nowrap;
-  &:hover {
-    border-color: $color-main-gold;
-  }
+    @extend %display-center;
+    gap: $gap;
+    background-color: $color-main-white;
+    color: $color-main-black;
+    border-radius: 100px;
+    padding: 11.5px 16px;
+    border: 2px solid $color-main-grey-light;
+    cursor: pointer;
+    transition: $transition;
+    text-wrap: nowrap;
+    &:hover {
+        border-color: $color-main-gold;
+    }
 }
 .button_close {
-  color: $color-main-black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-  border-radius: 50%;
-  background-color: $color-main-background;
-  cursor: pointer;
-  transition: $transiton;
-  border: 1px solid transparent;
+    color: $color-main-black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border-radius: 50%;
+    background-color: $color-main-background;
+    cursor: pointer;
+    transition: $transition;
+    border: 1px solid transparent;
 
-  &:hover {
-    border-color: $color-main-gold;
-  }
+    &:hover {
+        border-color: $color-main-gold;
+    }
 }
 .button_active {
-  border-color: $color-main-gold;
+    border-color: $color-main-gold;
 }

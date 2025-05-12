@@ -1,38 +1,36 @@
 @import "/src/asset/common-styles/";
 
 .menu {
-  @extend %display-center;
-  @extend %Text14;
-  gap: 10px;
-  & li {
-    position: relative;
-    text-wrap: nowrap;
-    transition: $transiton;
-    border: 1px solid transparent;
-    padding: 12px 16px;
-    border-radius: 100px;
-    // @extend %underline;
-    &:hover {
-      // color: $color-main-gold;
-      border-color: $color-main-gold;
+    @extend %display-center;
+    @extend %Text14;
+    gap: 10px;
+    & li {
+        position: relative;
+        text-wrap: nowrap;
+        transition: $transition;
+        border: 1px solid transparent;
+        padding: 12px 16px;
+        border-radius: 100px;
+        // @extend %underline;
+        &:hover {
+            // color: $color-main-gold;
+            border-color: $color-main-gold;
+        }
+        // &::after {
+        //   display: block;
+        //   content: '';
+        //   position: absolute;
+        //   top: 100%;
+        //   left: 0;
+        //   height: 4px;
+        //   min-width: 0px;
+        //   width: 100px;
+        //   transition: $transition;
+        //   background-color: $color-main-gold;
+        //   transform: scale(0);
+        // }
+        // &:hover::after {
+        //   transform: scale(1);
+        // }
     }
-    // &::after {
-    //   display: block;
-    //   content: '';
-    //   position: absolute;
-    //   top: 100%;
-    //   left: 0;
-    //   height: 4px;
-    //   min-width: 0px;
-    //   width: 100px;
-    //   transition: $transiton;
-    //   background-color: $color-main-gold;
-    //   transform: scale(0);
-    // }
-    // &:hover::after {
-    //   transform: scale(1);
-    // }
-  }
 }
-
-
