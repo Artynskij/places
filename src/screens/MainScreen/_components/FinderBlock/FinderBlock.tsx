@@ -14,15 +14,18 @@ import {
 import { Overlay } from "@/components/common/Overlay/Overlay";
 import { Button } from "@/components/UI/Button/Button";
 import { switcherFinderMainPage } from "@/asset/constants/switcherTabsPage";
-import { ROUTES } from "@/lib/config/Routes";
+import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
 import { useLocale } from "next-intl";
 import { IEstablishmentFront } from "@/lib/models";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
 import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
+import { SearchService } from "@/lib/Api/search/search.service";
+import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
+import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";
 
 const FinderBlock = () => {
-    const apiEstablishment = new EstablishmentService();
+    const apiSearch = new SearchService();
     const router = useRouter();
     const locale = useLocale();
 
@@ -32,37 +35,47 @@ const FinderBlock = () => {
 
     const [switcherData, setSwitcherData] = useState(switcherDataStart);
 
-    const [results, setResults] = useState<IEstablishmentFront[] | null>(null);
+    const [searchResponse, setSearchResponse] =
+        useState<ISearchQueryResponseFront | null>(null);
     const [resultLoaded, setResultLoaded] = useState<boolean>(false);
-    const [activeIndex, setActiveIndex] = useState(-1);
+    const [activeIndexListSearchItems, setActiveIndexListSearchItems] =
+        useState(-1);
     const [inputValueActive, setInputValueActive] = useState(false);
     const [searchActive, setSearchActive] = useState(false);
     const handlerKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (!results) return;
+        if (!searchResponse) return;
         switch (e.key) {
             case "ArrowUp":
-                setActiveIndex((prevIndex) =>
-                    prevIndex === 0 ? results.length - 1 : prevIndex - 1
+                setActiveIndexListSearchItems((prevIndex) =>
+                    prevIndex === 0
+                        ? searchResponse.searchItems.length - 1
+                        : prevIndex - 1
                 );
                 break;
             case "ArrowDown":
-                setActiveIndex((prevIndex) =>
-                    prevIndex === results.length - 1 ? 0 : prevIndex + 1
+                setActiveIndexListSearchItems((prevIndex) =>
+                    prevIndex === searchResponse.searchItems.length - 1
+                        ? 0
+                        : prevIndex + 1
                 );
                 break;
             case "Enter":
                 e.preventDefault();
-                if (activeIndex >= 0 && activeIndex < results.length) {
-                    const establishment = results[activeIndex];
-                    console.log("Selected:", results[activeIndex]);
+                if (
+                    activeIndexListSearchItems >= 0 &&
+                    activeIndexListSearchItems <
+                        searchResponse.searchItems.length
+                ) {
+                    const searchItem =
+                        searchResponse.searchItems[activeIndexListSearchItems];
+                    console.log(
+                        "Selected:",
+                        searchResponse.searchItems[activeIndexListSearchItems]
+                    );
                     handlerCloseInput();
                     router.push(
-                        ROUTES.LOCATION.ESTABLISHMENT(
-                            establishment.location.town.id,
-                            TYPES_OF_ESTABLISHMENT[
-                                establishment.typeEstablishment
-                            ].key,
-                            establishment.id
+                        ROUTES_FINDER[searchItem.globalTypeEntity](
+                            searchItem.id
                         )
                     );
                 }
@@ -73,38 +86,55 @@ const FinderBlock = () => {
     };
     function handlerChangeInput() {
         const current = refInput.current as HTMLInputElement;
-        setActiveIndex(-1);
+        setActiveIndexListSearchItems(-1);
         if (current.value.length > 0 && !inputValueActive) {
             setInputValueActive(true);
         } else if (current.value.length === 0 && inputValueActive) {
             setInputValueActive(false);
         }
-
-        setResults(null); // TODO
+        const indexKey = switcherData.find((item) => item.active)?.value;
+        apiSearch
+            .querySearch({
+                localLang: locale,
+                term: refInput.current?.value || "",
+                indexKey:
+                    indexKey === "all" ? "" : (indexKey as TTypesOfSearchKey),
+            })
+            .then((res) => {
+                setSearchResponse(res);
+                // setResultLoaded(true);
+            });
     }
     function handlerClearInput() {
         const current = refInput.current as HTMLInputElement;
         current.value = "";
-        setResults(null); // TODO
+        setSearchResponse(null); // TODO
         setInputValueActive(false);
-        setActiveIndex(-1);
+        setActiveIndexListSearchItems(-1);
     }
     function handlerCloseInput() {
-        setActiveIndex(-1);
+        setActiveIndexListSearchItems(-1);
         setSearchActive(false);
     }
-    function openInput() {
+    function handlerOpenInput() {
         if (searchActive !== false) return;
+        const indexKey = switcherData.find((item) => item.active)?.value;
         setSearchActive(true);
-        apiEstablishment
-            .getEstablishmentByPagination({
-                lang: locale,
-                pagination: { page: 1, pageSize: 10 },
-            })
-            .then((res) => {
-                setResults(res);
-                setResultLoaded(true);
-            });
+        if (!searchResponse) {
+            apiSearch
+                .querySearch({
+                    localLang: locale,
+                    term: refInput.current?.value || "",
+                    indexKey:
+                        indexKey === "all"
+                            ? ""
+                            : (indexKey as TTypesOfSearchKey),
+                })
+                .then((res) => {
+                    setSearchResponse(res);
+                    setResultLoaded(true);
+                });
+        }
     }
     return (
         <>
@@ -129,7 +159,7 @@ const FinderBlock = () => {
 
             <form className={style.form_finder}>
                 <div
-                    onClick={openInput}
+                    onClick={handlerOpenInput}
                     active-class={`${searchActive}`}
                     className={style.block}
                 >
@@ -168,45 +198,51 @@ const FinderBlock = () => {
                         <div className={style.dropdown}>
                             {resultLoaded ? (
                                 <ul className={style.dropdown_list} ref={refUl}>
-                                    {results && results.length > 0 ? (
-                                        results.map((establishment, index) => {
-                                            return (
-                                                <Link
-                                                    onClick={handlerCloseInput}
-                                                    key={establishment.id}
-                                                    href={ROUTES.LOCATION.ESTABLISHMENT(
-                                                        establishment.location
-                                                            .town.id,
-                                                        TYPES_OF_ESTABLISHMENT[
-                                                            establishment
-                                                                .typeEstablishment
-                                                        ].key,
-                                                        establishment.id
-                                                    )}
-                                                    className={`${
-                                                        style.dropdown_list_item
-                                                    } ${
-                                                        index === activeIndex
-                                                            ? style.active
-                                                            : ""
-                                                    }`}
-                                                >
-                                                    <li
-                                                    // className={index === activeIndex ? style.active : ""}
+                                    {searchResponse &&
+                                    searchResponse.searchItems.length > 0 ? (
+                                        searchResponse.searchItems.map(
+                                            (searchItem, index) => {
+                                                return (
+                                                    <Link
+                                                        onClick={
+                                                            handlerCloseInput
+                                                        }
+                                                        key={searchItem.id}
+                                                        href={ROUTES_FINDER[
+                                                            searchItem
+                                                                .globalTypeEntity
+                                                        ](searchItem.id)}
+                                                        className={`${
+                                                            style.dropdown_list_item
+                                                        } ${
+                                                            index ===
+                                                            activeIndexListSearchItems
+                                                                ? style.active
+                                                                : ""
+                                                        }`}
                                                     >
-                                                        <CardSearch
-                                                            establishment={
-                                                                establishment
-                                                            }
-                                                        />
-                                                    </li>
-                                                </Link>
-                                            );
-                                        })
+                                                        <li
+                                                        // className={index === activeIndex ? style.active : ""}
+                                                        >
+                                                            <CardSearch
+                                                                dataCard={
+                                                                    searchItem
+                                                                }
+                                                            />
+                                                            <div>
+                                                                {
+                                                                    searchItem.globalTypeEntity
+                                                                }
+                                                            </div>
+                                                        </li>
+                                                    </Link>
+                                                );
+                                            }
+                                        )
                                     ) : (
                                         <span>
                                             {"По запросу"}{" "}
-                                            {`"${refInput.current?.value}"`}{" "}
+                                            {`"${refInput.current?.value}"`}
                                             {"Ничего не найдено"}
                                         </span>
                                     )}

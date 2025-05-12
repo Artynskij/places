@@ -1,5 +1,5 @@
-
-
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { TCategoriesNews } from "../models/common/TCategoriesNews";
 
 export const ROUTES = {
     MAIN: "/",
@@ -37,4 +37,14 @@ export const ROUTES = {
             establishment: string
         ) => `/${location}/${typeEst}/${establishment}`,
     },
+};
+export const ROUTES_FINDER = {
+    location: (location: string) => ROUTES.LOCATION.LOCATION(location),
+    article: (news: string) => ROUTES.NEWS.NEWS("news", news),
+    establishment: (establishment: string) =>
+        ROUTES.LOCATION.ESTABLISHMENT(
+            "01JQW07E3T1TYF1S25MFZHR9G6",
+            TYPES_OF_ESTABLISHMENT["ACCOMMODATION"].key,
+            establishment
+        ),
 };

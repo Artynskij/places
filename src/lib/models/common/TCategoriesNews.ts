@@ -1,1 +1,1 @@
-type TCategoriesNews = "news" | "recommend" | "overview" | "blog";
+export type TCategoriesNews = "news" | "recommend" | "overview" | "blog";

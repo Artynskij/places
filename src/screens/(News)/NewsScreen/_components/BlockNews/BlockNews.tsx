@@ -18,6 +18,7 @@ import { BlockShare } from "@/components/common/BlockFunctional/BlockShare";
 import { BlockWatchCount } from "@/components/common/BlockFunctional/BlockWhatchCount";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { Markdown } from "@/components/common/MarkDown/MarkDown";
+import { TCategoriesNews } from "@/lib/models/common/TCategoriesNews";
 
 interface IBlockNews {
     article: IArticleFront | null;

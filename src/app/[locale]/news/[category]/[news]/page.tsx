@@ -6,6 +6,7 @@ import NewsScreen from "@/screens/(News)/NewsScreen/NewsScreen";
 
 import { notFound } from "next/navigation";
 import { ArticleService } from "@/lib/Api/article/article.service";
+import { TCategoriesNews } from "@/lib/models/common/TCategoriesNews";
 
 export async function generateMetadata({
     params,

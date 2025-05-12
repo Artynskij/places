@@ -20,12 +20,15 @@ import { Overlay } from "@/components/common/Overlay/Overlay";
 import { IEstablishmentFront } from "@/lib/models";
 import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
 import { SpinnerAnt } from "../../Spinner/SpinnerAnt";
-import { ROUTES } from "@/lib/config/Routes";
+import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { SearchService } from "@/lib/Api/search/search.service";
+import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
 
 export const Finder = () => {
+    const apiSearch = new SearchService();
     const t = useTranslations("Header");
-    const apiEstablishment = new EstablishmentService();
+    // const apiEstablishment = new EstablishmentService();
     const locale = useLocale();
     const router = useRouter();
 
@@ -36,37 +39,44 @@ export const Finder = () => {
 
     // const [searchText, setSearchText] = useState("");
     // запрос на сервер
-    const [results, setResults] = useState<IEstablishmentFront[] | null>(null);
+    const [searchResponse, setSearchResponse] =
+        useState<ISearchQueryResponseFront | null>(null);
     const [resultLoaded, setResultLoaded] = useState<boolean>(false);
     const [activeIndex, setActiveIndex] = useState(-1);
     const [inputValueActive, setInputValueActive] = useState(false);
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (!results) return;
+        if (!searchResponse) return;
         switch (e.key) {
             case "ArrowUp":
                 setActiveIndex((prevIndex) =>
-                    prevIndex === 0 ? results.length - 1 : prevIndex - 1
+                    prevIndex === 0
+                        ? searchResponse.searchItems.length - 1
+                        : prevIndex - 1
                 );
                 break;
             case "ArrowDown":
                 setActiveIndex((prevIndex) =>
-                    prevIndex === results.length - 1 ? 0 : prevIndex + 1
+                    prevIndex === searchResponse.searchItems.length - 1
+                        ? 0
+                        : prevIndex + 1
                 );
                 break;
             case "Enter":
                 e.preventDefault();
-                if (activeIndex >= 0 && activeIndex < results.length) {
-                    const establishment = results[activeIndex];
-                    console.log("Selected:", results[activeIndex]);
+                if (
+                    activeIndex >= 0 &&
+                    activeIndex < searchResponse.searchItems.length
+                ) {
+                    const searchItem = searchResponse.searchItems[activeIndex];
+                    console.log(
+                        "Selected:",
+                        searchResponse.searchItems[activeIndex]
+                    );
                     handlerCloseInput();
                     router.push(
-                        ROUTES.LOCATION.ESTABLISHMENT(
-                            establishment.location.town.id,
-                            TYPES_OF_ESTABLISHMENT[
-                                establishment.typeEstablishment
-                            ].key,
-                            establishment.id
+                        ROUTES_FINDER[searchItem.globalTypeEntity](
+                            searchItem.id
                         )
                     );
                 }
@@ -84,17 +94,19 @@ export const Finder = () => {
         } else if (current.value.length === 0 && inputValueActive) {
             setInputValueActive(false);
         }
-        const newData = mockFinder.filter(
-            (item) =>
-                item.title.includes(current.value) ||
-                item.location.includes(current.value)
-        );
-        setResults(null); // TODO
+        apiSearch
+            .querySearch({
+                localLang: locale,
+                term: refInput.current?.value || "",
+            })
+            .then((res) => {
+                setSearchResponse(res);
+            });
     }
     function handlerClearInput() {
         const current = refInput.current as HTMLInputElement;
         current.value = "";
-        setResults(null); // TODO
+        setSearchResponse(null); // TODO
         setInputValueActive(false);
         setActiveIndex(-1);
     }
@@ -105,14 +117,14 @@ export const Finder = () => {
     function handlerOpenInput() {
         if (searchActive !== false) return;
         setSearchActive(true);
-        if (!results) {
-            apiEstablishment
-                .getEstablishmentByPagination({
-                    lang: locale,
-                    pagination: { page: 1, pageSize: 10 },
+        if (!searchResponse) {
+            apiSearch
+                .querySearch({
+                    localLang: locale,
+                    term: refInput.current?.value || "",
                 })
                 .then((res) => {
-                    setResults(res);
+                    setSearchResponse(res);
                     setResultLoaded(true);
                 });
         }
@@ -158,38 +170,43 @@ export const Finder = () => {
                     <div className={style.dropdown}>
                         {resultLoaded ? (
                             <ul ref={refUl}>
-                                {results && results.length > 0 ? (
-                                    results.map((establishment, index) => {
-                                        return (
-                                            <Link
-                                                onClick={handlerCloseInput}
-                                                key={establishment.id}
-                                                href={ROUTES.LOCATION.ESTABLISHMENT(
-                                                    establishment.location.town
-                                                        .id,
-                                                    TYPES_OF_ESTABLISHMENT[
-                                                        establishment
-                                                            .typeEstablishment
-                                                    ].key,
-                                                    establishment.id
-                                                )}
-                                            >
-                                                <li
-                                                    className={
-                                                        index === activeIndex
-                                                            ? style.active
-                                                            : ""
-                                                    }
+                                {searchResponse &&
+                                searchResponse.searchItems.length > 0 ? (
+                                    searchResponse.searchItems.map(
+                                        (searchItem, index) => {
+                                            return (
+                                                <Link
+                                                    onClick={handlerCloseInput}
+                                                    key={searchItem.id}
+                                                    // TODO LINK
+                                                    href={ROUTES_FINDER[
+                                                        searchItem
+                                                            .globalTypeEntity
+                                                    ](searchItem.id)}
                                                 >
-                                                    <CardSearch
-                                                        establishment={
-                                                            establishment
+                                                    <li
+                                                        className={
+                                                            index ===
+                                                            activeIndex
+                                                                ? style.active
+                                                                : ""
                                                         }
-                                                    />
-                                                </li>
-                                            </Link>
-                                        );
-                                    })
+                                                    >
+                                                        <CardSearch
+                                                            dataCard={
+                                                                searchItem
+                                                            }
+                                                        />
+                                                        <div>
+                                                            {
+                                                                searchItem.globalTypeEntity
+                                                            }
+                                                        </div>
+                                                    </li>
+                                                </Link>
+                                            );
+                                        }
+                                    )
                                 ) : (
                                     <span>
                                         {t("text.finderNullFirst")}{" "}
