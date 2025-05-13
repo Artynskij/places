@@ -10,5 +10,6 @@ export type TTypesOfSearchKey =
     | "TO_EAT"
     | "TO_GO"
     | "TO_READ"
-    | "";
+    | ""
+    | "all";
 export type TGlobalTypes = "location" | "establishment" | "article";

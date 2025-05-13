@@ -6,5 +6,5 @@ export interface ISearchQueryRequest {
     size?: number;
     inputLang?: string;
     localLang: string;
-    indexKey?: TTypesOfSearchKey;
+    indexKey: TTypesOfSearchKey;
 }

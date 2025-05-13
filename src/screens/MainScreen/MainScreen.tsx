@@ -14,6 +14,7 @@ import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime
 import { IArticleFront, IPageProps } from "@/lib/models";
 import { getTranslations } from "next-intl/server";
 import { ROUTES } from "@/lib/config/Routes";
+import FinderMainPage from "@/components/common/Finder/FinderMainPage/FinderMainPage";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {};
@@ -50,7 +51,7 @@ export const MainScreen = async ({
                 </SliderCommercial>
             </section>
             <section>
-                <FinderBlock />
+                <FinderMainPage />
             </section>
             {/* news block */}
             <section>

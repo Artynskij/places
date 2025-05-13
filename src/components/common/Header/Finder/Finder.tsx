@@ -8,8 +8,6 @@ import Link from "next/link";
 
 import { CardSearch } from "../../Cards/CardSearch/CardSearch";
 
-import { mockFinder } from "@/asset/mockData/mockFinder";
-
 import { useLocale, useTranslations } from "next-intl";
 import {
     IconArrowLeft,
@@ -17,8 +15,7 @@ import {
     IconSearch,
 } from "@/components/common/Icons";
 import { Overlay } from "@/components/common/Overlay/Overlay";
-import { IEstablishmentFront } from "@/lib/models";
-import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
+
 import { SpinnerAnt } from "../../Spinner/SpinnerAnt";
 import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
@@ -96,6 +93,7 @@ export const Finder = () => {
         }
         apiSearch
             .querySearch({
+                indexKey: "",
                 localLang: locale,
                 term: refInput.current?.value || "",
             })
@@ -120,6 +118,7 @@ export const Finder = () => {
         if (!searchResponse) {
             apiSearch
                 .querySearch({
+                    indexKey: "",
                     localLang: locale,
                     term: refInput.current?.value || "",
                 })

@@ -14,6 +14,7 @@ import { ROUTES } from "@/lib/config/Routes";
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { FinderHeader } from "../Finder/FinderHeader/FinderHeader";
 
 // { locale }: { locale: string }
 export const Header = async () => {
@@ -50,7 +51,7 @@ export const Header = async () => {
                         </Link>
                     </div>
 
-                    <Finder />
+                    <FinderHeader />
                     <div className={style.nav_block}>
                         <Navigation translations={tHeader} />
                     </div>

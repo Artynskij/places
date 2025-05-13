@@ -15,6 +15,8 @@ export class SearchService {
         body: ISearchQueryRequest
     ): Promise<ISearchQueryResponseFront | null> {
         const response = await this.searchApi.querySearch(body);
+        
+
         const mappingData = response
             ? this.searchMapper.mapSearchQuery(response)
             : null;
