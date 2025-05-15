@@ -25,8 +25,7 @@ const SearchScreen = ({ params, searchParams, searchData }: ISearchProp) => {
                 <InputFind />
 
                 <h4 className={style.searchInfo}>
-                    Результаты поиска по запросу "{searchQuery}". Найдено{" "}
-                    {countAllSearchItems} совпадений.
+                    {` Результаты поиска по запросу "${searchQuery}". Найдено ${countAllSearchItems} совпадений.`}
                 </h4>
 
                 {searchData && (

@@ -37,16 +37,16 @@ export class SearchMapper {
                 usedLangs: responseBack._meta.usedLangs,
                 mode: responseBack._meta.mode || null,
                 found: {
-                    article: responseBack._meta.found?.article || null,
-                    location: responseBack._meta.found?.location || null,
-                    establishment: responseBack._meta.found?.object || null,
+                    article: responseBack._meta.found?.article || 0,
+                    location: responseBack._meta.found?.location || 0,
+                    establishment: responseBack._meta.found?.object || 0,
                 },
                 proportions: {
                     total: responseBack.total,
-                    article: responseBack._meta.proportions?.article || null,
-                    location: responseBack._meta.proportions?.location || null,
+                    article: responseBack._meta.proportions?.article || 0,
+                    location: responseBack._meta.proportions?.location || 0,
                     establishment:
-                        responseBack._meta.proportions?.object || null,
+                        responseBack._meta.proportions?.object || 0,
                 },
             },
         };
