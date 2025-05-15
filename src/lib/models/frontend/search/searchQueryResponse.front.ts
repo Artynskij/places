@@ -7,14 +7,14 @@ export interface ISearchQueryResponseFront {
         usedLangs: string[] | null;
         proportions: {
             total: number;
-            location: number | null;
-            establishment: number | null;
-            article: number | null;
+            location: number;
+            establishment: number;
+            article: number;
         };
         found: {
-            location: number | null;
-            establishment: number | null;
-            article: number | null;
+            location: number;
+            establishment: number;
+            article: number;
         };
     };
 }

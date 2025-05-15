@@ -18,7 +18,7 @@ import { Overlay } from "@/components/common/Overlay/Overlay";
 
 import { SpinnerAnt } from "../../Spinner/SpinnerAnt";
 import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { SearchService } from "@/lib/Api/search/search.service";
 import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
 

@@ -1,24 +1,25 @@
 import Image from "next/image";
 import style from "./cardSearch.module.scss";
 import { FC } from "react";
-import { IEstablishmentFront, IMediaFront, ISearchItemFront } from "@/lib/models";
-import Link from "next/link";
-import { ROUTES } from "@/lib/config/Routes";
+import { ISearchItemFront } from "@/lib/models";
 
 interface ICardSearch {
     dataCard: ISearchItemFront;
+    showDescription?: boolean;
 }
-export const CardSearch: FC<ICardSearch> = ({ dataCard }) => {
+export const CardSearch: FC<ICardSearch> = ({
+    dataCard,
+    showDescription = false,
+}) => {
     return (
-        <div
-            onMouseDown={() => {
-                console.log("onMouse");
-            }}
-            className={style.card}
-        >
+        <div className={style.card}>
             <div className={style.card_img}>
                 <Image
-                    src={dataCard.media? `${dataCard.media?.cdnHost}/${dataCard.media?.mainImage.blobPath}` :'/mock/restMock.jpg'}
+                    src={
+                        dataCard.media
+                            ? `${dataCard.media?.cdnHost}/${dataCard.media?.mainImage.blobPath}`
+                            : "/mock/restMock.jpg"
+                    }
                     alt={dataCard.media?.mainImage.title || "searchItem card"}
                     sizes="10vw"
                     width={50}
@@ -27,6 +28,14 @@ export const CardSearch: FC<ICardSearch> = ({ dataCard }) => {
             </div>
             <div className={style.card_info}>
                 <h3 className={style.card_info_title}>{dataCard.title}</h3>
+                {showDescription && (
+                    <div className={style.card_info_description}>
+                        {dataCard.description}
+                    </div>
+                )}
+
+                <div>{dataCard.globalTypeEntity}</div>
+
                 {/* <Link
                     href={ROUTES.LOCATION.LOCATION(dataCard.location.town.id)}
                 >

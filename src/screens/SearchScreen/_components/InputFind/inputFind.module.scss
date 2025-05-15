@@ -1,0 +1,17 @@
+.ctn {
+    display: flex;
+    align-items: center;
+    gap: $gap-small;
+    padding: 10px 15px;
+    border-radius: $border-radius-10;
+    background-color: $color-additional-background;
+}
+.inputCtn {
+    margin: 0;
+    background-color: $color-main-white;
+}
+.input {
+}
+.button {
+    padding: 5px 10px;
+}

@@ -29,7 +29,7 @@ import { mockReviews } from "@/asset/mockData/mockReviews";
 import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
 import { IEstablishmentFront, ITagFront } from "@/lib/models";
 
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { ROUTES } from "@/lib/config/Routes";
 import {
     IconDone,

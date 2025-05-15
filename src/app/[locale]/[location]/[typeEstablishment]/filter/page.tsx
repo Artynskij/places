@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { IEstablishmentFront } from "@/lib/models";
 import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
 import { TagsService } from "@/lib/Api/tags/tag.service";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 import { Suspense } from "react";
 import { Loader } from "@/components/common/Loader/Loader";

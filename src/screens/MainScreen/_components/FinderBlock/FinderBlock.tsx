@@ -17,7 +17,7 @@ import { switcherFinderMainPage } from "@/asset/constants/switcherTabsPage";
 import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
 import { useLocale } from "next-intl";
 import { IEstablishmentFront } from "@/lib/models";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
 import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
 import { SearchService } from "@/lib/Api/search/search.service";

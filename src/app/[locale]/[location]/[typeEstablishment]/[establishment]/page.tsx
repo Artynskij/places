@@ -3,7 +3,7 @@ import { IPageProps } from "@/lib/models/IType";
 import { notFound } from "next/navigation";
 import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
 import { TagsService } from "@/lib/Api/tags/tag.service";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 import { ScheduleService } from "@/lib/Api/schedule/schedule.service";
 import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag";
@@ -14,7 +14,6 @@ interface IProps extends IPageProps {
         location: string;
         typeEstablishment: TTypesOfEstablishment;
         establishment: string;
-        
     };
 }
 export async function generateMetadata({
@@ -105,7 +104,7 @@ export default async function EstablishmentPage({
             tag.groupKey.key === CONSTANT_CATEGORY_CLASS_TAG.price
     );
     const breadcrumbData = await apiLocation.getBreadcrumbData({
-        ids: locationData?.pathBreadcrumb || '',
+        ids: locationData?.pathBreadcrumb || "",
         lang: params.locale,
     });
     return (

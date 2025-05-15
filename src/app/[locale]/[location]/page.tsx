@@ -10,7 +10,7 @@ import LocationScreen from "@/screens/LocationScreen/LocationScreen";
 import { Loader } from "@/components/common/Loader/Loader";
 import { notFound } from "next/navigation";
 import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 import { TagsService } from "@/lib/Api/tags/tag.service";
 import { countriesData } from "@/asset/constants/countries";

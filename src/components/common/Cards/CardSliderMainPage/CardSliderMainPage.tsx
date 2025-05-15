@@ -13,7 +13,7 @@ import { RateCafe } from "../../RateCustom/RateCafe";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { headers } from "next/headers";
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
 

@@ -4,12 +4,20 @@ interface IInputCustom {
     value: string;
     setValue: (value: string) => void;
     placeholder: string;
+    classNameInput?: string;
+    classNameCtn?: string;
 }
-export const InputCustom = ({ value, setValue, placeholder }: IInputCustom) => {
+export const InputCustom = ({
+    value,
+    setValue,
+    placeholder,
+    classNameInput,
+    classNameCtn,
+}: IInputCustom) => {
     return (
-        <div className={style.inputCtn}>
+        <div className={`${style.inputCtn} ${classNameCtn}`}>
             <input
-                className={style.input}
+                className={`${style.input} ${classNameInput}`}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 type="text"

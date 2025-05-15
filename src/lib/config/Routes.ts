@@ -1,5 +1,6 @@
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { TCategoriesNews } from "../models/common/TCategoriesNews";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 
 export const ROUTES = {
     MAIN: "/",
@@ -26,10 +27,6 @@ export const ROUTES = {
     },
     LOCATION: {
         LOCATION: (location: string) => `/${location}`,
-        // DISTRICT: (country: string, district: string) =>
-        //     `/${country}/${district}`,
-        // TOWN: (country: string, district: string, town: string) =>
-        //     `/${country}/${district}/${town}`,
         ESTABLISHMENT: (
             location: string,
             // district: string,
@@ -37,6 +34,8 @@ export const ROUTES = {
             establishment: string
         ) => `/${location}/${typeEst}/${establishment}`,
     },
+    SEARCH: (searchParam: string) =>
+        `/search?${CONSTANT_SEARCH_PARAMS.SEARCH}=${searchParam}`,
 };
 export const ROUTES_FINDER = {
     location: (location: string) => ROUTES.LOCATION.LOCATION(location),

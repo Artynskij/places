@@ -14,7 +14,7 @@ import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
 import { CardSearch } from "@/components/common/Cards";
 import Link from "next/link";
 import { ROUTES_FINDER } from "@/lib/config/Routes";
-import DropdownList from "../_common/dropdownList/DropdownList";
+import DropdownList from "../_common/DropdownList/DropdownList";
 
 const FinderMainPage = () => {
     const switcherDataStart = switcherFinderMainPage;

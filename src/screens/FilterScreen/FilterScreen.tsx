@@ -24,7 +24,7 @@ import {
     // ITagClassWithEstablishmentFront,
 } from "@/lib/models";
 import { useViewTypeList } from "@/lib/context";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";

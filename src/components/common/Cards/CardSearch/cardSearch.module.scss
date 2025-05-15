@@ -1,5 +1,6 @@
 .card {
-    display: flex;
+    display: grid;
+    grid-template-columns: 70px auto;
     gap: 10px;
     max-height: 72px;
 
@@ -18,15 +19,15 @@
     &_info {
         display: flex;
         flex-direction: column;
-
+        gap: $gap-small;
         &_title {
             @extend %Text18;
         }
         &_location {
             @extend %Text12;
             transition: $transition;
-            &:hover{
-              color: $color-main-blue;
+            &:hover {
+                color: $color-main-blue;
             }
         }
     }

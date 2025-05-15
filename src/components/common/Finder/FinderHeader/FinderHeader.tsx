@@ -8,11 +8,7 @@ import {
     IconSearch,
 } from "@/components/common/Icons";
 import { Overlay } from "@/components/common/Overlay/Overlay";
-import { SpinnerAnt } from "../../Spinner/SpinnerAnt";
-import { CardSearch } from "../../Cards/CardSearch/CardSearch";
-import Link from "next/link";
-import { ROUTES_FINDER } from "@/lib/config/Routes";
-import DropdownList from "../_common/dropdownList/DropdownList";
+import DropdownList from "../_common/DropdownList/DropdownList";
 
 export const FinderHeader = () => {
     const t = useTranslations("Header");
@@ -71,49 +67,6 @@ export const FinderHeader = () => {
                 </div>
                 <div className={style.blockFinder_dropdown}>
                     <div className={style.dropdown}>
-                        {/* {resultLoaded ? (
-                            <ul ref={refUl}>
-                                {searchResponse?.searchItems.length &&
-                                searchResponse?.searchItems.length > 0 ? (
-                                    searchResponse.searchItems.map(
-                                        (searchItem, index) => (
-                                            <Link
-                                                onClick={handlerCloseInput}
-                                                key={searchItem.id}
-                                                href={ROUTES_FINDER[
-                                                    searchItem.globalTypeEntity
-                                                ](searchItem.id)}
-                                            >
-                                                <li
-                                                    className={
-                                                        index === activeIndex
-                                                            ? style.active
-                                                            : ""
-                                                    }
-                                                >
-                                                    <CardSearch
-                                                        dataCard={searchItem}
-                                                    />
-                                                    <div>
-                                                        {
-                                                            searchItem.globalTypeEntity
-                                                        }
-                                                    </div>
-                                                </li>
-                                            </Link>
-                                        )
-                                    )
-                                ) : (
-                                    <span>
-                                        {t("text.finderNullFirst")}{" "}
-                                        {`"${refInput.current?.value}"`}{" "}
-                                        {t("text.finderNullSecond")}
-                                    </span>
-                                )}
-                            </ul>
-                        ) : (
-                            <SpinnerAnt size="large" />
-                        )} */}
                         <DropdownList
                             resultLoaded={resultLoaded}
                             searchResponse={searchResponse}

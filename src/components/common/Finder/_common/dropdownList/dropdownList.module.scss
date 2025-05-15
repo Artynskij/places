@@ -35,18 +35,20 @@
 }
 
 .itemEmpty {
-    display: flex;
+    display: grid;
+    grid-template-columns: 50px auto;
     align-items: center;
-}
-.iconSearch {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: $gap-small;
-    background-color: $color-additional-background;
-    border-radius: $border-radius-5;
-    height: 50px;
-    width: 50px;
+    gap: $gap-big;
+    &_iconCtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: $gap-small;
+        background-color: $color-additional-background;
+        border-radius: $border-radius-5;
+        height: 50px;
+        width: 50px;
+    }
     &_icon {
         font-size: 20px;
     }

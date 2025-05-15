@@ -14,7 +14,7 @@ import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import { RateHotel } from "../../RateCustom/RateHotel";
 import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 
 interface ICardHotelList {
     dataEstablishment: IEstablishmentFront;

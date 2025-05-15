@@ -20,7 +20,7 @@ import { IconFilter } from "@/components/common/Icons/IconFilter/IconFilter";
 import { Overlay } from "@/components/common/Overlay/Overlay";
 import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 import { Loader } from "@/components/common/Loader/Loader";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SerachParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 
 interface IFilterComponentProp {
     dataTags?: ITagsBlockFront[];
@@ -41,7 +41,8 @@ const FiltersComponent = ({
     const [checkedValues, setCheckedValues] = useState<string[]>([]);
 
     useEffect(() => {
-        const filterValues = searchParams.get(CONSTANT_SEARCH_PARAMS.FILTER)?.split("%") || [];
+        const filterValues =
+            searchParams.get(CONSTANT_SEARCH_PARAMS.FILTER)?.split("%") || [];
         setCheckedValues(filterValues);
     }, [searchParams]);
 
@@ -49,14 +50,14 @@ const FiltersComponent = ({
         checkedValues
     ) => {
         setIsLoading(true); // Показываем лоадер перед навигацией
-        
+
         const params = new URLSearchParams(searchParams.toString());
         if (checkedValues.length === 0) {
             params.delete(CONSTANT_SEARCH_PARAMS.FILTER);
         } else {
             params.set(CONSTANT_SEARCH_PARAMS.FILTER, checkedValues.join("%"));
         }
-        params.delete(CONSTANT_SEARCH_PARAMS.PAGE)
+        params.delete(CONSTANT_SEARCH_PARAMS.PAGE);
         router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     };
     function handlerResetAllParam() {
@@ -102,7 +103,11 @@ const FiltersComponent = ({
                         >
                             {dataTags?.map((item) => {
                                 return (
-                                    <BlockCheckBox checkedValues={checkedValues} key={item.groupKey.id} tagsGroup={item} />
+                                    <BlockCheckBox
+                                        checkedValues={checkedValues}
+                                        key={item.groupKey.id}
+                                        tagsGroup={item}
+                                    />
                                 );
                             })}
                         </Checkbox.Group>

@@ -23,7 +23,7 @@ import { getTranslations } from "next-intl/server";
 
 import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/typesOfEstablishment";
+import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";

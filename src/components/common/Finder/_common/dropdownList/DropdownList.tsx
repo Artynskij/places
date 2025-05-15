@@ -1,12 +1,13 @@
 "use client";
 import { RefObject } from "react";
 import Link from "next/link";
-import { ROUTES_FINDER } from "@/lib/config/Routes";
+import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
 import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
 import { CardSearch } from "@/components/common/Cards";
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
 import style from "./dropdownList.module.scss";
-import { IconSearch } from "@/components/common/Icons";
+import { IconPlus, IconSearch } from "@/components/common/Icons";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 
 type DropdownListProps = {
     resultLoaded: boolean;
@@ -62,21 +63,28 @@ const DropdownList = ({
                         }`}
                     >
                         <CardSearch dataCard={searchItem} />
-                        <div className={style.item_type}>
-                            {searchItem.globalTypeEntity}
-                        </div>
                     </li>
                 </Link>
             ))}
 
-            <Link href={"#testik"}>
+            <Link href={ROUTES.SEARCH(`${searchQuery}`)}>
                 <li className={style.itemEmpty}>
-                    <div className={style.iconSearch}>
-                        <IconSearch className={style.iconSearch_icon} />
+                    <div className={style.itemEmpty_iconCtn}>
+                        <IconSearch className={style.itemEmpty_icon} />
                     </div>
-                    <div>
+                    <div className={style.itemEmpty_text}>
                         Показать все результаты поиска по запросу{" "}
                         {`"${searchQuery}"`}
+                    </div>
+                </li>
+            </Link>
+            <Link href={"#add_est"}>
+                <li className={style.itemEmpty}>
+                    <div className={style.itemEmpty_iconCtn}>
+                        <IconPlus className={style.itemEmpty_icon} />
+                    </div>
+                    <div className={style.itemEmpty_text}>
+                        Добавить недостающее место
                     </div>
                 </li>
             </Link>
