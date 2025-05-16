@@ -6,7 +6,7 @@ interface IInputCustom {
     placeholder: string;
     classNameInput?: string;
     classNameCtn?: string;
-    ariaLabel:string;
+    ariaLabel?:string;
 }
 export const InputCustom = ({
     value,
@@ -14,7 +14,7 @@ export const InputCustom = ({
     placeholder,
     classNameInput,
     classNameCtn,
-    ariaLabel
+    ariaLabel = 'поиск'
 }: IInputCustom) => {
     return (
         <div className={`${style.inputCtn} ${classNameCtn}`}>
