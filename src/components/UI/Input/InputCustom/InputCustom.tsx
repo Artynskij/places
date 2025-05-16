@@ -6,6 +6,7 @@ interface IInputCustom {
     placeholder: string;
     classNameInput?: string;
     classNameCtn?: string;
+    ariaLabel:string;
 }
 export const InputCustom = ({
     value,
@@ -13,6 +14,7 @@ export const InputCustom = ({
     placeholder,
     classNameInput,
     classNameCtn,
+    ariaLabel
 }: IInputCustom) => {
     return (
         <div className={`${style.inputCtn} ${classNameCtn}`}>
@@ -22,6 +24,7 @@ export const InputCustom = ({
                 onChange={(e) => setValue(e.target.value)}
                 type="text"
                 placeholder={placeholder}
+                aria-label={ariaLabel}
             />
             {value.length > 0 && (
                 <IconCancel

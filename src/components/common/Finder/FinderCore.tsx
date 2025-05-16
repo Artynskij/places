@@ -1,15 +1,17 @@
 "use client";
-import { KeyboardEvent, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
+import { usePathname, useRouter, useParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { SearchService } from "@/lib/Api/search/search.service";
 import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
-import { ROUTES_FINDER } from "@/lib/config/Routes";
+import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
 import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";
 
 export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
     const apiSearch = new SearchService();
     const router = useRouter();
+    const pathname = usePathname();
+    const params = useParams();
     const locale = useLocale();
 
     const refInput = useRef<HTMLInputElement>(null);
@@ -24,40 +26,43 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
     const [currentFilter, setCurrentFilter] = useState<string>(
         initialFilter || ""
     );
+    useEffect(() => {
+        setSearchActive(false);
+    }, [pathname, params]);
+    const handleKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
+        if (!searchResponse || !refUl.current) return;
 
-    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (!searchResponse) return;
+        const links = Array.from(refUl.current.querySelectorAll("a"));
+        const currentInput = refInput.current?.value.trim();
+
         switch (e.key) {
             case "ArrowUp":
-                setActiveIndex((prevIndex) =>
-                    prevIndex === 0
-                        ? searchResponse.searchItems.length - 1
-                        : prevIndex - 1
+                e.preventDefault();
+                setActiveIndex((prev) =>
+                    prev <= 0 ? links.length - 1 : prev - 1
                 );
                 break;
             case "ArrowDown":
-                setActiveIndex((prevIndex) =>
-                    prevIndex === searchResponse.searchItems.length - 1
-                        ? 0
-                        : prevIndex + 1
+                e.preventDefault();
+                setActiveIndex((prev) =>
+                    prev >= links.length - 1 ? 0 : prev + 1
                 );
                 break;
             case "Enter":
                 e.preventDefault();
-                if (
-                    activeIndex >= 0 &&
-                    activeIndex < searchResponse.searchItems.length
-                ) {
-                    const searchItem = searchResponse.searchItems[activeIndex];
+                if (currentInput && activeIndex >= 0 && links[activeIndex]) {
+                    // Если есть выбранный элемент → переход по нему
                     handlerCloseInput();
-                    router.push(
-                        ROUTES_FINDER[searchItem.globalTypeEntity](
-                            searchItem.id
-                        )
-                    );
+                    router.push(links[activeIndex].getAttribute("href") || "#");
+                } else if (currentInput) {
+                    // Если просто нажат Enter → переход на страницу поиска
+                    handlerCloseInput();
+                    router.push(ROUTES.SEARCH(currentInput));
                 }
                 break;
-            default:
+            case "Escape":
+                e.preventDefault();
+                handlerCloseInput();
                 break;
         }
     };
@@ -78,8 +83,6 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
                 indexKey: currentFilter as TTypesOfSearchKey,
             })
             .then((res) => {
-                console.log(res);
-
                 setSearchResponse(res);
             });
     };
@@ -113,7 +116,9 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
                 });
         }
     };
-
+    const handlerMouseEnter = () => {
+        setActiveIndex(-1); // Сброс активного элемента при наведении
+    };
     return {
         refInput,
         refUl,
@@ -130,5 +135,6 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
         handlerClearInput,
         handlerCloseInput,
         handlerOpenInput,
+        handlerMouseEnter,
     };
 };

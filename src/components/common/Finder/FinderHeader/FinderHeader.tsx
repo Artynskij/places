@@ -9,6 +9,7 @@ import {
 } from "@/components/common/Icons";
 import { Overlay } from "@/components/common/Overlay/Overlay";
 import DropdownList from "../_common/DropdownList/DropdownList";
+import { useEffect } from "react";
 
 export const FinderHeader = () => {
     const t = useTranslations("Header");
@@ -26,10 +27,18 @@ export const FinderHeader = () => {
         handlerClearInput,
         handlerCloseInput,
         handlerOpenInput,
+        handlerMouseEnter,
     } = useFinderCore();
-
+    useEffect(() => {
+        if (searchActive && refInput.current) {
+            refInput.current.focus();
+        }
+    }, [searchActive, refInput]);
     return (
-        <form className={style.form_finder}>
+        <form
+            onKeyDown={handleKeyDown} // Переносим обработчик сюда
+            className={style.form_finder}
+        >
             <div
                 onClick={handlerOpenInput}
                 active-class={`${searchActive}`}
@@ -52,7 +61,7 @@ export const FinderHeader = () => {
                         <input
                             placeholder={t("text.finderPlaceholder")}
                             onChange={handlerChangeInput}
-                            onKeyDown={handleKeyDown}
+                            // onKeyDown={handleKeyDown}
                             ref={refInput}
                             type="text"
                             maxLength={100}
@@ -66,7 +75,10 @@ export const FinderHeader = () => {
                     )}
                 </div>
                 <div className={style.blockFinder_dropdown}>
-                    <div className={style.dropdown}>
+                    <div
+                        onMouseEnter={handlerMouseEnter}
+                        className={style.dropdown}
+                    >
                         <DropdownList
                             resultLoaded={resultLoaded}
                             searchResponse={searchResponse}

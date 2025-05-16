@@ -15,6 +15,7 @@ import { CardSearch } from "@/components/common/Cards";
 import Link from "next/link";
 import { ROUTES_FINDER } from "@/lib/config/Routes";
 import DropdownList from "../_common/DropdownList/DropdownList";
+import { useEffect } from "react";
 
 const FinderMainPage = () => {
     const switcherDataStart = switcherFinderMainPage;
@@ -34,8 +35,13 @@ const FinderMainPage = () => {
         handlerClearInput,
         handlerCloseInput,
         handlerOpenInput,
+        handlerMouseEnter,
     } = useFinderCore("");
-
+    useEffect(() => {
+        if (searchActive && refInput.current) {
+            refInput.current.focus();
+        }
+    }, [searchActive, refInput]);
     const handleSwitcherChange = (value: string) => {
         setCurrentFilter(value === "all" ? "" : value);
     };
@@ -57,7 +63,7 @@ const FinderMainPage = () => {
                 />
             </div>
 
-            <form className={style.form_finder}>
+            <form onKeyDown={handleKeyDown} className={style.form_finder}>
                 <div
                     onClick={handlerOpenInput}
                     active-class={`${searchActive}`}
@@ -83,7 +89,6 @@ const FinderMainPage = () => {
                                     )?.placeHolder || "Усё"
                                 }
                                 onChange={handlerChangeInput}
-                                onKeyDown={handleKeyDown}
                                 ref={refInput}
                                 type="text"
                                 maxLength={100}
@@ -98,35 +103,10 @@ const FinderMainPage = () => {
                         {!searchActive && <Button text="Искать" />}
                     </div>
                     <div className={style.blockFinder_dropdown}>
-                        <div className={style.dropdown}>
-                            {/* {resultLoaded ? (
-                                <ul className={style.dropdown_list} ref={refUl}>
-                                    {searchResponse?.searchItems.length&&searchResponse?.searchItems.length > 0 ? (
-                                        searchResponse.searchItems.map((searchItem, index) => (
-                                            <Link
-                                                onClick={handlerCloseInput}
-                                                key={searchItem.id}
-                                                href={ROUTES_FINDER[searchItem.globalTypeEntity](searchItem.id)}
-                                                className={`${style.dropdown_list_item} ${
-                                                    index === activeIndex ? style.active : ""
-                                                }`}
-                                            >
-                                                <li>
-                                                    <CardSearch dataCard={searchItem} />
-                                                    <div>{searchItem.globalTypeEntity}</div>
-                                                </li>
-                                            </Link>
-                                        ))
-                                    ) : (
-                                        <span>
-                                            {"По запросу"} {`"${refInput.current?.value}"`}
-                                            {"Ничего не найдено"}
-                                        </span>
-                                    )}
-                                </ul>
-                            ) : (
-                                <SpinnerAnt size="large" />
-                            )} */}
+                        <div
+                            onMouseEnter={handlerMouseEnter}
+                            className={style.dropdown}
+                        >
                             <DropdownList
                                 resultLoaded={resultLoaded}
                                 searchResponse={searchResponse}

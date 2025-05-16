@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import { Button } from "@/components/UI/Button/Button";
 import { InputCustom } from "@/components/UI/Input/InputCustom/InputCustom";
 
@@ -19,21 +19,31 @@ const InputFind = () => {
             }=${inputValue.toString()}`
         );
     };
+   
+    const handlerSubmit = (e: React.FormEvent) => {
+        e.preventDefault(); // Предотвращаем перезагрузку страницы
+        router.replace(
+            `${pathname}?${CONSTANT_SEARCH_PARAMS.SEARCH}=${encodeURIComponent(
+                inputValue.toString()
+            )}`
+        );
+    };
     return (
-        <div className={style.ctn}>
+        <form onSubmit={handlerSubmit} className={style.ctn}>
             <InputCustom
                 classNameCtn={style.inputCtn}
                 classNameInput={style.input}
                 placeholder="поиск"
                 value={inputValue}
                 setValue={setInputValue}
+                ariaLabel="Поиск по сайту"
             />
             <Button
                 onClick={handlerSearchClick}
                 className={style.button}
                 text="Поиск"
             />
-        </div>
+        </form>
     );
 };
 export default InputFind;

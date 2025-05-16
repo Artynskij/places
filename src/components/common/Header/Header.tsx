@@ -26,6 +26,8 @@ export const Header = async () => {
     //         ssr: false,
     //     }
     // );
+  
+    
     return (
         <>
             <header className={style.header}>

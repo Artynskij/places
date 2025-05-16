@@ -26,68 +26,65 @@ const DropdownList = ({
     onItemClick,
     ulRef,
 }: DropdownListProps) => {
-    if (!resultLoaded) {
-        return <SpinnerAnt size="large" />;
-    }
-
-    // if (!searchResponse?.searchItems?.length) {
-    //     return (
-    //         <ul>
-    //             {/* <span className={style.empty_state}>
-    //                 По запросу "{searchQuery}" ничего не найдено
-    //             </span> */}
-    //             <Link href={"#testik"}>
-    //                 <li className={style.empty_state}>
-    //                     Показать все результаты поиска по запросу{" "}
-    //                     {`"${searchQuery}"`}
-    //                 </li>
-    //             </Link>
-    //         </ul>
-    //     );
-    // }
+    if (!resultLoaded) return <SpinnerAnt size="large" />;
 
     return (
-        <ul className={`${style.list}`} ref={ulRef}>
+        <ul className={style.list} ref={ulRef}>
+            {/* Основные результаты */}
             {searchResponse?.searchItems.map((searchItem, index) => (
-                <Link
-                    onClick={onItemClick}
+                <li
                     key={`${searchItem.id}-${index}`}
-                    href={ROUTES_FINDER[searchItem.globalTypeEntity](
-                        searchItem.id
-                    )}
-                    passHref
+                    className={index === activeIndex ? style.active : ""}
                 >
-                    <li
-                        className={`${
-                            index === activeIndex ? style.active : ""
-                        }`}
+                    <Link
+                        href={ROUTES_FINDER[searchItem.globalTypeEntity](
+                            searchItem.id
+                        )}
+                        onClick={onItemClick}
                     >
                         <CardSearch dataCard={searchItem} />
-                    </li>
-                </Link>
+                    </Link>
+                </li>
             ))}
 
-            <Link href={ROUTES.SEARCH(`${searchQuery}`)}>
-                <li className={style.itemEmpty}>
+            {/* Кнопка "Показать все" (видна всегда) */}
+            <li
+                className={
+                    activeIndex === searchResponse?.searchItems.length
+                        ? style.active
+                        : ""
+                }
+            >
+                <Link
+                    href={ROUTES.SEARCH(searchQuery)}
+                    onClick={onItemClick}
+                    className={style.itemEmpty}
+                >
                     <div className={style.itemEmpty_iconCtn}>
-                        <IconSearch className={style.itemEmpty_icon} />
+                        <IconSearch />
                     </div>
-                    <div className={style.itemEmpty_text}>
-                        Показать все результаты поиска по запросу{" "}
-                        {`"${searchQuery}"`}
-                    </div>
-                </li>
-            </Link>
-            <Link href={"#add_est"}>
-                <li className={style.itemEmpty}>
+                    <span className={style.itemEmpty_text}>
+                        Показать все результаты по {`"${searchQuery}"`}
+                    </span>
+                </Link>
+            </li>
+            <li
+                className={
+                    activeIndex ===
+                    (searchResponse?.searchItems.length || 0) + 1
+                        ? style.active
+                        : ""
+                }
+            >
+                <Link className={style.itemEmpty} href={"#add_est"}>
                     <div className={style.itemEmpty_iconCtn}>
                         <IconPlus className={style.itemEmpty_icon} />
                     </div>
-                    <div className={style.itemEmpty_text}>
+                    <span className={style.itemEmpty_text}>
                         Добавить недостающее место
-                    </div>
-                </li>
-            </Link>
+                    </span>
+                </Link>
+            </li>
         </ul>
     );
 };
