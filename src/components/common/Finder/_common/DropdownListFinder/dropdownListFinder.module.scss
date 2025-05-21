@@ -6,7 +6,7 @@
     flex-direction: column;
     gap: $gap-small;
     gap: 5px;
-    & li {
+    &_item {
         padding: 5px 16px;
         background-color: transparent;
         transition: $transition;
@@ -19,7 +19,7 @@
             transform: scale(1.01);
             box-shadow: $box-shadow-default;
         }
-        &.active {
+        &[data-active="true"] {
             // background-color: $color-main-gold;
             border-color: $color-main-gold;
             border-radius: 10px;
@@ -27,13 +27,34 @@
             box-shadow: $box-shadow-default;
         }
     }
-    // & a.active {
-    //     // background-color: $color-main-gold;
-    //     border: 1px solid black;
-    //     border-radius: 10px;
-    // }
+    .list_item__additional {
+        margin: 10px 0;
+        &:last-child{
+            margin-bottom: 20px;
+        }
+        & a {
+            display: grid;
+            gap: $gap-small;
+            grid-template-columns: 80px min-content auto;
+            align-items: center;
+        }
+        & span {
+            width: fit-content;
+            position: relative;
+            transition: $transition;
+            @extend %underline;
+            // text-decoration: underline;
+        }
+        &[data-active="true"] {
+            & span {
+                color: $color-main-gold;
+            }
+        }
+    }
 }
-
+.iconEnter {
+    font-size: 20px;
+}
 .itemEmpty {
     display: grid;
     grid-template-columns: 50px auto;

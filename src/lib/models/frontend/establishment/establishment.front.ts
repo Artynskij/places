@@ -1,6 +1,7 @@
-
 import { TTypesOfEstablishment } from "../../common/TTypesEstablishment";
-import { IContactsFront } from "../parts/contacts/contacts.frontPart";
+import { ICategoryFront } from "../category/category.front";
+import { ICategoryPartFront } from "../parts/category/category.frontPart";
+import { IContactsPartFront } from "../parts/contacts/contacts.frontPart";
 import { IMediaFront } from "../parts/media/media.frontPart";
 
 export interface IEstablishmentFront {
@@ -8,7 +9,7 @@ export interface IEstablishmentFront {
     title: string;
     description: string;
     typeEstablishment: TTypesOfEstablishment;
-    category: { id: string; value: string; key: string };
+    category: ICategoryFront;
     rates: {
         main: number;
         count: number;
@@ -38,7 +39,7 @@ export interface IEstablishmentFront {
             totalEstablishment: number | null;
         };
     };
-    contacts: IContactsFront | null;
+    contacts: IContactsPartFront | null;
     media: {
         cdnHost: string;
         gallery: IMediaFront[];

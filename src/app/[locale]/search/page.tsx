@@ -1,6 +1,7 @@
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { SearchService } from "@/lib/Api/search/search.service";
 import { IPageProps } from "@/lib/models";
+import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";
 import SearchScreen from "@/screens/SearchScreen/SearchScreen";
 
 export async function generateMetadata() {
@@ -10,17 +11,22 @@ export async function generateMetadata() {
 }
 
 interface IProps extends IPageProps {
-    searchParams: { [CONSTANT_SEARCH_PARAMS.SEARCH]: string };
+    searchParams: {
+        [CONSTANT_SEARCH_PARAMS.SEARCH]: string;
+        [CONSTANT_SEARCH_PARAMS.INDEX_SEARCH]: TTypesOfSearchKey;
+    };
 }
 
 export default async function SearchPage({ params, searchParams }: IProps) {
-    const searchQuery = searchParams[CONSTANT_SEARCH_PARAMS.SEARCH];
+    const searchQueryInput = searchParams[CONSTANT_SEARCH_PARAMS.SEARCH];
+    const searchQueryFilter = searchParams[CONSTANT_SEARCH_PARAMS.INDEX_SEARCH] as TTypesOfSearchKey | undefined;
+
     const apiSearch = new SearchService();
-    const searchData = searchQuery
+    const searchData = searchQueryInput
         ? await apiSearch.querySearch({
-              indexKey: "all",
+              indexKey: searchQueryFilter || 'all',
               localLang: params.locale,
-              term: searchQuery,
+              term: searchQueryInput,
           })
         : null;
     return (

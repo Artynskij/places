@@ -12,7 +12,7 @@ import { Popup } from "../Popup/Popup";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { IContactsEntity, IContactsFront } from "@/lib/models";
+import { IContactsEntity, IContactsPartFront } from "@/lib/models";
 
 interface IContactButton {
     classNameButton?: string;
@@ -20,7 +20,7 @@ interface IContactButton {
     importTitle?: string;
     importDescription?: string;
     textButton?: string;
-    contactData: IContactsFront | null;
+    contactData: IContactsPartFront | null;
 }
 
 export const ContactButton: FC<IContactButton> = ({

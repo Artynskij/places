@@ -10,7 +10,7 @@ import LocationScreen from "@/screens/LocationScreen/LocationScreen";
 import { Loader } from "@/components/common/Loader/Loader";
 import { notFound } from "next/navigation";
 import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 import { TagsService } from "@/lib/Api/tags/tag.service";
 import { countriesData } from "@/asset/constants/countries";
@@ -40,7 +40,7 @@ export default async function CountryPage({ params, searchParams }: IProps) {
         await apiEstablishment.getEstablishmentByPagination({
             pagination: { page: 1, pageSize: 10 },
             filter: {
-                typeIds: [TYPES_OF_ESTABLISHMENT.EATER.id],
+                typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.id],
                 locationId: params.location,
             },
 
@@ -50,7 +50,7 @@ export default async function CountryPage({ params, searchParams }: IProps) {
         await apiEstablishment.getEstablishmentByPagination({
             pagination: { page: 1, pageSize: 10 },
             filter: {
-                typeIds: [TYPES_OF_ESTABLISHMENT.ACCOMMODATION.id],
+                typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION.id],
                 locationId: params.location,
             },
 
@@ -60,7 +60,7 @@ export default async function CountryPage({ params, searchParams }: IProps) {
         await apiEstablishment.getEstablishmentByPagination({
             pagination: { page: 1, pageSize: 10 },
             filter: {
-                typeIds: [TYPES_OF_ESTABLISHMENT.ATTRACTION.id],
+                typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.ATTRACTION.id],
                 locationId: params.location,
             },
             lang: params.locale,

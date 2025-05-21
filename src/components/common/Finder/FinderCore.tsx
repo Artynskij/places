@@ -1,5 +1,12 @@
 "use client";
-import { KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
+import {
+    ChangeEvent,
+    KeyboardEvent,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { SearchService } from "@/lib/Api/search/search.service";
@@ -16,12 +23,12 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
 
     const refInput = useRef<HTMLInputElement>(null);
     const refUl = useRef<HTMLUListElement>(null);
-
+    const [stateInputFind, setStateInputFind] = useState<string>("");
     const [searchResponse, setSearchResponse] =
         useState<ISearchQueryResponseFront | null>(null);
     const [resultLoaded, setResultLoaded] = useState<boolean>(false);
     const [activeIndex, setActiveIndex] = useState(-1);
-    const [inputValueActive, setInputValueActive] = useState(false);
+    // const [inputValueActive, setInputValueActive] = useState(false);
     const [searchActive, setSearchActive] = useState(false);
     const [currentFilter, setCurrentFilter] = useState<string>(
         initialFilter || ""
@@ -33,8 +40,8 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
         if (!searchResponse || !refUl.current) return;
 
         const links = Array.from(refUl.current.querySelectorAll("a"));
-        const currentInput = refInput.current?.value.trim();
-
+        const currentInput = stateInputFind.trim();
+        const activeElement = refUl.current.querySelector("[data-active=true]");
         switch (e.key) {
             case "ArrowUp":
                 e.preventDefault();
@@ -47,6 +54,10 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
                 setActiveIndex((prev) =>
                     prev >= links.length - 1 ? 0 : prev + 1
                 );
+                const prev =
+                    activeElement?.previousElementSibling?.querySelector("a") ||
+                    links[links.length - 1];
+                prev?.focus();
                 break;
             case "Enter":
                 e.preventDefault();
@@ -66,32 +77,45 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
                 break;
         }
     };
+    const handleSwitcherChange = (switchValue: TTypesOfSearchKey) => {
+        setCurrentFilter(switchValue === "all" ? "" : switchValue);
 
-    const handlerChangeInput = () => {
-        const current = refInput.current as HTMLInputElement;
-        setActiveIndex(-1);
-        if (current.value.length > 0 && !inputValueActive) {
-            setInputValueActive(true);
-        } else if (current.value.length === 0 && inputValueActive) {
-            setInputValueActive(false);
+        if (!!stateInputFind) {
+            apiSearch
+                .querySearch({
+                    localLang: locale,
+                    term: stateInputFind,
+                    indexKey: currentFilter as TTypesOfSearchKey,
+                })
+                .then((res) => {
+                    setSearchResponse(res);
+                });
         }
+    };
+    const handlerChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        setActiveIndex(-1);
+        setStateInputFind(newValue);
 
-        apiSearch
-            .querySearch({
-                localLang: locale,
-                term: current.value || "",
-                indexKey: currentFilter as TTypesOfSearchKey,
-            })
-            .then((res) => {
-                setSearchResponse(res);
-            });
+        if (!!newValue) {
+            apiSearch
+                .querySearch({
+                    localLang: locale,
+                    term: newValue,
+                    indexKey: currentFilter as TTypesOfSearchKey,
+                })
+                .then((res) => {
+                    
+
+                    setSearchResponse(res);
+                });
+        }
     };
 
     const handlerClearInput = () => {
-        const current = refInput.current as HTMLInputElement;
-        current.value = "";
+        setStateInputFind("");
         setSearchResponse(null);
-        setInputValueActive(false);
+        // setInputValueActive(false);
         setActiveIndex(-1);
     };
 
@@ -107,7 +131,7 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
             apiSearch
                 .querySearch({
                     localLang: locale,
-                    term: refInput.current?.value || "мин",
+                    term: stateInputFind || " ",
                     indexKey: currentFilter as TTypesOfSearchKey,
                 })
                 .then((res) => {
@@ -122,14 +146,15 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
     return {
         refInput,
         refUl,
+        stateInputFind,
         searchResponse,
         resultLoaded,
         activeIndex,
-        inputValueActive,
+        // inputValueActive,
         searchActive,
         currentFilter,
         setSearchActive,
-        setCurrentFilter,
+        handleSwitcherChange,
         handleKeyDown,
         handlerChangeInput,
         handlerClearInput,

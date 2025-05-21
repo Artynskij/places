@@ -1,4 +1,4 @@
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { TCategoriesNews } from "../models/common/TCategoriesNews";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 
@@ -34,8 +34,11 @@ export const ROUTES = {
             establishment: string
         ) => `/${location}/${typeEst}/${establishment}`,
     },
-    SEARCH: (searchParam: string) =>
-        `/search?${CONSTANT_SEARCH_PARAMS.SEARCH}=${searchParam}`,
+    SEARCH: (string: string, indexSearch: string = "") =>
+        `/search?${CONSTANT_SEARCH_PARAMS.SEARCH}=${string}${
+            indexSearch &&
+            `&${CONSTANT_SEARCH_PARAMS.INDEX_SEARCH}=${indexSearch}`
+        }`,
 };
 export const ROUTES_FINDER = {
     location: (location: string) => ROUTES.LOCATION.LOCATION(location),
@@ -43,7 +46,7 @@ export const ROUTES_FINDER = {
     establishment: (establishment: string) =>
         ROUTES.LOCATION.ESTABLISHMENT(
             "01JQW07E3T1TYF1S25MFZHR9G6",
-            TYPES_OF_ESTABLISHMENT["ACCOMMODATION"].key,
+            CONSTANT_TYPES_OF_ESTABLISHMENT["ACCOMMODATION"].key,
             establishment
         ),
 };

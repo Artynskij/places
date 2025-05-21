@@ -13,7 +13,7 @@ import { Button } from "@/components/UI/Button/Button";
 import { ROUTES } from "@/lib/config/Routes";
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { FinderHeader } from "../Finder/FinderHeader/FinderHeader";
 
 // { locale }: { locale: string }
@@ -26,8 +26,7 @@ export const Header = async () => {
     //         ssr: false,
     //     }
     // );
-  
-    
+
     return (
         <>
             <header className={style.header}>
@@ -125,7 +124,8 @@ export const Header = async () => {
                             className={style.header__second_link}
                             href={ROUTES.LOCATION.ESTABLISHMENT(
                                 "01H9ZFTX89YTPD7QJW7N5EAWQP",
-                                TYPES_OF_ESTABLISHMENT.ACCOMMODATION.key,
+                                CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION
+                                    .key,
                                 "01JJ21RRS0YER1XH9FM4D287JY"
                             )}
                         >
@@ -135,7 +135,8 @@ export const Header = async () => {
                             className={style.header__second_link}
                             href={ROUTES.FILTER(
                                 "01HMY6V2B4YK8M9V4R6JQ3W5XT",
-                                TYPES_OF_ESTABLISHMENT.ACCOMMODATION.key
+                                CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION
+                                    .key
                             )}
                         >
                             <li className={"hover-underline"}>Фильтр</li>

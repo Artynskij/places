@@ -1,4 +1,4 @@
-export interface IContactsFront{
+export interface IContactsPartFront {
     Phone?: string;
     Web?: string;
     Email?: string;

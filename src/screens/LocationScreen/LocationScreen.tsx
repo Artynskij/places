@@ -23,11 +23,12 @@ import { getTranslations } from "next-intl/server";
 
 import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
 import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultImage";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -77,7 +78,8 @@ export default async function LocationScreen({
                                 ? `${cdnHost}/${locationData.media[0].blobPath}`
                                 : ""
                         }
-                        posterSrc={"/mock/restMock.jpg"}
+                        posterSrc={CONSTANT_DEFAULT_IMAGE_URL}
+
                     />
                 </div>
                 <div className={style.banner_bg}>
@@ -115,7 +117,7 @@ export default async function LocationScreen({
                     <Link
                         href={ROUTES.FILTER(
                             params.location,
-                            TYPES_OF_ESTABLISHMENT.ACCOMMODATION.key
+                            CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION.key
                         )}
                         className={style.slider_block_title_button}
                     >
@@ -152,7 +154,7 @@ export default async function LocationScreen({
                     <Link
                         href={ROUTES.FILTER(
                             params.location,
-                            TYPES_OF_ESTABLISHMENT.EATER.key
+                            CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.key
                         )}
                         className={style.slider_block_title_button}
                     >
@@ -186,7 +188,7 @@ export default async function LocationScreen({
                     <Link
                         href={ROUTES.FILTER(
                             params.location,
-                            TYPES_OF_ESTABLISHMENT.ATTRACTION.key
+                            CONSTANT_TYPES_OF_ESTABLISHMENT.ATTRACTION.key
                         )}
                         className={style.slider_block_title_button}
                     >

@@ -1,3 +1,4 @@
+'use client'
 import { IconCancel } from "@/components/common/Icons";
 import style from "./inputCustom.module.scss";
 interface IInputCustom {

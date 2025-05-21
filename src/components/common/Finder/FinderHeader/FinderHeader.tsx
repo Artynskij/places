@@ -8,7 +8,7 @@ import {
     IconSearch,
 } from "@/components/common/Icons";
 import { Overlay } from "@/components/common/Overlay/Overlay";
-import DropdownList from "../_common/DropdownList/DropdownList";
+import DropdownListFinder from "../_common/DropdownListFinder/DropdownListFinder";
 import { useEffect } from "react";
 
 export const FinderHeader = () => {
@@ -16,10 +16,11 @@ export const FinderHeader = () => {
     const {
         refInput,
         refUl,
+        stateInputFind,
         searchResponse,
         resultLoaded,
         activeIndex,
-        inputValueActive,
+        // inputValueActive,
         searchActive,
         setSearchActive,
         handleKeyDown,
@@ -62,12 +63,13 @@ export const FinderHeader = () => {
                             placeholder={t("text.finderPlaceholder")}
                             onChange={handlerChangeInput}
                             // onKeyDown={handleKeyDown}
+                            value={stateInputFind}
                             ref={refInput}
                             type="text"
                             maxLength={100}
                         />
                     </div>
-                    {searchActive && inputValueActive && (
+                    {searchActive && !!stateInputFind && (
                         <IconCancel
                             onClick={handlerClearInput}
                             className={style.iconClear}
@@ -79,11 +81,11 @@ export const FinderHeader = () => {
                         onMouseEnter={handlerMouseEnter}
                         className={style.dropdown}
                     >
-                        <DropdownList
+                        <DropdownListFinder
                             resultLoaded={resultLoaded}
                             searchResponse={searchResponse}
                             activeIndex={activeIndex}
-                            searchQuery={refInput.current?.value || ""}
+                            searchQuery={stateInputFind || ""}
                             onItemClick={handlerCloseInput}
                             ulRef={refUl}
                         />

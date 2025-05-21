@@ -2,6 +2,8 @@ import Image from "next/image";
 import style from "./cardSearch.module.scss";
 import { FC } from "react";
 import { ISearchItemFront } from "@/lib/models";
+import { ROUTES } from "@/lib/config/Routes";
+import Link from "next/link";
 
 interface ICardSearch {
     dataCard: ISearchItemFront;
@@ -17,13 +19,14 @@ export const CardSearch: FC<ICardSearch> = ({
                 <Image
                     src={
                         dataCard.media
-                            ? `${dataCard.media?.cdnHost}/${dataCard.media?.mainImage.blobPath}`
+                            ? `${dataCard.media?.cdnHost}/${dataCard.media?.mainImage}`
                             : "/mock/restMock.jpg"
                     }
-                    alt={dataCard.media?.mainImage.title || "searchItem card"}
+                    alt={"searchItem card"}
                     sizes="10vw"
                     width={50}
-                    height={50}
+                    height={66}
+                    loading="lazy"
                 />
             </div>
             <div className={style.card_info}>
@@ -34,15 +37,16 @@ export const CardSearch: FC<ICardSearch> = ({
                     </div>
                 )}
 
-                <div>{dataCard.globalTypeEntity}</div>
-
-                {/* <Link
-                    href={ROUTES.LOCATION.LOCATION(dataCard.location.town.id)}
-                >
-                    <div className={style.card_info_location}>
-                        {dataCard.location.town.title}
-                    </div>
-                </Link> */}
+                {/* <div>{dataCard.globalTypeEntity}</div> */}
+                {dataCard.location?.town && dataCard.location?.country   && (
+                    <Link
+                        href={ROUTES.LOCATION.LOCATION(dataCard.location?.town.id)}
+                    >
+                        <div className={style.card_info_location}>
+                            {dataCard.location?.country.title}, {dataCard.location.town.title}
+                        </div>
+                    </Link>
+                )}
             </div>
         </div>
     );

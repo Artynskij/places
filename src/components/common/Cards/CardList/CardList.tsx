@@ -14,7 +14,7 @@ import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import { RateHotel } from "../../RateCustom/RateHotel";
 import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 
 interface ICardHotelList {
     dataEstablishment: IEstablishmentFront;
@@ -39,7 +39,7 @@ export const CardList: FC<ICardHotelList> = ({
                     <Link
                         href={ROUTES.FILTER_WITH_QUERY(
                             locationId,
-                            TYPES_OF_ESTABLISHMENT[
+                            CONSTANT_TYPES_OF_ESTABLISHMENT[
                                 dataEstablishment.typeEstablishment
                             ].key,
                             dataEstablishment.category.id,
@@ -51,13 +51,13 @@ export const CardList: FC<ICardHotelList> = ({
                     </Link>
 
                     <ShareButton
-                        linkData={[
+                        linkData={ROUTES.LOCATION.ESTABLISHMENT(
                             dataEstablishment.location.town.id,
-                            TYPES_OF_ESTABLISHMENT[
+                            CONSTANT_TYPES_OF_ESTABLISHMENT[
                                 dataEstablishment.typeEstablishment
                             ].key,
-                            dataEstablishment.id,
-                        ]}
+                            dataEstablishment.id
+                        )}
                         linkPage={baseUrl}
                         classNameButton={`${style.imageButton} ${style.imageButton_share}`}
                         classNameIcon={style.imageButton_icon}
@@ -73,7 +73,7 @@ export const CardList: FC<ICardHotelList> = ({
                     className={style.image_link}
                     href={ROUTES.LOCATION.ESTABLISHMENT(
                         locationId,
-                        TYPES_OF_ESTABLISHMENT[
+                        CONSTANT_TYPES_OF_ESTABLISHMENT[
                             dataEstablishment.typeEstablishment
                         ].key,
                         `${dataEstablishment.id}`
@@ -98,7 +98,7 @@ export const CardList: FC<ICardHotelList> = ({
                     <Link
                         href={ROUTES.LOCATION.ESTABLISHMENT(
                             locationId,
-                            TYPES_OF_ESTABLISHMENT[
+                            CONSTANT_TYPES_OF_ESTABLISHMENT[
                                 dataEstablishment.typeEstablishment
                             ].key,
                             dataEstablishment.id

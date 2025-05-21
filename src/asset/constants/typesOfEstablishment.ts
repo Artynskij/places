@@ -1,4 +1,9 @@
-export const TYPES_OF_ESTABLISHMENT = {
+type T = {
+
+}
+
+
+export const CONSTANT_TYPES_OF_ESTABLISHMENT = {
     ATTRACTION: {
         key: "ATTRACTION",
         title: "Развлечение",

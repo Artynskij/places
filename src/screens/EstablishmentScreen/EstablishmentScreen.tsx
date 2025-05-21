@@ -29,7 +29,7 @@ import { mockReviews } from "@/asset/mockData/mockReviews";
 import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
 import { IEstablishmentFront, ITagFront } from "@/lib/models";
 
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { ROUTES } from "@/lib/config/Routes";
 import {
     IconDone,
@@ -85,7 +85,8 @@ export const EstablishmentScreen = async ({
     const baseUrl = await getBaseUrlServer();
     const filteredBreadcrumb =
         breadcrumbData?.slice(1, breadcrumbData.length + 1) || null;
-    const pisun = TYPES_OF_ESTABLISHMENT[params.typeEstablishment].title;
+    const pisun =
+        CONSTANT_TYPES_OF_ESTABLISHMENT[params.typeEstablishment].title;
     return (
         <div className="container">
             <div className={style.underHeader}>
@@ -103,12 +104,12 @@ export const EstablishmentScreen = async ({
                                     };
                                 }),
                                 {
-                                    title: TYPES_OF_ESTABLISHMENT[
+                                    title: CONSTANT_TYPES_OF_ESTABLISHMENT[
                                         params.typeEstablishment
                                     ].secondValue,
                                     href: ROUTES.FILTER(
                                         dataEstablishment.location.town.id,
-                                        TYPES_OF_ESTABLISHMENT[
+                                        CONSTANT_TYPES_OF_ESTABLISHMENT[
                                             params.typeEstablishment
                                         ].key
                                     ),
@@ -136,13 +137,13 @@ export const EstablishmentScreen = async ({
                         classNameIcon={style.underHeader_groupButtons_icon}
                         textButton="Поделиться"
                         linkPage={baseUrl}
-                        linkData={[
+                        linkData={ROUTES.LOCATION.ESTABLISHMENT(
                             dataEstablishment.location.town.id,
-                            TYPES_OF_ESTABLISHMENT[
+                            CONSTANT_TYPES_OF_ESTABLISHMENT[
                                 dataEstablishment.typeEstablishment
                             ].key,
-                            dataEstablishment.id,
-                        ]}
+                            dataEstablishment.id
+                        )}
                     />
                 </div>
             </div>
@@ -391,7 +392,7 @@ export const EstablishmentScreen = async ({
                     <Link
                         href={ROUTES.FILTER(
                             params.location,
-                            TYPES_OF_ESTABLISHMENT.EATER.key
+                            CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.key
                         )}
                         className={style.slider_block_title_button}
                     >
@@ -420,7 +421,7 @@ export const EstablishmentScreen = async ({
                     <Link
                         href={ROUTES.FILTER(
                             params.location,
-                            TYPES_OF_ESTABLISHMENT.ACCOMMODATION.key
+                            CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION.key
                         )}
                         className={style.slider_block_title_button}
                     >
@@ -451,7 +452,7 @@ export const EstablishmentScreen = async ({
                     <Link
                         href={ROUTES.FILTER(
                             params.location,
-                            TYPES_OF_ESTABLISHMENT.ATTRACTION.key
+                            CONSTANT_TYPES_OF_ESTABLISHMENT.ATTRACTION.key
                         )}
                         className={style.slider_block_title_button}
                     >

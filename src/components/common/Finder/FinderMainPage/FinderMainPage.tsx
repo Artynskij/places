@@ -10,12 +10,10 @@ import {
 import { Overlay } from "@/components/common/Overlay/Overlay";
 import { Button } from "@/components/UI/Button/Button";
 import { switcherFinderMainPage } from "@/asset/constants/switcherTabsPage";
-import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
-import { CardSearch } from "@/components/common/Cards";
-import Link from "next/link";
-import { ROUTES_FINDER } from "@/lib/config/Routes";
-import DropdownList from "../_common/DropdownList/DropdownList";
+
+import DropdownListFinder from "../_common/DropdownListFinder/DropdownListFinder";
 import { useEffect } from "react";
+import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";
 
 const FinderMainPage = () => {
     const switcherDataStart = switcherFinderMainPage;
@@ -25,11 +23,11 @@ const FinderMainPage = () => {
         searchResponse,
         resultLoaded,
         activeIndex,
-        inputValueActive,
         searchActive,
         currentFilter,
+        stateInputFind,
         setSearchActive,
-        setCurrentFilter,
+        handleSwitcherChange,
         handleKeyDown,
         handlerChangeInput,
         handlerClearInput,
@@ -42,9 +40,6 @@ const FinderMainPage = () => {
             refInput.current.focus();
         }
     }, [searchActive, refInput]);
-    const handleSwitcherChange = (value: string) => {
-        setCurrentFilter(value === "all" ? "" : value);
-    };
 
     return (
         <>
@@ -55,7 +50,9 @@ const FinderMainPage = () => {
             </h1>
             <div className={style.switcher}>
                 <Switcher
-                    callBack={({ value }) => handleSwitcherChange(value)}
+                    callBack={({ value }) =>
+                        handleSwitcherChange(value as TTypesOfSearchKey)
+                    }
                     data={switcherDataStart.map((item) => ({
                         ...item,
                         active: item.value === (currentFilter || "all"),
@@ -91,10 +88,11 @@ const FinderMainPage = () => {
                                 onChange={handlerChangeInput}
                                 ref={refInput}
                                 type="text"
+                                value={stateInputFind}
                                 maxLength={100}
                             />
                         </div>
-                        {searchActive && inputValueActive && (
+                        {searchActive && !!stateInputFind && (
                             <IconCancel
                                 onClick={handlerClearInput}
                                 className={style.iconClear}
@@ -107,7 +105,7 @@ const FinderMainPage = () => {
                             onMouseEnter={handlerMouseEnter}
                             className={style.dropdown}
                         >
-                            <DropdownList
+                            <DropdownListFinder
                                 resultLoaded={resultLoaded}
                                 searchResponse={searchResponse}
                                 activeIndex={activeIndex}

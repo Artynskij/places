@@ -13,7 +13,7 @@ import { RateCafe } from "../../RateCustom/RateCafe";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { headers } from "next/headers";
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
 
@@ -39,10 +39,10 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                     <Link
                         href={ROUTES.FILTER_WITH_QUERY(
                             locationId,
-                            TYPES_OF_ESTABLISHMENT[
+                            CONSTANT_TYPES_OF_ESTABLISHMENT[
                                 dataEstablishment.typeEstablishment
                             ].key,
-                            dataEstablishment.category.id,
+                            `${dataEstablishment.category.id}`,
                             "c"
                         )}
                         className={style.image_type_text}
@@ -52,13 +52,13 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
 
                     <ShareButton
                         linkPage={baseUrl}
-                        linkData={[
+                        linkData={ROUTES.LOCATION.ESTABLISHMENT(
                             dataEstablishment.location.town.id,
-                            TYPES_OF_ESTABLISHMENT[
+                            CONSTANT_TYPES_OF_ESTABLISHMENT[
                                 dataEstablishment.typeEstablishment
                             ].key,
-                            dataEstablishment.id,
-                        ]}
+                            dataEstablishment.id
+                        )}
                         classNameButton={`${style.imageButton} ${style.imageButton_share}`}
                         classNameIcon={style.imageButton_icon}
                         classNameButtonActive={`${style.imageButton_active}`}
@@ -73,7 +73,7 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                     className={style.image_link}
                     href={ROUTES.LOCATION.ESTABLISHMENT(
                         locationId,
-                        TYPES_OF_ESTABLISHMENT[
+                        CONSTANT_TYPES_OF_ESTABLISHMENT[
                             dataEstablishment.typeEstablishment
                         ].key,
                         `${dataEstablishment.id}`
@@ -107,7 +107,7 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                         <Link
                             href={ROUTES.LOCATION.ESTABLISHMENT(
                                 locationId,
-                                TYPES_OF_ESTABLISHMENT[
+                                CONSTANT_TYPES_OF_ESTABLISHMENT[
                                     dataEstablishment.typeEstablishment
                                 ].key,
                                 `${dataEstablishment.id}`

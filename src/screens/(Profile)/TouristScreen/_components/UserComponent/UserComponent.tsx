@@ -69,7 +69,7 @@ export const UserComponent = async ({ dataUser }: IUserComponent) => {
               classNameButton={style.info_shareButton}
               textButton="Поделиться"
               linkPage={baseUrl}
-              linkData={['tourist']}
+              linkData={'/tourist'}
             />
           </div>
         </div>

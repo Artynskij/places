@@ -6,27 +6,22 @@ import { InputCustom } from "@/components/UI/Input/InputCustom/InputCustom";
 
 import style from "./inputFind.module.scss";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
-const InputFind = () => {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
+import { ROUTES } from "@/lib/config/Routes";
 
-    const [inputValue, setInputValue] = useState("");
+interface IInputFind {
+    initialValue: string;
+}
+const InputFind = ({ initialValue }: IInputFind) => {
+    const router = useRouter();
+
+    const [inputValue, setInputValue] = useState(initialValue);
     const handlerSearchClick = () => {
-        router.replace(
-            `${pathname}?${
-                CONSTANT_SEARCH_PARAMS.SEARCH
-            }=${inputValue.toString()}`
-        );
+        router.replace(ROUTES.SEARCH(inputValue.toString()));
     };
-   
+
     const handlerSubmit = (e: React.FormEvent) => {
         e.preventDefault(); // Предотвращаем перезагрузку страницы
-        router.replace(
-            `${pathname}?${CONSTANT_SEARCH_PARAMS.SEARCH}=${encodeURIComponent(
-                inputValue.toString()
-            )}`
-        );
+        router.replace(ROUTES.SEARCH(inputValue.toString()));
     };
     return (
         <form onSubmit={handlerSubmit} className={style.ctn}>

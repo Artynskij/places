@@ -24,7 +24,7 @@ import {
     // ITagClassWithEstablishmentFront,
 } from "@/lib/models";
 import { useViewTypeList } from "@/lib/context";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
@@ -82,7 +82,7 @@ export default function FilterScreen({
                                 };
                             }),
                             {
-                                title: TYPES_OF_ESTABLISHMENT[
+                                title: CONSTANT_TYPES_OF_ESTABLISHMENT[
                                     params.typeEstablishment
                                 ].secondValue,
                             },
@@ -95,8 +95,9 @@ export default function FilterScreen({
                     <div className={style.titleBLock_left}>
                         <h1>
                             {`${
-                                TYPES_OF_ESTABLISHMENT[params.typeEstablishment]
-                                    ?.secondValue
+                                CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                    params.typeEstablishment
+                                ]?.secondValue
                             } в ${locationData?.title}`}
                         </h1>
                         <div className={style.titleBLock_result}>

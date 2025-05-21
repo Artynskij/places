@@ -3,10 +3,9 @@ import FilterScreen from "@/screens/FilterScreen/FilterScreen";
 import { IPageProps } from "@/lib/models/IType";
 import { notFound } from "next/navigation";
 
-
 import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
 import { TagsService } from "@/lib/Api/tags/tag.service";
-import { TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 
 import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
@@ -54,7 +53,10 @@ export default async function FilterPage({ params, searchParams }: IProps) {
             filter: {
                 tagsIds: tagsQuery || [],
                 categoryIds: categoriesQuery || [],
-                typeIds: [TYPES_OF_ESTABLISHMENT[params.typeEstablishment].id],
+                typeIds: [
+                    CONSTANT_TYPES_OF_ESTABLISHMENT[params.typeEstablishment]
+                        .id,
+                ],
                 locationId: params.location,
             },
         }),
@@ -63,7 +65,8 @@ export default async function FilterPage({ params, searchParams }: IProps) {
                 lang: params.locale,
                 locationId: params.location,
                 establishmentTypeId:
-                    TYPES_OF_ESTABLISHMENT[params.typeEstablishment].id,
+                    CONSTANT_TYPES_OF_ESTABLISHMENT[params.typeEstablishment]
+                        .id,
             },
             filterQuery || null
         ),

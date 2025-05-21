@@ -15,10 +15,10 @@ export class SearchService {
         body: ISearchQueryRequest
     ): Promise<ISearchQueryResponseFront | null> {
         const response = await this.searchApi.querySearch(body);
-        
 
+        const cdnHost = await this.searchApi.getBlobProxy();
         const mappingData = response
-            ? this.searchMapper.mapSearchQuery(response)
+            ? this.searchMapper.mapSearchQuery(response, body.indexKey,cdnHost?.url || '')
             : null;
         return mappingData;
     }

@@ -1,5 +1,6 @@
 import { IDataCardSlider } from "@/lib/models/ICards";
 import { number } from "yup";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "../constants/DefaultImage";
 
 export const mockObjectsHotels: IDataCardSlider[] = [
     {
@@ -377,7 +378,7 @@ export const mockObjectForObjectPage = {
         "/mock/rest ketchup.jpg",
         "/mock/rest Nuala.jpg",
         "/mock/rest vista.jpg",
-        "/mock/restMock.jpg",
+        CONSTANT_DEFAULT_IMAGE_URL,
         "/mock/shymkent.jpg",
         "/mock/turkestandistrict.jpg",
     ],

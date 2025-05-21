@@ -10,11 +10,31 @@ export class SearchApi {
         body: ISearchQueryRequest
     ): Promise<ISearchQueryResponse | null> {
         try {
-            body.indexKey = body.indexKey === "all" ? "" : body.indexKey;
-            const response = await apiClient.post(`/search/query`, body);
+            const indexKey =
+                body.indexKey === "all"
+                    ? ""
+                    : body.indexKey.toLocaleUpperCase();
+            const response = await apiClient.post(`/search/query`, {
+                ...body,
+                indexKey,
+            });
+
             return response.data;
         } catch (error) {
             console.error(`Ошибка при запросе по поиску query.`);
+            return null;
+        }
+    }
+
+    async getBlobProxy(): Promise<{ url: string } | null> {
+        try {
+            const response = await apiClient.get(`/blob-proxy/resolve`);
+
+            return response.data;
+        } catch (error) {
+            console.error(
+                `Ошибка при запросе по получению blob-proxy для картинок.`
+            );
             return null;
         }
     }

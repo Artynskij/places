@@ -145,6 +145,18 @@
             "styleRankings": "Стили отеля"
         }
     },
+    "SearchPage": {
+        "card": {
+            "type": {
+                "EATER": "Где поесть",
+                "ACCOMMODATION": "Где поспать",
+                "ATTRACTION": "Что посмотреть",
+                "location": "Куда поехать",
+                "article": "Что почитать",
+                "unknown": "Неизвестно"
+            }
+        }
+    },
     "Rates": {
         "ratingsWord": "оценок",
         "Rooms": "Номера",
