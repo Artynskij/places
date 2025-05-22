@@ -11,3 +11,9 @@
         width: 100%;
     }
 }
+
+@include mediaTablet{
+    .switcher_list{
+        flex-direction: row;
+    }
+}

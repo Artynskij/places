@@ -1,4 +1,4 @@
-import { CONSTANT_DEFAULT_IMAGE_URL } from "./DefaultImage";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "./DefaultConstant";
 
 export const continentsData = [
     {

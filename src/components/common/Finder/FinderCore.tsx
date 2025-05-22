@@ -13,6 +13,7 @@ import { SearchService } from "@/lib/Api/search/search.service";
 import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
 import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
 import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 
 export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
     const apiSearch = new SearchService();
@@ -28,7 +29,6 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
         useState<ISearchQueryResponseFront | null>(null);
     const [resultLoaded, setResultLoaded] = useState<boolean>(false);
     const [activeIndex, setActiveIndex] = useState(-1);
-    // const [inputValueActive, setInputValueActive] = useState(false);
     const [searchActive, setSearchActive] = useState(false);
     const [currentFilter, setCurrentFilter] = useState<string>(
         initialFilter || ""
@@ -39,36 +39,45 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
     const handleKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
         if (!searchResponse || !refUl.current) return;
 
-        const links = Array.from(refUl.current.querySelectorAll("a"));
+        const liElements = Array.from(refUl.current.querySelectorAll("li"));
+        const links = liElements.map((elem) => elem.querySelector("a"));
         const currentInput = stateInputFind.trim();
-        const activeElement = refUl.current.querySelector("[data-active=true]");
+
         switch (e.key) {
             case "ArrowUp":
                 e.preventDefault();
-                setActiveIndex((prev) =>
-                    prev <= 0 ? links.length - 1 : prev - 1
-                );
+                setActiveIndex((prev) => {
+                    const countEl = prev <= 0 ? links.length - 1 : prev - 1;
+                    links[countEl]?.focus();
+                    return countEl;
+                });
                 break;
             case "ArrowDown":
                 e.preventDefault();
-                setActiveIndex((prev) =>
-                    prev >= links.length - 1 ? 0 : prev + 1
-                );
-                const prev =
-                    activeElement?.previousElementSibling?.querySelector("a") ||
-                    links[links.length - 1];
-                prev?.focus();
+                setActiveIndex((prev) => {
+                    const countEl = prev >= links.length - 1 ? 0 : prev + 1;
+                    links[countEl]?.focus();
+                    return countEl;
+                });
                 break;
             case "Enter":
                 e.preventDefault();
                 if (currentInput && activeIndex >= 0 && links[activeIndex]) {
                     // Если есть выбранный элемент → переход по нему
                     handlerCloseInput();
-                    router.push(links[activeIndex].getAttribute("href") || "#");
+                    const link = links[activeIndex]?.getAttribute("href") || "";
+                    if (
+                        link.includes(
+                            `search?${CONSTANT_SEARCH_PARAMS.SEARCH}=`
+                        )
+                    ) {
+                        router.push(ROUTES.SEARCH(currentInput, currentFilter));
+                    } else {
+                        router.push(link);
+                    }
                 } else if (currentInput) {
-                    // Если просто нажат Enter → переход на страницу поиска
                     handlerCloseInput();
-                    router.push(ROUTES.SEARCH(currentInput));
+                    router.push(ROUTES.SEARCH(currentInput, currentFilter));
                 }
                 break;
             case "Escape":
@@ -105,8 +114,6 @@ export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
                     indexKey: currentFilter as TTypesOfSearchKey,
                 })
                 .then((res) => {
-                    
-
                     setSearchResponse(res);
                 });
         }

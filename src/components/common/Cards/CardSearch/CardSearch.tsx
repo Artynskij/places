@@ -38,14 +38,15 @@ export const CardSearch: FC<ICardSearch> = ({
                 )}
 
                 {/* <div>{dataCard.globalTypeEntity}</div> */}
-                {dataCard.location?.town && dataCard.location?.country   && (
-                    <Link
-                        href={ROUTES.LOCATION.LOCATION(dataCard.location?.town.id)}
-                    >
-                        <div className={style.card_info_location}>
-                            {dataCard.location?.country.title}, {dataCard.location.town.title}
-                        </div>
-                    </Link>
+                {dataCard.location?.town && dataCard.location?.country && (
+                    // <Link
+                    //     href={ROUTES.LOCATION.LOCATION(dataCard.location?.town.id)}
+                    // >
+                    <div className={style.card_info_location}>
+                        {dataCard.location?.country.title},{" "}
+                        {dataCard.location.town.title}
+                    </div>
+                    // </Link>
                 )}
             </div>
         </div>

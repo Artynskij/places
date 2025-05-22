@@ -4,11 +4,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Pagination } from "antd";
 import { PaginationProps } from "antd/lib";
 import { FC, useEffect, useState } from "react";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 interface IPaginationAntProp {
     totalCount: number;
     defaultPage: number;
     pageSize: number;
-    setIsLoading: (state: boolean) => void;
+    setIsLoading?: (state: boolean) => void;
 }
 export const PaginationAnt: FC<IPaginationAntProp> = ({
     totalCount,
@@ -21,18 +22,22 @@ export const PaginationAnt: FC<IPaginationAntProp> = ({
     const searchParams = useSearchParams();
     const pathname = usePathname();
     useEffect(() => {
-        const page = searchParams.get("page");
+        const page = searchParams.get(CONSTANT_SEARCH_PARAMS.PAGE);
         if (page) {
             setCurrentPage(parseInt(page) / pageSize);
+        } else {
+            setCurrentPage(1);
         }
     }, [searchParams, pageSize]);
     const onChange: PaginationProps["onChange"] = (page) => {
-        setIsLoading(true);
+        if (setIsLoading) {
+            setIsLoading(true);
+        }
         const params = new URLSearchParams(searchParams.toString());
         if (page > 1) {
-            params.set("page", `${page * pageSize}`);
+            params.set(CONSTANT_SEARCH_PARAMS.PAGE, `${page * pageSize}`);
         } else {
-            params.delete("page");
+            params.delete(CONSTANT_SEARCH_PARAMS.PAGE);
         }
         router.replace(`${pathname}?${params.toString()}`);
         setCurrentPage(page);

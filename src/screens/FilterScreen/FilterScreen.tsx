@@ -31,6 +31,7 @@ import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEs
 import { Loader } from "@/components/common/Loader/Loader";
 import { usePathname, useSearchParams } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
+import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -195,10 +196,10 @@ export default function FilterScreen({
                             По данным характеристикам заведений не найдено
                         </div>
                     )}
-                    {totalEstablishmentCount > 30 && (
+                    {totalEstablishmentCount > CONSTANT_DEFAULT_PAGE_SIZE && (
                         <PaginationAnt
-                            pageSize={30}
-                            defaultPage={30}
+                            pageSize={CONSTANT_DEFAULT_PAGE_SIZE}
+                            defaultPage={CONSTANT_DEFAULT_PAGE_SIZE}
                             totalCount={totalEstablishmentCount}
                             setIsLoading={setIsLoading}
                         />

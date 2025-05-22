@@ -25,15 +25,15 @@ export class SearchMapper {
         cdnHost: string
     ): ISearchQueryResponseFront {
         const mapperItems: ISearchItemFront[] = [];
-
+        const indexKeyUpperCase = indexKey.toUpperCase();
         if (Array.isArray(responseBack.hits)) {
             responseBack.hits.forEach((searchItemBack, index) => {
                 const globalTypeItem: TGlobalTypes =
-                    indexKey === "TO_EAT" ||
-                    indexKey === "TO_SLEEP" ||
-                    indexKey === "TO_VISIT"
+                    indexKeyUpperCase === "TO_EAT" ||
+                    indexKeyUpperCase === "TO_SLEEP" ||
+                    indexKeyUpperCase === "TO_VISIT"
                         ? "establishment"
-                        : indexKey === "TO_GO"
+                        : indexKeyUpperCase === "TO_GO"
                         ? "location"
                         : "article";
                 mapperItems.push(

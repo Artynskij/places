@@ -44,10 +44,10 @@
         border-radius: $border-radius-10;
         transition: $transition;
         border: 1px solid transparent;
+        height: 100%;
         &:hover {
             border-color: $color-main-gold;
             box-shadow: $box-shadow-default;
-            transform: scale(1.005);
         }
     }
 }
@@ -56,5 +56,31 @@
     &_button {
     }
     &_icon {
+    }
+}
+@include mediaNetbook {
+    // .content{
+    //     display: flex;
+    //     flex-direction: column;
+    // }
+    .listSearch {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@include mediaTablet {
+    .content {
+        display: flex;
+        flex-direction: column;
+        &_switcher {
+            position: static;
+        }
+    }
+    // .listSearch{
+    //     grid-template-columns: repeat(2,1fr);
+    // }
+}
+@include mediaPhone {
+    .listSearch {
+        grid-template-columns: 1fr;
     }
 }

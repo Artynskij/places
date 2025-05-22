@@ -7,7 +7,7 @@ import { getTranslations } from "next-intl/server";
 import { ISearchItemFront } from "@/lib/models";
 
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultImage";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 import { ROUTES } from "@/lib/config/Routes";
 
 import { ShareButton } from "@/components/common/ButtonFunctional/ShareButton";
@@ -141,6 +141,8 @@ const CardSearch = async ({ dataCard, baseUrl }: ICardSearchDefault) => {
                             <IconLocation
                                 className={style.description_location_icon}
                             />
+                            
+                            {`${dataCard.location.country?.title}, ` || ''}
                             {dataCard.location.town.title}
                         </Link>
                     )}

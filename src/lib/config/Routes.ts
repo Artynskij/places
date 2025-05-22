@@ -34,10 +34,19 @@ export const ROUTES = {
             establishment: string
         ) => `/${location}/${typeEst}/${establishment}`,
     },
-    SEARCH: (string: string, indexSearch: string = "") =>
+    SEARCH: (string: string, indexSearch: string = "", page: string = "") =>
         `/search?${CONSTANT_SEARCH_PARAMS.SEARCH}=${string}${
-            indexSearch &&
-            `&${CONSTANT_SEARCH_PARAMS.INDEX_SEARCH}=${indexSearch}`
+            !!indexSearch
+                ? `&${
+                      CONSTANT_SEARCH_PARAMS.INDEX_SEARCH
+                  }=${indexSearch.toLocaleLowerCase()}`
+                : ""
+        }${
+            !!page
+                ? `&${
+                      CONSTANT_SEARCH_PARAMS.PAGE
+                  }=${page.toLocaleLowerCase()}`
+                : ""
         }`,
 };
 export const ROUTES_FINDER = {

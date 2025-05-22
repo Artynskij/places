@@ -9,6 +9,7 @@ import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstabl
 import { LocationService } from "@/lib/Api/location/location.service";
 
 import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
 
 // export async function generateMetadata({
 //   params,
@@ -47,8 +48,10 @@ export default async function FilterPage({ params, searchParams }: IProps) {
         apiEst.getEstablishmentByPagination({
             lang: params.locale,
             pagination: {
-                page: currentPageQuery ? +currentPageQuery / 30 : 1,
-                pageSize: 30,
+                page: currentPageQuery
+                    ? +currentPageQuery / CONSTANT_DEFAULT_PAGE_SIZE
+                    : 1,
+                pageSize: CONSTANT_DEFAULT_PAGE_SIZE,
             },
             filter: {
                 tagsIds: tagsQuery || [],

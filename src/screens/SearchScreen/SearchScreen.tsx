@@ -15,13 +15,15 @@ import CardSearch from "./_components/CardSearch/CardSearchDefault";
 
 import SwitcherSearchPage from "./_components/SwitcherSearchPage/SwitcherSearchPage";
 import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";
+import { PaginationAnt } from "@/components/common/Pagination/PaginationAnt";
+import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
 
 interface ISearchProp extends IPageProps {
     searchParams: {
         [CONSTANT_SEARCH_PARAMS.SEARCH]: string;
         [CONSTANT_SEARCH_PARAMS.INDEX_SEARCH]: TTypesOfSearchKey;
     };
-    searchData: ISearchQueryResponseFront | null;
+    searchData: ISearchQueryResponseFront;
 }
 const SearchScreen = async ({
     params,
@@ -29,11 +31,13 @@ const SearchScreen = async ({
     searchData,
 }: ISearchProp) => {
     const searchQuery = searchParams[CONSTANT_SEARCH_PARAMS.SEARCH];
-    const countAllSearchItems = searchData
-        ? searchData?.info.found.article +
-          searchData?.info.found.establishment +
-          searchData?.info.found.location
-        : 0;
+
+    const countAllSearchItems = searchData?.info.proportions.total;
+    // const countAllSearchItems = searchData?.info.found
+    //     ? searchData?.info.found.article +
+    //       searchData?.info.found.establishment +
+    //       searchData?.info.found.location
+    //     : 0;
 
     const searchValue = searchParams[CONSTANT_SEARCH_PARAMS.SEARCH] || "";
     const baseUrl = await getBaseUrlServer();
@@ -50,10 +54,10 @@ const SearchScreen = async ({
                         <SwitcherSearchPage />
                     </div>
                     <div className={style.content_content}>
-                        {" "}
                         <h4 className={style.searchInfo}>
                             {` Результаты поиска по запросу "${searchQuery}". Найдено ${countAllSearchItems} совпадений.`}
                         </h4>
+                        {/* отображение объектов */}
                         {searchData && (
                             <ul className={style.listSearch}>
                                 {searchData.searchItems.map((searchItem) => (
@@ -68,30 +72,36 @@ const SearchScreen = async ({
                                 ))}
                             </ul>
                         )}
-                        {(searchData && searchData?.searchItems.length === 0) ||
-                            (!searchData && (
-                                <>
-                                    <h4>
-                                        В нашем каталоге чего-то не хватает?
-                                    </h4>
-                                    <Link
-                                        className={style.itemEmpty}
-                                        href={"#add_est"}
-                                    >
-                                        <Button
-                                            className={style.itemEmpty_button}
-                                            icon={
-                                                <IconPlus
-                                                    className={
-                                                        style.itemEmpty_icon
-                                                    }
-                                                />
-                                            }
-                                            text="Добавить объект"
-                                        />
-                                    </Link>
-                                </>
-                            ))}
+                        {countAllSearchItems > CONSTANT_DEFAULT_PAGE_SIZE && (
+                            <PaginationAnt
+                                pageSize={CONSTANT_DEFAULT_PAGE_SIZE}
+                                defaultPage={CONSTANT_DEFAULT_PAGE_SIZE}
+                                totalCount={countAllSearchItems}
+                            />
+                        )}
+
+                        {/* если нету объектов */}
+                        {((searchData &&
+                            searchData?.searchItems.length === 0) ||
+                            !searchData) && (
+                            <>
+                                <h4>В нашем каталоге чего-то не хватает?</h4>
+                                <Link
+                                    className={style.itemEmpty}
+                                    href={"#add_est"}
+                                >
+                                    <Button
+                                        className={style.itemEmpty_button}
+                                        icon={
+                                            <IconPlus
+                                                className={style.itemEmpty_icon}
+                                            />
+                                        }
+                                        text="Добавить объект"
+                                    />
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </section>

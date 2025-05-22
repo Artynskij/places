@@ -28,7 +28,7 @@ import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
 import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultImage";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {

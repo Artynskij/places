@@ -7,6 +7,7 @@
 .blockFinder {
     width: 100%;
     // padding: 11px 16px;
+    max-height: 90vh;
     border: 1px solid $color-main-grey;
     border-radius: 100px;
     min-width: 10px;
@@ -70,7 +71,7 @@
     background-color: $color-main-white;
 
     border-radius: 12px;
-
+    overflow: auto;
     & .blockFinder_input {
         border-bottom: 1px solid black;
         padding-bottom: 10px;

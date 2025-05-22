@@ -18,11 +18,7 @@ const SwitcherSearchPage = () => {
         .get(CONSTANT_SEARCH_PARAMS.INDEX_SEARCH)
         ?.toLocaleUpperCase();
 
-    // const [currentFilter, setCurrentFilter] =
-    //     useState<TTypesOfSearchKey>("all");
     const handleSwitcherChange = (value: TTypesOfSearchKey) => {
-        // setCurrentFilter(value);
-
         if (value == "all") {
             router.push(ROUTES.SEARCH(searchQueryInput));
         } else {
