@@ -62,27 +62,7 @@
     }
 }
 .dropdown {
-    // display: none;
     padding: 7px 10px;
-    // & &_list {
-    //     padding: 15px 5px;
-    //     display: flex;
-    //     flex-direction: column;
-    //     gap: $gap-small;
-    //     &_item {
-    //         padding: 5px 13px;
-
-    //         transition: $transition;
-    //         border-radius: $border-radius-10;
-    //         &:hover {
-    //             background-color: $color-main-gold;
-    //         }
-    //         &.active {
-    //             background-color: $color-main-gold;
-    //             border-radius: 10px;
-    //         }
-    //     }
-    // }
 }
 .icon {
     font-size: 20px;
@@ -110,6 +90,10 @@
             left: 0;
             right: 0;
             bottom: 0;
+        }
+        &[active-class="true"] &_dropdown {
+            height: 80vh;
+            overflow: auto;
         }
     }
 }

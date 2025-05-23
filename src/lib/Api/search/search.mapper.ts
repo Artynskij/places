@@ -11,6 +11,7 @@ import {
 } from "@/lib/models/common/TTypesGlobal";
 import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
 import TagsMapper from "../tags/tag.mapper";
+import { ISearchQueryRequest } from "@/lib/models/api/request/search/ISearchQuery.request";
 
 export class SearchMapper {
     private tagsMapper: TagsMapper;
@@ -21,11 +22,12 @@ export class SearchMapper {
 
     mapSearchQuery(
         responseBack: ISearchQueryResponse,
-        indexKey: TTypesOfSearchKey,
+        body: ISearchQueryRequest,
         cdnHost: string
     ): ISearchQueryResponseFront {
         const mapperItems: ISearchItemFront[] = [];
-        const indexKeyUpperCase = indexKey.toUpperCase();
+        const indexKeyUpperCase = body.indexKey.toUpperCase();
+        const inputValue = body.term;
         if (Array.isArray(responseBack.hits)) {
             responseBack.hits.forEach((searchItemBack, index) => {
                 const globalTypeItem: TGlobalTypes =
@@ -69,9 +71,13 @@ export class SearchMapper {
                 });
             }
         }
-
+        const sortedMapperItems = [...mapperItems].sort((a, b) => {
+            if (a.title.toLocaleLowerCase() === inputValue.toLocaleLowerCase()) return -1; // a идет первым
+            if (b.title.toLocaleLowerCase() === inputValue.toLocaleLowerCase()) return 1; // b идет первым
+            return 0; // сохраняем исходный порядок
+        });
         const mapperResponse: ISearchQueryResponseFront = {
-            searchItems: mapperItems,
+            searchItems: sortedMapperItems,
             info: {
                 usedLangs: responseBack._meta.usedLangs || null,
                 mode: responseBack._meta.mode || null,

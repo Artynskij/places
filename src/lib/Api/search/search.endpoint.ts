@@ -29,7 +29,6 @@ export class SearchApi {
     async getBlobProxy(): Promise<{ url: string } | null> {
         try {
             const response = await apiClient.get(`/blob-proxy/resolve`);
-
             return response.data;
         } catch (error) {
             console.error(

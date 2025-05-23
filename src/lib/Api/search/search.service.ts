@@ -18,7 +18,7 @@ export class SearchService {
 
         const cdnHost = await this.searchApi.getBlobProxy();
         const mappingData = response
-            ? this.searchMapper.mapSearchQuery(response, body.indexKey,cdnHost?.url || '')
+            ? this.searchMapper.mapSearchQuery(response, body,cdnHost?.url || '')
             : null;
         return mappingData;
     }
