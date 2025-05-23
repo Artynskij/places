@@ -28,19 +28,19 @@ interface IShareButton {
     importTitle?: string;
     importDescription?: string;
     textButton?: string;
+    baseUrl: string;
     linkPage: string;
-    linkData: string;
 }
 
 export const ShareButton: FC<IShareButton> = ({
     classNameIcon,
     classNameButton,
     classNameButtonActive,
-    linkPage,
+    baseUrl,
     textButton,
     importTitle,
     importDescription,
-    linkData,
+    linkPage,
 }) => {
     const [popupActive, setPopupActive] = useState(false);
     const blockShareRef = useRef<HTMLDivElement | null>(null); // Ссылка на модал
@@ -72,7 +72,7 @@ export const ShareButton: FC<IShareButton> = ({
 
     const getShareUrl = useCallback(
         (network: keyof typeof urls) => {
-            const encodedLink = encodeURIComponent(linkPage + linkData);
+            const encodedLink = encodeURIComponent(baseUrl + linkPage);
             const encodedTitle = encodeURIComponent(importTitle || "");
             const urls = {
                 telegram: `https://t.me/share/url?url=${encodedLink}&text=${encodedTitle}`,
@@ -87,7 +87,7 @@ export const ShareButton: FC<IShareButton> = ({
             };
             return urls[network] || "";
         },
-        [importTitle, linkPage, linkData]
+        [importTitle, baseUrl, linkPage]
     );
     const closePopup = () => {
         setPopupActive(false);

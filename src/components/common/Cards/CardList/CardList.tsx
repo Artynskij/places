@@ -51,14 +51,15 @@ export const CardList: FC<ICardHotelList> = ({
                     </Link>
 
                     <ShareButton
-                        linkData={ROUTES.LOCATION.ESTABLISHMENT(
+                        importTitle={dataEstablishment.title}
+                        linkPage={ROUTES.LOCATION.ESTABLISHMENT(
                             dataEstablishment.location.town.id,
                             CONSTANT_TYPES_OF_ESTABLISHMENT[
                                 dataEstablishment.typeEstablishment
                             ].key,
                             dataEstablishment.id
                         )}
-                        linkPage={baseUrl}
+                        baseUrl={baseUrl}
                         classNameButton={`${style.imageButton} ${style.imageButton_share}`}
                         classNameIcon={style.imageButton_icon}
                         classNameButtonActive={`${style.imageButton_active}`}

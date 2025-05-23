@@ -136,14 +136,15 @@ export const EstablishmentScreen = async ({
                         }
                         classNameIcon={style.underHeader_groupButtons_icon}
                         textButton="Поделиться"
-                        linkPage={baseUrl}
-                        linkData={ROUTES.LOCATION.ESTABLISHMENT(
+                        baseUrl={baseUrl}
+                        linkPage={ROUTES.LOCATION.ESTABLISHMENT(
                             dataEstablishment.location.town.id,
                             CONSTANT_TYPES_OF_ESTABLISHMENT[
                                 dataEstablishment.typeEstablishment
                             ].key,
                             dataEstablishment.id
                         )}
+                        importTitle={dataEstablishment.title}
                     />
                 </div>
             </div>

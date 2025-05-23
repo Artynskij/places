@@ -17,7 +17,6 @@ import { RateCafe } from "@/components/common/RateCustom/RateCafe";
 import { RateHotel } from "@/components/common/RateCustom/RateHotel";
 import { IconLocation } from "@/components/common/Icons";
 
-
 interface ICardSearchDefault {
     dataCard: ISearchItemFront;
     baseUrl: string;
@@ -49,8 +48,9 @@ const CardSearch = async ({ dataCard, baseUrl }: ICardSearchDefault) => {
                     </div>
 
                     <ShareButton
-                        linkPage={baseUrl}
-                        linkData={linkData}
+                        baseUrl={baseUrl}
+                        linkPage={linkData}
+                        importTitle={dataCard.title}
                         classNameButton={`${style.imageButton} ${style.imageButton_share}`}
                         classNameIcon={style.imageButton_icon}
                         classNameButtonActive={`${style.imageButton_active}`}
@@ -141,8 +141,8 @@ const CardSearch = async ({ dataCard, baseUrl }: ICardSearchDefault) => {
                             <IconLocation
                                 className={style.description_location_icon}
                             />
-                            
-                            {`${dataCard.location.country?.title}, ` || ''}
+
+                            {`${dataCard.location.country?.title}, ` || ""}
                             {dataCard.location.town.title}
                         </Link>
                     )}

@@ -51,8 +51,9 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                     </Link>
 
                     <ShareButton
-                        linkPage={baseUrl}
-                        linkData={ROUTES.LOCATION.ESTABLISHMENT(
+                        importTitle={dataEstablishment.title}
+                        baseUrl={baseUrl}
+                        linkPage={ROUTES.LOCATION.ESTABLISHMENT(
                             dataEstablishment.location.town.id,
                             CONSTANT_TYPES_OF_ESTABLISHMENT[
                                 dataEstablishment.typeEstablishment

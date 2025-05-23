@@ -19,6 +19,7 @@ import { BlockWatchCount } from "@/components/common/BlockFunctional/BlockWhatch
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { Markdown } from "@/components/common/MarkDown/MarkDown";
 import { TCategoriesNews } from "@/lib/models/common/TCategoriesNews";
+import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 
 interface IBlockNews {
     article: IArticleFront | null;
@@ -49,7 +50,7 @@ export default function BlockNews({
             updateAnotherNews();
         }
     }, [observerUrl.inView]);
-
+    const baseUrl = useBaseUrl();
     if (!article) return <div>Данные по этой новости утеряны</div>;
     return (
         <div
@@ -104,7 +105,11 @@ export default function BlockNews({
                 <Markdown>{article.markdown}</Markdown>
             </div>
             <div className={style.share}>
-                <BlockShare linkPage="https://www.lipsum.com/" />
+                <BlockShare
+                    baseUrl={baseUrl}
+                    linkPage={ROUTES.NEWS.NEWS("news", article.id)}
+                    importTitle={article.title}
+                />
             </div>
 
             <div className={style.tags}>
