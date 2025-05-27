@@ -6,7 +6,7 @@ import style from "./buttonFunctional.module.scss";
 import { mockObjectForObjectPage } from "@/asset/mockData/mockObject";
 import Link from "next/link";
 import { IconPhone } from "../Icons/IconPhone/IconPhone";
-import { IconInstagram, IconTelegram, IconViber, IconWhatApp } from "../Icons";
+import { IconInstagram, IconTelegram, IconViber, IconWhatApp } from "../Icons/Social";
 
 import { Popup } from "../Popup/Popup";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";

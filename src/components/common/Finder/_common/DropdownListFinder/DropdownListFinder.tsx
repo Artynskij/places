@@ -12,6 +12,7 @@ import { ISearchItemFront } from "@/lib/models";
 import { getUrlForUrl } from "@/lib/hooks/getUrlForSearch";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 
 type DropdownListProps = {
     resultLoaded: boolean;
@@ -75,8 +76,9 @@ const DropdownListFinder = ({
         listItemsData.push({ type: "add_place" });
         setListItemsData(listItemsData);
     }, [searchResponse, searchQuery]);
+    const baseUrl = useBaseUrl();
     if (!resultLoaded) return <SpinnerAnt size="large" />;
-
+    
     // const listItemsData: IListItemData[] = createListItemsRef();
     return (
         <ul className={style.list} ref={ulRef}>
@@ -99,7 +101,7 @@ const DropdownListFinder = ({
                                         )}
                                         onClick={onItemClick}
                                     >
-                                        <CardSearch dataCard={listItem.data} />
+                                        <CardSearch baseUrl={baseUrl} dataCard={listItem.data} />
                                     </Link>
                                 </li>
                             )

@@ -10,7 +10,7 @@ import {
     IconViber,
     IconVk,
     IconWhatApp,
-} from "@/components/common/Icons";
+} from "@/components/common/Icons/Social";
 
 interface IBlockShare {
     importTitle?: string;

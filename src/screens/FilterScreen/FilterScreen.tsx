@@ -1,37 +1,35 @@
 "use client";
-import { Suspense, useEffect, useState } from "react";
-
-import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import style from "./filterScreen.module.scss";
+
+import { Suspense, useEffect, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+
+import { useViewTypeList } from "@/lib/context";
+import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
+import { ROUTES } from "@/lib/config/Routes";
+
+import { Loader } from "@/components/common/Loader/Loader";
+import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
+import { PaginationAnt } from "@/components/common/Pagination/PaginationAnt";
+import { Switcher } from "@/components/common/Switcher/Switcher";
+import { CardSliderMainPage } from "@/components/common/Cards";
+import { CardList } from "@/components/common/Cards/CardList/CardList";
+import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 
 import FiltersComponent from "./_components/FilterComponent/FilterComponent";
 import ParamComponent from "./_components/ContentComponent/ParamComponent/ParamComponent";
 
-import { PaginationAnt } from "@/components/common/Pagination/PaginationAnt";
-import { CardSliderMainPage } from "@/components/common/Cards";
-import { CardList } from "@/components/common/Cards/CardList/CardList";
-import { Switcher } from "@/components/common/Switcher/Switcher";
-import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
-
-import { mockFilterSort } from "@/asset/mockData/mockFilterSort";
-import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
-import { IPageProps } from "@/lib/models/IType";
-
-import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
-
-import {
-    IEstablishmentFront,
-    // ITagClassWithEstablishmentFront,
-} from "@/lib/models";
-import { useViewTypeList } from "@/lib/context";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
-import { ILocationFront } from "@/lib/models/frontend/location/location.front";
-import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
-import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
-import { Loader } from "@/components/common/Loader/Loader";
-import { usePathname, useSearchParams } from "next/navigation";
-import { ROUTES } from "@/lib/config/Routes";
 import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
+import { mockFilterSort } from "@/asset/mockData/mockFilterSort";
+
+import { IPageProps } from "@/lib/models/IType";
+import { IEstablishmentFront } from "@/lib/models";
+import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
+import { ILocationFront } from "@/lib/models/frontend/location/location.front";
+import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
+
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -115,9 +113,12 @@ export default function FilterScreen({
                 <div id={"filter"} className={style.container_filter}>
                     <Suspense fallback={<Loader />}>
                         <FiltersComponent
+                        establishmentList={establishmentList}
                             totalEstablishmentCount={totalEstablishmentCount}
                             dataTags={blockTags}
+
                             setIsLoading={setIsLoading}
+                            tagsClassEstablishment={tagsClassEstablishment || null}
                         />
                     </Suspense>
                 </div>

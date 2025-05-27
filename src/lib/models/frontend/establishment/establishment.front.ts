@@ -28,11 +28,11 @@ export interface IEstablishmentFront {
         } | null)[];
     };
     location: {
-        country: { id: string; title: string | null };
+        country: { id: string; title: string  };
         town: { id: string; title: string };
         street: string;
-        latitude: string;
-        longitude: string;
+        latitude: number;
+        longitude: number;
         postalCode: string;
         pathBreadcrumb: string;
         info: {

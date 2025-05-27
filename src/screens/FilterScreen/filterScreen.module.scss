@@ -10,6 +10,7 @@
     position: relative;
     min-height: 100vh;
     // overflow: auto;
+
     &_filter {
         position: sticky;
         // top: $header-height;
@@ -24,6 +25,7 @@
         border-radius: 20px;
         height: fit-content;
         overflow: auto;
+        z-index: 3;
         &::-webkit-scrollbar-thumb {
             background-color: $color-main-blue;
         }

@@ -2,7 +2,7 @@ import Image from "next/image";
 import style from "./mainScreen.module.scss";
 import Link from "next/link";
 
-import FinderBlock from "./_components/FinderBlock/FinderBlock";
+
 import SliderCommercial from "./_components/SliderCommercial/SliderCommercial";
 
 import { mockTowns } from "@/asset/mockData/mockCountry";

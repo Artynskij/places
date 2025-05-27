@@ -1,10 +1,13 @@
+import { IconAccommodation } from "./IconAccommodation/AccommodationIcon";
 import { IconArrowDown } from "./IconArrowDown/IconArrowDown";
 import { IconArrowLeft } from "./IconArrowLeft/ArrowLeftIcon";
 import { IconArrowRight } from "./IconArrowRight/ArrowRightIcon";
+import { IconAttraction } from "./IconAttraction/AttractionIcon";
 import { IconCancel } from "./IconCancel/IconCancel";
 import { IconClock } from "./IconClock/IconClock";
 import { IconDelete } from "./IconDelete/IconDelete";
 import { IconDone } from "./IconDone/IconDone";
+import { IconEater } from "./IconEater/EaterIcon";
 import { IconEdit } from "./IconEdit/IconEdit";
 import { IconEnter } from "./IconEnter/IconEnter";
 import { IconExit } from "./IconExit/IconExit";
@@ -29,17 +32,6 @@ import { IconThumbDown } from "./IconThumbDown/IconThumbDown";
 import { IconThumbUp } from "./IconThumbUp/IconThumbUp";
 import { IconUnfollow } from "./IconUnfollow/IconUnfollow";
 
-import { IconClassmates } from "./Social/IconClassmates";
-import { IconFacebook } from "./Social/IconFacebook";
-import { IconLinkedin } from "./Social/IconLinkedin";
-import { IconSkype } from "./Social/IconSkype";
-import { IconTelegram } from "./Social/IconTelegram";
-import { IconTwitter } from "./Social/IconTwitter";
-import { IconViber } from "./Social/IconViber";
-import { IconVk } from "./Social/IconVk";
-import { IconWhatApp } from "./Social/IconWhatApp";
-import { IconInstagram } from "./Social/IconInstagram";
-
 export {
     IconArrowDown,
     IconArrowLeft,
@@ -59,6 +51,7 @@ export {
     IconDelete,
     IconClock,
     IconDone,
+    IconEater,
     IconMessage,
     IconPhone,
     IconEye,
@@ -70,16 +63,7 @@ export {
     IconUnfollow,
     IconFollowing,
     IconGoogle,
-    //
-    IconClassmates,
-    IconFacebook,
-    IconLinkedin,
-    IconSkype,
-    IconTelegram,
-    IconTwitter,
-    IconViber,
-    IconVk,
-    IconWhatApp,
+    IconAccommodation,
+    IconAttraction,
     IconGallery,
-    IconInstagram,
 };

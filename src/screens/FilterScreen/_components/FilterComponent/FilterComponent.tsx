@@ -21,17 +21,22 @@ import { Overlay } from "@/components/common/Overlay/Overlay";
 import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 import { Loader } from "@/components/common/Loader/Loader";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { IEstablishmentFront, ITagWithEstablishmentFront } from "@/lib/models";
 
 interface IFilterComponentProp {
+    establishmentList: IEstablishmentFront[];
     dataTags?: ITagsBlockFront[];
     totalEstablishmentCount: number;
     setIsLoading: (state: boolean) => void;
+    tagsClassEstablishment: ITagWithEstablishmentFront[] | null;
 }
 
 const FiltersComponent = ({
+    establishmentList,
     dataTags,
     totalEstablishmentCount,
     setIsLoading,
+    tagsClassEstablishment
 }: IFilterComponentProp) => {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -72,7 +77,9 @@ const FiltersComponent = ({
 
     return (
         <div>
-            <div className={style.filter_map}>{/* <PopupMap /> */}</div>
+            <div className={style.filter_map}>
+                <PopupMap tagsClassEstablishment={tagsClassEstablishment || null}  establishmentList={establishmentList}/>
+            </div>
             <Button
                 className={style.filter_buttonOpen}
                 onClick={handlerOpenFilter}

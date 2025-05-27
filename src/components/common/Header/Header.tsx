@@ -5,7 +5,7 @@ import { SelectLang } from "./SelectLang/SelectLang";
 import Profile from "./Profile/Profile";
 
 import { Navigation } from "./Navigation/Navigation";
-import { Finder } from "./Finder/Finder";
+// import { Finder } from "./Finder/Finder";
 import { Burger } from "./Burger/Burger";
 
 import { mockTourist } from "@/asset/mockData/mockTourist";

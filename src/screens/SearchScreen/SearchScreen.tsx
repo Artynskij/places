@@ -11,7 +11,7 @@ import { Button } from "@/components/UI/Button/Button";
 import { IconPlus } from "@/components/common/Icons";
 
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
-import CardSearch from "./_components/CardSearch/CardSearchDefault";
+import { CardSearch } from "@/components/common/Cards";
 
 import SwitcherSearchPage from "./_components/SwitcherSearchPage/SwitcherSearchPage";
 import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";

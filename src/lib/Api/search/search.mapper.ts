@@ -72,9 +72,46 @@ export class SearchMapper {
             }
         }
         const sortedMapperItems = [...mapperItems].sort((a, b) => {
-            if (a.title.toLocaleLowerCase() === inputValue.toLocaleLowerCase()) return -1; // a идет первым
-            if (b.title.toLocaleLowerCase() === inputValue.toLocaleLowerCase()) return 1; // b идет первым
-            return 0; // сохраняем исходный порядок
+            const isATitleMatch =
+                a.title.toLowerCase() === inputValue.toLowerCase();
+            const isBTitleMatch =
+                b.title.toLowerCase() === inputValue.toLowerCase();
+
+            // Если оба title совпадают с inputValue
+            if (isATitleMatch && isBTitleMatch) {
+                // Среди них location должен быть выше
+                if (
+                    a.globalTypeEntity === "location" &&
+                    b.globalTypeEntity !== "location"
+                )
+                    return -1;
+                if (
+                    b.globalTypeEntity === "location" &&
+                    a.globalTypeEntity !== "location"
+                )
+                    return 1;
+                // Если оба location или оба не location — сохраняем порядок
+                return 0;
+            }
+
+            // Если только один из title совпадает — он идет выше
+            if (isATitleMatch) return -1;
+            if (isBTitleMatch) return 1;
+
+            // Если ни один title не совпадает — location идет выше
+            if (
+                a.globalTypeEntity === "location" &&
+                b.globalTypeEntity !== "location"
+            )
+                return -1;
+            if (
+                b.globalTypeEntity === "location" &&
+                a.globalTypeEntity !== "location"
+            )
+                return 1;
+
+            // В остальных случаях порядок не меняем
+            return 0;
         });
         const mapperResponse: ISearchQueryResponseFront = {
             searchItems: sortedMapperItems,

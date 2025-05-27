@@ -42,6 +42,7 @@ export default class EstablishmentMapper {
                     height: image.height,
                     width: image.width,
                     type: image.type,
+                    src: `${info.cdnHost}/${image.blobPath}`,
                 };
             });
         return {
@@ -51,10 +52,11 @@ export default class EstablishmentMapper {
                 establishment.content.value[0].value.details.description,
             typeEstablishment: establishment.establishment.Type.Name,
             category: {
-                id: establishment.establishment.Categories[0]?.Id || '',
-                key:establishment.establishment.Categories[0]?.Id || '',
-                value: establishment.establishment.Categories[0]?.Content.details[0]
-                    .value || '',
+                id: establishment.establishment.Categories[0]?.Id || "",
+                key: establishment.establishment.Categories[0]?.Id || "",
+                value:
+                    establishment.establishment.Categories[0]?.Content
+                        .details[0].value || "",
             },
             rates: {
                 main: establishment.establishment.Rates.Rate,
@@ -67,7 +69,7 @@ export default class EstablishmentMapper {
                         establishment.establishment.Locations?.Path.split(
                             "."
                         )[1] || "",
-                    title: null,
+                    title: '',
                 },
                 pathBreadcrumb:
                     establishment.establishment.Locations?.Path || "",
@@ -78,8 +80,8 @@ export default class EstablishmentMapper {
                             ?.details[0].value || "",
                 },
                 street: establishment.content.value[0].value.location.street1,
-                latitude: establishment.establishment.Latitude,
-                longitude: establishment.establishment.Longitude,
+                latitude: +establishment.establishment.Latitude,
+                longitude: +establishment.establishment.Longitude,
                 postalCode: establishment.establishment.PostalCode,
                 info: {
                     totalEstablishment: info?.totalEstablishment || null,

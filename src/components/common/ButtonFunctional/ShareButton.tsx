@@ -14,7 +14,7 @@ import {
     IconViber,
     IconVk,
     IconWhatApp,
-} from "../Icons";
+} from "../Icons/Social";
 
 import { Popup } from "../Popup/Popup";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";

@@ -1,6 +1,4 @@
-type T = {
 
-}
 
 
 export const CONSTANT_TYPES_OF_ESTABLISHMENT = {

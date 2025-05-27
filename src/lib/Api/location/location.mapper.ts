@@ -13,6 +13,7 @@ export default class LocationMapper {
                     width: mediaItem.width,
                     title: mediaItem.details[0].value.title || "",
                     type: mediaItem.type,
+                    src: "",
                 };
             }) || null;
         const mappingData = {
