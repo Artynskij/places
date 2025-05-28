@@ -47,24 +47,24 @@ export class SearchMapper {
                 );
             });
         } else {
-            if (responseBack.hits.location) {
-                responseBack.hits.location.forEach((item) => {
+            if (responseBack.hits.locations) {
+                responseBack.hits.locations.forEach((item) => {
                     mapperItems.push(
                         this.createSearchItem(item, "location", cdnHost)
                     );
                 });
             }
 
-            if (responseBack.hits.object) {
-                responseBack.hits.object.forEach((item) => {
+            if (responseBack.hits.establishments) {
+                responseBack.hits.establishments.forEach((item) => {
                     mapperItems.push(
                         this.createSearchItem(item, "establishment", cdnHost)
                     );
                 });
             }
 
-            if (responseBack.hits.article) {
-                responseBack.hits.article.forEach((item) => {
+            if (responseBack.hits.articles) {
+                responseBack.hits.articles.forEach((item) => {
                     mapperItems.push(
                         this.createSearchItem(item, "article", cdnHost)
                     );
@@ -185,9 +185,9 @@ export class SearchMapper {
         const priceCategoryPart = itemBack.priceCategory
             ? {
                   key: "",
-                  value: itemBack.priceCategory,
+                  value: itemBack.priceCategory.name,
                   count: this.tagsMapper.createClassCount(
-                      itemBack.priceCategory,
+                      itemBack.priceCategory.secondary,
                       "price"
                   ),
               }
@@ -215,7 +215,7 @@ export class SearchMapper {
                           key: itemBack.typeName,
                       }
                     : null,
-            globalTypeEntity: globalTypeEntity as any, // Cast to TGlobalTypes
+            globalTypeEntity: itemBack.type, // Cast to TGlobalTypes
         };
     }
 }

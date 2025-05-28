@@ -15,6 +15,7 @@ import { RateHotel } from "@/components/common/RateCustom/RateHotel";
 import { IconCancel, IconLocation } from "@/components/common/Icons";
 import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { ISearchItemFront } from "@/lib/models";
 interface IDataCard {
     id: string;
     title: string;
@@ -31,17 +32,19 @@ interface IDataCard {
     };
 }
 interface ICardMap {
-    establishment: IDataCard;
+    establishment: ISearchItemFront;
     handlerClosePopup: () => void;
 }
 
 export const CardMap = ({ establishment, handlerClosePopup }: ICardMap) => {
     const linkEstablishment = ROUTES.LOCATION.ESTABLISHMENT(
         establishment.location.town?.id || "",
-        CONSTANT_TYPES_OF_ESTABLISHMENT[establishment.typeEstablishment].key,
+        CONSTANT_TYPES_OF_ESTABLISHMENT[
+            establishment.typeEstablishment?.key || "EATER"
+        ].key,
         establishment.id
     );
-
+    if (!establishment.typeEstablishment) return null;
     return (
         <div className={style.card}>
             <div className={style.image}>
@@ -58,8 +61,8 @@ export const CardMap = ({ establishment, handlerClosePopup }: ICardMap) => {
                         className={style.image_image}
                         fill
                         src={
-                            establishment.mediaSrc
-                                ? establishment.mediaSrc
+                            establishment.media
+                                ? `${establishment.media.cdnHost}/${establishment.media.mainImage}`
                                 : CONSTANT_DEFAULT_IMAGE_URL
                         }
                         alt={establishment.title}
@@ -75,7 +78,6 @@ export const CardMap = ({ establishment, handlerClosePopup }: ICardMap) => {
                                 defaultValue={establishment.rate}
                                 disabled={true}
                             />
-                    
                         </div>
                     )}
 
@@ -88,26 +90,26 @@ export const CardMap = ({ establishment, handlerClosePopup }: ICardMap) => {
 
                 <div className={style.description_bottom}>
                     <div className={style.description_subtitle}>
-                        {establishment.typeEstablishment === "EATER" && (
+                        {establishment.typeEstablishment.key === "EATER" && (
                             <>
                                 {/* <span className={style.rateHotel}> */}
                                 <span>Средний чек :</span>
                                 <RateCafe
                                     disabled
                                     classNameIcon={style.rateCafe}
-                                    defaultValue={establishment.tagClass || 0}
+                                    defaultValue={establishment.priceCategory?.count || 0}
                                 />
 
                                 {/* </span> */}
                             </>
                         )}
-                        {establishment.typeEstablishment ===
+                        {establishment.typeEstablishment.key ===
                             "ACCOMMODATION" && (
                             <>
                                 <span>Класс отеля :</span>
                                 <RateHotel
                                     disabled
-                                    defaultValue={establishment.tagClass || 0}
+                                    defaultValue={establishment.starRating?.count || 0}
                                     classNameIcon={style.titleBlock_class_icon}
                                 />
                             </>

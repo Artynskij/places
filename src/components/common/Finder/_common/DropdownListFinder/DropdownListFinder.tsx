@@ -3,7 +3,7 @@ import { RefObject, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
 import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
-import { CardSearch } from "@/components/common/Cards";
+
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
 import style from "./dropdownListFinder.module.scss";
 import { IconEnter, IconPlus, IconSearch } from "@/components/common/Icons";
@@ -13,6 +13,7 @@ import { getUrlForUrl } from "@/lib/hooks/getUrlForSearch";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
+import CardSearchItem from "../CardSearchItem/CardSearchItem";
 
 type DropdownListProps = {
     resultLoaded: boolean;
@@ -101,7 +102,7 @@ const DropdownListFinder = ({
                                         )}
                                         onClick={onItemClick}
                                     >
-                                        <CardSearch baseUrl={baseUrl} dataCard={listItem.data} />
+                                        <CardSearchItem  dataCard={listItem.data} />
                                     </Link>
                                 </li>
                             )

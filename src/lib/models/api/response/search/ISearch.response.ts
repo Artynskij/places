@@ -2,9 +2,9 @@ import { ISearchItemEntity } from "../../entities/searchItem.entity";
 
 export interface ISearchQueryResponse {
     hits: {
-        location: ISearchItemEntity[];
-        object: ISearchItemEntity[];
-        article: ISearchItemEntity[];
+        locations: ISearchItemEntity[];
+        establishments: ISearchItemEntity[];
+        articles: ISearchItemEntity[];
     } | ISearchItemEntity[];
     total: number;
     _meta: {

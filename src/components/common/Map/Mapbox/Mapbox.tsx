@@ -1,5 +1,11 @@
 "use client"; // Обязательно для использования Web API (Mapbox GL работает только на клиенте)
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 
 import style from "./mapbox.module.scss";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -7,58 +13,117 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { useLocale } from "next-intl";
 import {
     IEstablishmentFront,
+    ISearchItemFront,
     ITagsBlockFront,
-    ITagWithEstablishmentFront,
 } from "@/lib/models";
-import { Map } from "react-map-gl/mapbox";
-
-import { CustomMarker } from "../Markers/CustomMarker";
+import { Map as MapMapboxGL, ViewStateChangeEvent } from "react-map-gl/mapbox";
+import { debounce } from "lodash";
+import { CustomMarker } from "./_common/Markers/CustomMarker";
+import { MapService } from "@/lib/Api/map/map.service";
+import { getZoomToRadius } from "@/lib/hooks/useZoomToRadius";
+import { MarkersLayer } from "./_common/MarkersLayer";
 interface IMapboxMap {
-    establishmentList: IEstablishmentFront[];
-    tagsClassEstablishment: ITagWithEstablishmentFront[] | null;
+    establishmentList: ISearchItemFront[];
 }
-// Установи свой токен
-// mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
-export const MapboxMap = ({
-    establishmentList,
-    tagsClassEstablishment,
-}: IMapboxMap) => {
-    const [selectedId, setSelectedId] = useState<string | null>(null);
+export const MapboxMap = ({ establishmentList }: IMapboxMap) => {
+    // const [selectedId, setSelectedId] = useState<string | null>(null);
+    const apiMap = useMemo(() => new MapService(), []);
     const locale = useLocale();
     const filteredEstablishmentList = establishmentList.filter(
-        (est) => !!est.location.latitude && !!est.location.longitude
+        (est) =>
+            !!est.location.lat && !!est.location.lon && est.typeEstablishment
     );
+    const [establishments, setEstablishments] = useState<ISearchItemFront[]>(
+        filteredEstablishmentList
+    );
+    const [viewState, setViewState] = useState({
+        longitude: establishments[0].location.lon as number,
+        latitude: establishments[0].location.lat as number,
+        zoom: 12,
+    });
+    // const uniqueById = (arr: ISearchItemFront[]) => {
+    //     const map = new Map();
+    //     arr.forEach((item) => map.set(item.id, item));
+    //     return Array.from(map.values());
+    // };
+    const fetchEstablishment = (lon: number, lat: number, zoom: number) => {
+        const radius = getZoomToRadius(zoom, lat);
 
-    if (!filteredEstablishmentList.length) return null;
+        apiMap
+            .getEstablishmentByCoord({
+                lat: lat,
+                lon: lon,
+                radius: radius,
+            })
+            .then((res) => {
+                if (res) {
+                    const filteredRes = res.filter(
+                        (est) =>
+                            !!est.location.lat &&
+                            !!est.location.lon &&
+                            est.typeEstablishment
+                    );
+
+                    setEstablishments((prev) => {
+                        const prevMap = new Map(
+                            prev.map((item) => [item.id, item])
+                        );
+
+                        let changed = false;
+                        filteredRes.forEach((item) => {
+                            const existing = prevMap.get(item.id);
+                            if (
+                                !existing ||
+                                JSON.stringify(existing) !==
+                                    JSON.stringify(item)
+                            ) {
+                                prevMap.set(item.id, item);
+                                changed = true;
+                            }
+                        });
+
+                        if (!changed) return prev;
+                        console.log(
+                            `state Establishments update ${prev.length}`
+                        );
+                        return Array.from(prevMap.values());
+                    });
+                }
+            });
+    };
+    const debouncedFetch = useCallback(
+        debounce((params) => {
+            console.log("debounce");
+            fetchEstablishment(params.longitude, params.latitude, params.zoom);
+        }, 1000),
+        []
+    );
+    useEffect(() => {
+        if(establishments.length <=1){
+           fetchEstablishment(viewState.longitude, viewState.latitude, viewState.zoom); 
+        }
+        return () => {
+            debouncedFetch.cancel();
+        };
+    }, [debouncedFetch]);
+
+    const handlerMoveEnd = (e: ViewStateChangeEvent) => {
+        const { latitude, longitude, zoom } = e.viewState;
+        setViewState({ latitude, longitude, zoom });
+        debouncedFetch({ latitude, longitude, zoom });
+    };
+    if (!establishments.length) return null;
     return (
-        <Map
-            initialViewState={{
-                longitude: filteredEstablishmentList[0].location.longitude,
-                latitude: filteredEstablishmentList[0].location.latitude,
-                zoom: 12,
-            }}
+        <MapMapboxGL
+            initialViewState={viewState}
             mapStyle="mapbox://styles/mapbox/streets-v12"
             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
             interactiveLayerIds={["markers"]}
             language={locale}
+            onMoveEnd={handlerMoveEnd}
         >
-            {filteredEstablishmentList.map((establishment) => {
-                const tagClass = tagsClassEstablishment?.find(
-                    (tag) => tag.establishmentId === establishment.id
-                );
-               
-
-                return (
-                    <CustomMarker
-                        key={establishment.id}
-                        establishment={establishment}
-                        tagClass={tagClass?.tag.count || 0}
-                        setSelectedId={setSelectedId}
-                        selectedId={selectedId}
-                    />
-                );
-            })}
-        </Map>
+            <MarkersLayer establishments={establishments} />
+        </MapMapboxGL>
     );
 };

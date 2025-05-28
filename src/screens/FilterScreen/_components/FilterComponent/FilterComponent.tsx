@@ -22,6 +22,8 @@ import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 import { Loader } from "@/components/common/Loader/Loader";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { IEstablishmentFront, ITagWithEstablishmentFront } from "@/lib/models";
+import { mapEstablishmentToSearchItem } from "@/lib/utils/mappers/mapEstablishmentToSearchItem";
+import BlockMapFilterS from "./BlockMap/BlockMapFilterS";
 
 interface IFilterComponentProp {
     establishmentList: IEstablishmentFront[];
@@ -36,7 +38,7 @@ const FiltersComponent = ({
     dataTags,
     totalEstablishmentCount,
     setIsLoading,
-    tagsClassEstablishment
+    tagsClassEstablishment,
 }: IFilterComponentProp) => {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -74,11 +76,19 @@ const FiltersComponent = ({
     function handlerCloseFilter() {
         setFilterActiveMobile(false);
     }
-
+    //  const establishmentListForMap = establishmentList.map((est) => {
+    //         const tagClass = tagsClassEstablishment?.find(
+    //             (item) => item.establishmentId === est.id
+    //         );
+    //         return mapEstablishmentToSearchItem(est, tagClass || null);
+    //     });
     return (
         <div>
             <div className={style.filter_map}>
-                <PopupMap tagsClassEstablishment={tagsClassEstablishment || null}  establishmentList={establishmentList}/>
+                <BlockMapFilterS
+                    tagsClassEstablishment={tagsClassEstablishment}
+                    establishmentList={establishmentList}
+                />
             </div>
             <Button
                 className={style.filter_buttonOpen}

@@ -2,7 +2,6 @@ import { ISearchQueryRequest } from "@/lib/models/api/request/search/ISearchQuer
 
 import { ISearchQueryResponse } from "@/lib/models/api/response/search/ISearch.response";
 import apiClient from "../ApiClient";
-import apiClientSearch from "../ApiClientSearch";
 
 export class SearchApi {
     constructor() {}

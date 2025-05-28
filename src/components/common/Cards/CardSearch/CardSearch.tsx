@@ -33,19 +33,7 @@ export const CardSearch = async ({ dataCard, baseUrl }: ICardSearchDefault) => {
         <div className={style.card}>
             <div className={style.image}>
                 <div className={style.image_type}>
-                    <div
-                        // href={ROUTES.FILTER_WITH_QUERY(
-                        //     dataCard.id,
-                        //     CONSTANT_TYPES_OF_ESTABLISHMENT[
-                        //         dataEstablishment.typeEstablishment
-                        //     ].key,
-                        //     `${dataEstablishment.category.id}`,
-                        //     "c"
-                        // )}
-                        className={style.image_type_text}
-                    >
-                        {textCategory}
-                    </div>
+                    <div className={style.image_type_text}>{textCategory}</div>
 
                     <ShareButton
                         baseUrl={baseUrl}
@@ -84,8 +72,6 @@ export const CardSearch = async ({ dataCard, baseUrl }: ICardSearchDefault) => {
                                 defaultValue={dataCard.rate}
                                 disabled={true}
                             />
-                            {/* <span>{dataCard..rates.count}</span>
-                            <span>оценок</span> */}
                         </div>
                     )}
 
@@ -146,9 +132,22 @@ export const CardSearch = async ({ dataCard, baseUrl }: ICardSearchDefault) => {
                             {dataCard.location.town.title}
                         </Link>
                     )}
+                    {dataCard.location.country && !dataCard.location.town && (
+                        <Link
+                            href={ROUTES.LOCATION.LOCATION(
+                                dataCard.location.country.id
+                            )}
+                            className={style.description_location}
+                        >
+                            <IconLocation
+                                className={style.description_location_icon}
+                            />
+
+                            {`${dataCard.location.country?.title}`}
+                        </Link>
+                    )}
                 </div>
             </div>
         </div>
     );
 };
-

@@ -1,4 +1,3 @@
-// "use client";
 import style from "./establishmentScreen.module.scss";
 
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
@@ -20,7 +19,7 @@ import { Slider } from "@/components/common/Slider/Slider";
 import { CardSliderMainPage } from "@/components/common/Cards";
 
 import { IPageProps } from "@/lib/models/IType";
-import { useTranslations } from "next-intl";
+
 import Link from "next/link";
 
 import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
@@ -45,6 +44,9 @@ import DescriptionBlock from "./_components/DescriptionBlock/DescriptionBlock";
 import { getTranslations } from "next-intl/server";
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
 import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { PopupMap } from "@/components/common/Popup/PopupMap/PopupMap";
+import { mapEstablishmentToSearchItem } from "@/lib/utils/mappers/mapEstablishmentToSearchItem";
+import BlockMapEstS from "./_components/BlockMapEstS/BlockMapEstS";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -85,8 +87,7 @@ export const EstablishmentScreen = async ({
     const baseUrl = await getBaseUrlServer();
     const filteredBreadcrumb =
         breadcrumbData?.slice(1, breadcrumbData.length + 1) || null;
-    const pisun =
-        CONSTANT_TYPES_OF_ESTABLISHMENT[params.typeEstablishment].title;
+
     return (
         <div className="container">
             <div className={style.underHeader}>
@@ -206,12 +207,17 @@ export const EstablishmentScreen = async ({
             </div>
             <div className={style.navBar}>
                 <ul className={style.navBar_list}>
-                    <li className={style.navBar_list_item}>
-                        {dataEstablishment.location.street &&
-                            `${dataEstablishment.location.street} - `}
-                        {dataEstablishment.location.town.title},{" "}
-                        {locationCountryData.title}
-                    </li>
+                    <BlockMapEstS
+                        classTag={classTag || null}
+                        dataEstablishment={dataEstablishment}
+                    >
+                        <li className={style.navBar_list_item}>
+                            {dataEstablishment.location.street &&
+                                `${dataEstablishment.location.street} - `}
+                            {dataEstablishment.location.town.title},{" "}
+                            {locationCountryData.title}
+                        </li>
+                    </BlockMapEstS>
                     <li className={style.navBar_list_item}>
                         <ContactButton
                             contactData={dataEstablishment.contacts}
@@ -376,13 +382,18 @@ export const EstablishmentScreen = async ({
                         )}
                     </div>
                     <div className={style.info_map}>
-                        <Image
-                            className={style.info_map_image}
-                            alt="map"
-                            width={480}
-                            height={365}
-                            src={"/mock/mockObjErevan-map.jpg"}
-                        />
+                        <BlockMapEstS
+                            classTag={classTag || null}
+                            dataEstablishment={dataEstablishment}
+                        >
+                            <Image
+                                className={style.info_map_image}
+                                alt="map"
+                                width={480}
+                                height={365}
+                                src={"/mock/mockObjErevan-map.jpg"}
+                            />
+                        </BlockMapEstS>
                     </div>
                 </div>
             </section>
@@ -590,6 +601,7 @@ export const EstablishmentScreen = async ({
                     />
                 </div>
             </section>
+            {/* <PopupMap ={dataEstablishment} /> */}
         </div>
     );
 };
