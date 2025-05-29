@@ -20,7 +20,9 @@
         height: 100%;
         width: 100%;
         aspect-ratio: 16 / 9;
-        min-width: 100%;
+
+        // min-width: 100%;
+        min-width: 170px;
     }
     &_image {
         object-fit: cover;

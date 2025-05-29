@@ -30,10 +30,10 @@ const BlockMapEstS = ({
                   categoryTag: { id: "", key: "", value: "" },
                   tag: classTag?.tags[0],
               }
-            : null
+            : null,
+        locationCountryData
     );
-    
-    
+
     return (
         <>
             <div onClick={() => setMapActive(true)}>{children}</div>

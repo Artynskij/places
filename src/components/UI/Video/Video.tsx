@@ -13,7 +13,7 @@ export const Video: FC<IVideo> = ({ videoSrc, posterSrc }) => {
       autoPlay
       loop
       playsInline
-      poster={posterSrc}
+      poster={videoSrc ? '': posterSrc}
     >
       <source src={videoSrc} type="video/mp4" />
       <track src={videoSrc} kind="subtitles" srcLang="en" label="English" />
