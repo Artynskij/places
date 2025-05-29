@@ -42,8 +42,6 @@ export const CardNews = ({
                 ) : typeNew === "popular" ? (
                     <Image
                         className={style.image_image}
-                        // width={600}
-                        // height={320}
                         alt="Карточка"
                         src={article.titleImage}
                         fill

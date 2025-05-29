@@ -24,6 +24,7 @@ $marginNews: 40px;
         display: flex;
         gap: $gap-small;
         flex-wrap: wrap;
+        justify-content: space-between;
     }
     &_right {
         align-items: end;

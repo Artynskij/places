@@ -2,7 +2,6 @@ import Image from "next/image";
 import style from "./mainScreen.module.scss";
 import Link from "next/link";
 
-
 import SliderCommercial from "./_components/SliderCommercial/SliderCommercial";
 
 import { mockTowns } from "@/asset/mockData/mockCountry";
@@ -323,7 +322,9 @@ export const MainScreen = async ({
                     {directionData.map((directionItem, index) => {
                         return (
                             <Link
-                                href={`${directionItem.link}`}
+                                href={ROUTES.LOCATION.LOCATION(
+                                    directionItem.id
+                                )}
                                 key={`direction-${index}`}
                                 className={style.cardDirection}
                             >

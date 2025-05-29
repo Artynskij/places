@@ -81,8 +81,9 @@ export default function BlockNews({
                             {article.author}
                         </Link>
                     </div>
-                    <BlockWatchCount count={1000} />
+
                     <BlockReadTime text={article.markdown} />
+                    <BlockWatchCount count={1000} />
                 </div>
                 <div className={style.underTitle_right}>
                     <div className={style.underTitle_publicDate}>
