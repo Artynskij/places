@@ -1,3 +1,4 @@
+import { IMapItemsSortedResponse } from "./../../models/api/response/map/IMapItemsSorted.response";
 import MapApi from "./map.endpoint";
 
 import { IMapQueryRequest } from "@/lib/models/api/request/map/IMapQuery.request";
@@ -20,5 +21,13 @@ export class MapService {
             ? this.mapMapper.mappingMapQuery(response, cdnHost?.url || "")
             : null;
         return mappingData;
+    }
+    async getEstablishmentByCoordAndSortTypes(
+        body: IMapQueryRequest
+    ): Promise<IMapItemsSortedResponse | null> {
+        const response = await this.getEstablishmentByCoord(body);
+        if (!response) return null;
+        const sortedData = this.mapMapper.sortEstablishment(response);
+        return sortedData;
     }
 }

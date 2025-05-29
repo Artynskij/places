@@ -13,6 +13,7 @@ import TagsMapper from "../tags/tag.mapper";
 
 import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
 import { IMapItemEntity } from "@/lib/models/api/entities/mapItem.entity";
+import { IMapItemsSortedResponse } from "@/lib/models/api/response/map/IMapItemsSorted.response";
 
 export class MapMapper {
     private tagsMapper: TagsMapper;
@@ -121,6 +122,24 @@ export class MapMapper {
                       }
                     : null,
             globalTypeEntity: itemBack.type, // Cast to TGlobalTypes
+        };
+    }
+    sortEstablishment(
+        establishmentMap: IMapItemFront[]
+    ): IMapItemsSortedResponse {
+        const accommodationEst = establishmentMap.filter(
+            (est) => est.typeEstablishment?.key === "ACCOMMODATION"
+        );
+        const attractionEst = establishmentMap.filter(
+            (est) => est.typeEstablishment?.key === "ATTRACTION"
+        );
+        const eaterEst = establishmentMap.filter(
+            (est) => est.typeEstablishment?.key === "EATER"
+        );
+        return {
+            accommodation: accommodationEst || [],
+            attraction: attractionEst || [],
+            eater: eaterEst || [],
         };
     }
 }

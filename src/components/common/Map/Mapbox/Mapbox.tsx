@@ -11,30 +11,26 @@ import style from "./mapbox.module.scss";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import { useLocale } from "next-intl";
-import {
-    IEstablishmentFront,
-    ISearchItemFront,
-    ITagsBlockFront,
-} from "@/lib/models";
+
 import { Map as MapMapboxGL, ViewStateChangeEvent } from "react-map-gl/mapbox";
 import { debounce } from "lodash";
 import { CustomMarker } from "./_common/Markers/CustomMarker";
 import { MapService } from "@/lib/Api/map/map.service";
 import { getZoomToRadius } from "@/lib/hooks/useZoomToRadius";
 import { MarkersLayer } from "./_common/MarkersLayer";
+import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
 interface IMapboxMap {
-    establishmentList: ISearchItemFront[];
+    establishmentList: IMapItemFront[];
 }
 
 export const MapboxMap = ({ establishmentList }: IMapboxMap) => {
-    // const [selectedId, setSelectedId] = useState<string | null>(null);
     const apiMap = useMemo(() => new MapService(), []);
     const locale = useLocale();
     const filteredEstablishmentList = establishmentList.filter(
         (est) =>
             !!est.location.lat && !!est.location.lon && est.typeEstablishment
     );
-    const [establishments, setEstablishments] = useState<ISearchItemFront[]>(
+    const [establishments, setEstablishments] = useState<IMapItemFront[]>(
         filteredEstablishmentList
     );
     const [viewState, setViewState] = useState({
@@ -42,11 +38,7 @@ export const MapboxMap = ({ establishmentList }: IMapboxMap) => {
         latitude: establishments[0].location.lat as number,
         zoom: 12,
     });
-    // const uniqueById = (arr: ISearchItemFront[]) => {
-    //     const map = new Map();
-    //     arr.forEach((item) => map.set(item.id, item));
-    //     return Array.from(map.values());
-    // };
+    const [selectionFirstEst, setSelectionFirstEst] = useState(false);
     const fetchEstablishment = (lon: number, lat: number, zoom: number) => {
         const radius = getZoomToRadius(zoom, lat);
 
@@ -62,7 +54,8 @@ export const MapboxMap = ({ establishmentList }: IMapboxMap) => {
                         (est) =>
                             !!est.location.lat &&
                             !!est.location.lon &&
-                            est.typeEstablishment
+                            est.typeEstablishment &&
+                            (est.location.country?.id || est.location.town?.id)
                     );
 
                     setEstablishments((prev) => {
@@ -94,14 +87,20 @@ export const MapboxMap = ({ establishmentList }: IMapboxMap) => {
     };
     const debouncedFetch = useCallback(
         debounce((params) => {
-            console.log("debounce");
             fetchEstablishment(params.longitude, params.latitude, params.zoom);
         }, 1000),
         []
     );
     useEffect(() => {
-        if(establishments.length <=1){
-           fetchEstablishment(viewState.longitude, viewState.latitude, viewState.zoom); 
+        if (establishments.length <= 1) {
+            console.log(establishments);
+
+            setSelectionFirstEst(true);
+            fetchEstablishment(
+                viewState.longitude,
+                viewState.latitude,
+                viewState.zoom
+            );
         }
         return () => {
             debouncedFetch.cancel();
@@ -123,7 +122,10 @@ export const MapboxMap = ({ establishmentList }: IMapboxMap) => {
             language={locale}
             onMoveEnd={handlerMoveEnd}
         >
-            <MarkersLayer establishments={establishments} />
+            <MarkersLayer
+                selectionFirstEst={selectionFirstEst}
+                establishments={establishments}
+            />
         </MapMapboxGL>
     );
 };

@@ -16,14 +16,13 @@ import { RateHotel } from "@/components/common/RateCustom/RateHotel";
 import { ContactButton } from "@/components/common/ButtonFunctional/ContactButton";
 
 import { Slider } from "@/components/common/Slider/Slider";
-import { CardSliderMainPage } from "@/components/common/Cards";
 
 import { IPageProps } from "@/lib/models/IType";
 
 import Link from "next/link";
 
 import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
-// import { ITagClassFront } from "@/lib/models/frontend/tags/tagClass.front";
+
 import { mockReviews } from "@/asset/mockData/mockReviews";
 import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
 import { IEstablishmentFront, ITagFront } from "@/lib/models";
@@ -47,6 +46,9 @@ import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
 import { PopupMap } from "@/components/common/Popup/PopupMap/PopupMap";
 import { mapEstablishmentToSearchItem } from "@/lib/utils/mappers/mapEstablishmentToSearchItem";
 import BlockMapEstS from "./_components/BlockMapEstS/BlockMapEstS";
+import CardRecommend from "./_components/CardRecommend/CardRecommend";
+import { CardSliderMainPage } from "@/components/common/Cards";
+import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -57,14 +59,13 @@ interface IProps extends IPageProps {
 
     dataEstablishment: IEstablishmentFront;
     dataNearEstablishment: {
-        eater: IEstablishmentFront[] | [];
-        accommodation: IEstablishmentFront[] | [];
-        attraction: IEstablishmentFront[] | [];
+        eater: IMapItemFront[] | [];
+        accommodation: IMapItemFront[] | [];
+        attraction: IMapItemFront[] | [];
     };
     dataTags: ITagsBlockFront[];
     classTag?: ITagsBlockFront | null;
-    // testTags: ITagsBlockFront[];
-    // locationData: ILocationFront;
+
     locationCountryData: ILocationFront;
     scheduleData: IScheduleFront[] | null;
     breadcrumbData: ILocationFront[] | null;
@@ -76,7 +77,7 @@ export const EstablishmentScreen = async ({
     dataNearEstablishment,
     dataTags,
     classTag,
-    // locationData,
+
     locationCountryData,
     scheduleData,
     breadcrumbData,
@@ -208,6 +209,7 @@ export const EstablishmentScreen = async ({
             <div className={style.navBar}>
                 <ul className={style.navBar_list}>
                     <BlockMapEstS
+                        locationCountryData={locationCountryData}
                         classTag={classTag || null}
                         dataEstablishment={dataEstablishment}
                     >
@@ -260,7 +262,11 @@ export const EstablishmentScreen = async ({
                     <h4>Оценка</h4>
                     <div className={style.info_rating}>
                         <div className={style.info_rating_main}>
-                            <h2>{dataEstablishment.rates.main}</h2>
+                            <h2>
+                                {dataEstablishment.rates.main > 0
+                                    ? dataEstablishment.rates.main
+                                    : 0}
+                            </h2>
                             <div className={style.info_rating_main_score}>
                                 <span>{`(${
                                     dataEstablishment.rates.count || 0
@@ -362,15 +368,21 @@ export const EstablishmentScreen = async ({
                 <div className={style.info_column}>
                     <div className={style.info_address}>
                         <h4>Адрес</h4>
-                        <div className={style.info_address_location}>
-                            <IconLocation
-                                className={style.info_icon_location}
-                            />
-                            {dataEstablishment.location.street &&
-                                `${dataEstablishment.location.street} - `}
-                            {dataEstablishment.location.town.title},
-                            {locationCountryData.title}
-                        </div>
+                        <BlockMapEstS
+                            locationCountryData={locationCountryData}
+                            classTag={classTag || null}
+                            dataEstablishment={dataEstablishment}
+                        >
+                            <div className={style.info_address_location}>
+                                <IconLocation
+                                    className={style.info_icon_location}
+                                />
+                                {dataEstablishment.location.street &&
+                                    `${dataEstablishment.location.street} - `}
+                                {dataEstablishment.location.town.title},
+                                {locationCountryData.title}
+                            </div>
+                        </BlockMapEstS>
                         {dataEstablishment.contacts?.Phone && (
                             <Link
                                 href={`tel:${dataEstablishment.contacts?.Phone}`}
@@ -383,6 +395,7 @@ export const EstablishmentScreen = async ({
                     </div>
                     <div className={style.info_map}>
                         <BlockMapEstS
+                            locationCountryData={locationCountryData}
                             classTag={classTag || null}
                             dataEstablishment={dataEstablishment}
                         >
@@ -397,98 +410,110 @@ export const EstablishmentScreen = async ({
                     </div>
                 </div>
             </section>
+            {dataNearEstablishment.eater.length > 1 && (
+                <section className={style.slider_block}>
+                    <div className={style.slider_block_title}>
+                        <h2>Рекомендуем где поесть {`(поблизости)`}</h2>
 
-            <section className={style.slider_block}>
-                <div className={style.slider_block_title}>
-                    <h2>Рекомендуем где поесть</h2>
-                    <Link
-                        href={ROUTES.FILTER(
-                            params.location,
-                            CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.key
-                        )}
-                        className={style.slider_block_title_button}
-                    >
-                        Смотреть больше
-                    </Link>
-                </div>
-                <div className={style.slider}>
-                    <Slider id={1}>
-                        {dataNearEstablishment.eater.map((establishment) => {
-                            return (
-                                <CardSliderMainPage
-                                    key={establishment.id}
-                                    dataEstablishment={establishment}
-                                    langUI={params.locale}
-                                    locationId={params.location}
-                                    baseUrl={baseUrl}
-                                />
-                            );
-                        })}
-                    </Slider>
-                </div>
-            </section>
-            <section className={style.slider_block}>
-                <div className={style.slider_block_title}>
-                    <h2>Рекомендуем где остановиться</h2>
-                    <Link
-                        href={ROUTES.FILTER(
-                            params.location,
-                            CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION.key
-                        )}
-                        className={style.slider_block_title_button}
-                    >
-                        Смотреть больше
-                    </Link>
-                </div>
-                <div className={style.slider}>
-                    <Slider id={2}>
-                        {dataNearEstablishment.accommodation.map(
-                            (establishment) => {
-                                return (
-                                    <CardSliderMainPage
-                                        key={establishment.id}
-                                        dataEstablishment={establishment}
-                                        langUI={params.locale}
-                                        locationId={params.location}
-                                        baseUrl={baseUrl}
-                                    />
-                                );
-                            }
-                        )}
-                    </Slider>
-                </div>
-            </section>
-            <section className={style.slider_block}>
-                <div className={style.slider_block_title}>
-                    <h2>Рекомендуем что посмотреть</h2>
-                    <Link
-                        href={ROUTES.FILTER(
-                            params.location,
-                            CONSTANT_TYPES_OF_ESTABLISHMENT.ATTRACTION.key
-                        )}
-                        className={style.slider_block_title_button}
-                    >
-                        Смотреть больше
-                    </Link>
-                </div>
-                <div className={style.slider}>
-                    <Slider id={3}>
-                        {dataNearEstablishment.attraction.map(
-                            (establishment) => {
-                                return (
-                                    <CardSliderMainPage
-                                        key={establishment.id}
-                                        dataEstablishment={establishment}
-                                        langUI={params.locale}
-                                        locationId={params.location}
-                                        baseUrl={baseUrl}
-                                    />
-                                );
-                            }
-                        )}
-                    </Slider>
-                </div>
-            </section>
+                        <Link
+                            href={ROUTES.FILTER(
+                                params.location,
+                                CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.key
+                            )}
+                            className={style.slider_block_title_button}
+                        >
+                            Смотреть больше
+                        </Link>
+                    </div>
+                    <div className={style.slider}>
+                        <Slider id={1}>
+                            {dataNearEstablishment.eater.map(
+                                (establishment) => {
+                                    return (
+                                        <CardRecommend
+                                            key={establishment.id}
+                                            dataEstablishment={establishment}
+                                            langUI={params.locale}
+                                            locationId={params.location}
+                                            baseUrl={baseUrl}
+                                        />
+                                    );
+                                }
+                            )}
+                        </Slider>
+                    </div>
+                </section>
+            )}
+
+            {dataNearEstablishment.accommodation.length > 1 && (
+                <section className={style.slider_block}>
+                    <div className={style.slider_block_title}>
+                        <h2>Рекомендуем где остановиться {`(поблизости)`}</h2>
+                        <Link
+                            href={ROUTES.FILTER(
+                                params.location,
+                                CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION
+                                    .key
+                            )}
+                            className={style.slider_block_title_button}
+                        >
+                            Смотреть больше
+                        </Link>
+                    </div>
+                    <div className={style.slider}>
+                        <Slider id={2}>
+                            {dataNearEstablishment.accommodation.map(
+                                (establishment) => {
+                                    return (
+                                        <CardRecommend
+                                            key={establishment.id}
+                                            dataEstablishment={establishment}
+                                            langUI={params.locale}
+                                            locationId={params.location}
+                                            baseUrl={baseUrl}
+                                        />
+                                    );
+                                }
+                            )}
+                        </Slider>
+                    </div>
+                </section>
+            )}
+
+            {dataNearEstablishment.attraction.length > 1 && (
+                <section className={style.slider_block}>
+                    <div className={style.slider_block_title}>
+                        <h2>Рекомендуем что посмотреть {`(поблизости)`}</h2>
+                        <Link
+                            href={ROUTES.FILTER(
+                                params.location,
+                                CONSTANT_TYPES_OF_ESTABLISHMENT.ATTRACTION.key
+                            )}
+                            className={style.slider_block_title_button}
+                        >
+                            Смотреть больше
+                        </Link>
+                    </div>
+                    <div className={style.slider}>
+                        <Slider id={3}>
+                            {dataNearEstablishment.attraction.map(
+                                (establishment) => {
+                                    return (
+                                        <CardRecommend
+                                            key={establishment.id}
+                                            dataEstablishment={establishment}
+                                            langUI={params.locale}
+                                            locationId={params.location}
+                                            baseUrl={baseUrl}
+                                        />
+                                    );
+                                }
+                            )}
+                        </Slider>
+                    </div>
+                </section>
+            )}
+
             <section id="reviews" className={style.reviews}>
                 <h2>Отзывы</h2>
                 <div className={style.reviews_block}>

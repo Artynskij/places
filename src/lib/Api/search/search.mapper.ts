@@ -215,7 +215,7 @@ export class SearchMapper {
                           key: itemBack.typeName,
                       }
                     : null,
-            globalTypeEntity: itemBack.type, // Cast to TGlobalTypes
+            globalTypeEntity: itemBack.type || globalTypeEntity, // Cast to TGlobalTypes
         };
     }
 }

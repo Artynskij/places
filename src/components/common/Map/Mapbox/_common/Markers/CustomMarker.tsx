@@ -13,11 +13,15 @@ import {
 import { CardMap } from "../../../../Cards/CardMap/CardMap";
 interface ICustomMarker {
     establishment: ISearchItemFront;
+    selectionFirstEst: boolean;
 }
 
-export const CustomMarkerComponent = ({ establishment }: ICustomMarker) => {
+export const CustomMarkerComponent = ({
+    establishment,
+    selectionFirstEst,
+}: ICustomMarker) => {
     const [hoverShowPopup, setHoverShowPopup] = useState(false);
-    const [clickShowPopup, setClickShowPopup] = useState(false);
+    const [clickShowPopup, setClickShowPopup] = useState(selectionFirstEst);
     const timerRef = useRef<NodeJS.Timeout>();
     // const markerRef = useRef<HTMLDivElement>(null);
 
@@ -45,10 +49,12 @@ export const CustomMarkerComponent = ({ establishment }: ICustomMarker) => {
     };
 
     const renderMarkerIcon = () => {
-        const baseClass = style.marker;
+        const baseClass = `${style.marker} ${
+            selectionFirstEst ? style.marker_first : ""
+        }`;
         const icons = {
             ACCOMMODATION: (
-                <div className={`${baseClass} ${style.marker__accommodation}`}>
+                <div className={`${baseClass} ${style.marker__accommodation} `}>
                     <IconAccommodation className={style.marker_icon} />
                 </div>
             ),
@@ -79,7 +85,11 @@ export const CustomMarkerComponent = ({ establishment }: ICustomMarker) => {
                 latitude={establishment.location.lat as number}
                 onClick={handlerClick}
             >
+                {/* <div
+                    className={`${selectionFirstEst ? style.marker_first : ""}`}
+                > */}
                 {renderMarkerIcon()}
+                {/* </div> */}
             </Marker>
 
             {(hoverShowPopup || clickShowPopup) && (

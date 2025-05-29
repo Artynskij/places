@@ -34,7 +34,6 @@ export const PopupMap = ({
                     <Button
                         className={style.buttonClose}
                         onClick={() => {
-                            console.log(mapActive);
                             setMapActive(false);
                         }}
                         type="blue"

@@ -24,6 +24,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
 @mixin mediaNetbook() {
     @media screen and (max-width: $media-netbook) {
         @content;
@@ -42,5 +43,26 @@
 @mixin mediaMiniPhone() {
     @media screen and (max-width: $media-mini-phone) {
         @content;
+    }
+}
+
+
+
+@mixin pulse($color: rgba(0, 140, 255, 0.5)) {
+    animation: pulse 1.8s infinite;
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 $color;
+        }
+        50% {
+            transform: scale(1.2);
+            box-shadow: 0 0 12px 4px rgba($color, 0.4);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 $color;
+        }
     }
 }

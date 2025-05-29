@@ -5,13 +5,14 @@ import { CustomMarker } from "./Markers/CustomMarker";
 
 interface Props {
     establishments: ISearchItemFront[];
+    selectionFirstEst:boolean;
 }
 
-export const MarkersLayer = React.memo(({ establishments }: Props) => {
+export const MarkersLayer = React.memo(({ establishments,selectionFirstEst }: Props) => {
     return (
         <>
-            {establishments.map((est) => (
-                <CustomMarker key={est.id} establishment={est} />
+            {establishments.map((est, index) => (
+                <CustomMarker selectionFirstEst={selectionFirstEst && index===0} key={est.id} establishment={est} />
             ))}
         </>
     );

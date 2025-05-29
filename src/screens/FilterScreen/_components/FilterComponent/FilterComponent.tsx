@@ -85,6 +85,7 @@ const FiltersComponent = ({
     return (
         <div>
             <div className={style.filter_map}>
+                {/* //TODO сделать третий вид(табл, спис, карта) */}
                 <BlockMapFilterS
                     tagsClassEstablishment={tagsClassEstablishment}
                     establishmentList={establishmentList}

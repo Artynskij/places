@@ -8,6 +8,7 @@ import { LocationService } from "@/lib/Api/location/location.service";
 import { ScheduleService } from "@/lib/Api/schedule/schedule.service";
 import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag";
 import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { MapService } from "@/lib/Api/map/map.service";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -33,54 +34,33 @@ export default async function EstablishmentPage({
     const apiTags = new TagsService();
     const apiLocation = new LocationService();
     const apiSchedule = new ScheduleService();
-
-    const [
-        dataEstablishment,
-        eaterNearEstablishment,
-        accommodationNearEstablishment,
-        attractionNearEstablishment,
-        tagsEstablishment,
-    ] = await Promise.all([
-        apiEstablishment.getEstablishmentById(
-            params.establishment,
-            params.locale
-        ),
-        apiEstablishment.getEstablishmentByPagination({
-            pagination: { page: 1, pageSize: 10 },
-            filter: {
-                typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.id],
-                locationId: params.location,
-            },
-
-            lang: params.locale,
-        }),
-        apiEstablishment.getEstablishmentByPagination({
-            pagination: { page: 1, pageSize: 10 },
-            filter: {
-                typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION.id],
-                locationId: params.location,
-            },
-
-            lang: params.locale,
-        }),
-        apiEstablishment.getEstablishmentByPagination({
-            pagination: { page: 1, pageSize: 10 },
-            filter: {
-                typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.ATTRACTION.id],
-                locationId: params.location,
-            },
-
-            lang: params.locale,
-        }),
-        apiTags.getAllTagsOfEstablishmentFilter(
-            {
-                establishmentIds: [params.establishment],
-                lang: params.locale,
-            },
-            []
-        ),
-    ]);
+    const apiMap = new MapService();
+    const dataEstablishment = await apiEstablishment.getEstablishmentById(
+        params.establishment,
+        params.locale
+    );
     if (!dataEstablishment) notFound();
+
+    const sortedNearEstablishment =
+        await apiMap.getEstablishmentByCoordAndSortTypes({
+            lat: dataEstablishment.location.latitude,
+            lon: dataEstablishment.location.longitude,
+            radius: 1000,
+        });
+    if (!sortedNearEstablishment) {
+        notFound();
+    }
+    const eaterNearEstablishment = sortedNearEstablishment.eater;
+    const accommodationNearEstablishment =
+        sortedNearEstablishment.accommodation;
+    const attractionNearEstablishment = sortedNearEstablishment.attraction;
+    const tagsEstablishment = await apiTags.getAllTagsOfEstablishmentFilter(
+        {
+            establishmentIds: [params.establishment],
+            lang: params.locale,
+        },
+        []
+    );
     // TODO delete this
     const locationData = await apiLocation.getLocationById(
         dataEstablishment?.location.town.id,
@@ -94,9 +74,10 @@ export default async function EstablishmentPage({
     const scheduleData = await apiSchedule.getLocationById(
         params.establishment
     );
-    if (!eaterNearEstablishment || !tagsEstablishment || !locationCountryData) {
+    if (!tagsEstablishment || !locationCountryData) {
         notFound();
     }
+
     // TODO: mapper tag
     const classTag = tagsEstablishment.find(
         (tag) =>

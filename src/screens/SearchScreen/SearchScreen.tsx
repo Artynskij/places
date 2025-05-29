@@ -23,7 +23,7 @@ interface ISearchProp extends IPageProps {
         [CONSTANT_SEARCH_PARAMS.SEARCH]: string;
         [CONSTANT_SEARCH_PARAMS.INDEX_SEARCH]: TTypesOfSearchKey;
     };
-    searchData: ISearchQueryResponseFront;
+    searchData: ISearchQueryResponseFront | null;
 }
 const SearchScreen = async ({
     params,
@@ -32,7 +32,7 @@ const SearchScreen = async ({
 }: ISearchProp) => {
     const searchQuery = searchParams[CONSTANT_SEARCH_PARAMS.SEARCH];
 
-    const countAllSearchItems = searchData?.info.proportions.total;
+    const countAllSearchItems = searchData?.info.proportions.total || 0;
     // const countAllSearchItems = searchData?.info.found
     //     ? searchData?.info.found.article +
     //       searchData?.info.found.establishment +
@@ -41,6 +41,7 @@ const SearchScreen = async ({
 
     const searchValue = searchParams[CONSTANT_SEARCH_PARAMS.SEARCH] || "";
     const baseUrl = await getBaseUrlServer();
+    
     return (
         <div className={"container"}>
             <section className={style.section}>

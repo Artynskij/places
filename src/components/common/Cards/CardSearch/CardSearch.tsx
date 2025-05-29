@@ -25,6 +25,7 @@ interface ICardSearchDefault {
 export const CardSearch = async ({ dataCard, baseUrl }: ICardSearchDefault) => {
     const linkData = getUrlForUrl(dataCard, dataCard.globalTypeEntity);
     const tCard = await getTranslations("SearchPage.card");
+    
     const textCategory = dataCard.typeEstablishment
         ? tCard(`type.${[dataCard.typeEstablishment.key]}`)
         : tCard(`type.${[dataCard.globalTypeEntity]}`);

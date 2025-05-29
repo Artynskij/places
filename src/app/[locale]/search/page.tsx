@@ -37,7 +37,7 @@ export default async function SearchPage({ params, searchParams }: IProps) {
               from: +searchQueryPage - CONSTANT_DEFAULT_PAGE_SIZE || 0,
           })
         : null;
-    if (!searchData) notFound();
+
     return (
         <SearchScreen
             searchData={searchData}

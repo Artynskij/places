@@ -12,11 +12,13 @@ import { useState } from "react";
 interface IBlockMapEstS {
     dataEstablishment: IEstablishmentFront;
     classTag: ITagsBlockFront | null;
+    locationCountryData: ILocationFront;
     children: React.ReactNode;
 }
 const BlockMapEstS = ({
     dataEstablishment,
     classTag,
+    locationCountryData,
     children,
 }: IBlockMapEstS) => {
     const [mapActive, setMapActive] = useState(false);
@@ -30,14 +32,18 @@ const BlockMapEstS = ({
               }
             : null
     );
+    
+    
     return (
         <>
             <div onClick={() => setMapActive(true)}>{children}</div>
-            <PopupMap
-                establishmentList={[establishmentForMap]}
-                mapActive={mapActive}
-                setMapActive={setMapActive}
-            />
+            {!!establishmentForMap.location.lon && (
+                <PopupMap
+                    establishmentList={[establishmentForMap]}
+                    mapActive={mapActive}
+                    setMapActive={setMapActive}
+                />
+            )}
         </>
     );
 };
