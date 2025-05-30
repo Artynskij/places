@@ -514,7 +514,7 @@ export const EstablishmentScreen = async ({
                 </section>
             )}
 
-            <section id="reviews" className={style.reviews}>
+            {/* <section id="reviews" className={style.reviews}>
                 <h2>Отзывы</h2>
                 <div className={style.reviews_block}>
                     <div className={style.reviews_stat}>
@@ -610,7 +610,7 @@ export const EstablishmentScreen = async ({
                         })}
                     </div>
                 </div>
-            </section>
+            </section> */}
             <section id="offer" className={style.offer}>
                 <div className={style.offer_ctn}>
                     <h4>Эта страница вашего объекта ?</h4>

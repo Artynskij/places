@@ -83,7 +83,7 @@ const FiltersComponent = ({
     //         return mapEstablishmentToSearchItem(est, tagClass || null);
     //     });
     return (
-        <div>
+        <div className={style.container}>
             <div className={style.filter_map}>
                 {/* //TODO сделать третий вид(табл, спис, карта) */}
                 <BlockMapFilterS

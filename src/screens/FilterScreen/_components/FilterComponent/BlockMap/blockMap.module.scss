@@ -33,9 +33,14 @@
 }
 @include mediaTablet {
     .image_ctn {
-        // position: relative;
         &_image {
             display: none;
+        }
+    }
+    .buttonOpen {
+        &_ctn {
+            position: relative;
+            background-color: transparent;
         }
     }
 }

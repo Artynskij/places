@@ -15,6 +15,7 @@ import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { FinderHeader } from "../Finder/FinderHeader/FinderHeader";
+import { ScrollToTopButton } from "./ScrollToTopButton/ScrollToTopButton";
 
 // { locale }: { locale: string }
 export const Header = async () => {
@@ -143,6 +144,7 @@ export const Header = async () => {
                         </Link>
                     </ul>
                 </div>
+              <ScrollToTopButton/>
             </header>
         </>
     );

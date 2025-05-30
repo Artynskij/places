@@ -1,3 +1,8 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-medium;
+}
 .filter_map {
 }
 .filter {
@@ -19,6 +24,10 @@
     display: none !important;
 }
 @include mediaTablet {
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
     .filter {
         position: fixed;
         top: 0;

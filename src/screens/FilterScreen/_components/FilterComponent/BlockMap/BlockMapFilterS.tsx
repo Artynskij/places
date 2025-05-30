@@ -9,20 +9,22 @@ import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
 import { IEstablishmentFront, ITagWithEstablishmentFront } from "@/lib/models";
 import { mapEstablishmentToSearchItem } from "@/lib/utils/mappers/mapEstablishmentToSearchItem";
 
-
 interface IBlockMapFilterS {
     establishmentList: IEstablishmentFront[];
     tagsClassEstablishment: ITagWithEstablishmentFront[] | null;
 }
 
-const BlockMapFilterS = ({establishmentList, tagsClassEstablishment}:IBlockMapFilterS) => {
+const BlockMapFilterS = ({
+    establishmentList,
+    tagsClassEstablishment,
+}: IBlockMapFilterS) => {
     const [mapActive, setMapActive] = useState(false);
-     const establishmentListForMap = establishmentList.map((est) => {
-            const tagClass = tagsClassEstablishment?.find(
-                (item) => item.establishmentId === est.id
-            );
-            return mapEstablishmentToSearchItem(est, tagClass || null);
-        });
+    const establishmentListForMap = establishmentList.map((est) => {
+        const tagClass = tagsClassEstablishment?.find(
+            (item) => item.establishmentId === est.id
+        );
+        return mapEstablishmentToSearchItem(est, tagClass || null);
+    });
     return (
         <>
             <div className={style.image_ctn}>
@@ -43,9 +45,13 @@ const BlockMapFilterS = ({establishmentList, tagsClassEstablishment}:IBlockMapFi
                             <IconLocation className={style.buttonOpen_icon} />
                         }
                     />
+                    <PopupMap
+                        mapActive={mapActive}
+                        setMapActive={setMapActive}
+                        establishmentList={establishmentListForMap}
+                    />
                 </div>
             </div>
-            <PopupMap mapActive={mapActive} setMapActive={setMapActive} establishmentList={establishmentListForMap}/>
         </>
     );
 };

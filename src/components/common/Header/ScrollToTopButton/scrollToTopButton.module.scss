@@ -1,0 +1,32 @@
+.buttonUp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    border: 1px solid $color-main-blue;
+    transition: $transition;
+
+    &:hover {
+        box-shadow: $box-shadow-default;
+        transform: translate(0, -3px);
+    }
+    &_icon {
+        font-size: 20px;
+        color: $color-main-blue;
+        
+    }
+}
+@include mediaTablet {
+    .buttonUp {
+        padding: 5px;
+        &_icon {
+            font-size: 15px;
+        }
+    }
+}

@@ -31,6 +31,7 @@ import { IconStar } from "./IconStar/IconStar";
 import { IconThumbDown } from "./IconThumbDown/IconThumbDown";
 import { IconThumbUp } from "./IconThumbUp/IconThumbUp";
 import { IconUnfollow } from "./IconUnfollow/IconUnfollow";
+import { IconUp } from "./IconUp/IconUp";
 
 export {
     IconArrowDown,
@@ -61,6 +62,7 @@ export {
     IconShare,
     IconFollow,
     IconUnfollow,
+    IconUp,
     IconFollowing,
     IconGoogle,
     IconAccommodation,
