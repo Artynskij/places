@@ -34,6 +34,7 @@ const QueryCafe: FC<IQueryCafe> = ({ data }) => {
             className={style.queryListCafe}
         >
             {data.map((tagBlock, index) => {
+                if(index > 1) return null
                 return (
                     <li key={index} className={style.queryListCafe_item}>
                         <div className={style.queryListCafe_item_title}>

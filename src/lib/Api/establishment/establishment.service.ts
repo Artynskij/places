@@ -40,7 +40,7 @@ export class EstablishmentService {
             id,
             lang
         );
-        return response
+        return response && response.establishment.content
             ? this.establishmentMapper.transformToFront({
                   establishment: response.establishment,
                   info: { cdnHost: response.cdnHost },

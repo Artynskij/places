@@ -29,13 +29,13 @@ export class MapMapper {
         const mapperItems: IMapItemFront[] = [];
 
         mapItems.forEach((searchItemBack, index) => {
-            mapperItems.push(
-                this.createMapItem(
-                    searchItemBack,
-
-                    cdnHost
-                )
-            );
+            const newSearchItem = this.createMapItem(searchItemBack, cdnHost);
+            if (newSearchItem.id === "01JPZDN699119E9P3Q5ZFRR1A1") {
+                console.log(newSearchItem);
+            }
+            if (newSearchItem.title) {
+                mapperItems.push(newSearchItem);
+            }
         });
 
         return mapperItems;

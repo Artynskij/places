@@ -4,6 +4,7 @@ import { FC } from "react";
 import { ISearchItemFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
 import Link from "next/link";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 
 interface ICardSearchItem {
     dataCard: ISearchItemFront;
@@ -13,6 +14,7 @@ const CardSearchItem: FC<ICardSearchItem> = ({
     dataCard,
     showDescription = false,
 }) => {
+    
     return (
         <div className={style.card}>
             <div className={style.card_img}>
@@ -20,7 +22,7 @@ const CardSearchItem: FC<ICardSearchItem> = ({
                     src={
                         dataCard.media
                             ? `${dataCard.media?.cdnHost}/${dataCard.media?.mainImage}`
-                            : "/mock/restMock.jpg"
+                            : CONSTANT_DEFAULT_IMAGE_URL
                     }
                     alt={"searchItem card"}
                     sizes="10vw"

@@ -9,18 +9,18 @@ import {
 import { mapEstablishmentToSearchItem } from "@/lib/utils/mappers/mapEstablishmentToSearchItem";
 import { useState } from "react";
 
-interface IBlockMapEstS {
+interface IBlockMapEstScr {
     dataEstablishment: IEstablishmentFront;
     classTag: ITagsBlockFront | null;
     locationCountryData: ILocationFront;
     children: React.ReactNode;
 }
-const BlockMapEstS = ({
+const BlockMapEstScr = ({
     dataEstablishment,
     classTag,
     locationCountryData,
     children,
-}: IBlockMapEstS) => {
+}: IBlockMapEstScr) => {
     const [mapActive, setMapActive] = useState(false);
     const establishmentForMap = mapEstablishmentToSearchItem(
         dataEstablishment,
@@ -47,4 +47,4 @@ const BlockMapEstS = ({
         </>
     );
 };
-export default BlockMapEstS;
+export default BlockMapEstScr;

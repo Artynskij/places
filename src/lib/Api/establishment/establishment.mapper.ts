@@ -15,12 +15,13 @@ export default class EstablishmentMapper {
     transformToFront({
         establishment,
         info,
-    }: ITransformToFront): IEstablishmentFront {
+    }: ITransformToFront ): IEstablishmentFront {
         if (
             !establishment?.content ||
-            !establishment.content.value?.[0]?.value?.details ||
-            !establishment.content.media?.gallery
+            !establishment?.content.value?.[0]?.value?.details ||
+            !establishment?.content.media?.gallery
         ) {
+            
             throw new Error("Invalid establishment content structure");
         }
         const additionalRates = Object.entries(
@@ -69,7 +70,7 @@ export default class EstablishmentMapper {
                         establishment.establishment.Locations?.Path.split(
                             "."
                         )[1] || "",
-                    title: '',
+                    title: "",
                 },
                 pathBreadcrumb:
                     establishment.establishment.Locations?.Path || "",

@@ -50,10 +50,24 @@ export default async function EstablishmentPage({
     if (!sortedNearEstablishment) {
         notFound();
     }
-    const eaterNearEstablishment = sortedNearEstablishment.eater;
+    const eaterNearEstablishment =
+        dataEstablishment.typeEstablishment === "EATER"
+            ? sortedNearEstablishment.eater.filter(
+                  (item) => item.id !== dataEstablishment.id
+              )
+            : sortedNearEstablishment.eater;
     const accommodationNearEstablishment =
-        sortedNearEstablishment.accommodation;
-    const attractionNearEstablishment = sortedNearEstablishment.attraction;
+        dataEstablishment.typeEstablishment === "ACCOMMODATION"
+            ? sortedNearEstablishment.accommodation.filter(
+                  (item) => item.id !== dataEstablishment.id
+              )
+            : sortedNearEstablishment.accommodation;
+    const attractionNearEstablishment =
+        dataEstablishment.typeEstablishment === "ATTRACTION"
+            ? sortedNearEstablishment.attraction.filter(
+                  (item) => item.id !== dataEstablishment.id
+              )
+            : sortedNearEstablishment.attraction;
     const tagsEstablishment = await apiTags.getAllTagsOfEstablishmentFilter(
         {
             establishmentIds: [params.establishment],

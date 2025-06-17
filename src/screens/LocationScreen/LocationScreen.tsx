@@ -211,65 +211,6 @@ export default async function LocationScreen({
                     </Slider>
                 </div>
             </section>
-            {/* {typePage === "country" && (
-                <section className={style.slider_block}>
-                    <div className={style.slider_block_title}>
-                        <h2>{t("text.sliderDistrict")}</h2>
-                        <Link
-                            href={ROUTES.FILTER('belarus')}
-                            className={style.slider_block_title_button}
-                        >
-                            {t("text.buttonWatchAll")}
-                        </Link>
-                    </div>
-                    <div className={style.slider}>
-                        <Slider id={4}>
-                            {mockDistrict.map((item) => {
-                                return (
-                                    <CardSliderLocation
-                                        key={item.id}
-                                        {...item}
-                                    />
-                                );
-                            })}
-                        </Slider>
-                    </div>
-                </section>
-            )}
-            {(typePage === "country" || typePage === "district") && (
-                <section className={style.slider_block}>
-                    <div className={style.slider_block_title}>
-                        <h2>{t("text.sliderTown")}</h2>
-                    </div>
-                    <div className={style.slider}>
-                        <Slider id={5}>
-                            {mockTowns.map((item) => {
-                                return (
-                                    <CardSliderLocation
-                                        key={item.id}
-                                        {...item}
-                                    />
-                                );
-                            })}
-                        </Slider>
-                    </div>
-                </section>
-            )} */}
-
-            {/* <section className={style.slider_block}>
-                <div className={style.slider_block_title}>
-                    <h2>{t("text.sliderNeighbor")}</h2>
-                </div>
-                <div className={style.slider}>
-                    <Slider id={6}>
-                        {mockTowns.map((item) => {
-                            return (
-                                <CardSliderLocation key={item.id} {...item} />
-                            );
-                        })}
-                    </Slider>
-                </div>
-            </section> */}
         </div>
     );
 }

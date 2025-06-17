@@ -43,11 +43,8 @@ import DescriptionBlock from "./_components/DescriptionBlock/DescriptionBlock";
 import { getTranslations } from "next-intl/server";
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
 import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
-import { PopupMap } from "@/components/common/Popup/PopupMap/PopupMap";
-import { mapEstablishmentToSearchItem } from "@/lib/utils/mappers/mapEstablishmentToSearchItem";
-import BlockMapEstS from "./_components/BlockMapEstS/BlockMapEstS";
+import BlockMapEstScr from "./_components/BlockMapEstScr/BlockMapEstScr";
 import CardRecommend from "./_components/CardRecommend/CardRecommend";
-import { CardSliderMainPage } from "@/components/common/Cards";
 import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
 
 interface IProps extends IPageProps {
@@ -208,7 +205,7 @@ export const EstablishmentScreen = async ({
             </div>
             <div className={style.navBar}>
                 <ul className={style.navBar_list}>
-                    <BlockMapEstS
+                    <BlockMapEstScr
                         locationCountryData={locationCountryData}
                         classTag={classTag || null}
                         dataEstablishment={dataEstablishment}
@@ -219,7 +216,7 @@ export const EstablishmentScreen = async ({
                             {dataEstablishment.location.town.title},{" "}
                             {locationCountryData.title}
                         </li>
-                    </BlockMapEstS>
+                    </BlockMapEstScr>
                     <li className={style.navBar_list_item}>
                         <ContactButton
                             contactData={dataEstablishment.contacts}
@@ -278,33 +275,43 @@ export const EstablishmentScreen = async ({
                             </div>
                         </div>
                         <ul className={style.info_rating_list}>
-                            {dataEstablishment.rates.additional.map(
-                                (rate, index) => {
-                                    if (!rate) return;
-                                    return (
-                                        <li
-                                            key={index}
-                                            className={
-                                                style.info_rating_list_item
-                                            }
-                                        >
-                                            <span>{tRate(rate.key)}</span>
-                                            <div
+                            {dataEstablishment.rates.additional.length ? (
+                                dataEstablishment.rates.additional.map(
+                                    (rate, index) => {
+                                        if (!rate) return;
+                                        return (
+                                            <li
+                                                key={index}
                                                 className={
-                                                    style.info_rating_list_item_score
+                                                    style.info_rating_list_item
                                                 }
                                             >
-                                                <span>
-                                                    {rate?.value.toFixed(1)}
-                                                </span>
-                                                <RateMain
-                                                    defaultValue={rate?.value}
-                                                    disabled
-                                                />
-                                            </div>
-                                        </li>
-                                    );
-                                }
+                                                <span>{tRate(rate.key)}</span>
+                                                <div
+                                                    className={
+                                                        style.info_rating_list_item_score
+                                                    }
+                                                >
+                                                    <span>
+                                                        {rate.value.toFixed(1)}
+                                                    </span>
+                                                    <RateMain
+                                                        defaultValue={
+                                                            rate.value
+                                                        }
+                                                        disabled
+                                                    />
+                                                </div>
+                                            </li>
+                                        );
+                                    }
+                                )
+                            ) : (
+                                <span>
+                                    Данный объект никто еще не оценил Пока нет
+                                    ни одного мнения - воспользуйтесь моментом,
+                                    чтобы выделиться!
+                                </span>
                             )}
                         </ul>
                         <div className={style.info_class}>
@@ -368,7 +375,7 @@ export const EstablishmentScreen = async ({
                 <div className={style.info_column}>
                     <div className={style.info_address}>
                         <h4>Адрес</h4>
-                        <BlockMapEstS
+                        <BlockMapEstScr
                             locationCountryData={locationCountryData}
                             classTag={classTag || null}
                             dataEstablishment={dataEstablishment}
@@ -382,7 +389,7 @@ export const EstablishmentScreen = async ({
                                 {dataEstablishment.location.town.title},
                                 {locationCountryData.title}
                             </div>
-                        </BlockMapEstS>
+                        </BlockMapEstScr>
                         {dataEstablishment.contacts?.Phone && (
                             <Link
                                 href={`tel:${dataEstablishment.contacts?.Phone}`}
@@ -394,19 +401,21 @@ export const EstablishmentScreen = async ({
                         )}
                     </div>
                     <div className={style.info_map}>
-                        <BlockMapEstS
+                        <BlockMapEstScr
                             locationCountryData={locationCountryData}
                             classTag={classTag || null}
                             dataEstablishment={dataEstablishment}
                         >
-                            <Image
-                                className={style.info_map_image}
-                                alt="map"
-                                width={480}
-                                height={365}
-                                src={"/mock/mockObjErevan-map.jpg"}
-                            />
-                        </BlockMapEstS>
+                            <div className={style.info_map_image__ctn}>
+                                <Image
+                                    className={style.info_map_image}
+                                    alt="map"
+                                    width={480}
+                                    height={365}
+                                    src={"/mock/mockObjErevan-map.jpg"}
+                                />
+                            </div>
+                        </BlockMapEstScr>
                     </div>
                 </div>
             </section>
