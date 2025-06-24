@@ -42,7 +42,7 @@ export interface IEstablishmentFront {
     contacts: IContactsPartFront | null;
     media: {
         cdnHost: string;
-        gallery: IMediaFront[];
+        gallery: IMediaFront[] | null;
     };
     seo: { key: string; value: string }[];
 }

@@ -39,7 +39,11 @@ export default async function EstablishmentPage({
         params.establishment,
         params.locale
     );
-    if (!dataEstablishment) notFound();
+    if (!dataEstablishment) {
+        console.log("not found dataEst");
+
+        notFound();
+    }
 
     const sortedNearEstablishment =
         await apiMap.getEstablishmentByCoordAndSortTypes({
@@ -48,6 +52,7 @@ export default async function EstablishmentPage({
             radius: 1000,
         });
     if (!sortedNearEstablishment) {
+        console.log("not found sortedNearEstablishment");
         notFound();
     }
     const eaterNearEstablishment =
@@ -89,6 +94,7 @@ export default async function EstablishmentPage({
         params.establishment
     );
     if (!tagsEstablishment || !locationCountryData) {
+        console.log("not found !tagsEstablishment || !locationCountryData");
         notFound();
     }
 

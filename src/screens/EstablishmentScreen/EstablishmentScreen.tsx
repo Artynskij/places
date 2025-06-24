@@ -248,11 +248,13 @@ export const EstablishmentScreen = async ({
                 </ul>
             </div>
             <section className={style.gallery_block}>
-                <Gallery
-                    cdnHost={dataEstablishment.media.cdnHost}
-                    titleEstablishment={dataEstablishment.title}
-                    images={dataEstablishment.media.gallery}
-                />
+                {dataEstablishment.media.gallery && (
+                    <Gallery
+                        cdnHost={dataEstablishment.media.cdnHost}
+                        titleEstablishment={dataEstablishment.title}
+                        images={dataEstablishment.media.gallery}
+                    />
+                )}
             </section>
             <section className={style.info}>
                 <div className={style.info_column}>
@@ -308,7 +310,7 @@ export const EstablishmentScreen = async ({
                                 )
                             ) : (
                                 <span>
-                                    Данный объект никто еще не оценил Пока нет
+                                    Данный объект никто еще не оценил. Пока нет
                                     ни одного мнения - воспользуйтесь моментом,
                                     чтобы выделиться!
                                 </span>

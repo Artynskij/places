@@ -55,7 +55,7 @@ export interface IEstablishmentEntity {
             };
         }[];
         media: {
-            gallery: IImageEntity[];
+            gallery: IImageEntity[] | null;
         };
     };
 }

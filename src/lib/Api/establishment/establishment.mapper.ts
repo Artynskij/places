@@ -15,13 +15,11 @@ export default class EstablishmentMapper {
     transformToFront({
         establishment,
         info,
-    }: ITransformToFront ): IEstablishmentFront {
+    }: ITransformToFront): IEstablishmentFront {
         if (
             !establishment?.content ||
-            !establishment?.content.value?.[0]?.value?.details ||
-            !establishment?.content.media?.gallery
+            !establishment?.content.value?.[0]?.value?.details
         ) {
-            
             throw new Error("Invalid establishment content structure");
         }
         const additionalRates = Object.entries(
@@ -34,8 +32,8 @@ export default class EstablishmentMapper {
             })
             .filter((item) => item);
 
-        const galleryImages: IMediaFront[] =
-            establishment.content.media.gallery.map((image) => {
+        const galleryImages: IMediaFront[] | null =
+            establishment.content.media.gallery?.map((image) => {
                 return {
                     title: image.details[0].value.title,
                     blobPath: image.blobPath,
@@ -45,7 +43,7 @@ export default class EstablishmentMapper {
                     type: image.type,
                     src: `${info.cdnHost}/${image.blobPath}`,
                 };
-            });
+            }) || null;
         return {
             id: establishment.establishment.Id,
             title: establishment.content.value[0].value.details.title,
