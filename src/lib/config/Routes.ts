@@ -1,15 +1,25 @@
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { TCategoriesNews } from "../models/common/TCategoriesNews";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
-
+import { TTypeOwnerBusiness } from "../models/common/auth/TTypeOwnerBusiness";
+// TODO DEFAULT ROUTES DATA
 export const ROUTES = {
     MAIN: "/",
     COUNTRIES: "/countries",
-    AUTH: { REGISTER: "/register", LOGIN: "/login" },
+    AUTH: {
+        REGISTER: {
+            TOURIST: "/register/tourist",
+            OWNER: (query?: TTypeOwnerBusiness) =>
+                `/register/owner${query ? "?type=" + query : ""}`,
+            REGISTER: "/register",
+        },
+        LOGIN: "/login",
+    },
     PROFILE: {
-        OWNER: (username: string) => `/owner/${username}`,
-        TOURIST: (username: string) => `/tourist/${username}`,
+        OWNER: `/owner`,
+        TOURIST: `/tourist`,
         USER: (username: string) => `/user/${username}`,
+        SETTINGS: (type: "owner" | "tourist") => `/${type}/settings`,
     },
     FILTER: (location: string, typeEst: string) =>
         `/${location}/${typeEst}/filter`,
@@ -43,12 +53,12 @@ export const ROUTES = {
                 : ""
         }${
             !!page
-                ? `&${
-                      CONSTANT_SEARCH_PARAMS.PAGE
-                  }=${page.toLocaleLowerCase()}`
+                ? `&${CONSTANT_SEARCH_PARAMS.PAGE}=${page.toLocaleLowerCase()}`
                 : ""
         }`,
+    FORM: { BUSINESS: "/form/business" },
 };
+
 export const ROUTES_FINDER = {
     location: (location: string) => ROUTES.LOCATION.LOCATION(location),
     article: (news: string) => ROUTES.NEWS.NEWS("news", news),

@@ -17,5 +17,9 @@ interface IProps extends IPageProps {
 }
 
 export default function UserPage({ params, searchParams }: IProps) {
-    return <UsersScreen params={params}  />;
+    return (
+        <div className="container">
+            <UsersScreen params={params} />
+        </div>
+    );
 }

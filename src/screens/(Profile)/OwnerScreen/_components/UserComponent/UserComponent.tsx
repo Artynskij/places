@@ -3,44 +3,55 @@ import style from "./userComponent.module.scss";
 import { IconEdit } from "@/components/common/Icons/IconEdit/IconEdit";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
+import { ROUTES } from "@/lib/config/Routes";
 
-export const UserComponent = async () => {
-  const t = await getTranslations("ProfilePage.header");
-  return (
-    <>
-      <div className={style.background}>
-        <Image
-          className={style.background_img}
-          width={1920}
-          height={1200}
-          src="/mock/profileBackgroundMock.jpg"
-          alt="background"
-        />
-      </div>
-      <div className={style.middle}>
-        <div className={style.middle_avatar}>
-          <Image
-            className={style.middle_avatar_img}
-            width={96}
-            height={96}
-            src="/mock/avatarOwnerMock.jpg"
-            alt="avatar"
-          />
-        </div>
-        <div className={style.middle_edit}>
-          <Button
-            text={t("editProfile")}
-            className={style.middle_edit_button}
-            icon={<IconEdit className={style.middle_edit_button_icon} />}
-            type="light"
-          ></Button>
-        </div>
-      </div>
-      <div className={style.bottom}>
-        <h4 className={style.bottom_name}>Owner Surname</h4>
-        <span className={style.bottom_mail}>example@gmail.com</span>
-        <span className={style.bottom_date}>дата регистрации на сайте</span>
-      </div>
-    </>
-  );
+const UserComponent = async () => {
+    const t = await getTranslations("ProfilePage.header");
+    return (
+        <>
+            <div className={style.background}>
+                <Image
+                    className={style.background_img}
+                    width={1920}
+                    height={1200}
+                    src="/mock/profileBackgroundMock.jpg"
+                    alt="background"
+                />
+            </div>
+            <div className={style.middle}>
+                <div className={style.middle_avatar}>
+                    <Image
+                        className={style.middle_avatar_img}
+                        width={96}
+                        height={96}
+                        src="/mock/avatarOwnerMock.jpg"
+                        alt="avatar"
+                    />
+                </div>
+                <div className={style.middle_edit}>
+                    <Link href={ROUTES.PROFILE.SETTINGS("owner")}>
+                        <Button
+                            text={t("editProfile")}
+                            className={style.middle_edit_button}
+                            icon={
+                                <IconEdit
+                                    className={style.middle_edit_button_icon}
+                                />
+                            }
+                            type="light"
+                        />
+                    </Link>
+                </div>
+            </div>
+            <div className={style.bottom}>
+                <h4 className={style.bottom_name}>Owner Surname</h4>
+                <span className={style.bottom_mail}>example@gmail.com</span>
+                <span className={style.bottom_date}>
+                    дата регистрации на сайте
+                </span>
+            </div>
+        </>
+    );
 };
+export default UserComponent;

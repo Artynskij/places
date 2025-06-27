@@ -89,6 +89,22 @@
         color: red;
     }
 }
+.blockSelectAddress {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-small;
+    .title {
+    }
+    &_content {
+    }
+    .select {
+        &_container {
+            display: flex;
+            flex-direction: column;
+            gap: $gap-small;
+        }
+    }
+}
 @include mediaTablet {
     .blockReaction {
         padding: 15px;

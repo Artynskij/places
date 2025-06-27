@@ -1,0 +1,22 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-big;
+    align-items: flex-start;
+    margin-bottom: 32px;
+}
+.blockAddress {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-small;
+    &_content {
+        display: flex;
+        align-items: flex-end;
+        gap: $gap-medium;
+    }
+}
+.inputPhone {
+    & input {
+        border: none;
+    }
+}

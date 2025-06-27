@@ -1,0 +1,127 @@
+import React from "react";
+import style from "./buttonFunctional.module.scss";
+import { InboxOutlined } from "@ant-design/icons";
+import type { UploadProps } from "antd";
+import { Upload } from "antd";
+import { RcFile } from "antd/es/upload";
+import { useAlertMessage } from "@/lib/context";
+import { FieldError } from "react-hook-form";
+
+const { Dragger } = Upload;
+
+interface Props {
+    accept?: string; // MIME типы: "image/*", ".pdf,.docx", и т.п.
+    maxSizeMB?: number; // Ограничение размера (в МБ)
+    maxCount?: number; // Кол-во файлов
+    multiple?: boolean;
+    action?: string; // URL для загрузки
+    onSuccess?: (file: File, response: any) => void;
+    onError?: (file: File, error: any) => void;
+    disabled?: boolean;
+    value?: (File | undefined)[];
+    onChange?: (files: File[]) => void;
+    error: FieldError | null;
+}
+
+export const UploadButton: React.FC<Props> = ({
+    accept = "",
+    maxSizeMB = 10,
+    maxCount = 5,
+    multiple = true,
+    // action = "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
+    onSuccess,
+    onError,
+    disabled = false,
+    onChange,
+    error,
+}) => {
+    const message = useAlertMessage();
+    const checkFileType = (file: RcFile, accept?: string): boolean => {
+        if (!accept) return true;
+
+        const acceptedTypes = accept
+            .split(",")
+            .map((type) => type.trim().toLowerCase());
+
+        const fileExtension = "." + file.name.split(".").pop()?.toLowerCase();
+        const mimeType = file.type.toLowerCase();
+
+        return acceptedTypes.some((type) => {
+            if (type.startsWith(".")) {
+                return type === fileExtension;
+            }
+            if (type.endsWith("/*")) {
+                const baseType = type.split("/")[0];
+                return mimeType.startsWith(baseType + "/");
+            }
+            return type === mimeType;
+        });
+    };
+
+    const props: UploadProps = {
+        name: "file",
+        multiple,
+        // action,
+        accept,
+        maxCount,
+        disabled,
+        beforeUpload(file) {
+            const isAllowed = checkFileType(file, accept);
+            const isLtMax = file.size / 1024 / 1024 < maxSizeMB;
+
+            if (!isAllowed) {
+                message.error(`Тип файла ${file.type} не поддерживается`);
+            }
+
+            if (!isLtMax) {
+                message.error(`Файл ${file.name} больше ${maxSizeMB}MB`);
+            }
+
+            return isAllowed && isLtMax;
+        },
+        onChange(info) {
+            const validFiles = info.fileList
+                .filter((f) => f.status !== "error")
+                .map((f) => f.originFileObj as File)
+                .filter(Boolean);
+
+            onChange?.(validFiles); // обновляем состояние формы
+
+            const latestFile = info.file;
+
+            if (latestFile.status === "done") {
+                message.success(`${latestFile.name} загружен`);
+                onSuccess?.(latestFile.originFileObj!, latestFile.response);
+            } else if (latestFile.status === "error") {
+                message.error(`${latestFile.name} не удалось загрузить`);
+                onError?.(latestFile.originFileObj!, latestFile.response);
+            }
+        },
+        onDrop(e) {
+            console.log("Файлы перетянуты:", e.dataTransfer.files);
+        },
+    };
+
+    return (
+        <div className={style.uploadButton}>
+            <span>Загрузите документ</span>
+            <Dragger {...props}>
+                <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">
+                    Кликните или перетащите файл для загрузки
+                </p>
+                <p className="ant-upload-hint">
+                    Поддерживается одиночная и массовая загрузка. Максимум{" "}
+                    {maxCount} файлов.
+                </p>
+            </Dragger>
+            {error && (
+                <span className={style.uploadButton_errorInput}>
+                    {error.message}
+                </span>
+            )}
+        </div>
+    );
+};

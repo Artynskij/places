@@ -4,7 +4,7 @@ import { IPageProps } from "@/lib/models/IType";
 
 import CountriesScreen from "@/screens/CountriesScreen/CountriesScreen";
 
-export async function generateMetadata({ params }: { params: null }) {
+export async function generateMetadata() {
     return {
         title: `${process.env.BASE_NAME} | countries`,
     };

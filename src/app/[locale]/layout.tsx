@@ -66,9 +66,7 @@ export default async function RootLayout({
                                 <Suspense fallback={<Loading />}>
                                     <Header />
 
-                                    <main style={{ minHeight: "100vh" }}>
-                                        {children}
-                                    </main>
+                                    <main>{children}</main>
 
                                     <Footer />
                                 </Suspense>

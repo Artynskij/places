@@ -1,0 +1,37 @@
+.blockPhoneNumber {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-small;
+    position: relative;
+    margin-bottom: 20px;
+}
+.inputPhone {
+    border: 1px solid $color-main-grey;
+    border-radius: $border-radius-5;
+    padding: 12px 16px;
+    & input {
+        // display: block;
+        border: none;
+    }
+    & > div {
+        position: relative;
+        padding-right: 5px;
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -1px;
+            bottom: 0;
+            height: 100%;
+            width: 1px;
+            background-color: $color-main-grey;
+        }
+    }
+}
+.errorInput {
+    @extend %Text14;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    color: red;
+}

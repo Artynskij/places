@@ -6,14 +6,10 @@ import { ContentComponent } from "./_components/ContentComponent/ContentComponen
 import { mockTourist } from "@/asset/mockData/mockTourist";
 import { notFound } from "next/navigation";
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        username: string;
-    };
-}
+interface IProps extends IPageProps {}
 export default function TouristScreen({ params, searchParams }: IProps) {
     const dataUser = mockTourist.find(
-        (item) => item.username === params.username
+        (item) => item.username === "sherlock_bones"
     );
     if (!dataUser) notFound();
     return (

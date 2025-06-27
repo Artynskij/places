@@ -13,6 +13,7 @@ import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 import { Button } from "@/components/UI/Button/Button";
 import { IconGoogle } from "@/components/common/Icons/IconGoogle/IconGoogle";
 import { useAlertMessage, useNotification } from "@/lib/context";
+import { ROUTES } from "@/lib/config/Routes";
 
 interface IFormInputs {
     name?: string;
@@ -130,7 +131,7 @@ export const FormLogin = () => {
                 </div>
                 <div className={style.form_footer}>
                     {t("footerTextLog")}{" "}
-                    <Link className={style.form_footer_link} href={"/register"}>
+                    <Link className={style.form_footer_link} href={ROUTES.AUTH.REGISTER.REGISTER}>
                         {t("buttonReg")}.
                     </Link>
                 </div>

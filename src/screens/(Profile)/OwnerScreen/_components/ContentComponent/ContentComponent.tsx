@@ -1,17 +1,16 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import style from "./contentComponent.module.scss";
-import { useEffect, useState } from "react";
-import Link from "next/link";
+
 import { switcherTabOwnerData } from "@/asset/constants/switcherTabsPage";
 import { TabObjectsOwner } from "./TabObjectsOwner/TabObjectsOwner";
 import { TabMarketingOwner } from "./TabMarketingOwner/TabMarketingOwner";
 import { TabHistoryOwner } from "./TabHistoryOwner/TabHistoryOwner";
 import { TabStatOwner } from "./TabStatOwner/TabStatOwner";
 import { TabWalletOwner } from "./TabWalletOwner/TabWalletOwner";
-import { SwitcherProfileContent } from "../../../_component/Switcher/Switcher";
+import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 
-export const ContentComponent = () => {
+const ContentComponent = () => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -19,7 +18,7 @@ export const ContentComponent = () => {
     return (
         <>
             <div className={style.switcher}>
-                <SwitcherProfileContent data={switcherTabOwnerData} />
+                <SwitcherTabs data={switcherTabOwnerData} />
             </div>
 
             <div className={style.switcher_content}>
@@ -38,3 +37,4 @@ export const ContentComponent = () => {
         </>
     );
 };
+export default ContentComponent;

@@ -121,7 +121,20 @@
         }
     }
 }
-
+.uploadButton {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-small;
+    position: relative;
+    margin-bottom: 20px;
+    &_errorInput {
+        @extend %Text14;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        color: red;
+    }
+}
 @include mediaPhone {
     .share_popup {
         &_list {

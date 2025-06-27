@@ -11,13 +11,13 @@ interface IProps extends IPageProps {
 
 export default function UsersScreen({ params, searchParams }: IProps) {
     return (
-        <div className="container">
+        <>
             <section className={style.user}>
                 <UserComponent />
             </section>
             <section className={style.content}>
                 <ContentComponent />
             </section>
-        </div>
+        </>
     );
 }

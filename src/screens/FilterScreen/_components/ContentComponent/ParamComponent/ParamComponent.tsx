@@ -47,6 +47,7 @@ const ParamComponent = ({ dataTags, setIsLoading }: IParamComponentProp) => {
     function removeParam(clickItem: ITagFront) {
         setIsLoading(true);
         const params = new URLSearchParams(searchParams.toString());
+        
         const filterValue = dataParams?.filter(
             (item) => item.key !== clickItem.key
         );

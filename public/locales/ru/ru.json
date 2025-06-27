@@ -85,7 +85,15 @@
             "marketing": "продвижение",
             "history": "история заказов",
             "stat": "статистика",
-            "wallet": "кошелёк"
+            "wallet": "кошелёк",
+
+            "personal": "персональные данные",
+            "business": "бизнесы",
+
+            "individual": "физическое лицо",
+            "sole_proprietor": "иное лицо",
+            "legal_entity": "юридическое лицо"
+
         },
         "status": {
             "past": "Прошла",

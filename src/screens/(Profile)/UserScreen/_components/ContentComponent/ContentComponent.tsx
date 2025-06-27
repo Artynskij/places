@@ -7,8 +7,8 @@ import { TabTripUser } from "./TabTripUser/TabTripUser";
 import { TabReviewUser } from "./TabReviewUser/TabReviewUser";
 import { TabInterestUser } from "./TabInterestUser/TabIterestUser";
 
-import { SwitcherProfileContent } from "../../../_component/Switcher/Switcher";
 import TabTravelMap from "@/screens/(Profile)/_component/Tabs/TabTravelMap/TabTravelMap";
+import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 
 export const ContentComponent = () => {
     const router = useRouter();
@@ -28,11 +28,7 @@ export const ContentComponent = () => {
     return (
         <>
             <div className={style.switcher}>
-                <SwitcherProfileContent
-                    // activeTab={activeTab}
-                    // setActiveTab={setActiveTab}
-                    data={switcherTabUserData}
-                />
+                <SwitcherTabs data={switcherTabUserData} />
             </div>
             <div className={style.switcher_content}>
                 {searchParams.get("tab") === "trip" ? (
