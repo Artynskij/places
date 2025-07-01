@@ -197,7 +197,10 @@ export const MainScreen = async ({
                     {recommendData.map((recItem, index) => {
                         return (
                             <Link
-                                href={`/news/${CONSTANT_CATEGORIES_NEWS.overview}/${recItem.id}`}
+                                href={ROUTES.NEWS.NEWS(
+                                    CONSTANT_CATEGORIES_NEWS.overview,
+                                    recItem.id
+                                )}
                                 key={`overview-${index}`}
                                 className={style.cardRecommend}
                             >
@@ -250,7 +253,7 @@ export const MainScreen = async ({
                 </div>
             </section>
             {/* blog block */}
-            <section>
+            {/* <section>
                 <h2 className={style.title_second}>
                     <Link
                         href={ROUTES.NEWS.CATEGORY(
@@ -315,7 +318,7 @@ export const MainScreen = async ({
                         );
                     })}
                 </div>
-            </section>
+            </section> */}
             <section>
                 <h2 className={style.title_second}>{t("bestDestination")}</h2>
                 <div className={style.direction_content}>

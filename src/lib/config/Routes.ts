@@ -17,7 +17,7 @@ export const ROUTES = {
     },
     PROFILE: {
         OWNER: `/owner`,
-        TOURIST: `/tourist`,
+        TOURIST:(username:string) => `/tourist/${username}`,
         USER: (username: string) => `/user/${username}`,
         SETTINGS: (type: "owner" | "tourist") => `/${type}/settings`,
     },

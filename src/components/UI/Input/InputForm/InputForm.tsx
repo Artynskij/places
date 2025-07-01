@@ -3,7 +3,7 @@
 import { CSSProperties, FC, ReactNode, useState } from "react";
 import style from "./inputForm.module.scss";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
-
+import clsx from "clsx";
 interface IIinputFormProps {
     error?: string;
 
@@ -46,11 +46,11 @@ export const InputForm: FC<IIinputFormProps> = ({
                     {...register}
                     style={inlineStyle}
                     type={type}
-                    className={style.input + " " + inputClassName}
+                    className={clsx(style.input, !!error && style.input_error)}
                     placeholder={placeholder}
                 />
             </div>
-            <span className={style.input_error}> {error}</span>
+            <span className={style.input_errorText}> {error}</span>
         </div>
     );
 };

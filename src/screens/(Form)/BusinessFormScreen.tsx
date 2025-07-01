@@ -5,6 +5,8 @@ import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/Switcher
 import { IPageProps } from "@/lib/models";
 import { TTypeOwnerBusiness } from "@/lib/models/common/auth/TTypeOwnerBusiness";
 import style from './businessFormScreen.module.scss'
+import { FormSoleProprietor } from "@/components/common/Form/Business/FormSoleProprietor";
+import { FormLegalEntity } from "@/components/common/Form/Business/FormLegalEntity";
 interface IProps extends IPageProps {
     searchParams: {
         [CONSTANT_SEARCH_PARAMS.TAB]: TTypeOwnerBusiness;
@@ -18,6 +20,8 @@ export const BusinessFormScreen = ({ params, searchParams }: IProps) => {
             <h3>Создание бизнеса</h3>
             <SwitcherTabs data={switcherBusiness} />
             {activeTab === "individual" && <FormIndividual />}
+            {activeTab === "sole_proprietor" && <FormSoleProprietor />}
+            {activeTab === "legal_entity" && <FormLegalEntity />}
         </div>
     );
 };

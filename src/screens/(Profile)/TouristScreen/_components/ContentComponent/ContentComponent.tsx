@@ -3,7 +3,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import style from "./contentComponent.module.scss";
 import { useState } from "react";
 
-import { SwitcherProfileContent } from "../../../_component/Switcher/Switcher";
+
 import {
     switcherTabTouristData,
     switcherTabUserData,
@@ -14,6 +14,7 @@ import TabVideo from "@/screens/(Profile)/_component/Tabs/TabVideo/TabVideo";
 import TabPhoto from "@/screens/(Profile)/_component/Tabs/TabPhoto/TabPhoto";
 import TabPublication from "@/screens/(Profile)/_component/Tabs/TabPublication/TabPublication";
 import { mockTourist } from "@/asset/mockData/mockTourist";
+import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 interface IContentComponent {
     dataUser: (typeof mockTourist)[0];
 }
@@ -25,7 +26,7 @@ export const ContentComponent = ({ dataUser }: IContentComponent) => {
     return (
         <>
             <div className={style.switcher}>
-                <SwitcherProfileContent
+                <SwitcherTabs
                     // activeTab={activeTab}
                     // setActiveTab={setActiveTab}
                     data={switcherTabTouristData}

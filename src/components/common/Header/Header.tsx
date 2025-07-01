@@ -86,9 +86,15 @@ export const Header = async () => {
                         >
                             <li className={"hover-underline"}>Лк туриста</li>
                         </Link>
-                        <Link
+                        {/* <Link
                             className={style.header__second_link}
                             href={ROUTES.PROFILE.OWNER}
+                        >
+                            <li className={"hover-underline"}>Лк Владельца</li>
+                        </Link> */}
+                        <Link
+                            className={style.header__second_link}
+                            href={ROUTES.PROFILE.TOURIST("sherlock_bones")}
                         >
                             <li className={"hover-underline"}>Лк Владельца</li>
                         </Link>
@@ -113,12 +119,7 @@ export const Header = async () => {
                         >
                             <li className={"hover-underline"}>Автора</li>
                         </Link>
-                        <Link
-                            className={style.header__second_link}
-                            href={ROUTES.PROFILE.TOURIST}
-                        >
-                            <li className={"hover-underline"}>Турист</li>
-                        </Link>
+
                         <Link
                             className={style.header__second_link}
                             href={ROUTES.LOCATION.ESTABLISHMENT(
@@ -142,7 +143,7 @@ export const Header = async () => {
                         </Link>
                     </ul>
                 </div>
-              <ScrollToTopButton/>
+                <ScrollToTopButton />
             </header>
         </>
     );

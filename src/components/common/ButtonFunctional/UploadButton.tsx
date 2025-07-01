@@ -21,6 +21,7 @@ interface Props {
     value?: (File | undefined)[];
     onChange?: (files: File[]) => void;
     error: FieldError | null;
+    titleSpan: string;
 }
 
 export const UploadButton: React.FC<Props> = ({
@@ -28,12 +29,12 @@ export const UploadButton: React.FC<Props> = ({
     maxSizeMB = 10,
     maxCount = 5,
     multiple = true,
-    // action = "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
     onSuccess,
     onError,
     disabled = false,
     onChange,
     error,
+    titleSpan,
 }) => {
     const message = useAlertMessage();
     const checkFileType = (file: RcFile, accept?: string): boolean => {
@@ -104,8 +105,8 @@ export const UploadButton: React.FC<Props> = ({
 
     return (
         <div className={style.uploadButton}>
-            <span>Загрузите документ</span>
-            <Dragger {...props}>
+            <div>{titleSpan}</div>
+            <Dragger className={style.uploadButton_dragger} {...props}>
                 <p className="ant-upload-drag-icon">
                     <InboxOutlined />
                 </p>

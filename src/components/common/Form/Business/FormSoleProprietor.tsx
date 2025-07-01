@@ -1,10 +1,10 @@
 "use client";
+import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 import style from "./businessForm.module.scss";
-import * as Yup from "yup";
+
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
+import * as Yup from "yup";
 import { InputPhoneNumber } from "@/components/UI/Input/InputPhone/InputPhone";
 import { Button } from "@/components/UI/Button/Button";
 import { UploadButton } from "../../ButtonFunctional/UploadButton";
@@ -13,12 +13,13 @@ import {
     BlockAgreements,
     getAgreementsValidation,
 } from "../../BlockFunctional/BlockAgreements";
-
 import { TAgreementKey } from "@/lib/models/common/TAgreementKey";
 import { useNotification } from "@/lib/context";
+import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
 import {
+    validAddressSchema,
+    validDateSchema,
     validDocumentFileSchema,
-    validFullNameSchema,
     validPhoneSchema,
 } from "@/lib/validationSchemas";
 
@@ -31,31 +32,28 @@ const agreementKeys: TAgreementKey[] = [
     "AgreedReviewsNotification",
 ];
 const validationSchemaRegister = Yup.object().shape({
-    fullName: validFullNameSchema,
+    nameOrganization: Yup.string().required(
+        "Название Индивидуального предпринимателя обязатиельно"
+    ),
+    // secondName: Yup.string(),
 
-    email: Yup.string()
+    numberOrganization: Yup.string().required(
+        "Индивидуальный регистрационный номер обязательно"
+    ),
+    date: validDateSchema,
+    emailOrganization: Yup.string()
         .email("Неккоректный адрес электронной почты")
         .required("Адрес электронной почты обязателен"),
     phone: validPhoneSchema,
-    documents: Yup.array()
+    documentsOrganization: Yup.array()
         .of(validDocumentFileSchema)
-        .min(1, "Необходимо загрузить хотя бы один документ")
+        // .min(1, "Необходимо загрузить хотя бы один документ")
         .max(10, "Можно загрузить не более 10 документов"),
-    address: Yup.object().shape({
-        country: Yup.string().required("Страна обязательна"),
-        district: Yup.string().required("Область обязательна"),
-        town: Yup.string().required("Город обязателен"),
-        addressLine: Yup.string().required("Адрес обязателен"),
-        mailIndex: Yup.string(),
-    }),
+    address: validAddressSchema,
     agreements: getAgreementsValidation(agreementKeys),
-    // age: Yup.number()
-    //   .positive("Age must be positive")
-    //   .integer("Age must be an integer")
-    //   .required("Age is required"),
 });
 
-export const FormIndividual = () => {
+export const FormSoleProprietor = () => {
     const notification = useNotification();
     const {
         register,
@@ -67,14 +65,12 @@ export const FormIndividual = () => {
     } = useForm({
         resolver: yupResolver(validationSchemaRegister),
         defaultValues: {
-            fullName: {
-                name: "",
-                secondName: "",
-                surname: "",
-            },
-            email: "",
+            nameOrganization: "",
+            numberOrganization: "",
+            date: "",
+            emailOrganization: "",
             phone: "",
-            documents: [],
+            documentsOrganization: [],
             address: {
                 country: "",
                 district: "",
@@ -95,38 +91,65 @@ export const FormIndividual = () => {
         });
     };
 
-    // const agreementValues = ;
-
     return (
         <form
             className={style.form}
             onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
         >
             <InputForm
-                error={errors.fullName?.name?.message}
-                register={register("fullName.name")}
-                placeholder="Имя*"
-                titleSpan="Имя согласно удостоверению личности"
+                error={errors.nameOrganization?.message}
+                register={register("nameOrganization")}
+                placeholder="Название Индивидуального предпринимателя"
+                titleSpan="Официальное название Индивидуального предпринимателя*"
                 type="text"
             />
-            <InputForm
-                error={errors.fullName?.secondName?.message}
-                register={register("fullName.secondName")}
-                placeholder="Второе имя"
+            {/* <InputForm
+                error={errors.secondName?.message}
+                register={register("secondName")}
+                placeholder="	Индивидуальный регистрационный номер"
                 titleSpan="Второе имя (отчество) согласно удостоверению личности"
                 type="text"
-            />
+            /> */}
             <InputForm
-                error={errors.fullName?.surname?.message}
-                register={register("fullName.surname")}
-                placeholder="Фамилия*"
-                titleSpan="Фамилия согласно удостоверению личности*"
+                error={errors.numberOrganization?.message}
+                register={register("numberOrganization")}
+                placeholder="Индивидуальный регистрационный номер"
+                titleSpan="Индивидуальный регистрационный номер*"
                 type="text"
             />
+            <Controller
+                name="date"
+                control={control}
+                render={({ field, fieldState }) => (
+                    <InputDate
+                        titleSpan="Дата регистрации: ДД.ММ.ГГГГ*"
+                        value={field.value}
+                        onChange={field.onChange}
+                        error={fieldState.error?.message}
+                    />
+                )}
+            />
+            {/* <InputDate titleSpan="Дата регистрации" onChange={() => {}} /> */}
+            <Controller
+                name="documentsOrganization"
+                control={control}
+                defaultValue={[]}
+                render={({ field, fieldState }) => (
+                    <UploadButton
+                        titleSpan="Прикрепление подтверждающих документов"
+                        accept=".pdf,.doc,.docx,.txt"
+                        maxSizeMB={10}
+                        maxCount={10}
+                        value={field.value}
+                        onChange={field.onChange}
+                        error={fieldState.error || null}
+                    />
+                )}
+            />
             <InputForm
-                error={errors.email?.message}
-                register={register("email")}
-                placeholder="Адрес электронной почты*"
+                error={errors.emailOrganization?.message}
+                register={register("emailOrganization")}
+                placeholder="Адрес электронной почты"
                 titleSpan="Адрес электронной почты"
                 type="email"
             />
@@ -138,30 +161,14 @@ export const FormIndividual = () => {
                     <InputPhoneNumber
                         field={field}
                         error={fieldState.error || null}
-                        titleSpam="Номер телефона*"
+                        titleSpam="Номер телефона организации*"
                     />
                 )}
             />
 
-            <Controller
-                name="documents"
-                control={control}
-                defaultValue={[]}
-                render={({ field, fieldState }) => (
-                    <UploadButton
-                        titleSpan="Прикрепление подтверждающих документов*"
-                        accept=".pdf,.doc,.docx,.txt"
-                        maxSizeMB={10}
-                        maxCount={10}
-                        value={field.value}
-                        onChange={field.onChange}
-                        error={fieldState.error || null}
-                    />
-                )}
-            />
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
-                    Адрес регистрации
+                    Основное местонахождение владельца бизнеса
                 </div>
 
                 <InputForm

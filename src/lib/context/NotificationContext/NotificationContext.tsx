@@ -10,6 +10,7 @@ type INotificationMessage = {
 type INotificationContext = {
     success: (prop: INotificationMessage) => void;
     info: (prop: INotificationMessage) => void;
+    error: (prop: INotificationMessage) => void;
 };
 
 const NotificationContext = createContext<INotificationContext | undefined>(
@@ -44,8 +45,19 @@ export const NotificationProvider = ({
             showProgress: true,
             placement: "bottomRight",
         });
+    const error = ({
+        message,
+        description,
+        showProgress,
+    }: INotificationMessage) =>
+        apiNotification.error({
+            message: message,
+            description: description,
+            showProgress: true,
+            placement: "bottomRight",
+        });
     return (
-        <NotificationContext.Provider value={{ success,info }}>
+        <NotificationContext.Provider value={{ success, info, error }}>
             {contextHolder}
             {children}
         </NotificationContext.Provider>

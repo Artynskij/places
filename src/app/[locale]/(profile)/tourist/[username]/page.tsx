@@ -5,14 +5,20 @@ import { unstable_setRequestLocale } from "next-intl/server";
 
 import TouristScreen from "@/screens/(Profile)/TouristScreen/TouristScreen";
 
-export async function generateMetadata() {
+export async function generateMetadata({
+    params,
+}: {
+    params: { username: string };
+}) {
     return {
-        title: `${process.env.BASE_NAME} | tourist`,
+        title: `${process.env.BASE_NAME} | ${params.username}`,
     };
 }
 
 interface IProps extends IPageProps {
-    
+    params: IPageProps["params"] & {
+        username: string;
+    };
 }
 
 export default function TouristPage({ params, searchParams }: IProps) {

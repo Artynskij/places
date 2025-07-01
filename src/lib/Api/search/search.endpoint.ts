@@ -2,6 +2,7 @@ import { ISearchQueryRequest } from "@/lib/models/api/request/search/ISearchQuer
 
 import { ISearchQueryResponse } from "@/lib/models/api/response/search/ISearch.response";
 import apiClient from "../ApiClient";
+import apiClientSearch from "../ApiClientSearch";
 
 export class SearchApi {
     constructor() {}
@@ -13,6 +14,7 @@ export class SearchApi {
                 body.indexKey === "all"
                     ? ""
                     : body.indexKey.toLocaleUpperCase();
+
             const response = await apiClient.post(`/search/query`, {
                 ...body,
                 indexKey,
@@ -20,7 +22,9 @@ export class SearchApi {
 
             return response.data;
         } catch (error) {
-            console.error(`Ошибка при запросе по поиску query.`);
+            console.log(error);
+            
+            console.error(`Ошибка при запросе по поиску queryEndpoind.`);
             return null;
         }
     }

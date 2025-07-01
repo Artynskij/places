@@ -1,21 +1,14 @@
 .ctn_input {
-    width: 100%;
     display: flex;
     flex-direction: column;
     gap: $gap-small;
     position: relative;
     margin-bottom: 20px;
-    &_title {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    &_input {
-    }
 }
 .input {
     @extend %InputStandard;
     @extend %Text14;
+    width: fit-content;
     &_error {
         &:focus,
         &:focus-visible,
@@ -30,10 +23,5 @@
         position: absolute;
         top: 100%;
         color: red;
-    }
-    &_name {
-    }
-    &_additional {
-        color: $color-main-grey;
     }
 }

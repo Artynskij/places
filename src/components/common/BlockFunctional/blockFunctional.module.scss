@@ -105,6 +105,29 @@
         }
     }
 }
+.blockAgreements {
+    &_list {
+        display: flex;
+        flex-direction: column;
+        gap: $gap-small;
+        position: relative;
+        margin-bottom: 20px;
+        // &_item {
+        //     &:first-child {
+        //         border-top: 1px solid $color-main-grey;
+        //     }
+        //     border-bottom: 1px solid $color-main-grey;
+        //     &:last-child {
+        //     }
+        // }
+    }
+    &_error {
+        @extend %Text14;
+        position: absolute;
+        top: 100%;
+        color: red;
+    }
+}
 @include mediaTablet {
     .blockReaction {
         padding: 15px;
