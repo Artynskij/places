@@ -17,6 +17,7 @@ export const switcherTabTouristData = [
     { id: 3, name: "Видео", value: "videos" },
     { id: 4, name: "Отзывы / оценки", value: "reviews" },
     { id: 5, name: "Карта путешествий", value: "travelMap" },
+    { id: 6, name: "Мои объекты", value: "object" },
 ];
 export const switcherFinderMainPage = [
     {
@@ -59,6 +60,10 @@ export const switcherFinderMainPage = [
 export const switcherSettingsOwner = [
     { id: 1, name: "Персональные данные", value: "personal" },
     { id: 2, name: "Бизнесы", value: "business" },
+];
+export const switcherSettingsTourist = [
+    { id: 1, name: "Персональные данные", value: "personal" },
+    { id: 2, name: "Уведомления и отбражение", value: "notification" },
 ];
 export const switcherBusiness = [
     { id: 1, name: "Физическое лицо", value: "individual" },

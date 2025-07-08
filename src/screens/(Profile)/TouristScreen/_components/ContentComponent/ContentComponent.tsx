@@ -3,7 +3,6 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import style from "./contentComponent.module.scss";
 import { useState } from "react";
 
-
 import {
     switcherTabTouristData,
     switcherTabUserData,
@@ -15,6 +14,7 @@ import TabPhoto from "@/screens/(Profile)/_component/Tabs/TabPhoto/TabPhoto";
 import TabPublication from "@/screens/(Profile)/_component/Tabs/TabPublication/TabPublication";
 import { mockTourist } from "@/asset/mockData/mockTourist";
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
+import TabEstablishment from "@/screens/(Profile)/_component/Tabs/TabEstablishment/TabEstablishment";
 interface IContentComponent {
     dataUser: (typeof mockTourist)[0];
 }
@@ -41,6 +41,8 @@ export const ContentComponent = ({ dataUser }: IContentComponent) => {
                     <TabVideo></TabVideo>
                 ) : searchParams.get("tab") === "reviews" ? (
                     <TabReview dataUser={dataUser}></TabReview>
+                ) : searchParams.get("tab") === "object" ? (
+                    <TabEstablishment></TabEstablishment>
                 ) : (
                     <TabTravelMap></TabTravelMap>
                 )}

@@ -1,0 +1,11 @@
+.tabEstablishment_content {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-medium;
+}
+
+.tab_title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

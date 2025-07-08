@@ -1,0 +1,11 @@
+
+
+.switchToggle{
+    display: flex;
+    align-items: center;
+    gap: $gap-small;
+    cursor: pointer;
+    background-color: $color-additional-background;
+    padding: 10px;
+    border-radius: $border-radius-5;
+}

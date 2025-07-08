@@ -22,14 +22,14 @@ export const SelectCustom: FC<ISelectProps> = ({
     classNameValue,
     classNameCtn,
 }) => {
-    const [activeSelect, setActiveSelect] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     // const [activeValue, setActiveValue] = useState(title || options[0].value);
     const rootRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         const handleClick = (event: MouseEvent) => {
             const { target } = event;
             if (target instanceof Node && !rootRef.current?.contains(target)) {
-                setActiveSelect(false);
+                setIsOpen(false);
             }
         };
 
@@ -39,18 +39,18 @@ export const SelectCustom: FC<ISelectProps> = ({
         };
     }, []);
     function toggleSelect() {
-        setActiveSelect(!activeSelect);
+        setIsOpen(!isOpen);
     }
     function handleChange(item: ISelectOption) {
         onChange(item);
 
-        setActiveSelect(false);
+        setIsOpen(false);
     }
     return (
         <div
             ref={rootRef}
             className={`${style.select}  ${
-                activeSelect ? style.active : ""
+                isOpen ? style.active : ""
             } ${classNameCtn}`}
         >
             <div
@@ -66,27 +66,29 @@ export const SelectCustom: FC<ISelectProps> = ({
                 <IconArrowDown className={style.select_value_icon} />
             </div>
             <div className={`${style.select_options}`}>
-                {options.map((item, index) => {
-                    let activeItem = false;
-                    if (item.value === activeOption) {
-                        activeItem = true;
-                    }
-                    return (
-                        <div
-                            onClick={() => handleChange(item)}
-                            key={index}
-                            className={
-                                style.select_options_item +
-                                " " +
-                                (activeItem
-                                    ? style.select_options_item_active
-                                    : "")
-                            }
-                        >
-                            {item.name}
-                        </div>
-                    );
-                })}
+                {options.length > 0 ? (
+                    options.map((item) => {
+                        let activeItem = false;
+                        if (item.value === activeOption) {
+                            activeItem = true;
+                        }
+                        return (
+                            <div
+                                onClick={() => handleChange(item)}
+                                key={item.value}
+                                className={`${style.select_options_item} ${
+                                    activeItem
+                                        ? style.select_options_item_active
+                                        : ""
+                                }`}
+                            >
+                                {item.name}
+                            </div>
+                        );
+                    })
+                ) : (
+                    <span>Нет доступных опций</span>
+                )}
             </div>
         </div>
     );

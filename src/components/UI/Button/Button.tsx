@@ -2,7 +2,7 @@ import { FC, ReactNode } from "react";
 import style from "./Button.module.scss";
 
 interface IButton {
-    text: string;
+    text?: string;
     className?: string;
     type?: "light" | "blue";
     onClick?: () => void;
@@ -32,7 +32,7 @@ export const Button: FC<IButton> = ({
             } ${className} ${active && style.button_active}`}
         >
             {icon}
-            <span>{text}</span>
+            {text && <span>{text}</span>}
         </button>
     );
 };

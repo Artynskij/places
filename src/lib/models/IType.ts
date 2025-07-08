@@ -4,7 +4,7 @@ export interface IPageProps {
 }
 
 export interface ISelectOption {
-  id: number;
+  id?: number;
   name: string;
   value: string;
 }

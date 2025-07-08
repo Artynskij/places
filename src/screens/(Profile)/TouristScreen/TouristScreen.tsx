@@ -13,7 +13,7 @@ interface IProps extends IPageProps {
 }
 export default function TouristScreen({ params, searchParams }: IProps) {
     const dataUser = mockTourist.find(
-        (item) => item.username === "sherlock_bones"
+        (item) => item.username === params.username
     );
     if (!dataUser) notFound();
     return (

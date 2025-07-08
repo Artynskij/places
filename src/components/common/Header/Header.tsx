@@ -82,7 +82,7 @@ export const Header = async () => {
                     <ul>
                         <Link
                             className={style.header__second_link}
-                            href={ROUTES.PROFILE.USER("whois")}
+                            href={ROUTES.PROFILE.TOURIST("sherlock_bones")}
                         >
                             <li className={"hover-underline"}>Лк туриста</li>
                         </Link>
@@ -94,7 +94,7 @@ export const Header = async () => {
                         </Link> */}
                         <Link
                             className={style.header__second_link}
-                            href={ROUTES.PROFILE.TOURIST("sherlock_bones")}
+                            href={ROUTES.PROFILE.OWNER}
                         >
                             <li className={"hover-underline"}>Лк Владельца</li>
                         </Link>

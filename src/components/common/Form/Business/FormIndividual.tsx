@@ -149,8 +149,9 @@ export const FormIndividual = () => {
                 defaultValue={[]}
                 render={({ field, fieldState }) => (
                     <UploadButton
+                        
                         titleSpan="Прикрепление подтверждающих документов*"
-                        accept=".pdf,.doc,.docx,.txt"
+                        accept="doc"
                         maxSizeMB={10}
                         maxCount={10}
                         value={field.value}

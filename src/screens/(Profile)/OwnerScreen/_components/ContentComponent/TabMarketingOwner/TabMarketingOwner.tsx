@@ -26,7 +26,17 @@ export const TabMarketingOwner = () => {
             ? (cookie.get("advertisingNotPay") as IDataAdvertisingCookie)
             : null;
         setAdvertising(getAdvertising);
-        setRefreshCookie(false);
+    }, []);
+    useEffect(() => {
+        if (refreshCookie) {
+            const advertisingCookie = cookie.get("advertisingNotPay");
+
+            const getAdvertising = advertisingCookie
+                ? (cookie.get("advertisingNotPay") as IDataAdvertisingCookie)
+                : null;
+            setAdvertising(getAdvertising);
+            setRefreshCookie(false);
+        }
     }, [refreshCookie, cookie]);
 
     function clickPay() {}

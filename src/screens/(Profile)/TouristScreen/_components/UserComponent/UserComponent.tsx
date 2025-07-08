@@ -10,6 +10,8 @@ import Link from "next/link";
 import { SubscribeButton } from "@/components/common/ButtonFunctional/SubsribeButton";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
+import { IconEdit, IconSettings } from "@/components/common/Icons";
+import { ROUTES } from "@/lib/config/Routes";
 interface IUserComponent {
     dataUser: (typeof mockTourist)[0];
 }
@@ -39,7 +41,16 @@ export const UserComponent = async ({ dataUser }: IUserComponent) => {
                     <div>
                         <div className={style.info_name}>
                             <span>{dataUser.name}</span>
-                            <SubscribeButton />
+                            {/* <SubscribeButton /> */}
+                            {/* <div className={style.info_settings}> */}
+                            <Link href={ROUTES.PROFILE.SETTINGS("tourist")}>
+                                <Button
+                                    icon={<IconSettings />}
+                                    text="Настройки профиль"
+                                />
+                            </Link>
+
+                            {/* </div> */}
                         </div>
                         <div className={style.info_username}>
                             @{dataUser.username}
@@ -49,11 +60,7 @@ export const UserComponent = async ({ dataUser }: IUserComponent) => {
                         </div>
                         <div className={style.info_hometown}>
                             Я из:
-                            <Link
-                                href={
-                                    "http://localhost:3000/kazahstan/turkestandistrict/minsk"
-                                }
-                            >
+                            <Link href={"#"}>
                                 {` ${dataUser.nativeLocation.town}(${dataUser.nativeLocation.country})`}
                             </Link>
                         </div>

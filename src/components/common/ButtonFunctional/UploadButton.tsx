@@ -1,16 +1,17 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import style from "./buttonFunctional.module.scss";
 import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
 import { Upload } from "antd";
 import { RcFile } from "antd/es/upload";
 import { useAlertMessage } from "@/lib/context";
-import { FieldError } from "react-hook-form";
+import { FieldError, useFormContext } from "react-hook-form";
 
 const { Dragger } = Upload;
 
 interface Props {
-    accept?: string; // MIME типы: "image/*", ".pdf,.docx", и т.п.
+    accept?: "image" | "doc" | "all"; // MIME типы: "image/*", ".pdf,.docx", и т.п.
     maxSizeMB?: number; // Ограничение размера (в МБ)
     maxCount?: number; // Кол-во файлов
     multiple?: boolean;
@@ -25,7 +26,7 @@ interface Props {
 }
 
 export const UploadButton: React.FC<Props> = ({
-    accept = "",
+    accept = "all",
     maxSizeMB = 10,
     maxCount = 5,
     multiple = true,
@@ -35,8 +36,18 @@ export const UploadButton: React.FC<Props> = ({
     onChange,
     error,
     titleSpan,
+    // setError,
+    // clearErrors,
 }) => {
     const message = useAlertMessage();
+
+    const ACCEPT_MIME_MAP: Record<NonNullable<Props["accept"]>, string> = {
+        image: ".jpg,.jpeg,.png,.webp,.gif,.svg",
+        doc: ".pdf,.doc,.docx,.txt,.rtf",
+        all: "*/*",
+    };
+    const resolvedAccept = accept ? ACCEPT_MIME_MAP[accept] : undefined;
+
     const checkFileType = (file: RcFile, accept?: string): boolean => {
         if (!accept) return true;
 
@@ -62,32 +73,32 @@ export const UploadButton: React.FC<Props> = ({
     const props: UploadProps = {
         name: "file",
         multiple,
-        // action,
-        accept,
+
+        accept: resolvedAccept,
         maxCount,
         disabled,
-        beforeUpload(file) {
-            const isAllowed = checkFileType(file, accept);
+        beforeUpload(file: RcFile) {
+            const isAllowed = checkFileType(file, resolvedAccept);
             const isLtMax = file.size / 1024 / 1024 < maxSizeMB;
 
             if (!isAllowed) {
                 message.error(`Тип файла ${file.type} не поддерживается`);
+                return Upload.LIST_IGNORE; // лучше для ant-design v4+
             }
 
             if (!isLtMax) {
                 message.error(`Файл ${file.name} больше ${maxSizeMB}MB`);
+                return Upload.LIST_IGNORE;
             }
 
-            return isAllowed && isLtMax;
+            return true;
         },
         onChange(info) {
             const validFiles = info.fileList
                 .filter((f) => f.status !== "error")
                 .map((f) => f.originFileObj as File)
                 .filter(Boolean);
-
             onChange?.(validFiles); // обновляем состояние формы
-
             const latestFile = info.file;
 
             if (latestFile.status === "done") {
