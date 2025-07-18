@@ -1,0 +1,48 @@
+.form {
+    // max-width: 400px;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: $gap-big;
+    align-items: flex-start;
+    margin-bottom: 32px;
+    &_blockName {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: $gap-medium;
+        &_item {
+            // width: 50%;
+        }
+    }
+}
+.selectBlock {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-medium;
+
+    & label {
+    }
+}
+.selectionBlock {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-medium;
+    width: 100%;
+
+    &_title {
+        @extend %Text22;
+        text-decoration: underline;
+    }
+    &_content {
+        display: flex;
+        flex-direction: column;
+
+        gap: $gap-medium;
+    }
+}
+.socialRow {
+    display: flex;
+    align-items: center;
+}

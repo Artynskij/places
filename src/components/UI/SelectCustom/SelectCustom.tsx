@@ -4,6 +4,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import style from "./selectCustom.module.scss";
 import { IconArrowDown } from "../../common/Icons";
 import { ISelectOption } from "@/lib/models/IType";
+import { SpanErrorForm } from "../Span/SpanErrorForm";
 
 interface ISelectProps {
     options: ISelectOption[];
@@ -12,6 +13,7 @@ interface ISelectProps {
     title?: string;
     classNameValue?: string;
     classNameCtn?: string;
+    error?: string;
 }
 
 export const SelectCustom: FC<ISelectProps> = ({
@@ -21,6 +23,7 @@ export const SelectCustom: FC<ISelectProps> = ({
     title,
     classNameValue,
     classNameCtn,
+    error,
 }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     // const [activeValue, setActiveValue] = useState(title || options[0].value);
@@ -90,6 +93,7 @@ export const SelectCustom: FC<ISelectProps> = ({
                     <span>Нет доступных опций</span>
                 )}
             </div>
+            {error && <SpanErrorForm text={error}/>}
         </div>
     );
 };

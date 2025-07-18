@@ -55,7 +55,7 @@ export default class EstablishmentMapper {
                 key: establishment.establishment.Categories[0]?.Id || "",
                 value:
                     establishment.establishment.Categories[0]?.Content
-                        .details[0].value || "",
+                        ?.details[0].value || "",
             },
             rates: {
                 main: establishment.establishment.Rates.Rate,

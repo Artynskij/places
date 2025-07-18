@@ -22,8 +22,10 @@ export async function generateMetadata({
 }: {
     params: { establishment: string };
 }) {
+    const getSeoDescription = "";
     return {
-        title: `${process.env.BASE_NAME} | ${params.establishment}`,
+        title: `${process.env.BASE_NAME} | ${params.establishment} только на плэйсис.`,
+        description: getSeoDescription || 'гомики тоже люди',
     };
 }
 export default async function EstablishmentPage({

@@ -18,7 +18,7 @@ import { ButtonClose } from "@/components/UI/Button/ButtonClose";
 
 import { IconFilter } from "@/components/common/Icons/IconFilter/IconFilter";
 import { Overlay } from "@/components/common/Overlay/Overlay";
-import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
+import { ITagBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 import { Loader } from "@/components/common/Loader/Loader";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { IEstablishmentFront, ITagWithEstablishmentFront } from "@/lib/models";
@@ -27,7 +27,7 @@ import BlockMapFilterS from "./BlockMap/BlockMapFilterS";
 
 interface IFilterComponentProp {
     establishmentList: IEstablishmentFront[];
-    dataTags?: ITagsBlockFront[];
+    dataTags?: ITagBlockFront[];
     totalEstablishmentCount: number;
     setIsLoading: (state: boolean) => void;
     tagsClassEstablishment: ITagWithEstablishmentFront[] | null;

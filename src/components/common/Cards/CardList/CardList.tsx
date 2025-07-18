@@ -15,6 +15,7 @@ import { RateHotel } from "../../RateCustom/RateHotel";
 import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 
 interface ICardHotelList {
     dataEstablishment: IEstablishmentFront;
@@ -32,6 +33,7 @@ export const CardList: FC<ICardHotelList> = ({
     classCount,
 }) => {
     // if (!data.content) return null;
+    const gallery = dataEstablishment.media.gallery || null;
     return (
         <div className={style.card}>
             <div className={style.image}>
@@ -86,10 +88,12 @@ export const CardList: FC<ICardHotelList> = ({
                         // width={448}
                         // height={320}
                         fill
-                        src={`${dataEstablishment.media.cdnHost}/${dataEstablishment.media.gallery[0].blobPath}`}
-                        alt={
-                            dataEstablishment.media.gallery[0].title || "image"
+                        src={
+                            gallery
+                                ? `${dataEstablishment.media.cdnHost}/${gallery[0].blobPath}`
+                                : CONSTANT_DEFAULT_IMAGE_URL
                         }
+                        alt={gallery ? gallery[0]?.title : "image"}
                         sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 100vw, 35vw`}
                     />
                 </Link>

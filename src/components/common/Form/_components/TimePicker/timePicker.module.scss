@@ -1,0 +1,9 @@
+.time {
+    position: relative;
+    margin-bottom: 20px;
+    &_error {
+        position: absolute;
+        top: 100%;
+        color: red;
+    }
+}

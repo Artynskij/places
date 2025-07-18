@@ -22,9 +22,10 @@ export async function generateMetadata({
     if (!categoryName) {
         return {};
     }
+    
     return {
         title: `${process.env.BASE_NAME} | ${params.category}`,
-        description: `Explore the ${params.category} section on our website.`,
+        description: `Самые лучшие ${params.category} для туристов всего мира.`,
     };
 }
 

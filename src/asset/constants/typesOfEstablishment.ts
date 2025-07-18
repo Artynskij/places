@@ -1,23 +1,20 @@
-
-
-
 export const CONSTANT_TYPES_OF_ESTABLISHMENT = {
     ATTRACTION: {
         key: "ATTRACTION",
         title: "Развлечение",
         secondValue: "Что посмотреть",
-        id: "01JPZBA3SVGE2PJD45MX82JTYR",
+        id: process.env.ID_DB_ATTRACTION as string,
     },
     EATER: {
         key: "EATER",
         title: "Еда",
         secondValue: "Где поесть",
-        id: "01JPZBJ65Y54QFMFC4ZHZG1RTJ",
+        id: process.env.ID_DB_EATER as string,
     },
     ACCOMMODATION: {
         key: "ACCOMMODATION",
         title: "Размещение",
         secondValue: "Где остановиться",
-        id: "01JPZCJQQ5EG9J38P5YQJPSEVW",
+        id: process.env.ID_DB_ACCOMMODATION as string,
     },
 };

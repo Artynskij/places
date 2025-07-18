@@ -7,37 +7,72 @@ import React, {
     useState,
 } from "react";
 
-import style from "./mapbox.module.scss";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import { useLocale } from "next-intl";
 
 import { Map as MapMapboxGL, ViewStateChangeEvent } from "react-map-gl/mapbox";
 import { debounce } from "lodash";
-import { CustomMarker } from "./_common/Markers/CustomMarker";
+
 import { MapService } from "@/lib/Api/map/map.service";
 import { getZoomToRadius } from "@/lib/hooks/useZoomToRadius";
 import { MarkersLayer } from "./_common/MarkersLayer";
 import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
+import { TModeMap } from "@/lib/models/common/TModeMap";
+import { DefaultMarker } from "./_common/Markers/DefaultMarker";
+import { useReverseGeocode } from "@/lib/hooks/useReverseGeocode";
+import { CONSTANT_TYPE_LOCATION } from "@/asset/constants/typeLocation";
+import { useUserLocation } from "@/lib/hooks/useUserLocation";
 interface IMapboxMap {
-    establishmentList: IMapItemFront[];
+    mode?: TModeMap[];
+    establishmentList?: IMapItemFront[] | null;
+    center?: { lon: number; lat: number };
+    setPosition?: (value: {
+        lat: number;
+        lon: number;
+        addressLine: string;
+    }) => void;
+    position?: { lat: number; lon: number; addressLine: string };
+}
+interface Position {
+    lat: number;
+    lon: number;
 }
 
-export const MapboxMap = ({ establishmentList }: IMapboxMap) => {
+export const MapboxMap = ({
+    establishmentList,
+    center,
+    mode = ["default"],
+    setPosition,
+    position,
+}: IMapboxMap) => {
     const apiMap = useMemo(() => new MapService(), []);
     const locale = useLocale();
-    const filteredEstablishmentList = establishmentList.filter(
+
+    const modeMapCoord = !!mode.find((item) => item === "getCoordinate");
+    const centerMoscow = { lon: 37.6173, lat: 55.7558 };
+    const zoom = 12;
+    const [isInitialized, setIsInitialized] = useState(false);
+    const { userLocation, errorUserLocation } = useUserLocation();
+
+    const reverseGeocode = useReverseGeocode();
+    const [viewState, setViewState] = useState<{
+        latitude: number;
+        longitude: number;
+        zoom: number;
+    }>({
+        latitude: centerMoscow.lat,
+        longitude: centerMoscow.lon,
+        zoom: zoom,
+    });
+
+    const filteredEstablishmentList = establishmentList?.filter(
         (est) =>
             !!est.location.lat && !!est.location.lon && est.typeEstablishment
     );
     const [establishments, setEstablishments] = useState<IMapItemFront[]>(
-        filteredEstablishmentList
+        filteredEstablishmentList || []
     );
-    const [viewState, setViewState] = useState({
-        longitude: establishments[0].location.lon as number,
-        latitude: establishments[0].location.lat as number,
-        zoom: 12,
-    });
     const [selectionFirstEst, setSelectionFirstEst] = useState(false);
     const fetchEstablishment = (lon: number, lat: number, zoom: number) => {
         const radius = getZoomToRadius(zoom, lat);
@@ -77,9 +112,6 @@ export const MapboxMap = ({ establishmentList }: IMapboxMap) => {
                         });
 
                         if (!changed) return prev;
-                        console.log(
-                            `state Establishments update ${prev.length}`
-                        );
                         return Array.from(prevMap.values());
                     });
                 }
@@ -92,9 +124,54 @@ export const MapboxMap = ({ establishmentList }: IMapboxMap) => {
         []
     );
     useEffect(() => {
-        if (establishments.length <= 1) {
-            console.log(establishments);
+        // make center
+        if (isInitialized) return;
 
+        if (center) {
+            setViewState({
+                latitude: center.lat,
+                longitude: center.lon,
+                zoom: zoom,
+            });
+            setIsInitialized(true);
+        } else if (position) {
+            setViewState({
+                latitude: position.lat,
+                longitude: position.lon,
+                zoom: zoom,
+            });
+            setIsInitialized(true);
+        } else if (
+            establishments[0]?.location?.lon &&
+            establishments[0]?.location?.lat
+        ) {
+            setViewState({
+                longitude: establishments[0].location?.lon,
+                latitude: establishments[0].location?.lat,
+                zoom: zoom,
+            });
+            setIsInitialized(true);
+        } else if (userLocation) {
+            setViewState({
+                latitude: userLocation.lat,
+                longitude: userLocation.lon,
+                zoom: zoom,
+            });
+            setIsInitialized(true);
+        } else if (errorUserLocation) {
+            setIsInitialized(true);
+        }
+    }, [
+        center,
+        position,
+        userLocation,
+        establishments,
+        viewState,
+        errorUserLocation,
+    ]);
+    useEffect(() => {
+        if (modeMapCoord) return;
+        if (establishments.length <= 1 && viewState) {
             setSelectionFirstEst(true);
             fetchEstablishment(
                 viewState.longitude,
@@ -105,14 +182,39 @@ export const MapboxMap = ({ establishmentList }: IMapboxMap) => {
         return () => {
             debouncedFetch.cancel();
         };
-    }, [debouncedFetch]);
+    }, [debouncedFetch, userLocation]);
 
     const handlerMoveEnd = (e: ViewStateChangeEvent) => {
+        if (modeMapCoord) return;
         const { latitude, longitude, zoom } = e.viewState;
         setViewState({ latitude, longitude, zoom });
         debouncedFetch({ latitude, longitude, zoom });
     };
-    if (!establishments.length) return null;
+    const handlerClick = async (e: mapboxgl.MapMouseEvent) => {
+        const { lng, lat } = e.lngLat;
+        const addressGeocode = await reverseGeocode(lat, lng);
+        const countryText = addressGeocode?.features.find((item) =>
+            item.id.includes(CONSTANT_TYPE_LOCATION.mapbox.country)
+        )?.text;
+        const placeText = addressGeocode?.features.find((item) =>
+            item.id.includes(CONSTANT_TYPE_LOCATION.mapbox.place)
+        )?.text;
+        const address = addressGeocode?.features.find((item) =>
+            item.id.includes(CONSTANT_TYPE_LOCATION.mapbox.address)
+        );
+
+        const addressLine = `${countryText}, ${placeText} ${
+            address?.text || address?.address
+                ? `, ${address?.text || ""} ${address?.address || ""} `
+                : ""
+        }`;
+        if (setPosition) {
+            setPosition({ lat: lat, lon: lng, addressLine: addressLine });
+        }
+
+        // setSelectedPoint({ lat: lat, lon: lng, addressLine: addressLine });
+    };
+    if (!isInitialized) return null;
     return (
         <MapMapboxGL
             initialViewState={viewState}
@@ -121,11 +223,22 @@ export const MapboxMap = ({ establishmentList }: IMapboxMap) => {
             interactiveLayerIds={["markers"]}
             language={locale}
             onMoveEnd={handlerMoveEnd}
+            onClick={handlerClick}
         >
-            <MarkersLayer
-                selectionFirstEst={selectionFirstEst}
-                establishments={establishments}
-            />
+            {establishments.length > 0 && (
+                <MarkersLayer
+                    selectionFirstEst={selectionFirstEst}
+                    establishments={establishments}
+                />
+            )}
+            {modeMapCoord && position && (
+                <DefaultMarker
+                    key="selection"
+                    latitude={position.lat}
+                    longitude={position.lon}
+                    addressLine={position.addressLine}
+                />
+            )}
         </MapMapboxGL>
     );
 };

@@ -6,14 +6,14 @@ import { Overlay } from "@/components/common/Overlay/Overlay";
 
 interface IModalProps {
     active: boolean;
-    setActive: (prop: boolean) => void;
+    closeModal: (prop?: boolean) => void;
     children: React.ReactNode | React.ReactNode[] | null;
     title?: string;
     view?: "over" | "small" | "middle" | "big";
 }
 
 export const ModalCustom: FC<IModalProps> = ({
-    setActive,
+    closeModal,
     active,
     children,
     title,
@@ -43,7 +43,7 @@ export const ModalCustom: FC<IModalProps> = ({
                         <h4>{title}</h4>
                         <ButtonClose
                             className={style.modal_close}
-                            onClick={() => setActive(false)}
+                            onClick={() => closeModal(false)}
                         />
                     </div>
                     <div className={style.modal_content_children}>
@@ -51,7 +51,7 @@ export const ModalCustom: FC<IModalProps> = ({
                     </div>
                 </div>
             </div>
-            <Overlay setActive={setActive} active={active} />
+            <Overlay setActive={closeModal} active={active} />
         </>
     );
 };

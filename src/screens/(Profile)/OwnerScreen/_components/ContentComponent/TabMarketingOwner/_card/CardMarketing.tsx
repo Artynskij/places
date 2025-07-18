@@ -48,7 +48,7 @@ export const CardMarketing: FC<ICardMarketingProps> = ({
       <ModalCustom
         title={data.name}
         active={modalActive}
-        setActive={setModalActive}
+        closeModal={() => setModalActive(false)}
       >
         {modalActive && (
           <FormMarketing

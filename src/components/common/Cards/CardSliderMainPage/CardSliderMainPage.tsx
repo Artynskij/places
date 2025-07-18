@@ -16,6 +16,7 @@ import { ROUTES } from "@/lib/config/Routes";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { headers } from "next/headers";
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 
 interface ICardSliderMainPage {
     dataEstablishment: IEstablishmentFront;
@@ -32,6 +33,7 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
     classCount,
 }) => {
     //    const baseUrls= getBaseUrlServer()
+    const gallery = dataEstablishment?.media.gallery || null;
     return (
         <div className={style.card}>
             <div className={style.image}>
@@ -86,10 +88,12 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                         // width={448}
                         // height={320}
                         fill
-                        src={`${dataEstablishment.media.cdnHost}/${dataEstablishment.media.gallery[0].blobPath}`}
-                        alt={
-                            dataEstablishment.media.gallery[0].title || "image"
+                        src={
+                            gallery
+                                ? `${dataEstablishment.media.cdnHost}/${gallery[0].blobPath}`
+                                : CONSTANT_DEFAULT_IMAGE_URL
                         }
+                        alt={gallery ? gallery[0].title : "image"}
                         sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 90vw,(max-width: ${CONSTANTS_SCREENS.SCREEN_NETBOOK}px) 40vw, 33vw`}
                     />
                 </Link>

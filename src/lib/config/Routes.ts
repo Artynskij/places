@@ -17,7 +17,7 @@ export const ROUTES = {
     },
     PROFILE: {
         OWNER: `/owner`,
-        TOURIST:(username:string) => `/tourist/${username}`,
+        TOURIST: (username: string) => `/tourist/${username}`,
         USER: (username: string) => `/user/${username}`,
         SETTINGS: (type: "owner" | "tourist") => `/${type}/settings`,
     },
@@ -56,7 +56,10 @@ export const ROUTES = {
                 ? `&${CONSTANT_SEARCH_PARAMS.PAGE}=${page.toLocaleLowerCase()}`
                 : ""
         }`,
-    FORM: { BUSINESS: "/form/business" },
+    FORM: {
+        BUSINESS: "/form/business",
+        ESTABLISHMENT_CREATE: "/form/establishment",
+    },
 };
 
 export const ROUTES_FINDER = {

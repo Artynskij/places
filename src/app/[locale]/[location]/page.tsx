@@ -20,6 +20,7 @@ export async function generateMetadata({
 }: {
     params: { location: string };
 }) {
+    
     return {
         title: `${process.env.BASE_NAME} | ${params.location}`,
     };

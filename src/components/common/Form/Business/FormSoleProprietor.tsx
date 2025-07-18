@@ -64,22 +64,6 @@ export const FormSoleProprietor = () => {
         formState: { errors },
     } = useForm({
         resolver: yupResolver(validationSchemaRegister),
-        defaultValues: {
-            nameOrganization: "",
-            numberOrganization: "",
-            date: "",
-            emailOrganization: "",
-            phone: "",
-            documentsOrganization: [],
-            address: {
-                country: "",
-                district: "",
-                town: "",
-                addressLine: "",
-                mailIndex: "",
-            },
-            agreements: [],
-        },
     });
     const onSubmit: SubmitHandler<TTypeForm> = (data) => {
         console.log("Form Data:", data);
@@ -158,7 +142,7 @@ export const FormSoleProprietor = () => {
                 control={control}
                 name="phone"
                 render={({ field, fieldState }) => (
-                    <InputPhoneNumber
+                    <InputPhoneNumber<"phone">
                         field={field}
                         error={fieldState.error || null}
                         titleSpam="Номер телефона организации*"
@@ -196,8 +180,8 @@ export const FormSoleProprietor = () => {
                     type="text"
                 />
                 <InputForm
-                    error={errors.address?.mailIndex?.message}
-                    register={register("address.mailIndex")}
+                    error={errors.address?.postalCode?.message}
+                    register={register("address.postalCode")}
                     titleSpan="Почтовый индекс"
                     type="text"
                 />

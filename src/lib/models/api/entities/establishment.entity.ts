@@ -1,7 +1,7 @@
-
 import { TTypesOfEstablishment } from "../../common/TTypesEstablishment";
-import { ICategoryEntity } from "./category.entity";
+
 import { ILocationsEntity } from "./locations.entity";
+import { ICategoryOfEstablishmentPart } from "./parts/categoryOfEstablishmentPart.entity";
 import { IContactsEntity } from "./parts/contact.entity";
 import { IContentEntity } from "./parts/content.entity";
 import { IImageEntity } from "./parts/image.entity";
@@ -10,10 +10,12 @@ interface ILocationsInEstablishment {
     Id: string;
     ParentId: string;
     Path: string;
-    Content:IContentEntity;
+    Content: IContentEntity;
 }
 export interface IEstablishmentEntity {
     establishment: {
+        AvgRate: number;
+        CountOfRates: number;
         Id: string;
         Latitude: string;
         Longitude: string;
@@ -27,7 +29,7 @@ export interface IEstablishmentEntity {
             ContentId: string;
             Content: IContentEntity;
         };
-        Categories: ICategoryEntity[];
+        Categories: ICategoryOfEstablishmentPart[];
         Contacts: IContactsEntity | null;
         Locations: ILocationsInEstablishment | null;
         Rates: IRateEntity;

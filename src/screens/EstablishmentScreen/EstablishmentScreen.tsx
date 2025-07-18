@@ -21,7 +21,7 @@ import { IPageProps } from "@/lib/models/IType";
 
 import Link from "next/link";
 
-import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
+import { ITagBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 
 import { mockReviews } from "@/asset/mockData/mockReviews";
 import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
@@ -60,8 +60,8 @@ interface IProps extends IPageProps {
         accommodation: IMapItemFront[] | [];
         attraction: IMapItemFront[] | [];
     };
-    dataTags: ITagsBlockFront[];
-    classTag?: ITagsBlockFront | null;
+    dataTags: ITagBlockFront[];
+    classTag?: ITagBlockFront | null;
 
     locationCountryData: ILocationFront;
     scheduleData: IScheduleFront[] | null;

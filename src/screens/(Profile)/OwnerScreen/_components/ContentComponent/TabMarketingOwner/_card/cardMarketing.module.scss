@@ -1,33 +1,11 @@
-@import "/src/asset/common-styles/";
 .card {
-    // display: grid;
-    // grid-template-columns: repeat(3, 1fr);
-    // border: 2px solid transparent;
-    // padding: 10px;
-    // border-radius: 10px;
-    // background-color: $color-main-grey-light;
-    // cursor: pointer;
-    // transition: $transition;
-
     display: grid;
     grid-template-columns: 1fr 3fr 1fr 50px;
     align-items: center;
     padding: 15px 7px;
     background-color: transparent;
     border-bottom: 1px solid $color-main-grey-light;
-    // cursor: pointer;
-    // transition: $transition;
 
-    &:hover {
-        // border-color: $color-main-gold;
-        // border: 1px solid $color-main-gold;
-        // transform: scale(1.01);
-        // border-radius: 10px;
-    }
-    & > div {
-        // display: flex;
-        // justify-content: center;
-    }
     &_title {
     }
     &_calendar {
@@ -46,37 +24,3 @@
         }
     }
 }
-// .modal {
-//   &_content {
-//     height: 100%;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: space-between;
-//     // &_title {
-//     //   display: flex;
-//     //   justify-content: space-between;
-//     //   align-items: center;
-//     // }
-//     &_buttons {
-//       display: flex;
-//       flex-wrap: wrap;
-//       align-items: center;
-//       gap: $gap;
-//     }
-//     &_blockSend {
-//       width: 100%;
-//       display: flex;
-//       // justify-content: flex-start;
-//     }
-//   }
-//   &_select {
-//   }
-//   &_calendarBlock {
-//     position: relative;
-//   }
-//   &_calendar {
-//     position: absolute;
-//     // top: -100%;
-//     left: 0;
-//   }
-// }

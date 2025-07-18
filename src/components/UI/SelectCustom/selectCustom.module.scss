@@ -7,6 +7,9 @@
     border: 1px solid $color-main-grey;
     border-radius: $border-radius-small;
     transition: $transition;
+    margin-bottom: 20px;
+
+    position: relative;
     &_value {
         width: 100%;
         display: flex;
@@ -76,4 +79,11 @@
         pointer-events: all;
         opacity: 1;
     }
+    &__error {
+        @extend %Text14;
+        position: absolute;
+        top: 100%;
+        color: red;
+    }
+    
 }

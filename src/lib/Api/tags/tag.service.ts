@@ -1,4 +1,3 @@
-import { ITagEntity } from "@/lib/models/api/entities/tag.entity";
 import { TagsApi } from "./tag.endpoints";
 import { ITagsOfEstablishmentRequest } from "@/lib/models/api/request/tags/IPaginationTags.request";
 import { IPaginationRequest } from "@/lib/models/api/request/IPagination.request";
@@ -6,7 +5,7 @@ import {
     ITagsOfEstablishmentFilterResponse,
     ITagsOfEstablishmentResponse,
 } from "@/lib/models/api/response/tags/ITags.response";
-import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
+import { ITagBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 import TagsMapper from "./tag.mapper";
 import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
 import { ITagFront } from "@/lib/models";
@@ -22,7 +21,7 @@ export class TagsService {
     async getAllTagsOfEstablishmentFilter(
         body: ITagsOfEstablishmentRequest,
         checkedValue: string[] | null
-    ): Promise<ITagsBlockFront[] | null> {
+    ): Promise<ITagBlockFront[] | null> {
         const response = await this.tagsApi.getAllTagsOfEstablishmentFilter(
             body
         );
@@ -55,7 +54,7 @@ export class TagsService {
         );
         return classTagsOfEstablishments ? classTagsOfEstablishments : null;
     }
-    // separationClassTag(tags: ITagsBlockFront[]): ITagsBlockFront | null {
+    // separationClassTag(tags: ITagBlockFront[]): ITagBlockFront | null {
     //     const classTag = this.tagsMapper.separationClassTag(tags);
     //     return classTag;
     // }

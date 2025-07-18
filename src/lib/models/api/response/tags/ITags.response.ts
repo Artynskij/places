@@ -1,12 +1,12 @@
-import { ICategoryEntity } from "../../entities/category.entity";
-import { ITagEntity } from "../../entities/tag.entity";
+import { ICategoryOfEstablishmentPart } from "../../entities/parts/categoryOfEstablishmentPart.entity";
+import { ITagEntity, ITagWithCategoryEntity } from "../../entities/tag.entity";
 
 export interface ITagsResponse {}
 export interface ITagsOfEstablishmentResponse {
     Id: string;
     TagId: string;
     EstablishmentId: string;
-    Tag: ITagEntity;
+    Tag: ITagWithCategoryEntity;
     Establishment: {
         Id: string;
         RefId: string;
@@ -19,8 +19,8 @@ export interface ITagsOfEstablishmentResponse {
 [];
 export interface ITagsOfEstablishmentFilterResponse {
     tagsAndCategories: {
-        TagCategory: ICategoryEntity;
+        TagCategory: ICategoryOfEstablishmentPart;
         Tags: ITagEntity[];
     }[];
-    categories: ICategoryEntity[];
+    categories: ICategoryOfEstablishmentPart[];
 }

@@ -4,14 +4,14 @@ import { PopupMap } from "@/components/common/Popup/PopupMap/PopupMap";
 import {
     IEstablishmentFront,
     ILocationFront,
-    ITagsBlockFront,
+    ITagBlockFront,
 } from "@/lib/models";
 import { mapEstablishmentToSearchItem } from "@/lib/utils/mappers/mapEstablishmentToSearchItem";
 import { useState } from "react";
 
 interface IBlockMapEstScr {
     dataEstablishment: IEstablishmentFront;
-    classTag: ITagsBlockFront | null;
+    classTag: ITagBlockFront | null;
     locationCountryData: ILocationFront;
     children: React.ReactNode;
 }

@@ -5,18 +5,18 @@ import style from "./inputPhone.module.scss";
 import clsx from "clsx";
 import * as Yup from "yup";
 
-interface IInputPhoneNumber {
-    field: ControllerRenderProps<any, string>;
+interface IInputPhoneNumber<TFieldName extends string> {
+    field: ControllerRenderProps<any, TFieldName>;
     error: FieldError | null;
     className?: string;
     titleSpam: string;
 }
-export const InputPhoneNumber = ({
+export const InputPhoneNumber = <TFieldName extends string>({
     field,
     error,
     className,
     titleSpam,
-}: IInputPhoneNumber) => {
+}: IInputPhoneNumber<TFieldName>) => {
     return (
         <div className={style.blockPhoneNumber}>
             <label htmlFor={`input-phoneNumber`}>{titleSpam}</label>

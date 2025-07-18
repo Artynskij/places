@@ -4,18 +4,22 @@ import { CSSProperties, FC, ReactNode, useState } from "react";
 import style from "./inputForm.module.scss";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import clsx from "clsx";
+import { SpanErrorForm } from "../../Span/SpanErrorForm";
 interface IIinputFormProps {
     error?: string;
 
     titleSpan: string;
 
-    register: FieldValues;
+    register?: FieldValues;
     placeholder?: string;
     type?: "text" | "email" | "password";
     inputClassName?: string;
     inlineStyle?: CSSProperties;
     titleNeighbor?: ReactNode;
     id?: string;
+    value?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onClick?: () => void;
 }
 export const InputForm: FC<IIinputFormProps> = ({
     type,
@@ -27,12 +31,15 @@ export const InputForm: FC<IIinputFormProps> = ({
     error,
     register,
     id,
+    value,
+    onChange,
+    onClick,
 }) => {
     return (
-        <div className={style.ctn_input}>
+        <div onClick={onClick} className={style.ctn_input}>
             <div className={style.ctn_input_title}>
                 <label
-                    htmlFor={`input-${register.name}`}
+                    htmlFor={`input-${register?.name}`}
                     className={style.input_name}
                 >
                     {titleSpan}
@@ -42,15 +49,20 @@ export const InputForm: FC<IIinputFormProps> = ({
             </div>
             <div className={style.ctn_input_input}>
                 <input
-                    id={`input-${register.name}`}
+                    id={`input-${register?.name}`}
                     {...register}
+                    value={value}
                     style={inlineStyle}
                     type={type}
                     className={clsx(style.input, !!error && style.input_error)}
                     placeholder={placeholder}
+                    onChange={(e) => {
+                        register?.onChange?.(e); // уведомляем react-hook-form
+                        onChange?.(e); // вызываем свой кастомный onChange
+                    }}
                 />
             </div>
-            <span className={style.input_errorText}> {error}</span>
+            {error && <SpanErrorForm text={error || ""} />}
         </div>
     );
 };

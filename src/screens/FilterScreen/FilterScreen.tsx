@@ -26,10 +26,9 @@ import { mockFilterSort } from "@/asset/mockData/mockFilterSort";
 import { IPageProps } from "@/lib/models/IType";
 import { IEstablishmentFront } from "@/lib/models";
 import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
-import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
+import { ITagBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
-
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -37,7 +36,7 @@ interface IProps extends IPageProps {
         typeEstablishment: TTypesOfEstablishment;
     };
     establishmentList: IEstablishmentFront[];
-    blockTags: ITagsBlockFront[];
+    blockTags: ITagBlockFront[];
     locationData: ILocationFront | null;
     tagsClassEstablishment: ITagWithEstablishmentFront[] | null;
     breadcrumbData: ILocationFront[] | null;
@@ -113,12 +112,13 @@ export default function FilterScreen({
                 <div id={"filter"} className={style.container_filter}>
                     <Suspense fallback={<Loader />}>
                         <FiltersComponent
-                        establishmentList={establishmentList}
+                            establishmentList={establishmentList}
                             totalEstablishmentCount={totalEstablishmentCount}
                             dataTags={blockTags}
-
                             setIsLoading={setIsLoading}
-                            tagsClassEstablishment={tagsClassEstablishment || null}
+                            tagsClassEstablishment={
+                                tagsClassEstablishment || null
+                            }
                         />
                     </Suspense>
                 </div>

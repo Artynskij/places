@@ -17,6 +17,7 @@ import {
 import { TAgreementKey } from "@/lib/models/common/TAgreementKey";
 import { useNotification } from "@/lib/context";
 import {
+    validAddressSchema,
     validDocumentFileSchema,
     validFullNameSchema,
     validPhoneSchema,
@@ -41,18 +42,8 @@ const validationSchemaRegister = Yup.object().shape({
         .of(validDocumentFileSchema)
         .min(1, "Необходимо загрузить хотя бы один документ")
         .max(10, "Можно загрузить не более 10 документов"),
-    address: Yup.object().shape({
-        country: Yup.string().required("Страна обязательна"),
-        district: Yup.string().required("Область обязательна"),
-        town: Yup.string().required("Город обязателен"),
-        addressLine: Yup.string().required("Адрес обязателен"),
-        mailIndex: Yup.string(),
-    }),
+    address: validAddressSchema,
     agreements: getAgreementsValidation(agreementKeys),
-    // age: Yup.number()
-    //   .positive("Age must be positive")
-    //   .integer("Age must be an integer")
-    //   .required("Age is required"),
 });
 
 export const FormIndividual = () => {
@@ -66,24 +57,7 @@ export const FormIndividual = () => {
         formState: { errors },
     } = useForm({
         resolver: yupResolver(validationSchemaRegister),
-        defaultValues: {
-            fullName: {
-                name: "",
-                secondName: "",
-                surname: "",
-            },
-            email: "",
-            phone: "",
-            documents: [],
-            address: {
-                country: "",
-                district: "",
-                town: "",
-                addressLine: "",
-                mailIndex: "",
-            },
-            agreements: [],
-        },
+       
     });
     const onSubmit: SubmitHandler<TTypeForm> = (data) => {
         console.log("Form Data:", data);
@@ -135,7 +109,7 @@ export const FormIndividual = () => {
                 control={control}
                 name="phone"
                 render={({ field, fieldState }) => (
-                    <InputPhoneNumber
+                    <InputPhoneNumber<"phone">
                         field={field}
                         error={fieldState.error || null}
                         titleSpam="Номер телефона*"
@@ -149,7 +123,6 @@ export const FormIndividual = () => {
                 defaultValue={[]}
                 render={({ field, fieldState }) => (
                     <UploadButton
-                        
                         titleSpan="Прикрепление подтверждающих документов*"
                         accept="doc"
                         maxSizeMB={10}
@@ -190,8 +163,8 @@ export const FormIndividual = () => {
                     type="text"
                 />
                 <InputForm
-                    error={errors.address?.mailIndex?.message}
-                    register={register("address.mailIndex")}
+                    error={errors.address?.postalCode?.message}
+                    register={register("address.postalCode")}
                     titleSpan="Почтовый индекс"
                     type="text"
                 />

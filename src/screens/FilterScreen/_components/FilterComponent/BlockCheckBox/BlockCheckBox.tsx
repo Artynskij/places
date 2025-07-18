@@ -6,16 +6,16 @@ import { FC, useMemo, useState } from "react";
 import { CheckBox } from "@/components/UI/CheckBox/CheckBox";
 import { Button } from "@/components/UI/Button/Button";
 import { IconArrowDown } from "@/components/common/Icons/IconArrowDown/IconArrowDown";
-import { ITagFront, ITagsBlockFront } from "@/lib/models";
+import { ITagFront, ITagBlockFront } from "@/lib/models";
 
 interface IBlockCheckBox {
-    tagsGroup: ITagsBlockFront;
+    tagsGroup: ITagBlockFront;
     checkedValues: string[];
 }
 const BlockCheckBox: FC<IBlockCheckBox> = ({ tagsGroup, checkedValues }) => {
     const [blockActive, setBlockActive] = useState(true);
     const [listBlockActive, setListBlockActive] = useState(false);
-    const sortedTags: ITagFront[] = tagsGroup.tags
+    const sortedTags: ITagFront[] = tagsGroup.tags;
 
     function switchBlock() {
         setBlockActive(!blockActive);

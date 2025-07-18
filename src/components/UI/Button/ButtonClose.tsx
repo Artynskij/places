@@ -8,7 +8,7 @@ interface IButton {
 }
 export const ButtonClose: FC<IButton> = ({ className, onClick }) => {
   return (
-    <button onClick={onClick} className={className + ` ${style.button_close}`}>
+    <button type="button" onClick={onClick} className={className + ` ${style.button_close}`}>
       <IconCancel className={style.button_close_icon} />
     </button>
   );

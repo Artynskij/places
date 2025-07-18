@@ -6,11 +6,11 @@ import style from "./paramComponent.module.scss";
 import { IconCancel } from "@/components/common/Icons/IconCancel/IconCancel";
 
 import { Button } from "@/components/UI/Button/Button";
-import { ITagFront, ITagsBlockFront } from "@/lib/models";
+import { ITagFront, ITagBlockFront } from "@/lib/models";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 
 interface IParamComponentProp {
-    dataTags?: ITagsBlockFront[];
+    dataTags?: ITagBlockFront[];
     setIsLoading: (state: boolean) => void;
 }
 
@@ -47,7 +47,7 @@ const ParamComponent = ({ dataTags, setIsLoading }: IParamComponentProp) => {
     function removeParam(clickItem: ITagFront) {
         setIsLoading(true);
         const params = new URLSearchParams(searchParams.toString());
-        
+
         const filterValue = dataParams?.filter(
             (item) => item.key !== clickItem.key
         );
@@ -61,7 +61,6 @@ const ParamComponent = ({ dataTags, setIsLoading }: IParamComponentProp) => {
             params.delete(CONSTANT_SEARCH_PARAMS.PAGE);
         }
         router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-        
     }
     function handlerResetAllParam() {
         setIsLoading(true);

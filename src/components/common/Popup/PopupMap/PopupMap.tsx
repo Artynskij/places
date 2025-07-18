@@ -10,18 +10,25 @@ import { IconLocation } from "../../Icons/IconLocation/IconLocation";
 import Image from "next/image";
 import { MapboxMap } from "../../Map/Mapbox/Mapbox";
 
-import { IconCancel } from "../../Icons";
+import { IconCancel, IconDone } from "../../Icons";
 
 import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
+import { TModeMap } from "@/lib/models/common/TModeMap";
 interface IPopupMap {
-    establishmentList: IMapItemFront[];
+    establishmentList?: IMapItemFront[];
     mapActive: boolean;
     setMapActive: (value: boolean) => void;
+    mode?: TModeMap[];
+    setPosition?: (value: { lat: number; lon: number,addressLine:string }) => void;
+    position?: { lat: number; lon: number,addressLine:string };
 }
 export const PopupMap = ({
     establishmentList,
     mapActive,
     setMapActive,
+    mode,
+    setPosition,
+    position
 }: IPopupMap) => {
     return (
         <>
@@ -40,9 +47,28 @@ export const PopupMap = ({
                         text="Закрыть"
                         icon={<IconCancel className={style.buttonClose_icon} />}
                     />
-
+                    {position && (
+                        <Button
+                            className={style.buttonAcceptPosition}
+                            onClick={() => {
+                                setMapActive(false);
+                            }}
+                            type="blue"
+                            text="Потвердить позицию"
+                            icon={
+                                <IconDone
+                                    className={style.buttonClose_icon}
+                                />
+                            }
+                        />
+                    )}
                     {mapActive && (
-                        <MapboxMap establishmentList={establishmentList} />
+                        <MapboxMap
+                            setPosition={setPosition}
+                            position={position}
+                            mode={mode}
+                            establishmentList={establishmentList}
+                        />
                     )}
                 </div>
                 <Overlay active={mapActive} setActive={setMapActive} />

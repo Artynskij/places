@@ -1,6 +1,6 @@
 import { TTypesOfEstablishment } from "../../common/TTypesEstablishment";
 import { ICategoryFront } from "../category/category.front";
-import { ICategoryPartFront } from "../parts/category/category.frontPart";
+
 import { IContactsPartFront } from "../parts/contacts/contacts.frontPart";
 import { IMediaFront } from "../parts/media/media.frontPart";
 

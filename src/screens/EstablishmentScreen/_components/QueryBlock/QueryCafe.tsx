@@ -8,12 +8,12 @@ import { Button } from "@/components/UI/Button/Button";
 import { IconMessage } from "@/components/common/Icons/IconMessage/IconMessage";
 import { Switcher } from "@/components/common/Switcher/Switcher";
 import { useTranslations } from "use-intl";
-import { ITagsBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
+import { ITagBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { Popup } from "@/components/common/Popup/Popup";
 interface IQueryCafe {
-    data: ITagsBlockFront[];
+    data: ITagBlockFront[];
 }
 
 const QueryCafe: FC<IQueryCafe> = ({ data }) => {
@@ -34,7 +34,7 @@ const QueryCafe: FC<IQueryCafe> = ({ data }) => {
             className={style.queryListCafe}
         >
             {data.map((tagBlock, index) => {
-                if(index > 1) return null
+                if (index > 1) return null;
                 return (
                     <li key={index} className={style.queryListCafe_item}>
                         <div className={style.queryListCafe_item_title}>
@@ -63,7 +63,7 @@ const QueryCafe: FC<IQueryCafe> = ({ data }) => {
             />
 
             <ModalCustom
-                setActive={setModalQuery}
+                closeModal={() => setModalQuery(false)}
                 active={modalQuery}
                 title="Характеристики"
                 view="small"

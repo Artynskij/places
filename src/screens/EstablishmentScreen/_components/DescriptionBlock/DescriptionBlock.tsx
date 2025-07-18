@@ -24,7 +24,7 @@ const DescriptionBlock: FC<IDescriptionBlock> = ({ description }) => {
                 />
             </div>
             <ModalCustom
-                setActive={setModalDetails}
+                closeModal={() => setModalDetails(false)}
                 active={modalDetails}
                 title="Описание"
             >

@@ -39,4 +39,14 @@ export const CONSTANT_AGREEMENTS_DATA = [
         value: "AgreedAutoPublish",
         required: true,
     },
+    {
+        title: "Я подтверждаю, что это законный объект размещения со всеми необходимыми лицензиями и документами, которые я могу предоставить по первому требованию Placesgold",
+        value: "ConfirmedLegalAccommodation",
+        required: true,
+    },
+    {
+        title: "Подтверждаю, что вся ответственность за предоставленную информацию об объекте лежит на мне, как на владельце бизнеса и данная информация не является рекламой",
+        value: "ConfirmedInformationResponsibility",
+        required: true,
+    },
 ] as const;

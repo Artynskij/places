@@ -11,7 +11,8 @@ import { FieldError, useFormContext } from "react-hook-form";
 const { Dragger } = Upload;
 
 interface Props {
-    accept?: "image" | "doc" | "all"; // MIME типы: "image/*", ".pdf,.docx", и т.п.
+    titleSpan: string;
+    accept?: "image" | "doc" | "video" | "all"; // MIME типы: "image/*", ".pdf,.docx", и т.п.
     maxSizeMB?: number; // Ограничение размера (в МБ)
     maxCount?: number; // Кол-во файлов
     multiple?: boolean;
@@ -22,12 +23,11 @@ interface Props {
     value?: (File | undefined)[];
     onChange?: (files: File[]) => void;
     error: FieldError | null;
-    titleSpan: string;
 }
 
 export const UploadButton: React.FC<Props> = ({
     accept = "all",
-    maxSizeMB = 10,
+    maxSizeMB,
     maxCount = 5,
     multiple = true,
     onSuccess,
@@ -44,7 +44,14 @@ export const UploadButton: React.FC<Props> = ({
     const ACCEPT_MIME_MAP: Record<NonNullable<Props["accept"]>, string> = {
         image: ".jpg,.jpeg,.png,.webp,.gif,.svg",
         doc: ".pdf,.doc,.docx,.txt,.rtf",
+        video: ".mp4,.webm,.ogg,.mov,.avi,.mkv",
         all: "*/*",
+    };
+    const maxSize: Record<NonNullable<Props["accept"]>, number> = {
+        image: 5,
+        doc: 10,
+        video: 10000,
+        all: 100,
     };
     const resolvedAccept = accept ? ACCEPT_MIME_MAP[accept] : undefined;
 
@@ -79,7 +86,9 @@ export const UploadButton: React.FC<Props> = ({
         disabled,
         beforeUpload(file: RcFile) {
             const isAllowed = checkFileType(file, resolvedAccept);
-            const isLtMax = file.size / 1024 / 1024 < maxSizeMB;
+            const resolvedMaxSize = maxSizeMB ?? maxSize[accept];
+            const isLtMax =
+                file.size / 1024 / 1024 < resolvedMaxSize;
 
             if (!isAllowed) {
                 message.error(`Тип файла ${file.type} не поддерживается`);

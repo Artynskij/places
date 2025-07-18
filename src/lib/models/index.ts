@@ -2,9 +2,9 @@ export * from "./api/entities/parts/contact.entity";
 export * from "./api/entities/parts/content.entity";
 export * from "./api/entities/parts/image.entity";
 export * from "./api/entities/parts/rate.entity";
-export * from './api/entities/parts/tagCategory.entity'
+export * from "./api/entities/parts/tagCategory.entity";
 export * from "./api/entities/article.entity";
-export * from "./api/entities/category.entity";
+export * from "./api/entities/categoryOfEstablishment.entity";
 export * from "./api/entities/establishment.entity";
 export * from "./api/entities/locations.entity";
 export * from "./api/entities/schedule.entity";

@@ -2,9 +2,9 @@ import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag"
 import {
     // ITagClassFront,
     // ITagWithEstablishmentFront,
-    ITagEntity,
+
     ITagFront,
-    ITagsBlockFront,
+    ITagBlockFront,
 } from "@/lib/models";
 import { ILocationsEntity } from "@/lib/models/api/entities/locations.entity";
 import {
@@ -19,8 +19,8 @@ export default class TagsMapper {
     tagBlock(
         tags: ITagsOfEstablishmentFilterResponse | null,
         checkedValues: string[] | null
-    ): ITagsBlockFront[] | null {
-        const mappingTags: ITagsBlockFront[] | null = tags
+    ): ITagBlockFront[] | null {
+        const mappingTags: ITagBlockFront[] | null = tags
             ? tags.tagsAndCategories
                   .map((groupTag) => {
                       return {
@@ -84,7 +84,7 @@ export default class TagsMapper {
                   )
             : null;
 
-        const mappingCategories: ITagsBlockFront | null = tags
+        const mappingCategories: ITagBlockFront | null = tags
             ? {
                   groupKey: {
                       id: "123",
@@ -215,7 +215,7 @@ export default class TagsMapper {
     //         });
     //     return mappingDataWithCount;
     // }
-    // separationClassTag(tags: ITagsBlockFront[]): ITagsBlockFront | null {
+    // separationClassTag(tags: ITagBlockFront[]): ITagBlockFront | null {
     //     const _indexClassTag =
     //         tags.indexOf(
     //             tags.filter((item) => item.groupKey.key === "starRating")[0]

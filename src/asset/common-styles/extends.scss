@@ -73,7 +73,12 @@
     font-weight: 400;
     line-height: 16.8px;
 }
-
+%BoxDeep {
+    padding: 10px;
+    box-shadow: inset 4px 4px 6px $color-main-grey;
+    background: #e0e0e0;
+    border-radius: 12px;
+}
 %InputStandard {
     width: 100%;
     background-color: $color-main-white;
@@ -89,7 +94,22 @@
         border-color: $color-main-gold;
     }
 }
+%TextareaStandard {
+    width: 100%;
+    min-height: 180px;
+    background-color: $color-main-white;
+    color: $color-main-black;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid $color-main-grey;
+    transition: $transition;
+    &:focus,
+    &:focus-visible,
+    &:active,
+    &:hover {
+        border-color: $color-main-gold;
+    }
+}
 %InputStandardForm {
     @extend %InputStandard;
-    
 }

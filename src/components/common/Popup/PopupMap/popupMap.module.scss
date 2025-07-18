@@ -23,6 +23,13 @@
     right: 30px;
     z-index: 1;
 }
+.buttonAcceptPosition {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50% 0);
+    z-index: 1;
+}
 @include mediaTablet {
     .button {
         &_ctn {

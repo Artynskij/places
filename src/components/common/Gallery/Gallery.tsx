@@ -34,12 +34,12 @@ export const Gallery: FC<IGallery> = ({
     }, []);
     function handlerOpenAlbum(index: number) {
         setActivePhotoIndex(index);
-        setTypeView('list')
+        setTypeView("list");
         setAlbumActive(true);
     }
-    function handlerOpenSlider(index: number){
+    function handlerOpenSlider(index: number) {
         setActivePhotoIndex(index);
-        setTypeView('slider')
+        setTypeView("slider");
         setAlbumActive(true);
     }
     if (!loadClient) {
@@ -138,7 +138,7 @@ export const Gallery: FC<IGallery> = ({
                     title={titleEstablishment}
                     view="over"
                     active={albumActive}
-                    setActive={setAlbumActive}
+                    closeModal={() => setAlbumActive(false)}
                 >
                     <AlbumPhoto
                         activePhotoIndex={activePhotoIndex}

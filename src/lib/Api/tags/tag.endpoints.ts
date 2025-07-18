@@ -1,6 +1,6 @@
 import { IPaginationRequest } from "./../../models/api/request/IPagination.request";
 
-import { ITagEntity } from "@/lib/models/api/entities/tag.entity";
+
 import apiClient from "../ApiClient";
 
 import { ITagsOfEstablishmentRequest } from "@/lib/models/api/request/tags/IPaginationTags.request";

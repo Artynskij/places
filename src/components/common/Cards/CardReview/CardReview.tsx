@@ -11,6 +11,7 @@ import { useState } from "react";
 import { BlockLikeDislike } from "../../BlockFunctional/BlockLikeDislike";
 import { IEstablishmentFront } from "@/lib/models";
 import { useTranslations } from "next-intl";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 
 interface ICardReview {
     review: (typeof mockReviews)[0];
@@ -20,12 +21,12 @@ interface ICardReview {
 export const CardReview = ({
     review,
     establishmentReview,
-    // tRate,
-}: ICardReview) => {
+}: // tRate,
+ICardReview) => {
     const [reactionLike, setReactionLike] = useState<"like" | "dislike" | null>(
         null
     );
-    const tRate = useTranslations("Rates")
+    const tRate = useTranslations("Rates");
     const handleLike = () => {
         reactionLike === "like"
             ? setReactionLike(null)
@@ -37,6 +38,7 @@ export const CardReview = ({
             ? setReactionLike(null)
             : setReactionLike("dislike");
     };
+    const gallery = establishmentReview?.media.gallery || null;
     return (
         <div className={style.cardReview}>
             <div className={style.user}>
@@ -124,10 +126,14 @@ export const CardReview = ({
                 <div className={style.establishment}>
                     <div className={style.establishment_image}>
                         <Image
-                            alt={establishmentReview.media.gallery[0].title}
-                            src={`${establishmentReview.media.cdnHost}/${establishmentReview.media.gallery[0].blobPath}`}
-                            width={establishmentReview.media.gallery[0].width}
-                            height={establishmentReview.media.gallery[0].height}
+                            alt={gallery ? gallery[0].title : "image"}
+                            src={
+                                gallery
+                                    ? `${establishmentReview.media.cdnHost}/${gallery[0].blobPath}`
+                                    : CONSTANT_DEFAULT_IMAGE_URL
+                            }
+                            width={gallery ? gallery[0].width : 300}
+                            height={gallery ? gallery[0].height : 200}
                         />
                     </div>
                     <div className={style.establishment_right}>

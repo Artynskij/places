@@ -17,6 +17,7 @@ import { TAgreementKey } from "@/lib/models/common/TAgreementKey";
 import { useNotification } from "@/lib/context";
 import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
 import {
+    validAddressSchema,
     validDateSchema,
     validDocumentFileSchema,
     validFullNameSchema,
@@ -49,13 +50,7 @@ const validationSchemaRegister = Yup.object().shape({
         .of(validDocumentFileSchema)
         // .min(1, "Необходимо загрузить хотя бы один документ")
         .max(10, "Можно загрузить не более 10 документов"),
-    addressOrganization: Yup.object().shape({
-        country: Yup.string().required("Страна обязательна"),
-        district: Yup.string().required("Область обязательна"),
-        town: Yup.string().required("Город обязателен"),
-        addressLine: Yup.string().required("Адрес обязателен"),
-        mailIndex: Yup.string(),
-    }),
+    addressOrganization: validAddressSchema,
     personData: Yup.object().shape({
         jobTitle: Yup.string().required("Должность обязательна"),
         fullName: validFullNameSchema,
@@ -163,7 +158,7 @@ export const FormLegalEntity = () => {
                 control={control}
                 name="phoneOrganization"
                 render={({ field, fieldState }) => (
-                    <InputPhoneNumber
+                    <InputPhoneNumber<"phoneOrganization">
                         field={field}
                         error={fieldState.error || null}
                         titleSpam="Номер телефона организации"
@@ -201,8 +196,8 @@ export const FormLegalEntity = () => {
                     type="text"
                 />
                 <InputForm
-                    error={errors.addressOrganization?.mailIndex?.message}
-                    register={register("addressOrganization.mailIndex")}
+                    error={errors.addressOrganization?.postalCode?.message}
+                    register={register("addressOrganization.postalCode")}
                     titleSpan="Почтовый индекс"
                     type="text"
                 />

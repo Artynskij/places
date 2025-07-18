@@ -1,0 +1,38 @@
+.tagBlockForm {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-medium;
+    position: relative;
+    margin-bottom: 20px;
+}
+.selectGroup {
+    margin-bottom: 16px;
+    &_title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+    }
+    &_title span {
+        @extend %Text18;
+        font-weight: 500;
+    }
+}
+.iconCancel {
+    cursor: pointer;
+    transition: $transition;
+    &:hover {
+        color: red;
+    }
+}
+.selectedList {
+    // margin-bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: $gap-small;
+}
+.error_text {
+    position: absolute;
+    top: 100%;
+    color: red;
+}
