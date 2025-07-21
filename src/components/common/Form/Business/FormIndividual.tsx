@@ -24,6 +24,12 @@ import {
 } from "@/lib/validationSchemas";
 import { BusinessService } from "@/lib/Api/business/business.service";
 
+import { useUser } from "@/lib/context/UserContext/UserContext";
+import { useEffect, useState } from "react";
+import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
+import { PersonService } from "@/lib/Api/(Person)/person/person.service";
+import { mockPersonId } from "@/asset/mockData/mockServerData";
+
 type TTypeForm = Yup.InferType<typeof validationSchemaRegister>;
 const agreementKeys: TAgreementKey[] = [
     "ConfirmedLegalPerson",
@@ -48,9 +54,14 @@ const validationSchemaRegister = Yup.object().shape({
 });
 
 export const FormIndividual = () => {
-    const businessService = new BusinessService();
-
     const notification = useNotification();
+    const { user, setUser } = useUser();
+
+    const businessService = new BusinessService();
+    const personService = new PersonService();
+
+    const [personData, setPersonData] = useState<IPersonFront>();
+
     const {
         register,
         handleSubmit,
@@ -61,15 +72,33 @@ export const FormIndividual = () => {
     } = useForm({
         resolver: yupResolver(validationSchemaRegister),
     });
-    const onSubmit: SubmitHandler<TTypeForm> = async (formData) => {
-        console.log("Form Data:", formData);
-        const createdBusiness = await businessService.createBusiness({
-            OfficialName: `${formData.fullName.surname} ${
-                formData.fullName.name
-            } ${formData.fullName.surname || ""}`,
-            RegistrationDate: null,
-            RegistrationNumber: null,
+
+    useEffect(() => {
+        personService.getPersonById(mockPersonId).then(async (person) => {
+            if (person) {
+                setPersonData(person);
+            }
         });
+    }, []);
+
+    const onSubmit: SubmitHandler<TTypeForm> = async (formData) => {
+        if (!user) {
+            notification.error({ message: "нету пользователя" });
+            return;
+        }
+        console.log("Form Data:", formData);
+        const officialName = `${formData.fullName.surname} ${
+            formData.fullName.name
+        } ${formData.fullName.surname || ""}`;
+        const createdBusiness = await businessService.createBusiness(
+            {
+                OfficialName: officialName,
+                RegistrationDate: null,
+                RegistrationNumber: null,
+            },
+            user.id
+        );
+
         notification.success({ message: "Бизнес отправлен на модерацию" });
     };
     const onSubmitInvalid = () => {
@@ -78,15 +107,13 @@ export const FormIndividual = () => {
         });
     };
 
-    // const agreementValues = ;
-
     return (
         <form
             className={style.form}
             onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
         >
             <div className={style.selectionBlock}>
-                <div className={style.selectionBlock_title}>Контакты</div>
+                <div className={style.selectionBlock_title}>ФИО</div>
                 <div className={style.selectionBlock_content}>
                     <InputForm
                         error={errors.fullName?.name?.message}

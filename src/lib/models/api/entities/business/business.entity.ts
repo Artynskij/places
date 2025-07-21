@@ -1,3 +1,5 @@
+import { IContactsEntity } from "../parts/contacts.entity";
+
 export interface IBusinessEntity {
     Id: string;
     OfficialName: string | null;
@@ -5,6 +7,7 @@ export interface IBusinessEntity {
     RegistrationDate: string | null;
     ContentId: string | null;
     LastModifiedDate: string;
+    Contacts:IContactsEntity;
     CreatedDate: string;
     DeletedDate: string | null;
 }

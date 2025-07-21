@@ -1,14 +1,21 @@
+import { DictionariesService } from "@/lib/Api/dictionaries/dictionaries.service";
+import { BusinessAssignmentApi } from "@/lib/Api/business/businessAssignment.endpoints";
 import { IBusinessFront } from "@/lib/models/frontend/business/business.front";
 import BusinessApi from "./business.endpoints";
-import { IBusinessRequest } from "@/lib/models/api/request/business/business.request";
+import {
+    IBusinessAssignmentRequest,
+    IBusinessRequest,
+} from "@/lib/models/api/request/business/business.request";
 
 export class BusinessService {
     private BusinessApi: BusinessApi;
-    // private ContactsPersonService: ContactsPersonService;
+    private BusinessAssignmentApi: BusinessAssignmentApi;
+    private DictionariesService: DictionariesService;
 
     constructor() {
         this.BusinessApi = new BusinessApi();
-        // this.ContactsPersonService = new ContactsPersonService();
+        this.BusinessAssignmentApi = new BusinessAssignmentApi();
+        this.DictionariesService = new DictionariesService();
     }
 
     async getBusinessById(
@@ -20,9 +27,24 @@ export class BusinessService {
     }
 
     async createBusiness(
-        body: IBusinessRequest
+        body: IBusinessRequest,
+        personId: string
     ): Promise<IBusinessFront | null> {
-        const response = this.BusinessApi.createBusiness(body);
+        const response = this.BusinessApi.createBusiness(body).then(
+            async (res) => {
+                const roles = await this.DictionariesService.getRolesOwner();
+                const ownerRole = roles?.find((role) => (role.Code = "OWNER"));
+                if (!res || !ownerRole) return null;
+
+                await this.BusinessAssignmentApi.createPersonAssignment({
+                    BusinessId: res.Id,
+                    BusinessPositionId: ownerRole.Id,
+                    IsOwnerVerified: true,
+                    PersonId: personId,
+                });
+                return res;
+            }
+        );
         return response;
     }
     async updateBusiness(
@@ -32,4 +54,6 @@ export class BusinessService {
         const response = this.BusinessApi.updateBusiness(id, body);
         return response;
     }
+
+    async createAssignment(body: IBusinessAssignmentRequest) {}
 }

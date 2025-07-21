@@ -38,6 +38,7 @@ import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks
 import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
 import Image from "next/image";
 import { DictionariesService } from "@/lib/Api/dictionaries/dictionaries.service";
+import { TextareaForm } from "@/components/UI/Textarea/TextareaForm/TextareaForm";
 
 type TTypeForm = Yup.InferType<typeof validationSchema>;
 
@@ -50,6 +51,7 @@ const validationSchema = Yup.object().shape({
     avatar: Yup.array()
         .of(validImageFileSchema)
         .max(1, "Можно загрузить не более 1 фоток"),
+    description: Yup.string().required("Описание обязательно"),
 });
 const TabPersonal = () => {
     const notification = useNotification();
@@ -61,7 +63,6 @@ const TabPersonal = () => {
     const dictionariesService = new DictionariesService();
     const fileUploadService = new FileUploadService();
 
-    const [cdnHost, setCdnHost] = useState<string>();
     const [personData, setPersonData] = useState<IPersonFront>();
     const {
         register,
@@ -74,9 +75,6 @@ const TabPersonal = () => {
     });
 
     useEffect(() => {
-        dictionariesService.getBlobProxy().then((res) => {
-            if (res) setCdnHost(res.url);
-        });
         personService.getPersonById(mockPersonId).then(async (person) => {
             if (person) {
                 setPersonData(person);
@@ -106,6 +104,7 @@ const TabPersonal = () => {
                     phone: person.contacts?.phone || undefined,
                     socialNetworks:
                         socialNetworks as TTypeForm["socialNetworks"],
+                    description: person.aboutDescription || undefined,
                 });
             }
         });
@@ -163,15 +162,14 @@ const TabPersonal = () => {
 
         if (dataForm.avatar) {
             const filesAvatar = dataForm.avatar;
-            for (let index = 0; index < filesAvatar.length; index++) {
-                const file = filesAvatar[index];
-                if (!file) continue;
+
+            const file = filesAvatar[0];
+            if (file) {
                 const imageUrl = await fileUploadService.uploadPublicFile({
                     file: file,
                     type: "image",
                     vendorId: personData.id,
                 });
-
                 await personService.updatePerson({
                     id: personData.id,
                     body: {
@@ -179,6 +177,12 @@ const TabPersonal = () => {
                     },
                 });
             }
+            await personService.updatePerson({
+                id: personData.id,
+                body: {
+                    About: dataForm.description,
+                },
+            });
 
             personService;
         }
@@ -268,12 +272,12 @@ const TabPersonal = () => {
                             />
                         )}
                     />
-                    {cdnHost && personData && (
+                    {personData && (
                         <Image
                             width={300}
                             height={200}
                             alt="avatar"
-                            src={`${cdnHost}${personData.avatarImg}`}
+                            src={`${personData.avatarImg}`}
                         />
                     )}
                 </div>
@@ -366,6 +370,18 @@ const TabPersonal = () => {
                         placeholder="Почтовый индекс"
                         titleSpan="Почтовый индекс"
                         type="text"
+                    />
+                </div>
+            </div>
+
+            <div className={style.selectionBlock}>
+                {/* <div className={style.selectionBlock_title}>О Себе</div> */}
+                <div className={style.selectionBlock_content}>
+                    <TextareaForm
+                        error={errors.description?.message}
+                        register={register("description")}
+                        placeholder="О себе*"
+                        titleSpan="О себе"
                     />
                 </div>
             </div>

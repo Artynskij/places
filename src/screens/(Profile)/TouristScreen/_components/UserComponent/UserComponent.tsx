@@ -18,13 +18,15 @@ import { useUser } from "@/lib/context/UserContext/UserContext";
 import { useEffect } from "react";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 import { useNotification } from "@/lib/context";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
+import { Loader } from "@/components/common/Loader/Loader";
 interface IUserComponent {
     // dataUser: (typeof mockTourist)[0];
 }
 export const UserComponent = async ({}: IUserComponent) => {
     const t = useTranslations("ProfilePage.header");
+    const locale = useLocale();
     const notification = useNotification();
     const personService = new PersonService();
 
@@ -33,17 +35,21 @@ export const UserComponent = async ({}: IUserComponent) => {
         personService
             .getPersonById("01JZMZWTCTHYV5APEJKD6F74DF")
             .then((res) => {
-                setUser(res || null);   
+                setUser(res || null);
+                if (!res) {
+                    notification.error({ message: "нету пользователя" });
+                }
+                // console.log(Date(res?.dateRegister));
             });
     }, []);
     const baseUrl = useBaseUrl();
-    if (!user) null;
+    if (!user) return <Loader />;
     return (
         <>
             <div className={style.container}>
                 <div className={style.avatar_block}>
                     <Image
-                        src={user?.avatarImg || CONSTANT_DEFAULT_AVATAR_URL}
+                        src={user.avatarImg || CONSTANT_DEFAULT_AVATAR_URL}
                         alt="avatar"
                         width={500}
                         height={500}
@@ -53,16 +59,12 @@ export const UserComponent = async ({}: IUserComponent) => {
                     <div>
                         <div className={style.info_name}>
                             <span>
-                                {user?.personName?.name || "(заполните имя)"}
+                                {user?.personName
+                                    ? `${user?.personName.surname} ${user?.personName.name} ${user?.personName.secondName}`
+                                    : "(заполните имя)"}
                             </span>
                             {/* <SubscribeButton /> */}
                             {/* <div className={style.info_settings}> */}
-                            <Link href={ROUTES.PROFILE.SETTINGS("tourist")}>
-                                <Button
-                                    icon={<IconSettings />}
-                                    text="Настройки профиль"
-                                />
-                            </Link>
 
                             {/* </div> */}
                         </div>
@@ -74,18 +76,19 @@ export const UserComponent = async ({}: IUserComponent) => {
                         </div>
                         <div className={style.info_hometown}>
                             Я из:
-                            <Link href={"#"}>
-                                {` ${user?.address?.town}(${user?.address?.country})`}
-                            </Link>
+                            {` ${user?.address?.town}(${user?.address?.country})`}
                         </div>
                         <div className={style.info_register_block}>
-                            День регистрации: !заполнить!
+                            День регистрации:{" "}
+                            {new Date(user.dateRegister).toLocaleDateString(
+                                `${locale}-${locale.toLocaleUpperCase()}`
+                            )}
                         </div>
                         <div className={style.info_travel_block}>
                             Посетил: !заполнить! стран, !заполнить! городов
                         </div>
                         <div className={style.info_description}>
-                            О себе: {user?.aboutDescription}
+                            О себе: {user.aboutDescription}
                         </div>
                     </div>
 
@@ -107,6 +110,12 @@ export const UserComponent = async ({}: IUserComponent) => {
                     </div> */}
                 </div>
                 <div className={style.manageProfile}>
+                    <Link href={ROUTES.PROFILE.SETTINGS("tourist")}>
+                        <Button
+                            icon={<IconSettings />}
+                            text="Настройки профиль"
+                        />
+                    </Link>
                     {/* <Button icon={<IconEdit/>} text="редактировать профиль"/>
           <Button icon={<IconSettings/>} text="настройки профиля"/> */}
                 </div>

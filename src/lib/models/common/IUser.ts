@@ -1,5 +1,8 @@
+import { IAddressFront } from "@/lib/models/frontend/(person)/address.front";
+import { IPersonNameFront } from "../frontend/(person)/personName.front";
 import { IPersonSettingsFront } from "../frontend/(person)/personSettings.front";
 import { ISocialContactsFront } from "../frontend/(person)/socialContacts.front";
+import { IContactsPartFront } from "../frontend/parts/contacts/contacts.frontPart";
 
 export interface IUser {
     id: string;
@@ -9,27 +12,10 @@ export interface IUser {
     birthDate: string | null;
     avatarImg: string | null;
     aboutDescription: string | null;
-    personName: {
-        id: string;
-        name: string | null;
-        secondName: string | null;
-        surname: string | null;
-        originalName: string | null;
-        originalLastName: string | null;
-    } | null;
-    contacts: {
-        id: string;
-        email: string | null;
-        phone: string | null;
-    } | null;
-    address: {
-        id: string;
-        postalCode: string | null;
-        country: string | null;
-        district: string | null;
-        town: string | null;
-        street: string | null;
-    } | null;
+    dateRegister: string;
+    personName: IPersonNameFront | null;
+    contacts: IContactsPartFront | null;
+    address: IAddressFront | null;
 
     socialNetworks: ISocialContactsFront | null;
     personSettings: IPersonSettingsFront | null;

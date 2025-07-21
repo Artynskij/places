@@ -112,6 +112,7 @@ export class PersonMapper {
             nickname: personDataServer.person.Nickname,
             isVerified: personDataServer.person.IsVerified,
             aboutDescription: personDataServer.person.About,
+            dateRegister:personDataServer.person.CreatedDate,
             avatarImg: avatarImage,
             birthDate: personDataServer.person.BirthDate,
             timeZone: personDataServer.person.TZ,

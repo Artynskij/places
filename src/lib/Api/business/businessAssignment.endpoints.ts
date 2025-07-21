@@ -1,8 +1,8 @@
 import { IBusinessPersonAssignEntity } from "@/lib/models/api/entities/business/businessPersonAssign.entity";
 import apiClient from "../ApiClient";
-import { ISocialContactsRequest } from "@/lib/models/api/request/(Person)/socialContacts.request";
+import { IBusinessAssignmentRequest } from "@/lib/models/api/request/business/business.request";
 
-export default class BusinessAssignmentApi {
+export class BusinessAssignmentApi {
     constructor() {}
     async getPersonAssignmentById(
         id: string,
@@ -24,7 +24,7 @@ export default class BusinessAssignmentApi {
     }
 
     async createPersonAssignment(
-        body: ISocialContactsRequest
+        body: IBusinessAssignmentRequest
     ): Promise<IBusinessPersonAssignEntity | null> {
         try {
             const response = await apiClient.post(
@@ -41,7 +41,7 @@ export default class BusinessAssignmentApi {
     }
     async updatePersonAssignment(
         id: string,
-        body: ISocialContactsRequest
+        body: IBusinessAssignmentRequest
     ): Promise<IBusinessPersonAssignEntity | null> {
         try {
             const response = await apiClient.patch(

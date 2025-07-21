@@ -13,6 +13,7 @@ export interface IPersonFront {
     avatarImg: string | null;
     aboutDescription: string | null;
     personName: IPersonNameFront | null;
+    dateRegister:string;
     contacts: {
         id: string;
         email: string | null;
