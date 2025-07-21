@@ -1,4 +1,4 @@
-import { ISocialNetworksEntity } from "@/lib/models/api/entities/(person)/socialContacts.entity";
+import { ISocialContactsEntity } from "@/lib/models/api/entities/(person)/socialContacts.entity";
 import apiClient from "../../ApiClient";
 import { ISocialContactsRequest } from "@/lib/models/api/request/(Person)/socialContacts.request";
 
@@ -7,7 +7,7 @@ export default class SocialNetworksPersonApi {
     async getSocialNetworksPersonById(
         id: string,
         lang?: string
-    ): Promise<ISocialNetworksEntity | null> {
+    ): Promise<ISocialContactsEntity | null> {
         try {
             const response = await apiClient.get(
                 `/social-contacts/${id}${lang ? `?lang=${lang}` : ""}`
@@ -23,7 +23,7 @@ export default class SocialNetworksPersonApi {
 
     async createSocialNetworksPerson(
         body: ISocialContactsRequest
-    ): Promise<ISocialNetworksEntity | null> {
+    ): Promise<ISocialContactsEntity | null> {
         try {
             const response = await apiClient.post(`/social-contacts`, body);
             return response.data;
@@ -35,7 +35,7 @@ export default class SocialNetworksPersonApi {
     async updateSocialNetworksPerson(
         id: string,
         body: ISocialContactsRequest
-    ): Promise<ISocialNetworksEntity | null> {
+    ): Promise<ISocialContactsEntity | null> {
         try {
             const response = await apiClient.patch(
                 `/social-contacts/${id}`,

@@ -1,4 +1,4 @@
-import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";
+import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
 
 export interface ISearchQueryRequest {
     term: string;

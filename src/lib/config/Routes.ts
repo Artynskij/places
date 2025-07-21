@@ -1,7 +1,7 @@
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
-import { TCategoriesNews } from "../models/common/TCategoriesNews";
+import { TCategoriesNews } from "../models/types/TCategoriesNews";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
-import { TTypeOwnerBusiness } from "../models/common/auth/TTypeOwnerBusiness";
+import { TTypeOwnerBusiness } from "../models/types/auth/TTypeOwnerBusiness";
 // TODO DEFAULT ROUTES DATA
 export const ROUTES = {
     MAIN: "/",

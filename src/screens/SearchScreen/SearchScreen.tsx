@@ -14,7 +14,7 @@ import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
 import { CardSearch } from "@/components/common/Cards";
 
 import SwitcherSearchPage from "./_components/SwitcherSearchPage/SwitcherSearchPage";
-import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";
+import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
 import { PaginationAnt } from "@/components/common/Pagination/PaginationAnt";
 import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
 
@@ -41,7 +41,7 @@ const SearchScreen = async ({
 
     const searchValue = searchParams[CONSTANT_SEARCH_PARAMS.SEARCH] || "";
     const baseUrl = await getBaseUrlServer();
-    
+
     return (
         <div className={"container"}>
             <section className={style.section}>

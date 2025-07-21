@@ -1,8 +1,7 @@
-import { TTypesOfEstablishment } from "../../common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "../../types/TTypesEstablishment";
 
-import { ILocationsEntity } from "./locations.entity";
 import { ICategoryOfEstablishmentPart } from "./parts/categoryOfEstablishmentPart.entity";
-import { IContactsEntity } from "./parts/contact.entity";
+import { IContactsOfEstablishmentEntity } from "./parts/contactOfEstablishment.entity";
 import { IContentEntity } from "./parts/content.entity";
 import { IImageEntity } from "./parts/image.entity";
 import { IRateEntity } from "./parts/rate.entity";
@@ -30,7 +29,7 @@ export interface IEstablishmentEntity {
             Content: IContentEntity;
         };
         Categories: ICategoryOfEstablishmentPart[];
-        Contacts: IContactsEntity | null;
+        Contacts: IContactsOfEstablishmentEntity | null;
         Locations: ILocationsInEstablishment | null;
         Rates: IRateEntity;
     };

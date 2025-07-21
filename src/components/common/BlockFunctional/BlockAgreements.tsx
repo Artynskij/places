@@ -1,7 +1,7 @@
 import style from "./blockFunctional.module.scss";
 import { CONSTANT_AGREEMENTS_DATA } from "@/asset/constants/AgreementsData";
 import { CheckBox as CheckBoxCustom } from "@/components/UI/CheckBox/CheckBox";
-import { TAgreementKey } from "@/lib/models/common/TAgreementKey";
+import { TAgreementKey } from "@/lib/models/types/TAgreementKey";
 import { Checkbox } from "antd";
 import * as Yup from "yup";
 

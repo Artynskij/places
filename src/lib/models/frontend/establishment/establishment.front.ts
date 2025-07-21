@@ -1,7 +1,7 @@
-import { TTypesOfEstablishment } from "../../common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "../../types/TTypesEstablishment";
 import { ICategoryFront } from "../category/category.front";
 
-import { IContactsPartFront } from "../parts/contacts/contacts.frontPart";
+import { IContactsOfEstablishmentPartFront } from "../parts/contacts/contactsOfEstablishment.frontPart";
 import { IMediaFront } from "../parts/media/media.frontPart";
 
 export interface IEstablishmentFront {
@@ -28,7 +28,7 @@ export interface IEstablishmentFront {
         } | null)[];
     };
     location: {
-        country: { id: string; title: string  };
+        country: { id: string; title: string };
         town: { id: string; title: string };
         street: string;
         latitude: number;
@@ -39,7 +39,7 @@ export interface IEstablishmentFront {
             totalEstablishment: number | null;
         };
     };
-    contacts: IContactsPartFront | null;
+    contacts: IContactsOfEstablishmentPartFront | null;
     media: {
         cdnHost: string;
         gallery: IMediaFront[] | null;

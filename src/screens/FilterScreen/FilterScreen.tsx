@@ -25,7 +25,7 @@ import { mockFilterSort } from "@/asset/mockData/mockFilterSort";
 
 import { IPageProps } from "@/lib/models/IType";
 import { IEstablishmentFront } from "@/lib/models";
-import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import { ITagBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";

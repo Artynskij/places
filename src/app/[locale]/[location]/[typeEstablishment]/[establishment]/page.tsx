@@ -7,7 +7,7 @@ import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstabl
 import { LocationService } from "@/lib/Api/location/location.service";
 import { ScheduleService } from "@/lib/Api/schedule/schedule.service";
 import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag";
-import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import { MapService } from "@/lib/Api/map/map.service";
 
 interface IProps extends IPageProps {
@@ -25,7 +25,7 @@ export async function generateMetadata({
     const getSeoDescription = "";
     return {
         title: `${process.env.BASE_NAME} | ${params.establishment} только на плэйсис.`,
-        description: getSeoDescription || 'гомики тоже люди',
+        description: getSeoDescription || "гомики тоже люди",
     };
 }
 export default async function EstablishmentPage({

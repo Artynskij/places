@@ -1,6 +1,6 @@
-import { TDayOfWeek } from "../../common/TDayOfWeek";
-import { TTypesOfEstablishment } from "../../common/TTypesEstablishment";
-import { TGlobalTypes } from "../../common/TTypesGlobal";
+import { TDayOfWeek } from "../../types/TDayOfWeek";
+import { TTypesOfEstablishment } from "../../types/TTypesEstablishment";
+import { TGlobalTypes } from "../../types/TTypesGlobal";
 
 export interface ISearchItemEntity {
     dbCrossId: string;
@@ -28,7 +28,7 @@ export interface ISearchItemEntity {
         | [];
 
     starRating: string | null;
-    priceCategory: {name:string; secondary:string}
+    priceCategory: { name: string; secondary: string };
     rate: number | null;
     schedule:
         | {

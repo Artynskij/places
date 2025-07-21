@@ -14,7 +14,7 @@ import {
     getAgreementsValidation,
 } from "../../BlockFunctional/BlockAgreements";
 
-import { TAgreementKey } from "@/lib/models/common/TAgreementKey";
+import { TAgreementKey } from "@/lib/models/types/TAgreementKey";
 import { useNotification } from "@/lib/context";
 import {
     validAddressSchema,
@@ -22,6 +22,7 @@ import {
     validFullNameSchema,
     validPhoneSchema,
 } from "@/lib/validationSchemas";
+import { BusinessService } from "@/lib/Api/business/business.service";
 
 type TTypeForm = Yup.InferType<typeof validationSchemaRegister>;
 const agreementKeys: TAgreementKey[] = [
@@ -47,6 +48,8 @@ const validationSchemaRegister = Yup.object().shape({
 });
 
 export const FormIndividual = () => {
+    const businessService = new BusinessService();
+
     const notification = useNotification();
     const {
         register,
@@ -57,10 +60,16 @@ export const FormIndividual = () => {
         formState: { errors },
     } = useForm({
         resolver: yupResolver(validationSchemaRegister),
-       
     });
-    const onSubmit: SubmitHandler<TTypeForm> = (data) => {
-        console.log("Form Data:", data);
+    const onSubmit: SubmitHandler<TTypeForm> = async (formData) => {
+        console.log("Form Data:", formData);
+        const createdBusiness = await businessService.createBusiness({
+            OfficialName: `${formData.fullName.surname} ${
+                formData.fullName.name
+            } ${formData.fullName.surname || ""}`,
+            RegistrationDate: null,
+            RegistrationNumber: null,
+        });
         notification.success({ message: "Бизнес отправлен на модерацию" });
     };
     const onSubmitInvalid = () => {
@@ -76,46 +85,57 @@ export const FormIndividual = () => {
             className={style.form}
             onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
         >
-            <InputForm
-                error={errors.fullName?.name?.message}
-                register={register("fullName.name")}
-                placeholder="Имя*"
-                titleSpan="Имя согласно удостоверению личности"
-                type="text"
-            />
-            <InputForm
-                error={errors.fullName?.secondName?.message}
-                register={register("fullName.secondName")}
-                placeholder="Второе имя"
-                titleSpan="Второе имя (отчество) согласно удостоверению личности"
-                type="text"
-            />
-            <InputForm
-                error={errors.fullName?.surname?.message}
-                register={register("fullName.surname")}
-                placeholder="Фамилия*"
-                titleSpan="Фамилия согласно удостоверению личности*"
-                type="text"
-            />
-            <InputForm
-                error={errors.email?.message}
-                register={register("email")}
-                placeholder="Адрес электронной почты*"
-                titleSpan="Адрес электронной почты"
-                type="email"
-            />
-
-            <Controller
-                control={control}
-                name="phone"
-                render={({ field, fieldState }) => (
-                    <InputPhoneNumber<"phone">
-                        field={field}
-                        error={fieldState.error || null}
-                        titleSpam="Номер телефона*"
+            <div className={style.selectionBlock}>
+                <div className={style.selectionBlock_title}>Контакты</div>
+                <div className={style.selectionBlock_content}>
+                    <InputForm
+                        error={errors.fullName?.name?.message}
+                        register={register("fullName.name")}
+                        placeholder="Имя*"
+                        titleSpan="Имя согласно удостоверению личности"
+                        type="text"
                     />
-                )}
-            />
+                    <InputForm
+                        error={errors.fullName?.secondName?.message}
+                        register={register("fullName.secondName")}
+                        placeholder="Второе имя"
+                        titleSpan="Второе имя (отчество) согласно удостоверению личности"
+                        type="text"
+                    />
+                    <InputForm
+                        error={errors.fullName?.surname?.message}
+                        register={register("fullName.surname")}
+                        placeholder="Фамилия*"
+                        titleSpan="Фамилия согласно удостоверению личности*"
+                        type="text"
+                    />
+                </div>
+            </div>
+
+            <div className={style.selectionBlock}>
+                <div className={style.selectionBlock_title}>Контакты</div>
+                <div className={style.selectionBlock_content}>
+                    <InputForm
+                        error={errors.email?.message}
+                        register={register("email")}
+                        placeholder="Адрес электронной почты*"
+                        titleSpan="Адрес электронной почты"
+                        type="email"
+                    />
+
+                    <Controller
+                        control={control}
+                        name="phone"
+                        render={({ field, fieldState }) => (
+                            <InputPhoneNumber<"phone">
+                                field={field}
+                                error={fieldState.error || null}
+                                titleSpam="Номер телефона*"
+                            />
+                        )}
+                    />
+                </div>
+            </div>
 
             <Controller
                 name="documents"
@@ -137,37 +157,38 @@ export const FormIndividual = () => {
                 <div className={style.selectionBlock_title}>
                     Адрес регистрации
                 </div>
-
-                <InputForm
-                    error={errors.address?.country?.message}
-                    register={register("address.country")}
-                    titleSpan="Страна*"
-                    type="text"
-                />
-                <InputForm
-                    error={errors.address?.district?.message}
-                    register={register("address.district")}
-                    titleSpan="Область*"
-                    type="text"
-                />
-                <InputForm
-                    error={errors.address?.town?.message}
-                    register={register("address.town")}
-                    titleSpan="Город*"
-                    type="text"
-                />
-                <InputForm
-                    error={errors.address?.addressLine?.message}
-                    register={register("address.addressLine")}
-                    titleSpan="Адрес – улица, дом, корпус, квартира/офис*"
-                    type="text"
-                />
-                <InputForm
-                    error={errors.address?.postalCode?.message}
-                    register={register("address.postalCode")}
-                    titleSpan="Почтовый индекс"
-                    type="text"
-                />
+                <div className={style.selectionBlock_content}>
+                    <InputForm
+                        error={errors.address?.country?.message}
+                        register={register("address.country")}
+                        titleSpan="Страна*"
+                        type="text"
+                    />
+                    <InputForm
+                        error={errors.address?.district?.message}
+                        register={register("address.district")}
+                        titleSpan="Область*"
+                        type="text"
+                    />
+                    <InputForm
+                        error={errors.address?.town?.message}
+                        register={register("address.town")}
+                        titleSpan="Город*"
+                        type="text"
+                    />
+                    <InputForm
+                        error={errors.address?.addressLine?.message}
+                        register={register("address.addressLine")}
+                        titleSpan="Адрес – улица, дом, корпус, квартира/офис*"
+                        type="text"
+                    />
+                    <InputForm
+                        error={errors.address?.postalCode?.message}
+                        register={register("address.postalCode")}
+                        titleSpan="Почтовый индекс"
+                        type="text"
+                    />
+                </div>
             </div>
 
             <BlockAgreements

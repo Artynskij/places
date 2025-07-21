@@ -1,7 +1,7 @@
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { FormCreateEstablishment } from "@/components/common/Form/Establishment/FormCreateEstablishment";
 import { IPageProps } from "@/lib/models";
-import { TTypeOwnerBusiness } from "@/lib/models/common/auth/TTypeOwnerBusiness";
+import { TTypeOwnerBusiness } from "@/lib/models/types/auth/TTypeOwnerBusiness";
 import { BusinessFormScreen } from "@/screens/(Form)/BusinessFormScreen";
 
 export async function generateMetadata() {

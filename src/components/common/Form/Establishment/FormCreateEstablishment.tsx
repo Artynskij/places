@@ -26,9 +26,9 @@ import { Button } from "@/components/UI/Button/Button";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { ISelectOption } from "@/lib/models";
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
-import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 
-import { TSocialNetworks } from "@/lib/models/common/TSocialNetworks";
+import { TSocialNetworks } from "@/lib/models/types/TSocialNetworks";
 import { DeleteButton } from "../../ButtonFunctional/DeleteButton";
 import { useState } from "react";
 import { TimePickerCustom } from "../_components/TimePicker/TimePickerCustom";
@@ -43,7 +43,7 @@ import {
     BlockAgreements,
     getAgreementsValidation,
 } from "../../BlockFunctional/BlockAgreements";
-import { TAgreementKey } from "@/lib/models/common/TAgreementKey";
+import { TAgreementKey } from "@/lib/models/types/TAgreementKey";
 
 type TTypeForm = Yup.InferType<typeof validationSchemaRegister>;
 const agreementKeys: TAgreementKey[] = [

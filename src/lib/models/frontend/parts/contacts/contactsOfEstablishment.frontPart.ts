@@ -1,5 +1,4 @@
-export interface IContactsEntity {
-    Id: string;
+export interface IContactsOfEstablishmentPartFront {
     Phone?: string;
     Web?: string;
     Email?: string;
@@ -9,5 +8,4 @@ export interface IContactsEntity {
     Instagram?: string;
     Viber?: string;
     Other?: string;
-    ContentId: string;
-  }
+}

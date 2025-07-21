@@ -3,8 +3,8 @@ import { switcherBusiness } from "@/asset/constants/switcherTabsPage";
 import { FormIndividual } from "@/components/common/Form/Business/FormIndividual";
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 import { IPageProps } from "@/lib/models";
-import { TTypeOwnerBusiness } from "@/lib/models/common/auth/TTypeOwnerBusiness";
-import style from './businessFormScreen.module.scss'
+import { TTypeOwnerBusiness } from "@/lib/models/types/auth/TTypeOwnerBusiness";
+import style from "./businessFormScreen.module.scss";
 import { FormSoleProprietor } from "@/components/common/Form/Business/FormSoleProprietor";
 import { FormLegalEntity } from "@/components/common/Form/Business/FormLegalEntity";
 interface IProps extends IPageProps {

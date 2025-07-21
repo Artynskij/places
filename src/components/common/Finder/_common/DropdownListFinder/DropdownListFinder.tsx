@@ -11,7 +11,7 @@ import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { ISearchItemFront } from "@/lib/models";
 import { getUrlForUrl } from "@/lib/hooks/getUrlForSearch";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
-import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import CardSearchItem from "../CardSearchItem/CardSearchItem";
 
@@ -79,7 +79,7 @@ const DropdownListFinder = ({
     }, [searchResponse, searchQuery]);
     const baseUrl = useBaseUrl();
     if (!resultLoaded) return <SpinnerAnt size="large" />;
-    
+
     // const listItemsData: IListItemData[] = createListItemsRef();
     return (
         <ul className={style.list} ref={ulRef}>
@@ -102,7 +102,9 @@ const DropdownListFinder = ({
                                         )}
                                         onClick={onItemClick}
                                     >
-                                        <CardSearchItem  dataCard={listItem.data} />
+                                        <CardSearchItem
+                                            dataCard={listItem.data}
+                                        />
                                     </Link>
                                 </li>
                             )

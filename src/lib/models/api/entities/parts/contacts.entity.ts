@@ -1,7 +1,7 @@
-import { ISocialContactsEntity } from "../parts/socialNetworks";
-import { IAddressEntity } from "./address.entity";
+import { ISocialContactsEntity } from "./socialNetworks";
+import { IAddressEntity } from "../(person)/address.entity";
 
-export interface IContactsPersonEntity {
+export interface IContactsEntity {
     Id: string;
     SocialContacts: ISocialContactsEntity | null;
     Address: IAddressEntity | null;

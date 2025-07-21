@@ -6,13 +6,21 @@ import style from "./buttonFunctional.module.scss";
 import { mockObjectForObjectPage } from "@/asset/mockData/mockObject";
 import Link from "next/link";
 import { IconPhone } from "../Icons/IconPhone/IconPhone";
-import { IconInstagram, IconTelegram, IconViber, IconWhatApp } from "../Icons/Social";
+import {
+    IconInstagram,
+    IconTelegram,
+    IconViber,
+    IconWhatApp,
+} from "../Icons/Social";
 
 import { Popup } from "../Popup/Popup";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { IContactsEntity, IContactsPartFront } from "@/lib/models";
+import {
+    IContactsOfEstablishmentEntity,
+    IContactsOfEstablishmentPartFront,
+} from "@/lib/models";
 
 interface IContactButton {
     classNameButton?: string;
@@ -20,7 +28,7 @@ interface IContactButton {
     importTitle?: string;
     importDescription?: string;
     textButton?: string;
-    contactData: IContactsPartFront | null;
+    contactData: IContactsOfEstablishmentPartFront | null;
 }
 
 export const ContactButton: FC<IContactButton> = ({

@@ -1,5 +1,5 @@
-import { TTypesOfEstablishment } from "../../common/TTypesEstablishment";
-import { TGlobalTypes } from "../../common/TTypesGlobal";
+import { TTypesOfEstablishment } from "../../types/TTypesEstablishment";
+import { TGlobalTypes } from "../../types/TTypesGlobal";
 import { ICategoryFront } from "../category/category.front";
 
 import { IScheduleFront } from "../schedule/schedule.front";

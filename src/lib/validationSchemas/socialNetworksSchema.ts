@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { TSocialNetworks } from "../models/common/TSocialNetworks";
+import { TSocialNetworks } from "../models/types/TSocialNetworks";
 import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
 
 export const validSocialNetworksSchema = Yup.array().of(

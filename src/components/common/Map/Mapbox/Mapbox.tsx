@@ -18,7 +18,7 @@ import { MapService } from "@/lib/Api/map/map.service";
 import { getZoomToRadius } from "@/lib/hooks/useZoomToRadius";
 import { MarkersLayer } from "./_common/MarkersLayer";
 import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
-import { TModeMap } from "@/lib/models/common/TModeMap";
+import { TModeMap } from "@/lib/models/types/TModeMap";
 import { DefaultMarker } from "./_common/Markers/DefaultMarker";
 import { useReverseGeocode } from "@/lib/hooks/useReverseGeocode";
 import { CONSTANT_TYPE_LOCATION } from "@/asset/constants/typeLocation";

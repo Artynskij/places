@@ -3,7 +3,7 @@
 import { switcherFinderMainPage } from "@/asset/constants/switcherTabsPage";
 import { Switcher } from "@/components/common/Switcher/Switcher";
 import style from "./switcherSearchPage.module.scss";
-import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";
+import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";

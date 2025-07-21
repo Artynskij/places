@@ -5,7 +5,7 @@ import {
     ISearchItemFront,
     ITagWithEstablishmentFront,
 } from "@/lib/models";
-import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 
 export const mapEstablishmentToSearchItem = (
     establishment: IEstablishmentFront,
@@ -36,7 +36,7 @@ export const mapEstablishmentToSearchItem = (
             id: establishment.location.country.id,
             title: !!establishment.location.country.title
                 ? establishment.location.country.title
-                : locationCountryData?.title || '',
+                : locationCountryData?.title || "",
         },
         town: establishment.location.town,
         lat: establishment.location.latitude,
@@ -50,10 +50,12 @@ export const mapEstablishmentToSearchItem = (
         globalTypeEntity: "establishment",
         lang: "",
         location: location,
-        media:establishment.media.gallery? {
-            mainImage: establishment.media.gallery[0].blobPath,
-            cdnHost: establishment.media.cdnHost,
-        } : null,
+        media: establishment.media.gallery
+            ? {
+                  mainImage: establishment.media.gallery[0].blobPath,
+                  cdnHost: establishment.media.cdnHost,
+              }
+            : null,
         typeEstablishment: {
             key: typeEstablishment,
             id: CONSTANT_TYPES_OF_ESTABLISHMENT[typeEstablishment].id,

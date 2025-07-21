@@ -1,4 +1,4 @@
-import { TDayOfWeek } from "../../common/TDayOfWeek";
+import { TDayOfWeek } from "../../types/TDayOfWeek";
 
 export interface IScheduleFront {
     day: TDayOfWeek;

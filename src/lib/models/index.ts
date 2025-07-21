@@ -1,4 +1,4 @@
-export * from "./api/entities/parts/contact.entity";
+export * from "./api/entities/parts/contactOfEstablishment.entity";
 export * from "./api/entities/parts/content.entity";
 export * from "./api/entities/parts/image.entity";
 export * from "./api/entities/parts/rate.entity";
@@ -15,7 +15,7 @@ export * from "./frontend/article/article.front";
 export * from "./frontend/category/category.front";
 export * from "./frontend/establishment/establishment.front";
 export * from "./frontend/location/location.front";
-export * from "./frontend/parts/contacts/contacts.frontPart";
+export * from "./frontend/parts/contacts/contactsOfEstablishment.frontPart";
 export * from "./frontend/parts/media/media.frontPart";
 export * from "./frontend/schedule/schedule.front";
 export * from "./frontend/search/searchItem.front";

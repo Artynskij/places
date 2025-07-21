@@ -1,4 +1,4 @@
-import { TTilesContent } from "@/lib/models/common/TTilesContent";
+import { TTilesContent } from "@/lib/models/types/TTilesContent";
 import TileLocations from "./TileLocations/TileLocations";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 import TileMarkdown from "./TileMarkdown/TileMarkdown";

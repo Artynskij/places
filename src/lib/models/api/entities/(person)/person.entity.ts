@@ -1,4 +1,4 @@
-import { IContactsPersonEntity } from "./contactsPerson.entity";
+import { IContactsEntity } from "../parts/contacts.entity";
 import { IGenderEntity } from "./gender.entity";
 import { IPersonNameEntity } from "./personName.entity";
 import { IPersonSettingsEntity } from "./personSettings.entity";
@@ -25,7 +25,7 @@ export interface IPersonEntity {
         Gender: IGenderEntity | null;
         Language: "" | null;
         Currency: "" | null;
-        Contacts: IContactsPersonEntity | null;
+        Contacts: IContactsEntity | null;
         PersonSettings: IPersonSettingsEntity | null;
     };
     content: string | null;

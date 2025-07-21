@@ -1,6 +1,6 @@
 "use client";
 import LocationMapper from "@/lib/Api/location/location.mapper";
-import { TTilesContent } from "@/lib/models/common/TTilesContent";
+import { TTilesContent } from "@/lib/models/types/TTilesContent";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 
 import style from "../tiles.module.scss";

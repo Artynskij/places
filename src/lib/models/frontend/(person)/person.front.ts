@@ -1,3 +1,32 @@
-import { IPersonEntity } from "../../api/entities/(person)/person.entity";
+import { IPersonNameFront } from "./personName.front";
+import { IPersonSettingsFront } from "./personSettings.front";
 
-export interface IPersonFront extends IPersonEntity {}
+
+import { ISocialContactsFront } from "./socialContacts.front";
+
+export interface IPersonFront {
+    id: string;
+    timeZone: string | null;
+    isVerified: boolean;
+    nickname: string | null;
+    birthDate: string | null;
+    avatarImg: string | null;
+    aboutDescription: string | null;
+    personName: IPersonNameFront | null;
+    contacts: {
+        id: string;
+        email: string | null;
+        phone: string | null;
+    } | null;
+    address: {
+        id: string;
+        postalCode: string | null;
+        country: string | null;
+        district: string | null;
+        town: string | null;
+        street: string | null;
+    } | null;
+
+    socialNetworks: ISocialContactsFront | null;
+    personSettings: IPersonSettingsFront | null;
+}

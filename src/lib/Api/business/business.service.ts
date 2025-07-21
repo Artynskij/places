@@ -11,7 +11,7 @@ export class BusinessService {
         // this.ContactsPersonService = new ContactsPersonService();
     }
 
-    async getBussinessById(
+    async getBusinessById(
         id: string,
         lang?: string
     ): Promise<IBusinessFront | null> {
@@ -19,15 +19,13 @@ export class BusinessService {
         return response;
     }
 
-    async createBussiness(
-        body: IBusinessRequest,
-        idPerson: string
-        // idContacts: string | null
+    async createBusiness(
+        body: IBusinessRequest
     ): Promise<IBusinessFront | null> {
         const response = this.BusinessApi.createBusiness(body);
         return response;
     }
-    async updateBussiness(
+    async updateBusiness(
         id: string,
         body: IBusinessRequest
     ): Promise<IBusinessFront | null> {

@@ -20,7 +20,7 @@ export interface ITagsOfEstablishmentResponse {
 export interface ITagsOfEstablishmentFilterResponse {
     tagsAndCategories: {
         TagCategory: ICategoryOfEstablishmentPart;
-        Tags: ITagEntity[];
+        Tags: ITagWithCategoryEntity[];
     }[];
     categories: ICategoryOfEstablishmentPart[];
 }

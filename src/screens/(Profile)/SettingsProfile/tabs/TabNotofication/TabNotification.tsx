@@ -35,28 +35,28 @@ const TabNotification = () => {
     useEffect(() => {
         personApi.getPersonById(mockPersonId).then(async (res) => {
             if (res) {
-                if (res.person.PersonSettings) {
-                    const settings = res.person.PersonSettings;
+                if (res.personSettings) {
+                    const settings = res.personSettings;
                     setNotificationData(settings);
 
                     // Обновляем форму новыми значениями
                     reset({
-                        ShowTravelMap: settings.ShowTravelMap,
-                        ShowPosts: settings.ShowPosts,
-                        ShowPhotoAlbums: settings.ShowPhotoAlbums,
-                        ShowVideos: settings.ShowVideos,
-                        ShowRatingsAndReviews: settings.ShowRatingsAndReviews,
-                        NotifyServiceUpdates: settings.NotifyServiceUpdates,
-                        NotifyNewPlaces: settings.NotifyNewPlaces,
-                        NotifyPartnerOffers: settings.NotifyPartnerOffers,
+                        ShowTravelMap: settings.showTravelMap,
+                        ShowPosts: settings.showPosts,
+                        ShowPhotoAlbums: settings.showPhotoAlbums,
+                        ShowVideos: settings.showVideos,
+                        ShowRatingsAndReviews: settings.showRatingsAndReviews,
+                        NotifyServiceUpdates: settings.notifyServiceUpdates,
+                        NotifyNewPlaces: settings.notifyNewPlaces,
+                        NotifyPartnerOffers: settings.notifyPartnerOffers,
                         NotifyPersonalRecommendations:
-                            settings.NotifyPersonalRecommendations,
-                        NotifyReviewModeration: settings.NotifyReviewModeration,
+                            settings.notifyPersonalRecommendations,
+                        NotifyReviewModeration: settings.notifyReviewModeration,
                         NotifyContentModeration:
-                            settings.NotifyContentModeration,
+                            settings.notifyContentModeration,
                     });
                 } else {
-                    await personSettingsApi.createPersonSettings(res.person.Id);
+                    await personSettingsApi.createPersonSettings(res.id);
                 }
             }
         });
@@ -69,9 +69,9 @@ const TabNotification = () => {
             return;
         }
 
-        if (personData.person.PersonSettings) {
+        if (personData.personSettings) {
             await personSettingsApi.updatePersonSettings(
-                personData.person.PersonSettings.Id,
+                personData.personSettings.id,
                 dataForm
             );
         } else {

@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 
-import { TTilesContent } from "@/lib/models/common/TTilesContent";
+import { TTilesContent } from "@/lib/models/types/TTilesContent";
 
 interface IInfoSection {
     searchParams: any;
@@ -20,7 +20,7 @@ interface IInfoSection {
 }
 export const InfoSection: FC<IInfoSection> = ({
     searchParams,
-    
+
     rootLocationPath,
     dataTileContent,
 }) => {

@@ -2,7 +2,7 @@ import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { SearchService } from "@/lib/Api/search/search.service";
 import { IPageProps } from "@/lib/models";
-import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";
+import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
 import SearchScreen from "@/screens/SearchScreen/SearchScreen";
 import { notFound } from "next/navigation";
 

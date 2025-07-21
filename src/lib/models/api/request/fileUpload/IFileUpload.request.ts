@@ -1,4 +1,4 @@
-import { TTypeFile } from "@/lib/models/common/TTypeFile";
+import { TTypeFile } from "@/lib/models/types/TTypeFile";
 
 export interface IFilePublicUploadBodyRequest {
     vendorId: string;

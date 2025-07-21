@@ -2,15 +2,18 @@ import SocialNetworksPersonApi from "./socialNetworksPerson.endpoints";
 import { ISocialContactsFront } from "@/lib/models/frontend/(person)/socialContacts.front";
 import { ISocialContactsRequest } from "@/lib/models/api/request/(Person)/socialContacts.request";
 
-import { ContactsPersonService } from "../contactsPerson/contactsPerson.service";
+import { ContactsService } from "../../contacts/contacts.service";
+import { SocialNetworksPersonMapper } from "./socialNetworksPerson.mapper";
 
 export class SocialNetworksPersonService {
     private SocialNetworksPersonApi: SocialNetworksPersonApi;
-    private ContactsPersonService: ContactsPersonService;
+    private SocialNetworksPersonMapper: SocialNetworksPersonMapper;
+    private ContactsService: ContactsService;
 
     constructor() {
         this.SocialNetworksPersonApi = new SocialNetworksPersonApi();
-        this.ContactsPersonService = new ContactsPersonService();
+        this.SocialNetworksPersonMapper = new SocialNetworksPersonMapper();
+        this.ContactsService = new ContactsService();
     }
 
     async getSocialNetworksPersonById(
@@ -18,7 +21,17 @@ export class SocialNetworksPersonService {
         lang?: string
     ): Promise<ISocialContactsFront | null> {
         const response =
-            this.SocialNetworksPersonApi.getSocialNetworksPersonById(id, lang);
+            this.SocialNetworksPersonApi.getSocialNetworksPersonById(
+                id,
+                lang
+            ).then((res) => {
+                if (!res) return null;
+                const mappedData =
+                    this.SocialNetworksPersonMapper.transformSocialNetworksPersonEntity(
+                        res
+                    );
+                return mappedData;
+            });
         return response;
     }
 
@@ -32,19 +45,26 @@ export class SocialNetworksPersonService {
         idContacts: string | null;
     }): Promise<ISocialContactsFront | null> {
         const response =
-            this.SocialNetworksPersonApi.createSocialNetworksPerson(body).then(
-                async (res) => {
-                    await this.ContactsPersonService.updateContactsPerson({
+            this.SocialNetworksPersonApi.createSocialNetworksPerson(body)
+                .then(async (res) => {
+                    await this.ContactsService.updateContacts({
                         body: {
                             SocialContactsId: res?.Id,
                         },
                         id: idContacts || null,
-                        idPerson: idPerson,
+                        vendorId: idPerson,
                     });
 
                     return res;
-                }
-            );
+                })
+                .then((res) => {
+                    if (!res) return null;
+                    const mappedData =
+                        this.SocialNetworksPersonMapper.transformSocialNetworksPersonEntity(
+                            res
+                        );
+                    return mappedData;
+                });
         return response;
     }
     async updateSocialNetworksPerson({
@@ -66,7 +86,17 @@ export class SocialNetworksPersonService {
             });
         }
         const response =
-            this.SocialNetworksPersonApi.updateSocialNetworksPerson(id, body);
+            this.SocialNetworksPersonApi.updateSocialNetworksPerson(
+                id,
+                body
+            ).then((res) => {
+                if (!res) return null;
+                const mappedData =
+                    this.SocialNetworksPersonMapper.transformSocialNetworksPersonEntity(
+                        res
+                    );
+                return mappedData;
+            });
         return response;
     }
 }

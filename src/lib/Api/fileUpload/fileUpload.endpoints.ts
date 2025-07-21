@@ -11,7 +11,15 @@ export default class FileUploadApi {
         body: IFilePublicUploadBodyRequest
     ): Promise<IFileUploadResponse | null> {
         try {
-            const response = await apiClient.post(`/files/upload-public`, body);
+            const response = await apiClient.post(
+                `/files/upload-public`,
+                body,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
             return response.data;
         } catch (error) {
             console.error(`Ошибка при отправке фото`);
@@ -24,7 +32,12 @@ export default class FileUploadApi {
         try {
             const response = await apiClient.post(
                 `/files/upload-private-verification`,
-                body
+                body,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
             );
             return response.data;
         } catch (error) {

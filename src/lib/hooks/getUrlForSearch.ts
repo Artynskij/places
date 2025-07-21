@@ -1,7 +1,7 @@
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { ROUTES, ROUTES_FINDER } from "../config/Routes";
 import { ISearchItemFront } from "../models";
-import { TGlobalTypes } from "../models/common/TTypesGlobal";
+import { TGlobalTypes } from "../models/types/TTypesGlobal";
 
 export const getUrlForUrl = (
     searchItem: ISearchItemFront,

@@ -1,4 +1,4 @@
-import { TRoleOwner } from "@/lib/models/common/TRoleOwner";
+import { TRoleOwner } from "@/lib/models/types/TRoleOwner";
 
 export interface IBusinessPosition {
     Id: string;

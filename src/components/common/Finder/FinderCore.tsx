@@ -12,7 +12,7 @@ import { useLocale } from "next-intl";
 import { SearchService } from "@/lib/Api/search/search.service";
 import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
 import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
-import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";
+import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 
 export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {

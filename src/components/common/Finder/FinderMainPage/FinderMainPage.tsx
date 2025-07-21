@@ -13,7 +13,7 @@ import { switcherFinderMainPage } from "@/asset/constants/switcherTabsPage";
 
 import DropdownListFinder from "../_common/DropdownListFinder/DropdownListFinder";
 import { useEffect } from "react";
-import { TTypesOfSearchKey } from "@/lib/models/common/TTypesGlobal";
+import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
 
 const FinderMainPage = () => {
     const switcherDataStart = switcherFinderMainPage;

@@ -19,21 +19,18 @@
 .selectionBlock {
     display: flex;
     flex-direction: column;
-    gap: $gap-small;
+    gap: $gap-medium;
     width: 100%;
 
-    &_title{
+    &_title {
         @extend %Text22;
         text-decoration: underline;
     }
-    // &_content {
-    //     // display: flex;
-    //     align-items: flex-end;
-    //     gap: $gap-medium;
-    // }
+    &_content {
+        display: flex;
+        flex-direction: column;
+
+        gap: $gap-medium;
+    }
 }
-// .inputPhone {
-//     & input {
-//         border: none;
-//     }
-// }
+

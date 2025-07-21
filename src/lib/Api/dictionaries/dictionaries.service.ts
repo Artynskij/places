@@ -39,7 +39,12 @@ export class DictionariesService {
         if (!response) {
             return null;
         }
-        const mappedData = this.DictionariesMapper.categoriesOfEstablishment(response);
+        const mappedData =
+            this.DictionariesMapper.categoriesOfEstablishment(response);
         return mappedData;
+    }
+    async getBlobProxy(): Promise<{ url: string } | null> {
+        const response = this.DictionariesApi.getBlobProxy();
+        return response;
     }
 }

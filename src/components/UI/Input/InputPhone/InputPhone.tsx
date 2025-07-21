@@ -4,6 +4,7 @@ import PhoneInput from "react-phone-number-input";
 import style from "./inputPhone.module.scss";
 import clsx from "clsx";
 import * as Yup from "yup";
+import { SpanErrorForm } from "../../Span/SpanErrorForm";
 
 interface IInputPhoneNumber<TFieldName extends string> {
     field: ControllerRenderProps<any, TFieldName>;
@@ -31,11 +32,7 @@ export const InputPhoneNumber = <TFieldName extends string>({
                 )}
                 id={`input-phoneNumber`}
             />
-            {error && (
-                <span className={style.inputPhone_errorText}>
-                    {error.message}
-                </span>
-            )}
+            {error && <SpanErrorForm text={error.message} />}
         </div>
     );
 };

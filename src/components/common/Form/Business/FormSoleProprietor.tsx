@@ -13,7 +13,7 @@ import {
     BlockAgreements,
     getAgreementsValidation,
 } from "../../BlockFunctional/BlockAgreements";
-import { TAgreementKey } from "@/lib/models/common/TAgreementKey";
+import { TAgreementKey } from "@/lib/models/types/TAgreementKey";
 import { useNotification } from "@/lib/context";
 import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
 import {

@@ -8,7 +8,7 @@ import { ISearchQueryResponse } from "@/lib/models/api/response/search/ISearch.r
 import {
     TGlobalTypes,
     TTypesOfSearchKey,
-} from "@/lib/models/common/TTypesGlobal";
+} from "@/lib/models/types/TTypesGlobal";
 import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
 import TagsMapper from "../tags/tag.mapper";
 import { ISearchQueryRequest } from "@/lib/models/api/request/search/ISearchQuery.request";

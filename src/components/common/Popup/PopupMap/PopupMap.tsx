@@ -13,14 +13,18 @@ import { MapboxMap } from "../../Map/Mapbox/Mapbox";
 import { IconCancel, IconDone } from "../../Icons";
 
 import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
-import { TModeMap } from "@/lib/models/common/TModeMap";
+import { TModeMap } from "@/lib/models/types/TModeMap";
 interface IPopupMap {
     establishmentList?: IMapItemFront[];
     mapActive: boolean;
     setMapActive: (value: boolean) => void;
     mode?: TModeMap[];
-    setPosition?: (value: { lat: number; lon: number,addressLine:string }) => void;
-    position?: { lat: number; lon: number,addressLine:string };
+    setPosition?: (value: {
+        lat: number;
+        lon: number;
+        addressLine: string;
+    }) => void;
+    position?: { lat: number; lon: number; addressLine: string };
 }
 export const PopupMap = ({
     establishmentList,
@@ -28,7 +32,7 @@ export const PopupMap = ({
     setMapActive,
     mode,
     setPosition,
-    position
+    position,
 }: IPopupMap) => {
     return (
         <>
@@ -56,9 +60,7 @@ export const PopupMap = ({
                             type="blue"
                             text="Потвердить позицию"
                             icon={
-                                <IconDone
-                                    className={style.buttonClose_icon}
-                                />
+                                <IconDone className={style.buttonClose_icon} />
                             }
                         />
                     )}

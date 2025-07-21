@@ -14,7 +14,7 @@ import { ArticleService } from "@/lib/Api/article/article.service";
 
 import BlockNews from "./_components/BlockNews/BlockNews";
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
-import { TCategoriesNews } from "@/lib/models/common/TCategoriesNews";
+import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {

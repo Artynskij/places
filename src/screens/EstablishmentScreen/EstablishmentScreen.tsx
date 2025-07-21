@@ -42,7 +42,7 @@ import { ScheduleButton } from "@/components/common/ButtonFunctional/ScheduleBut
 import DescriptionBlock from "./_components/DescriptionBlock/DescriptionBlock";
 import { getTranslations } from "next-intl/server";
 import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
-import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import BlockMapEstScr from "./_components/BlockMapEstScr/BlockMapEstScr";
 import CardRecommend from "./_components/CardRecommend/CardRecommend";
 import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";

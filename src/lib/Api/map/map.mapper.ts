@@ -7,7 +7,7 @@ import {
 import {
     TGlobalTypes,
     TTypesOfSearchKey,
-} from "@/lib/models/common/TTypesGlobal";
+} from "@/lib/models/types/TTypesGlobal";
 
 import TagsMapper from "../tags/tag.mapper";
 

@@ -12,7 +12,7 @@ import { IconArrowRight } from "@/components/common/Icons";
 import { Popup } from "@/components/common/Popup/Popup";
 import { Markdown } from "../../../../components/common/MarkDown/MarkDown";
 import TileContent from "../Tiles/TileContent";
-import { TTilesContent } from "@/lib/models/common/TTilesContent";
+import { TTilesContent } from "@/lib/models/types/TTilesContent";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 
 // import  TileContent  from "@/screens/LocationScreen/_components/Tiles/TileContent";
@@ -25,7 +25,7 @@ interface ICardInfo {
     seeMoreText: string;
     typeTileContent: TTilesContent;
     dataTileContent: ILocationFront[] | null;
-    rootLocationPath:string
+    rootLocationPath: string;
 }
 
 export const CardInfo: FC<ICardInfo> = ({
@@ -36,7 +36,7 @@ export const CardInfo: FC<ICardInfo> = ({
     seeMoreText,
     typeTileContent,
     dataTileContent,
-    rootLocationPath
+    rootLocationPath,
 }) => {
     const [active, setActive] = useState<boolean>(activeParam);
     const router = useRouter();
@@ -86,7 +86,11 @@ export const CardInfo: FC<ICardInfo> = ({
                 active={active}
                 closePopup={closePopup}
             >
-                <TileContent rootLocationPath={rootLocationPath} dataTileContent={dataTileContent} typeTileContent={typeTileContent} />
+                <TileContent
+                    rootLocationPath={rootLocationPath}
+                    dataTileContent={dataTileContent}
+                    typeTileContent={typeTileContent}
+                />
                 {/* <Markdown>{markDownContent}</Markdown> */}
             </Popup>
         </>

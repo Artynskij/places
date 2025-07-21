@@ -1,11 +1,9 @@
+import { IContactsEntity } from "../../../api/entities/parts/contacts.entity";
+
 export interface IContactsPartFront {
-    Phone?: string;
-    Web?: string;
-    Email?: string;
-    Menu?: string;
-    Telegram?: string;
-    WhatsApp?: string;
-    Instagram?: string;
-    Viber?: string;
-    Other?: string;
+    id: string;
+    phone: string | null;
+    email: string | null;
+    address?:string 
+    socialNetworks?:string 
 }

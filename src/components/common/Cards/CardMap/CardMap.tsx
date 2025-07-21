@@ -13,7 +13,7 @@ import { RateMain } from "@/components/common/RateCustom/RateMain";
 import { RateCafe } from "@/components/common/RateCustom/RateCafe";
 import { RateHotel } from "@/components/common/RateCustom/RateHotel";
 import { IconCancel, IconLocation } from "@/components/common/Icons";
-import { TTypesOfEstablishment } from "@/lib/models/common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { ISearchItemFront } from "@/lib/models";
 
@@ -30,7 +30,7 @@ export const CardMap = ({ establishment, handlerClosePopup }: ICardMap) => {
         ].key,
         establishment.id
     );
-    
+
     if (!establishment.typeEstablishment) return null;
     return (
         <div className={style.card}>

@@ -1,4 +1,4 @@
-export interface ISocialNetworksEntity {
+export interface ISocialContactsEntity {
     Id: string;
     Web: string | null;
     Telegram: string | null;

@@ -1,4 +1,4 @@
-import { TTypesOfEstablishment } from "../../common/TTypesEstablishment";
+import { TTypesOfEstablishment } from "../../types/TTypesEstablishment";
 
 export interface ITypeOfEstablishment {
     type: {

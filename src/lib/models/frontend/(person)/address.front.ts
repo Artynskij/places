@@ -1,3 +1,10 @@
-import { IAddressEntity } from "../../api/entities/(person)/address.entity";
 
-export interface IAddressFront extends IAddressEntity {}
+
+export interface IAddressFront {
+    id: string;
+    country: string | null;
+    district: string | null;
+    town: string | null;
+    street: string | null;
+    postalCode: string | null;
+}

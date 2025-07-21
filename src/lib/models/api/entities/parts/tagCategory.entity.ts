@@ -1,4 +1,4 @@
-import { TCategoriesTags } from "@/lib/models/common/TCategoriesTags";
+import { TCategoriesTags } from "@/lib/models/types/TCategoriesTags";
 import { IContentEntity } from "./content.entity";
 
 export interface ITagCategoryEntity {

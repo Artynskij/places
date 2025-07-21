@@ -1,139 +1,213 @@
 {
-  "Header": {
-    "text": {
-      "navigation": {
-        "mainPageLink": "All countries",
-        "newsLink": "News",
-        "recommendLink": "Recommendations",
-        "reviewsLink": "Reviews"
-      },
-      "finderPlaceholder": "Find",
-      "buttonLogin": "Login",
-      "finderNullFirst": "Unfortunately, according to your request",
-      "finderNullSecond": "nothing was found."
+    "Header": {
+        "text": {
+            "navigation": {
+                "mainPageLink": "All Countries",
+                "newsLink": "News",
+                "recommendLink": "Tips",
+                "reviewsLink": "Reviews"
+            },
+            "finderPlaceholder": "Search",
+            "buttonLogin": "Login to personal account",
+            "finderNullFirst": "Unfortunately, your request",
+            "finderNullSecond": "returned no results."
+        }
+    },
+    "Tiles": {
+        "text": {
+            "watchAll": "View All",
+            "generalInfo": "General Information",
+            "towns": "Cities",
+            "regions": "Regions",
+            "traditions": "Traditions & Features",
+            "visa": "Entry Rules",
+            "safety": "Safety",
+            "transport": "Transport",
+            "connection": "Connectivity",
+            "kitchen": "National Cuisine",
+            "figures": "Historical Figures",
+            "souvenirs": "What to Bring",
+            "phrasebook": "Phrasebook"
+        }
+    },
+    "Rates": {
+        "ratingsWord": "ratings",
+        "Rooms": "Rooms",
+        "PriceQuality": "Price/Quality",
+        "Clean": "Cleanliness",
+        "Location": "Location",
+        "Service": "Service",
+        "Sleep": "Sleep Quality",
+        "Atmosphere": "Atmosphere",
+        "Food": "Food Quality",
+        "Value": "Value"
+    },
+    "Schedule": {
+        "mon": "Monday",
+        "tue": "Tuesday",
+        "wed": "Wednesday",
+        "thu": "Thursday",
+        "fri": "Friday",
+        "sat": "Saturday",
+        "sun": "Sunday",
+        "noSchedule": "no schedule",
+        "title": "Working Hours"
+    },
+    "Locations": {
+        "WORLD": "world",
+        "CONTINENT": "continent",
+        "COUNTRY": "country",
+        "DISTRICT": "district",
+        "CITY": "major city",
+        "REGION": "region",
+        "TOWN": "town",
+        "VILLAGE": "village",
+        "ISLAND": "island",
+        "EDUCATION": "unknown type - education",
+        "COMMERCIAL": "unknown type - commercial",
+        "CULTURE": "unknown type - culture",
+        "HOSPITALITY": "unknown type - hospitality",
+        "RESIDENTIAL": "unknown type - residential",
+        "HEALTHCARE": "unknown type - healthcare",
+        "SERVICE": "unknown type - service",
+        "NATURE": "unknown type - nature",
+        "RETAIL": "unknown type - retail",
+        "LANDSCAPE": "unknown type - landscape",
+        "RELIGION": "unknown type - religious",
+        "UNKNOWN": "unknown type - unknown",
+        "TRANSPORT": "unknown type - transport",
+        "WATER": "unknown type - water"
+    },
+    "LocationPage": {
+        "seo": {
+            "title": "Kazakhstan Example",
+            "description": "All about Kazakhstan. Where to eat in Kazakhstan. What to see in Kazakhstan. Where to go in Kazakhstan. Where to stay in Kazakhstan. Hotels in Kazakhstan. Motels in Kazakhstan."
+        },
+        "text": {
+            "showMore": "Show more",
+            "hidden": "Hide",
+            "buttonWatchAll": "View all",
+            "sliderSleep": "Where to stay",
+            "sliderEat": "Where to eat",
+            "sliderRelax": "What to see",
+            "sliderDistrict": "Regions",
+            "sliderTown": "Cities",
+            "sliderNeighbor": "Neighboring countries"
+        }
+    },
+    "AuthPage": {
+        "seo": {
+            "title": "Places Personal Account",
+            "description": "Login to your Places Gold personal account."
+        },
+        "text": {
+            "titleTextReg": "Sign Up",
+            "titleTextLog": "Login",
+            "buttonGoogleReg": "Sign up with Google",
+            "buttonGoogleLog": "Login with Google",
+            "buttonReg": "Register",
+            "buttonLog": "Login to account",
+            "buttonForgot": "Forgot password?",
+            "inputName": "Name",
+            "inputPassword": "Password",
+            "inputConfirmPassword": "Confirm Password",
+            "footerTextReg": "Already have an account?",
+            "footerTextLog": "Don’t have an account?"
+        }
+    },
+    "ProfilePage": {
+        "header": {
+            "editProfile": "Edit Profile"
+        },
+        "switcher": {
+            "trip": "my trips",
+            "review": "my ratings",
+            "interest": "my interests",
+            "travelMap": "travel map",
+            "publications": "publications",
+            "photos": "photos",
+            "videos": "videos",
+            "reviews": "reviews / ratings",
+            "object": "my properties",
+            "marketing": "promotion",
+            "history": "order history",
+            "stat": "statistics",
+            "wallet": "wallet",
+            "personal": "personal data",
+            "business": "businesses",
+            "notification": "notifications",
+            "individual": "individual",
+            "sole_proprietor": "sole proprietor",
+            "legal_entity": "legal entity"
+        },
+        "status": {
+            "past": "Past",
+            "future": "Upcoming",
+            "pending": "Pending",
+            "fulfilled": "Completed",
+            "present": "Ongoing",
+            "error": "Error"
+        },
+        "tableOptions": {
+            "type": "Ad Type",
+            "description": "Description",
+            "priceForDay": "Price per day",
+            "place": "Place",
+            "language": "Language",
+            "yourObject": "Your Object",
+            "period": "Period",
+            "priceForAllDays": "Total/Day Price",
+            "operation": "Operation",
+            "sum": "Amount",
+            "dayAndTime": "Date and Time",
+            "status": "Status"
+        },
+        "objectTab": {
+            "myObject": "My Properties",
+            "regObject": "Register Property",
+            "editObject": "Edit Property"
+        },
+        "marketingTab": {
+            "mainTitle": "Promotion. Choose an ad",
+            "subTitle": "Selected Ads",
+            "pay": "Pay",
+            "cost": "Cost"
+        },
+        "historyTab": {
+            "orderHistory": "Order History"
+        },
+        "walletTab": {
+            "myWallet": "My Wallet",
+            "replenish": "Top Up",
+            "historyPayment": "Payment History"
+        }
+    },
+    "CategoryNews": {
+        "news": "Tourism News",
+        "recommend": "Useful Tips & Lifehacks",
+        "overview": "Reviews",
+        "blog": "Travelers’ Blog",
+        "bestDestination": "Top/Popular Destinations"
+    },
+    "EstablishmentPage": {
+        "queryTitle": {
+            "roomFeatures": "Room Amenities",
+            "roomTypes": "Room Types",
+            "propertyAmenities": "Hotel Services & Amenities",
+            "languagesSpoken": "Languages Spoken",
+            "styleRankings": "Hotel Styles"
+        }
+    },
+    "SearchPage": {
+        "card": {
+            "type": {
+                "EATER": "Where to eat",
+                "ACCOMMODATION": "Where to sleep",
+                "ATTRACTION": "What to see",
+                "location": "Where to go",
+                "article": "What to read",
+                "unknown": "Unknown"
+            }
+        }
     }
-  },
-  "Tiles": {
-    "text": {
-      "watchAll": "Watch all",
-      "generalInfo": "General Info",
-      "towns": "Towns",
-      "regions": "Regions",
-      "traditions": "Traditions and Features",
-      "visa": "Rules of Entry",
-      "safety": "Safety",
-      "transport": "Transport",
-      "connection": "Connection",
-      "kitchen": "National Cuisine",
-      "figures": "Historical Figures",
-      "souvenirs": "What To Bring",
-      "phrasebook": "Phrasebook"
-    }
-  },
-  "LocationPage": {
-    "seo": {
-      "title": "Kazahstan example",
-      "description": "All about Kazakhstan. Where to eat in Kazakhstan. What to see in Kazakhstan. Where to go in Kazakhstan. Where to spend the night in Kazakhstan. Hotels in Kazakhstan. Motels in Kazakhstan."
-    },
-    "text": {
-      "showMore": "Show more",
-      "hidden": "Hide",
-      "buttonWatchAll": "Watch all",
-      "sliderSleep": "Where to stay",
-      "sliderEat": "Where to eat",
-      "sliderRelax": "What to see",
-      "sliderDistrict": "Regions",
-      "sliderTown": "Towns",
-      "sliderNeighbor": "Neighboring countries"
-    }
-  },
-  "AuthPage": {
-    "seo": {
-      "title": "Personal account Places",
-      "description": "Log in to your Places gold personal account."
-    },
-    "text": {
-      "titleTextReg": "Register",
-      "titleTextLog": "Login",
-      "buttonGoogleReg": "Register with Google",
-      "buttonGoogleLog": "Login with Google",
-      "buttonReg": "Register",
-      "buttonLog": "Login",
-      "buttonForgot": "Forgot your password?",
-      "inputName": "Name",
-      "inputPassword": "Password",
-      "inputConfirmPassword": "Confirm password",
-      "footerTextReg": "You already have an account ? ",
-      "footerTextLog": "You don't have an account yet ?"
-    }
-  },
-  "ProfilePage": {
-    "header": {
-      "editProfile": "Edit profile"
-    },
-    "switcher": {
-      "trip": "my trips",
-      "review": "my grades",
-      "interest": "my interests",
-      "travelMap": "travel map",
-      "publications": "publications",
-      "photos": "photos",
-      "videos": "videos",
-      "reviews": "reviews / ratings",
-
-      "object": "my objects",
-      "marketing": "promotion",
-      "history": "order history",
-      "stat": "statistics",
-      "wallet": "wallet"
-    },
-    "status": {
-      "past": "Passed",
-      "future": "Will be",
-      "pending": "In processing",
-      "fulfilled": "Done",
-      "present": "Is passing",
-      "error": "Error"
-    },
-    "tableOptions": {
-      "type": "Type of advertisement",
-      "description": "Description",
-      "priceForDay": "Price per day",
-      "place": "Place",
-      "language": "Language",
-      "yourObject": "Your object",
-      "period": "Period",
-      "priceForAllDays": "Price for the entire period/day",
-      "operation": "Operation",
-      "sum": "The amount",
-      "dayAndTime": "Date and time",
-      "status": "Status"
-    },
-    "objectTab": {
-      "myObject": "My Objects",
-      "regObject": "Register an object",
-      "editObject": "Edit an object"
-    },
-    "marketingTab": {
-      "mainTitle": "Promotion. Select an ad",
-      "subTitle": "Selected ads",
-      "pay": "To pay",
-      "cost": "Cost"
-    },
-    "historyTab": {
-      "orderHistory": "Order history"
-    },
-    "walletTab": {
-      "myWallet": "My wallet",
-      "replenish": "Replenish",
-      "historyPayment": "Payment history"
-    }
-  },
-  "CategoryNews": {
-    "news": "Tourism News",
-    "recommend": "Useful Tips and Lifehacks",
-    "overview": "Reviews",
-    "blog": "Travelers' Blog",
-    "bestDestination": "Best/Popular Destinations"
-  }
 }
