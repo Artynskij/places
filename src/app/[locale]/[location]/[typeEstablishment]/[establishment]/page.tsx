@@ -1,14 +1,16 @@
 import { EstablishmentScreen } from "@/screens/EstablishmentScreen/EstablishmentScreen";
 import { IPageProps } from "@/lib/models/IType";
 import { notFound } from "next/navigation";
-import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
-import { TagsService } from "@/lib/Api/tags/tag.service";
+
+import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
-import { ScheduleService } from "@/lib/Api/schedule/schedule.service";
+
 import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag";
 import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import { MapService } from "@/lib/Api/map/map.service";
+import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
+import { ScheduleService } from "@/lib/Api/(Establishment)/schedule/schedule.service";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -92,7 +94,7 @@ export default async function EstablishmentPage({
         dataEstablishment.location.country.id,
         params.locale
     );
-    const scheduleData = await apiSchedule.getLocationById(
+    const scheduleData = await apiSchedule.getScheduleById(
         params.establishment
     );
     if (!tagsEstablishment || !locationCountryData) {

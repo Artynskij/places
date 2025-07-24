@@ -4,6 +4,6 @@ export interface ICategoryOfEstablishmentPart {
     Id: string;
     Name: string;
     Path?: string | null;
-    Content: IContentEntity;
+    content: IContentEntity;
   
 }

@@ -13,6 +13,6 @@ export interface ILocationsEntity {
         };
     },
    
-    content?: IContentLocationEntity;
-    Content?: IContentLocationEntity;
+    content: IContentLocationEntity;
+    // Content?: IContentLocationEntity;
 }

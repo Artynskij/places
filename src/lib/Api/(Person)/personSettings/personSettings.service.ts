@@ -36,11 +36,8 @@ export class PersonSettingsService {
     ): Promise<IPersonSettingsFront | null> {
         const response = this.PersonSettingsApi.createPersonSettings()
             .then(async (res) => {
-                await this.PersonService.updatePerson({
-                    id: idPerson,
-                    body: {
-                        PersonSettings: res?.Id,
-                    },
+                await this.PersonService.updatePerson(idPerson, {
+                    PersonSettings: res?.Id,
                 });
 
                 return res;

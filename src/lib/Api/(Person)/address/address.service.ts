@@ -8,11 +8,11 @@ import { ContactsService } from "../../contacts/contacts.service";
 export class AddressService {
     private AddressApi: AddressApi;
     private AddressMapper: AddressMapper;
-    private ContactsPersonService: ContactsService;
+
     constructor() {
         this.AddressApi = new AddressApi();
         this.AddressMapper = new AddressMapper();
-        this.ContactsPersonService = new ContactsService();
+        
     }
 
     async getAddressById(
@@ -30,27 +30,12 @@ export class AddressService {
         return response;
     }
 
-    async createAddress({
-        body,
-        idPerson,
-        contactsPersonId,
-    }: {
-        body: IAddressRequest;
-        idPerson: string;
-        contactsPersonId: string | null;
-    }): Promise<IAddressFront | null> {
+    async createAddress(
+        body: IAddressRequest,
+        
+    ): Promise<IAddressFront | null> {
         const response = this.AddressApi.createAddress(body)
-            .then(async (res) => {
-                await this.ContactsPersonService.updateContacts({
-                    id: contactsPersonId,
-                    body: {
-                        AddressId: res?.Id,
-                    },
-                    vendorId: idPerson,
-                });
-
-                return res;
-            })
+          
             .then((res) => {
                 if (!res) return null;
                 const mappedData =
@@ -59,19 +44,13 @@ export class AddressService {
             });
         return response;
     }
-    async updateAddress({
-        id,
-        body,
-        idPerson,
-        contactsPersonId,
-    }: {
-        id: string | null;
-        body: IAddressRequest;
-        idPerson: string;
-        contactsPersonId: string | null;
-    }): Promise<IAddressFront | null> {
+    async updateAddress(
+        id: string | null,
+        body: IAddressRequest,
+      
+    ): Promise<IAddressFront | null> {
         if (!id) {
-            return this.createAddress({ body, idPerson, contactsPersonId });
+            return this.createAddress(body);
         }
         const response = this.AddressApi.updateAddress(id, body).then((res) => {
             if (!res) return null;

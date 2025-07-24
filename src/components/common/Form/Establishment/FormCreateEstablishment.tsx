@@ -16,6 +16,7 @@ import {
     useFieldArray,
     useForm,
 } from "react-hook-form";
+import { useState } from "react";
 import dayjs from "dayjs";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNotification } from "@/lib/context";
@@ -30,7 +31,6 @@ import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 
 import { TSocialNetworks } from "@/lib/models/types/TSocialNetworks";
 import { DeleteButton } from "../../ButtonFunctional/DeleteButton";
-import { useState } from "react";
 import { TimePickerCustom } from "../_components/TimePicker/TimePickerCustom";
 import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
 import { validSocialNetworksSchema } from "@/lib/validationSchemas/socialNetworksSchema";
@@ -44,6 +44,8 @@ import {
     getAgreementsValidation,
 } from "../../BlockFunctional/BlockAgreements";
 import { TAgreementKey } from "@/lib/models/types/TAgreementKey";
+import { ContactsService } from "@/lib/Api/contacts/contacts.service";
+import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 
 type TTypeForm = Yup.InferType<typeof validationSchemaRegister>;
 const agreementKeys: TAgreementKey[] = [
@@ -74,8 +76,8 @@ const validationSchemaRegister = Yup.object().shape({
         .required("Адрес электронной почты обязателен"),
     phone: validPhoneSchema,
     images: Yup.array()
-        .of(validImageFileSchema)
-        .min(5, "Необходимо загрузить хотя бы 5 фотографий"),
+        .of(validImageFileSchema),
+        // .min(5, "Необходимо загрузить хотя бы 5 фотографий"),
     locationId: Yup.string().required("Выбор локации обязателен"),
     coord: Yup.object().shape({
         lon: Yup.number().required("Координаты обязательны"),
@@ -95,6 +97,9 @@ interface IFormCreateEstablishment {}
 export const FormCreateEstablishment = () => {
     const notification = useNotification();
     const [selectedSocial, setSelectedSocial] = useState<string | null>(null);
+
+    const contactService = new ContactsService();
+    const establishmentService = new EstablishmentService();
 
     const handleSelect = (item: ISelectOption) => {
         const val = item.value as TSocialNetworks;
@@ -117,8 +122,22 @@ export const FormCreateEstablishment = () => {
 
     const onSubmit: SubmitHandler<TTypeForm> = (dataForm) => {
         console.log("Form Data:", dataForm);
-
         notification.success({ message: "Объект отправлен на модерацию" });
+        return;
+        // contactService.createContacts({body:{Phone:dataForm.phone, Email:dataForm.email, }})
+        // establishmentService.createEstablishment({
+        //     source: {
+        //         CategoryIds: dataForm.categories as string[],
+        //         ContactsId: "",
+        //         Latitude: 0,
+        //         Longitude: 0,
+        //         LocationsId: "",
+        //         Moderate: false,
+        //         StaticMapPath: "",
+        //         TypeId: "",
+        //     },
+        //     content: {},
+        // });
     };
     const onSubmitInvalid = (e: any) => {
         console.log(e);

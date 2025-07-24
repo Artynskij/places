@@ -2,17 +2,16 @@
 import { mockTourist } from "@/asset/mockData/mockTourist";
 import style from "./tabReview.module.scss";
 import { mockReviews } from "@/asset/mockData/mockReviews";
-import Image from "next/image";
-import { RateMain } from "@/components/common/RateCustom/RateMain";
+
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 import { IEstablishmentFront } from "@/lib/models";
-import { IEstablishmentResponse } from "@/lib/models/api/response";
-import { CardSliderMainPage } from "@/components/common/Cards";
-import { IconLocation } from "@/components/common/Icons";
+
+
 import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
-import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
+import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
+
 interface ITabReview {
     dataUser: (typeof mockTourist)[0];
 }

@@ -5,7 +5,7 @@ import style from "./cardReview.module.scss";
 import Image from "next/image";
 import { RateMain } from "../../RateCustom/RateMain";
 import { mockReviews } from "@/asset/mockData/mockReviews";
-import { IEstablishmentResponse } from "@/lib/models/api/response";
+
 import { IconLocation, IconThumbDown, IconThumbUp } from "../../Icons";
 import { useState } from "react";
 import { BlockLikeDislike } from "../../BlockFunctional/BlockLikeDislike";

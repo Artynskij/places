@@ -1,9 +1,12 @@
 import {
-    IEstablishmentResponse,
     IEstablishmentItemsResponse,
-} from "@/lib/models/api/response/establishment/IEstablishment.response";
-import apiClient from "../ApiClient";
-import { IPaginationEstablishmentRequest } from "@/lib/models/api/request/establishment/IPaginationEstablishment.request";
+    IEstablishmentResponse,
+} from "@/lib/models/api/response/(Establishment)/establishment/IEstablishment.response";
+import apiClient from "../../ApiClient";
+import {
+    IEstablishmentCreateRequest,
+    IPaginationEstablishmentRequest,
+} from "@/lib/models/api/request/(Establishment)/establishment/establishment.request";
 
 export default class EstablishmentApi {
     constructor() {}
@@ -26,13 +29,10 @@ export default class EstablishmentApi {
                 `/establishment/getAll`,
                 body
             );
-           
-            
+
             return response.data;
         } catch (error) {
-            console.error(
-                "Ошибка при получении заведений с пагинацией:"
-            );
+            console.error("Ошибка при получении заведений с пагинацией:");
             return null;
         }
     }
@@ -48,6 +48,15 @@ export default class EstablishmentApi {
             return response.data;
         } catch (error) {
             console.error(`Ошибка при получении заведения с ID ${id}:`);
+            return null;
+        }
+    }
+    async createEstablishment(body: IEstablishmentCreateRequest): Promise<any> {
+        try {
+            const response = await apiClient.post(`/establishment`);
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при создании заведения.`);
             return null;
         }
     }

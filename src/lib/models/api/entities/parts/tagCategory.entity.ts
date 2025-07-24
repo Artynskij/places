@@ -5,5 +5,5 @@ export interface ITagCategoryEntity {
     Id: string;
     Name: TCategoriesTags;
     Path: string | null;
-    Content: IContentEntity;
+    content: IContentEntity;
 }

@@ -1,12 +1,11 @@
-import { IPaginationEstablishmentRequest } from "@/lib/models/api/request/establishment/IPaginationEstablishment.request";
 import EstablishmentApi from "./establishment.endpoints";
 
-import {
-    IEstablishmentItemsResponse,
-    IEstablishmentResponse,
-} from "@/lib/models/api/response/establishment/IEstablishment.response";
 import { IEstablishmentFront } from "@/lib/models";
 import EstablishmentMapper from "./establishment.mapper";
+import {
+    IEstablishmentCreateRequest,
+    IPaginationEstablishmentRequest,
+} from "@/lib/models/api/request/(Establishment)/establishment/establishment.request";
 
 export class EstablishmentService {
     private establishmentApi: EstablishmentApi;
@@ -73,5 +72,9 @@ export class EstablishmentService {
                       });
                   })
             : null;
+    }
+    async createEstablishment(body: IEstablishmentCreateRequest): Promise<any> {
+        const response = this.establishmentApi.createEstablishment(body);
+        return response;
     }
 }

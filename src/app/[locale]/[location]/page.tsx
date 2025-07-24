@@ -9,18 +9,18 @@ import { unstable_setRequestLocale } from "next-intl/server";
 import LocationScreen from "@/screens/LocationScreen/LocationScreen";
 import { Loader } from "@/components/common/Loader/Loader";
 import { notFound } from "next/navigation";
-import { EstablishmentService } from "@/lib/Api/establishment/establishment.service";
+
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { LocationService } from "@/lib/Api/location/location.service";
-import { TagsService } from "@/lib/Api/tags/tag.service";
+import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
 import { countriesData } from "@/asset/constants/countries";
+import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 
 export async function generateMetadata({
     params,
 }: {
     params: { location: string };
 }) {
-    
     return {
         title: `${process.env.BASE_NAME} | ${params.location}`,
     };

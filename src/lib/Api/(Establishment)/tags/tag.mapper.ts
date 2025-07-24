@@ -27,7 +27,7 @@ export default class TagsMapper {
                           groupKey: {
                               id: groupTag.TagCategory.Id,
                               value:
-                                  groupTag.TagCategory.Content.details[0]
+                                  groupTag.TagCategory.content.details[0]
                                       .value || groupTag.TagCategory.Name,
                               key: groupTag.TagCategory.Name,
                           },
@@ -35,9 +35,9 @@ export default class TagsMapper {
                               const countPrice =
                                   groupTag.TagCategory.Name ===
                                       CONSTANT_CATEGORY_CLASS_TAG.price &&
-                                  tag.Content.details[0].secondaryValue
+                                  tag.content.details[0].secondaryValue
                                       ? this.createClassCount(
-                                            tag.Content.details[0]
+                                            tag.content.details[0]
                                                 .secondaryValue,
                                             "price"
                                         )
@@ -46,19 +46,19 @@ export default class TagsMapper {
                                   groupTag.TagCategory.Name ===
                                   CONSTANT_CATEGORY_CLASS_TAG.star
                                       ? this.createClassCount(
-                                            tag.Content.details[0].value,
+                                            tag.content.details[0].value,
                                             "star"
                                         )
                                       : null;
                               return {
                                   id: tag.Id,
                                   key: `t${tag.Id}`,
-                                  value: tag.Content.details[0].value,
+                                  value: tag.content.details[0].value,
                                   secondaryValue:
-                                      tag.Content.details[0].secondaryValue ||
+                                      tag.content.details[0].secondaryValue ||
                                       null,
                                   iconName:
-                                      tag.Content.details[0].cIcon || null,
+                                      tag.content.details[0].cIcon || null,
                                   count: countStar || countPrice || null,
                               };
                           })
@@ -96,10 +96,10 @@ export default class TagsMapper {
                           return {
                               id: cat.Id,
                               key: `c${cat.Id}`,
-                              value: cat.Content.details[0].value,
+                              value: cat.content.details[0].value,
                               secondaryValue:
-                                  cat.Content.details[0].secondaryValue || null,
-                              iconName: cat.Content.details[0].cIcon || null,
+                                  cat.content.details[0].secondaryValue || null,
+                              iconName: cat.content.details[0].cIcon || null,
                           };
                       })
                       .sort((a, b) => {
@@ -133,9 +133,9 @@ export default class TagsMapper {
                 const countPrice =
                     tag.Tag.TagCategory.Name ===
                         CONSTANT_CATEGORY_CLASS_TAG.price &&
-                    tag.Tag.Content.details[0].secondaryValue
+                    tag.Tag.content.details[0].secondaryValue
                         ? this.createClassCount(
-                              tag.Tag.Content.details[0].secondaryValue,
+                              tag.Tag.content.details[0].secondaryValue,
                               "price"
                           )
                         : null;
@@ -143,7 +143,7 @@ export default class TagsMapper {
                     tag.Tag.TagCategory.Name ===
                     CONSTANT_CATEGORY_CLASS_TAG.star
                         ? this.createClassCount(
-                              tag.Tag.Content.details[0].value,
+                              tag.Tag.content.details[0].value,
                               "star"
                           )
                         : null;
@@ -152,16 +152,16 @@ export default class TagsMapper {
                     tag: {
                         id: tag.Tag.Id,
                         key: tag.Tag.Id,
-                        value: tag.Tag.Content.details[0].value,
+                        value: tag.Tag.content.details[0].value,
                         secondaryValue:
-                            tag.Tag.Content.details[0].secondaryValue || null,
-                        iconName: tag.Tag.Content.details[0].cIcon || null,
+                            tag.Tag.content.details[0].secondaryValue || null,
+                        iconName: tag.Tag.content.details[0].cIcon || null,
                         count: countStar || countPrice || null,
                     },
                     categoryTag: {
                         id: tag.Tag.TagCategory.Id,
                         value:
-                            tag.Tag.TagCategory.Content.details[0].value ||
+                            tag.Tag.TagCategory.content.details[0].value ||
                             tag.Tag.TagCategory.Name,
                         key: tag.Tag.TagCategory.Name,
                     },

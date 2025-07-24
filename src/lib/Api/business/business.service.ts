@@ -1,4 +1,4 @@
-import { DictionariesService } from "@/lib/Api/dictionaries/dictionaries.service";
+import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { BusinessAssignmentApi } from "@/lib/Api/business/businessAssignment.endpoints";
 import { IBusinessFront } from "@/lib/models/frontend/business/business.front";
 import BusinessApi from "./business.endpoints";
@@ -10,12 +10,12 @@ import {
 export class BusinessService {
     private BusinessApi: BusinessApi;
     private BusinessAssignmentApi: BusinessAssignmentApi;
-    private DictionariesService: DictionariesService;
+    private DataLoadManagementService: DataLoadManagementService;
 
     constructor() {
         this.BusinessApi = new BusinessApi();
         this.BusinessAssignmentApi = new BusinessAssignmentApi();
-        this.DictionariesService = new DictionariesService();
+        this.DataLoadManagementService = new DataLoadManagementService();
     }
 
     async getBusinessById(
@@ -32,7 +32,8 @@ export class BusinessService {
     ): Promise<IBusinessFront | null> {
         const response = this.BusinessApi.createBusiness(body).then(
             async (res) => {
-                const roles = await this.DictionariesService.getRolesOwner();
+                const roles =
+                    await this.DataLoadManagementService.getRolesOwner();
                 const ownerRole = roles?.find((role) => (role.Code = "OWNER"));
                 if (!res || !ownerRole) return null;
 

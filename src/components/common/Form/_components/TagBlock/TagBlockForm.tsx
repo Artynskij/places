@@ -2,7 +2,7 @@
 import style from "./tagBlockForm.module.scss";
 import { Button } from "@/components/UI/Button/Button";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
-import { DictionariesService } from "@/lib/Api/dictionaries/dictionaries.service";
+import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { ITagBlockFront } from "@/lib/models";
 import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
@@ -20,7 +20,7 @@ interface Props {
 }
 
 const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
-    const tagService = new DictionariesService();
+    const tagService = new DataLoadManagementService();
     const locale = useLocale();
     const [activePopup, setActivePopup] = useState(false);
     const [tagsGrouped, setTagsGrouped] = useState<ITagBlockFront[]>([]);
@@ -176,7 +176,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
                 </div>
             )}
 
-            {error && <SpanErrorForm text={error.message || ''} />}
+            {error && <SpanErrorForm text={error.message || ""} />}
         </div>
     );
 };

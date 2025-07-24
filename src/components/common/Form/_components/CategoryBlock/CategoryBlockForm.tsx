@@ -3,12 +3,13 @@
 import style from "./categoryBlockForm.module.scss";
 import { Select } from "antd";
 import { useEffect, useState } from "react";
-import { DictionariesService } from "@/lib/Api/dictionaries/dictionaries.service";
+
 import { ICategoryFront } from "@/lib/models";
 import { useLocale } from "next-intl";
 import { FieldError } from "react-hook-form";
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
+import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 
 interface Props {
     selectedCategories?: string[];
@@ -21,12 +22,12 @@ const CategoryBlockForm = ({
     onChange,
     error,
 }: Props) => {
-    const dictionariesService = new DictionariesService();
+    const dataLoadManagementService = new DataLoadManagementService();
     const locale = useLocale();
     const [categories, setCategories] = useState<ICategoryFront[]>([]);
 
     useEffect(() => {
-        dictionariesService.getCategories(locale).then((res) => {
+        dataLoadManagementService.getCategories(locale).then((res) => {
             if (res) {
                 setCategories(res);
             }

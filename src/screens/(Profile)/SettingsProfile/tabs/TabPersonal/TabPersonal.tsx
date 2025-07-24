@@ -37,8 +37,9 @@ import { validSocialNetworksSchema } from "@/lib/validationSchemas/socialNetwork
 import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
 import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
 import Image from "next/image";
-import { DictionariesService } from "@/lib/Api/dictionaries/dictionaries.service";
+import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { TextareaForm } from "@/components/UI/Textarea/TextareaForm/TextareaForm";
+import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request";
 
 type TTypeForm = Yup.InferType<typeof validationSchema>;
 
@@ -58,9 +59,9 @@ const TabPersonal = () => {
     const personService = new PersonService();
     const personNameService = new PersonNameService();
     const contactsPersonService = new ContactsService();
-    const addressService = new AddressService();
-    const socialNetworksService = new SocialNetworksPersonService();
-    const dictionariesService = new DictionariesService();
+    // const addressService = new AddressService();
+    // const socialNetworksService = new SocialNetworksPersonService();
+    // const dataLoadManagementService = new DataLoadManagementService();
     const fileUploadService = new FileUploadService();
 
     const [personData, setPersonData] = useState<IPersonFront>();
@@ -131,6 +132,9 @@ const TabPersonal = () => {
             notification.success({ message: "не найден пользователь" });
             return;
         }
+        const bodyToPersonUpdate: IPersonRequest = {
+            About: dataForm.description,
+        };
         const bodyPersonName = {
             FirstName: dataForm.fullName.name,
             LastName: dataForm.fullName.surname,
@@ -158,6 +162,7 @@ const TabPersonal = () => {
                       {} as ISocialContactsRequest
                   )
                 : null;
+
         // добавление фотки
 
         if (dataForm.avatar) {
@@ -170,56 +175,39 @@ const TabPersonal = () => {
                     type: "image",
                     vendorId: personData.id,
                 });
-                await personService.updatePerson({
-                    id: personData.id,
-                    body: {
-                        AvatarPhotoPath: imageUrl?.blobPath,
-                    },
-                });
+                bodyToPersonUpdate.AvatarPhotoPath = imageUrl?.blobPath;
             }
-            await personService.updatePerson({
-                id: personData.id,
-                body: {
-                    About: dataForm.description,
-                },
-            });
 
-            personService;
+        
         }
         // Добавление фио
 
-        await personNameService.updatePersonName({
-            id: personData.personName?.id || null,
-            body: bodyPersonName,
-            idPerson: personData.id,
-        });
-
+        const personNameResponse = bodyPersonName
+            ? await personNameService.updatePersonName(
+                  personData.personName?.id || null,
+                  bodyPersonName
+              )
+            : null;
+        if (personNameResponse) {
+            bodyToPersonUpdate.PersonName = personNameResponse.id;
+        }
         // Добавление контактов
 
-        await contactsPersonService.updateContacts({
-            id: personData.contacts?.id || null,
-            body: bodyContacts,
-            vendorId: personData.id,
+        const contactsResponse = await contactsPersonService.updateContacts({
+            ids: {
+                contactId: personData.contacts?.id || null,
+                addressId: personData.address?.id || null,
+                socialNetworksId: personData.socialNetworks?.id || null,
+            },
+            bodyContacts: bodyContacts,
+            bodyAddress: bodyAddress,
+            bodySocialContacts: bodySocialNetworks,
         });
 
-        // Добавление адресса
-
-        await addressService.updateAddress({
-            id: personData.address?.id || null,
-            body: bodyAddress,
-            idPerson: personData.id,
-            contactsPersonId: personData.contacts?.id || null,
-        });
-
-        // Добавление соц сетей
-        if (bodySocialNetworks) {
-            await socialNetworksService.updateSocialNetworksPerson({
-                id: personData.socialNetworks?.id || null,
-                body: bodySocialNetworks,
-                idPerson: personData.id,
-                idContacts: personData.contacts?.id || null,
-            });
+        if (contactsResponse) {
+            bodyToPersonUpdate.Contacts = contactsResponse.id;
         }
+      await personService.updatePerson(personData.id, bodyToPersonUpdate)
 
         notification.success({ message: "данные успешно сохранены" });
     };

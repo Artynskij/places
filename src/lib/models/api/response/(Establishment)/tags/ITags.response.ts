@@ -1,5 +1,9 @@
-import { ICategoryOfEstablishmentPart } from "../../entities/parts/categoryOfEstablishmentPart.entity";
-import { ITagEntity, ITagWithCategoryEntity } from "../../entities/tag.entity";
+import { IEstablishmentEntity } from "../../../entities/establishment.entity";
+import { ICategoryOfEstablishmentPart } from "../../../entities/parts/categoryOfEstablishmentPart.entity";
+import {
+    ITagEntity,
+    ITagWithCategoryEntity,
+} from "../../../entities/tag.entity";
 
 export interface ITagsResponse {}
 export interface ITagsOfEstablishmentResponse {
@@ -23,4 +27,9 @@ export interface ITagsOfEstablishmentFilterResponse {
         Tags: ITagWithCategoryEntity[];
     }[];
     categories: ICategoryOfEstablishmentPart[];
+}
+export interface ITagAndEstablishmentConnectionResponse {
+    Id: string;
+    Tag: ITagEntity;
+    Establishment: IEstablishmentEntity;
 }

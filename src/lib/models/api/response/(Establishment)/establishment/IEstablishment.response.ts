@@ -1,4 +1,5 @@
-import { IEstablishmentEntity } from "../../entities/establishment.entity";
+import { IEstablishmentEntity } from "../../../entities/establishment.entity";
+
 
 export interface IEstablishmentResponse {
     establishment: IEstablishmentEntity;

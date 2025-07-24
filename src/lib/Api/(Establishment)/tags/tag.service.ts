@@ -1,14 +1,15 @@
 import { TagsApi } from "./tag.endpoints";
-import { ITagsOfEstablishmentRequest } from "@/lib/models/api/request/tags/IPaginationTags.request";
+import { ITagsOfEstablishmentRequest } from "@/lib/models/api/request/(Establishment)/tags/IPaginationTags.request";
 import { IPaginationRequest } from "@/lib/models/api/request/IPagination.request";
 import {
     ITagsOfEstablishmentFilterResponse,
     ITagsOfEstablishmentResponse,
-} from "@/lib/models/api/response/tags/ITags.response";
+} from "@/lib/models/api/response/(Establishment)/tags/ITags.response";
 import { ITagBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 import TagsMapper from "./tag.mapper";
 import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
 import { ITagFront } from "@/lib/models";
+import { ITagAndEstablishmentConnectionRequest } from "@/lib/models/api/request/(Establishment)/tags/ITagConnection.request";
 // import { ITagClassFront, ITagClassWithEstablishmentFront } from "@/lib/models";
 
 export class TagsService {
@@ -53,6 +54,12 @@ export class TagsService {
             (item) => item.tag.count
         );
         return classTagsOfEstablishments ? classTagsOfEstablishments : null;
+    }
+    async createTagEstablishmentConnect(
+        body: ITagAndEstablishmentConnectionRequest
+    ): Promise<ITagsOfEstablishmentFilterResponse | null> {
+        const response = this.createTagEstablishmentConnect(body);
+        return response;
     }
     // separationClassTag(tags: ITagBlockFront[]): ITagBlockFront | null {
     //     const classTag = this.tagsMapper.separationClassTag(tags);

@@ -1,4 +1,4 @@
-import { ICategoryOfEstablishmentEntity } from "./../../models/api/entities/categoryOfEstablishment.entity";
+import { ICategoryOfEstablishmentEntity } from "../../models/api/entities/categoryOfEstablishment.entity";
 import {
     ITagEntity,
     ITagBlockFront,
@@ -6,20 +6,21 @@ import {
     ICategoryFront,
 } from "@/lib/models";
 
-export class DictionariesMapper {
+export class DataLoadManagementMapper {
     constructor() {}
     tagsBlockMapper(tags: ITagEntity[]): ITagBlockFront[] {
         const grouped = tags.reduce<Record<string, ITagBlockFront>>(
             (acc, tag) => {
                 const detail = tag.content.details[0];
-                const groupKey = detail.cName || "unknown type";
+                const tagCategory = tag.tag.TagCategory;
+                const groupKey = tagCategory.Name || "unknown type";
 
                 if (!acc[groupKey]) {
                     acc[groupKey] = {
                         groupKey: {
-                            id: "",
+                            id: tagCategory.Id,
                             key: groupKey,
-                            value: "",
+                            value: groupKey,
                         },
                         tags: [],
                     };

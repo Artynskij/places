@@ -3,6 +3,7 @@ import { ITagCategoryEntity } from "./parts/tagCategory.entity";
 export interface ITagEntity {
     tag: {
         Id: string;
+        TagCategory: ITagCategoryEntity;
     };
     content: IContentEntity;
 }
@@ -10,5 +11,5 @@ export interface ITagWithCategoryEntity {
     TagCategory: ITagCategoryEntity;
     Id: string;
 
-    Content: IContentEntity;
+    content: IContentEntity;
 }

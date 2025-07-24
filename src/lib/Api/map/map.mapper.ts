@@ -9,7 +9,7 @@ import {
     TTypesOfSearchKey,
 } from "@/lib/models/types/TTypesGlobal";
 
-import TagsMapper from "../tags/tag.mapper";
+import TagsMapper from "../(Establishment)/tags/tag.mapper";
 
 import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
 import { IMapItemEntity } from "@/lib/models/api/entities/mapItem.entity";

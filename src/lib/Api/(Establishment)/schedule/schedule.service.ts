@@ -1,6 +1,8 @@
-import { ScheduleMapper } from "./shedule.mapper";
+import { ScheduleMapper } from "./schedule.mapper";
 import { IScheduleFront } from "@/lib/models/frontend/schedule/schedule.front";
 import { ScheduleApi } from "./schedule.endpoint";
+import { IScheduleCreateRequest } from "@/lib/models/api/request/(Establishment)/schedule/schedule.request";
+import { IScheduleCreateResponse } from "@/lib/models/api/response/(Establishment)/schedule/schedule.response";
 
 export class ScheduleService {
     private scheduleApi: ScheduleApi;
@@ -9,11 +11,17 @@ export class ScheduleService {
         this.scheduleApi = new ScheduleApi();
         this.scheduleMapper = new ScheduleMapper();
     }
-    async getLocationById(id: string): Promise<IScheduleFront[] | null> {
+    async getScheduleById(id: string): Promise<IScheduleFront[] | null> {
         const response = await this.scheduleApi.getScheduleById(id);
         const mappingData = response
             ? this.scheduleMapper.transformSchedule(response)
             : null;
         return mappingData;
+    }
+    async createScheduleDay(
+        body: IScheduleCreateRequest
+    ): Promise<IScheduleCreateResponse | null> {
+        const response = await this.scheduleApi.createScheduleDay(body);
+        return response;
     }
 }

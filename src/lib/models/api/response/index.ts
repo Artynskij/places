@@ -1,3 +1,3 @@
 // export * from "./article/"
-export * from "./establishment/IEstablishment.response"
-export * from "./tags/ITags.response"
+export * from "./(Establishment)/establishment/IEstablishment.response";
+export * from "./(Establishment)/tags/ITags.response";

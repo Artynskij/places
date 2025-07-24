@@ -34,24 +34,20 @@ export class PersonNameService {
         return response;
     }
 
-    async createPersonName({
-        body,
-        idPerson,
-    }: {
-        body: IPersonNameCreateRequest;
-        idPerson: string;
-    }): Promise<IPersonNameFront | null> {
+    async createPersonName(
+        body: IPersonNameCreateRequest
+    ): Promise<IPersonNameFront | null> {
         const response = this.personNameApi
             .createPersonName(body)
-            .then(async (res) => {
-                await this.PersonService.updatePerson({
-                    id: idPerson,
-                    body: {
-                        PersonName: res?.Id,
-                    },
-                });
-                return res;
-            })
+            // .then(async (res) => {
+            //     await this.PersonService.updatePerson({
+            //         id: idPerson,
+            //         body: {
+            //             PersonName: res?.Id,
+            //         },
+            //     });
+            //     return res;
+            // })
             .then((res) => {
                 if (!res) return null;
                 const mappedData =
@@ -60,17 +56,12 @@ export class PersonNameService {
             });
         return response;
     }
-    async updatePersonName({
-        id,
-        body,
-        idPerson,
-    }: {
-        id: string | null;
-        body: IPersonNameUpdateRequest;
-        idPerson: string;
-    }): Promise<IPersonNameFront | null> {
+    async updatePersonName(
+        id: string | null,
+        body: IPersonNameUpdateRequest
+    ): Promise<IPersonNameFront | null> {
         if (!id) {
-            return this.createPersonName({ body, idPerson });
+            return this.createPersonName(body);
         }
         const response = this.personNameApi
             .updatePersonName(id, body)

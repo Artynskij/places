@@ -9,7 +9,7 @@ interface ILocationsInEstablishment {
     Id: string;
     ParentId: string;
     Path: string;
-    Content: IContentEntity;
+    content: IContentEntity;
 }
 export interface IEstablishmentEntity {
     establishment: {

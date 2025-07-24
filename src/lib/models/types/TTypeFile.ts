@@ -1,1 +1,1 @@
-export type TTypeFile = "image" | "video" | "doc";
+export type TTypeFile = "image" | "video" | "document";

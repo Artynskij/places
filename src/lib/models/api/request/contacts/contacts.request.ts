@@ -1,7 +1,7 @@
 export interface IContactsRequest {
-    Email?: string;
-    Phone?: string;
-    PhoneCountryCode?: string;
-    SocialContactsId?: string;
-    AddressId?: string;
+    Email?: string | null;
+    Phone?: string | null;
+    PhoneCountryCode?: string | null;
+    SocialContactsId?: string | null;
+    AddressId?: string | null;
 }

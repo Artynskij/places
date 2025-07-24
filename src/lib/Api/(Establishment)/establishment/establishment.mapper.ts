@@ -54,7 +54,7 @@ export default class EstablishmentMapper {
                 id: establishment.establishment.Categories[0]?.Id || "",
                 key: establishment.establishment.Categories[0]?.Id || "",
                 value:
-                    establishment.establishment.Categories[0]?.Content
+                    establishment.establishment.Categories[0]?.content
                         ?.details[0].value || "",
             },
             rates: {
@@ -75,7 +75,7 @@ export default class EstablishmentMapper {
                 town: {
                     id: establishment.establishment.Locations?.Id || "",
                     title:
-                        establishment.establishment.Locations?.Content
+                        establishment.establishment.Locations?.content
                             ?.details[0].value || "",
                 },
                 street: establishment.content.value[0].value.location.street1,
