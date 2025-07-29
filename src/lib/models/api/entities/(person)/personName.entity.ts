@@ -5,6 +5,7 @@ export interface IPersonNameEntity {
     LastName: string | null;
     OriginalName: string | null;
     OriginalLastName: string | null;
+    OriginalMiddleName: string | null;
     ContentId: string | null;
     CreatedDate: string;
     LastModifiedDate: string;

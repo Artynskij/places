@@ -7,7 +7,7 @@ import { IconLocation } from "@/components/common/Icons";
 import { PopupMap } from "@/components/common/Popup/PopupMap/PopupMap";
 import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
 import { IEstablishmentFront, ITagWithEstablishmentFront } from "@/lib/models";
-import { mapEstablishmentToSearchItem } from "@/lib/utils/mappers/mapEstablishmentToSearchItem";
+import { mapEstablishmentToSearchItem } from "@/lib/helpers/mappers/mapEstablishmentToSearchItem";
 
 interface IBlockMapFilterS {
     establishmentList: IEstablishmentFront[];

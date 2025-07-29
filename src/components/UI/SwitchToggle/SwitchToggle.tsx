@@ -18,7 +18,7 @@ export const SwitchToggle = ({
 }: ISwitchToggle) => {
     return (
         <label className={style.switchToggle}>
-            <Switch checked={value} onChange={onChange} disabled={disabled} />
+            <Switch className={'custom-switch-antd'}  checked={value} onChange={onChange} disabled={disabled} />
             <span className={style.labelText}>{titleSpan}</span>
         </label>
     );

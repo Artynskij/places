@@ -8,19 +8,19 @@ export class SocialNetworksPersonMapper {
     ): ISocialContactsFront {
         const mappedData: ISocialContactsFront = {
             id: socialNetworksPersonServer.Id,
-            instagram: socialNetworksPersonServer.Instagram,
-            linkedin: socialNetworksPersonServer.LinkedIn,
-            ok: socialNetworksPersonServer.OK,
-            rutube: socialNetworksPersonServer.RuTube,
-            telegram: socialNetworksPersonServer.Telegram,
-            threads: socialNetworksPersonServer.Threads,
-            tiktok: socialNetworksPersonServer.TikTok,
-            viber: socialNetworksPersonServer.Viber,
-            web: socialNetworksPersonServer.Web,
-            vk: socialNetworksPersonServer.VK,
-            whatsapp: socialNetworksPersonServer.WhatsApp,
-            x: socialNetworksPersonServer.X,
-            youtube: socialNetworksPersonServer.YouTube,
+            Instagram: socialNetworksPersonServer.Instagram,
+            LinkedIn: socialNetworksPersonServer.LinkedIn,
+            OK: socialNetworksPersonServer.OK,
+            RuTube: socialNetworksPersonServer.RuTube,
+            Telegram: socialNetworksPersonServer.Telegram,
+            Threads: socialNetworksPersonServer.Threads,
+            TikTok: socialNetworksPersonServer.TikTok,
+            Viber: socialNetworksPersonServer.Viber,
+            Web: socialNetworksPersonServer.Web,
+            VK: socialNetworksPersonServer.VK,
+            WhatsApp: socialNetworksPersonServer.WhatsApp,
+            X: socialNetworksPersonServer.X,
+            YouTube: socialNetworksPersonServer.YouTube,
         };
 
         return mappedData;

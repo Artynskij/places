@@ -2,7 +2,7 @@ import SocialNetworksPersonApi from "./socialNetworksPerson.endpoints";
 import { ISocialContactsFront } from "@/lib/models/frontend/(person)/socialContacts.front";
 import { ISocialContactsRequest } from "@/lib/models/api/request/(Person)/socialContacts.request";
 
-import { ContactsService } from "../../contacts/contacts.service";
+
 import { SocialNetworksPersonMapper } from "./socialNetworksPerson.mapper";
 
 export class SocialNetworksPersonService {
@@ -51,16 +51,18 @@ export class SocialNetworksPersonService {
     }
     async updateSocialNetworksPerson(
         id: string | null,
-        body: ISocialContactsRequest
+        body: ISocialContactsRequest | null
     ): Promise<ISocialContactsFront | null> {
+        if (!body) return null;
         if (!id) {
             return this.createSocialNetworksPerson(body);
         }
+
         const response =
             this.SocialNetworksPersonApi.updateSocialNetworksPerson(
                 id,
                 body
-            ).then(async (res) => {
+            ).then((res) => {
                 if (!res) return null;
                 const mappedData =
                     this.SocialNetworksPersonMapper.transformSocialNetworksPersonEntity(

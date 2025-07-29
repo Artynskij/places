@@ -4,16 +4,18 @@ import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import { PersonMapper } from "./person.mapper";
 import { DataLoadManagementService } from "../../dataLoadManagement/dataLoadManagement.service";
 import { IPersonEntity } from "@/lib/models/api/entities/(person)/person.entity";
+import { GenderService } from "../gender.api";
 
 export class PersonService {
     private personApi: PersonApi;
     private personMapper: PersonMapper;
     private DataLoadManagementService: DataLoadManagementService;
-
+    private GenderService: GenderService;
     constructor() {
         this.personApi = new PersonApi();
         this.personMapper = new PersonMapper();
         this.DataLoadManagementService = new DataLoadManagementService();
+        this.GenderService = new GenderService();
     }
 
     async getPersonById(
@@ -21,15 +23,23 @@ export class PersonService {
         lang?: string
     ): Promise<IPersonFront | null> {
         const cdnHost = await this.DataLoadManagementService.getBlobProxy();
-        const response = this.personApi.getPersonById(id, lang).then((res) => {
-            if (!res) return null;
 
-            const mappedData = this.personMapper.transformPersonEntity(
-                res,
-                cdnHost?.url || null
-            );
-            return mappedData;
-        });
+        const response = this.personApi
+            .getPersonById(id, lang)
+            .then(async (res) => {
+                if (!res) return null;
+
+                const genderServer = res.person.Gender?.Id
+                    ? await this.GenderService.getById(res.person.Gender.Id)
+                    : null;
+
+                const mappedData = this.personMapper.transformPersonEntity(
+                    res,
+                    genderServer,
+                    cdnHost?.url || null
+                );
+                return mappedData;
+            });
 
         return response;
     }

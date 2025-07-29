@@ -9,7 +9,7 @@ import style from "./dropdownListFinder.module.scss";
 import { IconEnter, IconPlus, IconSearch } from "@/components/common/Icons";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { ISearchItemFront } from "@/lib/models";
-import { getUrlForUrl } from "@/lib/hooks/getUrlForSearch";
+import { getUrlForUrl } from "@/lib/helpers/getUrlForSearch";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";

@@ -2,6 +2,8 @@ import { IRoleOwnerEntity } from "@/lib/models/api/entities/dataLoadManagement/r
 import apiClient from "../ApiClient";
 import { ITypeOfEstablishment } from "@/lib/models/api/entities/typeOfEstablishment.entity";
 import { ICategoryOfEstablishmentEntity, ITagEntity } from "@/lib/models";
+import { IGenderEntity } from "@/lib/models/api/entities/(person)/gender.entity";
+import { TLocale } from "@/lib/models/types/TLocale";
 
 export default class DataLoadManagementApi {
     constructor() {}
@@ -11,6 +13,15 @@ export default class DataLoadManagementApi {
             return response.data;
         } catch (error) {
             console.error(`Ошибка при получении справочника ролей`);
+            return null;
+        }
+    }
+    async getGenders(locale:TLocale): Promise<IGenderEntity[] | null> {
+        try {
+            const response = await apiClient.post(`/gender/get-all`, {lang:locale});
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при получении справочника полов`);
             return null;
         }
     }

@@ -126,18 +126,15 @@
     flex-direction: column;
     gap: $gap-small;
     position: relative;
-    margin-bottom: 20px;
+    
     width: 100%;
     &_dragger {
         border-color: red;
     }
-    &_errorInput {
-        @extend %Text14;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        color: red;
-    }
+
+   &_text{
+    @extend %Text16;
+   }
 }
 .delete {
     font-size: 50px;

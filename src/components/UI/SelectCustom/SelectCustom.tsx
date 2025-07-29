@@ -14,6 +14,7 @@ interface ISelectProps {
     classNameValue?: string;
     classNameCtn?: string;
     error?: string;
+    nameSelectImportant?: string;
 }
 
 export const SelectCustom: FC<ISelectProps> = ({
@@ -24,6 +25,7 @@ export const SelectCustom: FC<ISelectProps> = ({
     classNameValue,
     classNameCtn,
     error,
+    nameSelectImportant,
 }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     // const [activeValue, setActiveValue] = useState(title || options[0].value);
@@ -61,8 +63,9 @@ export const SelectCustom: FC<ISelectProps> = ({
                 className={`${style.select_value} ${classNameValue}`}
             >
                 <span>
-                    {options.find((item) => item.value === activeOption)
-                        ?.name ||
+                    {nameSelectImportant ||
+                        options.find((item) => item.value === activeOption)
+                            ?.name ||
                         title ||
                         options[0].name}
                 </span>
@@ -93,7 +96,7 @@ export const SelectCustom: FC<ISelectProps> = ({
                     <span>Нет доступных опций</span>
                 )}
             </div>
-            {error && <SpanErrorForm text={error}/>}
+            {error && <SpanErrorForm text={error} />}
         </div>
     );
 };

@@ -6,5 +6,6 @@ export interface IPersonNameFront {
     secondName: string | null;
     surname: string | null;
     originalName: string | null;
-    originalLastName: string | null;
+    originalSurname: string | null;
+    originalSecondName: string | null;
 }

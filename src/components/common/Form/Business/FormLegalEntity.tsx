@@ -41,7 +41,7 @@ const validationSchemaRegister = Yup.object().shape({
     numberOrganization: Yup.string().required(
         "Индивидуальный регистрационный номер обязательно"
     ),
-    date: validDateSchema,
+    date: validDateSchema.required("дата обязательна"),
     emailOrganization: Yup.string()
         .email("Неккоректный адрес электронной почты")
         .required("Адрес электронной почты обязателен"),

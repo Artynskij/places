@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/UI/Button/Button";
 import style from "./userComponent.module.scss";
 import { IconEdit } from "@/components/common/Icons/IconEdit/IconEdit";
@@ -5,9 +6,39 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { ROUTES } from "@/lib/config/Routes";
+import { useLocale, useTranslations } from "next-intl";
 
-const UserComponent = async () => {
-    const t = await getTranslations("ProfilePage.header");
+import { PersonService } from "@/lib/Api/(Person)/person/person.service";
+import { useUser } from "@/lib/context/UserContext/UserContext";
+import { useEffect } from "react";
+import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
+import { useNotification } from "@/lib/context";
+import { Loader } from "@/components/common/Loader/Loader";
+import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
+import { getFormatDate } from "@/lib/helpers/getFormatDate";
+
+const UserComponent = () => {
+    const t = useTranslations("ProfilePage.header");
+    const locale = useLocale();
+    const notification = useNotification();
+    const personService = new PersonService();
+
+    const { user, setUser } = useUser();
+    useEffect(() => {
+        personService
+            .getPersonById("01JZMZWTCTHYV5APEJKD6F74DF")
+            .then((res) => {
+                if (!res) {
+                    notification.error({ message: "нету пользователя" });
+                    return;
+                }
+                setUser(res);
+
+              
+            });
+    }, []);
+
+    if (!user) return <Loader />;
     return (
         <>
             <div className={style.background}>
@@ -25,7 +56,7 @@ const UserComponent = async () => {
                         className={style.middle_avatar_img}
                         width={96}
                         height={96}
-                        src="/mock/avatarOwnerMock.jpg"
+                        src={user.profileImg || CONSTANT_DEFAULT_AVATAR_URL}
                         alt="avatar"
                     />
                 </div>
@@ -45,10 +76,22 @@ const UserComponent = async () => {
                 </div>
             </div>
             <div className={style.bottom}>
-                <h4 className={style.bottom_name}>Owner Surname</h4>
-                <span className={style.bottom_mail}>example@gmail.com</span>
+                <h4 className={style.bottom_name}>
+                    {user.personName?.originalSurname ||
+                    user.personName?.originalName ||
+                    user.personName?.originalSecondName
+                        ? [
+                              user.personName?.originalSurname,
+                              user.personName?.originalName,
+                              user.personName?.originalSecondName,
+                          ]
+                              .filter(Boolean)
+                              .join(" ")
+                        : "Верификация не пройдена"}
+                </h4>
+                <span className={style.bottom_mail}>{}</span>
                 <span className={style.bottom_date}>
-                    дата регистрации на сайте
+                    День регистрации: {getFormatDate(user.dateRegister)}
                 </span>
             </div>
         </>

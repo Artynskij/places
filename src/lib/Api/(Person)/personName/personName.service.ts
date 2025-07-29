@@ -39,15 +39,6 @@ export class PersonNameService {
     ): Promise<IPersonNameFront | null> {
         const response = this.personNameApi
             .createPersonName(body)
-            // .then(async (res) => {
-            //     await this.PersonService.updatePerson({
-            //         id: idPerson,
-            //         body: {
-            //             PersonName: res?.Id,
-            //         },
-            //     });
-            //     return res;
-            // })
             .then((res) => {
                 if (!res) return null;
                 const mappedData =
@@ -60,9 +51,13 @@ export class PersonNameService {
         id: string | null,
         body: IPersonNameUpdateRequest
     ): Promise<IPersonNameFront | null> {
+        if (!body) {
+            return null;
+        }
         if (!id) {
             return this.createPersonName(body);
         }
+
         const response = this.personNameApi
             .updatePersonName(id, body)
             .then((res) => {

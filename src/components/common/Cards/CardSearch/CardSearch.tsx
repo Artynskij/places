@@ -1,7 +1,7 @@
 import style from "./cardSearch.module.scss";
 import Link from "next/link";
 import Image from "next/image";
-import { getUrlForUrl } from "@/lib/hooks/getUrlForSearch";
+import { getUrlForUrl } from "@/lib/helpers/getUrlForSearch";
 import { getTranslations } from "next-intl/server";
 
 import { ISearchItemFront } from "@/lib/models";
@@ -25,7 +25,7 @@ interface ICardSearchDefault {
 export const CardSearch = async ({ dataCard, baseUrl }: ICardSearchDefault) => {
     const linkData = getUrlForUrl(dataCard, dataCard.globalTypeEntity);
     const tCard = await getTranslations("SearchPage.card");
-    
+
     const textCategory = dataCard.typeEstablishment
         ? tCard(`type.${[dataCard.typeEstablishment.key]}`)
         : tCard(`type.${[dataCard.globalTypeEntity]}`);

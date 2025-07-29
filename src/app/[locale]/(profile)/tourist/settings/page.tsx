@@ -1,7 +1,7 @@
 import { IPageProps } from "@/lib/models";
 // import { OwnerSettingsScreen } from "@/screens/(Profile)/SettingsProfile/OwnerSettingsScreen/OwnerSettingScreen";
 
-import { TouristSettingsScreen } from "@/screens/(Profile)/SettingsProfile/TouristSettingsScreen/TouristSettingsScreen";
+import { TouristSettingsScreen } from "@/screens/(Profile)/SettingsProfile/TouristSettingsScreen";
 
 export async function generateMetadata() {
     return {

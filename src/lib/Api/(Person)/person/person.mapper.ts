@@ -1,4 +1,6 @@
+import { IGenderEntity } from "@/lib/models/api/entities/(person)/gender.entity";
 import { IPersonEntity } from "@/lib/models/api/entities/(person)/person.entity";
+import { IGenderFront } from "@/lib/models/frontend/(person)/gender.front";
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import { IPersonSettingsFront } from "@/lib/models/frontend/(person)/personSettings.front";
 import { ISocialContactsFront } from "@/lib/models/frontend/(person)/socialContacts.front";
@@ -8,11 +10,16 @@ export class PersonMapper {
 
     transformPersonEntity(
         personDataServer: IPersonEntity,
+        genderFront: IGenderFront | null,
         cdnHost: string | null
     ): IPersonFront {
         const avatarImage =
             cdnHost && personDataServer.person.AvatarPhotoPath
                 ? `${cdnHost}${personDataServer.person.AvatarPhotoPath}`
+                : null;
+        const profileImage =
+            cdnHost && personDataServer.person.ProfilePhotoPath
+                ? `${cdnHost}${personDataServer.person.ProfilePhotoPath}`
                 : null;
         const address = personDataServer.person.Contacts?.Address
             ? {
@@ -29,49 +36,54 @@ export class PersonMapper {
                       null,
               }
             : null;
+        const socialNetworks: ISocialContactsFront | null = personDataServer
+            .person.Contacts?.SocialContacts
+            ? {
+                  id: personDataServer.person.Contacts.SocialContacts.Id,
+                  Instagram:
+                      personDataServer.person.Contacts.SocialContacts.Instagram,
+                  LinkedIn:
+                      personDataServer.person.Contacts.SocialContacts.LinkedIn,
+                  OK: personDataServer.person.Contacts.SocialContacts.OK,
+                  RuTube: personDataServer.person.Contacts.SocialContacts
+                      .RuTube,
+                  Telegram:
+                      personDataServer.person.Contacts.SocialContacts.Telegram,
+                  Threads:
+                      personDataServer.person.Contacts.SocialContacts.Threads,
+                  TikTok: personDataServer.person.Contacts.SocialContacts
+                      .TikTok,
+                  Viber: personDataServer.person.Contacts.SocialContacts.Viber,
+                  Web: personDataServer.person.Contacts.SocialContacts.Web,
+                  VK: personDataServer.person.Contacts.SocialContacts.VK,
+                  WhatsApp:
+                      personDataServer.person.Contacts.SocialContacts.WhatsApp,
+                  X: personDataServer.person.Contacts.SocialContacts.X,
+                  YouTube:
+                      personDataServer.person.Contacts.SocialContacts.YouTube,
+              }
+            : null;
         const contacts = personDataServer.person.Contacts
             ? {
                   id: personDataServer.person.Contacts.Id,
                   phone: personDataServer.person.Contacts.Phone,
                   email: personDataServer.person.Contacts.Email,
+                  address: address,
+                  socialNetworks: socialNetworks,
               }
             : null;
-        const socialNetworks: ISocialContactsFront | null = personDataServer
-            .person.Contacts?.SocialContacts
-            ? {
-                  id: personDataServer.person.Contacts.SocialContacts.Id,
-                  instagram:
-                      personDataServer.person.Contacts.SocialContacts.Instagram,
-                  linkedin:
-                      personDataServer.person.Contacts.SocialContacts.LinkedIn,
-                  ok: personDataServer.person.Contacts.SocialContacts.OK,
-                  rutube: personDataServer.person.Contacts.SocialContacts
-                      .RuTube,
-                  telegram:
-                      personDataServer.person.Contacts.SocialContacts.Telegram,
-                  threads:
-                      personDataServer.person.Contacts.SocialContacts.Threads,
-                  tiktok: personDataServer.person.Contacts.SocialContacts
-                      .TikTok,
-                  viber: personDataServer.person.Contacts.SocialContacts.Viber,
-                  web: personDataServer.person.Contacts.SocialContacts.Web,
-                  vk: personDataServer.person.Contacts.SocialContacts.VK,
-                  whatsapp:
-                      personDataServer.person.Contacts.SocialContacts.WhatsApp,
-                  x: personDataServer.person.Contacts.SocialContacts.X,
-                  youtube:
-                      personDataServer.person.Contacts.SocialContacts.YouTube,
-              }
-            : null;
+
         const personName = personDataServer.person.PersonName
             ? {
                   id: personDataServer.person.PersonName.Id,
                   name: personDataServer.person.PersonName.FirstName,
                   secondName: personDataServer.person.PersonName.MiddleName,
                   surname: personDataServer.person.PersonName.LastName,
-                  originalLastName:
+                  originalSurname:
                       personDataServer.person.PersonName.OriginalLastName,
                   originalName: personDataServer.person.PersonName.OriginalName,
+                  originalSecondName:
+                      personDataServer.person.PersonName.OriginalMiddleName,
               }
             : null;
         const personSettings: IPersonSettingsFront | null = personDataServer
@@ -112,13 +124,14 @@ export class PersonMapper {
             nickname: personDataServer.person.Nickname,
             isVerified: personDataServer.person.IsVerified,
             aboutDescription: personDataServer.person.About,
-            dateRegister:personDataServer.person.CreatedDate,
+            dateRegister: personDataServer.person.CreatedDate,
             avatarImg: avatarImage,
+            profileImg: profileImage,
             birthDate: personDataServer.person.BirthDate,
             timeZone: personDataServer.person.TZ,
-            address: address,
+
             contacts: contacts,
-            socialNetworks: socialNetworks,
+            gender: genderFront,
             personName: personName,
             personSettings: personSettings,
         };

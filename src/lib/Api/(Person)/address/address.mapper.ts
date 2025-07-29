@@ -3,7 +3,7 @@ import { IAddressFront } from "@/lib/models/frontend/(person)/address.front";
 
 export class AddressMapper {
     constructor() {}
-    transformAddressEntity(dataServer: IAddressEntity): IAddressFront {
+    toFront(dataServer: IAddressEntity): IAddressFront {
         const mappedData: IAddressFront = {
             id: dataServer.Id,
             country: dataServer.Country || null,

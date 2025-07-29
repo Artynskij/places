@@ -21,6 +21,9 @@ import { useNotification } from "@/lib/context";
 import { useLocale, useTranslations } from "next-intl";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
 import { Loader } from "@/components/common/Loader/Loader";
+import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
+import { IUser } from "@/lib/models/common/IUser";
+import { getFormatDate } from "@/lib/helpers/getFormatDate";
 interface IUserComponent {
     // dataUser: (typeof mockTourist)[0];
 }
@@ -35,10 +38,11 @@ export const UserComponent = async ({}: IUserComponent) => {
         personService
             .getPersonById("01JZMZWTCTHYV5APEJKD6F74DF")
             .then((res) => {
-                setUser(res || null);
                 if (!res) {
                     notification.error({ message: "нету пользователя" });
+                    return;
                 }
+                setUser(res);
                 // console.log(Date(res?.dateRegister));
             });
     }, []);
@@ -59,8 +63,16 @@ export const UserComponent = async ({}: IUserComponent) => {
                     <div>
                         <div className={style.info_name}>
                             <span>
-                                {user?.personName
-                                    ? `${user?.personName.surname} ${user?.personName.name} ${user?.personName.secondName}`
+                                {user.personName?.surname ||
+                                user.personName?.name ||
+                                user.personName?.secondName
+                                    ? [
+                                          user.personName?.surname,
+                                          user.personName?.name,
+                                          user.personName?.secondName,
+                                      ]
+                                          .filter(Boolean)
+                                          .join(" ")
                                     : "(заполните имя)"}
                             </span>
                             {/* <SubscribeButton /> */}
@@ -69,27 +81,35 @@ export const UserComponent = async ({}: IUserComponent) => {
                             {/* </div> */}
                         </div>
                         <div className={style.info_username}>
-                            @{user?.nickname}
+                            @{user.nickname}
                         </div>
-                        <div className={style.info_status}>
+                        {/* <div className={style.info_status}>
                             Статус путшественника: путешественник
-                        </div>
-                        <div className={style.info_hometown}>
-                            Я из:
-                            {` ${user?.address?.town}(${user?.address?.country})`}
-                        </div>
+                        </div> */}
+                        {user.contacts?.address?.town ||
+                        user.contacts?.address?.country ? (
+                            <div className={style.info_hometown}>
+                                Я из:{" "}
+                                {[
+                                    user.contacts?.address?.country,
+                                    user.contacts?.address?.town,
+                                ]
+                                    .filter(Boolean)
+                                    .join(", ")}
+                            </div>
+                        ) : null}
+
                         <div className={style.info_register_block}>
-                            День регистрации:{" "}
-                            {new Date(user.dateRegister).toLocaleDateString(
-                                `${locale}-${locale.toLocaleUpperCase()}`
-                            )}
+                            День регистрации: {getFormatDate(user.dateRegister)}
                         </div>
                         <div className={style.info_travel_block}>
                             Посетил: !заполнить! стран, !заполнить! городов
                         </div>
-                        <div className={style.info_description}>
-                            О себе: {user.aboutDescription}
-                        </div>
+                        {user.aboutDescription && (
+                            <div className={style.info_description}>
+                                О себе: {user.aboutDescription}
+                            </div>
+                        )}
                     </div>
 
                     {/* <div className={style.info_buttons}>

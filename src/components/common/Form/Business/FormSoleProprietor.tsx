@@ -107,7 +107,7 @@ export const FormSoleProprietor = () => {
                 render={({ field, fieldState }) => (
                     <InputDate
                         titleSpan="Дата регистрации: ДД.ММ.ГГГГ*"
-                        value={field.value}
+                        value={field.value || ""}
                         onChange={field.onChange}
                         error={fieldState.error?.message}
                     />

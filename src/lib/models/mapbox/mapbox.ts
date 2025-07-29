@@ -30,3 +30,9 @@ export interface IMapboxGeocodeResponse {
     features: IMapboxFeature[];
     attribution: string;
 }
+export interface IMapboxCoordPropToForm {
+    lat: number;
+    lon: number;
+    addressFullLine: string | null;
+    addressLine: string | null;
+}

@@ -10,7 +10,7 @@ import Link from "next/link";
 import { Button } from "@/components/UI/Button/Button";
 import { IconPlus } from "@/components/common/Icons";
 
-import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
+import { getBaseUrlServer } from "@/lib/helpers/getBaseUrl";
 import { CardSearch } from "@/components/common/Cards";
 
 import SwitcherSearchPage from "./_components/SwitcherSearchPage/SwitcherSearchPage";

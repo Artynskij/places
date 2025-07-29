@@ -1,9 +1,10 @@
-import { Button } from "@/components/UI/Button/Button";
-import style from "../../settings.module.scss";
-import Link from "next/link";
-import { ROUTES } from "@/lib/config/Routes";
+import style from "./tabBusinessOwner.module.scss";
 
-const TabBusiness = () => {
+import { Button } from "@/components/UI/Button/Button";
+import { ROUTES } from "@/lib/config/Routes";
+import Link from "next/link";
+
+const TabBusinessOwner = () => {
     return (
         <div className={style.tab}>
             <Link href={ROUTES.FORM.BUSINESS}>
@@ -20,4 +21,4 @@ const TabBusiness = () => {
         </div>
     );
 };
-export default TabBusiness;
+export default TabBusinessOwner;

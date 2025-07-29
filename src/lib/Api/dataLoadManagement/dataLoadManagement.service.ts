@@ -3,6 +3,10 @@ import DataLoadManagementApi from "./dataLoadManagement.endpoints";
 import { ITypeOfEstablishment } from "@/lib/models/api/entities/typeOfEstablishment.entity";
 import { ICategoryFront, ITagBlockFront } from "@/lib/models";
 import { DataLoadManagementMapper } from "./dataLoadManagement.mapper";
+import { IGenderEntity } from "@/lib/models/api/entities/(person)/gender.entity";
+import { GenderMapper } from "../(Person)/gender.api";
+import { IGenderFront } from "@/lib/models/frontend/(person)/gender.front";
+import { TLocale } from "@/lib/models/types/TLocale";
 
 export class DataLoadManagementService {
     // DataLoadManagementMapper
@@ -16,6 +20,17 @@ export class DataLoadManagementService {
 
     async getRolesOwner(): Promise<IRoleOwnerEntity[] | null> {
         const response = await this.DataLoadManagementApi.getRolesOwner();
+
+        return response;
+    }
+    async getGenders(locale:TLocale): Promise<IGenderFront[] | null> {
+        const mapperGender = new GenderMapper();
+        const response = await this.DataLoadManagementApi.getGenders(locale).then(
+            (res) => {
+                if (!res) return null;
+                return res.map((item) => mapperGender.toFront(item));
+            }
+        );
 
         return response;
     }

@@ -23,9 +23,7 @@ export default class ContactsApi {
         body: IContactsRequest
     ): Promise<IContactsEntity | null> {
         try {
-            const response = await apiClient.post(`/contacts`, {
-                source: { ...body },
-            });
+            const response = await apiClient.post(`/contacts`, body);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при создании Contacts `);
@@ -37,9 +35,7 @@ export default class ContactsApi {
         body: IContactsRequest
     ): Promise<IContactsEntity | null> {
         try {
-            const response = await apiClient.patch(`/contacts/${id}`, {
-                source: { ...body },
-            });
+            const response = await apiClient.patch(`/contacts/${id}`, body);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при обновлении Contacts ${id}`);

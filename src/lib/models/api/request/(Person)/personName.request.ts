@@ -1,14 +1,16 @@
 export interface IPersonNameUpdateRequest {
-    FirstName: string;
-    MiddleName?: string;
-    LastName: string;
-    OriginalName: string;
-    OriginalLastName: string;
+    FirstName?: string | null;
+    MiddleName?: string | null;
+    LastName?: string | null;
+    OriginalName?: string | null;
+    OriginalMiddleName?: string | null;
+    OriginalLastName?: string | null;
 }
 export interface IPersonNameCreateRequest {
-    FirstName: string;
-    MiddleName?: string;
-    LastName: string;
-    OriginalName: string;
-    OriginalLastName: string;
+    FirstName?: string | null;
+    MiddleName?: string | null;
+    LastName?: string | null;
+    OriginalName?: string | null;
+    OriginalMiddleName?: string | null;
+    OriginalLastName?: string | null;
 }

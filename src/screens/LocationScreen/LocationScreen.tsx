@@ -26,7 +26,7 @@ import { ROUTES } from "@/lib/config/Routes";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 
-import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
+import { getBaseUrlServer } from "@/lib/helpers/getBaseUrl";
 import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
 import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 
@@ -79,7 +79,6 @@ export default async function LocationScreen({
                                 : ""
                         }
                         posterSrc={CONSTANT_DEFAULT_IMAGE_URL}
-
                     />
                 </div>
                 <div className={style.banner_bg}>

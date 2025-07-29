@@ -41,7 +41,7 @@ import { IScheduleFront } from "@/lib/models/frontend/schedule/schedule.front";
 import { ScheduleButton } from "@/components/common/ButtonFunctional/ScheduleButton";
 import DescriptionBlock from "./_components/DescriptionBlock/DescriptionBlock";
 import { getTranslations } from "next-intl/server";
-import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
+import { getBaseUrlServer } from "@/lib/helpers/getBaseUrl";
 import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import BlockMapEstScr from "./_components/BlockMapEstScr/BlockMapEstScr";
 import CardRecommend from "./_components/CardRecommend/CardRecommend";

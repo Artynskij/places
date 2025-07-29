@@ -7,11 +7,16 @@ import { Upload } from "antd";
 import { RcFile } from "antd/es/upload";
 import { useAlertMessage } from "@/lib/context";
 import { FieldError, useFormContext } from "react-hook-form";
+import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
+import { Button } from "@/components/UI/Button/Button";
+import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
 
 const { Dragger } = Upload;
 
 interface Props {
     titleSpan: string;
+    titleButton?: string;
+    titleHelp?: string;
     accept?: "image" | "doc" | "video" | "all"; // MIME типы: "image/*", ".pdf,.docx", и т.п.
     maxSizeMB?: number; // Ограничение размера (в МБ)
     maxCount?: number; // Кол-во файлов
@@ -23,6 +28,8 @@ interface Props {
     value?: (File | undefined)[];
     onChange?: (files: File[]) => void;
     error: FieldError | null;
+    type?: "box" | "avatar";
+    className?: string;
 }
 
 export const UploadButton: React.FC<Props> = ({
@@ -36,9 +43,15 @@ export const UploadButton: React.FC<Props> = ({
     onChange,
     error,
     titleSpan,
+    titleButton,
+    type = "box",
+    className,
+    titleHelp,
     // setError,
     // clearErrors,
 }) => {
+    const [activeModal, setActiveModal] = useState(false);
+
     const message = useAlertMessage();
 
     const ACCEPT_MIME_MAP: Record<NonNullable<Props["accept"]>, string> = {
@@ -87,8 +100,7 @@ export const UploadButton: React.FC<Props> = ({
         beforeUpload(file: RcFile) {
             const isAllowed = checkFileType(file, resolvedAccept);
             const resolvedMaxSize = maxSizeMB ?? maxSize[accept];
-            const isLtMax =
-                file.size / 1024 / 1024 < resolvedMaxSize;
+            const isLtMax = file.size / 1024 / 1024 < resolvedMaxSize;
 
             if (!isAllowed) {
                 message.error(`Тип файла ${file.type} не поддерживается`);
@@ -122,27 +134,55 @@ export const UploadButton: React.FC<Props> = ({
             console.log("Файлы перетянуты:", e.dataTransfer.files);
         },
     };
-
+    const handlerOpenModal = () => {
+        setActiveModal(true);
+    };
+    const handlerCloseModal = () => {
+        setActiveModal(false);
+    };
     return (
-        <div className={style.uploadButton}>
-            <div>{titleSpan}</div>
-            <Dragger className={style.uploadButton_dragger} {...props}>
-                <p className="ant-upload-drag-icon">
-                    <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">
-                    Кликните или перетащите файл для загрузки
-                </p>
-                <p className="ant-upload-hint">
-                    Поддерживается одиночная и массовая загрузка. Максимум{" "}
-                    {maxCount} файлов.
-                </p>
-            </Dragger>
+        <div className={`${style.uploadButton} ${className}`}>
+            <Button text={titleButton} onClick={handlerOpenModal} />
             {error && (
                 <span className={style.uploadButton_errorInput}>
                     {error.message}
                 </span>
             )}
+            <ModalCustom
+                closeModal={handlerCloseModal}
+                active={activeModal}
+                title={titleSpan}
+                view="small"
+            >
+                <Dragger className={style.uploadButton_dragger} {...props}>
+                    {type === "box" && (
+                        <>
+                            <p className="ant-upload-drag-icon">
+                                <InboxOutlined />
+                            </p>
+                            <p className={style.uploadButton_text}>
+                                Кликните или перетащите файл для загрузки
+                            </p>
+                            <p className={style.uploadButton_text}>
+                                Допустимые форматы:{" "}
+                                {resolvedAccept?.replaceAll(".", " ")}.
+                            </p>
+                            <p className={style.uploadButton_text}>
+                                Размер каждого файла должен быть не более 47 Мб.
+                            </p>
+                            {maxCount && (
+                                <p className="ant-upload-hint">
+                                    Поддерживается одиночная и массовая
+                                    загрузка. Максимум {maxCount} файлов.
+                                </p>
+                            )}
+                        </>
+                    )}
+                    {type === "avatar" && <div>Avatar</div>}
+                </Dragger>
+                {titleHelp && <div>{titleHelp}</div>}
+                {error && <SpanErrorForm text={error.message} />}
+            </ModalCustom>
         </div>
     );
 };

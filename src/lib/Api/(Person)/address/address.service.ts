@@ -23,7 +23,7 @@ export class AddressService {
             (res) => {
                 if (!res) return null;
                 const mappedData =
-                    this.AddressMapper.transformAddressEntity(res);
+                    this.AddressMapper.toFront(res);
                 return mappedData;
             }
         );
@@ -39,7 +39,7 @@ export class AddressService {
             .then((res) => {
                 if (!res) return null;
                 const mappedData =
-                    this.AddressMapper.transformAddressEntity(res);
+                    this.AddressMapper.toFront(res);
                 return mappedData;
             });
         return response;
@@ -54,7 +54,7 @@ export class AddressService {
         }
         const response = this.AddressApi.updateAddress(id, body).then((res) => {
             if (!res) return null;
-            const mappedData = this.AddressMapper.transformAddressEntity(res);
+            const mappedData = this.AddressMapper.toFront(res);
             return mappedData;
         });
 

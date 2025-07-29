@@ -15,7 +15,7 @@ import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { headers } from "next/headers";
-import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
+import { getBaseUrlServer } from "@/lib/helpers/getBaseUrl";
 import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 
 interface ICardSliderMainPage {

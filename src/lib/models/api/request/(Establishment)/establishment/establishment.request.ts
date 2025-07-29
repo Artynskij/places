@@ -26,17 +26,24 @@ export interface IEstablishmentCreateRequest {
         Moderate?: boolean;
         // AvgRate: 0;
         // CountOfRates: 0;
-        LocationsId?: string;
-        CategoryIds?:string[];
+        Locations?: string;
+        CategoryIds?: string[];
         ContactsId?: string;
-        TypeId?: string;
+        Type?: string;
     };
     content: {
         value?: {
             lang: TLocale;
             value: {
-                name: string;
-                description: string;
+                details: {
+                    name: string;
+                    description: string;
+                };
+                seo?: { key: string; value: string }[];
+                location: {
+                    street1: string | null;
+                    street2?: string | null;
+                };
             };
         }[];
         media?: {

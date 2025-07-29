@@ -13,7 +13,7 @@ import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { headers } from "next/headers";
-import { getBaseUrlServer } from "@/lib/hooks/baseUrl/getBaseUrl";
+import { getBaseUrlServer } from "@/lib/helpers/getBaseUrl";
 import { RateMain } from "@/components/common/RateCustom/RateMain";
 import { RateCafe } from "@/components/common/RateCustom/RateCafe";
 import { RateHotel } from "@/components/common/RateCustom/RateHotel";
@@ -94,7 +94,11 @@ const CardRecommend: FC<ICardRecommend> = ({
                         // width={448}
                         // height={320}
                         fill
-                        src={dataEstablishment.media ? `${dataEstablishment.media?.cdnHost}/${dataEstablishment.media?.mainImage}` : CONSTANT_DEFAULT_IMAGE_URL}
+                        src={
+                            dataEstablishment.media
+                                ? `${dataEstablishment.media?.cdnHost}/${dataEstablishment.media?.mainImage}`
+                                : CONSTANT_DEFAULT_IMAGE_URL
+                        }
                         alt={dataEstablishment.title || "image"}
                         sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 90vw,(max-width: ${CONSTANTS_SCREENS.SCREEN_NETBOOK}px) 40vw, 33vw`}
                     />

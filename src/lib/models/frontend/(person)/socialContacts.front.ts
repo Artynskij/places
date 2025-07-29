@@ -2,17 +2,17 @@
 
 export interface ISocialContactsFront {
     id: string;
-    web: string | null;
-    telegram: string | null;
-    whatsapp: string | null;
-    viber: string | null;
-    vk: string | null;
-    linkedin: string | null;
-    instagram: string | null;
-    ok: string | null;
-    x: string | null;
-    rutube: string | null;
-    youtube: string | null;
-    tiktok: string | null;
-    threads: string | null;
+    Web: string | null;
+    Telegram: string | null;
+    WhatsApp: string | null;
+    Viber: string | null;
+    VK: string | null;
+    LinkedIn: string | null;
+    Instagram: string | null;
+    OK: string | null;
+    X: string | null;
+    RuTube: string | null;
+    YouTube: string | null;
+    TikTok: string | null;
+    Threads: string | null;
 }

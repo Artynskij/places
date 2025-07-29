@@ -14,17 +14,14 @@ import { IconCancel, IconDone } from "../../Icons";
 
 import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
 import { TModeMap } from "@/lib/models/types/TModeMap";
+import { IMapboxCoordPropToForm } from "@/lib/models/mapbox/mapbox";
 interface IPopupMap {
     establishmentList?: IMapItemFront[];
     mapActive: boolean;
     setMapActive: (value: boolean) => void;
     mode?: TModeMap[];
-    setPosition?: (value: {
-        lat: number;
-        lon: number;
-        addressLine: string;
-    }) => void;
-    position?: { lat: number; lon: number; addressLine: string };
+    setPosition?: (value: IMapboxCoordPropToForm) => void;
+    position?: IMapboxCoordPropToForm;
 }
 export const PopupMap = ({
     establishmentList,

@@ -6,7 +6,7 @@ import {
     ILocationFront,
     ITagBlockFront,
 } from "@/lib/models";
-import { mapEstablishmentToSearchItem } from "@/lib/utils/mappers/mapEstablishmentToSearchItem";
+import { mapEstablishmentToSearchItem } from "@/lib/helpers/mappers/mapEstablishmentToSearchItem";
 import { useState } from "react";
 
 interface IBlockMapEstScr {

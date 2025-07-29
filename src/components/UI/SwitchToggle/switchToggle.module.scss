@@ -1,6 +1,4 @@
-
-
-.switchToggle{
+.switchToggle {
     display: flex;
     align-items: center;
     gap: $gap-small;
@@ -8,4 +6,7 @@
     background-color: $color-additional-background;
     padding: 10px;
     border-radius: $border-radius-5;
+}
+.input.ant-switch.ant-switch-checked {
+    background: red;
 }

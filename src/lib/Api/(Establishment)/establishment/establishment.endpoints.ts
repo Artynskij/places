@@ -53,7 +53,7 @@ export default class EstablishmentApi {
     }
     async createEstablishment(body: IEstablishmentCreateRequest): Promise<any> {
         try {
-            const response = await apiClient.post(`/establishment`);
+            const response = await apiClient.post(`/establishment`, body);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при создании заведения.`);

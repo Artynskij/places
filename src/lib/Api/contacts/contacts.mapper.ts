@@ -4,11 +4,13 @@ import { IContactsPartFront } from "@/lib/models/frontend/parts/contacts/contact
 
 export class ContactsMapper {
     constructor() {}
-    transformContactsEntity(dataServer: IContactsEntity): IContactsPartFront {
+    toFront(dataServer: IContactsEntity): IContactsPartFront {
         const mappedData: IContactsPartFront = {
             id: dataServer.Id,
             phone: dataServer.Phone,
             email: dataServer.Email,
+            addressId: dataServer.Address?.Id || null,
+            socialNetworksId: dataServer.SocialContacts?.Id || null,
         };
         return mappedData;
     }

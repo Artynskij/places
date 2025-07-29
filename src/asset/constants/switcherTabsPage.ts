@@ -4,6 +4,7 @@ export const switcherTabOwnerData = [
     { id: 3, name: "история заказов", value: "history" },
     { id: 4, name: "статистика", value: "stat" },
     { id: 5, name: "кошелёк", value: "wallet" },
+    { id: 6, name: "бизнесы", value: "business" },
 ];
 export const switcherTabUserData = [
     { id: 1, name: "мои поездки", value: "trip" },
@@ -59,7 +60,6 @@ export const switcherFinderMainPage = [
 ];
 export const switcherSettingsOwner = [
     { id: 1, name: "Персональные данные", value: "personal" },
-    { id: 2, name: "Бизнесы", value: "business" },
 ];
 export const switcherSettingsTourist = [
     { id: 1, name: "Персональные данные", value: "personal" },

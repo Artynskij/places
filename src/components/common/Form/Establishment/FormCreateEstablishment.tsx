@@ -46,6 +46,9 @@ import {
 import { TAgreementKey } from "@/lib/models/types/TAgreementKey";
 import { ContactsService } from "@/lib/Api/contacts/contacts.service";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
+import { IEstablishmentCreateRequest } from "@/lib/models/api/request";
+import { Loader } from "../../Loader/Loader";
+import { useLocale } from "next-intl";
 
 type TTypeForm = Yup.InferType<typeof validationSchemaRegister>;
 const agreementKeys: TAgreementKey[] = [
@@ -71,24 +74,23 @@ const validationSchemaRegister = Yup.object().shape({
         .of(Yup.string())
         .min(1, "Выберите хотя бы одну категорию")
         .required("Выберите хотя бы одну категорию"),
-    email: Yup.string()
-        .email("Неккоректный адрес электронной почты")
-        .required("Адрес электронной почты обязателен"),
+    email: Yup.string().email("Неккоректный адрес электронной почты"),
+    // .required("Адрес электронной почты обязателен"),
     phone: validPhoneSchema,
-    images: Yup.array()
-        .of(validImageFileSchema),
-        // .min(5, "Необходимо загрузить хотя бы 5 фотографий"),
+    images: Yup.array().of(validImageFileSchema),
+    // .min(5, "Необходимо загрузить хотя бы 5 фотографий"),
     locationId: Yup.string().required("Выбор локации обязателен"),
     coord: Yup.object().shape({
         lon: Yup.number().required("Координаты обязательны"),
         lat: Yup.number().required("Координаты обязательны"),
+        addressFullLine: Yup.string(),
         addressLine: Yup.string(),
     }),
     socialNetworks: validSocialNetworksSchema,
     schedule: validScheduleSchema,
     videoVerification: Yup.array()
         .of(validVideoFileSchema)
-        .min(1, "Необходимо загрузить видео")
+        // .min(1, "Необходимо загрузить видео")
         .max(1, "Можно загрузить только одно видео"),
     agreements: getAgreementsValidation(agreementKeys),
 });
@@ -100,7 +102,7 @@ export const FormCreateEstablishment = () => {
 
     const contactService = new ContactsService();
     const establishmentService = new EstablishmentService();
-
+    const locale = useLocale();
     const handleSelect = (item: ISelectOption) => {
         const val = item.value as TSocialNetworks;
         if (val) {
@@ -115,29 +117,66 @@ export const FormCreateEstablishment = () => {
         control,
         setValue,
         watch,
-        formState: { errors },
+        formState: { errors, isSubmitting },
     } = useForm({
         resolver: yupResolver(validationSchemaRegister),
     });
 
-    const onSubmit: SubmitHandler<TTypeForm> = (dataForm) => {
+    const onSubmit: SubmitHandler<TTypeForm> = async (dataForm) => {
         console.log("Form Data:", dataForm);
+
+        const createdContacts = await contactService.createContacts({
+            source: {
+                Phone: dataForm.phone,
+                Email: !!dataForm.email ? dataForm.email : null,
+            },
+        });
+
+        if (!createdContacts) {
+            notification.error({
+                message: "системная ошибка. не получилось создать контакты",
+            });
+            return null;
+        }
+        const bodyEstablishment: IEstablishmentCreateRequest = {
+            source: {
+                CategoryIds: dataForm.categories as string[],
+                ContactsId: createdContacts?.id,
+                Latitude: dataForm.coord.lat,
+                Longitude: dataForm.coord.lon,
+                Locations: dataForm.locationId,
+                // Moderate: false,
+                Type: CONSTANT_TYPES_OF_ESTABLISHMENT[
+                    dataForm.typeEstablishment
+                ].id,
+            },
+            content: {
+                value: [
+                    {
+                        lang: locale,
+                        value: {
+                            details: {
+                                name: dataForm.title,
+                                description: dataForm.description,
+                            },
+                            location: {
+                                street1: null,
+                            },
+                        },
+                    },
+                ],
+            },
+        };
+        const createdEst = await establishmentService.createEstablishment({
+            ...bodyEstablishment,
+        });
+        if (!createdEst) {
+            notification.error({
+                message: "системная ошибка. не получилось создать заведение",
+            });
+            return null;
+        }
         notification.success({ message: "Объект отправлен на модерацию" });
-        return;
-        // contactService.createContacts({body:{Phone:dataForm.phone, Email:dataForm.email, }})
-        // establishmentService.createEstablishment({
-        //     source: {
-        //         CategoryIds: dataForm.categories as string[],
-        //         ContactsId: "",
-        //         Latitude: 0,
-        //         Longitude: 0,
-        //         LocationsId: "",
-        //         Moderate: false,
-        //         StaticMapPath: "",
-        //         TypeId: "",
-        //     },
-        //     content: {},
-        // });
     };
     const onSubmitInvalid = (e: any) => {
         console.log(e);
@@ -277,7 +316,7 @@ export const FormCreateEstablishment = () => {
                         error={errors.email?.message}
                         register={register("email")}
                         placeholder="Адрес электронной почты*"
-                        titleSpan="Адрес электронной почты"
+                        titleSpan="Адрес электронной почты(для тестов пока не обязательное) НАСТЯ, Я ВЕРНУ, ТОК НАПОМНИ"
                         type="email"
                     />
 
@@ -432,6 +471,7 @@ export const FormCreateEstablishment = () => {
                 error={errors.agreements?.message}
             />
             <Button typeLogic="submit" text={"Зарегистрировать"} />
+            {isSubmitting && <Loader />}
         </form>
         // </FormProvider>
     );

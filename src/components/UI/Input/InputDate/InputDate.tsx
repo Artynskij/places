@@ -1,12 +1,12 @@
 import style from "./inputDate.module.scss";
-
 import InputMask from "react-input-mask";
 import clsx from "clsx";
-import * as Yup from "yup";
+import { useLocale } from "next-intl";
+import { getFormatDate, parseDateToISO } from "@/lib/helpers/getFormatDate";
 
 type Props = {
-    value?: string;
-    onChange: (val: string) => void;
+    value?: string; // Формат: YYYY-MM-DD (ISO)
+    onChange: (val: string) => void; // Возвращает ISO
     error?: string;
     placeholder?: string;
     titleSpan: string;
@@ -19,16 +19,24 @@ export const InputDate = ({
     placeholder,
     titleSpan,
 }: Props) => {
+    const locale = useLocale();
+    const displayDate = value ? getFormatDate(value, locale) : ""; // Используем хелпер
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const isoDate = parseDateToISO(e.target.value); // Парсим через хелпер
+        onChange(isoDate);
+    };
+
     return (
         <div className={style.ctn_input}>
-            <label htmlFor={`input-dateMask`} className={style.input_name}>
+            <label htmlFor="input-dateMask" className={style.input_name}>
                 {titleSpan}
             </label>
             <InputMask
-                id="input-dateMask"
                 mask="99.99.9999"
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
+                maskChar={null}
+                value={displayDate}
+                onChange={handleChange}
                 placeholder={placeholder || "ДД.ММ.ГГГГ"}
                 className={clsx(style.input, error && style.input_error)}
             />
@@ -36,4 +44,3 @@ export const InputDate = ({
         </div>
     );
 };
-

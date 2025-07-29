@@ -7,22 +7,19 @@ import { useState } from "react";
 import { PopupMap } from "@/components/common/Popup/PopupMap/PopupMap";
 import { FieldError } from "react-hook-form";
 import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
-interface CoordValue {
-    lat: number;
-    lon: number;
-    addressLine: string;
-}
+import { IMapboxCoordPropToForm } from "@/lib/models/mapbox/mapbox";
+
 interface Prop {
     error: FieldError | null;
-    onChange: (value: CoordValue) => void;
+    onChange: (value: IMapboxCoordPropToForm) => void;
 }
 const MapBlockForm = ({ error, onChange }: Prop) => {
     const [mapActive, setMapActive] = useState<boolean>(false);
-    const [coord, setCoord] = useState<CoordValue>();
+    const [coord, setCoord] = useState<IMapboxCoordPropToForm>();
     const handleOpenMap = () => {
         setMapActive(true);
     };
-    const handleSetCoord = (value: CoordValue) => {
+    const handleSetCoord = (value: IMapboxCoordPropToForm) => {
         onChange(value);
         setCoord(value);
     };

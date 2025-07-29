@@ -9,6 +9,7 @@ import { TabHistoryOwner } from "./TabHistoryOwner/TabHistoryOwner";
 import { TabStatOwner } from "./TabStatOwner/TabStatOwner";
 import { TabWalletOwner } from "./TabWalletOwner/TabWalletOwner";
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
+import TabBusinessOwner from "./TabBussinessOwner/TabBusinessOwner";
 
 const ContentComponent = () => {
     const router = useRouter();
@@ -30,6 +31,8 @@ const ContentComponent = () => {
                     <TabHistoryOwner></TabHistoryOwner>
                 ) : searchParams.get("tab") === "stat" ? (
                     <TabStatOwner></TabStatOwner>
+                ) :searchParams.get("tab") === "business" ? (
+                    <TabBusinessOwner></TabBusinessOwner>
                 ) : (
                     <TabWalletOwner></TabWalletOwner>
                 )}

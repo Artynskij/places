@@ -1,19 +1,16 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import style from "../settings.module.scss";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import {
-    switcherSettingsOwner,
-    switcherSettingsTourist,
-    switcherTabOwnerData,
-} from "@/asset/constants/switcherTabsPage";
+import style from "./settings.module.scss";
+
+import { switcherSettingsTourist } from "@/asset/constants/switcherTabsPage";
 
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { ROUTES } from "@/lib/config/Routes";
-import TabPersonal from "../tabs/TabPersonal/TabPersonal";
-import TabNotification from "../tabs/TabNotofication/TabNotification";
+
+
+import { FormSettingsTourist } from "@/components/common/Form/Settings/FormSettingsTourist";
+import { FormNotificationTourist } from "@/components/common/Form/Settings/FormNotificationTourist";
 
 export const TouristSettingsScreen = () => {
     const router = useRouter();
@@ -37,9 +34,9 @@ export const TouristSettingsScreen = () => {
 
             <div className={style.switcher_content}>
                 {searchParams.get("tab") === "personal" ? (
-                    <TabPersonal></TabPersonal>
+                    <FormSettingsTourist />
                 ) : searchParams.get("tab") === "notification" ? (
-                    <TabNotification></TabNotification>
+                    <FormNotificationTourist/>
                 ) : (
                     "этого не должно было случиться"
                 )}

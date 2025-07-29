@@ -23,20 +23,13 @@ import { DefaultMarker } from "./_common/Markers/DefaultMarker";
 import { useReverseGeocode } from "@/lib/hooks/useReverseGeocode";
 import { CONSTANT_TYPE_LOCATION } from "@/asset/constants/typeLocation";
 import { useUserLocation } from "@/lib/hooks/useUserLocation";
+import { IMapboxCoordPropToForm } from "@/lib/models/mapbox/mapbox";
 interface IMapboxMap {
     mode?: TModeMap[];
     establishmentList?: IMapItemFront[] | null;
     center?: { lon: number; lat: number };
-    setPosition?: (value: {
-        lat: number;
-        lon: number;
-        addressLine: string;
-    }) => void;
-    position?: { lat: number; lon: number; addressLine: string };
-}
-interface Position {
-    lat: number;
-    lon: number;
+    setPosition?: (value: IMapboxCoordPropToForm) => void;
+    position?: IMapboxCoordPropToForm;
 }
 
 export const MapboxMap = ({
@@ -203,13 +196,25 @@ export const MapboxMap = ({
             item.id.includes(CONSTANT_TYPE_LOCATION.mapbox.address)
         );
 
-        const addressLine = `${countryText}, ${placeText} ${
+        const addressFullLine = `${countryText}, ${placeText} ${
             address?.text || address?.address
                 ? `, ${address?.text || ""} ${address?.address || ""} `
                 : ""
         }`;
+        console.log(address);
+
+        const addressLine = `${
+            address?.text || address?.address
+                ? ` ${address?.text || ""} ${address?.address || ""} `
+                : ""
+        }`;
         if (setPosition) {
-            setPosition({ lat: lat, lon: lng, addressLine: addressLine });
+            setPosition({
+                lat: lat,
+                lon: lng,
+                addressLine: addressLine,
+                addressFullLine: addressFullLine,
+            });
         }
 
         // setSelectedPoint({ lat: lat, lon: lng, addressLine: addressLine });
@@ -236,7 +241,7 @@ export const MapboxMap = ({
                     key="selection"
                     latitude={position.lat}
                     longitude={position.lon}
-                    addressLine={position.addressLine}
+                    addressLine={position.addressFullLine || ""}
                 />
             )}
         </MapMapboxGL>

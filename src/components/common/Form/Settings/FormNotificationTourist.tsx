@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/UI/Button/Button";
-import style from "../../settings.module.scss";
+import style from "./settings.module.scss";
 import { SwitchToggle } from "@/components/UI/SwitchToggle/SwitchToggle";
 import { Controller, useForm } from "react-hook-form";
 import { useNotification } from "@/lib/context";
@@ -24,7 +24,7 @@ type TNotificationSettings = {
     NotifyReviewModeration: boolean;
     NotifyContentModeration: boolean;
 };
-const TabNotification = () => {
+export const FormNotificationTourist = () => {
     const notification = useNotification();
     const personApi = new PersonService();
     const personSettingsApi = new PersonSettingsService();
@@ -84,7 +84,7 @@ const TabNotification = () => {
     };
     return (
         <form className={style.tab} onSubmit={handleSubmit(onSubmit)}>
-            <h2>Уведомления и отбражение</h2>
+            <h2>Уведомления и отображение</h2>
 
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
@@ -238,4 +238,4 @@ const TabNotification = () => {
         </form>
     );
 };
-export default TabNotification;
+

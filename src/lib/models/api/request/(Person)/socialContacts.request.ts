@@ -1,15 +1,15 @@
 export interface ISocialContactsRequest {
-    web?: string;
-    telegram?: string;
-    whatsapp?: string;
-    viber?: string;
-    vk?: string;
-    linkedin?: string;
-    instagram?: string;
-    ok?: string;
-    x?: string;
-    rutube?: string;
-    youtube?: string;
-    tiktok?: string;
-    threads?: string;
+    Web?: string;
+    Telegram?: string;
+    WhatsApp?: string;
+    Viber?: string;
+    VK?: string;
+    LinkedIn?: string;
+    Instagram?: string;
+    OK?: string;
+    X?: string;
+    RuTube?: string;
+    YouTube?: string;
+    TikTok?: string;
+    Threads?: string;
 }

@@ -9,9 +9,10 @@ export class PersonNameMapper {
             name: dataServer.FirstName,
             secondName: dataServer.MiddleName,
             surname: dataServer.LastName,
-            originalLastName: dataServer.OriginalLastName,
+            originalSurname: dataServer.OriginalLastName,
             originalName: dataServer.OriginalName,
+            originalSecondName: dataServer.OriginalMiddleName,
         };
-        return mappedData
+        return mappedData;
     }
 }

@@ -22,7 +22,7 @@ import { ITagBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
 import { Loader } from "@/components/common/Loader/Loader";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { IEstablishmentFront, ITagWithEstablishmentFront } from "@/lib/models";
-import { mapEstablishmentToSearchItem } from "@/lib/utils/mappers/mapEstablishmentToSearchItem";
+import { mapEstablishmentToSearchItem } from "@/lib/helpers/mappers/mapEstablishmentToSearchItem";
 import BlockMapFilterS from "./BlockMap/BlockMapFilterS";
 
 interface IFilterComponentProp {

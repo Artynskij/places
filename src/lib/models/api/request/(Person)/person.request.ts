@@ -1,18 +1,18 @@
 export interface IPersonRequest {
-    TZ?: string;
-    Nickname?: string;
-    Email?: string;
-    Phone?: string;
-    PhoneCountryCode?: string;
-    ProfilePhotoPath?: string;
-    AvatarPhotoPath?: string;
-    About?: string;
-    BirthDate?: string;
+    TZ?: string | null;
+    Nickname?: string | null;
+    Email?: string | null;
+    Phone?: string | null;
+    PhoneCountryCode?: string | null;
+    ProfilePhotoPath?: string | null;
+    AvatarPhotoPath?: string | null;
+    About?: string | null;
+    BirthDate?: string | null;
 
-    PersonName?:string;
-    Contacts?: string;
-    Gender?: string;
-    Language?: string;
-    Currency?: string;
-    PersonSettings?: string;
+    PersonName?: string | null;
+    Contacts?: string | null;
+    Gender?: string | null;
+    Language?: string | null;
+    Currency?: string | null;
+    PersonSettings?: string | null;
 }
