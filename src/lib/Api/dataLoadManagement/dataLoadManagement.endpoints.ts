@@ -16,7 +16,7 @@ export default class DataLoadManagementApi {
             return null;
         }
     }
-    async getGenders(locale:TLocale): Promise<IGenderEntity[] | null> {
+    async getGenders(locale:string): Promise<IGenderEntity[] | null> {
         try {
             const response = await apiClient.post(`/gender/get-all`, {lang:locale});
             return response.data;

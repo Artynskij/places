@@ -3,6 +3,7 @@ import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { IGenderFront } from "@/lib/models/frontend/(person)/gender.front";
+import { TLocale } from "@/lib/models/types/TLocale";
 import { Skeleton } from "antd";
 
 import { useLocale } from "next-intl";

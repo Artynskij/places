@@ -33,7 +33,7 @@ export interface IEstablishmentCreateRequest {
     };
     content: {
         value?: {
-            lang: TLocale;
+            lang: string;
             value: {
                 details: {
                     name: string;

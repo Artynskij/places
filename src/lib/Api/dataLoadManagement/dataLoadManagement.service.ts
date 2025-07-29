@@ -23,14 +23,14 @@ export class DataLoadManagementService {
 
         return response;
     }
-    async getGenders(locale:TLocale): Promise<IGenderFront[] | null> {
+    async getGenders(locale: string): Promise<IGenderFront[] | null> {
         const mapperGender = new GenderMapper();
-        const response = await this.DataLoadManagementApi.getGenders(locale).then(
-            (res) => {
-                if (!res) return null;
-                return res.map((item) => mapperGender.toFront(item));
-            }
-        );
+        const response = await this.DataLoadManagementApi.getGenders(
+            locale
+        ).then((res) => {
+            if (!res) return null;
+            return res.map((item) => mapperGender.toFront(item));
+        });
 
         return response;
     }
