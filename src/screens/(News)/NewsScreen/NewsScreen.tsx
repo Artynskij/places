@@ -1,6 +1,6 @@
 "use client";
 
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/common/IType";
 
 import style from "./newsScreen.module.scss";
 import { mockNews } from "@/asset/mockData/mockNews";
@@ -9,7 +9,7 @@ import { useState } from "react";
 
 import { PopularNews } from "../_component/_PopularNews/_PopularNews";
 
-import { IArticleFront } from "@/lib/models/frontend/article/article.front";
+import { IArticleFront } from "@/lib/models/frontend/article.front";
 import { ArticleService } from "@/lib/Api/article/article.service";
 
 import BlockNews from "./_components/BlockNews/BlockNews";

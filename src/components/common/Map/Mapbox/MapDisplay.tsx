@@ -7,8 +7,9 @@ import { debounce } from "lodash";
 import { MapService } from "@/lib/Api/map/map.service";
 import { getZoomToRadius } from "@/lib/hooks/useZoomToRadius";
 import { MarkersLayer } from "./_common/MarkersLayer";
-import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
+
 import { useUserLocation } from "@/lib/hooks/useUserLocation";
+import { IMapItemFront } from "@/lib/models";
 
 interface MapDisplayProps {
     establishmentList?: IMapItemFront[] | null;

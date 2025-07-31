@@ -10,10 +10,11 @@ import {
 import { usePathname, useRouter, useParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { SearchService } from "@/lib/Api/search/search.service";
-import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
+
 import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
 import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { ISearchQueryResponseFront } from "@/lib/models";
 
 export const useFinderCore = (initialFilter?: TTypesOfSearchKey | "all") => {
     const apiSearch = new SearchService();

@@ -1,13 +1,8 @@
-import { ITagAndEstablishmentConnectionRequest } from "@/lib/models/api/request/(Establishment)/tags/ITagConnection.request";
-import { IPaginationRequest } from "../../../models/api/request/IPagination.request";
 
+import { ITagAndEstablishmentConnectionRequest, ITagsOfEstablishmentFilterResponse, ITagsOfEstablishmentRequest, ITagsOfEstablishmentResponse } from "@/lib/models";
 import apiClient from "../../ApiClient";
 
-import { ITagsOfEstablishmentRequest } from "@/lib/models/api/request/(Establishment)/tags/IPaginationTags.request";
-import {
-    ITagsOfEstablishmentFilterResponse,
-    ITagsOfEstablishmentResponse,
-} from "@/lib/models/api/response/(Establishment)/tags/ITags.response";
+
 
 export class TagsApi {
     async getAllTagsOfEstablishments(

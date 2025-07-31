@@ -1,4 +1,4 @@
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/common/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 import NewsCategoryScreen from "@/screens/(News)/NewsCategoryScreen/NewsCategoryScreen";
 import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
@@ -22,7 +22,7 @@ export async function generateMetadata({
     if (!categoryName) {
         return {};
     }
-    
+
     return {
         title: `${process.env.BASE_NAME} | ${params.category}`,
         description: `Самые лучшие ${params.category} для туристов всего мира.`,

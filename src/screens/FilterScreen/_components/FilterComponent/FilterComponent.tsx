@@ -7,10 +7,7 @@ import { PopupMap } from "@/components/common/Popup/PopupMap/PopupMap";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import BlockCheckBox from "./BlockCheckBox/BlockCheckBox";
-import {
-    IMockBlock,
-    mockFilterHotel,
-} from "@/asset/mockData/mockFilterCheckBox";
+
 import { Checkbox, GetProp } from "antd";
 import { Button } from "@/components/UI/Button/Button";
 
@@ -18,11 +15,11 @@ import { ButtonClose } from "@/components/UI/Button/ButtonClose";
 
 import { IconFilter } from "@/components/common/Icons/IconFilter/IconFilter";
 import { Overlay } from "@/components/common/Overlay/Overlay";
-import { ITagBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
-import { Loader } from "@/components/common/Loader/Loader";
+
+
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
-import { IEstablishmentFront, ITagWithEstablishmentFront } from "@/lib/models";
-import { mapEstablishmentToSearchItem } from "@/lib/helpers/mappers/mapEstablishmentToSearchItem";
+import { IEstablishmentFront, ITagBlockFront, ITagWithEstablishmentFront } from "@/lib/models";
+
 import BlockMapFilterS from "./BlockMap/BlockMapFilterS";
 
 interface IFilterComponentProp {

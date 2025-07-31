@@ -1,6 +1,6 @@
 import { ILocationsEntity } from "@/lib/models/api/entities/locations.entity";
 import apiClient from "../ApiClient";
-import { IMapQueryRequest } from "@/lib/models/api/request/map/IMapQuery.request";
+import { IMapQueryRequest } from "@/lib/models/api/request/map/map.request";
 import { ISearchItemEntity } from "@/lib/models";
 
 export default class MapApi {
@@ -37,7 +37,7 @@ export default class MapApi {
             return null;
         }
     }
-     async getBlobProxy(): Promise<{ url: string } | null> {
+    async getBlobProxy(): Promise<{ url: string } | null> {
         try {
             const response = await apiClient.get(`/blob-proxy/resolve`);
             return response.data;

@@ -17,15 +17,19 @@ import { ContactButton } from "@/components/common/ButtonFunctional/ContactButto
 
 import { Slider } from "@/components/common/Slider/Slider";
 
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/common/IType";
 
 import Link from "next/link";
 
-import { ITagBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
-
 import { mockReviews } from "@/asset/mockData/mockReviews";
-import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
-import { IEstablishmentFront, ITagFront } from "@/lib/models";
+
+import {
+    IEstablishmentFront,
+    ILocationFront,
+    IMapItemFront,
+    IScheduleFront,
+    ITagBlockFront,
+} from "@/lib/models";
 
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { ROUTES } from "@/lib/config/Routes";
@@ -36,8 +40,6 @@ import {
     IconPhone,
 } from "@/components/common/Icons";
 
-import { ILocationFront } from "@/lib/models/frontend/location/location.front";
-import { IScheduleFront } from "@/lib/models/frontend/schedule/schedule.front";
 import { ScheduleButton } from "@/components/common/ButtonFunctional/ScheduleButton";
 import DescriptionBlock from "./_components/DescriptionBlock/DescriptionBlock";
 import { getTranslations } from "next-intl/server";
@@ -45,7 +47,6 @@ import { getBaseUrlServer } from "@/lib/helpers/getBaseUrl";
 import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import BlockMapEstScr from "./_components/BlockMapEstScr/BlockMapEstScr";
 import CardRecommend from "./_components/CardRecommend/CardRecommend";
-import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {

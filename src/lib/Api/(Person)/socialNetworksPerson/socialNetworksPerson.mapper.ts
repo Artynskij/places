@@ -1,5 +1,5 @@
-import { ISocialContactsEntity } from "@/lib/models/api/entities/(person)/socialContacts.entity";
-import { ISocialContactsFront } from "@/lib/models/frontend/(person)/socialContacts.front";
+import { ISocialContactsEntity } from "@/lib/models/api/entities/socialContacts.entity";
+import { ISocialContactsFront } from "@/lib/models/frontend/socialContacts.front";
 
 export class SocialNetworksPersonMapper {
     constructor() {}

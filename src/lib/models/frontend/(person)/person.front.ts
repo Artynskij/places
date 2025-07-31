@@ -2,7 +2,7 @@ import { IGenderFront } from "./gender.front";
 import { IPersonNameFront } from "./personName.front";
 import { IPersonSettingsFront } from "./personSettings.front";
 
-import { ISocialContactsFront } from "./socialContacts.front";
+import { ISocialContactsFront } from "../socialContacts.front";
 
 export interface IPersonFront {
     id: string;

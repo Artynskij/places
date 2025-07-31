@@ -8,9 +8,8 @@ import { FC, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { ILocationFront } from "@/lib/models/frontend/location/location.front";
-
-import { TTilesContent } from "@/lib/models/types/TTilesContent";
+import { ILocationFront } from "@/lib/models";
+import { TTilesContent } from "@/lib/models/types";
 
 interface IInfoSection {
     searchParams: any;

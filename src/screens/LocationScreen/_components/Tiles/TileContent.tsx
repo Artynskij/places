@@ -1,7 +1,8 @@
-import { TTilesContent } from "@/lib/models/types/TTilesContent";
+import { ILocationFront } from "@/lib/models";
 import TileLocations from "./TileLocations/TileLocations";
-import { ILocationFront } from "@/lib/models/frontend/location/location.front";
+
 import TileMarkdown from "./TileMarkdown/TileMarkdown";
+import { TTilesContent } from "@/lib/models/types";
 
 interface ITileContent {
     typeTileContent: TTilesContent;

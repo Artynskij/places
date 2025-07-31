@@ -1,5 +1,5 @@
 import { EstablishmentScreen } from "@/screens/EstablishmentScreen/EstablishmentScreen";
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/common/IType";
 import { notFound } from "next/navigation";
 
 import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";

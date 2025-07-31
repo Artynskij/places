@@ -1,5 +1,5 @@
 import { FormLogin } from "@/components/common/Form/Auth/FormLogin/FormLogin";
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/common/IType";
 
 // import { GoogleMaps } from "@/components/UI/Map/Map/MapGoogle";
 

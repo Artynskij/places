@@ -1,17 +1,17 @@
 "use client";
 
-import { IconGlobe } from "@/components/common/Icons";
+
 import style from "./QueryBlock.module.scss";
 import { FC, useState } from "react";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { Button } from "@/components/UI/Button/Button";
-import { IconMessage } from "@/components/common/Icons/IconMessage/IconMessage";
+
 import { Switcher } from "@/components/common/Switcher/Switcher";
-import { useTranslations } from "use-intl";
-import { ITagBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
+
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { Popup } from "@/components/common/Popup/Popup";
+import { ITagBlockFront } from "@/lib/models";
+
 interface IQueryCafe {
     data: ITagBlockFront[];
 }

@@ -1,4 +1,4 @@
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/common/IType";
 import style from "./newsCategoryScreen.module.scss";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { mockNews } from "@/asset/mockData/mockNews";
@@ -57,7 +57,7 @@ export default async function NewsCategoryScreen({
                         popularNews={popularNews}
                         containerClass={style.content_item}
                     />
-                  
+
                     <div className={style.content_item}>
                         {newsSecond.map((article, index) => {
                             return (

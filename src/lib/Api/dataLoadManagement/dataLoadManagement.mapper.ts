@@ -1,9 +1,8 @@
-import { ICategoryOfEstablishmentEntity } from "../../models/api/entities/categoryOfEstablishment.entity";
 import {
     ITagEntity,
     ITagBlockFront,
-    ITagWithCategoryEntity,
     ICategoryFront,
+    ICategoryOfEstablishmentEntity,
 } from "@/lib/models";
 
 export class DataLoadManagementMapper {

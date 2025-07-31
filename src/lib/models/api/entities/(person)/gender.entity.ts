@@ -1,4 +1,4 @@
-import { IContentEntity } from "../parts/content.entity";
+import { IContentEntity } from "../(establishment)/parts/content.entity";
 
 export interface IGenderEntity {
     gender: {

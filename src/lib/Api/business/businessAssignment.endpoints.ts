@@ -1,6 +1,8 @@
-import { IBusinessPersonAssignEntity } from "@/lib/models/api/entities/business/businessPersonAssign.entity";
+import {
+    IBusinessAssignmentRequest,
+    IBusinessPersonAssignEntity,
+} from "@/lib/models";
 import apiClient from "../ApiClient";
-import { IBusinessAssignmentRequest } from "@/lib/models/api/request/business/business.request";
 
 export class BusinessAssignmentApi {
     constructor() {}

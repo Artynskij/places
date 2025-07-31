@@ -1,4 +1,4 @@
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/common/IType";
 import style from "./countriesScreen.module.scss";
 import { countriesData, continentsData } from "@/asset/constants/countries";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";

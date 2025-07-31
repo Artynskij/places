@@ -1,17 +1,19 @@
 "use client";
+import style from "./dropdownListFinder.module.scss";
+
 import { RefObject, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
-import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
+
+import { ISearchItemFront, ISearchQueryResponseFront } from "@/lib/models";
+import { TTypesOfEstablishment } from "@/lib/models/types";
 
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
-import style from "./dropdownListFinder.module.scss";
 import { IconEnter, IconPlus, IconSearch } from "@/components/common/Icons";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
-import { ISearchItemFront } from "@/lib/models";
+
 import { getUrlForUrl } from "@/lib/helpers/getUrlForSearch";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
-import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
+
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import CardSearchItem from "../CardSearchItem/CardSearchItem";
 

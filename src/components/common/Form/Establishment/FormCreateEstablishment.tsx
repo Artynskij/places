@@ -44,7 +44,7 @@ import {
     getAgreementsValidation,
 } from "../../BlockFunctional/BlockAgreements";
 import { TAgreementKey } from "@/lib/models/types/TAgreementKey";
-import { ContactsService } from "@/lib/Api/contacts/contacts.service";
+// import { ContactsService } from "@/lib/Api/contactsPerson/contactsPerson.service";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 import { IEstablishmentCreateRequest } from "@/lib/models/api/request";
 import { Loader } from "../../Loader/Loader";
@@ -100,7 +100,7 @@ export const FormCreateEstablishment = () => {
     const notification = useNotification();
     const [selectedSocial, setSelectedSocial] = useState<string | null>(null);
 
-    const contactService = new ContactsService();
+    // const contactService = new ContactsService();
     const establishmentService = new EstablishmentService();
     const locale = useLocale();
     const handleSelect = (item: ISelectOption) => {
@@ -125,23 +125,23 @@ export const FormCreateEstablishment = () => {
     const onSubmit: SubmitHandler<TTypeForm> = async (dataForm) => {
         console.log("Form Data:", dataForm);
 
-        const createdContacts = await contactService.createContacts({
-            source: {
-                Phone: dataForm.phone,
-                Email: !!dataForm.email ? dataForm.email : null,
-            },
-        });
+        // const createdContacts = await contactService.createContacts({
+        //     source: {
+        //         Phone: dataForm.phone,
+        //         Email: !!dataForm.email ? dataForm.email : null,
+        //     },
+        // });
 
-        if (!createdContacts) {
-            notification.error({
-                message: "системная ошибка. не получилось создать контакты",
-            });
-            return null;
-        }
+        // if (!createdContacts) {
+        //     notification.error({
+        //         message: "системная ошибка. не получилось создать контакты",
+        //     });
+        //     return null;
+        // }
         const bodyEstablishment: IEstablishmentCreateRequest = {
             source: {
                 CategoryIds: dataForm.categories as string[],
-                ContactsId: createdContacts?.id,
+                // ContactsId: createdContacts?.id,
                 Latitude: dataForm.coord.lat,
                 Longitude: dataForm.coord.lon,
                 Locations: dataForm.locationId,

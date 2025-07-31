@@ -26,7 +26,7 @@ import { mockPersonId } from "@/asset/mockData/mockServerData";
 
 import { PersonNameService } from "@/lib/Api/(Person)/personName/personName.service";
 // import { ContactsService } from "@/lib/Api/contacts/contacts.service";
-import { ContactsService } from "@/lib/Api/contacts/contact.api";
+import { ContactsService } from "@/lib/Api/(Person)/contactPerson.api";
 import { AddressService } from "@/lib/Api/(Person)/address/address.api";
 // import { AddressService } from "@/lib/Api/(Person)/address/address.service";
 import { SocialNetworksPersonService } from "@/lib/Api/(Person)/socialNetworksPerson/socialNetworksPerson.service";
@@ -37,7 +37,7 @@ import { validSocialNetworksSchema } from "@/lib/validationSchemas/socialNetwork
 import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
 import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
 import Image from "next/image";
-import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
+
 import { TextareaForm } from "@/components/UI/Textarea/TextareaForm/TextareaForm";
 import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request";
 import { IContactsRequest } from "@/lib/models/api/request/contacts/contacts.request";
@@ -482,7 +482,9 @@ export const FormSettingsTourist = () => {
                 </div>
             </div>
             <div className={style.selectionBlock}>
-                <div className={style.selectionBlock_title}>Место проживание</div>
+                <div className={style.selectionBlock_title}>
+                    Место проживание
+                </div>
                 <div className={style.selectionBlock_content}>
                     <InputForm
                         error={errors.address?.country?.message}

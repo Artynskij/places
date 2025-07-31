@@ -1,6 +1,6 @@
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { BusinessAssignmentApi } from "@/lib/Api/business/businessAssignment.endpoints";
-import { IBusinessFront } from "@/lib/models/frontend/business/business.front";
+import { IBusinessFront } from "@/lib/models/frontend/business.front";
 import BusinessApi from "./business.endpoints";
 import {
     IBusinessAssignmentRequest,

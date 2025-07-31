@@ -3,15 +3,16 @@ import {
     IScheduleFront,
     ISearchItemEntity,
     ISearchItemFront,
+    ISearchQueryResponseFront,
 } from "@/lib/models";
-import { ISearchQueryResponse } from "@/lib/models/api/response/search/ISearch.response";
+import { ISearchQueryResponse } from "@/lib/models/api/response/search/search.response";
 import {
     TGlobalTypes,
     TTypesOfSearchKey,
 } from "@/lib/models/types/TTypesGlobal";
-import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
+
 import TagsMapper from "../(Establishment)/tags/tag.mapper";
-import { ISearchQueryRequest } from "@/lib/models/api/request/search/ISearchQuery.request";
+import { ISearchQueryRequest } from "@/lib/models/api/request/search/search.request";
 
 export class SearchMapper {
     private tagsMapper: TagsMapper;

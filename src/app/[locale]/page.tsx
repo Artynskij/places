@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "./page.module.scss";
 import { notFound, redirect } from "next/navigation";
 import { MainScreen } from "@/screens/MainScreen/MainScreen";
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/common/IType";
 import { ArticleService } from "@/lib/Api/article/article.service";
 
 export async function generateMetadata({

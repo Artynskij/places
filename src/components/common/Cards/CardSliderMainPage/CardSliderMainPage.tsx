@@ -1,6 +1,6 @@
 import { FC } from "react";
 import style from "./cardSliderMainPage.module.scss";
-import { IDataCardSlider } from "@/lib/models/ICards";
+import { IDataCardSlider } from "@/lib/models/common/ICards";
 import Image from "next/image";
 import { IconLike, IconLocation, IconStar } from "@/components/common/Icons";
 

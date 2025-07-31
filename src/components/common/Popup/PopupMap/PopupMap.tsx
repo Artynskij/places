@@ -9,9 +9,10 @@ import { Button } from "../../../UI/Button/Button";
 
 import { IconCancel, IconDone } from "../../Icons";
 
-import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
+
 
 import { MapDisplay } from "../../Map/Mapbox/MapDisplay";
+import { IMapItemFront } from "@/lib/models";
 interface IPopupMap {
     establishmentList?: IMapItemFront[];
     mapActive: boolean;

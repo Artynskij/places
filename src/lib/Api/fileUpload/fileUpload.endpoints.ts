@@ -1,9 +1,9 @@
 import {
     IFilePrivateUploadBodyRequest,
     IFilePublicUploadBodyRequest,
-} from "@/lib/models/api/request/fileUpload/IFileUpload.request";
+} from "@/lib/models/api/request/fileUpload/fileUpload.request";
 import apiClient from "../ApiClient";
-import { IFileUploadResponse } from "@/lib/models/api/response/fileUpload/IFileUpload.response";
+import { IFileUploadResponse } from "@/lib/models/api/response/fileUpload/fileUpload.response";
 
 export default class FileUploadApi {
     constructor() {}

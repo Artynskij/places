@@ -8,7 +8,7 @@ import { useCookie } from "@/lib/hooks/useCookie";
 import {
     IDataAdvertisingCookie,
     IDataAdvertisingItem,
-} from "@/lib/models/IType";
+} from "@/lib/models/common/IType";
 import { IconDelete } from "@/components/common/Icons";
 import { useTranslations } from "next-intl";
 

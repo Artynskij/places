@@ -1,6 +1,7 @@
-import { ISocialContactsEntity } from "@/lib/models/api/entities/(person)/socialContacts.entity";
+
+import { ISocialContactsEntity, ISocialContactsRequest } from "@/lib/models";
 import apiClient from "../../ApiClient";
-import { ISocialContactsRequest } from "@/lib/models/api/request/(Person)/socialContacts.request";
+
 
 export default class SocialNetworksPersonApi {
     constructor() {}

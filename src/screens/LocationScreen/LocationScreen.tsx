@@ -1,34 +1,30 @@
 import { Video } from "@/components/UI/Video/Video";
 import style from "./locationScreen.module.scss";
 import Link from "next/link";
-import { mockDistrict, mockTowns } from "@/asset/mockData/mockCountry";
-
 import { Slider } from "@/components/common/Slider/Slider";
-
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
-
 import {
     CardSliderMainPage,
-    CardSliderLocation,
+  
 } from "@/components/common/Cards";
 
-import { IPageProps } from "@/lib/models/IType";
 
 import { InfoSection } from "./_components/InfoSection/InfoSection";
-import { countriesData } from "@/asset/constants/countries";
 
-import { GetServerSideProps } from "next";
+
+
 
 import { getTranslations } from "next-intl/server";
 
-import { IEstablishmentFront } from "@/lib/models";
+
 import { ROUTES } from "@/lib/config/Routes";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
-import { ILocationFront } from "@/lib/models/frontend/location/location.front";
+
 
 import { getBaseUrlServer } from "@/lib/helpers/getBaseUrl";
-import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
+
 import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { IEstablishmentFront, ILocationFront, IPageProps, ITagWithEstablishmentFront } from "@/lib/models";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {

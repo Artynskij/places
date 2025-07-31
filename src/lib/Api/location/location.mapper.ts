@@ -1,5 +1,5 @@
-import { ILocationsEntity } from "@/lib/models/api/entities/locations.entity";
-import { ILocationFront } from "@/lib/models/frontend/location/location.front";
+import { ILocationFront, ILocationsEntity } from "@/lib/models";
+
 
 export default class LocationMapper {
     constructor() {}

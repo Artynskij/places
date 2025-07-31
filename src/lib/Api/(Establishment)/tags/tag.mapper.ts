@@ -1,18 +1,10 @@
 import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag";
-import {
-    // ITagClassFront,
-    // ITagWithEstablishmentFront,
+import { ITagBlockFront, ITagWithEstablishmentFront } from "@/lib/models";
 
-    ITagFront,
-    ITagBlockFront,
-} from "@/lib/models";
-import { ILocationsEntity } from "@/lib/models/api/entities/locations.entity";
 import {
     ITagsOfEstablishmentFilterResponse,
     ITagsOfEstablishmentResponse,
 } from "@/lib/models/api/response";
-import { ILocationFront } from "@/lib/models/frontend/location/location.front";
-import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
 
 export default class TagsMapper {
     constructor() {}

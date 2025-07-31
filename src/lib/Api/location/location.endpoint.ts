@@ -1,6 +1,6 @@
 import { ILocationsEntity } from "@/lib/models/api/entities/locations.entity";
 import apiClient from "../ApiClient";
-import { ILocationInsidePaginationRequest } from "@/lib/models/api/request/location/ILocationInsidePagination.request";
+import { ILocationInsidePaginationRequest } from "@/lib/models/api/request/location/location.request";
 
 export default class LocationApi {
     constructor() {}
@@ -31,7 +31,10 @@ export default class LocationApi {
             return null;
         }
     }
-    async getBreadcrumbData(body: { ids: string; lang: string }): Promise<ILocationsEntity[] | null> {
+    async getBreadcrumbData(body: {
+        ids: string;
+        lang: string;
+    }): Promise<ILocationsEntity[] | null> {
         try {
             const response = await apiClient.post(
                 `/locations/get-all-breadcrumbs`,

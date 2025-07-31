@@ -1,19 +1,12 @@
 import {
     ICategoryFront,
+    IMapItemEntity,
+    IMapItemFront,
+    IMapItemsSortedResponse,
     IScheduleFront,
-    ISearchItemEntity,
 } from "@/lib/models";
 
-import {
-    TGlobalTypes,
-    TTypesOfSearchKey,
-} from "@/lib/models/types/TTypesGlobal";
-
 import TagsMapper from "../(Establishment)/tags/tag.mapper";
-
-import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
-import { IMapItemEntity } from "@/lib/models/api/entities/mapItem.entity";
-import { IMapItemsSortedResponse } from "@/lib/models/api/response/map/IMapItemsSorted.response";
 
 export class MapMapper {
     private tagsMapper: TagsMapper;

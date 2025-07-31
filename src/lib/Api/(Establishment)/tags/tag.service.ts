@@ -1,15 +1,14 @@
 import { TagsApi } from "./tag.endpoints";
-import { ITagsOfEstablishmentRequest } from "@/lib/models/api/request/(Establishment)/tags/IPaginationTags.request";
-import { IPaginationRequest } from "@/lib/models/api/request/IPagination.request";
-import {
-    ITagsOfEstablishmentFilterResponse,
-    ITagsOfEstablishmentResponse,
-} from "@/lib/models/api/response/(Establishment)/tags/ITags.response";
-import { ITagBlockFront } from "@/lib/models/frontend/tags/tagsBlock.front";
+
 import TagsMapper from "./tag.mapper";
-import { ITagWithEstablishmentFront } from "@/lib/models/frontend/tags/tagWithEstablishment.front";
-import { ITagFront } from "@/lib/models";
-import { ITagAndEstablishmentConnectionRequest } from "@/lib/models/api/request/(Establishment)/tags/ITagConnection.request";
+import {
+    ITagAndEstablishmentConnectionRequest,
+    ITagBlockFront,
+    ITagsOfEstablishmentFilterResponse,
+    ITagsOfEstablishmentRequest,
+    ITagWithEstablishmentFront,
+} from "@/lib/models";
+
 // import { ITagClassFront, ITagClassWithEstablishmentFront } from "@/lib/models";
 
 export class TagsService {

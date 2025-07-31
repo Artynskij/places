@@ -1,19 +1,18 @@
 "use client";
 
 import { FC, useState } from "react";
-// import { ImageDefault } from "../../Image/Image";
+
 import style from "./cardInfo.module.scss";
 
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 
-import { IDataCardInfo } from "@/lib/models/ICards";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { IconArrowRight } from "@/components/common/Icons";
 import { Popup } from "@/components/common/Popup/Popup";
-import { Markdown } from "../../../../components/common/MarkDown/MarkDown";
+
 import TileContent from "../Tiles/TileContent";
-import { TTilesContent } from "@/lib/models/types/TTilesContent";
-import { ILocationFront } from "@/lib/models/frontend/location/location.front";
+import { IDataCardInfo, ILocationFront } from "@/lib/models";
+import { TTilesContent } from "@/lib/models/types";
 
 // import  TileContent  from "@/screens/LocationScreen/_components/Tiles/TileContent";
 

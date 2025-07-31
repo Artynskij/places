@@ -1,6 +1,6 @@
-import { ISearchQueryRequest } from "@/lib/models/api/request/search/ISearchQuery.request";
+import { ISearchQueryRequest } from "@/lib/models/api/request/search/search.request";
 
-import { ISearchQueryResponse } from "@/lib/models/api/response/search/ISearch.response";
+import { ISearchQueryResponse } from "@/lib/models/api/response/search/search.response";
 import apiClient from "../ApiClient";
 import apiClientSearch from "../ApiClientSearch";
 
@@ -23,11 +23,9 @@ export class SearchApi {
             return response.data;
         } catch (error) {
             console.log(error);
-            
+
             console.error(`Ошибка при запросе по поиску queryEndpoind.`);
             return null;
         }
     }
-
-    
 }

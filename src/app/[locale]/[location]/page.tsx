@@ -3,7 +3,7 @@ import { Video } from "@/components/UI/Video/Video";
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/common/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 
 import LocationScreen from "@/screens/LocationScreen/LocationScreen";

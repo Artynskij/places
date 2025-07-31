@@ -1,12 +1,12 @@
 import {
     IEstablishmentItemsResponse,
     IEstablishmentResponse,
-} from "@/lib/models/api/response/(Establishment)/establishment/IEstablishment.response";
+} from "@/lib/models/api/response/(Establishment)/establishment.response";
 import apiClient from "../../ApiClient";
 import {
     IEstablishmentCreateRequest,
     IPaginationEstablishmentRequest,
-} from "@/lib/models/api/request/(Establishment)/establishment/establishment.request";
+} from "@/lib/models/api/request/(Establishment)/establishment.request";
 
 export default class EstablishmentApi {
     constructor() {}

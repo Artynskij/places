@@ -1,5 +1,5 @@
-import { IScheduleEntity } from "@/lib/models/api/entities/schedule.entity";
-import { IScheduleFront } from "@/lib/models/frontend/schedule/schedule.front";
+import { IScheduleEntity, IScheduleFront } from "@/lib/models";
+
 // Intl.DateTimeFormat управление временем
 export class ScheduleMapper {
     constructor() {}

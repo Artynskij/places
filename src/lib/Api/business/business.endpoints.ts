@@ -1,4 +1,4 @@
-import { IBusinessEntity } from "@/lib/models/api/entities/business/business.entity";
+import { IBusinessEntity } from "@/lib/models/api/entities/business.entity";
 import apiClient from "../ApiClient";
 import { IBusinessRequest } from "@/lib/models/api/request/business/business.request";
 

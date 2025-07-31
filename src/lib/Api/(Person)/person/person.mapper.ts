@@ -3,7 +3,7 @@ import { IPersonEntity } from "@/lib/models/api/entities/(person)/person.entity"
 import { IGenderFront } from "@/lib/models/frontend/(person)/gender.front";
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import { IPersonSettingsFront } from "@/lib/models/frontend/(person)/personSettings.front";
-import { ISocialContactsFront } from "@/lib/models/frontend/(person)/socialContacts.front";
+import { ISocialContactsFront } from "@/lib/models/frontend/socialContacts.front";
 
 export class PersonMapper {
     constructor() {}

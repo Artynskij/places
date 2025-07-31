@@ -3,8 +3,6 @@ import AddressApi from "./address.endpoints";
 import { IAddressFront } from "@/lib/models/frontend/(person)/address.front";
 import { IAddressRequest } from "@/lib/models/api/request/(Person)/address.request";
 
-import { ContactsService } from "../../contacts/contacts.service";
-
 export class AddressService {
     private AddressApi: AddressApi;
     private AddressMapper: AddressMapper;
@@ -12,7 +10,6 @@ export class AddressService {
     constructor() {
         this.AddressApi = new AddressApi();
         this.AddressMapper = new AddressMapper();
-        
     }
 
     async getAddressById(
@@ -22,32 +19,24 @@ export class AddressService {
         const response = this.AddressApi.getAddressById(id, lang).then(
             (res) => {
                 if (!res) return null;
-                const mappedData =
-                    this.AddressMapper.toFront(res);
+                const mappedData = this.AddressMapper.toFront(res);
                 return mappedData;
             }
         );
         return response;
     }
 
-    async createAddress(
-        body: IAddressRequest,
-        
-    ): Promise<IAddressFront | null> {
-        const response = this.AddressApi.createAddress(body)
-          
-            .then((res) => {
-                if (!res) return null;
-                const mappedData =
-                    this.AddressMapper.toFront(res);
-                return mappedData;
-            });
+    async createAddress(body: IAddressRequest): Promise<IAddressFront | null> {
+        const response = this.AddressApi.createAddress(body).then((res) => {
+            if (!res) return null;
+            const mappedData = this.AddressMapper.toFront(res);
+            return mappedData;
+        });
         return response;
     }
     async updateAddress(
         id: string | null,
-        body: IAddressRequest,
-      
+        body: IAddressRequest
     ): Promise<IAddressFront | null> {
         if (!id) {
             return this.createAddress(body);

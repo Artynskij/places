@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/common/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 
 import TouristScreen from "@/screens/(Profile)/TouristScreen/TouristScreen";

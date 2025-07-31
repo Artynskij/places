@@ -5,7 +5,7 @@ import { Button } from "@/components/UI/Button/Button";
 import { useState } from "react";
 import { IconLocation } from "@/components/common/Icons";
 import { PopupMap } from "@/components/common/Popup/PopupMap/PopupMap";
-import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
+
 import { IEstablishmentFront, ITagWithEstablishmentFront } from "@/lib/models";
 import { mapEstablishmentToSearchItem } from "@/lib/helpers/mappers/mapEstablishmentToSearchItem";
 

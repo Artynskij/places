@@ -1,7 +1,7 @@
 import { IArticleEntity, IArticleFront } from "@/lib/models";
 
 import ArticleApi from "./article.endpoints";
-import { IPaginationArticleRequest } from "@/lib/models/api/request/article/IPaginationArticle.request";
+import { IPaginationArticleRequest } from "@/lib/models/api/request/article/article.request";
 import ArticleMapper from "./article.mapper";
 
 export class ArticleService {
@@ -26,11 +26,11 @@ export class ArticleService {
     ): Promise<IArticleFront[] | null> {
         const response = await this.articleApi.getArticlesByPagination(body);
         return response
-            ? response
+            ? (response
                   .map((resItem) =>
                       this.articleMapper.transformToFront(resItem)
                   )
-                  .filter((item) => !!item) as IArticleFront[] || []
+                  .filter((item) => !!item) as IArticleFront[]) || []
             : null;
     }
 }

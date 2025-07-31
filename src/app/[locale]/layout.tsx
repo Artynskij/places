@@ -8,7 +8,7 @@ import { Footer } from "@/components/common/Footer/Footer";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import ClientOnly from "@/components/ATest/ClientOnly";
 import { ToastProvider } from "@/components/ATest/ToasterProvider";
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/common/IType";
 import { locales } from "@/config";
 import { ReactNode, Suspense } from "react";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";

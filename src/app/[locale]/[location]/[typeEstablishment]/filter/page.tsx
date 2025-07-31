@@ -1,8 +1,7 @@
 import { IMockBlock } from "@/asset/mockData/mockFilterCheckBox";
 import FilterScreen from "@/screens/FilterScreen/FilterScreen";
-import { IPageProps } from "@/lib/models/IType";
+import { IPageProps } from "@/lib/models/common/IType";
 import { notFound } from "next/navigation";
-
 
 import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";

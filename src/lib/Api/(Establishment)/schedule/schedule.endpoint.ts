@@ -1,6 +1,4 @@
-import { IScheduleCreateResponse } from "./../../../models/api/response/(Establishment)/schedule/schedule.response";
-import { IScheduleCreateRequest } from "./../../../models/api/request/(Establishment)/schedule/schedule.request";
-import { IScheduleEntity } from "@/lib/models/api/entities/schedule.entity";
+import { IScheduleCreateRequest, IScheduleCreateResponse, IScheduleEntity } from "@/lib/models";
 import apiClient from "../../ApiClient";
 
 export class ScheduleApi {

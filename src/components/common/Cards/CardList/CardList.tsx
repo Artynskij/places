@@ -8,7 +8,7 @@ import Link from "next/link";
 import { LikeButton } from "../../ButtonFunctional/LikeButton";
 import { RateMain } from "../../RateCustom/RateMain";
 import { RateCafe } from "../../RateCustom/RateCafe";
-import { IDataCardSlider } from "@/lib/models/ICards";
+import { IDataCardSlider } from "@/lib/models/common/ICards";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 
 import { RateHotel } from "../../RateCustom/RateHotel";

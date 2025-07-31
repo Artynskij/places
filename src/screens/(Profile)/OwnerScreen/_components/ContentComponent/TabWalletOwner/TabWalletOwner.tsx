@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { IconPlus } from "@/components/common/Icons";
 import { mockCurrency, mockWalletHistory } from "@/asset/mockData/mockWallet";
 
-import { IDataCurrency, IDataWalletHistory } from "@/lib/models/IType";
+import { IDataCurrency, IDataWalletHistory } from "@/lib/models/common/IType";
 
 export const TabWalletOwner = () => {
     const t = useTranslations("ProfilePage");

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import style from "./cardRecommend.module.scss";
-import { IDataCardSlider } from "@/lib/models/ICards";
+import { IDataCardSlider } from "@/lib/models/common/ICards";
 import Image from "next/image";
 import { IconLike, IconLocation, IconStar } from "@/components/common/Icons";
 
@@ -9,16 +9,16 @@ import Link from "next/link";
 import { LikeButton } from "@/components/common/ButtonFunctional/LikeButton";
 
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
-import { IEstablishmentFront } from "@/lib/models";
+
 import { ROUTES } from "@/lib/config/Routes";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
-import { headers } from "next/headers";
-import { getBaseUrlServer } from "@/lib/helpers/getBaseUrl";
+
 import { RateMain } from "@/components/common/RateCustom/RateMain";
 import { RateCafe } from "@/components/common/RateCustom/RateCafe";
 import { RateHotel } from "@/components/common/RateCustom/RateHotel";
-import { IMapItemFront } from "@/lib/models/frontend/map/mapItem.front";
+
 import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { IMapItemFront } from "@/lib/models";
 
 interface ICardRecommend {
     dataEstablishment: IMapItemFront;

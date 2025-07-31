@@ -1,7 +1,7 @@
-import {  IContentLocationEntity } from "./parts/content.entity";
+import { IContentLocationEntity } from "./(establishment)/parts/content.entity";
 
 export interface ILocationsEntity {
-    location:{
+    location: {
         Id: string;
         ParentId: string;
         LocationTypeSecondary: string | null;
@@ -11,8 +11,8 @@ export interface ILocationsEntity {
             Id: string;
             Name: string;
         };
-    },
-   
+    };
+
     content: IContentLocationEntity;
     // Content?: IContentLocationEntity;
 }

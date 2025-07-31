@@ -3,7 +3,7 @@
 import { FC, useEffect, useRef, useState } from "react";
 import style from "./selectCustom.module.scss";
 import { IconArrowDown } from "../../common/Icons";
-import { ISelectOption } from "@/lib/models/IType";
+import { ISelectOption } from "@/lib/models/common/IType";
 import { SpanErrorForm } from "../Span/SpanErrorForm";
 
 interface ISelectProps {

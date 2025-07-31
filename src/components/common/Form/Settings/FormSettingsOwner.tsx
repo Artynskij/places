@@ -25,33 +25,26 @@ import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 import { mockPersonId } from "@/asset/mockData/mockServerData";
 
 import { PersonNameService } from "@/lib/Api/(Person)/personName/personName.service";
-// import { ContactsService } from "@/lib/Api/contacts/contacts.service";
-import { ContactsService } from "@/lib/Api/contacts/contact.api";
+
+import { ContactsService } from "@/lib/Api/(Person)/contactPerson.api";
 import { AddressService } from "@/lib/Api/(Person)/address/address.api";
 // import { AddressService } from "@/lib/Api/(Person)/address/address.service";
 import { SocialNetworksPersonService } from "@/lib/Api/(Person)/socialNetworksPerson/socialNetworksPerson.service";
 
-import { ISocialContactsRequest } from "@/lib/models/api/request/(Person)/socialContacts.request";
+
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
-import { validSocialNetworksSchema } from "@/lib/validationSchemas/socialNetworksSchema";
-import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
+
 import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
 import Image from "next/image";
-import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
-import { TextareaForm } from "@/components/UI/Textarea/TextareaForm/TextareaForm";
+
 import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request";
-import { IContactsRequest } from "@/lib/models/api/request/contacts/contacts.request";
-import { SocialContactsBlockForm } from "../_components/SocialContacts/SocialContacts";
+
 import { getObjectDiffWithNulls } from "@/lib/helpers/getChangedFieldsForApi";
 import { IPersonNameCreateRequest } from "@/lib/models/api/request/(Person)/personName.request";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
 import { Loader } from "../../Loader/Loader";
-import { DeleteButton } from "../../ButtonFunctional/DeleteButton";
-import { GenderBlockForm } from "../_components/GenderBlock/GenderBlock";
-import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
-import { parseDateToISO } from "@/lib/helpers/getFormatDate";
-import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
+
 import { AvatarBlockForm } from "../_components/AvatarBlock/AvatarBlock";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
 
@@ -281,7 +274,9 @@ export const FormSettingsOwner = () => {
                 </div>
             </div>
             <div className={style.selectionBlock}>
-                <div className={style.selectionBlock_title}>Данные владельца</div>
+                <div className={style.selectionBlock_title}>
+                    Данные владельца
+                </div>
                 <div className={style.selectionBlock_content}>
                     <InputForm
                         error={errors.fullName?.name?.message}

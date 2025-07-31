@@ -1,9 +1,9 @@
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { InputCustom } from "@/components/UI/Input/InputCustom/InputCustom";
 import style from "./searchScreen.module.scss";
-import { IPageProps } from "@/lib/models";
+import { IPageProps, ISearchQueryResponseFront } from "@/lib/models";
 import InputFind from "./_components/InputFind/InputFind";
-import { ISearchQueryResponseFront } from "@/lib/models/frontend/search/searchQueryResponse.front";
+
 
 import Link from "next/link";
 

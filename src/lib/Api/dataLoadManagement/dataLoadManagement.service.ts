@@ -1,12 +1,12 @@
-import { IRoleOwnerEntity } from "@/lib/models/api/entities/dataLoadManagement/roleOwner.entity";
+
 import DataLoadManagementApi from "./dataLoadManagement.endpoints";
-import { ITypeOfEstablishment } from "@/lib/models/api/entities/typeOfEstablishment.entity";
-import { ICategoryFront, ITagBlockFront } from "@/lib/models";
+
+import { ICategoryFront, IGenderFront, IRoleOwnerEntity, ITagBlockFront, ITypeOfEstablishment } from "@/lib/models";
 import { DataLoadManagementMapper } from "./dataLoadManagement.mapper";
-import { IGenderEntity } from "@/lib/models/api/entities/(person)/gender.entity";
+
 import { GenderMapper } from "../(Person)/gender.api";
-import { IGenderFront } from "@/lib/models/frontend/(person)/gender.front";
-import { TLocale } from "@/lib/models/types/TLocale";
+
+
 
 export class DataLoadManagementService {
     // DataLoadManagementMapper

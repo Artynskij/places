@@ -1,15 +1,14 @@
 "use client";
 import LocationMapper from "@/lib/Api/location/location.mapper";
 import { TTilesContent } from "@/lib/models/types/TTilesContent";
-import { ILocationFront } from "@/lib/models/frontend/location/location.front";
 
 import style from "../tiles.module.scss";
 import Link from "next/link";
 import { ROUTES } from "@/lib/config/Routes";
 
-import Input from "antd/lib/input/Input";
 import { InputCustom } from "@/components/UI/Input/InputCustom/InputCustom";
 import { useState } from "react";
+import { ILocationFront } from "@/lib/models";
 
 interface ITileLocations {
     typeTileContent: TTilesContent;

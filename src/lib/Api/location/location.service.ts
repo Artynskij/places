@@ -1,7 +1,8 @@
-import { ILocationFront } from "@/lib/models/frontend/location/location.front";
+
+import { ILocationFront, ILocationInsidePaginationRequest } from "@/lib/models";
 import LocationApi from "./location.endpoint";
 import LocationMapper from "./location.mapper";
-import { ILocationInsidePaginationRequest } from "@/lib/models/api/request/location/ILocationInsidePagination.request";
+
 
 export class LocationService {
     private locationApi: LocationApi;

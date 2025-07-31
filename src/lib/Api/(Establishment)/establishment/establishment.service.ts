@@ -5,7 +5,7 @@ import EstablishmentMapper from "./establishment.mapper";
 import {
     IEstablishmentCreateRequest,
     IPaginationEstablishmentRequest,
-} from "@/lib/models/api/request/(Establishment)/establishment/establishment.request";
+} from "@/lib/models/api/request/(Establishment)/establishment.request";
 
 export class EstablishmentService {
     private establishmentApi: EstablishmentApi;
