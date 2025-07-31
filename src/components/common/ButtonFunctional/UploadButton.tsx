@@ -42,16 +42,10 @@ export const UploadButton: React.FC<Props> = ({
     disabled = false,
     onChange,
     error,
-    titleSpan,
-    titleButton,
+
     type = "box",
     className,
-    titleHelp,
-    // setError,
-    // clearErrors,
 }) => {
-    const [activeModal, setActiveModal] = useState(false);
-
     const message = useAlertMessage();
 
     const ACCEPT_MIME_MAP: Record<NonNullable<Props["accept"]>, string> = {
@@ -134,55 +128,37 @@ export const UploadButton: React.FC<Props> = ({
             console.log("Файлы перетянуты:", e.dataTransfer.files);
         },
     };
-    const handlerOpenModal = () => {
-        setActiveModal(true);
-    };
-    const handlerCloseModal = () => {
-        setActiveModal(false);
-    };
+
     return (
         <div className={`${style.uploadButton} ${className}`}>
-            <Button text={titleButton} onClick={handlerOpenModal} />
-            {error && (
-                <span className={style.uploadButton_errorInput}>
-                    {error.message}
-                </span>
-            )}
-            <ModalCustom
-                closeModal={handlerCloseModal}
-                active={activeModal}
-                title={titleSpan}
-                view="small"
-            >
-                <Dragger className={style.uploadButton_dragger} {...props}>
-                    {type === "box" && (
-                        <>
-                            <p className="ant-upload-drag-icon">
-                                <InboxOutlined />
+            <Dragger className={style.uploadButton_dragger} {...props}>
+                {type === "box" && (
+                    <>
+                        <p className="ant-upload-drag-icon">
+                            <InboxOutlined />
+                        </p>
+                        <p className={style.uploadButton_text}>
+                            Кликните или перетащите файл для загрузки
+                        </p>
+                        <p className={style.uploadButton_text}>
+                            Допустимые форматы:{" "}
+                            {resolvedAccept?.replaceAll(".", " ")}.
+                        </p>
+                        <p className={style.uploadButton_text}>
+                            Размер каждого файла должен быть не более 47 Мб.
+                        </p>
+                        {maxCount && (
+                            <p className="ant-upload-hint">
+                                Поддерживается одиночная и массовая загрузка.
+                                Максимум {maxCount} файлов.
                             </p>
-                            <p className={style.uploadButton_text}>
-                                Кликните или перетащите файл для загрузки
-                            </p>
-                            <p className={style.uploadButton_text}>
-                                Допустимые форматы:{" "}
-                                {resolvedAccept?.replaceAll(".", " ")}.
-                            </p>
-                            <p className={style.uploadButton_text}>
-                                Размер каждого файла должен быть не более 47 Мб.
-                            </p>
-                            {maxCount && (
-                                <p className="ant-upload-hint">
-                                    Поддерживается одиночная и массовая
-                                    загрузка. Максимум {maxCount} файлов.
-                                </p>
-                            )}
-                        </>
-                    )}
-                    {type === "avatar" && <div>Avatar</div>}
-                </Dragger>
-                {titleHelp && <div>{titleHelp}</div>}
-                {error && <SpanErrorForm text={error.message} />}
-            </ModalCustom>
+                        )}
+                    </>
+                )}
+                {type === "avatar" && <div>Avatar</div>}
+            </Dragger>
+            
+            {error && <SpanErrorForm text={error.message} />}
         </div>
     );
 };

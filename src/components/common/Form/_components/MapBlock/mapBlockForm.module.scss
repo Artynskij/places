@@ -8,8 +8,11 @@
 .choice {
     @extend %BoxDeep;
 }
-.error_text {
+
+.buttonAcceptPosition {
     position: absolute;
-    top: 100%;
-    color: red;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50% 0);
+    z-index: 1;
 }

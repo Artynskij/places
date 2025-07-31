@@ -52,6 +52,8 @@ import { GenderBlockForm } from "../_components/GenderBlock/GenderBlock";
 import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
 import { parseDateToISO } from "@/lib/helpers/getFormatDate";
 import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
+import { AvatarBlockForm } from "../_components/AvatarBlock/AvatarBlock";
+import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
 
 type TTypeForm = Yup.InferType<typeof validationSchema>;
 
@@ -205,7 +207,7 @@ export const FormSettingsOwner = () => {
         notification.success({ message: "Данные успешно сохранены" });
         setTimeout(() => {
             router.push(ROUTES.PROFILE.TOURIST("sherlock_bones"));
-        }, 3000);
+        }, 1000);
     };
 
     const onSubmitInvalid = (e: any) => {
@@ -214,6 +216,25 @@ export const FormSettingsOwner = () => {
         notification.error({
             message: "Пожалуйста, заполните обязательные поля",
         });
+    };
+    const handlerDeleteAvatar = () => {
+        if (!personData) return;
+        personService
+            .updatePerson(personData.id, {
+                ProfilePhotoPath: null,
+            })
+            .then(() => {
+                setPersonData((prev) => {
+                    if (!prev) return prev;
+                    return {
+                        ...prev,
+                        ProfilePhotoPath: null,
+                    };
+                });
+                notification.success({
+                    message: "Фотография успешно удалена",
+                });
+            });
     };
     if (!personData) {
         return <Loader />;
@@ -225,60 +246,42 @@ export const FormSettingsOwner = () => {
         >
             {/* <h2>Настройки персональных данных и верификация</h2> */}
             <div className={style.selectionBlock}>
-                <div className={style.selectionBlock_title}>Фото</div>
                 <div className={style.selectionBlock_content}>
-                    <div className={style.avatar}>
-                        {personData?.profileImg && (
+                    <div className={style.avatar_ctn}>
+                        <span>Фото</span>
+                        <div className={style.avatar}>
                             <Image
                                 className={style.avatar_img}
-                                width={96}
-                                height={96}
+                                width={250}
+                                height={250}
                                 alt="avatar"
-                                src={personData.profileImg}
+                                src={
+                                    personData.profileImg ||
+                                    CONSTANT_DEFAULT_AVATAR_URL
+                                }
                             />
-                        )}
-                        <div className={style.avatar_buttons}>
                             <Controller
                                 control={control}
                                 name="avatar"
                                 render={({ field, fieldState }) => (
-                                    <UploadButton
-                                        type="box"
-                                        titleSpan="Загрузить Аватар"
-                                        titleButton={
-                                            personData.profileImg
-                                                ? "Изменить фотографию"
-                                                : "Добавить фотографию"
-                                        }
-                                        accept="image"
+                                    <AvatarBlockForm
                                         value={field.value}
-                                        maxCount={1}
                                         onChange={field.onChange}
                                         error={fieldState.error || null}
-                                        className={style.avatar_upload}
+                                        serverPhotoUrl={personData.avatarImg}
+                                        handlerDeleteAvatar={
+                                            handlerDeleteAvatar
+                                        }
+                                        // className={style.avatar_upload}
                                     />
                                 )}
                             />
-                            {personData?.profileImg && (
-                                <DeleteButton
-                                    onClick={async () => {
-                                        await personService.updatePerson(
-                                            personData.id,
-                                            { ProfilePhotoPath: null }
-                                        );
-                                        notification.success({
-                                            message:
-                                                "Фотография успешно удалена",
-                                        });
-                                    }}
-                                />
-                            )}
                         </div>
                     </div>
                 </div>
             </div>
             <div className={style.selectionBlock}>
-                <div className={style.selectionBlock_title}>Полное имя</div>
+                <div className={style.selectionBlock_title}>Данные владельца</div>
                 <div className={style.selectionBlock_content}>
                     <InputForm
                         error={errors.fullName?.name?.message}

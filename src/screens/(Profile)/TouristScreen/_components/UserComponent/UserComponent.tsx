@@ -11,7 +11,12 @@ import Link from "next/link";
 import { SubscribeButton } from "@/components/common/ButtonFunctional/SubsribeButton";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
-import { IconEdit, IconPerson, IconSettings } from "@/components/common/Icons";
+import {
+    IconEdit,
+    IconEye,
+    IconPerson,
+    IconSettings,
+} from "@/components/common/Icons";
 import { ROUTES } from "@/lib/config/Routes";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import { useUser } from "@/lib/context/UserContext/UserContext";
@@ -55,8 +60,8 @@ export const UserComponent = async ({}: IUserComponent) => {
                     <Image
                         src={user.avatarImg || CONSTANT_DEFAULT_AVATAR_URL}
                         alt="avatar"
-                        width={500}
-                        height={500}
+                        width={250}
+                        height={250}
                     />
                 </div>
                 <div className={style.info_container}>
@@ -130,10 +135,23 @@ export const UserComponent = async ({}: IUserComponent) => {
                     </div> */}
                 </div>
                 <div className={style.manageProfile}>
-                    <Link href={ROUTES.PROFILE.SETTINGS("tourist")}>
+                    <Link href={ROUTES.PROFILE.SETTINGS("tourist", "personal")}>
                         <Button
+                            className={style.manageProfile_button}
                             icon={<IconSettings />}
-                            text="Настройки профиль"
+                            text="Настройки"
+                        />
+                    </Link>
+                    <Link
+                        href={ROUTES.PROFILE.SETTINGS(
+                            "tourist",
+                            "notification"
+                        )}
+                    >
+                        <Button
+                            className={style.manageProfile_button}
+                            icon={<IconEye />}
+                            text="Уведомления"
                         />
                     </Link>
                     {/* <Button icon={<IconEdit/>} text="редактировать профиль"/>

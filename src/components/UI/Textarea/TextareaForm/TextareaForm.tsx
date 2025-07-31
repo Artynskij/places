@@ -1,4 +1,4 @@
-import style from '../textarea.module.scss'
+import style from "../textarea.module.scss";
 
 import { CSSProperties, FC, ReactNode, useState } from "react";
 
@@ -19,6 +19,7 @@ interface ITextareaFormProps {
     value?: string;
     onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
     onClick?: () => void;
+    className?: string;
 }
 export const TextareaForm: FC<ITextareaFormProps> = ({
     // type,
@@ -35,7 +36,7 @@ export const TextareaForm: FC<ITextareaFormProps> = ({
     onClick,
 }) => {
     return (
-        <div onClick={onClick} className={style.ctn_textarea}>
+        <div onClick={onClick} className={`${style.ctn_textarea}`}>
             <div className={style.ctn_textarea_title}>
                 <label
                     htmlFor={`textarea-${register?.name}`}
@@ -46,22 +47,25 @@ export const TextareaForm: FC<ITextareaFormProps> = ({
 
                 <div className={style.textarea_additional}>{titleNeighbor}</div>
             </div>
-            <div className={style.ctn_textarea_textarea}>
-                <textarea
-                    id={`textarea-${register?.name}`}
-                    {...register}
-                    name={register?.name}
-                    value={value}
-                    style={inlineStyle}
-                    // type={type}
-                    className={clsx(style.textarea, !!error && style.textarea_error)}
-                    placeholder={placeholder}
-                    onChange={(e) => {
-                        register?.onChange?.(e); // уведомляем react-hook-form
-                        onChange?.(e); // вызываем свой кастомный onChange
-                    }}
-                />
-            </div>
+            {/* <div className={style.ctn_textarea_textarea}> */}
+            <textarea
+                id={`textarea-${register?.name}`}
+                {...register}
+                name={register?.name}
+                value={value}
+                style={inlineStyle}
+                // type={type}
+                className={clsx(
+                    style.textarea,
+                    !!error && style.textarea_error
+                )}
+                placeholder={placeholder}
+                onChange={(e) => {
+                    register?.onChange?.(e); // уведомляем react-hook-form
+                    onChange?.(e); // вызываем свой кастомный onChange
+                }}
+            />
+            {/* </div> */}
             <span className={style.textarea_errorText}> {error}</span>
         </div>
     );

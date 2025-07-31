@@ -11,12 +11,18 @@ export async function generateMetadata() {
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {};
+    searchParams: IPageProps["searchParams"] & {
+        tab: "personal" | "notification";
+    };
 }
 
 export default function TouristSettingsPage({ params, searchParams }: IProps) {
     return (
         <div className="container">
-            <TouristSettingsScreen></TouristSettingsScreen>
+            <TouristSettingsScreen
+                params={params}
+                searchParams={searchParams}
+            />
         </div>
     );
 }

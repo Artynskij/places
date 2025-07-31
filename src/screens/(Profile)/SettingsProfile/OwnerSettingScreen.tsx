@@ -15,21 +15,10 @@ export const OwnerSettingsScreen = () => {
     const searchParams = useSearchParams();
 
     return (
-        <>
-            <h3>Настройки профиля владельца</h3>
-            {/* {switcherSettingsOwner.length > 1 && (
-                <div className={style.switcher}>
-                    <SwitcherTabs data={switcherSettingsOwner} />
-                </div>
-            )} */}
+       <div className={style.page}>
+            <h2>Настройки профиля владельца</h2>
+
             <FormSettingsOwner />
-            {/* <div className={style.switcher_content}>
-                {searchParams.get("tab") === "personal" ? (
-                    <FormSettingsOwner />
-                ) : (
-                    "этого не должно было случиться"
-                )}
-            </div> */}
-        </>
+        </div>
     );
 };

@@ -8,6 +8,9 @@ import { PopupMap } from "@/components/common/Popup/PopupMap/PopupMap";
 import { FieldError } from "react-hook-form";
 import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
 import { IMapboxCoordPropToForm } from "@/lib/models/mapbox/mapbox";
+import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
+import { MapCoordinatePicker } from "@/components/common/Map/Mapbox/MapCoordinate";
+import { IconDone } from "@/components/common/Icons";
 
 interface Prop {
     error: FieldError | null;
@@ -23,19 +26,39 @@ const MapBlockForm = ({ error, onChange }: Prop) => {
         onChange(value);
         setCoord(value);
     };
-
+    const handlerCloseMap = () => {
+        setMapActive(false);
+    };
     return (
         <div className={style.mapBlock}>
             <Button onClick={handleOpenMap} text="Получить координаты" />
             {mapActive && (
-                <PopupMap
-                    mode={["getCoordinate"]}
-                    mapActive={mapActive}
-                    setMapActive={setMapActive}
-                    setPosition={handleSetCoord}
-                    position={coord}
-                />
+                <ModalCustom
+                    title="Выбор Координат"
+                    view="over"
+                    closeModal={handlerCloseMap}
+                    active={mapActive}
+                >
+                    <MapCoordinatePicker
+                        position={coord}
+                        setPosition={handleSetCoord}
+                    />
+                    {coord && (
+                        <Button
+                            className={style.buttonAcceptPosition}
+                            onClick={() => {
+                                setMapActive(false);
+                            }}
+                            type="blue"
+                            text="Потвердить позицию"
+                            icon={
+                                <IconDone className={style.buttonClose_icon} />
+                            }
+                        />
+                    )}
+                </ModalCustom>
             )}
+
             {coord && (
                 <div className={style.choice}>
                     {coord.lat} , {coord.lon}

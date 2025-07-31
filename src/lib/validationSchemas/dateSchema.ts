@@ -10,9 +10,9 @@ export const validDateSchema = Yup.string()
         if (!value) return true;
 
         // Проверяем формат ДД.ММ.ГГГГ
-        if (!/^\d{2}\.\d{2}\.\d{4}$/.test(value)) {
-            return false; // Выведет ошибку из .matches()
-        }
+        // if (!/^\d{2}\.\d{2}\.\d{4}$/.test(value)) {
+        //     return false; // Выведет ошибку из .matches()
+        // }
 
         const [day, month, year] = value.split(".").map(Number);
         const date = new Date(year, month - 1, day);

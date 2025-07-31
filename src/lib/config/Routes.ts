@@ -19,7 +19,7 @@ export const ROUTES = {
         OWNER: `/owner`,
         TOURIST: (username: string) => `/tourist/${username}`,
         USER: (username: string) => `/user/${username}`,
-        SETTINGS: (type: "owner" | "tourist") => `/${type}/settings`,
+        SETTINGS: (type: "owner" | "tourist", tab?:'notification' | 'personal') => `/${type}/settings${`?tab=${tab || 'personal'}` }`,
     },
     FILTER: (location: string, typeEst: string) =>
         `/${location}/${typeEst}/filter`,

@@ -61,7 +61,7 @@ const UserComponent = () => {
                     />
                 </div>
                 <div className={style.middle_edit}>
-                    <Link href={ROUTES.PROFILE.SETTINGS("owner")}>
+                    <Link href={ROUTES.PROFILE.SETTINGS("owner", 'personal')}>
                         <Button
                             text={t("editProfile")}
                             className={style.middle_edit_button}

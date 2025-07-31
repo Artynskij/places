@@ -48,7 +48,6 @@ export const SelectCustom: FC<ISelectProps> = ({
     }
     function handleChange(item: ISelectOption) {
         onChange(item);
-
         setIsOpen(false);
     }
     return (

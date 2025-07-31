@@ -50,7 +50,9 @@ import { Loader } from "../../Loader/Loader";
 import { DeleteButton } from "../../ButtonFunctional/DeleteButton";
 import { GenderBlockForm } from "../_components/GenderBlock/GenderBlock";
 import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
-import { parseDateToISO } from "@/lib/helpers/getFormatDate";
+import { getFormatDate, parseDateToISO } from "@/lib/helpers/getFormatDate";
+import { AvatarBlockForm } from "../_components/AvatarBlock/AvatarBlock";
+import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
 
 type TTypeForm = Yup.InferType<typeof validationSchema>;
 
@@ -93,15 +95,17 @@ export const FormSettingsTourist = () => {
         handleSubmit,
         control,
         reset,
+        watch,
         formState: { errors },
     } = useForm<TTypeForm>({
         resolver: yupResolver(validationSchema),
     });
-
+    const avatarFiles = watch("avatar");
     useEffect(() => {
-        personService.getPersonById(mockPersonId).then(async (person) => {
+        personService.getPersonById(mockPersonId).then((person) => {
             if (person) {
                 setPersonData(person);
+                console.log("start person", person);
 
                 const socialEntity = person.contacts?.socialNetworks || null;
                 const socialNetworks =
@@ -118,7 +122,9 @@ export const FormSettingsTourist = () => {
                         secondName: person.personName?.secondName || "",
                         surname: person.personName?.surname || "",
                     },
-                    dateOfBirth: person.birthDate || "",
+                    dateOfBirth: person.birthDate
+                        ? getFormatDate(person.birthDate)
+                        : "",
                     gender: person.gender?.id || "",
                     nickname: person.nickname || "",
                     address: {
@@ -190,8 +196,7 @@ export const FormSettingsTourist = () => {
             bodyToPersonUpdate.Gender = changes.gender ?? null;
         }
         if ("dateOfBirth" in changes) {
-            bodyToPersonUpdate.BirthDate =
-                parseDateToISO(changes.dateOfBirth as string) ?? null;
+            bodyToPersonUpdate.BirthDate = changes.dateOfBirth ?? null;
         }
         //  nickname описания
         if ("nickname" in changes) {
@@ -310,7 +315,7 @@ export const FormSettingsTourist = () => {
         notification.success({ message: "Данные успешно сохранены" });
         setTimeout(() => {
             router.push(ROUTES.PROFILE.TOURIST("sherlock_bones"));
-        }, 3000);
+        }, 1000);
     };
 
     const onSubmitInvalid = (e: any) => {
@@ -320,6 +325,25 @@ export const FormSettingsTourist = () => {
             message: "Пожалуйста, заполните обязательные поля",
         });
     };
+    const handlerDeleteAvatar = () => {
+        if (!personData) return;
+        personService
+            .updatePerson(personData.id, {
+                AvatarPhotoPath: null,
+            })
+            .then(() => {
+                setPersonData((prev) => {
+                    if (!prev) return prev;
+                    return {
+                        ...prev,
+                        avatarImg: null,
+                    };
+                });
+                notification.success({
+                    message: "Фотография успешно удалена",
+                });
+            });
+    };
     if (!personData) {
         return <Loader />;
     }
@@ -328,63 +352,53 @@ export const FormSettingsTourist = () => {
             className={style.form}
             onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
         >
-            <h2>Настройки персональных данных</h2>
+            <h2>Данные профиля туриста</h2>
             <div className={style.selectionBlock}>
-                <div className={style.selectionBlock_title}>Фото</div>
+                {/* <div className={style.selectionBlock_title}>Фото</div> */}
                 <div className={style.selectionBlock_content}>
-                    <div className={style.avatar}>
-                        {personData?.avatarImg && (
+                    <div className={style.avatar_ctn}>
+                        <span>Фото</span>
+                        <div className={style.avatar}>
                             <Image
                                 className={style.avatar_img}
-                                width={96}
-                                height={96}
+                                width={250}
+                                height={250}
                                 alt="avatar"
-                                src={personData.avatarImg}
+                                src={
+                                    personData.avatarImg ||
+                                    CONSTANT_DEFAULT_AVATAR_URL
+                                }
                             />
-                        )}
-                        <div className={style.avatar_buttons}>
                             <Controller
                                 control={control}
                                 name="avatar"
                                 render={({ field, fieldState }) => (
-                                    <UploadButton
-                                        type="box"
-                                        titleSpan="Загрузить Аватар"
-                                        titleButton={
-                                            personData.avatarImg
-                                                ? "Изменить фотографию"
-                                                : "Добавить фотографию"
-                                        }
-                                        accept="image"
+                                    <AvatarBlockForm
                                         value={field.value}
-                                        maxCount={1}
                                         onChange={field.onChange}
                                         error={fieldState.error || null}
-                                        className={style.avatar_upload}
-                                        
+                                        serverPhotoUrl={personData.avatarImg}
+                                        handlerDeleteAvatar={
+                                            handlerDeleteAvatar
+                                        }
+                                        // className={style.avatar_upload}
                                     />
                                 )}
                             />
-                            {personData?.avatarImg && (
-                                <DeleteButton
-                                    onClick={async () => {
-                                        await personService.updatePerson(
-                                            personData.id,
-                                            { AvatarPhotoPath: null }
-                                        );
-                                        notification.success({
-                                            message:
-                                                "Фотография успешно удалена",
-                                        });
-                                    }}
-                                />
-                            )}
                         </div>
+                    </div>
+                    <div className={style.description}>
+                        <TextareaForm
+                            error={errors.description?.message}
+                            register={register("description")}
+                            placeholder="О себе*"
+                            titleSpan="О себе"
+                        />
                     </div>
                 </div>
             </div>
             <div className={style.selectionBlock}>
-                <div className={style.selectionBlock_title}>Полное имя</div>
+                <div className={style.selectionBlock_title}>Данные туриста</div>
                 <div className={style.selectionBlock_content}>
                     <InputForm
                         error={errors.fullName?.name?.message}
@@ -393,14 +407,14 @@ export const FormSettingsTourist = () => {
                         titleSpan="Имя"
                         type="text"
                     />
-
+                    {/* 
                     <InputForm
                         error={errors.fullName?.secondName?.message}
                         register={register("fullName.secondName")}
                         placeholder="Отчество"
                         titleSpan="Отчество"
                         type="text"
-                    />
+                    /> */}
 
                     <InputForm
                         error={errors.fullName?.surname?.message}
@@ -416,13 +430,12 @@ export const FormSettingsTourist = () => {
                         titleSpan="@Никнейм"
                         type="text"
                     />
-
                     <Controller
                         name="gender"
                         control={control}
                         render={({ field, fieldState }) => (
                             <div className={style.selectBlock}>
-                                <label>Выберите пол</label>
+                                <span>Выберите пол</span>
                                 <GenderBlockForm
                                     selectedGender={field.value as string}
                                     onChange={field.onChange}
@@ -469,7 +482,7 @@ export const FormSettingsTourist = () => {
                 </div>
             </div>
             <div className={style.selectionBlock}>
-                <div className={style.selectionBlock_title}>Адрес</div>
+                <div className={style.selectionBlock_title}>Место проживание</div>
                 <div className={style.selectionBlock_content}>
                     <InputForm
                         error={errors.address?.country?.message}
@@ -478,13 +491,7 @@ export const FormSettingsTourist = () => {
                         titleSpan="Страна"
                         type="text"
                     />
-                    {/* <InputForm
-                        error={errors.address?.district?.message}
-                        register={register("address.district")}
-                        placeholder="Область"
-                        titleSpan="Область"
-                        type="text"
-                    /> */}
+
                     <InputForm
                         error={errors.address?.town?.message}
                         register={register("address.town")}
@@ -492,33 +499,12 @@ export const FormSettingsTourist = () => {
                         titleSpan="Город"
                         type="text"
                     />
-                    {/* <InputForm
-                        error={errors.address?.addressLine?.message}
-                        register={register("address.addressLine")}
-                        placeholder="Улица"
-                        titleSpan="Улица"
-                        type="text"
-                    />
-                    <InputForm
-                        error={errors.address?.postalCode?.message}
-                        register={register("address.postalCode")}
-                        placeholder="Почтовый индекс"
-                        titleSpan="Почтовый индекс"
-                        type="text"
-                    /> */}
                 </div>
             </div>
 
             <div className={style.selectionBlock}>
                 {/* <div className={style.selectionBlock_title}>О Себе</div> */}
-                <div className={style.selectionBlock_content}>
-                    <TextareaForm
-                        error={errors.description?.message}
-                        register={register("description")}
-                        placeholder="О себе*"
-                        titleSpan="О себе"
-                    />
-                </div>
+                <div className={style.selectionBlock_content}></div>
             </div>
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
