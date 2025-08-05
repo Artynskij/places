@@ -18,8 +18,8 @@ import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {
-    IContactsOfEstablishmentEntity,
-    IContactsOfEstablishmentPartFront,
+    IContactsEstablishmentEntity,
+    IContactsEstablishmentFront,
 } from "@/lib/models";
 
 interface IContactButton {
@@ -28,7 +28,7 @@ interface IContactButton {
     importTitle?: string;
     importDescription?: string;
     textButton?: string;
-    contactData: IContactsOfEstablishmentPartFront | null;
+    contactData: IContactsEstablishmentFront | null;
 }
 
 export const ContactButton: FC<IContactButton> = ({
@@ -89,22 +89,22 @@ export const ContactButton: FC<IContactButton> = ({
                     >
                         <ul className={style.contact_popup_list}>
                             {!contactData && <div> Контактов нету</div>}
-                            {contactData?.Phone && (
+                            {contactData?.phone && (
                                 <li className={style.contact_popup_list_item}>
-                                    <Link href={`tel:${contactData.Phone}`}>
+                                    <Link href={`tel:${contactData.phone}`}>
                                         <IconPhone
                                             className={
                                                 style.contact_popup_list_item_icon
                                             }
                                         />
-                                        <span> {contactData.Phone}</span>
+                                        <span> {contactData.phone}</span>
                                     </Link>
                                 </li>
                             )}
-                            {contactData?.Telegram && (
+                            {contactData?.socialNetworks?.Telegram && (
                                 <li className={style.contact_popup_list_item}>
                                     <Link
-                                        href={`https://t.me/${contactData.Telegram}`}
+                                        href={`https://t.me/${contactData.socialNetworks?.Telegram}`}
                                         target="_blank"
                                     >
                                         <IconTelegram
@@ -116,10 +116,10 @@ export const ContactButton: FC<IContactButton> = ({
                                     </Link>
                                 </li>
                             )}
-                            {contactData?.Viber && (
+                            {contactData?.socialNetworks?.Viber && (
                                 <li className={style.contact_popup_list_item}>
                                     <Link
-                                        href={`viber://contact?number=${contactData.Viber}`}
+                                        href={`viber://contact?number=${contactData.socialNetworks.Viber}`}
                                         target="_blank"
                                     >
                                         <IconViber
@@ -131,10 +131,10 @@ export const ContactButton: FC<IContactButton> = ({
                                     </Link>
                                 </li>
                             )}
-                            {contactData?.WhatsApp && (
+                            {contactData?.socialNetworks?.WhatsApp && (
                                 <li className={style.contact_popup_list_item}>
                                     <Link
-                                        href={`https://wa.me/${contactData.WhatsApp}`}
+                                        href={`https://wa.me/${contactData.socialNetworks.WhatsApp}`}
                                         target="_blank"
                                     >
                                         <IconWhatApp
@@ -146,10 +146,10 @@ export const ContactButton: FC<IContactButton> = ({
                                     </Link>
                                 </li>
                             )}
-                            {contactData?.Instagram && (
+                            {contactData?.socialNetworks?.Instagram && (
                                 <li className={style.contact_popup_list_item}>
                                     <Link
-                                        href={`https://instagram.com/${contactData.Instagram}`}
+                                        href={`https://instagram.com/${contactData.socialNetworks.Instagram}`}
                                         target="_blank"
                                     >
                                         <IconInstagram
@@ -176,23 +176,23 @@ export const ContactButton: FC<IContactButton> = ({
                         <h4>Контакты</h4>
                         <ul className={style.contact_popup_list}>
                             {!contactData && <div> Контактов нету</div>}
-                            {contactData?.Phone && (
+                            {contactData?.phone && (
                                 <li className={style.contact_popup_list_item}>
-                                    <Link href={`tel:${contactData.Phone}`}>
+                                    <Link href={`tel:${contactData.phone}`}>
                                         <IconPhone
                                             className={
                                                 style.contact_popup_list_item_icon
                                             }
                                         />
-                                        <span> {contactData.Phone}</span>
+                                        <span> {contactData.phone}</span>
                                     </Link>
                                 </li>
                             )}
 
-                            {contactData?.Telegram && (
+                            {contactData?.socialNetworks?.Telegram && (
                                 <li className={style.contact_popup_list_item}>
                                     <Link
-                                        href={`https://t.me/${contactData.Telegram}`}
+                                        href={`https://t.me/${contactData.socialNetworks?.Telegram}`}
                                         target="_blank"
                                     >
                                         <IconTelegram
@@ -205,10 +205,10 @@ export const ContactButton: FC<IContactButton> = ({
                                 </li>
                             )}
 
-                            {contactData?.Viber && (
+                            {contactData?.socialNetworks?.Viber && (
                                 <li className={style.contact_popup_list_item}>
                                     <Link
-                                        href={`viber://contact?number=${contactData.Viber}`}
+                                        href={`viber://contact?number=${contactData.socialNetworks?.Viber}`}
                                         target="_blank"
                                     >
                                         <IconViber
@@ -221,10 +221,10 @@ export const ContactButton: FC<IContactButton> = ({
                                 </li>
                             )}
 
-                            {contactData?.WhatsApp && (
+                            {contactData?.socialNetworks?.WhatsApp && (
                                 <li className={style.contact_popup_list_item}>
                                     <Link
-                                        href={`https://wa.me/${contactData.WhatsApp}`}
+                                        href={`https://wa.me/${contactData.socialNetworks.WhatsApp}`}
                                         target="_blank"
                                     >
                                         <IconWhatApp
@@ -236,10 +236,10 @@ export const ContactButton: FC<IContactButton> = ({
                                     </Link>
                                 </li>
                             )}
-                            {contactData?.Instagram && (
+                            {contactData?.socialNetworks?.Instagram && (
                                 <li className={style.contact_popup_list_item}>
                                     <Link
-                                        href={`https://instagram.com/${contactData.Instagram}`}
+                                        href={`https://instagram.com/${contactData.socialNetworks.Instagram}`}
                                         target="_blank"
                                     >
                                         <IconInstagram

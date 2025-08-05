@@ -1,5 +1,4 @@
-import { IMediaFront } from "./(establishment)/parts/media.frontPart";
-
+import { IMediaFront } from "./(establishment)/parts/media.front";
 
 export interface ILocationFront {
     id: string;

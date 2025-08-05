@@ -7,12 +7,14 @@ import {
 } from "@/lib/models";
 
 import TagsMapper from "../(Establishment)/tags/tag.mapper";
+import { ScheduleMapper } from "../(Establishment)/schedule/schedule.mapper";
 
 export class MapMapper {
     private tagsMapper: TagsMapper;
-
+    private scheduleMapper: ScheduleMapper;
     constructor() {
         this.tagsMapper = new TagsMapper();
+        this.scheduleMapper = new ScheduleMapper();
     }
 
     mappingMapQuery(
@@ -62,14 +64,9 @@ export class MapMapper {
             itemBack.categories.map((cat) => {
                 return { id: cat.id, key: "", value: cat.name };
             }) || [];
+
         const schedulePart: IScheduleFront[] | null = itemBack.schedule
-            ? itemBack.schedule?.map((scheduleItem) => {
-                  return {
-                      day: scheduleItem.Day,
-                      openTime: scheduleItem.OpenTime,
-                      closeTime: scheduleItem.CloseTime,
-                  };
-              })
+            ? this.scheduleMapper.toFront(itemBack.schedule)
             : null;
         const starRatingPart = itemBack.starRating
             ? {
@@ -95,9 +92,7 @@ export class MapMapper {
             id: itemBack.dbCrossId,
             title: itemBack.title,
             description: itemBack.description,
-            media: itemBack.image
-                ? { mainImage: itemBack.image, cdnHost: cdnHost }
-                : null, // You might want to map this from item if available
+            media: itemBack.image ? { mainImage: itemBack.image } : null, // You might want to map this from item if available
             lang: itemBack.lang,
             location: locationPart,
             typeId: itemBack.typeId || null,

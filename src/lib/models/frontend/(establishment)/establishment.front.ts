@@ -1,8 +1,8 @@
 import { TTypesOfEstablishment } from "../../types/TTypesEstablishment";
 import { ICategoryFront } from "./category.front";
 
-import { IContactsOfEstablishmentPartFront } from "./parts/contactsOfEstablishment.frontPart";
-import { IMediaFront } from "./parts/media.frontPart";
+import { IContactsEstablishmentFront } from "./parts/contactsEstablishment.front";
+import { IMediaFront } from "./parts/media.front";
 
 export interface IEstablishmentFront {
     id: string;
@@ -39,9 +39,8 @@ export interface IEstablishmentFront {
             totalEstablishment: number | null;
         };
     };
-    contacts: IContactsOfEstablishmentPartFront | null;
+    contacts: IContactsEstablishmentFront | null;
     media: {
-        cdnHost: string;
         gallery: IMediaFront[] | null;
     };
     seo: { key: string; value: string }[];

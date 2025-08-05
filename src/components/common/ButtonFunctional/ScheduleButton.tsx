@@ -87,10 +87,24 @@ export const ScheduleButton: FC<IScheduleButton> = ({
                                               key={index}
                                           >
                                               <span>{scheduleItem.day}</span>
-                                              <span>
-                                                  {scheduleItem.openTime} -{" "}
-                                                  {scheduleItem.closeTime}
-                                              </span>
+                                              {scheduleItem.isHoliday && (
+                                                  <span>выходной</span>
+                                              )}
+                                              {scheduleItem.is24Hours && (
+                                                  <span>круглосуточно</span>
+                                              )}
+                                              {!scheduleItem.is24Hours &&
+                                                  !scheduleItem.isHoliday && (
+                                                      <span>
+                                                          {
+                                                              scheduleItem.openTime
+                                                          }
+                                                          -
+                                                          {
+                                                              scheduleItem.closeTime
+                                                          }
+                                                      </span>
+                                                  )}
                                           </li>
                                       );
                                   })
@@ -118,11 +132,25 @@ export const ScheduleButton: FC<IScheduleButton> = ({
                                               }
                                               key={index}
                                           >
-                                              <span>{t(scheduleItem.day)}</span>
-                                              <span>
-                                                  {scheduleItem.openTime} -{" "}
-                                                  {scheduleItem.closeTime}
-                                              </span>
+                                              <span>{scheduleItem.day}</span>
+                                              {scheduleItem.isHoliday && (
+                                                  <span>выходной</span>
+                                              )}
+                                              {scheduleItem.is24Hours && (
+                                                  <span>круглосуточно</span>
+                                              )}
+                                              {!scheduleItem.is24Hours &&
+                                                  !scheduleItem.isHoliday && (
+                                                      <span>
+                                                          {
+                                                              scheduleItem.openTime
+                                                          }
+                                                          -
+                                                          {
+                                                              scheduleItem.closeTime
+                                                          }
+                                                      </span>
+                                                  )}
                                           </li>
                                       );
                                   })

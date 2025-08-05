@@ -1,10 +1,10 @@
-export * from "./(establishment)/category.front";
+
 export * from "./(establishment)/establishment.front";
 export * from "./(establishment)/schedule.front";
 export * from "./(establishment)/tag.front";
-export * from "./(establishment)/parts/category.frontPart";
-export * from "./(establishment)/parts/contactsOfEstablishment.frontPart";
-export * from "./(establishment)/parts/media.frontPart";
+export * from "./(establishment)/parts/category.front";
+export * from "./(establishment)/parts/contactsEstablishment.front";
+export * from "./(establishment)/parts/media.front";
 export * from "./(person)/address.front";
 export * from "./(person)/consents.front";
 export * from "./(person)/contactsPerson.front";

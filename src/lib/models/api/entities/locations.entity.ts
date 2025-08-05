@@ -14,5 +14,4 @@ export interface ILocationsEntity {
     };
 
     content: IContentLocationEntity;
-    // Content?: IContentLocationEntity;
 }

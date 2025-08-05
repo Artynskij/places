@@ -96,7 +96,7 @@ const CardRecommend: FC<ICardRecommend> = ({
                         fill
                         src={
                             dataEstablishment.media
-                                ? `${dataEstablishment.media?.cdnHost}/${dataEstablishment.media?.mainImage}`
+                                ? dataEstablishment.media?.mainImage
                                 : CONSTANT_DEFAULT_IMAGE_URL
                         }
                         alt={dataEstablishment.title || "image"}

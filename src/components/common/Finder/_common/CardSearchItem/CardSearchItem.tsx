@@ -14,14 +14,13 @@ const CardSearchItem: FC<ICardSearchItem> = ({
     dataCard,
     showDescription = false,
 }) => {
-    
     return (
         <div className={style.card}>
             <div className={style.card_img}>
                 <Image
                     src={
                         dataCard.media
-                            ? `${dataCard.media?.cdnHost}/${dataCard.media?.mainImage}`
+                            ? dataCard.media?.mainImage
                             : CONSTANT_DEFAULT_IMAGE_URL
                     }
                     alt={"searchItem card"}

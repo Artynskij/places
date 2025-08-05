@@ -14,7 +14,7 @@ export class ScheduleService {
     async getScheduleById(id: string): Promise<IScheduleFront[] | null> {
         const response = await this.scheduleApi.getScheduleById(id);
         const mappingData = response
-            ? this.scheduleMapper.transformSchedule(response)
+            ? this.scheduleMapper.toFront(response)
             : null;
         return mappingData;
     }

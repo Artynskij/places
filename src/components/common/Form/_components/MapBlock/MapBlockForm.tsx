@@ -31,7 +31,7 @@ const MapBlockForm = ({ error, onChange }: Prop) => {
     };
     return (
         <div className={style.mapBlock}>
-            <Button onClick={handleOpenMap} text="Получить координаты" />
+            <Button className={style.mapBlock_button} onClick={handleOpenMap} text="Получить координаты" />
             {mapActive && (
                 <ModalCustom
                     title="Выбор Координат"

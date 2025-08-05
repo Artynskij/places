@@ -12,16 +12,16 @@ import { IMediaFront } from "@/lib/models";
 
 interface IAlbumPhoto {
     images: IMediaFront[];
-    cdnHost: string;
+  
     activePhotoIndex: number;
     setActivePhotoIndex: (item: number) => void;
     typeView: "slider" | "list";
-    setTypeView: (value:"slider" | "list") => void
+    setTypeView: (value: "slider" | "list") => void;
 }
 
 export const AlbumPhoto: FC<IAlbumPhoto> = ({
     images,
-    cdnHost,
+
     activePhotoIndex,
     setActivePhotoIndex,
     typeView,
@@ -83,7 +83,7 @@ export const AlbumPhoto: FC<IAlbumPhoto> = ({
                         return {
                             height: image.height,
                             width: image.width,
-                            src: `${cdnHost}/${image.blobPath}`,
+                            src: image.src,
                             alt: image.title,
                         };
                     })}
@@ -96,7 +96,7 @@ export const AlbumPhoto: FC<IAlbumPhoto> = ({
                         setActivePhotoIndex={setActivePhotoIndex}
                         setTypeView={setTypeView}
                         data={images}
-                        cdnHost={cdnHost}
+                     
                         id={1}
                     />
                 </>

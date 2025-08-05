@@ -1,13 +1,12 @@
 import { IContentEntity } from "./content.entity";
 
-export interface ICategoryOfEstablishmentPart {
+export interface ICategoryEstablishmentPart {
     Id: string;
     Name: string;
     Path?: string | null;
     content: IContentEntity;
-  
 }
-export interface ICategoryOfEstablishmentEntity {
-    category: ICategoryOfEstablishmentPart;
+export interface ICategoryEstablishmentEntity {
+    category: ICategoryEstablishmentPart;
     content: IContentEntity;
 }

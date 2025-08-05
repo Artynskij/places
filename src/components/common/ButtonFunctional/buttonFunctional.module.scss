@@ -99,7 +99,7 @@
 .schedule {
     &_popup {
         cursor: default;
-        right: auto;
+        right: 0;
         padding: 20px;
         .schedule &_list {
             cursor: default;

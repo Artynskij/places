@@ -55,7 +55,7 @@ export const CardMap = ({ establishment, handlerClosePopup }: ICardMap) => {
                         fill
                         src={
                             establishment.media
-                                ? `${establishment.media.cdnHost}/${establishment.media.mainImage}`
+                                ? establishment.media.mainImage
                                 : CONSTANT_DEFAULT_IMAGE_URL
                         }
                         alt={establishment.title}

@@ -1,8 +1,13 @@
 import {
+    IEstablishmentCreatedEntity,
     IEstablishmentEntity,
     IEstablishmentFront,
     IMediaFront,
 } from "@/lib/models";
+import {
+    ContactsEstablishmentMapper,
+    ContactsEstablishmentService,
+} from "../contactsEstablishment/contactsEstablishment.api";
 interface ITransformToFront {
     establishment: IEstablishmentEntity;
     info: {
@@ -11,7 +16,10 @@ interface ITransformToFront {
     };
 }
 export default class EstablishmentMapper {
-    constructor() {}
+    private contactsEstablishmentMapper: ContactsEstablishmentMapper;
+    constructor() {
+        this.contactsEstablishmentMapper = new ContactsEstablishmentMapper();
+    }
     transformToFront({
         establishment,
         info,
@@ -22,18 +30,18 @@ export default class EstablishmentMapper {
         ) {
             throw new Error("Invalid establishment content structure");
         }
-        const additionalRates = Object.entries(
-            establishment.establishment.Rates
-        )
-            .map(([key, value]) => {
-                if (key === "Count" || key === "Rate" || !Number(value))
-                    return null;
-                return { key: key, value: value };
-            })
-            .filter((item) => item);
+        const additionalRates = establishment.establishment.Rates
+            ? Object.entries(establishment.establishment.Rates)
+                  .map(([key, value]) => {
+                      if (key === "Count" || key === "Rate" || !Number(value))
+                          return null;
+                      return { key: key, value: value };
+                  })
+                  .filter((item) => item)
+            : [];
 
         const galleryImages: IMediaFront[] | null =
-            establishment.content.media.gallery?.map((image) => {
+            establishment.content?.media.gallery?.map((image) => {
                 return {
                     title: image.details[0].value.title,
                     blobPath: image.blobPath,
@@ -44,6 +52,7 @@ export default class EstablishmentMapper {
                     src: `${info.cdnHost}/${image.blobPath}`,
                 };
             }) || null;
+
         return {
             id: establishment.establishment.Id,
             title: establishment.content.value[0].value.details.title,
@@ -58,8 +67,8 @@ export default class EstablishmentMapper {
                         ?.details[0].value || "",
             },
             rates: {
-                main: establishment.establishment.Rates.Rate,
-                count: establishment.establishment.Rates.Count,
+                main: establishment.establishment.Rates?.Rate || 0,
+                count: establishment.establishment.Rates?.Count || 0,
                 additional: additionalRates,
             },
             location: {
@@ -86,9 +95,12 @@ export default class EstablishmentMapper {
                     totalEstablishment: info?.totalEstablishment || null,
                 },
             },
-            contacts: establishment.establishment.Contacts,
+            contacts: establishment.establishment.Contacts
+                ? this.contactsEstablishmentMapper.toFront(
+                      establishment.establishment.Contacts
+                  )
+                : null,
             media: {
-                cdnHost: info.cdnHost, //"http://172.27.20.200:49160/cdn/"
                 gallery: galleryImages,
             },
             seo: establishment.content.value[0].value.seoTrip,

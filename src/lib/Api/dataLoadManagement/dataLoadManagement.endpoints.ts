@@ -1,9 +1,9 @@
 import {
-    ICategoryOfEstablishmentEntity,
+    ICategoryEstablishmentEntity,
     IGenderEntity,
     IRoleOwnerEntity,
     ITagEntity,
-    ITypeOfEstablishment,
+    ITypeEstablishment,
 } from "@/lib/models";
 import apiClient from "../ApiClient";
 
@@ -29,7 +29,7 @@ export default class DataLoadManagementApi {
             return null;
         }
     }
-    async getTypesOfEstablishment(): Promise<ITypeOfEstablishment[] | null> {
+    async getTypesOfEstablishment(): Promise<ITypeEstablishment[] | null> {
         try {
             const response = await apiClient.get(
                 `/types-of-establishment/get-all`
@@ -54,7 +54,7 @@ export default class DataLoadManagementApi {
     }
     async getCategoriesOfEstablishments(
         locale: string
-    ): Promise<ICategoryOfEstablishmentEntity[] | null> {
+    ): Promise<ICategoryEstablishmentEntity[] | null> {
         try {
             const response = await apiClient.post(
                 `/category-of-establishment/get-all`,

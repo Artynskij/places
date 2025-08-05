@@ -4,6 +4,9 @@
     gap: $gap-small;
     position: relative;
     margin-bottom: 20px;
+    &_button {
+        border-radius: $border-radius-5;
+    }
 }
 .choice {
     @extend %BoxDeep;
@@ -13,6 +16,6 @@
     position: absolute;
     bottom: 30px;
     left: 50%;
-    transform: translate(-50% 0);
+    transform: translate(-50%, 0);
     z-index: 1;
 }

@@ -1,12 +1,15 @@
-
 import DataLoadManagementApi from "./dataLoadManagement.endpoints";
 
-import { ICategoryFront, IGenderFront, IRoleOwnerEntity, ITagBlockFront, ITypeOfEstablishment } from "@/lib/models";
+import {
+    ICategoryFront,
+    IGenderFront,
+    IRoleOwnerEntity,
+    ITagBlockFront,
+    ITypeEstablishment,
+} from "@/lib/models";
 import { DataLoadManagementMapper } from "./dataLoadManagement.mapper";
 
 import { GenderMapper } from "../(Person)/gender.api";
-
-
 
 export class DataLoadManagementService {
     // DataLoadManagementMapper
@@ -34,7 +37,7 @@ export class DataLoadManagementService {
 
         return response;
     }
-    async getTypesOfEstablishment(): Promise<ITypeOfEstablishment[] | null> {
+    async getTypesOfEstablishment(): Promise<ITypeEstablishment[] | null> {
         const response =
             await this.DataLoadManagementApi.getTypesOfEstablishment();
 

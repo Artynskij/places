@@ -227,9 +227,9 @@ export const EstablishmentScreen = async ({
                     <li className={style.navBar_list_item}>
                         <Link
                             target="_blank"
-                            href={dataEstablishment.contacts?.Web || ""}
+                            href={dataEstablishment.contacts?.web || ""}
                         >
-                            {dataEstablishment.contacts?.Web
+                            {dataEstablishment.contacts?.web
                                 ? "Вебсайт"
                                 : "Вебсайт"}
                         </Link>
@@ -237,9 +237,9 @@ export const EstablishmentScreen = async ({
                     <li className={style.navBar_list_item}>
                         <Link
                             target="_blank"
-                            href={dataEstablishment.contacts?.Web || ""}
+                            href={dataEstablishment.contacts?.web || ""}
                         >
-                            {dataEstablishment.contacts?.Menu ? "Меню" : "Меню"}
+                            {dataEstablishment.contacts?.menu ? "Меню" : "Меню"}
                         </Link>
                     </li>
                     <li className={style.navBar_list_item}>
@@ -251,7 +251,6 @@ export const EstablishmentScreen = async ({
             <section className={style.gallery_block}>
                 {dataEstablishment.media.gallery && (
                     <Gallery
-                        cdnHost={dataEstablishment.media.cdnHost}
                         titleEstablishment={dataEstablishment.title}
                         images={dataEstablishment.media.gallery}
                     />
@@ -393,13 +392,13 @@ export const EstablishmentScreen = async ({
                                 {locationCountryData.title}
                             </div>
                         </BlockMapEstScr>
-                        {dataEstablishment.contacts?.Phone && (
+                        {dataEstablishment.contacts?.phone && (
                             <Link
-                                href={`tel:${dataEstablishment.contacts?.Phone}`}
+                                href={`tel:${dataEstablishment.contacts?.phone}`}
                                 className={style.info_address_phone}
                             >
                                 <IconPhone className={style.info_icon_phone} />
-                                {dataEstablishment.contacts?.Phone}
+                                {dataEstablishment.contacts?.phone}
                             </Link>
                         )}
                     </div>

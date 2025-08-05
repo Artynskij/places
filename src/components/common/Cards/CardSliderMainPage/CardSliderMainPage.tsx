@@ -89,11 +89,15 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                         // height={320}
                         fill
                         src={
-                            gallery
-                                ? `${dataEstablishment.media.cdnHost}/${gallery[0].blobPath}`
+                            gallery && gallery[0].src
+                                ? `${gallery[0].src}`
                                 : CONSTANT_DEFAULT_IMAGE_URL
                         }
-                        alt={gallery ? gallery[0].title : "image"}
+                        alt={
+                            gallery && gallery[0].title
+                                ? gallery[0].title
+                                : `slider image `
+                        }
                         sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 90vw,(max-width: ${CONSTANTS_SCREENS.SCREEN_NETBOOK}px) 40vw, 33vw`}
                     />
                 </Link>

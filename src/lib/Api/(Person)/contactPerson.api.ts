@@ -2,7 +2,7 @@ import { IContactsPersonEntity } from "@/lib/models/api/entities/(person)/contac
 import { IContactsPersonFront } from "@/lib/models/frontend/(person)/contactsPerson.front";
 import { IContactsRequest } from "@/lib/models/api/request/contacts/contacts.request";
 import { BaseApiService } from "../BaseApi.service";
-class ContactsMapper {
+class ContactsPersonMapper {
     constructor() {}
     toFront(dataServer: IContactsPersonEntity): IContactsPersonFront {
         const mappedData: IContactsPersonFront = {
@@ -16,11 +16,11 @@ class ContactsMapper {
     }
 }
 
-export class ContactsService extends BaseApiService<
+export class ContactsPersonService extends BaseApiService<
     IContactsPersonEntity,
     IContactsPersonFront,
     IContactsRequest
 > {
     protected baseUrl = "/contacts";
-    protected mapper = new ContactsMapper();
+    protected mapper = new ContactsPersonMapper();
 }

@@ -10,7 +10,7 @@ export interface ISearchItemFront {
     description: string;
 
     lang: string;
-    media: { mainImage: string; cdnHost: string } | null;
+    media: { mainImage: string } | null;
 
     location: {
         lat: number | null;

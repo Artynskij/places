@@ -6,7 +6,7 @@ import { ICategoryAndEstablishmentConnectionRequest } from "@/lib/models/api/req
 import { ICategoryAndEstablishmentConnectionResponse } from "@/lib/models/api/response/(Establishment)/category.response";
 // import { ITagClassFront, ITagClassWithEstablishmentFront } from "@/lib/models";
 
-export class TagsService {
+export class CategoryEstablishment {
     private categoryOfEstablishmentApi: CategoryOfEstablishmentApi;
 
     constructor() {

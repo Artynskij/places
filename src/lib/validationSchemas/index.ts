@@ -9,3 +9,4 @@ export * from "./dateSchema";
 export * from "./fullNameSchema";
 export * from "./phoneSchema";
 export * from "./scheduleSchema";
+export * from "./socialNetworksSchema";

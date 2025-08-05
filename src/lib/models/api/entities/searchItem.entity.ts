@@ -1,6 +1,7 @@
-import { TDayOfWeek } from "../../types/TDayOfWeek";
+import { TDayOfWeek } from "../../types/schedule/TDayOfWeek";
 import { TTypesOfEstablishment } from "../../types/TTypesEstablishment";
 import { TGlobalTypes } from "../../types/TTypesGlobal";
+import { IScheduleEntity } from "./(establishment)/schedule.entity";
 
 export interface ISearchItemEntity {
     dbCrossId: string;
@@ -30,11 +31,5 @@ export interface ISearchItemEntity {
     starRating: string | null;
     priceCategory: { name: string; secondary: string };
     rate: number | null;
-    schedule:
-        | {
-              Day: TDayOfWeek;
-              OpenTime: string;
-              CloseTime: string;
-          }[]
-        | null;
+    schedule: IScheduleEntity[] | null;
 }

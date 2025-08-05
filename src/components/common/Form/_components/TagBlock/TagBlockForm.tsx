@@ -4,7 +4,7 @@ import { Button } from "@/components/UI/Button/Button";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { ITagBlockFront } from "@/lib/models";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Select, Tag } from "antd";
 import { FieldError } from "react-hook-form";
@@ -20,6 +20,7 @@ interface Props {
 }
 
 const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
+    const tTags = useTranslations('Tags')
     const tagService = new DataLoadManagementService();
     const locale = useLocale();
     const [activePopup, setActivePopup] = useState(false);
@@ -88,6 +89,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
     return (
         <div className={style.tagBlockForm}>
             <Button
+            className={style.tagBlockForm_button}
                 typeLogic="button"
                 onClick={() => setActivePopup(true)}
                 text="Выбрать теги"
@@ -112,7 +114,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
                             )
                             .map((group) => ({
                                 value: group.groupKey.key,
-                                label: group.groupKey.key,
+                                label: tTags(group.groupKey.key),
                             }))}
                         value={undefined}
                         optionFilterProp="label"
@@ -128,7 +130,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
                         return (
                             <div key={groupKey} className={style.selectGroup}>
                                 <label className={style.selectGroup_title}>
-                                    <span> {groupKey}</span>
+                                    <span> {tTags(groupKey)}</span>
 
                                     <IconCancel
                                         onClick={() =>

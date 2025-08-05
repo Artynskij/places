@@ -7,6 +7,7 @@ import {
     IEstablishmentCreateRequest,
     IPaginationEstablishmentRequest,
 } from "@/lib/models/api/request/(Establishment)/establishment.request";
+import { IEstablishmentCreatedEntity, IEstablishmentEntity } from "@/lib/models";
 
 export default class EstablishmentApi {
     constructor() {}
@@ -51,7 +52,7 @@ export default class EstablishmentApi {
             return null;
         }
     }
-    async createEstablishment(body: IEstablishmentCreateRequest): Promise<any> {
+    async createEstablishment(body: IEstablishmentCreateRequest): Promise<IEstablishmentCreatedEntity | null> {
         try {
             const response = await apiClient.post(`/establishment`, body);
             return response.data;

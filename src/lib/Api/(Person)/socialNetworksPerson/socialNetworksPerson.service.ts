@@ -1,10 +1,10 @@
+import { ISocialContactsFront, ISocialContactsRequest } from "@/lib/models";
 import SocialNetworksPersonApi from "./socialNetworksPerson.endpoints";
-import { ISocialContactsFront } from "@/lib/models/frontend/socialContacts.front";
-import { ISocialContactsRequest } from "@/lib/models/api/request/(Person)/socialContacts.request";
+
 
 import { SocialNetworksPersonMapper } from "./socialNetworksPerson.mapper";
 
-export class SocialNetworksPersonService {
+export class SocialNetworksService {
     private SocialNetworksPersonApi: SocialNetworksPersonApi;
     private SocialNetworksPersonMapper: SocialNetworksPersonMapper;
 

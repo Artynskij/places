@@ -1,0 +1,62 @@
+.scheduleWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.dayRow {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+    gap: $gap-medium;
+    &_emptyMobile {
+        display: none;
+    }
+}
+
+.dayLabel {
+    // width: 40px;
+    font-weight: bold;
+}
+.select {
+    &_ctn {
+        padding: 0;
+        margin-bottom: 0;
+        width: 100%;
+        min-width: fit-content;
+        border-radius: $border-radius-5;
+        justify-content: space-between;
+        & span {
+            min-width: fit-content;
+        }
+    }
+}
+// .buttons {
+//     display: flex;
+//     flex-direction: column;
+//     gap: $gap-small;
+// }
+// .buttons button {
+//     margin-right: 8px;
+//     padding: 4px 10px;
+//     border: 1px solid #ccc;
+//     background: white;
+//     cursor: pointer;
+// }
+
+// .buttons .active {
+//     background-color: #1890ff;
+//     color: white;
+//     border-color: #1890ff;
+// }
+@include mediaPhone {
+    .dayRow {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: $gap-medium;
+        &_emptyMobile {
+            display: block;
+        }
+    }
+}

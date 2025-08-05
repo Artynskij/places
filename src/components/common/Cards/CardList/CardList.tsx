@@ -89,11 +89,15 @@ export const CardList: FC<ICardHotelList> = ({
                         // height={320}
                         fill
                         src={
-                            gallery
-                                ? `${dataEstablishment.media.cdnHost}/${gallery[0].blobPath}`
+                            gallery && gallery[0].src
+                                ? gallery[0].src
                                 : CONSTANT_DEFAULT_IMAGE_URL
                         }
-                        alt={gallery ? gallery[0]?.title : "image"}
+                        alt={
+                            gallery && gallery[0].title
+                                ? gallery[0]?.title
+                                : "image"
+                        }
                         sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 100vw, 35vw`}
                     />
                 </Link>

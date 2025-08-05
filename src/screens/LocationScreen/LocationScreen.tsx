@@ -3,28 +3,24 @@ import style from "./locationScreen.module.scss";
 import Link from "next/link";
 import { Slider } from "@/components/common/Slider/Slider";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
-import {
-    CardSliderMainPage,
-  
-} from "@/components/common/Cards";
-
+import { CardSliderMainPage } from "@/components/common/Cards";
 
 import { InfoSection } from "./_components/InfoSection/InfoSection";
 
-
-
-
 import { getTranslations } from "next-intl/server";
-
 
 import { ROUTES } from "@/lib/config/Routes";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 
-
 import { getBaseUrlServer } from "@/lib/helpers/getBaseUrl";
 
 import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
-import { IEstablishmentFront, ILocationFront, IPageProps, ITagWithEstablishmentFront } from "@/lib/models";
+import {
+    IEstablishmentFront,
+    ILocationFront,
+    IPageProps,
+    ITagWithEstablishmentFront,
+} from "@/lib/models";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -59,7 +55,6 @@ export default async function LocationScreen({
     const tTiles = await getTranslations("Tiles");
     const seeMoreText = tTiles("text.watchAll");
     const t = await getTranslations("LocationPage");
-    const cdnHost = dataEstablishment.attraction[0]?.media.cdnHost;
 
     const baseUrl = await getBaseUrlServer();
     const filteredBreadcrumb =
@@ -71,7 +66,7 @@ export default async function LocationScreen({
                     <Video
                         videoSrc={
                             locationData?.media
-                                ? `${cdnHost}/${locationData.media[0].blobPath}`
+                                ? locationData.media[0].src
                                 : ""
                         }
                         posterSrc={CONSTANT_DEFAULT_IMAGE_URL}

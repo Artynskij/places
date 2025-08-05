@@ -54,6 +54,20 @@
         "noSchedule": "нету расписания",
         "title": "Время работы"
     },
+    "Tags": {
+        "roomTypes": "Типы номеров",
+        "establishmentTypes": "Типы заведений",
+        "diningOptions": "Варианты питания",
+        "diets": "Диеты",
+        "cuisines": "Кухни",
+        "languagesSpoken": "Говоримые языки",
+        "mealTypes": "Типы приёмов пищи",
+        "priceTypes": "Ценовые категории",
+        "roomFeatures": "Особенности номеров",
+        "starRating": "Звёздный рейтинг",
+        "propertyAmenities": "Удобства на территории",
+        "styleRankings": "Стили и категории"
+    },
     "Locations": {
         "WORLD": "мир",
         "CONTINENT": "континент",

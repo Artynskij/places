@@ -12,15 +12,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 
 import { IMediaFront } from "@/lib/models";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 
 interface IGallery {
-    images: IMediaFront[];
+    images: IMediaFront[] | null;
     titleEstablishment: string;
-    cdnHost: string;
 }
 export const Gallery: FC<IGallery> = ({
     images,
-    cdnHost,
+
     titleEstablishment,
 }) => {
     const [loadClient, setLoadClient] = useState(false);
@@ -53,38 +53,30 @@ export const Gallery: FC<IGallery> = ({
                         onClick={() => handlerOpenAlbum(0)}
                         className={style.image__main}
                     >
-                        <Image
-                            priority
-                            width={images[0].width}
-                            height={images[0].height}
-                            alt={images[0].title}
-                            src={`${cdnHost}/${images[0].blobPath}`}
-                        />
+                        {images && images[0] ? (
+                            <Image
+                                priority
+                                width={images[0].width}
+                                height={images[0].height}
+                                alt={images[0].title}
+                                src={images[0].src}
+                            />
+                        ) : (
+                            <Image
+                                priority
+                                width={500}
+                                height={500}
+                                alt={"main image gallery"}
+                                src={CONSTANT_DEFAULT_IMAGE_URL}
+                            />
+                        )}
                     </div>
-                    {images.slice(1, 3).map((item, index) => {
-                        return (
-                            <div
-                                onClick={() => handlerOpenSlider(index + 1)}
-                                key={index}
-                                className={style.image__additional}
-                            >
-                                <Image
-                                    width={item.width}
-                                    height={item.height}
-                                    alt="img"
-                                    src={`${cdnHost}/${item.blobPath}`}
-                                />
-                            </div>
-                        );
-                    })}
-                </>
-            ) : useMedia.isMobile || useMedia.isSmallMobile ? (
-                <>
-                    <Slider id={1}>
-                        {images.map((item, index) => {
+                    {images &&
+                        images[0] &&
+                        images.slice(1, 3).map((item, index) => {
                             return (
                                 <div
-                                    onClick={() => handlerOpenAlbum(index)}
+                                    onClick={() => handlerOpenSlider(index + 1)}
                                     key={index}
                                     className={style.image__additional}
                                 >
@@ -92,12 +84,34 @@ export const Gallery: FC<IGallery> = ({
                                         width={item.width}
                                         height={item.height}
                                         alt="img"
-                                        src={`${cdnHost}/${item.blobPath}`}
+                                        src={item.src}
                                     />
                                 </div>
                             );
                         })}
-                    </Slider>
+                </>
+            ) : useMedia.isMobile || useMedia.isSmallMobile ? (
+                <>
+                    {images && images[0] && (
+                        <Slider id={1}>
+                            {images.map((item, index) => {
+                                return (
+                                    <div
+                                        onClick={() => handlerOpenAlbum(index)}
+                                        key={index}
+                                        className={style.image__additional}
+                                    >
+                                        <Image
+                                            width={item.width}
+                                            height={item.height}
+                                            alt="img"
+                                            src={item.src}
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </Slider>
+                    )}
                 </>
             ) : (
                 <>
@@ -105,32 +119,44 @@ export const Gallery: FC<IGallery> = ({
                         onClick={() => handlerOpenSlider(0)}
                         className={style.image__main}
                     >
-                        <Image
-                            priority
-                            width={images[0].width}
-                            height={images[0].height}
-                            alt={images[0].title}
-                            src={`${cdnHost}/${images[0].blobPath}`}
-                        />
+                        {images && images[0] ? (
+                            <Image
+                                priority
+                                width={images[0].width}
+                                height={images[0].height}
+                                alt={images[0].title}
+                                src={images[0].src}
+                            />
+                        ) : (
+                            <Image
+                                priority
+                                width={500}
+                                height={500}
+                                alt={"main image gallery"}
+                                src={CONSTANT_DEFAULT_IMAGE_URL}
+                            />
+                        )}
                     </div>
-                    {images.slice(1, 5).map((item, index) => {
-                        return (
-                            <div
-                                onClick={() => {
-                                    handlerOpenSlider(index + 1);
-                                }}
-                                key={index}
-                                className={style.image__additional}
-                            >
-                                <Image
-                                    width={item.width}
-                                    height={item.height}
-                                    alt="img"
-                                    src={`${cdnHost}/${item.blobPath}`}
-                                />
-                            </div>
-                        );
-                    })}
+                    {images &&
+                        images[0] &&
+                        images.slice(1, 5).map((item, index) => {
+                            return (
+                                <div
+                                    onClick={() => {
+                                        handlerOpenSlider(index + 1);
+                                    }}
+                                    key={index}
+                                    className={style.image__additional}
+                                >
+                                    <Image
+                                        width={item.width}
+                                        height={item.height}
+                                        alt="img"
+                                        src={item.src}
+                                    />
+                                </div>
+                            );
+                        })}
                 </>
             )}
             {albumActive && (
@@ -140,21 +166,27 @@ export const Gallery: FC<IGallery> = ({
                     active={albumActive}
                     closeModal={() => setAlbumActive(false)}
                 >
-                    <AlbumPhoto
-                        activePhotoIndex={activePhotoIndex}
-                        setActivePhotoIndex={setActivePhotoIndex}
-                        images={images}
-                        cdnHost={cdnHost}
-                        setTypeView={setTypeView}
-                        typeView={typeView}
-                    />
+                    {images && images[0] ? (
+                        <AlbumPhoto
+                            activePhotoIndex={activePhotoIndex}
+                            setActivePhotoIndex={setActivePhotoIndex}
+                            images={images}
+                           
+                            setTypeView={setTypeView}
+                            typeView={typeView}
+                        />
+                    ) : (
+                        <div>К сожалению фотографий нету</div>
+                    )}
                 </ModalCustom>
             )}
-            <Button
-                onClick={() => handlerOpenAlbum(0)}
-                className={style.button_watchAll}
-                text={`Еще ${images.length} фото`}
-            />
+            {images && images[0] && (
+                <Button
+                    onClick={() => handlerOpenAlbum(0)}
+                    className={style.button_watchAll}
+                    text={`Еще ${images.length} фото`}
+                />
+            )}
         </div>
     );
 };

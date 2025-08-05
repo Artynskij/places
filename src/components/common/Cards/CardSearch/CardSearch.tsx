@@ -57,7 +57,7 @@ export const CardSearch = async ({ dataCard, baseUrl }: ICardSearchDefault) => {
                         fill
                         src={
                             dataCard.media
-                                ? `${dataCard.media.cdnHost}/${dataCard.media.mainImage}`
+                                ? dataCard.media.mainImage
                                 : CONSTANT_DEFAULT_IMAGE_URL
                         }
                         alt={"image search"}

@@ -1,29 +1,37 @@
 import EstablishmentApi from "./establishment.endpoints";
 
-import { IEstablishmentFront } from "@/lib/models";
+import {
+    IEstablishmentCreatedEntity,
+    IEstablishmentEntity,
+    IEstablishmentFront,
+} from "@/lib/models";
 import EstablishmentMapper from "./establishment.mapper";
 import {
     IEstablishmentCreateRequest,
     IPaginationEstablishmentRequest,
 } from "@/lib/models/api/request/(Establishment)/establishment.request";
+import { DataLoadManagementService } from "../../dataLoadManagement/dataLoadManagement.service";
 
 export class EstablishmentService {
     private establishmentApi: EstablishmentApi;
     private establishmentMapper: EstablishmentMapper;
+    private dataLoadManagementService: DataLoadManagementService;
 
     constructor() {
         this.establishmentApi = new EstablishmentApi();
         this.establishmentMapper = new EstablishmentMapper();
+        this.dataLoadManagementService = new DataLoadManagementService();
     }
 
     async getAllEstablishments(): Promise<IEstablishmentFront[] | null> {
         const response = await this.establishmentApi.getAllEstablishment();
-        return response
+        const cdnHost = await this.dataLoadManagementService.getBlobProxy();
+        return response && cdnHost
             ? response.establishmentItems.map((establishment) => {
                   return this.establishmentMapper.transformToFront({
                       establishment: establishment,
                       info: {
-                          cdnHost: response.cdnHost,
+                          cdnHost: cdnHost.url,
                           totalEstablishment: response.total,
                       },
                   });
@@ -39,11 +47,11 @@ export class EstablishmentService {
             id,
             lang
         );
-
-        return response
+        const cdnHost = await this.dataLoadManagementService.getBlobProxy();
+        return response && cdnHost
             ? this.establishmentMapper.transformToFront({
                   establishment: response.establishment,
-                  info: { cdnHost: response.cdnHost },
+                  info: { cdnHost: cdnHost?.url },
               })
             : null;
     }
@@ -53,28 +61,26 @@ export class EstablishmentService {
     ): Promise<IEstablishmentFront[] | null> {
         const response =
             await this.establishmentApi.getEstablishmentByPagination(body);
-
-        return response
+        const cdnHost = await this.dataLoadManagementService.getBlobProxy();
+        return response && cdnHost
             ? response.establishmentItems
-                  .filter(
-                      (establishment) =>
-                          establishment.content &&
-                          establishment.content.value?.[0]?.value?.details &&
-                          establishment.content.media?.gallery
-                  )
+                  .filter((establishment) => establishment.content)
                   .map((establishment) => {
                       return this.establishmentMapper.transformToFront({
                           establishment: establishment,
                           info: {
-                              cdnHost: response.cdnHost,
+                              cdnHost: cdnHost.url,
                               totalEstablishment: response.total,
                           },
                       });
                   })
             : null;
     }
-    async createEstablishment(body: IEstablishmentCreateRequest): Promise<any> {
+    async createEstablishment(
+        body: IEstablishmentCreateRequest
+    ): Promise<IEstablishmentCreatedEntity | null> {
         const response = this.establishmentApi.createEstablishment(body);
+
         return response;
     }
 }

@@ -2,7 +2,6 @@ export * from "./TAgreementKey";
 export * from "./TCategoriesNews";
 export * from "./TCategoriesTags";
 export * from "./TCategoryClassTag";
-export * from "./TDayOfWeek";
 export * from "./TLocale";
 export * from "./TRoleOwner";
 export * from "./TSocialNetworks";
@@ -11,4 +10,8 @@ export * from "./TTypeFile";
 export * from "./TTypesEstablishment";
 export * from "./TTypesGlobal";
 
+
 export * from "./auth/TTypeOwnerBusiness";
+
+export * from "./schedule/TDayOfWeek";
+export * from "./schedule/TWorkingDaySchedule";

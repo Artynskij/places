@@ -26,11 +26,10 @@ import { mockPersonId } from "@/asset/mockData/mockServerData";
 
 import { PersonNameService } from "@/lib/Api/(Person)/personName/personName.service";
 
-import { ContactsService } from "@/lib/Api/(Person)/contactPerson.api";
+import { ContactsPersonService } from "@/lib/Api/(Person)/contactPerson.api";
 import { AddressService } from "@/lib/Api/(Person)/address/address.api";
 // import { AddressService } from "@/lib/Api/(Person)/address/address.service";
-import { SocialNetworksPersonService } from "@/lib/Api/(Person)/socialNetworksPerson/socialNetworksPerson.service";
-
+import { SocialNetworksService } from "@/lib/Api/(Person)/socialNetworksPerson/socialNetworksPerson.service";
 
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 
@@ -74,8 +73,8 @@ export const FormSettingsOwner = () => {
     const personService = new PersonService();
     const personNameService = new PersonNameService();
     const addressService = new AddressService();
-    const contactsPersonService = new ContactsService();
-    const socialNetworksService = new SocialNetworksPersonService();
+    const contactsPersonService = new ContactsPersonService();
+    const socialNetworksService = new SocialNetworksService();
     const fileUploadService = new FileUploadService();
 
     const router = useRouter();

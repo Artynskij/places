@@ -170,6 +170,9 @@ export class SearchMapper {
                       day: scheduleItem.Day,
                       openTime: scheduleItem.OpenTime,
                       closeTime: scheduleItem.CloseTime,
+                      is24Hours: scheduleItem.Is24Hours,
+                      isHoliday: scheduleItem.IsHoliday,
+                      id: scheduleItem.Id,
                   };
               })
             : null;
@@ -197,9 +200,7 @@ export class SearchMapper {
             id: itemBack.dbCrossId,
             title: itemBack.title,
             description: itemBack.description,
-            media: itemBack.image
-                ? { mainImage: itemBack.image, cdnHost: cdnHost }
-                : null, // You might want to map this from item if available
+            media: itemBack.image ? { mainImage: itemBack.image } : null, // You might want to map this from item if available
             lang: itemBack.lang,
             location: locationPart,
             typeId: itemBack.typeId || null,

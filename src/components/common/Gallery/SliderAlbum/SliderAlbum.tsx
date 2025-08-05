@@ -25,7 +25,6 @@ import { IMediaFront } from "@/lib/models";
 interface ISliderAlbum {
     data: IMediaFront[];
 
-    cdnHost: string;
     id: number;
     activePhotoIndex: number;
     setActivePhotoIndex: (item: number) => void;
@@ -35,7 +34,7 @@ interface ISliderAlbum {
 export const SliderAlbum: FC<ISliderAlbum> = ({
     id,
     data,
-    cdnHost,
+
     activePhotoIndex,
     setActivePhotoIndex,
     setTypeView,
@@ -105,7 +104,7 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
                                         height={item.height}
                                         sizes="100vw"
                                         className={style.album_slider_img}
-                                        src={`${cdnHost}/${item.blobPath}`}
+                                        src={item.src}
                                         alt={item.title}
                                     />
                                 </div>
@@ -147,7 +146,7 @@ export const SliderAlbum: FC<ISliderAlbum> = ({
                                         fill
                                         sizes="10vw"
                                         className={style.pagination_bullet_img}
-                                        src={`${cdnHost}/${item.blobPath}`}
+                                        src={item.src}
                                         alt={item.title}
                                     />
                                 </div>

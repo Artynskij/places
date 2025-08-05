@@ -16,6 +16,9 @@
             // width: 50%;
         }
     }
+    &_buttonSubmit {
+        border-radius: $border-radius-5;
+    }
 }
 .selectBlock {
     display: flex;
@@ -23,6 +26,9 @@
     gap: $gap-medium;
 
     & label {
+    }
+    &_select {
+        border-radius: $border-radius-5;
     }
 }
 .selectionBlock {

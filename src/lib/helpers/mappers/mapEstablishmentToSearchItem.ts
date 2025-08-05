@@ -50,12 +50,12 @@ export const mapEstablishmentToSearchItem = (
         globalTypeEntity: "establishment",
         lang: "",
         location: location,
-        media: establishment.media.gallery
-            ? {
-                  mainImage: establishment.media.gallery[0].blobPath,
-                  cdnHost: establishment.media.cdnHost,
-              }
-            : null,
+        media:
+            establishment.media.gallery && establishment.media.gallery[0]
+                ? {
+                      mainImage: establishment.media.gallery[0].src,
+                  }
+                : null,
         typeEstablishment: {
             key: typeEstablishment,
             id: CONSTANT_TYPES_OF_ESTABLISHMENT[typeEstablishment].id,

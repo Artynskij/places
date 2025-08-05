@@ -1,11 +1,10 @@
-
-
 import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
-import { ICategoryOfEstablishmentPart } from "./parts/categoryOfEstablishmentPart.entity";
-import { IContactsOfEstablishmentEntity } from "./parts/contactOfEstablishment.entity";
+import { ICategoryEstablishmentPart } from "./parts/categoryEstablishmentPart.entity";
+import { IContactsEstablishmentEntity } from "./parts/contactEstablishment.entity";
 import { IContentEntity } from "./parts/content.entity";
 import { IImageEntity } from "./parts/image.entity";
 import { IRateEntity } from "./parts/rate.entity";
+import { ITypeEstablishmentWithContent } from "./typeEstablishment.entity";
 interface ILocationsInEstablishment {
     Id: string;
     ParentId: string;
@@ -14,25 +13,19 @@ interface ILocationsInEstablishment {
 }
 export interface IEstablishmentEntity {
     establishment: {
-        AvgRate: number;
-        CountOfRates: number;
+        AvgRate: number | null;
+        CountOfRates: number | null;
         Id: string;
         Latitude: string;
         Longitude: string;
         PostalCode: string;
         ContentId: string;
         Moderate: null | boolean;
-        Type: {
-            Id: string;
-            Name: TTypesOfEstablishment;
-            RefName: string;
-            ContentId: string;
-            Content: IContentEntity;
-        };
-        Categories: ICategoryOfEstablishmentPart[];
-        Contacts: IContactsOfEstablishmentEntity | null;
+        Type: ITypeEstablishmentWithContent;
+        Categories: ICategoryEstablishmentPart[];
+        Contacts: IContactsEstablishmentEntity | null;
         Locations: ILocationsInEstablishment | null;
-        Rates: IRateEntity;
+        Rates: IRateEntity | null;
     };
     content: {
         id: string;
@@ -60,4 +53,19 @@ export interface IEstablishmentEntity {
             gallery: IImageEntity[] | null;
         };
     };
+}
+export interface IEstablishmentCreatedEntity {
+    AvgRate: number | null;
+    CountOfRates: number | null;
+    Id: string;
+    Latitude: string;
+    Longitude: string;
+    PostalCode: string;
+    ContentId: string;
+    Moderate: null | boolean;
+    Type: ITypeEstablishmentWithContent;
+    Categories: ICategoryEstablishmentPart[];
+    Contacts: IContactsEstablishmentEntity | null;
+    Locations: ILocationsInEstablishment | null;
+    Rates: IRateEntity;
 }

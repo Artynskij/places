@@ -28,36 +28,38 @@ export interface IEstablishmentCreateRequest {
         // CountOfRates: 0;
         Locations?: string;
         CategoryIds?: string[];
-        ContactsId?: string;
+        Contacts?: string;
         Type?: string;
     };
     content: {
-        value?: {
+        value: {
             lang: string;
             value: {
                 details: {
-                    name: string;
+                    title: string;
                     description: string;
                 };
-                seo?: { key: string; value: string }[];
+                seo: { key: string; value: string }[] | null;
                 location: {
                     street1: string | null;
                     street2?: string | null;
                 };
             };
         }[];
-        media?: {
-            gallery: {
-                id: string;
-                type: TTypeFile;
-                blobPath: string;
-                width: number;
-                height: number;
-                details: [
-                    { lang: TLocale; value: { title: string } },
-                    { lang: TLocale; value: { title: string } }
-                ];
-            }[];
+        media: {
+            gallery:
+                | {
+                      id: string;
+                      type: TTypeFile;
+                      blobPath: string;
+                      width: number;
+                      height: number;
+                      details: [
+                          { lang: TLocale; value: { title: string } },
+                          { lang: TLocale; value: { title: string } }
+                      ];
+                  }[]
+                | null;
         };
     };
 }

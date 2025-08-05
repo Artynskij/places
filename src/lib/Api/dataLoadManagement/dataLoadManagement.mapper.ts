@@ -2,12 +2,14 @@ import {
     ITagEntity,
     ITagBlockFront,
     ICategoryFront,
-    ICategoryOfEstablishmentEntity,
+    ICategoryEstablishmentEntity,
 } from "@/lib/models";
+import { useTranslations } from "next-intl";
 
 export class DataLoadManagementMapper {
     constructor() {}
     tagsBlockMapper(tags: ITagEntity[]): ITagBlockFront[] {
+        
         const grouped = tags.reduce<Record<string, ITagBlockFront>>(
             (acc, tag) => {
                 const detail = tag.content.details[0];
@@ -70,7 +72,7 @@ export class DataLoadManagementMapper {
         );
     }
     categoriesOfEstablishment(
-        categories: ICategoryOfEstablishmentEntity[]
+        categories: ICategoryEstablishmentEntity[]
     ): ICategoryFront[] {
         const mappedData: ICategoryFront[] = categories
             .map((categoryServer) => {

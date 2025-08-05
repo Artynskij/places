@@ -129,7 +129,7 @@ ICardReview) => {
                             alt={gallery ? gallery[0].title : "image"}
                             src={
                                 gallery
-                                    ? `${establishmentReview.media.cdnHost}/${gallery[0].blobPath}`
+                                    ? gallery[0].src
                                     : CONSTANT_DEFAULT_IMAGE_URL
                             }
                             width={gallery ? gallery[0].width : 300}
