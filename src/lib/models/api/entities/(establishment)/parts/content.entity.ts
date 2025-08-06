@@ -14,3 +14,33 @@ export interface IContentEntity {
 export interface IContentLocationEntity extends IContentEntity {
     media: { gallery: IImageEntity[] };
 }
+
+export interface IContentVerificationEntity extends IContentEntity {
+    privateMedia: IImageEntity[];
+}
+export interface IContentEstablishment {
+    id: string;
+    type: string;
+    collection: string;
+    value: {
+        lang: string;
+        value: {
+            details: {
+                title: string;
+                description: string;
+            };
+            seoTrip: {
+                key: string;
+                value: string;
+            }[];
+
+            location: {
+                street1: string;
+                street2: string;
+            };
+        };
+    }[];
+    media: {
+        gallery: IImageEntity[] | null;
+    };
+}

@@ -1,8 +1,8 @@
 import EstablishmentApi from "./establishment.endpoints";
 
 import {
-    IEstablishmentCreatedEntity,
     IEstablishmentEntity,
+    IEstablishmentWithContentEntity,
     IEstablishmentFront,
 } from "@/lib/models";
 import EstablishmentMapper from "./establishment.mapper";
@@ -78,8 +78,16 @@ export class EstablishmentService {
     }
     async createEstablishment(
         body: IEstablishmentCreateRequest
-    ): Promise<IEstablishmentCreatedEntity | null> {
+    ): Promise<IEstablishmentEntity | null> {
         const response = this.establishmentApi.createEstablishment(body);
+
+        return response;
+    }
+    async updateEstablishment(
+        id: string,
+        body: IEstablishmentCreateRequest
+    ): Promise<IEstablishmentEntity | null> {
+        const response = this.establishmentApi.updateEstablishment(id, body);
 
         return response;
     }

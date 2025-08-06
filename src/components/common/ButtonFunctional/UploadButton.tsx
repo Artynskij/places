@@ -157,7 +157,7 @@ export const UploadButton: React.FC<Props> = ({
                 )}
                 {type === "avatar" && <div>Avatar</div>}
             </Dragger>
-            
+
             {error && <SpanErrorForm text={error.message} />}
         </div>
     );

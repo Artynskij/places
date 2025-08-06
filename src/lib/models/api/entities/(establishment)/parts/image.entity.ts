@@ -1,17 +1,31 @@
 export interface IImageEntity {
-  id: string;
-  refId?: number;
-  type: string;
-  details: {
-    lang: string;
-    value: {
-      title: string;
-    };
-  }[];
-  width: number;
-  height: number;
-  refUrl?: string;
-  refFileName?: string;
-  fileName: string;
-  blobPath: string;
+    id: string;
+    type: string;
+    blobPath: string;
+    fileName: string;
+    details: {
+        lang: string;
+        value: {
+            title: string;
+        };
+    }[];
+    width: number;
+    height: number;
+    refId?: number;
+    refUrl?: string;
+    refFileName?: string;
+}
+export interface IImagePrivateEntity {
+    id: string;
+    type: string;
+    blobPath: string;
+    fileName: string;
+    details?: {
+        lang: string;
+        value: {
+            title: string;
+        };
+    }[];
+    width: number;
+    height: number;
 }

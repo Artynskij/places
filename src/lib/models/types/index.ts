@@ -9,6 +9,7 @@ export * from "./TTilesContent";
 export * from "./TTypeFile";
 export * from "./TTypesEstablishment";
 export * from "./TTypesGlobal";
+export * from "./TTypeUser";
 
 
 export * from "./auth/TTypeOwnerBusiness";

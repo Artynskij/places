@@ -18,7 +18,7 @@ export const CardNews = ({
     article,
     descriptionShow = false,
 }: ICardNewsProp) => {
-    // const calcTimeRead = (item.markdown.split(' ').length / 130 * 60).toFixed(2)
+    // const calcITypeEstablishmentEntityead = (item.markdown.split(' ').length / 130 * 60).toFixed(2)
     if (!article) return <span>нету новости</span>;
     return (
         <Link

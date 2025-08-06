@@ -6,6 +6,6 @@ export interface ITagsOfEstablishmentRequest extends IPaginationRequest {
     locationId?: string;
 }
 export interface ITagAndEstablishmentConnectionRequest {
-    EstablishmentId: string;
-    TagId: string;
+    Establishment: string;
+    Tag: string;
 }

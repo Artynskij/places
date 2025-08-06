@@ -57,7 +57,7 @@ export class TagsService {
     async createTagEstablishmentConnect(
         body: ITagAndEstablishmentConnectionRequest
     ): Promise<ITagsOfEstablishmentFilterResponse | null> {
-        const response = this.createTagEstablishmentConnect(body);
+        const response = this.tagsApi.createTagEstablishmentConnect(body);
         return response;
     }
     // separationClassTag(tags: ITagBlockFront[]): ITagBlockFront | null {

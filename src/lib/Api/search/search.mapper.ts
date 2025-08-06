@@ -200,7 +200,7 @@ export class SearchMapper {
             id: itemBack.dbCrossId,
             title: itemBack.title,
             description: itemBack.description,
-            media: itemBack.image ? { mainImage: itemBack.image } : null, // You might want to map this from item if available
+            media: itemBack.image ? { mainImage: `${cdnHost}${itemBack.image}` } : null, // You might want to map this from item if available
             lang: itemBack.lang,
             location: locationPart,
             typeId: itemBack.typeId || null,

@@ -183,13 +183,17 @@ export const ScheduleBlockForm = ({
                                 ]}
                                 onChange={(val) => handleTimeChange(day, val)}
                             />
+                        ) : current.type === "isHoliday" ? (
+                            <span>{"Выходной"}</span>
+                        ) : current.type === "is24Hours" ? (
+                            <span>{"Круглосуточно"}</span>
                         ) : (
-                            <span className={style.scheduleNote}>
-                                {current.type === "isHoliday"
-                                    ? "Выходной"
-                                    : current.type === "is24Hours"
-                                    ? "Круглосуточно"
-                                    : "Не выбрано"}
+                            <span
+                                className={
+                                    error ? style.scheduleNote_error : ""
+                                }
+                            >
+                                {"Не выбрано"}
                             </span>
                         )}
                     </div>

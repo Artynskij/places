@@ -5,7 +5,7 @@ import {
     IGenderFront,
     IRoleOwnerEntity,
     ITagBlockFront,
-    ITypeEstablishment,
+    ITypeEstablishmentWithContentEntity,
 } from "@/lib/models";
 import { DataLoadManagementMapper } from "./dataLoadManagement.mapper";
 
@@ -37,7 +37,9 @@ export class DataLoadManagementService {
 
         return response;
     }
-    async getTypesOfEstablishment(): Promise<ITypeEstablishment[] | null> {
+    async getTypesOfEstablishment(): Promise<
+        ITypeEstablishmentWithContentEntity[] | null
+    > {
         const response =
             await this.DataLoadManagementApi.getTypesOfEstablishment();
 

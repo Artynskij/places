@@ -6,7 +6,7 @@ import { BusinessFormScreen } from "@/screens/(Form)/BusinessFormScreen";
 
 export async function generateMetadata() {
     return {
-        title: `${process.env.BASE_NAME} | form business`,
+        title: `${process.env.BASE_NAME} | form create establishment`,
     };
 }
 
@@ -22,7 +22,7 @@ export default function EstablishmentFormPage({
     return (
         <div className="container">
             {/* <BusinessFormScreen params={params} searchParams={searchParams} /> */}
-            <FormCreateEstablishment />
+            <FormCreateEstablishment typeUser="tourist"/>
         </div>
     );
 }

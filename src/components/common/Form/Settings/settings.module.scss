@@ -84,6 +84,7 @@
 
 .buttonSubmit {
     width: fit-content;
+    border-radius: $border-radius-10;
 }
 @include mediaTablet {
     .selectionBlock {

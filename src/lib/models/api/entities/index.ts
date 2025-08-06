@@ -24,4 +24,4 @@ export * from "./mapItem.entity";
 export * from "./roleOwner.entity";
 export * from "./searchItem.entity";
 export * from "./socialContacts.entity";
-export * from "./verification";
+export * from "./verification.entity";

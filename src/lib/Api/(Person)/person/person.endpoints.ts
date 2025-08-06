@@ -1,5 +1,5 @@
 import apiClient from "../../ApiClient";
-import { IPersonEntity } from "@/lib/models/api/entities/(person)/person.entity";
+import { IPersonWithContentEntity } from "@/lib/models/api/entities/(person)/person.entity";
 import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request";
 
 export default class PersonApi {
@@ -7,7 +7,7 @@ export default class PersonApi {
     async getPersonById(
         id: string,
         lang?: string
-    ): Promise<IPersonEntity | null> {
+    ): Promise<IPersonWithContentEntity | null> {
         try {
             const response = await apiClient.get(
                 `/persons/${id}${lang ? `?lang=${lang}` : ""}`
@@ -22,7 +22,7 @@ export default class PersonApi {
     async updatePerson(
         id: string,
         body: IPersonRequest
-    ): Promise<IPersonEntity | null> {
+    ): Promise<IPersonWithContentEntity | null> {
         try {
             const response = await apiClient.patch(`/persons/${id}`, {
                 source: { ...body },

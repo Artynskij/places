@@ -25,9 +25,7 @@ export class MapMapper {
 
         mapItems.forEach((searchItemBack, index) => {
             const newSearchItem = this.createMapItem(searchItemBack, cdnHost);
-            if (newSearchItem.id === "01JPZDN699119E9P3Q5ZFRR1A1") {
-                console.log(newSearchItem);
-            }
+
             if (newSearchItem.title) {
                 mapperItems.push(newSearchItem);
             }
@@ -92,7 +90,7 @@ export class MapMapper {
             id: itemBack.dbCrossId,
             title: itemBack.title,
             description: itemBack.description,
-            media: itemBack.image ? { mainImage: itemBack.image } : null, // You might want to map this from item if available
+            media: itemBack.image ? { mainImage: `${cdnHost}${itemBack.image}` } : null, // You might want to map this from item if available
             lang: itemBack.lang,
             location: locationPart,
             typeId: itemBack.typeId || null,

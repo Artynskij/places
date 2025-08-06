@@ -31,8 +31,6 @@ import { AddressService } from "@/lib/Api/(Person)/address/address.api";
 // import { AddressService } from "@/lib/Api/(Person)/address/address.service";
 import { SocialNetworksService } from "@/lib/Api/(Person)/socialNetworksPerson/socialNetworksPerson.service";
 
-
-
 import { validSocialNetworksSchema } from "@/lib/validationSchemas/socialNetworksSchema";
 import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
 import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
@@ -52,7 +50,13 @@ import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
 import { getFormatDate, parseDateToISO } from "@/lib/helpers/getFormatDate";
 import { AvatarBlockForm } from "../_components/AvatarBlock/AvatarBlock";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
-import { IContactsRequest, IPersonFront, IPersonNameCreateRequest, IPersonRequest, ISocialContactsRequest } from "@/lib/models";
+import {
+    IContactsRequest,
+    IPersonFront,
+    IPersonNameCreateRequest,
+    IPersonRequest,
+    ISocialContactsRequest,
+} from "@/lib/models";
 
 type TTypeForm = Yup.InferType<typeof validationSchema>;
 
@@ -84,6 +88,7 @@ export const FormSettingsTourist = () => {
     const addressService = new AddressService();
     const contactsPersonService = new ContactsPersonService();
     const socialNetworksService = new SocialNetworksService();
+    
     const fileUploadService = new FileUploadService();
 
     const router = useRouter();
@@ -312,10 +317,9 @@ export const FormSettingsTourist = () => {
             await personService.updatePerson(personData.id, bodyToPersonUpdate);
         }
 
-        notification.success({ message: "Данные успешно сохранены" });
-        setTimeout(() => {
-            router.push(ROUTES.PROFILE.TOURIST("sherlock_bones"));
-        }, 1000);
+        notification.success({ message: "Данные отправлены на верификацию" });
+
+        router.push(ROUTES.PROFILE.TOURIST("sherlock_bones"));
     };
 
     const onSubmitInvalid = (e: any) => {

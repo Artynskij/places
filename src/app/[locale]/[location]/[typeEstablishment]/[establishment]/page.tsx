@@ -55,6 +55,8 @@ export default async function EstablishmentPage({
             lon: dataEstablishment.location.longitude,
             radius: 1000,
         });
+   
+
     if (!sortedNearEstablishment) {
         console.log("not found sortedNearEstablishment");
         notFound();

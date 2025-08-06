@@ -22,16 +22,16 @@ const CustomMarkerEstablishmentComponent = ({
 }: ICustomMarker) => {
     const [hoverShowPopup, setHoverShowPopup] = useState(false);
     const [clickShowPopup, setClickShowPopup] = useState(selectionFirstEst);
-    const timerRef = useRef<NodeJS.Timeout>();
+    const ITypeEstablishmentEntityRef = useRef<NodeJS.Timeout>();
     // const markerRef = useRef<HTMLDivElement>(null);
 
     const handlerPopupMouseEnter = () => {
-        clearTimeout(timerRef.current);
+        clearTimeout(ITypeEstablishmentEntityRef.current);
         setHoverShowPopup(true);
     };
 
     const handlerPopupMouseLeave = () => {
-        timerRef.current = setTimeout(() => {
+        ITypeEstablishmentEntityRef.current = setTimeout(() => {
             setHoverShowPopup(false);
         }, 300);
     };

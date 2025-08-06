@@ -19,3 +19,4 @@ export * from "./location.front";
 export * from "./mapItem.front";
 export * from "./search.front";
 export * from "./socialContacts.front";
+export * from "./verification.front";

@@ -48,21 +48,14 @@ import { getImageDimensions } from "@/lib/helpers/getImageDimensions";
 import { getSchemaByTypeUser } from "./validationSchema";
 import { TTypeUser } from "@/lib/models/types";
 
-const agreementKeys: TAgreementKey[] = [
-    "ConfirmedLegalAccommodation",
-    "ConfirmedInformationResponsibility",
-];
-
 interface IFormCreateEstablishment {
     typeUser: TTypeUser;
 }
-export const FormCreateEstablishment = ({
+export const FormUpdateEstablishment = ({
     typeUser,
 }: IFormCreateEstablishment) => {
     const validationSchemaRegister = getSchemaByTypeUser(typeUser);
     type TTypeForm = Yup.InferType<typeof validationSchemaRegister>;
-    const hasVideoVerification =
-        "videoVerification" in validationSchemaRegister.fields;
 
     const notification = useNotification();
 
@@ -527,12 +520,6 @@ export const FormCreateEstablishment = ({
                 </div>
             )}
 
-            {/* <BlockAgreements
-                agreementKeys={agreementKeys}
-                value={watch("agreements") as string[]}
-                onChange={(vals) => setValue("agreements", vals)}
-                error={errors.agreements?.message}
-            /> */}
             <Button
                 className={style.form_buttonSubmit}
                 typeLogic="submit"
@@ -540,6 +527,5 @@ export const FormCreateEstablishment = ({
             />
             {isSubmitting && <Loader />}
         </form>
-        // </FormProvider>
     );
 };

@@ -7,7 +7,10 @@ import {
     IEstablishmentCreateRequest,
     IPaginationEstablishmentRequest,
 } from "@/lib/models/api/request/(Establishment)/establishment.request";
-import { IEstablishmentCreatedEntity, IEstablishmentEntity } from "@/lib/models";
+import {
+    IEstablishmentEntity,
+    IEstablishmentWithContentEntity,
+} from "@/lib/models";
 
 export default class EstablishmentApi {
     constructor() {}
@@ -52,12 +55,29 @@ export default class EstablishmentApi {
             return null;
         }
     }
-    async createEstablishment(body: IEstablishmentCreateRequest): Promise<IEstablishmentCreatedEntity | null> {
+    async createEstablishment(
+        body: IEstablishmentCreateRequest
+    ): Promise<IEstablishmentEntity | null> {
         try {
             const response = await apiClient.post(`/establishment`, body);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при создании заведения.`);
+            return null;
+        }
+    }
+    async updateEstablishment(
+        id: string,
+        body: IEstablishmentCreateRequest
+    ): Promise<IEstablishmentEntity | null> {
+        try {
+            const response = await apiClient.patch(
+                `/establishment/${id}`,
+                body
+            );
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при обновлении заведения.`);
             return null;
         }
     }

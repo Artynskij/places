@@ -17,6 +17,8 @@ export class MapService {
     ): Promise<ISearchItemFront[] | null> {
         const response = await this.mapApi.getEstablishmentByCoord(body);
         const cdnHost = await this.mapApi.getBlobProxy();
+      
+
         const mappingData = response
             ? this.mapMapper.mappingMapQuery(response, cdnHost?.url || "")
             : null;

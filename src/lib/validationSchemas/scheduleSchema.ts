@@ -27,5 +27,4 @@ export const validScheduleSchema = Yup.array()
             return !isDefault;
         })
     )
-    .required("Расписание обязательно")
-    .length(7, "Должно быть 7 дней расписания");
+   

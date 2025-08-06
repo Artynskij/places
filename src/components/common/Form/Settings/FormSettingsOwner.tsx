@@ -46,6 +46,8 @@ import { Loader } from "../../Loader/Loader";
 
 import { AvatarBlockForm } from "../_components/AvatarBlock/AvatarBlock";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
+import { VerificationService } from "@/lib/Api/verification/verification.api";
+import { IImageEntity } from "@/lib/models";
 
 type TTypeForm = Yup.InferType<typeof validationSchema>;
 
@@ -72,9 +74,8 @@ export const FormSettingsOwner = () => {
     const notification = useNotification();
     const personService = new PersonService();
     const personNameService = new PersonNameService();
-    const addressService = new AddressService();
-    const contactsPersonService = new ContactsPersonService();
-    const socialNetworksService = new SocialNetworksService();
+
+    const verificationService = new VerificationService();
     const fileUploadService = new FileUploadService();
 
     const router = useRouter();
@@ -157,8 +158,6 @@ export const FormSettingsOwner = () => {
             }
         }
 
-        //  Обработка описания
-
         //  Обработка ФИО
         if ("fullName" in changes && changes.fullName) {
             const fullName = changes.fullName;
@@ -190,16 +189,86 @@ export const FormSettingsOwner = () => {
                 }
             }
         }
+        if (changes.passportDocument) {
+            const documentFiles = changes.passportDocument;
 
+            const uploadFilesPromises: Promise<IImageEntity>[] = documentFiles
+                .filter((file): file is File => !!file)
+                .map( async (file) => {
+                    return fileUploadService
+                        .uploadPrivateFile({
+                            file,
+                            fileName: "image",
+                            vendorId: personData.id,
+                        })
+                        .then((res) => {
+                            if (!res) throw new Error("Файл не загрузился");
+
+                            const uploadedFile: IImageEntity = {
+                                id: res.blobPath,
+                                blobPath: res.blobPath,
+                                fileName: file.name,
+                                type: "iamge",
+                                width: 400,
+                                height: 400,
+                                details: [
+                                    {
+                                        lang: "ru",
+                                        value: {
+                                            title: "Документ", // или другое название
+                                        },
+                                    },
+                                ],
+                            };
+
+                            return uploadedFile;
+                        });
+                });
+
+            let uploadFiles: IImageEntity[];
+
+            try {
+                uploadFiles = await Promise.all(uploadFilesPromises);
+            } catch (error) {
+                notification.error({
+                    message: "ошибка загрузки фото верификации",
+                });
+                return;
+            }
+
+            const createdVerification = await verificationService.create({
+                source: {
+                    Person: personData.id,
+                },
+                content: {
+                    details: [{ lang: "ru", value: "documentPerson" }],
+                    privateMedia: uploadFiles,
+                },
+            });
+
+            if (createdVerification) {
+                console.log(createdVerification);
+
+                notification.success({
+                    message: "сервис верификации отработал",
+                });
+            } else {
+                notification.error({
+                    message: "ошибка при отправке данных на верификацию",
+                });
+                return;
+            }
+        }
         // 📌 Финальный update
         if (bodyToPersonUpdate) {
             await personService.updatePerson(personData.id, bodyToPersonUpdate);
         }
 
-        notification.success({ message: "Данные успешно сохранены" });
-        setTimeout(() => {
-            router.push(ROUTES.PROFILE.TOURIST("sherlock_bones"));
-        }, 1000);
+        notification.success({
+            message: "Данные успешно отправлены на модерацию",
+        });
+
+        router.push(ROUTES.PROFILE.OWNER);
     };
 
     const onSubmitInvalid = (e: any) => {

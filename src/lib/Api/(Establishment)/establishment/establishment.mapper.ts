@@ -1,6 +1,6 @@
 import {
-    IEstablishmentCreatedEntity,
     IEstablishmentEntity,
+    IEstablishmentWithContentEntity,
     IEstablishmentFront,
     IMediaFront,
 } from "@/lib/models";
@@ -9,7 +9,7 @@ import {
     ContactsEstablishmentService,
 } from "../contactsEstablishment/contactsEstablishment.api";
 interface ITransformToFront {
-    establishment: IEstablishmentEntity;
+    establishment: IEstablishmentWithContentEntity;
     info: {
         cdnHost: string;
         totalEstablishment?: number;

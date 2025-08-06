@@ -2,6 +2,7 @@ import { locales } from "@/config";
 import { IPaginationRequest } from "../IPagination.request";
 import { TLocale } from "@/lib/models/types/TLocale";
 import { TTypeFile } from "@/lib/models/types/TTypeFile";
+import { IImageEntity } from "../../entities";
 
 export interface IPaginationEstablishmentRequest extends IPaginationRequest {
     filter?: {
@@ -18,7 +19,7 @@ export interface IPaginationEstablishmentRequest extends IPaginationRequest {
 }
 
 export interface IEstablishmentCreateRequest {
-    source: {
+    source?: {
         Latitude?: number;
         Longitude?: number;
 
@@ -31,13 +32,13 @@ export interface IEstablishmentCreateRequest {
         Contacts?: string;
         Type?: string;
     };
-    content: {
-        value: {
+    content?: {
+        value?: {
             lang: string;
             value: {
                 details: {
                     title: string;
-                    description: string;
+                    description: string | null;
                 };
                 seo: { key: string; value: string }[] | null;
                 location: {
@@ -46,20 +47,8 @@ export interface IEstablishmentCreateRequest {
                 };
             };
         }[];
-        media: {
-            gallery:
-                | {
-                      id: string;
-                      type: TTypeFile;
-                      blobPath: string;
-                      width: number;
-                      height: number;
-                      details: [
-                          { lang: TLocale; value: { title: string } },
-                          { lang: TLocale; value: { title: string } }
-                      ];
-                  }[]
-                | null;
+        media?: {
+            gallery: IImageEntity[] | null;
         };
     };
 }

@@ -3,7 +3,7 @@ import {
     IGenderEntity,
     IRoleOwnerEntity,
     ITagEntity,
-    ITypeEstablishment,
+    ITypeEstablishmentWithContentEntity,
 } from "@/lib/models";
 import apiClient from "../ApiClient";
 
@@ -29,7 +29,9 @@ export default class DataLoadManagementApi {
             return null;
         }
     }
-    async getTypesOfEstablishment(): Promise<ITypeEstablishment[] | null> {
+    async getTypesOfEstablishment(): Promise<
+        ITypeEstablishmentWithContentEntity[] | null
+    > {
         try {
             const response = await apiClient.get(
                 `/types-of-establishment/get-all`

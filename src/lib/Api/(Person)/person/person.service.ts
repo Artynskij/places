@@ -3,7 +3,7 @@ import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import { PersonMapper } from "./person.mapper";
 import { DataLoadManagementService } from "../../dataLoadManagement/dataLoadManagement.service";
-import { IPersonEntity } from "@/lib/models/api/entities/(person)/person.entity";
+import { IPersonWithContentEntity } from "@/lib/models/api/entities/(person)/person.entity";
 import { GenderService } from "../gender.api";
 
 export class PersonService {
@@ -47,7 +47,7 @@ export class PersonService {
     async updatePerson(
         id: string,
         body: IPersonRequest
-    ): Promise<IPersonEntity | null> {
+    ): Promise<IPersonWithContentEntity | null> {
         // const cdnHost = await this.DataLoadManagementService.getBlobProxy();
         const response = this.personApi.updatePerson(id, body);
         return response;
