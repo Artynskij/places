@@ -23,7 +23,7 @@ export default function EstablishmentFormPage({
     return (
         <div className="container">
             {/* <BusinessFormScreen params={params} searchParams={searchParams} /> */}
-            <FormCreateEstablishment typeUser="tourist" />
+            <FormCreateEstablishment />
         </div>
     );
 }

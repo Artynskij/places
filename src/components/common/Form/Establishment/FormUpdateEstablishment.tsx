@@ -493,7 +493,7 @@ export const FormUpdateEstablishment = ({
                     />
                 </div>
             </div>
-            {typeUser === "owner" && (
+            {/* {typeUser === "owner" && (
                 <div className={style.selectionBlock}>
                     <div className={style.selectionBlock_title}>
                         Видео подтверждающее о владении
@@ -518,7 +518,7 @@ export const FormUpdateEstablishment = ({
                         />
                     </div>
                 </div>
-            )}
+            )} */}
 
             <Button
                 className={style.form_buttonSubmit}
