@@ -1,9 +1,9 @@
 export const switcherTabOwnerData = [
     { id: 1, name: "мои обьекты", value: "object" },
-    { id: 2, name: "продвижение", value: "marketing" },
-    { id: 3, name: "история заказов", value: "history" },
-    { id: 4, name: "статистика", value: "stat" },
-    { id: 5, name: "кошелёк", value: "wallet" },
+    // { id: 2, name: "продвижение", value: "marketing" },
+    // { id: 3, name: "история заказов", value: "history" },
+    // { id: 4, name: "статистика", value: "stat" },
+    // { id: 5, name: "кошелёк", value: "wallet" },
     { id: 6, name: "бизнесы", value: "business" },
 ];
 export const switcherTabUserData = [
@@ -13,12 +13,12 @@ export const switcherTabUserData = [
     { id: 4, name: "карта путешествий", value: "travelMap" },
 ];
 export const switcherTabTouristData = [
-    { id: 1, name: "Публикации", value: "publications" },
-    { id: 2, name: "Фото", value: "photos" },
-    { id: 3, name: "Видео", value: "videos" },
-    { id: 4, name: "Отзывы / оценки", value: "reviews" },
+    // { id: 1, name: "Публикации", value: "publications" },
+    // { id: 2, name: "Фото", value: "photos" },
+    // { id: 3, name: "Видео", value: "videos" },
+    // { id: 4, name: "Отзывы / оценки", value: "reviews" },
     { id: 5, name: "Карта путешествий", value: "travelMap" },
-    { id: 6, name: "Мои объекты", value: "object" },
+    { id: 6, name: "Добавленные объекты", value: "object" },
 ];
 export const switcherFinderMainPage = [
     {

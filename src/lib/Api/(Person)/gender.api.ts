@@ -1,19 +1,25 @@
 import { IContactsRequest } from "@/lib/models/api/request/contacts/contacts.request";
 import { BaseApiService } from "../BaseApi.service";
-import { IGenderEntity } from "@/lib/models/api/entities/(person)/gender.entity";
+import {
+    IGenderEntity,
+    IGenderWithContentEntity,
+} from "@/lib/models/api/entities/(person)/gender.entity";
 import { IGenderFront } from "@/lib/models/frontend/(person)/gender.front";
 export class GenderMapper {
-    toFront(genderServer: IGenderEntity): IGenderFront {
+    toFront(data: IGenderWithContentEntity | IGenderEntity): IGenderFront {
+        const entity = "gender" in data ? data.gender : data;
+        const content = "content" in data ? data.content : data.Content || null;
         return {
-            id: genderServer.gender.Id,
-            code: genderServer.gender.Code,
-            key: genderServer.gender.Name,
-            value: genderServer.content?.details[0].value || "",
+            id: entity.Id,
+            code: entity.Code,
+            key: entity.Name,
+            value: content?.details[0].value || "",
         };
     }
 }
 export class GenderService extends BaseApiService<
     IGenderEntity,
+    IGenderWithContentEntity,
     IGenderFront,
     IContactsRequest
 > {

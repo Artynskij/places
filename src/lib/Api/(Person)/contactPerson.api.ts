@@ -18,6 +18,7 @@ class ContactsPersonMapper {
 
 export class ContactsPersonService extends BaseApiService<
     IContactsPersonEntity,
+    IContactsPersonEntity,
     IContactsPersonFront,
     IContactsRequest
 > {

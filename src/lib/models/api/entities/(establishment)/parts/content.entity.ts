@@ -32,7 +32,7 @@ export interface IContentEstablishment {
             seoTrip: {
                 key: string;
                 value: string;
-            }[];
+            }[] | [];
 
             location: {
                 street1: string;

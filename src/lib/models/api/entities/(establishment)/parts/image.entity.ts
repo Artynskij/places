@@ -29,3 +29,6 @@ export interface IImagePrivateEntity {
     width: number;
     height: number;
 }
+export interface IImageCreateEntity{
+
+}

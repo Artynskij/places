@@ -37,8 +37,8 @@ const validationSchemaOwner = {
     description: Yup.string().required("Описание обязательно"),
     tags: Yup.array()
         .of(Yup.string())
-        .min(1, "Выберите хотя бы один тег")
-        .required("Выберите хотя бы один тег"),
+        .min(1, "Выберите хотя бы одну характеристику")
+        .required("Выберите хотя бы одну характеристику"),
     menu: Yup.string()
         .url("Невалидный URL")
         .when("typeEstablishment", {
@@ -64,7 +64,7 @@ const validationSchemaOwner = {
 };
 const validationSchemaTourist = {
     description: Yup.string(),
-    tags: Yup.array().of(Yup.string()).min(1, "Выберите хотя бы один тег"),
+    tags: Yup.array().of(Yup.string()).min(1, "Выберите хотя бы одну характеристику"),
     menu: Yup.string().url("Невалидный URL").notRequired(),
     email: Yup.string().email("Неккоректный адрес электронной почты"),
 
@@ -74,7 +74,7 @@ const validationSchemaTourist = {
         .min(1, "Необходимо загрузить хотя бы 1 фотографий"),
 
     schedule: validScheduleSchema,
-    videoVerification: Yup.array().of(validVideoFileSchema),
+    // videoVerification: Yup.array().of(validVideoFileSchema),
 };
 export const getSchemaByTypeUser = (typeUser: TTypeUser) => {
     switch (typeUser) {

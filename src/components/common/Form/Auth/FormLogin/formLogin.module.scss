@@ -1,4 +1,3 @@
-
 .container {
     min-height: 90vh;
     // position: relative;
@@ -8,11 +7,37 @@
     gap: 30px;
     align-items: center;
 }
-
+.switcher {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid $color-main-grey;
+    overflow: hidden;
+    border-radius: $border-radius-20;
+    &_item {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        background-color: $color-additional-background;
+        color: $color-main-black;
+        padding: 10px 10px;
+        border: none;
+        cursor: pointer;
+        transition: $transition;
+        &:hover {
+            background-color: $color-main-blue_hover;
+            color: $color-main-white;
+        }
+        &__active {
+            background-color: $color-main-blue;
+            color: $color-main-white;
+        }
+    }
+}
 .form {
     z-index: 1;
     display: flex;
     flex-direction: column;
+    gap: $gap-big;
     padding: 56px 32px;
     background-color: $color-main-white;
     border-radius: 20px;
@@ -69,7 +94,6 @@
     &_textOr {
     }
     &_footer {
-        margin-top: 20px;
         text-align: center;
         &_link {
             color: $color-main-blue;
@@ -79,6 +103,10 @@
             }
         }
     }
+}
+.disable {
+    pointer-events: none;
+    cursor: not-allowed;
 }
 .image {
     z-index: 0;

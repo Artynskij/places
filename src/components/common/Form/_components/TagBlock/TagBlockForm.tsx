@@ -149,7 +149,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
                                             .includes(input.toLowerCase())
                                     }
                                     style={{ width: "100%" }}
-                                    placeholder="Выберите теги"
+                                    placeholder="Выберите характеристики"
                                     value={getSelectedTagsForGroup(groupKey)}
                                     onChange={(selected) =>
                                         handleTagChange(groupKey, selected)

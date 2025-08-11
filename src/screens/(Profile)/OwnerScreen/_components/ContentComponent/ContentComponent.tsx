@@ -3,13 +3,14 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import style from "./contentComponent.module.scss";
 
 import { switcherTabOwnerData } from "@/asset/constants/switcherTabsPage";
-import { TabObjectsOwner } from "./TabObjectsOwner/TabObjectsOwner";
+
 import { TabMarketingOwner } from "./TabMarketingOwner/TabMarketingOwner";
 import { TabHistoryOwner } from "./TabHistoryOwner/TabHistoryOwner";
 import { TabStatOwner } from "./TabStatOwner/TabStatOwner";
 import { TabWalletOwner } from "./TabWalletOwner/TabWalletOwner";
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 import TabBusinessOwner from "./TabBussinessOwner/TabBusinessOwner";
+import TabEstablishment from "@/screens/(Profile)/_component/Tabs/TabEstablishment/TabEstablishment";
 
 const ContentComponent = () => {
     const router = useRouter();
@@ -24,7 +25,7 @@ const ContentComponent = () => {
 
             <div className={style.switcher_content}>
                 {searchParams.get("tab") === "object" ? (
-                    <TabObjectsOwner></TabObjectsOwner>
+                    <TabEstablishment></TabEstablishment>
                 ) : searchParams.get("tab") === "marketing" ? (
                     <TabMarketingOwner></TabMarketingOwner>
                 ) : searchParams.get("tab") === "history" ? (

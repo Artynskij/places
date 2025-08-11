@@ -5,7 +5,7 @@ import { IAddressRequest } from "@/lib/models/api/request/(Person)/address.reque
 import { AddressMapper } from "./address.mapper";
 
 
-export class AddressService extends BaseApiService<IAddressEntity,IAddressFront, IAddressRequest> {
+export class AddressService extends BaseApiService<IAddressEntity,IAddressEntity,IAddressFront, IAddressRequest> {
     protected baseUrl = '/addresses';
     protected mapper= new AddressMapper;
 }

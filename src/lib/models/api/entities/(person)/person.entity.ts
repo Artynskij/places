@@ -1,6 +1,5 @@
-
 import { IContactsPersonEntity } from "./contactsPerson.entity";
-import { IGenderBodyEntity, IGenderEntity } from "./gender.entity";
+import { IGenderEntity, IGenderWithContentEntity } from "./gender.entity";
 import { IPersonNameEntity } from "./personName.entity";
 import { IPersonSettingsEntity } from "./personSettings.entity";
 import { IContentEntity } from "../(establishment)/parts/content.entity";
@@ -22,7 +21,7 @@ export interface IPersonEntity {
     DeletedDate: string | null;
     PersonType: "" | null;
     PersonName: IPersonNameEntity | null;
-    Gender: IGenderBodyEntity | null;
+    Gender: IGenderEntity | null;
     Language: "" | null;
     Currency: "" | null;
     Contacts: IContactsPersonEntity | null;

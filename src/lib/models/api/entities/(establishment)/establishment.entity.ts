@@ -1,3 +1,4 @@
+import { IPersonEntity } from "../(person)/person.entity";
 import { ICategoryEstablishmentPart } from "./parts/categoryEstablishmentPart.entity";
 import { IContactsEstablishmentEntity } from "./parts/contactEstablishment.entity";
 import { IContentEntity, IContentEstablishment } from "./parts/content.entity";
@@ -29,4 +30,24 @@ export interface IEstablishmentEntity {
 export interface IEstablishmentWithContentEntity {
     establishment: IEstablishmentEntity;
     content: IContentEstablishment;
+}
+export interface IEstablishmentPersonAssignEntity {
+    Id: string;
+    Person: IPersonEntity | null| string;
+    Establishment: IEstablishmentEntity | null | string;
+    IsOwner: boolean;
+    IsVerified: boolean;
+    IsAddedByPerson: boolean;
+    Source: "Manual" | "AutoParser" | "AdminPanel" | "Search" | "Cabinet";
+    Note: string | null;
+    ContentId: string | null;
+    Content?: IContentEntity | null;
+    CreatedDate: string;
+    LastModifiedDate: string;
+    DeletedDate: string;
+}
+export interface IEstablishmentPersonAssignWithContentEntity {
+    id: string;
+    entity: IEstablishmentPersonAssignEntity;
+    content: IContentEntity | null;
 }

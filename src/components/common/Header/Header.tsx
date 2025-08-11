@@ -65,13 +65,8 @@ export const Header = async () => {
                             </Suspense> */}
                         </div>
                         <div className={style.right_auth}>
-                            <Link href={"/login"}>
-                                <Button
-                                    className={style.right_auth_button}
-                                    text={tHeader("text.buttonLogin")}
-                                />
-                            </Link>
-                            {/* <Profile /> */}
+                          
+                            <Profile />
                         </div>
                     </div>
                     <Suspense fallback={<div>Burger</div>}>
@@ -86,12 +81,6 @@ export const Header = async () => {
                         >
                             <li className={"hover-underline"}>Лк туриста</li>
                         </Link>
-                        {/* <Link
-                            className={style.header__second_link}
-                            href={ROUTES.PROFILE.OWNER}
-                        >
-                            <li className={"hover-underline"}>Лк Владельца</li>
-                        </Link> */}
                         <Link
                             className={style.header__second_link}
                             href={ROUTES.PROFILE.OWNER}

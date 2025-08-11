@@ -2,6 +2,7 @@ import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstabl
 import { TCategoriesNews } from "../models/types/TCategoriesNews";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { TTypeOwnerBusiness } from "../models/types/auth/TTypeOwnerBusiness";
+import { TTypeUser } from "../models/types";
 // TODO DEFAULT ROUTES DATA
 export const ROUTES = {
     MAIN: "/",
@@ -19,7 +20,7 @@ export const ROUTES = {
         OWNER: `/owner`,
         TOURIST: (username: string) => `/tourist/${username}`,
         USER: (username: string) => `/user/${username}`,
-        SETTINGS: (type: "owner" | "tourist", tab?:'notification' | 'personal') => `/${type}/settings${`?tab=${tab || 'personal'}` }`,
+        SETTINGS: (type: TTypeUser, tab?:'notification' | 'personal') => `/${type}/settings${`?tab=${tab || 'personal'}` }`,
     },
     FILTER: (location: string, typeEst: string) =>
         `/${location}/${typeEst}/filter`,

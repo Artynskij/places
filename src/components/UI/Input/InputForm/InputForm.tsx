@@ -20,6 +20,7 @@ interface IIinputFormProps {
     value?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onClick?: () => void;
+    current?: string;
 }
 export const InputForm: FC<IIinputFormProps> = ({
     type,
@@ -34,6 +35,7 @@ export const InputForm: FC<IIinputFormProps> = ({
     value,
     onChange,
     onClick,
+    current,
 }) => {
     return (
         <div onClick={onClick} className={style.ctn_input}>
@@ -49,6 +51,7 @@ export const InputForm: FC<IIinputFormProps> = ({
             </div>
             <div className={style.ctn_input_input}>
                 <input
+                   
                     id={`input-${register?.name}`}
                     {...register}
                     value={value}
@@ -60,6 +63,8 @@ export const InputForm: FC<IIinputFormProps> = ({
                         register?.onChange?.(e); // уведомляем react-hook-form
                         onChange?.(e); // вызываем свой кастомный onChange
                     }}
+                    name={register?.name}
+                    autoComplete={current}
                 />
             </div>
             {error && <SpanErrorForm text={error || ""} />}

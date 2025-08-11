@@ -1,1 +1,1 @@
-export type TTypeUser = 'owner' | 'tourist' 
+export type TTypeUser = 'owner' | 'tourist' | 'admin'

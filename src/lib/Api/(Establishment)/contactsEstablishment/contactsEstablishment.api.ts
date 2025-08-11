@@ -34,6 +34,7 @@ export class ContactsEstablishmentMapper {
 
 export class ContactsEstablishmentService extends BaseApiService<
     IContactsEstablishmentEntity,
+    IContactsEstablishmentEntity,
     IContactsEstablishmentFront,
     IContactEstablishmentRequest
 > {

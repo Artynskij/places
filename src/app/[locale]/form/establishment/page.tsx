@@ -1,4 +1,5 @@
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { AuthGuard } from "@/components/common/Auth/guards/AuthGuard";
 import { FormCreateEstablishment } from "@/components/common/Form/Establishment/FormCreateEstablishment";
 import { IPageProps } from "@/lib/models";
 import { TTypeOwnerBusiness } from "@/lib/models/types/auth/TTypeOwnerBusiness";
@@ -22,7 +23,7 @@ export default function EstablishmentFormPage({
     return (
         <div className="container">
             {/* <BusinessFormScreen params={params} searchParams={searchParams} /> */}
-            <FormCreateEstablishment typeUser="tourist"/>
+            <FormCreateEstablishment typeUser="tourist" />
         </div>
     );
 }

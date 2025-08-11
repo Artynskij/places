@@ -21,7 +21,14 @@ import {
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 
 import { useNotification } from "@/lib/context";
+import { useUser } from "@/lib/context/UserContext/UserContext";
+
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
+import { ScheduleService } from "@/lib/Api/(Establishment)/schedule/schedule.service";
+import { ContactsEstablishmentService } from "@/lib/Api/(Establishment)/contactsEstablishment/contactsEstablishment.api";
+import { SocialNetworksService } from "@/lib/Api/(Person)/socialNetworksPerson/socialNetworksPerson.service";
+import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
+import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
 
 import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 import { InputPhoneNumber } from "@/components/UI/Input/InputPhone/InputPhone";
@@ -39,34 +46,33 @@ import TagBlockForm from "../_components/TagBlock/TagBlockForm";
 import CategoryBlockForm from "../_components/CategoryBlock/CategoryBlockForm";
 import { ScheduleBlockForm } from "../_components/ScheduleBlock/ScheduleBlock";
 import { SocialContactsBlockForm } from "../_components/SocialContacts/SocialContacts";
-import { ScheduleService } from "@/lib/Api/(Establishment)/schedule/schedule.service";
-import { ContactsEstablishmentService } from "@/lib/Api/(Establishment)/contactsEstablishment/contactsEstablishment.api";
-import { SocialNetworksService } from "@/lib/Api/(Person)/socialNetworksPerson/socialNetworksPerson.service";
-import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
-import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
 import { getImageDimensions } from "@/lib/helpers/getImageDimensions";
 import { getSchemaByTypeUser } from "./validationSchema";
-import { TTypeUser } from "@/lib/models/types";
+
+import { EstablishmentPersonAssignmentApi } from "@/lib/Api/(Establishment)/establishment/establishmentAssignment.api";
+import { AuthGuard } from "../../Auth/guards/AuthGuard";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/lib/config/Routes";
 
 const agreementKeys: TAgreementKey[] = [
     "ConfirmedLegalAccommodation",
     "ConfirmedInformationResponsibility",
 ];
 
-interface IFormCreateEstablishment {
-    typeUser: TTypeUser;
-}
-export const FormCreateEstablishment = ({
-    typeUser,
-}: IFormCreateEstablishment) => {
+interface IFormCreateEstablishment {}
+const FormCreateEstablishmentBase = ({}: IFormCreateEstablishment) => {
+    const { user } = useUser();
+    const typeUser = user?.typeUser || "tourist";
     const validationSchemaRegister = getSchemaByTypeUser(typeUser);
+    const router = useRouter();
+
     type TTypeForm = Yup.InferType<typeof validationSchemaRegister>;
-    const hasVideoVerification =
-        "videoVerification" in validationSchemaRegister.fields;
 
     const notification = useNotification();
 
     const establishmentService = new EstablishmentService();
+    const establishmentAssignmentService =
+        new EstablishmentPersonAssignmentApi();
     const scheduleService = new ScheduleService();
     const contactEstablishmentService = new ContactsEstablishmentService();
     const socialContactsService = new SocialNetworksService();
@@ -74,6 +80,7 @@ export const FormCreateEstablishment = ({
     const fileUploadService = new FileUploadService();
 
     const locale = useLocale();
+
     const {
         register,
         handleSubmit,
@@ -85,92 +92,114 @@ export const FormCreateEstablishment = ({
     });
     const typeEstablishment = watch("typeEstablishment");
     const onSubmit: SubmitHandler<TTypeForm> = async (dataForm) => {
-        console.log("Form Data:", dataForm);
-
-        const bodySocialNetworks =
-            dataForm.socialContacts?.reduce<ISocialContactsRequest>(
-                (acc, soc) => {
-                    acc[soc.type] = soc.url;
-                    return acc;
-                },
-                {}
-            ) ?? null;
-        const createdSocialContact = bodySocialNetworks
-            ? await socialContactsService.createSocialNetworksPerson(
-                  bodySocialNetworks
-              )
-            : null;
-
-        const createdContacts = await contactEstablishmentService.create({
-            source: {
-                Email: dataForm.email || null,
-                Menu: dataForm.menu || null,
-                Phone: dataForm.phone || null,
-                SocialContactsId: createdSocialContact?.id || null,
-                Web: null,
-            },
-        });
-
-        if (!createdContacts) {
-            notification.error({
-                message: "системная ошибка. не получилось создать контакты",
-            });
-            return null;
-        } else {
-            notification.success({
-                message: "contact entity созданы",
-            });
+        if (!user) {
+            notification.error({ message: "Это невозможно. User нету" });
+            return;
         }
+        try {
+            // 1. Создание соц.сетей
+            const bodySocialNetworks =
+                dataForm.socialContacts?.reduce<ISocialContactsRequest>(
+                    (acc, soc) => {
+                        acc[soc.type] = soc.url;
+                        return acc;
+                    },
+                    {}
+                ) ?? null;
 
-        const bodyEstablishment: IEstablishmentCreateRequest = {
-            source: {
-                CategoryIds: dataForm.categories as string[],
-                Contacts: createdContacts.id,
-                Latitude: dataForm.coord.lat,
-                Longitude: dataForm.coord.lon,
-                Locations: dataForm.locationId,
-                // Moderate: false,
-                Type: CONSTANT_TYPES_OF_ESTABLISHMENT[
-                    dataForm.typeEstablishment
-                ].id,
-            },
-            content: {
-                value: [
-                    {
-                        lang: locale,
-                        value: {
-                            details: {
-                                title: dataForm.title,
-                                description: dataForm?.description || null,
-                            },
-                            seo: null,
-                            location: {
-                                street1: !!dataForm.coord.addressLine
-                                    ? (dataForm.coord.addressLine as string)
-                                    : null,
+            const createdSocialContact = bodySocialNetworks
+                ? await socialContactsService.createSocialNetworksPerson(
+                      bodySocialNetworks
+                  )
+                : null;
+
+            // 2. Создание контактов
+            const createdContacts = await contactEstablishmentService.create({
+                source: {
+                    Email: dataForm.email || null,
+                    Menu: dataForm.menu || null,
+                    Phone: dataForm.phone || null,
+                    SocialContactsId: createdSocialContact?.id || null,
+                    Web: null,
+                },
+            });
+
+            if (!createdContacts) {
+                notification.error({ message: "Не удалось создать контакты" });
+                return; // ⛔ Останавливаем выполнение, чтобы не продолжать с null
+            }
+
+            // 3. Создание заведения
+            const bodyEstablishment: IEstablishmentCreateRequest = {
+                source: {
+                    CategoryIds: dataForm.categories as string[],
+                    Contacts: createdContacts.id,
+                    Latitude: dataForm.coord.lat,
+                    Longitude: dataForm.coord.lon,
+                    Locations: dataForm.locationId,
+                    Type: CONSTANT_TYPES_OF_ESTABLISHMENT[
+                        dataForm.typeEstablishment
+                    ].id,
+                },
+                content: {
+                    value: [
+                        {
+                            lang: locale,
+                            value: {
+                                details: {
+                                    title: dataForm.title,
+                                    description: dataForm.description || null,
+                                },
+                                seo: null,
+                                location: {
+                                    street1: dataForm.coord.addressLine || null,
+                                },
                             },
                         },
-                    },
-                ],
-                media: { gallery: null },
-            },
-        };
-        // создание establishment
-        const createdEstablishment =
-            await establishmentService.createEstablishment({
-                ...bodyEstablishment,
-            });
-        if (!createdEstablishment) {
-            notification.error({
-                message: "системная ошибка. не получилось создать заведение",
-            });
-            return null;
-        }
+                    ],
+                    media: { gallery: null },
+                },
+            };
 
-        // создание фотографий
-        if (dataForm.images) {
-            const filesPromises: Promise<IImageEntity | null>[] =
-                dataForm.images.filter(Boolean).map(async (imageForm) => {
+            const createdEstablishment =
+                await establishmentService.createEstablishment(
+                    bodyEstablishment
+                );
+
+            if (!createdEstablishment) {
+                notification.error({ message: "Не удалось создать заведение" });
+                return;
+            }
+
+            // 4. Создание связи персоны и заведения
+            const createdPersonEstablishmentAssign =
+                await establishmentAssignmentService.create({
+                    source: {
+                        Person: user.id, // гарантированно есть
+                        Establishment: createdEstablishment.Id,
+                        IsAddedByPerson: true,
+                        Note: "Создание пользователем",
+                        Source: "Cabinet",
+                    },
+                });
+
+            if (!createdPersonEstablishmentAssign) {
+                console.log(
+                    "Establishment",
+                    createdEstablishment.Id,
+                    "Person",
+                    user.id
+                );
+
+                notification.error({
+                    message: "Не удалось создать связь заведение-персона",
+                });
+                return;
+            }
+
+            // 5. Загрузка изображений
+            const filesBlobPromises =
+                dataForm.images?.filter(Boolean).map(async (imageForm) => {
                     const file = imageForm as File;
 
                     try {
@@ -188,26 +217,28 @@ export const FormCreateEstablishment = ({
                             id: res.blobPath,
                             type: "image",
                             blobPath: res.blobPath,
-                            fileName: imageForm?.name ?? "",
+                            fileName: file.name,
                             details: [],
                             width: dimensions.width,
                             height: dimensions.height,
                         } as IImageEntity;
                     } catch (error) {
-                        console.error("Ошибка обработки изображения:", error);
+                        console.error("Ошибка загрузки изображения:", error);
                         return null;
                     }
-                });
+                }) ?? [];
 
-            const imageFiles = (await Promise.all(filesPromises)).filter(
-                (item) => !!item
-            );
-            if (imageFiles.length > 0) {
-                notification.success({
-                    message: `картинки ${imageFiles.length} сохранены в blob`,
-                });
-                establishmentService
-                    .updateEstablishment(createdEstablishment.Id, {
+            const imageBlobFiles = (
+                await Promise.all(filesBlobPromises)
+            ).filter(Boolean);
+
+            // 6. Обновление заведения с изображениями
+
+            const updatedEstablishmentForImages =
+                await establishmentService.updateEstablishment(
+                    createdEstablishment.Id,
+                    {
+                        source: {},
                         content: {
                             value: [
                                 {
@@ -220,81 +251,68 @@ export const FormCreateEstablishment = ({
                                         },
                                         seo: null,
                                         location: {
-                                            street1: !!dataForm.coord
-                                                .addressLine
-                                                ? (dataForm.coord
-                                                      .addressLine as string)
-                                                : null,
+                                            street1:
+                                                dataForm.coord.addressLine ||
+                                                null,
                                         },
                                     },
                                 },
                             ],
                             media: {
-                                gallery: imageFiles as IImageEntity[],
+                                gallery: imageBlobFiles as IImageEntity[],
                             },
                         },
-                    })
-                    .then((res) => {
-                        if (res) {
-                            notification.success({
-                                message: `к заведению прикрепились фотографии`,
-                            });
-                        }
-                        return res;
-                    });
+                    }
+                );
+
+            // 7. Создание расписания
+            if (dataForm.schedule) {
+                await Promise.all(
+                    dataForm.schedule.map((schItem) =>
+                        scheduleService.createScheduleDay({
+                            Establishment: createdEstablishment.Id,
+                            Day: schItem.day,
+                            OpenTime: schItem.openTime,
+                            CloseTime: schItem.closeTime,
+                            Is24Hours: schItem.is24Hours,
+                            IsHoliday: schItem.isHoliday,
+                        })
+                    )
+                );
             }
-        }
 
-        notification.success({ message: "establishmentService отработал" });
-        // создание расписаний
-        const scheduleRes = dataForm.schedule
-            ? await Promise.all(
-                  dataForm.schedule.map((schItem) =>
-                      scheduleService.createScheduleDay({
-                          Establishment: createdEstablishment.Id,
-                          Day: schItem.day,
-                          OpenTime: schItem.openTime,
-                          CloseTime: schItem.closeTime,
-                          Is24Hours: schItem.is24Hours,
-                          IsHoliday: schItem.isHoliday,
-                      })
-                  )
-              )
-            : null;
-        if (!scheduleRes) {
-            notification.error({
-                message: "Не получилось создать расписание или привязать его",
-            });
-        } else {
-            notification.success({
-                message: "Schedule создано",
-            });
-        }
-        // привязка тегов
-        const createdTags = dataForm.tags
-            ? await Promise.all(
-                  dataForm.tags.map((tag) => {
-                      if (!tag) return;
-                      return tagsService.createTagEstablishmentConnect({
-                          Establishment: createdEstablishment.Id,
-                          Tag: tag,
-                      });
-                  })
-              )
-            : null;
-        if (!createdTags) {
-            notification.error({
-                message: "Не получилось создать связь тегов",
-            });
-        } else {
-            notification.success({
-                message: `связи тегов(${createdTags.length}) созданы`,
-            });
-        }
-        console.log("созданное заведение", createdEstablishment.Id);
+            // 8. Привязка тегов
+            if (dataForm.tags) {
+                await Promise.all(
+                    dataForm.tags
+                        .filter((item) => !!item)
+                        .map((tag) =>
+                            tagsService.createTagEstablishmentConnect({
+                                Establishment: createdEstablishment.Id,
+                                Tag: tag as string,
+                            })
+                        )
+                );
+            }
 
-        notification.success({ message: "Объект отправлен на модерацию" });
+            // ✅ Финальный успех
+            notification.success({
+                message: "Объект успешно создан и отправлен на модерацию",
+            });
+            console.log("Созданное заведение:", createdEstablishment.Id);
+            router.replace(
+                user.typeUser === "owner"
+                    ? ROUTES.PROFILE.OWNER
+                    : ROUTES.PROFILE.TOURIST(user.nickname || "noNick")
+            );
+        } catch (error) {
+            console.error("Ошибка при создании заведения:", error);
+            notification.error({
+                message: "Произошла ошибка при создании объекта",
+            });
+        }
     };
+
     const onSubmitInvalid = (e: any) => {
         console.log(e);
 
@@ -500,7 +518,7 @@ export const FormCreateEstablishment = ({
                     />
                 </div>
             </div>
-            {typeUser === "owner" && (
+            {/* {typeUser === "owner" && (
                 <div className={style.selectionBlock}>
                     <div className={style.selectionBlock_title}>
                         Видео подтверждающее о владении
@@ -525,7 +543,7 @@ export const FormCreateEstablishment = ({
                         />
                     </div>
                 </div>
-            )}
+            )} */}
 
             {/* <BlockAgreements
                 agreementKeys={agreementKeys}
@@ -543,3 +561,9 @@ export const FormCreateEstablishment = ({
         // </FormProvider>
     );
 };
+
+export const FormCreateEstablishment = () => (
+    <AuthGuard>
+        <FormCreateEstablishmentBase />
+    </AuthGuard>
+);

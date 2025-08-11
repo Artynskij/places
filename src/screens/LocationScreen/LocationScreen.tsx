@@ -59,6 +59,7 @@ export default async function LocationScreen({
     const baseUrl = await getBaseUrlServer();
     const filteredBreadcrumb =
         breadcrumbData?.slice(1, breadcrumbData.length - 1) || null;
+        
     return (
         <div className="container">
             <section className={style.banner}>

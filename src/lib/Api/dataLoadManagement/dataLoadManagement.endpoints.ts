@@ -1,6 +1,6 @@
 import {
     ICategoryEstablishmentEntity,
-    IGenderEntity,
+    IGenderWithContentEntity,
     IRoleOwnerEntity,
     ITagEntity,
     ITypeEstablishmentWithContentEntity,
@@ -18,7 +18,9 @@ export default class DataLoadManagementApi {
             return null;
         }
     }
-    async getGenders(locale: string): Promise<IGenderEntity[] | null> {
+    async getGenders(
+        locale: string
+    ): Promise<IGenderWithContentEntity[] | null> {
         try {
             const response = await apiClient.post(`/gender/get-all`, {
                 lang: locale,

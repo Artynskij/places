@@ -8,4 +8,62 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    gap: $gap;
+    margin: 41px 0;
+    &_text {
+    }
+    &_button {
+        @extend %Text14;
+        &_icon {
+            font-size: 16px;
+            transition: $transition;
+        }
+        &:hover &_icon {
+            color: $color-main-gold;
+        }
+    }
+}
+.list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $gap;
+}
+.skeleton {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    &_block {
+        min-height: 320px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    &_input {
+        min-height: 360px;
+    }
+    &_photo {
+        height: 100%;
+        width: 100%;
+    }
+}
+@include mediaTablet {
+    .list {
+        grid-template-columns: 1fr;
+    }
+    .skeleton {
+        grid-template-columns: 1fr;
+    }
+}
+@include mediaPhone {
+    .title {
+        margin: 20px 0;
+        &_button span {
+            display: none;
+        }
+    }
+    .title_button span {
+        display: none;
+    }
 }

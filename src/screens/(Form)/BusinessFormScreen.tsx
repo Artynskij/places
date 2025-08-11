@@ -7,6 +7,7 @@ import { TTypeOwnerBusiness } from "@/lib/models/types/auth/TTypeOwnerBusiness";
 import style from "./businessFormScreen.module.scss";
 import { FormSoleProprietor } from "@/components/common/Form/Business/FormSoleProprietor";
 import { FormLegalEntity } from "@/components/common/Form/Business/FormLegalEntity";
+import { AuthGuard } from "@/components/common/Auth/guards/AuthGuard";
 interface IProps extends IPageProps {
     searchParams: {
         [CONSTANT_SEARCH_PARAMS.TAB]: TTypeOwnerBusiness;
@@ -16,12 +17,14 @@ export const BusinessFormScreen = ({ params, searchParams }: IProps) => {
     const activeTab = searchParams[CONSTANT_SEARCH_PARAMS.TAB];
 
     return (
-        <div className={style.container}>
-            <h3>Создание бизнеса</h3>
-            <SwitcherTabs data={switcherBusiness} />
-            {activeTab === "individual" && <FormIndividual />}
-            {activeTab === "sole_proprietor" && <FormSoleProprietor />}
-            {activeTab === "legal_entity" && <FormLegalEntity />}
-        </div>
+        <AuthGuard roles={['owner']}>
+            <div className={style.container}>
+                <h3>Создание бизнеса</h3>
+                <SwitcherTabs data={switcherBusiness} />
+                {activeTab === "individual" && <FormIndividual />}
+                {activeTab === "sole_proprietor" && <FormSoleProprietor />}
+                {activeTab === "legal_entity" && <FormLegalEntity />}
+            </div>
+        </AuthGuard>
     );
 };

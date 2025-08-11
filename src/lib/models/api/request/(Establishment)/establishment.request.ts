@@ -52,3 +52,26 @@ export interface IEstablishmentCreateRequest {
         };
     };
 }
+export interface IEstablishmentPersonAssignRequest {
+    source: {
+        Person: string;
+        Establishment: string;
+        IsOwner?: boolean;
+        IsVerified?: boolean;
+        IsAddedByPerson: boolean;
+        Source: "Manual" | "AutoParser" | "AdminPanel" | "Search" | "Cabinet";
+        Note: string;
+    };
+    content?: {
+        details: [
+            {
+                lang: string;
+                value: string;
+            }
+        ];
+    };
+}
+export interface IEstablishmentPersonAssignGetAllRequest {
+    Person?: string;
+    Establishment?: string;
+}

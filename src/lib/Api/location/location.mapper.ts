@@ -3,7 +3,7 @@ import { ILocationFront, ILocationsEntity } from "@/lib/models";
 
 export default class LocationMapper {
     constructor() {}
-    transformToFront(location: ILocationsEntity): ILocationFront {
+    transformToFront(location: ILocationsEntity, cdnHost:string): ILocationFront {
         const mediaFiles =
             location.content?.media?.gallery.map((mediaItem) => {
                 return {
@@ -13,7 +13,7 @@ export default class LocationMapper {
                     width: mediaItem.width,
                     title: mediaItem.details[0].value.title || "",
                     type: mediaItem.type,
-                    src: "",
+                    src: `${cdnHost}${mediaItem.blobPath}`,
                 };
             }) || null;
         const mappingData = {

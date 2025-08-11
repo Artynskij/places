@@ -15,10 +15,8 @@ import TabPublication from "@/screens/(Profile)/_component/Tabs/TabPublication/T
 import { mockTourist } from "@/asset/mockData/mockTourist";
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 import TabEstablishment from "@/screens/(Profile)/_component/Tabs/TabEstablishment/TabEstablishment";
-interface IContentComponent {
-    dataUser: (typeof mockTourist)[0];
-}
-export const ContentComponent = ({ dataUser }: IContentComponent) => {
+interface IContentComponent {}
+export const ContentComponent = ({}: IContentComponent) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -39,9 +37,10 @@ export const ContentComponent = ({ dataUser }: IContentComponent) => {
                     <TabPhoto></TabPhoto>
                 ) : searchParams.get("tab") === "videos" ? (
                     <TabVideo></TabVideo>
-                ) : searchParams.get("tab") === "reviews" ? (
-                    <TabReview dataUser={dataUser}></TabReview>
-                ) : searchParams.get("tab") === "object" ? (
+                ) : // : searchParams.get("tab") === "reviews" ? (
+                //     <TabReview dataUser={dataUser}></TabReview>
+                // )
+                searchParams.get("tab") === "object" ? (
                     <TabEstablishment></TabEstablishment>
                 ) : (
                     <TabTravelMap></TabTravelMap>

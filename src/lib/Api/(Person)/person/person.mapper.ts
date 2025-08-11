@@ -1,4 +1,4 @@
-import { IGenderEntity } from "@/lib/models/api/entities/(person)/gender.entity";
+import { IGenderWithContentEntity } from "@/lib/models/api/entities/(person)/gender.entity";
 import { IPersonWithContentEntity } from "@/lib/models/api/entities/(person)/person.entity";
 import { IGenderFront } from "@/lib/models/frontend/(person)/gender.front";
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";

@@ -116,8 +116,6 @@ export const FormSettingsOwner = () => {
     }, [reset]);
 
     const onSubmit = async (dataForm: TTypeForm) => {
-        console.log("Данные из формы UI:", dataForm);
-
         if (!initialFormData) {
             notification.error({
                 message: "не найден изначальные данные формы",
@@ -194,7 +192,7 @@ export const FormSettingsOwner = () => {
 
             const uploadFilesPromises: Promise<IImageEntity>[] = documentFiles
                 .filter((file): file is File => !!file)
-                .map( async (file) => {
+                .map(async (file) => {
                     return fileUploadService
                         .uploadPrivateFile({
                             file,
@@ -247,8 +245,6 @@ export const FormSettingsOwner = () => {
             });
 
             if (createdVerification) {
-                console.log(createdVerification);
-
                 notification.success({
                     message: "сервис верификации отработал",
                 });

@@ -1,15 +1,10 @@
-import {
-    IBusinessEntity,
-    IEstablishmentWithContentEntity,
-    IPersonEntity,
-} from "../api/entities";
 import { IMediaFront } from "./(establishment)/parts/media.front";
 
 export interface IVerificationFront {
     id: string;
-    person: IPersonEntity | null;
-    business: IBusinessEntity | null;
-    establishment: IEstablishmentWithContentEntity | null;
+    personId: string | null;
+    businessId: string | null;
+    establishmentId: string | null;
     isVerified: boolean;
     CreatedDate: string;
     LastModifiedDate: string;

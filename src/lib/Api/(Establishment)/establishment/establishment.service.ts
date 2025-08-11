@@ -11,16 +11,20 @@ import {
     IPaginationEstablishmentRequest,
 } from "@/lib/models/api/request/(Establishment)/establishment.request";
 import { DataLoadManagementService } from "../../dataLoadManagement/dataLoadManagement.service";
+import { EstablishmentPersonAssignmentApi } from "./establishmentAssignment.api";
 
 export class EstablishmentService {
     private establishmentApi: EstablishmentApi;
     private establishmentMapper: EstablishmentMapper;
     private dataLoadManagementService: DataLoadManagementService;
+    private establishmentAssignmentService: EstablishmentPersonAssignmentApi;
 
     constructor() {
         this.establishmentApi = new EstablishmentApi();
         this.establishmentMapper = new EstablishmentMapper();
         this.dataLoadManagementService = new DataLoadManagementService();
+        this.establishmentAssignmentService =
+            new EstablishmentPersonAssignmentApi();
     }
 
     async getAllEstablishments(): Promise<IEstablishmentFront[] | null> {
@@ -62,6 +66,7 @@ export class EstablishmentService {
         const response =
             await this.establishmentApi.getEstablishmentByPagination(body);
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();
+
         return response && cdnHost
             ? response.establishmentItems
                   .filter((establishment) => establishment.content)

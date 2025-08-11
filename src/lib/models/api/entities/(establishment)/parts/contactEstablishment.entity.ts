@@ -14,4 +14,6 @@ export interface IContactsEstablishmentEntity {
     ContentId: string | null;
 }
 
-export interface IContactsEstablishmentWithContentEntity {}
+export interface IContactsEstablishmentWithContentEntity {
+    
+}

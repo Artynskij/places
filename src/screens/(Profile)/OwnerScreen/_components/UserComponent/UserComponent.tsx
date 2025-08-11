@@ -24,19 +24,7 @@ const UserComponent = () => {
     const personService = new PersonService();
 
     const { user, setUser } = useUser();
-    useEffect(() => {
-        personService
-            .getPersonById("01JZMZWTCTHYV5APEJKD6F74DF")
-            .then((res) => {
-                if (!res) {
-                    notification.error({ message: "нету пользователя" });
-                    return;
-                }
-                setUser(res);
-
-              
-            });
-    }, []);
+    useEffect(() => {}, []);
 
     if (!user) return <Loader />;
     return (
@@ -61,7 +49,7 @@ const UserComponent = () => {
                     />
                 </div>
                 <div className={style.middle_edit}>
-                    <Link href={ROUTES.PROFILE.SETTINGS("owner", 'personal')}>
+                    <Link href={ROUTES.PROFILE.SETTINGS("owner", "personal")}>
                         <Button
                             text={t("editProfile")}
                             className={style.middle_edit_button}

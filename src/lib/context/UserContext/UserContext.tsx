@@ -1,7 +1,7 @@
 "use client";
 
 import { IUser } from "@/lib/models/common/IUser";
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 type UserContextType = {
     user: IUser | null;
@@ -11,7 +11,25 @@ type UserContextType = {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<IUser | null>(null);
+    const [user, setUserState] = useState<IUser | null>(null);
+
+    // Загружаем пользователя из localStorage при старте
+    useEffect(() => {
+        const savedUser = localStorage.getItem("user");
+        if (savedUser) {
+            setUserState(JSON.parse(savedUser));
+        }
+    }, []);
+
+    const setUser = (newUser: IUser | null) => {
+        setUserState(newUser);
+
+        if (newUser) {
+            localStorage.setItem("user", JSON.stringify(newUser));
+        } else {
+            localStorage.removeItem("user");
+        }
+    };
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

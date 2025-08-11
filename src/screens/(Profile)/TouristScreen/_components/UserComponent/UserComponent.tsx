@@ -3,22 +3,12 @@ import { Button } from "@/components/UI/Button/Button";
 import style from "./userComponent.module.scss";
 
 import Image from "next/image";
-import { ShareButton } from "@/components/common/ButtonFunctional/ShareButton";
-import { mockTourist } from "@/asset/mockData/mockTourist";
-import { data } from "@maptiler/sdk";
+
 import Link from "next/link";
 
-import { SubscribeButton } from "@/components/common/ButtonFunctional/SubsribeButton";
-import { getTranslations } from "next-intl/server";
-import { headers } from "next/headers";
-import {
-    IconEdit,
-    IconEye,
-    IconPerson,
-    IconSettings,
-} from "@/components/common/Icons";
+import { IconEye, IconSettings } from "@/components/common/Icons";
 import { ROUTES } from "@/lib/config/Routes";
-import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
+
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { useEffect } from "react";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
@@ -40,18 +30,9 @@ export const UserComponent = async ({}: IUserComponent) => {
 
     const { user, setUser } = useUser();
     useEffect(() => {
-        personService
-            .getPersonById("01JZMZWTCTHYV5APEJKD6F74DF")
-            .then((res) => {
-                if (!res) {
-                    notification.error({ message: "нету пользователя" });
-                    return;
-                }
-                setUser(res);
-                // console.log(Date(res?.dateRegister));
-            });
+
     }, []);
-    const baseUrl = useBaseUrl();
+
     if (!user) return <Loader />;
     return (
         <>

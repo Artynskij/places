@@ -4,4 +4,5 @@ export const CONSTANT_SEARCH_PARAMS = {
     SEARCH: "l",
     INDEX_SEARCH: "f",
     TAB: "tab",
+    REDIRECT:'r'
 } as const;

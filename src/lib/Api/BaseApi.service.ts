@@ -1,14 +1,17 @@
 import apiClient from "@/lib/Api/ApiClient";
-
-export abstract class BaseApiService<EntityType, FrontType, RequestType> {
+export abstract class BaseApiService<
+    EntityType,
+    EntityWithContentType = EntityType,
+    FrontType = EntityType,
+    RequestType = Partial<EntityType>
+> {
     protected abstract baseUrl: string;
     protected abstract mapper: {
-        toFront(entity: EntityType, cdnHost?: string): FrontType;
+        toFront(entity: EntityType | EntityWithContentType, cdnHost?: string): FrontType;
     };
 
     protected cdnHost?: string;
 
-    // 🔽 Этот метод можно переопределить в наследниках
     protected async loadCdnHost(): Promise<string | undefined> {
         return this.cdnHost;
     }
@@ -36,9 +39,7 @@ export abstract class BaseApiService<EntityType, FrontType, RequestType> {
     async create(body: RequestType): Promise<FrontType | null> {
         try {
             const cdnHost = await this.getCdnHost();
-            const res = await apiClient.post<EntityType>(this.baseUrl, body);
-           
-
+            const res = await apiClient.post<EntityWithContentType>(this.baseUrl, body);
             return this.mapper.toFront(res.data, cdnHost);
         } catch (error) {
             console.error(`error [POST ${this.baseUrl}]`, error);
@@ -49,11 +50,10 @@ export abstract class BaseApiService<EntityType, FrontType, RequestType> {
     async update(id: string, body: RequestType): Promise<FrontType | null> {
         try {
             const cdnHost = await this.getCdnHost();
-            const res = await apiClient.patch<EntityType>(
+            const res = await apiClient.patch<EntityWithContentType>(
                 `${this.baseUrl}/${id}`,
                 body
             );
-
             return this.mapper.toFront(res.data, cdnHost);
         } catch (error) {
             console.error(`error [PATCH ${this.baseUrl}/${id}]`, error);
@@ -61,10 +61,7 @@ export abstract class BaseApiService<EntityType, FrontType, RequestType> {
         }
     }
 
-    async updateOrCreate(
-        id: string | null,
-        body: RequestType
-    ): Promise<FrontType | null> {
+    async updateOrCreate(id: string | null, body: RequestType): Promise<FrontType | null> {
         return id ? this.update(id, body) : this.create(body);
     }
 }

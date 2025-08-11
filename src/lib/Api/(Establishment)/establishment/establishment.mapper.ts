@@ -43,7 +43,7 @@ export default class EstablishmentMapper {
         const galleryImages: IMediaFront[] | null =
             establishment.content?.media.gallery?.map((image) => {
                 return {
-                    title: image.details[0].value.title,
+                    title: image.details[0]?.value.title || "default title",
                     blobPath: image.blobPath,
                     fileName: image.fileName,
                     height: image.height,
@@ -55,7 +55,9 @@ export default class EstablishmentMapper {
 
         return {
             id: establishment.establishment.Id,
-            title: establishment.content.value[0].value.details.title,
+            title:
+                establishment.content.value[0]?.value.details.title ||
+                "default title",
             description:
                 establishment.content.value[0].value.details.description,
             typeEstablishment: establishment.establishment.Type.Name,
@@ -64,7 +66,7 @@ export default class EstablishmentMapper {
                 key: establishment.establishment.Categories[0]?.Id || "",
                 value:
                     establishment.establishment.Categories[0]?.content
-                        ?.details[0].value || "",
+                        ?.details[0].value || "default title",
             },
             rates: {
                 main: establishment.establishment.Rates?.Rate || 0,
@@ -85,7 +87,7 @@ export default class EstablishmentMapper {
                     id: establishment.establishment.Locations?.Id || "",
                     title:
                         establishment.establishment.Locations?.content
-                            ?.details[0].value || "",
+                            ?.details[0].value || "default title",
                 },
                 street: establishment.content.value[0].value.location.street1,
                 latitude: +establishment.establishment.Latitude,

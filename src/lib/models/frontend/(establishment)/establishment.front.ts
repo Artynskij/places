@@ -1,3 +1,4 @@
+import { IEstablishmentPersonAssignWithContentEntity } from "../../api/entities";
 import { TTypesOfEstablishment } from "../../types/TTypesEstablishment";
 import { ICategoryFront } from "./category.front";
 
@@ -44,4 +45,14 @@ export interface IEstablishmentFront {
         gallery: IMediaFront[] | null;
     };
     seo: { key: string; value: string }[];
+}
+export interface IEstablishmentPersonAssignFront {
+    Id: string;
+    PersonId: string | null;
+    EstablishmentId: string | null;
+    IsOwner: boolean;
+    IsVerified: boolean;
+    IsAddedByPerson: boolean;
+    Source: "Manual" | "AutoParser" | "AdminPanel" | "Search" | "Cabinet";
+    Note: string | null;
 }

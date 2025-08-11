@@ -110,7 +110,7 @@ export const FormSettingsTourist = () => {
         personService.getPersonById(mockPersonId).then((person) => {
             if (person) {
                 setPersonData(person);
-                console.log("start person", person);
+               
 
                 const socialEntity = person.contacts?.socialNetworks || null;
                 const socialNetworks =
@@ -151,7 +151,7 @@ export const FormSettingsTourist = () => {
     }, [reset]);
 
     const onSubmit = async (dataForm: TTypeForm) => {
-        console.log("Данные из формы UI:", dataForm);
+      
 
         if (!initialFormData) {
             notification.error({

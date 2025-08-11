@@ -1,26 +1,85 @@
+"use client";
 import { Button } from "@/components/UI/Button/Button";
 import style from "./tabEstablishment.module.scss";
 import { IconPlus } from "@/components/common/Icons";
 import Link from "next/link";
 import { ROUTES } from "@/lib/config/Routes";
+import { useLocale, useTranslations } from "next-intl";
+import { useUser } from "@/lib/context/UserContext/UserContext";
+import { useEffect, useState } from "react";
+import { IEstablishmentFront } from "@/lib/models";
+import { EstablishmentPersonAssignmentApi } from "@/lib/Api/(Establishment)/establishment/establishmentAssignment.api";
+import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
+import CardEstablishmentTab from "./CardEstablishmentTab/CardEstablishmentTab";
+import SkeletonTabEstablishment from "./SkeletonTabEstablishment";
 
 const TabEstablishment = () => {
+    const locale = useLocale();
+    const t = useTranslations("ProfilePage");
+    const { user } = useUser();
+    const [establishmentsData, setEstablishmentsData] = useState<
+        IEstablishmentFront[] | null
+    >();
+    const establishmentPersonAssignmentService =
+        new EstablishmentPersonAssignmentApi();
+    const establishmentService = new EstablishmentService();
+    useEffect(() => {
+        async function getData() {
+            const estPersonAssign =
+                await establishmentPersonAssignmentService.getAll({
+                    Person: user?.id,
+                });
+            const idsEstablishments = estPersonAssign
+                .map((item) => item.EstablishmentId)
+                .filter((item) => !!item) as string[];
+            const establishmentsResponse =
+                idsEstablishments.length > 0
+                    ? await establishmentService.getEstablishmentByPagination({
+                          pagination: { page: 1, pageSize: 10 },
+                          lang: locale,
+                          ids: idsEstablishments,
+                      })
+                    : [];
+
+            setEstablishmentsData(establishmentsResponse || []);
+        }
+        if (user) {
+            getData();
+        }
+    }, []);
     return (
         <div className={style.tabEstablishment_content}>
             <div className={style.tab_title}>
-                <h3>Мои объекты</h3>
+                <h3>{t("objectTab.myObject")}</h3>
                 <Link href={ROUTES.FORM.ESTABLISHMENT_CREATE}>
                     <Button
-                        icon={<IconPlus />}
-                        text="Зарегистрировать объект"
+                        text={t("objectTab.regObject")}
+                        type="blue"
+                        className={style.title_button}
+                        icon={<IconPlus className={style.title_button_icon} />}
                     />
                 </Link>
             </div>
-            <ul>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-            </ul>
+            {!establishmentsData ? (
+                <SkeletonTabEstablishment />
+            ) : (
+                <div className={style.list}>
+                    {establishmentsData?.length === 0 ? (
+                        <div>нету объектов</div>
+                    ) : (
+                        establishmentsData.map((item, index) => {
+                            return (
+                                <CardEstablishmentTab
+                                    editObjectText={t("objectTab.editObject")}
+                                    establishment={item}
+                                    key={index}
+                                />
+                            );
+                        })
+                    )}
+                </div>
+                
+            )}
         </div>
     );
 };

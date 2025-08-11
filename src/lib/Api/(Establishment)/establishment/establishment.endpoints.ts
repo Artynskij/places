@@ -1,16 +1,13 @@
+import apiClient from "../../ApiClient";
 import {
     IEstablishmentItemsResponse,
     IEstablishmentResponse,
 } from "@/lib/models/api/response/(Establishment)/establishment.response";
-import apiClient from "../../ApiClient";
 import {
     IEstablishmentCreateRequest,
     IPaginationEstablishmentRequest,
 } from "@/lib/models/api/request/(Establishment)/establishment.request";
-import {
-    IEstablishmentEntity,
-    IEstablishmentWithContentEntity,
-} from "@/lib/models";
+import { IEstablishmentEntity } from "@/lib/models";
 
 export default class EstablishmentApi {
     constructor() {}

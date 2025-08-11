@@ -284,7 +284,7 @@ export const FormUpdateEstablishment = ({
                 message: `связи тегов(${createdTags.length}) созданы`,
             });
         }
-        console.log("созданное заведение", createdEstablishment.Id);
+  
 
         notification.success({ message: "Объект отправлен на модерацию" });
     };
