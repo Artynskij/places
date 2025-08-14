@@ -31,21 +31,22 @@ export class BusinessService {
         body: IBusinessRequest,
         personId: string
     ): Promise<IBusinessFront | null> {
-        const response = this.BusinessApi.createBusiness(body).then(
-            async (res) => {
-                const roles =
-                    await this.DataLoadManagementService.getRolesOwner();
-                const ownerRole = roles?.find((role) => (role.Code = "OWNER"));
-                if (!res || !ownerRole) return null;
+        const response = this.BusinessApi.createBusiness(body).then((res) => {
+            // const roles =
+            //     await this.DataLoadManagementService.getRolesOwner();
+            // const ownerRole = roles?.find((role) => (role.Code = "OWNER"));
+            if (!res) return null;
 
-                await this.BusinessAssignmentApi.createAssignment({
-                    Business: res.Id,
-                    BusinessPosition: ownerRole.Id,
-                    Person: personId,
-                });
-                return res;
-            }
-        );
+            this.BusinessAssignmentApi.create({
+                Business: "01K0EC2Z8QQS68DPKJYQ9Y9DRK",
+                // BusinessPosition: ownerRole.Id,
+                Person: "01JZMZWTCTHYV5APEJKD6F74DF",
+            }).then((res) => {
+                console.log("createAssignment", res);
+            });
+
+            return res;
+        });
         return response;
     }
     async updateBusiness(
@@ -57,7 +58,7 @@ export class BusinessService {
     }
 
     async getAssignment(body: IBusinessAssignmentGetQueryRequest) {
-      const response =  this.BusinessAssignmentApi.getAssignmentByQuery(body)
-      return response
+        const response = this.BusinessAssignmentApi.getByQuery(body);
+        return response;
     }
 }

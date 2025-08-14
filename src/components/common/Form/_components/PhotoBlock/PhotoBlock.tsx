@@ -8,17 +8,21 @@ import { UploadPhoto } from "@/components/common/Upload/UploadPhoto";
 import { UploadFile } from "antd";
 import { RcFile } from "antd/lib/upload";
 
-
 interface Props {
-    value: File[];
-    onChange: (files: File[]) => void;
+    value: (File | undefined)[];
+    onChange: (files: (File | undefined)[]) => void;
     error: FieldError | null;
 }
 
 const PhotoBlockForm = ({ value = [], onChange, error }: Props) => {
     const [activeModal, setActiveModal] = useState(false);
-  
-    const removeFile = (indexFile: number) => {
+    const handlerToStart = (indexFile: number) => {
+        const newValue = [...value] as File[];
+        newValue.unshift(newValue.splice(indexFile, 1)[0]);
+        onChange?.(newValue);
+    };
+
+    const handlerRemove = (indexFile: number) => {
         if (!value) return;
         const newValue = [...value] as File[];
         newValue.splice(indexFile, 1); // удаляем строго по индексу
@@ -55,11 +59,16 @@ const PhotoBlockForm = ({ value = [], onChange, error }: Props) => {
                         >
                             <div className={style.list_item_iconDelete}>
                                 <IconCancel
-                                    onClick={() => removeFile(indexFile)}
+                                    onClick={() => handlerRemove(indexFile)}
                                     className={style.list_item_iconDelete_icon}
                                 />
                             </div>
-
+                            <div
+                                onClick={() => handlerToStart(indexFile)}
+                                className={style.list_item_buttonToStart}
+                            >
+                                сделать главной
+                            </div>
                             <Image
                                 className={style.list_item_img}
                                 alt={file.name}

@@ -120,7 +120,7 @@ const AddressBlockForm: React.FC<Props> = ({ locationId, onChange, error }) => {
                 <div className={style.choice}>
                     <ul className={style.listChoice}>
                         {breadcrumbLocations.map((location) => {
-                            if (location.locationType.title === "CONTINENT")
+                            if (location.locationType?.title === "CONTINENT")
                                 return;
                             return (
                                 <li
@@ -129,7 +129,7 @@ const AddressBlockForm: React.FC<Props> = ({ locationId, onChange, error }) => {
                                 >
                                     <span>
                                         {tLocations(
-                                            location.locationType.title
+                                            location.locationType?.title
                                         ).toLocaleUpperCase()}{" "}
                                         :{" "}
                                     </span>

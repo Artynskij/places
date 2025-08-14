@@ -7,7 +7,7 @@ import apiClient from "../ApiClient";
 
 export class BusinessAssignmentApi {
     constructor() {}
-    async getAssignmentByQuery({
+    async getByQuery({
         personId,
         businessId,
         establishmentId,
@@ -21,7 +21,7 @@ export class BusinessAssignmentApi {
 
             const response = await apiClient.get(
                 `/person-business-assignments${
-                    query.length > 0 ? '?' + query.join("&") : ""
+                    query.length > 0 ? "?" + query.join("&") : ""
                 }
                 `
             );
@@ -33,7 +33,7 @@ export class BusinessAssignmentApi {
             return null;
         }
     }
-    async getAssignmentById(
+    async getById(
         id: string,
         lang?: string
     ): Promise<IBusinessPersonAssignEntity | null> {
@@ -52,15 +52,13 @@ export class BusinessAssignmentApi {
         }
     }
 
-    async createAssignment(
+    async create(
         body: IBusinessAssignmentRequest
     ): Promise<IBusinessPersonAssignEntity | null> {
         try {
             const response = await apiClient.post(
                 `/person-business-assignments`,
-                {
-                    source: { ...body },
-                }
+                body
             );
             return response.data;
         } catch (error) {
@@ -68,16 +66,31 @@ export class BusinessAssignmentApi {
             return null;
         }
     }
-    async updateAssignment(
+    async update(
         id: string,
         body: IBusinessAssignmentRequest
     ): Promise<IBusinessPersonAssignEntity | null> {
         try {
             const response = await apiClient.patch(
                 `/person-business-assignments/${id}`,
-                {
-                    source: { ...body },
-                }
+
+                body
+            );
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при обновлении PersonAssignment ${id}`);
+            return null;
+        }
+    }
+    async delete(
+        id: string,
+        body: IBusinessAssignmentRequest
+    ): Promise<IBusinessPersonAssignEntity | null> {
+        try {
+            const response = await apiClient.patch(
+                `/person-business-assignments/${id}`,
+
+                body
             );
             return response.data;
         } catch (error) {

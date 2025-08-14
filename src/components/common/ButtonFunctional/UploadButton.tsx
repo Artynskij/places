@@ -92,8 +92,8 @@ export const UploadButton: React.FC<Props> = ({
               .filter((item) => !!item)
               .map((file, idx) => ({
                   uid: `${idx}`,
-                  name: file.name,
-                  size: file.size,
+                  name: file?.name || "impossible",
+                  size: file?.size || -1,
                   status: "done",
                   originFileObj: file as RcFile, // при drag&drop это уже RcFile
               }))
@@ -111,7 +111,9 @@ export const UploadButton: React.FC<Props> = ({
             .map((file, index) => {
                 const rcFile = file as RcFile;
                 if (!(rcFile as any).uid) {
-                    (rcFile as any).uid = `${file.name}_${file.size}_${Date()}`;
+                    (rcFile as any).uid = `${file?.name || ""}_${
+                        file?.size || -1
+                    }_${Date()}`;
                 }
                 if (!(rcFile as any).lastModifiedDate) {
                     (rcFile as any).lastModifiedDate = new Date(

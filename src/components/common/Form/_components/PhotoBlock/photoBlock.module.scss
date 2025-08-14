@@ -5,6 +5,12 @@
     &_item {
         position: relative;
         height: 100px;
+        border: 2px solid transparent;
+        border-radius: $border-radius-5;
+
+        &:first-child {
+            border-color: $color-main-gold;
+        }
         &_img {
             object-fit: cover;
             border-radius: $border-radius-5;
@@ -15,7 +21,7 @@
             align-items: center;
             position: absolute;
             right: 0;
-            top:0;
+            top: 0;
             transform: translate(20%, -20%);
             z-index: 1;
             cursor: pointer;
@@ -29,6 +35,25 @@
                 color: rgb(105, 11, 11);
                 border-color: $color-main-gold;
             }
+        }
+        &_buttonToStart {
+            opacity: 0.2;
+            z-index: 1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: $color-blur-black;
+            padding: 5px 7px;
+            border-radius: $border-radius-5;
+            transition: $transition;
+            color: $color-main-white;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        &:hover &_buttonToStart {
+            opacity: 1;
+            border: 1px solid $color-main-gold;
         }
     }
 }

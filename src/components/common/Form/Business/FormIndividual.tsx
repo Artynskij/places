@@ -150,7 +150,7 @@ export const FormIndividual = () => {
         // 3. Создание Бизнеса
         const officialName = `${formData.fullName.surname} ${
             formData.fullName.name
-        } ${formData.fullName.surname || ""}`;
+        } ${formData.fullName.secondName || ""}`;
         const createdBusiness = await businessService.createBusiness(
             {
                 Contacts: createdContacts?.id || null,
@@ -181,8 +181,7 @@ export const FormIndividual = () => {
         });
         if (createdConsents) {
             notification.info({ message: "CREATE сущности Consents" });
-            console.log(defaultConsents);
-            console.log(createdConsents);
+            
         } else {
             notification.error({ message: "ERROR сущности Consents" });
             return;
@@ -258,6 +257,8 @@ export const FormIndividual = () => {
                 return;
             }
         }
+        // 6. Создание связи бизнеса и персоны
+        // const createdBusinessAssignment = await businessService.
 
         console.log("businessId", createdBusiness?.Id);
 
