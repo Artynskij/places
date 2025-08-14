@@ -1,6 +1,6 @@
 import ConsentsApi from "./consents.endpoints";
 import { IConsentsFront } from "@/lib/models/frontend/(person)/consents.front";
-import { IConsentsRequest } from "@/lib/models/api/request/(Person)/consents.request";
+import { IConsentsPatchRequest, IConsentsRequest } from "@/lib/models/api/request/(Person)/consents.request";
 
 export class ConsentsService {
     private ConsentsApi: ConsentsApi;
@@ -18,7 +18,6 @@ export class ConsentsService {
     }
 
     async createConsents(
-        id: string,
         body: IConsentsRequest
     ): Promise<IConsentsFront | null> {
         const response = this.ConsentsApi.createConsents(body);
@@ -26,7 +25,7 @@ export class ConsentsService {
     }
     async updateConsents(
         id: string,
-        body: IConsentsRequest
+        body: IConsentsPatchRequest
     ): Promise<IConsentsFront | null> {
         const response = this.ConsentsApi.updateConsents(id, body);
         return response;

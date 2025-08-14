@@ -1,4 +1,5 @@
 import {
+    IBusinessAssignmentGetQueryRequest,
     IBusinessAssignmentRequest,
     IBusinessPersonAssignEntity,
 } from "@/lib/models";
@@ -6,7 +7,33 @@ import apiClient from "../ApiClient";
 
 export class BusinessAssignmentApi {
     constructor() {}
-    async getPersonAssignmentById(
+    async getAssignmentByQuery({
+        personId,
+        businessId,
+        establishmentId,
+    }: IBusinessAssignmentGetQueryRequest) {
+        try {
+            const query = [
+                personId ? `personId=${personId}` : null,
+                businessId ? `businessId=${businessId}` : null,
+                establishmentId ? `establishmentId=${establishmentId}` : null,
+            ].filter((item) => !!item);
+
+            const response = await apiClient.get(
+                `/person-business-assignments${
+                    query.length > 0 ? '?' + query.join("&") : ""
+                }
+                `
+            );
+            return response.data;
+        } catch (error) {
+            console.error(
+                `Ошибка при получении данных PersonAssignment по query.`
+            );
+            return null;
+        }
+    }
+    async getAssignmentById(
         id: string,
         lang?: string
     ): Promise<IBusinessPersonAssignEntity | null> {
@@ -25,7 +52,7 @@ export class BusinessAssignmentApi {
         }
     }
 
-    async createPersonAssignment(
+    async createAssignment(
         body: IBusinessAssignmentRequest
     ): Promise<IBusinessPersonAssignEntity | null> {
         try {
@@ -41,7 +68,7 @@ export class BusinessAssignmentApi {
             return null;
         }
     }
-    async updatePersonAssignment(
+    async updateAssignment(
         id: string,
         body: IBusinessAssignmentRequest
     ): Promise<IBusinessPersonAssignEntity | null> {

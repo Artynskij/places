@@ -128,9 +128,7 @@
     position: relative;
     
     width: 100%;
-    &_dragger {
-        border-color: red;
-    }
+
 
    &_text{
     @extend %Text16;

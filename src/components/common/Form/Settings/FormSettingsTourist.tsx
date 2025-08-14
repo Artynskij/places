@@ -369,7 +369,7 @@ export const FormSettingsTourist = () => {
                                 height={250}
                                 alt="avatar"
                                 src={
-                                    personData.avatarImg ||
+                                    personData.avatar.touristImageSrc ||
                                     CONSTANT_DEFAULT_AVATAR_URL
                                 }
                             />
@@ -381,7 +381,7 @@ export const FormSettingsTourist = () => {
                                         value={field.value}
                                         onChange={field.onChange}
                                         error={fieldState.error || null}
-                                        serverPhotoUrl={personData.avatarImg}
+                                        serverPhotoUrl={personData.avatar.touristImageSrc}
                                         handlerDeleteAvatar={
                                             handlerDeleteAvatar
                                         }

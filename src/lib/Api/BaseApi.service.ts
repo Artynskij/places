@@ -1,4 +1,5 @@
 import apiClient from "@/lib/Api/ApiClient";
+import { ILocationFront, ILocationsWithContentEntity } from "../models";
 export abstract class BaseApiService<
     EntityType,
     EntityWithContentType = EntityType,
@@ -7,7 +8,11 @@ export abstract class BaseApiService<
 > {
     protected abstract baseUrl: string;
     protected abstract mapper: {
-        toFront(entity: EntityType | EntityWithContentType, cdnHost?: string): FrontType;
+        toFront(
+            entity: EntityType | EntityWithContentType,
+            cdnHost?: string,
+            location?: ILocationFront
+        ): FrontType;
     };
 
     protected cdnHost?: string;
@@ -39,7 +44,12 @@ export abstract class BaseApiService<
     async create(body: RequestType): Promise<FrontType | null> {
         try {
             const cdnHost = await this.getCdnHost();
-            const res = await apiClient.post<EntityWithContentType>(this.baseUrl, body);
+
+            const res = await apiClient.post<EntityWithContentType>(
+                this.baseUrl,
+                body
+            );
+
             return this.mapper.toFront(res.data, cdnHost);
         } catch (error) {
             console.error(`error [POST ${this.baseUrl}]`, error);
@@ -60,8 +70,21 @@ export abstract class BaseApiService<
             return null;
         }
     }
-
-    async updateOrCreate(id: string | null, body: RequestType): Promise<FrontType | null> {
+    async delete(id: string): Promise<string | null> {
+        try {
+            await apiClient.delete<EntityWithContentType>(
+                `${this.baseUrl}/${id}`
+            );
+            return `${id} deleted`;
+        } catch (error) {
+            console.error(`error [DELETE ${this.baseUrl}/${id}]`, error);
+            return null;
+        }
+    }
+    async updateOrCreate(
+        id: string | null,
+        body: RequestType
+    ): Promise<FrontType | null> {
         return id ? this.update(id, body) : this.create(body);
     }
 }

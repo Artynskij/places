@@ -13,13 +13,17 @@ export class PersonMapper {
         genderFront: IGenderFront | null,
         cdnHost: string | null
     ): IPersonFront {
-        const avatarImage =
+        const touristImage =
             cdnHost && personDataServer.person.AvatarPhotoPath
                 ? `${cdnHost}${personDataServer.person.AvatarPhotoPath}`
                 : null;
         const profileImage =
             cdnHost && personDataServer.person.ProfilePhotoPath
                 ? `${cdnHost}${personDataServer.person.ProfilePhotoPath}`
+                : null;
+        const ownerImage =
+            cdnHost && personDataServer.person.Avatar2BPhotoPath
+                ? `${cdnHost}${personDataServer.person.Avatar2BPhotoPath}`
                 : null;
         const address = personDataServer.person.Contacts?.Address
             ? {
@@ -125,8 +129,12 @@ export class PersonMapper {
             isVerified: personDataServer.person.IsVerified,
             aboutDescription: personDataServer.person.About,
             dateRegister: personDataServer.person.CreatedDate,
-            avatarImg: avatarImage,
-            profileImg: profileImage,
+            avatar: {
+                touristImageSrc: touristImage,
+                ownerImageSrc: ownerImage,
+                profileImageSrc: profileImage,
+            },
+
             birthDate: personDataServer.person.BirthDate,
             timeZone: personDataServer.person.TZ,
 

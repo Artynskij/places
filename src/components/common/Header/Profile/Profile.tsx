@@ -48,7 +48,6 @@ export default function Profile() {
     const handlerClosePopup = () => {
         setPopupActive(false);
     };
- 
 
     return (
         <>
@@ -66,10 +65,11 @@ export default function Profile() {
                             height={54}
                             alt="profileImage"
                             src={
-                                (user.typeUser === "owner"
-                                    ? user.profileImg
-                                    : user.avatarImg) ||
-                                CONSTANT_DEFAULT_AVATAR_URL
+                                user.typeUser === "owner"
+                                    ? user.avatar.ownerImageSrc ||
+                                      CONSTANT_DEFAULT_AVATAR_URL
+                                    : user.avatar.touristImageSrc ||
+                                      CONSTANT_DEFAULT_AVATAR_URL
                             }
                         />
                     </div>

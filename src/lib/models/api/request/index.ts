@@ -7,6 +7,7 @@ export * from "./(Person)/consents.request";
 export * from "./(Person)/person.request";
 export * from "./(Person)/personName.request";
 export * from "./(Person)/personSettings.request";
+export * from "./(Person)/personTravelMark.request";
 export * from "./article/article.request";
 export * from "./article/article.request";
 export * from "./business/business.request";

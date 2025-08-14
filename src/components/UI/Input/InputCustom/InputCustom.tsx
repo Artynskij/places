@@ -1,13 +1,14 @@
-'use client'
+"use client";
 import { IconCancel } from "@/components/common/Icons";
 import style from "./inputCustom.module.scss";
+import React from "react";
 interface IInputCustom {
     value: string;
     setValue: (value: string) => void;
     placeholder: string;
     classNameInput?: string;
     classNameCtn?: string;
-    ariaLabel?:string;
+    ariaLabel?: string;
 }
 export const InputCustom = ({
     value,
@@ -15,7 +16,7 @@ export const InputCustom = ({
     placeholder,
     classNameInput,
     classNameCtn,
-    ariaLabel = 'поиск'
+    ariaLabel = "поиск",
 }: IInputCustom) => {
     return (
         <div className={`${style.inputCtn} ${classNameCtn}`}>

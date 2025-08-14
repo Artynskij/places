@@ -1,6 +1,7 @@
 import style from "./blockFunctional.module.scss";
 import { CONSTANT_AGREEMENTS_DATA } from "@/asset/constants/AgreementsData";
 import { CheckBox as CheckBoxCustom } from "@/components/UI/CheckBox/CheckBox";
+import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
 import { TAgreementKey } from "@/lib/models/types/TAgreementKey";
 import { Checkbox } from "antd";
 import * as Yup from "yup";
@@ -41,7 +42,8 @@ export const BlockAgreements = ({
                     })}
                 </ul>
             </Checkbox.Group>
-            {error && <div style={{ color: "red", marginTop: 4 }}>{error}</div>}
+
+            {error && <SpanErrorForm text={error} />}
         </div>
     );
 };

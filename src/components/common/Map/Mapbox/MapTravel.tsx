@@ -1,24 +1,30 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { Map as MapMapboxGL } from "react-map-gl/mapbox";
+import { Map as MapMapboxGL, MapRef } from "react-map-gl/mapbox";
 
 import { useMapboxGeocode } from "@/lib/hooks/useMapboxGeocode";
 import { useUserLocation } from "@/lib/hooks/useUserLocation";
 import { CONSTANT_TYPE_LOCATION } from "@/asset/constants/typeLocation";
 import { DefaultMarker } from "./_common/Markers/DefaultMarker";
-import { IMapboxCoordPropToForm } from "@/lib/models/mapbox/mapbox";
+import {
+    IMapboxCoordProp,
+    IMapboxCoordPropToForm,
+} from "@/lib/models/mapbox/mapbox";
+import { useLocale } from "next-intl";
 
-interface MapCoordinatePickerProps {
-    setPosition: (value: IMapboxCoordPropToForm) => void;
-    position?: IMapboxCoordPropToForm;
+interface MapTravelProps {
+    // setPosition: (value: IMapboxCoordPropToForm) => void;
+    position?: IMapboxCoordProp;
 }
 
-export const MapCoordinatePicker = ({
-    setPosition,
+export const MapTravel = ({
+    // setPosition,
     position,
-}: MapCoordinatePickerProps) => {
-    const {byCoordinates} = useMapboxGeocode();
+}: MapTravelProps) => {
+    const locale = useLocale();
+    const mapRef = useRef<MapRef>(null);
+    const { byName } = useMapboxGeocode();
     const { userLocation, errorUserLocation } = useUserLocation();
     const centerMoscow = { lat: 51.77041291260454, lon: 29.195896311674147 };
     const zoom = 12;
@@ -31,7 +37,21 @@ export const MapCoordinatePicker = ({
     });
 
     useEffect(() => {
-        if (isInitialized) return;
+        if (isInitialized && position && mapRef.current) {
+            mapRef.current.flyTo({
+                center: [position.lon, position.lat],
+                zoom: 12,
+                essential: true,
+            });
+            if (position?.bBox) {
+                const { minLon, minLat, maxLon, maxLat } = position?.bBox;
+                mapRef.current?.fitBounds([
+                    [minLon, minLat],
+                    [maxLon, maxLat],
+                ]);
+            }
+            return;
+        }
 
         if (position) {
             setViewState({
@@ -52,45 +72,28 @@ export const MapCoordinatePicker = ({
         }
     }, [position, userLocation, errorUserLocation]);
 
-    const handlerClick = async (e: mapboxgl.MapMouseEvent) => {
-        const { lng, lat } = e.lngLat;
-        const geocode = await byCoordinates(lat, lng);
+    // const handlerClick = async (e: mapboxgl.MapMouseEvent) => {
+    //     const { lng, lat } = e.lngLat;
 
-        const country = geocode?.features.find((f) =>
-            f.id.includes(CONSTANT_TYPE_LOCATION.mapbox.country)
-        )?.text;
-        const place = geocode?.features.find((f) =>
-            f.id.includes(CONSTANT_TYPE_LOCATION.mapbox.place)
-        )?.text;
-        const address = geocode?.features.find((f) =>
-            f.id.includes(CONSTANT_TYPE_LOCATION.mapbox.address)
-        );
-
-        const fullLine = [country, place, address?.text, address?.address]
-            .filter(Boolean)
-            .join(", ");
-        const addressLine = [address?.text, address?.address]
-            .filter(Boolean)
-            .join(" ");
-
-        setPosition({ lat, lon: lng, addressLine, addressFullLine: fullLine });
-    };
+    // };
 
     if (!isInitialized) return null;
 
     return (
         <MapMapboxGL
+            ref={mapRef}
             initialViewState={viewState}
             mapStyle="mapbox://styles/mapbox/streets-v12"
             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-            onClick={handlerClick}
+            language={locale}
+
+            // onClick={handlerClick}
         >
             {position && (
                 <DefaultMarker
                     key="selection"
                     latitude={position.lat}
                     longitude={position.lon}
-                    addressLine={position.addressFullLine || ""}
                 />
             )}
         </MapMapboxGL>

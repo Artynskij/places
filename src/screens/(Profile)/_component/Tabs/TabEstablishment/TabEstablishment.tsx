@@ -41,6 +41,7 @@ const TabEstablishment = () => {
                       })
                     : [];
 
+                    
             setEstablishmentsData(establishmentsResponse || []);
         }
         if (user) {

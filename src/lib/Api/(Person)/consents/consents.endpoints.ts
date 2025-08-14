@@ -1,6 +1,6 @@
 import { IConsentsEntity } from "@/lib/models/api/entities/(person)/consents.entity";
 import apiClient from "../../ApiClient";
-import { IConsentsRequest } from "@/lib/models/api/request/(Person)/consents.request";
+import { IConsentsPatchRequest } from "@/lib/models/api/request/(Person)/consents.request";
 
 export default class ConsentsApi {
     constructor() {}
@@ -20,7 +20,7 @@ export default class ConsentsApi {
     }
 
     async createConsents(
-        body: IConsentsRequest
+        body: IConsentsPatchRequest
     ): Promise<IConsentsEntity | null> {
         try {
             const response = await apiClient.post(`/consents`, body);
@@ -32,7 +32,7 @@ export default class ConsentsApi {
     }
     async updateConsents(
         id: string,
-        body: IConsentsRequest
+        body: IConsentsPatchRequest
     ): Promise<IConsentsEntity | null> {
         try {
             const response = await apiClient.patch(`/consents/${id}`, body);

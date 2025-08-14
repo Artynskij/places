@@ -10,8 +10,12 @@ export interface IPersonFront {
     isVerified: boolean;
     nickname: string | null;
     birthDate: string | null;
-    avatarImg: string | null;
-    profileImg: string | null;
+    avatar: {
+        touristImageSrc: string | null;
+        ownerImageSrc: string | null;
+        profileImageSrc: string | null;
+    };
+
     aboutDescription: string | null;
     personName: IPersonNameFront | null;
     dateRegister: string;

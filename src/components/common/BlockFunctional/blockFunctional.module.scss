@@ -106,12 +106,13 @@
     }
 }
 .blockAgreements {
+    position: relative;
+    margin-bottom: 20px;
     &_list {
         display: flex;
         flex-direction: column;
         gap: $gap-small;
-        position: relative;
-        margin-bottom: 20px;
+
         // &_item {
         //     &:first-child {
         //         border-top: 1px solid $color-main-grey;

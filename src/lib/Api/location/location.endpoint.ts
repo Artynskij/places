@@ -1,4 +1,4 @@
-import { ILocationsEntity } from "@/lib/models/api/entities/locations.entity";
+import { ILocationsWithContentEntity } from "@/lib/models/api/entities/locations.entity";
 import apiClient from "../ApiClient";
 import { ILocationInsidePaginationRequest } from "@/lib/models/api/request/location/location.request";
 
@@ -7,7 +7,7 @@ export default class LocationApi {
     async getLocationById(
         id: string,
         lang?: string
-    ): Promise<ILocationsEntity | null> {
+    ): Promise<ILocationsWithContentEntity | null> {
         try {
             const response = await apiClient.get(
                 lang ? `/locations/${id}?lang=${lang}` : `/locations/${id}`
@@ -20,7 +20,7 @@ export default class LocationApi {
     }
     async getListLocationInside(
         body: ILocationInsidePaginationRequest
-    ): Promise<ILocationsEntity[] | null> {
+    ): Promise<ILocationsWithContentEntity[] | null> {
         try {
             const response = await apiClient.post(`/locations/get-all`, body);
             return response.data;
@@ -34,7 +34,7 @@ export default class LocationApi {
     async getBreadcrumbData(body: {
         ids: string;
         lang: string;
-    }): Promise<ILocationsEntity[] | null> {
+    }): Promise<ILocationsWithContentEntity[] | null> {
         try {
             const response = await apiClient.post(
                 `/locations/get-all-breadcrumbs`,

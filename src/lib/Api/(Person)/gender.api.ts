@@ -20,8 +20,7 @@ export class GenderMapper {
 export class GenderService extends BaseApiService<
     IGenderEntity,
     IGenderWithContentEntity,
-    IGenderFront,
-    IContactsRequest
+    IGenderFront
 > {
     protected baseUrl = "/gender";
     protected mapper = new GenderMapper();

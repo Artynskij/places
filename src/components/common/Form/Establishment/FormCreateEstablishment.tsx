@@ -53,6 +53,8 @@ import { EstablishmentPersonAssignmentApi } from "@/lib/Api/(Establishment)/esta
 import { AuthGuard } from "../../Auth/guards/AuthGuard";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
+import Image from "next/image";
+import PhotoBlockForm from "../_components/PhotoBlock/PhotoBlock";
 
 const agreementKeys: TAgreementKey[] = [
     "ConfirmedLegalAccommodation",
@@ -410,22 +412,40 @@ const FormCreateEstablishmentBase = ({}: IFormCreateEstablishment) => {
                     />
                 </div>
             </div>
-            <Controller
-                name="images"
-                control={control}
-                defaultValue={[]}
-                render={({ field, fieldState }) => (
-                    <UploadButton
-                        titleSpan="Прикрепление фотографии объекта*"
-                        accept="image"
-                        maxSizeMB={10}
-                        maxCount={100}
-                        value={field.value}
-                        onChange={field.onChange}
-                        error={fieldState.error || null}
+            <div className={style.selectionBlock}>
+                <div className={style.selectionBlock_title}>
+                    Прикрепление фотографии объекта
+                </div>
+                <div className={style.selectionBlock_content}>
+                    <Controller
+                        name="images"
+                        control={control}
+                        defaultValue={[]}
+                        render={({ field, fieldState }) => (
+                            <>
+                                {/* <UploadButton
+                            titleSpan="Прикрепление фотографии объекта*"
+                            accept="image"
+                            maxSizeMB={10}
+                            maxCount={100}
+                            value={field.value}
+                            onChange={field.onChange}
+                            error={fieldState.error || null}
+                        /> */}
+                                <PhotoBlockForm
+                                    error={fieldState.error || null}
+                                    onChange={field.onChange}
+                                    value={
+                                        field.value?.filter((item) => !!item) ||
+                                        []
+                                    }
+                                />
+                            </>
+                        )}
                     />
-                )}
-            />
+                </div>
+            </div>
+
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
                     Контактные данные

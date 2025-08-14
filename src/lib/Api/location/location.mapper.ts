@@ -1,9 +1,11 @@
-import { ILocationFront, ILocationsEntity } from "@/lib/models";
-
+import { ILocationFront, ILocationsWithContentEntity } from "@/lib/models";
 
 export default class LocationMapper {
     constructor() {}
-    transformToFront(location: ILocationsEntity, cdnHost:string): ILocationFront {
+    transformToFront(
+        location: ILocationsWithContentEntity,
+        cdnHost: string
+    ): ILocationFront {
         const mediaFiles =
             location.content?.media?.gallery.map((mediaItem) => {
                 return {

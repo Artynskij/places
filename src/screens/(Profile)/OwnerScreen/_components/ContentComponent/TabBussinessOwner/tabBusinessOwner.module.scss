@@ -2,4 +2,24 @@
     display: flex;
     flex-direction: column;
     gap: $gap-big;
+    &_title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: $gap;
+        margin: 41px 0;
+        &_text {
+        }
+        &_button {
+            @extend %Text14;
+            &_icon {
+                font-size: 16px;
+                transition: $transition;
+            }
+            &:hover &_icon {
+                color: $color-main-gold;
+            }
+        }
+    }
 }

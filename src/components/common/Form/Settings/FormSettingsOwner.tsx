@@ -150,9 +150,9 @@ export const FormSettingsOwner = () => {
                     type: "image",
                     vendorId: personData.id,
                 });
-                bodyToPersonUpdate.ProfilePhotoPath = imageUrl?.blobPath;
+                bodyToPersonUpdate.Avatar2BPhotoPath = imageUrl?.blobPath;
             } else {
-                bodyToPersonUpdate.ProfilePhotoPath = null;
+                bodyToPersonUpdate.Avatar2BPhotoPath = null;
             }
         }
 
@@ -313,7 +313,7 @@ export const FormSettingsOwner = () => {
                                 height={250}
                                 alt="avatar"
                                 src={
-                                    personData.profileImg ||
+                                    personData.avatar.ownerImageSrc ||
                                     CONSTANT_DEFAULT_AVATAR_URL
                                 }
                             />
@@ -325,7 +325,7 @@ export const FormSettingsOwner = () => {
                                         value={field.value}
                                         onChange={field.onChange}
                                         error={fieldState.error || null}
-                                        serverPhotoUrl={personData.avatarImg}
+                                        serverPhotoUrl={personData.avatar.ownerImageSrc}
                                         handlerDeleteAvatar={
                                             handlerDeleteAvatar
                                         }

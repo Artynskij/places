@@ -20,7 +20,7 @@ interface Props {
 }
 
 const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
-    const tTags = useTranslations('Tags')
+    const tTags = useTranslations("Tags");
     const tagService = new DataLoadManagementService();
     const locale = useLocale();
     const [activePopup, setActivePopup] = useState(false);
@@ -89,15 +89,15 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
     return (
         <div className={style.tagBlockForm}>
             <Button
-            className={style.tagBlockForm_button}
+                className={style.tagBlockForm_button}
                 typeLogic="button"
                 onClick={() => setActivePopup(true)}
-                text="Выбрать теги"
+                text="Характеристики объекта"
             />
 
             <ModalCustom
                 view="middle"
-                title="Выбор тегов"
+                title="Характеристики объекта"
                 active={activePopup}
                 closeModal={() => setActivePopup(false)}
             >

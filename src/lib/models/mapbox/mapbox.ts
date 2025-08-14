@@ -22,6 +22,7 @@ export interface IMapboxFeature {
     geometry: IMapboxGeometry;
     context?: IMapboxContext[];
     address?: string;
+    bbox?: [number, number, number, number];
 }
 
 export interface IMapboxGeocodeResponse {
@@ -35,4 +36,14 @@ export interface IMapboxCoordPropToForm {
     lon: number;
     addressFullLine: string | null;
     addressLine: string | null;
+}
+export interface IMapboxCoordProp {
+    lat: number;
+    lon: number;
+    bBox?: {
+        minLon: number;
+        minLat: number;
+        maxLon: number;
+        maxLat: number;
+    } | null;
 }

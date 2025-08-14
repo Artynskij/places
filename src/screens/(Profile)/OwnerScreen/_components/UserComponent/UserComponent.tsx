@@ -44,7 +44,7 @@ const UserComponent = () => {
                         className={style.middle_avatar_img}
                         width={96}
                         height={96}
-                        src={user.profileImg || CONSTANT_DEFAULT_AVATAR_URL}
+                        src={user.avatar.ownerImageSrc || CONSTANT_DEFAULT_AVATAR_URL}
                         alt="avatar"
                     />
                 </div>

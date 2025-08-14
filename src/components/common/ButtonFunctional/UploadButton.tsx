@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import style from "./buttonFunctional.module.scss";
 import { InboxOutlined } from "@ant-design/icons";
-import type { UploadProps } from "antd";
+import type { UploadFile, UploadProps } from "antd";
 import { Upload } from "antd";
 import { RcFile } from "antd/es/upload";
 import { useAlertMessage } from "@/lib/context";
@@ -17,19 +17,21 @@ interface Props {
     titleSpan: string;
     titleButton?: string;
     titleHelp?: string;
-    accept?: "image" | "doc" | "video" | "all"; // MIME типы: "image/*", ".pdf,.docx", и т.п.
-    maxSizeMB?: number; // Ограничение размера (в МБ)
-    maxCount?: number; // Кол-во файлов
+    className?: string;
+
+    onChange?: (files: File[]) => void;
+    value?: (File | undefined)[];
+    error: FieldError | null;
+
+    accept?: "image" | "doc" | "video" | "all";
+    maxSizeMB?: number;
+    maxCount?: number;
     multiple?: boolean;
-    action?: string; // URL для загрузки
+    action?: string;
     onSuccess?: (file: File, response: any) => void;
     onError?: (file: File, error: any) => void;
     disabled?: boolean;
-    value?: (File | undefined)[];
-    onChange?: (files: File[]) => void;
-    error: FieldError | null;
     type?: "box" | "avatar";
-    className?: string;
 }
 
 export const UploadButton: React.FC<Props> = ({
@@ -42,7 +44,7 @@ export const UploadButton: React.FC<Props> = ({
     disabled = false,
     onChange,
     error,
-
+    value,
     type = "box",
     className,
 }) => {
@@ -61,7 +63,9 @@ export const UploadButton: React.FC<Props> = ({
         all: 100,
     };
     const resolvedAccept = accept ? ACCEPT_MIME_MAP[accept] : undefined;
-
+    const inlineStyles = {
+        error: { borderColor: "red" },
+    };
     const checkFileType = (file: RcFile, accept?: string): boolean => {
         if (!accept) return true;
 
@@ -83,6 +87,17 @@ export const UploadButton: React.FC<Props> = ({
             return type === mimeType;
         });
     };
+    const fileList: UploadFile[] = value
+        ? value
+              .filter((item) => !!item)
+              .map((file, idx) => ({
+                  uid: `${idx}`,
+                  name: file.name,
+                  size: file.size,
+                  status: "done",
+                  originFileObj: file as RcFile, // при drag&drop это уже RcFile
+              }))
+        : [];
 
     const props: UploadProps = {
         name: "file",
@@ -91,11 +106,37 @@ export const UploadButton: React.FC<Props> = ({
         accept: resolvedAccept,
         maxCount,
         disabled,
+        fileList: (value || [])
+            .filter((item) => !!item)
+            .map((file, index) => {
+                const rcFile = file as RcFile;
+                if (!(rcFile as any).uid) {
+                    (rcFile as any).uid = `${file.name}_${file.size}_${Date()}`;
+                }
+                if (!(rcFile as any).lastModifiedDate) {
+                    (rcFile as any).lastModifiedDate = new Date(
+                        rcFile.lastModified
+                    );
+                }
+                return {
+                    uid: rcFile.uid,
+                    name: rcFile.name,
+                    status: "done" as const,
+                    originFileObj: rcFile,
+                } as UploadFile;
+            }),
         beforeUpload(file: RcFile) {
             const isAllowed = checkFileType(file, resolvedAccept);
             const resolvedMaxSize = maxSizeMB ?? maxSize[accept];
             const isLtMax = file.size / 1024 / 1024 < resolvedMaxSize;
+            const isDuplicate = fileList.some(
+                (f) => f.name === file.name && f.size === file.size
+            );
 
+            if (isDuplicate) {
+                message.error(`Файл ${file.name} уже добавлен`);
+                return Upload.LIST_IGNORE;
+            }
             if (!isAllowed) {
                 message.error(`Тип файла ${file.type} не поддерживается`);
                 return Upload.LIST_IGNORE; // лучше для ant-design v4+
@@ -131,7 +172,10 @@ export const UploadButton: React.FC<Props> = ({
 
     return (
         <div className={`${style.uploadButton} ${className}`}>
-            <Dragger className={style.uploadButton_dragger} {...props}>
+            <Dragger
+                style={error?.message ? inlineStyles.error : {}}
+                {...props}
+            >
                 {type === "box" && (
                     <>
                         <p className="ant-upload-drag-icon">

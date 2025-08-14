@@ -3,6 +3,7 @@ import { BusinessAssignmentApi } from "@/lib/Api/business/businessAssignment.end
 import { IBusinessFront } from "@/lib/models/frontend/business.front";
 import BusinessApi from "./business.endpoints";
 import {
+    IBusinessAssignmentGetQueryRequest,
     IBusinessAssignmentRequest,
     IBusinessRequest,
 } from "@/lib/models/api/request/business/business.request";
@@ -37,11 +38,10 @@ export class BusinessService {
                 const ownerRole = roles?.find((role) => (role.Code = "OWNER"));
                 if (!res || !ownerRole) return null;
 
-                await this.BusinessAssignmentApi.createPersonAssignment({
-                    BusinessId: res.Id,
-                    BusinessPositionId: ownerRole.Id,
-                    IsOwnerVerified: true,
-                    PersonId: personId,
+                await this.BusinessAssignmentApi.createAssignment({
+                    Business: res.Id,
+                    BusinessPosition: ownerRole.Id,
+                    Person: personId,
                 });
                 return res;
             }
@@ -56,5 +56,8 @@ export class BusinessService {
         return response;
     }
 
-    async createAssignment(body: IBusinessAssignmentRequest) {}
+    async getAssignment(body: IBusinessAssignmentGetQueryRequest) {
+      const response =  this.BusinessAssignmentApi.getAssignmentByQuery(body)
+      return response
+    }
 }

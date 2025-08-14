@@ -17,8 +17,8 @@ export const switcherTabTouristData = [
     // { id: 2, name: "Фото", value: "photos" },
     // { id: 3, name: "Видео", value: "videos" },
     // { id: 4, name: "Отзывы / оценки", value: "reviews" },
-    { id: 5, name: "Карта путешествий", value: "travelMap" },
-    { id: 6, name: "Добавленные объекты", value: "object" },
+    { id: 5, name: "Добавленные объекты", value: "object" },
+    { id: 6, name: "Карта путешествий", value: "travelMap" },
 ];
 export const switcherFinderMainPage = [
     {

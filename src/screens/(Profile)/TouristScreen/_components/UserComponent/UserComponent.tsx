@@ -29,9 +29,7 @@ export const UserComponent = async ({}: IUserComponent) => {
     const personService = new PersonService();
 
     const { user, setUser } = useUser();
-    useEffect(() => {
-
-    }, []);
+    useEffect(() => {}, []);
 
     if (!user) return <Loader />;
     return (
@@ -39,7 +37,10 @@ export const UserComponent = async ({}: IUserComponent) => {
             <div className={style.container}>
                 <div className={style.avatar_block}>
                     <Image
-                        src={user.avatarImg || CONSTANT_DEFAULT_AVATAR_URL}
+                        src={
+                            user.avatar.touristImageSrc ||
+                            CONSTANT_DEFAULT_AVATAR_URL
+                        }
                         alt="avatar"
                         width={250}
                         height={250}

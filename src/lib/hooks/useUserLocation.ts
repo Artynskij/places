@@ -12,21 +12,18 @@ export const useUserLocation = () => {
 
     useEffect(() => {
         if (!navigator.geolocation) {
-            console.log("Геолокация не поддерживается");
             setError("Геолокация не поддерживается вашим браузером");
             return;
         }
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                console.log("Геолокация получена:", position);
                 setLocation({
                     lat: position.coords.latitude,
                     lon: position.coords.longitude,
                 });
             },
             (err) => {
-                console.log("Ошибка получения геолокации:", err);
                 setError("Не удалось получить геопозицию: " + err.message);
             }
         );

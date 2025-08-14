@@ -6,6 +6,7 @@ export interface IPersonRequest {
     PhoneCountryCode?: string | null;
     ProfilePhotoPath?: string | null;
     AvatarPhotoPath?: string | null;
+    Avatar2BPhotoPath?: string | null;
     About?: string | null;
     BirthDate?: string | null;
 

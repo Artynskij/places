@@ -12,6 +12,7 @@ export * from "./(person)/gender.front";
 export * from "./(person)/person.front";
 export * from "./(person)/personName.front";
 export * from "./(person)/personSettings.front";
+export * from "./(person)/personTravelMark.front";
 
 export * from "./article.front";
 export * from "./business.front";
