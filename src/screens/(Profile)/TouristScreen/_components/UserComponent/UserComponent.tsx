@@ -10,7 +10,7 @@ import { IconEye, IconSettings } from "@/components/common/Icons";
 import { ROUTES } from "@/lib/config/Routes";
 
 import { useUser } from "@/lib/context/UserContext/UserContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 import { useNotification } from "@/lib/context";
 import { useLocale, useTranslations } from "next-intl";
@@ -19,17 +19,29 @@ import { Loader } from "@/components/common/Loader/Loader";
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import { IUser } from "@/lib/models/common/IUser";
 import { getFormatDate } from "@/lib/helpers/getFormatDate";
+import { ITravelProgressFront } from "@/lib/models";
 interface IUserComponent {
     // dataUser: (typeof mockTourist)[0];
 }
-export const UserComponent = async ({}: IUserComponent) => {
+ const UserComponent =  ({}: IUserComponent) => {
     const t = useTranslations("ProfilePage.header");
     const locale = useLocale();
     const notification = useNotification();
     const personService = new PersonService();
 
-    const { user, setUser } = useUser();
-    useEffect(() => {}, []);
+    const { user } = useUser();
+    const [travelProgress, setTravelProgress] =
+        useState<ITravelProgressFront>();
+    useEffect(() => {
+        if (!user) {
+            return;
+        }
+        personService.getTravelProgress(user.id).then((res) => {
+            if (res) {
+                setTravelProgress(res);
+            }
+        });
+    }, []);
 
     if (!user) return <Loader />;
     return (
@@ -70,9 +82,13 @@ export const UserComponent = async ({}: IUserComponent) => {
                         <div className={style.info_username}>
                             @{user.nickname}
                         </div>
-                        {/* <div className={style.info_status}>
-                            Статус путшественника: путешественник
-                        </div> */}
+                        {travelProgress && (
+                            <div className={style.info_status}>
+                                Статус путшественника:{" "}
+                                {travelProgress.goalLevel}
+                            </div>
+                        )}
+
                         {user.contacts?.address?.town ||
                         user.contacts?.address?.country ? (
                             <div className={style.info_hometown}>
@@ -89,9 +105,12 @@ export const UserComponent = async ({}: IUserComponent) => {
                         <div className={style.info_register_block}>
                             День регистрации: {getFormatDate(user.dateRegister)}
                         </div>
-                        <div className={style.info_travel_block}>
-                            Посетил: !заполнить! стран, !заполнить! городов
-                        </div>
+                        {travelProgress && (
+                            <div className={style.info_travel_block}>
+                                Посетил: {`${travelProgress.visitedCount} города(ов)`}-{`${travelProgress.percentage}% мира`}.
+                            </div>
+                        )}
+
                         {user.aboutDescription && (
                             <div className={style.info_description}>
                                 О себе: {user.aboutDescription}
@@ -143,3 +162,4 @@ export const UserComponent = async ({}: IUserComponent) => {
         </>
     );
 };
+export default UserComponent;

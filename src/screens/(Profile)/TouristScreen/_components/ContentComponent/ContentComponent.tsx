@@ -16,7 +16,7 @@ import { mockTourist } from "@/asset/mockData/mockTourist";
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 import TabEstablishment from "@/screens/(Profile)/_component/Tabs/TabEstablishment/TabEstablishment";
 interface IContentComponent {}
-export const ContentComponent = ({}: IContentComponent) => {
+const ContentComponent = ({}: IContentComponent) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -49,3 +49,4 @@ export const ContentComponent = ({}: IContentComponent) => {
         </>
     );
 };
+export default ContentComponent;

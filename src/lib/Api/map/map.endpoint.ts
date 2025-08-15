@@ -37,15 +37,4 @@ export default class MapApi {
             return null;
         }
     }
-    async getBlobProxy(): Promise<{ url: string } | null> {
-        try {
-            const response = await apiClient.get(`/blob-proxy/resolve`);
-            return response.data;
-        } catch (error) {
-            console.error(
-                `Ошибка при запросе по получению blob-proxy для картинок.`
-            );
-            return null;
-        }
-    }
 }

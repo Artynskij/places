@@ -9,7 +9,7 @@ import { TabHistoryOwner } from "./TabHistoryOwner/TabHistoryOwner";
 import { TabStatOwner } from "./TabStatOwner/TabStatOwner";
 import { TabWalletOwner } from "./TabWalletOwner/TabWalletOwner";
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
-import TabBusinessOwner from "./TabBussinessOwner/TabBusinessOwner";
+import TabBusinessOwner from "../../../_component/Tabs/TabBusinessOwner/TabBusinessOwner";
 import TabEstablishment from "@/screens/(Profile)/_component/Tabs/TabEstablishment/TabEstablishment";
 
 const ContentComponent = () => {
@@ -32,7 +32,7 @@ const ContentComponent = () => {
                     <TabHistoryOwner></TabHistoryOwner>
                 ) : searchParams.get("tab") === "stat" ? (
                     <TabStatOwner></TabStatOwner>
-                ) :searchParams.get("tab") === "business" ? (
+                ) : searchParams.get("tab") === "business" ? (
                     <TabBusinessOwner></TabBusinessOwner>
                 ) : (
                     <TabWalletOwner></TabWalletOwner>

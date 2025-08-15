@@ -79,7 +79,7 @@ export const FormLogin = () => {
     const { user, setUser } = useUser();
     const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
         console.log("Form Data:", data);
-        const response = await personService.getPersonById(
+        const response = await personService.getById(
             "01JZMZWTCTHYV5APEJKD6F74DF"
         );
 
@@ -92,7 +92,6 @@ export const FormLogin = () => {
             });
 
             const redirect = searchParams.get(CONSTANT_SEARCH_PARAMS.REDIRECT);
-           
 
             router.replace(
                 redirect

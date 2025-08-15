@@ -1,8 +1,31 @@
 export interface IBusinessRequest {
-    OfficialName: string | null;
-    RegistrationNumber: string | null;
-    RegistrationDate: string | null;
-    Contacts: string | null;
+    source: {
+        OfficialName: string | null;
+        RegistrationNumber: string | null;
+        RegistrationDate: string | null;
+        Contacts: string | null;
+    };
+
+    content?: {
+        type: "Business";
+        collection: "Business";
+        value: [
+            {
+                lang: "en";
+                value: {
+                    name: "My Business";
+                    description: "Leading tour operator";
+                };
+            },
+            {
+                lang: "ru";
+                value: {
+                    name: "Мой бизнес";
+                    description: "Ведущий туроператор";
+                };
+            }
+        ];
+    };
 }
 export interface IBusinessAssignmentRequest {
     Person?: string;
@@ -14,5 +37,4 @@ export interface IBusinessAssignmentGetQueryRequest {
     personId?: string;
     businessId?: string;
     establishmentId?: string;
-   
 }

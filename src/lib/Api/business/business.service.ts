@@ -7,6 +7,7 @@ import {
     IBusinessAssignmentRequest,
     IBusinessRequest,
 } from "@/lib/models/api/request/business/business.request";
+import { IBusinessPersonAssignEntity } from "@/lib/models";
 
 export class BusinessService {
     private BusinessApi: BusinessApi;
@@ -38,9 +39,9 @@ export class BusinessService {
             if (!res) return null;
 
             this.BusinessAssignmentApi.create({
-                Business: "01K0EC2Z8QQS68DPKJYQ9Y9DRK",
-                // BusinessPosition: ownerRole.Id,
-                Person: "01JZMZWTCTHYV5APEJKD6F74DF",
+                Business: res.Id,
+
+                Person: personId,
             }).then((res) => {
                 console.log("createAssignment", res);
             });
@@ -57,7 +58,9 @@ export class BusinessService {
         return response;
     }
 
-    async getAssignment(body: IBusinessAssignmentGetQueryRequest) {
+    async getAssignment(
+        body: IBusinessAssignmentGetQueryRequest
+    ): Promise<IBusinessPersonAssignEntity[] | null> {
         const response = this.BusinessAssignmentApi.getByQuery(body);
         return response;
     }

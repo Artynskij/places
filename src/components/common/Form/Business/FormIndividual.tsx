@@ -153,10 +153,12 @@ export const FormIndividual = () => {
         } ${formData.fullName.secondName || ""}`;
         const createdBusiness = await businessService.createBusiness(
             {
-                Contacts: createdContacts?.id || null,
-                OfficialName: officialName,
-                RegistrationDate: null,
-                RegistrationNumber: null,
+                source: {
+                    Contacts: createdContacts?.id || null,
+                    OfficialName: officialName,
+                    RegistrationDate: null,
+                    RegistrationNumber: null,
+                },
             },
             user.id
         );
@@ -181,7 +183,6 @@ export const FormIndividual = () => {
         });
         if (createdConsents) {
             notification.info({ message: "CREATE сущности Consents" });
-            
         } else {
             notification.error({ message: "ERROR сущности Consents" });
             return;

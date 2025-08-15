@@ -1,4 +1,3 @@
-
 export * from "./(establishment)/establishment.front";
 export * from "./(establishment)/schedule.front";
 export * from "./(establishment)/tag.front";
@@ -13,6 +12,7 @@ export * from "./(person)/person.front";
 export * from "./(person)/personName.front";
 export * from "./(person)/personSettings.front";
 export * from "./(person)/personTravelMark.front";
+export * from "./(person)/travelProgress.front";
 
 export * from "./article.front";
 export * from "./business.front";

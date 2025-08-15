@@ -1,10 +1,11 @@
+import { ITravelProgressEntity } from "@/lib/models";
 import apiClient from "../../ApiClient";
 import { IPersonWithContentEntity } from "@/lib/models/api/entities/(person)/person.entity";
 import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request";
 
 export default class PersonApi {
     constructor() {}
-    async getPersonById(
+    async getById(
         id: string,
         lang?: string
     ): Promise<IPersonWithContentEntity | null> {
@@ -19,7 +20,7 @@ export default class PersonApi {
         }
     }
 
-    async updatePerson(
+    async update(
         id: string,
         body: IPersonRequest
     ): Promise<IPersonWithContentEntity | null> {
@@ -30,6 +31,19 @@ export default class PersonApi {
             return response.data;
         } catch (error) {
             console.error(`Ошибка при обновлении Person ${id}`);
+            return null;
+        }
+    }
+    async getTravelProgress(
+        personId: string
+    ): Promise<ITravelProgressEntity | null> {
+        try {
+            const response = await apiClient.get(
+                `/maps/travel-progress/${personId}`
+            );
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при получении TravelProgress ${personId}`);
             return null;
         }
     }

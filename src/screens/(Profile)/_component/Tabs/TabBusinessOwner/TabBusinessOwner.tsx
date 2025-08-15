@@ -5,17 +5,25 @@ import style from "./tabBusinessOwner.module.scss";
 import { Button } from "@/components/UI/Button/Button";
 import { ROUTES } from "@/lib/config/Routes";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BusinessService } from "@/lib/Api/business/business.service";
 import { useUser } from "@/lib/context/UserContext/UserContext";
+import { IBusinessFront } from "@/lib/models";
 
 const TabBusinessOwner = () => {
     const businessService = new BusinessService();
     const { user } = useUser();
+    const [businessData, setBusinessData] = useState<IBusinessFront[]>();
     useEffect(() => {
         if (user) {
             businessService.getAssignment({ personId: user.id }).then((res) => {
-                console.log(res);
+                if (res && res) {
+                    const businessData = res
+                        .map((item) => item.Business)
+                        .filter((item) => !!item);
+
+                    setBusinessData(businessData as IBusinessFront[]);
+                }
             });
         }
     }, []);
@@ -34,11 +42,13 @@ const TabBusinessOwner = () => {
             </div>
 
             <ul className={style.list}>
-                <li className={style.list_item}>1</li>
-                <li className={style.list_item}>2</li>
-                <li className={style.list_item}>3</li>
-                <li className={style.list_item}>4</li>
-                <li className={style.list_item}>5</li>
+                {businessData?.map((business) => {
+                    return (
+                        <li key={business.Id} className={style.list_item}>
+                            {business.OfficialName}
+                        </li>
+                    );
+                })}
             </ul>
         </div>
     );

@@ -24,7 +24,7 @@ export default class BusinessApi {
     ): Promise<IBusinessEntity | null> {
         try {
             const response = await apiClient.post(`/businesses`, {
-                source: { ...body },
+                body,
             });
             return response.data;
         } catch (error) {
@@ -38,7 +38,7 @@ export default class BusinessApi {
     ): Promise<IBusinessEntity | null> {
         try {
             const response = await apiClient.patch(`/businesses/${id}`, {
-                source: { ...body },
+                body,
             });
             return response.data;
         } catch (error) {

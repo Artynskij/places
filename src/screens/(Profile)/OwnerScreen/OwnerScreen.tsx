@@ -1,3 +1,4 @@
+"use client";
 import { AuthGuard } from "@/components/common/Auth/guards/AuthGuard";
 import ContentComponent from "./_components/ContentComponent/ContentComponent";
 import UserComponent from "./_components/UserComponent/UserComponent";

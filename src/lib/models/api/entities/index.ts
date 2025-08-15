@@ -17,6 +17,7 @@ export * from "./(person)/person.entity";
 export * from "./(person)/personName.entity";
 export * from "./(person)/personSettings.entity";
 export * from "./(person)/personTravelMark.entity";
+export * from "./(person)/travelProgress.entity";
 
 export * from "./article.entity";
 export * from "./business.entity";

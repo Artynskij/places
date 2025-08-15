@@ -88,7 +88,7 @@ export const FormSettingsTourist = () => {
     const addressService = new AddressService();
     const contactsPersonService = new ContactsPersonService();
     const socialNetworksService = new SocialNetworksService();
-    
+
     const fileUploadService = new FileUploadService();
 
     const router = useRouter();
@@ -107,10 +107,9 @@ export const FormSettingsTourist = () => {
     });
     const avatarFiles = watch("avatar");
     useEffect(() => {
-        personService.getPersonById(mockPersonId).then((person) => {
+        personService.getById(mockPersonId).then((person) => {
             if (person) {
                 setPersonData(person);
-               
 
                 const socialEntity = person.contacts?.socialNetworks || null;
                 const socialNetworks =
@@ -151,8 +150,6 @@ export const FormSettingsTourist = () => {
     }, [reset]);
 
     const onSubmit = async (dataForm: TTypeForm) => {
-      
-
         if (!initialFormData) {
             notification.error({
                 message: "не найден изначальные данные формы",
@@ -314,7 +311,7 @@ export const FormSettingsTourist = () => {
 
         // 📌 Финальный update
         if (bodyToPersonUpdate) {
-            await personService.updatePerson(personData.id, bodyToPersonUpdate);
+            await personService.update(personData.id, bodyToPersonUpdate);
         }
 
         notification.success({ message: "Данные отправлены на верификацию" });
@@ -332,7 +329,7 @@ export const FormSettingsTourist = () => {
     const handlerDeleteAvatar = () => {
         if (!personData) return;
         personService
-            .updatePerson(personData.id, {
+            .update(personData.id, {
                 AvatarPhotoPath: null,
             })
             .then(() => {
@@ -381,7 +378,9 @@ export const FormSettingsTourist = () => {
                                         value={field.value}
                                         onChange={field.onChange}
                                         error={fieldState.error || null}
-                                        serverPhotoUrl={personData.avatar.touristImageSrc}
+                                        serverPhotoUrl={
+                                            personData.avatar.touristImageSrc
+                                        }
                                         handlerDeleteAvatar={
                                             handlerDeleteAvatar
                                         }

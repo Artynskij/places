@@ -11,7 +11,7 @@ export class BusinessAssignmentApi {
         personId,
         businessId,
         establishmentId,
-    }: IBusinessAssignmentGetQueryRequest) {
+    }: IBusinessAssignmentGetQueryRequest):Promise<IBusinessPersonAssignEntity[] | null> {
         try {
             const query = [
                 personId ? `personId=${personId}` : null,

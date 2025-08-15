@@ -93,7 +93,7 @@ export const FormSettingsOwner = () => {
     });
 
     useEffect(() => {
-        personService.getPersonById(mockPersonId).then(async (person) => {
+        personService.getById(mockPersonId).then(async (person) => {
             if (person) {
                 setPersonData(person);
 
@@ -257,7 +257,7 @@ export const FormSettingsOwner = () => {
         }
         // 📌 Финальный update
         if (bodyToPersonUpdate) {
-            await personService.updatePerson(personData.id, bodyToPersonUpdate);
+            await personService.update(personData.id, bodyToPersonUpdate);
         }
 
         notification.success({
@@ -277,7 +277,7 @@ export const FormSettingsOwner = () => {
     const handlerDeleteAvatar = () => {
         if (!personData) return;
         personService
-            .updatePerson(personData.id, {
+            .update(personData.id, {
                 ProfilePhotoPath: null,
             })
             .then(() => {
@@ -325,7 +325,9 @@ export const FormSettingsOwner = () => {
                                         value={field.value}
                                         onChange={field.onChange}
                                         error={fieldState.error || null}
-                                        serverPhotoUrl={personData.avatar.ownerImageSrc}
+                                        serverPhotoUrl={
+                                            personData.avatar.ownerImageSrc
+                                        }
                                         handlerDeleteAvatar={
                                             handlerDeleteAvatar
                                         }

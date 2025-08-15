@@ -33,7 +33,7 @@ export const FormNotificationTourist = () => {
     const { control, handleSubmit, reset } = useForm<TNotificationSettings>();
 
     useEffect(() => {
-        personApi.getPersonById(mockPersonId).then(async (res) => {
+        personApi.getById(mockPersonId).then(async (res) => {
             if (res) {
                 if (res.personSettings) {
                     const settings = res.personSettings;
@@ -63,7 +63,7 @@ export const FormNotificationTourist = () => {
     }, [reset]);
     const onSubmit = async (dataForm: TNotificationSettings) => {
         console.log("Данные из формы UI:", dataForm);
-        const personData = await personApi.getPersonById(mockPersonId);
+        const personData = await personApi.getById(mockPersonId);
         if (!personData) {
             notification.success({ message: "не найден пользователь" });
             return;
@@ -238,4 +238,3 @@ export const FormNotificationTourist = () => {
         </form>
     );
 };
-

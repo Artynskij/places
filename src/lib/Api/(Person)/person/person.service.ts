@@ -5,51 +5,52 @@ import { PersonMapper } from "./person.mapper";
 import { DataLoadManagementService } from "../../dataLoadManagement/dataLoadManagement.service";
 import { IPersonWithContentEntity } from "@/lib/models/api/entities/(person)/person.entity";
 import { GenderService } from "../gender.api";
+import { ITravelProgressFront } from "@/lib/models";
 
 export class PersonService {
     private personApi: PersonApi;
     private personMapper: PersonMapper;
-    private DataLoadManagementService: DataLoadManagementService;
-    private GenderService: GenderService;
+    private dataLoadManagementService: DataLoadManagementService;
+    private genderService: GenderService;
     constructor() {
         this.personApi = new PersonApi();
         this.personMapper = new PersonMapper();
-        this.DataLoadManagementService = new DataLoadManagementService();
-        this.GenderService = new GenderService();
+        this.dataLoadManagementService = new DataLoadManagementService();
+        this.genderService = new GenderService();
     }
 
-    async getPersonById(
-        id: string,
-        lang?: string
-    ): Promise<IPersonFront | null> {
-        const cdnHost = await this.DataLoadManagementService.getBlobProxy();
+    async getById(id: string, lang?: string): Promise<IPersonFront | null> {
+        const cdnHost = await this.dataLoadManagementService.getBlobProxy();
 
-        const response = this.personApi
-            .getPersonById(id, lang)
-            .then(async (res) => {
-                if (!res) return null;
+        const response = this.personApi.getById(id, lang).then(async (res) => {
+            if (!res) return null;
 
-                const genderServer = res.person.Gender?.Id
-                    ? await this.GenderService.getById(res.person.Gender.Id)
-                    : null;
+            const genderServer = res.person.Gender?.Id
+                ? await this.genderService.getById(res.person.Gender.Id)
+                : null;
 
-                const mappedData = this.personMapper.transformPersonEntity(
-                    res,
-                    genderServer,
-                    cdnHost?.url || null
-                );
-                return mappedData;
-            });
+            const mappedData = this.personMapper.transformPersonEntity(
+                res,
+                genderServer,
+                cdnHost?.url || null
+            );
+            return mappedData;
+        });
 
         return response;
     }
 
-    async updatePerson(
+    async update(
         id: string,
         body: IPersonRequest
     ): Promise<IPersonWithContentEntity | null> {
-        // const cdnHost = await this.DataLoadManagementService.getBlobProxy();
-        const response = this.personApi.updatePerson(id, body);
+        const response = this.personApi.update(id, body);
+        return response;
+    }
+    async getTravelProgress(
+        personId: string
+    ): Promise<ITravelProgressFront | null> {
+        const response = this.personApi.getTravelProgress(personId);
         return response;
     }
 }
