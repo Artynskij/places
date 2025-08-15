@@ -48,6 +48,7 @@ import { AvatarBlockForm } from "../_components/AvatarBlock/AvatarBlock";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
 import { VerificationService } from "@/lib/Api/verification/verification.api";
 import { IImageEntity } from "@/lib/models";
+import { useUser } from "@/lib/context/UserContext/UserContext";
 
 type TTypeForm = Yup.InferType<typeof validationSchema>;
 
@@ -79,7 +80,7 @@ export const FormSettingsOwner = () => {
     const fileUploadService = new FileUploadService();
 
     const router = useRouter();
-
+    const { user } = useUser();
     const [personData, setPersonData] = useState<IPersonFront>();
     const [initialFormData, setInitialFormData] = useState<TTypeForm>();
     const {
@@ -116,6 +117,12 @@ export const FormSettingsOwner = () => {
     }, [reset]);
 
     const onSubmit = async (dataForm: TTypeForm) => {
+        if (!user) {
+            notification.error({
+                message: "user где",
+            });
+            return;
+        }
         if (!initialFormData) {
             notification.error({
                 message: "не найден изначальные данные формы",
@@ -264,7 +271,7 @@ export const FormSettingsOwner = () => {
             message: "Данные успешно отправлены на модерацию",
         });
 
-        router.push(ROUTES.PROFILE.OWNER);
+        router.push(ROUTES.PROFILE.OWNER(user.id));
     };
 
     const onSubmitInvalid = (e: any) => {

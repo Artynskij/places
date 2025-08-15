@@ -35,8 +35,8 @@ const TabTravelMap = () => {
     const { user } = useUser();
 
     const [searchValue, setSearchValue] = useState("");
-    const [activeSearch, setActiveSearch] = useState(false);
-    const [activeMarksList, setActiveMarksList] = useState(false);
+    const [activeSearch, setActiveSearch] = useState(true);
+    const [activeMarksList, setActiveMarksList] = useState(true);
     const [searchList, setSearchList] = useState<ISearchItemFront[]>([]);
     const [marksMap, setMarksMap] = useState<
         Map<string, IPersonTravelMarkFront>

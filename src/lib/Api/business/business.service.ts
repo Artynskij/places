@@ -24,7 +24,10 @@ export class BusinessService {
         id: string,
         lang?: string
     ): Promise<IBusinessFront | null> {
-        const response = this.BusinessApi.getBusinessById(id, lang);
+        const response = this.BusinessApi.getBusinessById(id, lang).then(
+            (res) => res?.business || null
+        );
+
         return response;
     }
 

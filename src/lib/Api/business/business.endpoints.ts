@@ -1,4 +1,4 @@
-import { IBusinessEntity } from "@/lib/models/api/entities/business.entity";
+import { IBusinessEntity, IBusinessWithContentEntity } from "@/lib/models/api/entities/business.entity";
 import apiClient from "../ApiClient";
 import { IBusinessRequest } from "@/lib/models/api/request/business/business.request";
 
@@ -7,7 +7,7 @@ export default class BusinessApi {
     async getBusinessById(
         id: string,
         lang?: string
-    ): Promise<IBusinessEntity | null> {
+    ): Promise<IBusinessWithContentEntity | null> {
         try {
             const response = await apiClient.get(
                 `/businesses/${id}${lang ? `?lang=${lang}` : ""}`
@@ -23,9 +23,7 @@ export default class BusinessApi {
         body: IBusinessRequest
     ): Promise<IBusinessEntity | null> {
         try {
-            const response = await apiClient.post(`/businesses`, {
-                body,
-            });
+            const response = await apiClient.post(`/businesses`, body);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при создании Business `);
@@ -37,9 +35,7 @@ export default class BusinessApi {
         body: IBusinessRequest
     ): Promise<IBusinessEntity | null> {
         try {
-            const response = await apiClient.patch(`/businesses/${id}`, {
-                body,
-            });
+            const response = await apiClient.patch(`/businesses/${id}`, body);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при обновлении Business ${id}`);

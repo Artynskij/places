@@ -14,7 +14,7 @@ import TabPhoto from "@/screens/(Profile)/_component/Tabs/TabPhoto/TabPhoto";
 import TabPublication from "@/screens/(Profile)/_component/Tabs/TabPublication/TabPublication";
 import { mockTourist } from "@/asset/mockData/mockTourist";
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
-import TabEstablishment from "@/screens/(Profile)/_component/Tabs/TabEstablishment/TabEstablishment";
+import TabEstablishmentCreated from "@/screens/(Profile)/_component/Tabs/TabEstablishment/TabEstablishmentCreated";
 interface IContentComponent {}
 const ContentComponent = ({}: IContentComponent) => {
     const router = useRouter();
@@ -41,7 +41,7 @@ const ContentComponent = ({}: IContentComponent) => {
                 //     <TabReview dataUser={dataUser}></TabReview>
                 // )
                 searchParams.get("tab") === "object" ? (
-                    <TabEstablishment></TabEstablishment>
+                    <TabEstablishmentCreated></TabEstablishmentCreated>
                 ) : (
                     <TabTravelMap></TabTravelMap>
                 )}

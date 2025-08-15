@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
-        id: string;
+        username: string;
     };
 }
 

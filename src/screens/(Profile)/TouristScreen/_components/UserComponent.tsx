@@ -23,7 +23,7 @@ import { ITravelProgressFront } from "@/lib/models";
 interface IUserComponent {
     // dataUser: (typeof mockTourist)[0];
 }
- const UserComponent =  ({}: IUserComponent) => {
+const UserComponent = ({}: IUserComponent) => {
     const t = useTranslations("ProfilePage.header");
     const locale = useLocale();
     const notification = useNotification();
@@ -107,7 +107,9 @@ interface IUserComponent {
                         </div>
                         {travelProgress && (
                             <div className={style.info_travel_block}>
-                                Посетил: {`${travelProgress.visitedCount} города(ов)`}-{`${travelProgress.percentage}% мира`}.
+                                Посетил:{" "}
+                                {`${travelProgress.visitedCount} города(ов)`}-
+                                {`${travelProgress.percentage}% мира`}.
                             </div>
                         )}
 
@@ -136,7 +138,12 @@ interface IUserComponent {
                     </div> */}
                 </div>
                 <div className={style.manageProfile}>
-                    <Link href={ROUTES.PROFILE.SETTINGS("tourist", "personal")}>
+                    <Link
+                        href={ROUTES.PROFILE.SETTINGS.TOURIST(
+                            user.id,
+                            "personal"
+                        )}
+                    >
                         <Button
                             className={style.manageProfile_button}
                             icon={<IconSettings />}
@@ -144,8 +151,8 @@ interface IUserComponent {
                         />
                     </Link>
                     <Link
-                        href={ROUTES.PROFILE.SETTINGS(
-                            "tourist",
+                        href={ROUTES.PROFILE.SETTINGS.TOURIST(
+                            user.id,
                             "notification"
                         )}
                     >

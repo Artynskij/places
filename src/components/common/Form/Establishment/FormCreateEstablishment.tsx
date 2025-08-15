@@ -304,8 +304,8 @@ const FormCreateEstablishmentBase = ({}: IFormCreateEstablishment) => {
             console.log("Созданное заведение:", createdEstablishment.Id);
             router.replace(
                 user.typeUser === "owner"
-                    ? ROUTES.PROFILE.OWNER
-                    : ROUTES.PROFILE.TOURIST(user.nickname || "noNick")
+                    ? ROUTES.PROFILE.OWNER(user.id)
+                    : ROUTES.PROFILE.TOURIST(user.id || "noNick")
             );
         } catch (error) {
             console.error("Ошибка при создании заведения:", error);

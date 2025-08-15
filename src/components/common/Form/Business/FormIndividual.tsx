@@ -120,14 +120,16 @@ export const FormIndividual = () => {
                 PostalCode: formData.address.postalCode || null,
             })
             .then((res) => {
-                if (res) {
-                    notification.info({ message: "CREATE сущности адреса" });
-                } else {
-                    notification.error({ message: "ERROR сущности адреса" });
-                }
-
                 return res;
             });
+        if (createdAddress) {
+            notification.info({ message: "CREATE сущности адреса" });
+        } else {
+            notification.error({
+                message: "ERROR сущности адреса. Может Email такой уже есть",
+            });
+            return;
+        }
         // 2. Создание Контактов
         const createdContacts = await contactsService
             .create({

@@ -9,7 +9,7 @@ export async function generateMetadata() {
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
-        username: string;
+        username:string
     };
 }
 

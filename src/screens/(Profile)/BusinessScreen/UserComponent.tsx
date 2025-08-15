@@ -1,30 +1,36 @@
 "use client";
 import { Button } from "@/components/UI/Button/Button";
-import style from "./userComponent.module.scss";
+import style from "./businessScreen.module.scss";
 import { IconEdit } from "@/components/common/Icons/IconEdit/IconEdit";
 import Image from "next/image";
-import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { ROUTES } from "@/lib/config/Routes";
 import { useLocale, useTranslations } from "next-intl";
 
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 import { useUser } from "@/lib/context/UserContext/UserContext";
-import { useEffect } from "react";
-import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
+import { useEffect, useState } from "react";
+
 import { useNotification } from "@/lib/context";
 import { Loader } from "@/components/common/Loader/Loader";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
 import { getFormatDate } from "@/lib/helpers/getFormatDate";
+import { BusinessService } from "@/lib/Api/business/business.service";
+import { IBusinessFront } from "@/lib/models";
 
 const UserComponent = () => {
     const t = useTranslations("ProfilePage.header");
     const locale = useLocale();
     const notification = useNotification();
     const personService = new PersonService();
+    const businessService = new BusinessService();
 
-    const { user, setUser } = useUser();
-    useEffect(() => {}, []);
+    const [businessData, setBusinessData] = useState<IBusinessFront>();
+
+    const { user } = useUser();
+    useEffect(() => {
+        // businessService.getBusinessById()
+    }, []);
 
     if (!user) return <Loader />;
     return (
@@ -44,12 +50,15 @@ const UserComponent = () => {
                         className={style.middle_avatar_img}
                         width={96}
                         height={96}
-                        src={user.avatar.ownerImageSrc || CONSTANT_DEFAULT_AVATAR_URL}
+                        src={
+                            user.avatar.ownerImageSrc ||
+                            CONSTANT_DEFAULT_AVATAR_URL
+                        }
                         alt="avatar"
                     />
                 </div>
                 <div className={style.middle_edit}>
-                    <Link href={ROUTES.PROFILE.SETTINGS("owner", "personal")}>
+                    <Link href={ROUTES.PROFILE.SETTINGS.BUSINESS(user.id)}>
                         <Button
                             text={t("editProfile")}
                             className={style.middle_edit_button}

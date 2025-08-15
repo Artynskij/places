@@ -82,9 +82,11 @@ export default function Profile() {
                             <Link
                                 href={
                                     user.typeUser === "owner"
-                                        ? ROUTES.PROFILE.OWNER
+                                        ? ROUTES.PROFILE.OWNER(
+                                              user.id || "noNick"
+                                          )
                                         : ROUTES.PROFILE.TOURIST(
-                                              user.nickname || "noNick"
+                                              user.id || "noNick"
                                           )
                                 }
                             >
@@ -95,7 +97,15 @@ export default function Profile() {
                                     <span>мой аккаунт</span>
                                 </li>
                             </Link>
-                            <Link href={ROUTES.PROFILE.SETTINGS(user.typeUser)}>
+                            <Link
+                                href={
+                                    user.typeUser === "owner"
+                                        ? ROUTES.PROFILE.SETTINGS.OWNER(user.id)
+                                        : ROUTES.PROFILE.SETTINGS.TOURIST(
+                                              user.id
+                                          )
+                                }
+                            >
                                 <li className={style.profile_list_item}>
                                     <IconSettings
                                         style={{ marginLeft: "-3px" }}

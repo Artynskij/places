@@ -87,7 +87,7 @@ export const FormLogin = () => {
             setUser({ ...response, typeUser: activeUserType });
             notification.success({
                 message: `добро пожаловать на Places Gold ${
-                    response.personName?.name || response.nickname
+                    response.personName?.name || response.id
                 }`,
             });
 
@@ -97,8 +97,8 @@ export const FormLogin = () => {
                 redirect
                     ? redirect
                     : activeUserType === "owner"
-                    ? ROUTES.PROFILE.OWNER
-                    : ROUTES.PROFILE.TOURIST(response.nickname || "noNick")
+                    ? ROUTES.PROFILE.OWNER(response.id || "noNick")
+                    : ROUTES.PROFILE.TOURIST(response.id || "noNick")
             );
         } else {
             notification.error({ message: "нету пользователя" });

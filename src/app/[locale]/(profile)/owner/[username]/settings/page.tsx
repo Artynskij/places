@@ -8,13 +8,15 @@ export async function generateMetadata() {
 }
 
 interface IProps extends IPageProps {
-    params: IPageProps["params"] & {};
+    params: IPageProps["params"] & {
+        username: string;
+    };
 }
 
 export default function TouristSettingsPage({ params, searchParams }: IProps) {
     return (
         <div className="container">
-            <OwnerSettingsScreen></OwnerSettingsScreen>
+            <OwnerSettingsScreen/>
         </div>
     );
 }

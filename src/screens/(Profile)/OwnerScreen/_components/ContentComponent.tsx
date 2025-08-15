@@ -4,13 +4,13 @@ import style from "./contentComponent.module.scss";
 
 import { switcherTabOwnerData } from "@/asset/constants/switcherTabsPage";
 
-import { TabMarketingOwner } from "./TabMarketingOwner/TabMarketingOwner";
-import { TabHistoryOwner } from "./TabHistoryOwner/TabHistoryOwner";
-import { TabStatOwner } from "./TabStatOwner/TabStatOwner";
-import { TabWalletOwner } from "./TabWalletOwner/TabWalletOwner";
+import { TabMarketingOwner } from "../../_component/Tabs/TabMarketingOwner/TabMarketingOwner";
+import { TabHistoryOwner } from "../../_component/Tabs/TabHistoryOwner/TabHistoryOwner";
+import { TabStatOwner } from "../../_component/Tabs/TabStatOwner/TabStatOwner";
+import { TabWalletOwner } from "../../_component/Tabs/TabWalletOwner/TabWalletOwner";
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
-import TabBusinessOwner from "../../../_component/Tabs/TabBusinessOwner/TabBusinessOwner";
-import TabEstablishment from "@/screens/(Profile)/_component/Tabs/TabEstablishment/TabEstablishment";
+import TabBusinessOwner from "../../_component/Tabs/TabBusinessOwner/TabBusinessOwner";
+import TabEstablishmentCreated from "@/screens/(Profile)/_component/Tabs/TabEstablishment/TabEstablishmentCreated";
 
 const ContentComponent = () => {
     const router = useRouter();
@@ -25,7 +25,7 @@ const ContentComponent = () => {
 
             <div className={style.switcher_content}>
                 {searchParams.get("tab") === "object" ? (
-                    <TabEstablishment></TabEstablishment>
+                    <TabEstablishmentCreated></TabEstablishmentCreated>
                 ) : searchParams.get("tab") === "marketing" ? (
                     <TabMarketingOwner></TabMarketingOwner>
                 ) : searchParams.get("tab") === "history" ? (

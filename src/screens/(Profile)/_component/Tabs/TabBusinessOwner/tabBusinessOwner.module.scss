@@ -23,3 +23,19 @@
         }
     }
 }
+.list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $gap-medium;
+    &_item {
+        padding: 10px 7px;
+        border: 1px solid $color-main-blue;
+        border-radius: $border-radius-5;
+        transition: $transition;
+
+        &:hover {
+            border-color: $color-main-blue_hover;
+            box-shadow: $box-shadow-default;
+        }
+    }
+}

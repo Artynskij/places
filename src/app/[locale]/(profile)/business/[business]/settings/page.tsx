@@ -1,28 +1,29 @@
 import { IPageProps } from "@/lib/models";
+import { BusinessSettingsScreen } from "@/screens/(Profile)/SettingsProfile/BusinessSettingsScreen";
 // import { OwnerSettingsScreen } from "@/screens/(Profile)/SettingsProfile/OwnerSettingsScreen/OwnerSettingScreen";
 
 import { TouristSettingsScreen } from "@/screens/(Profile)/SettingsProfile/TouristSettingsScreen";
 
 export async function generateMetadata() {
     return {
-        title: `${process.env.BASE_NAME} | settings account`,
+        title: `${process.env.BASE_NAME} | settings business`,
     };
 }
 
 interface IProps extends IPageProps {
-    params: IPageProps["params"] & {};
-    searchParams: IPageProps["searchParams"] & {
-        tab: "personal" | "notification";
+    params: IPageProps["params"] & {
+        business: string;
     };
 }
 
-export default function TouristSettingsPage({ params, searchParams }: IProps) {
+export default function BusinessSettingsPage({ params, searchParams }: IProps) {
     return (
         <div className="container">
-            <TouristSettingsScreen
+            <BusinessSettingsScreen/>
+            {/* <TouristSettingsScreen
                 params={params}
-                searchParams={searchParams}
-            />
+                
+            /> */}
         </div>
     );
 }

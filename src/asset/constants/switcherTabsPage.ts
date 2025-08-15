@@ -20,6 +20,12 @@ export const switcherTabTouristData = [
     { id: 5, name: "Добавленные объекты", value: "object" },
     { id: 6, name: "Карта путешествий", value: "travelMap" },
 ];
+export const switcherTabBusinessData = [
+    { id: 2, name: "продвижение", value: "marketing" },
+    { id: 3, name: "история заказов", value: "history" },
+    { id: 4, name: "статистика", value: "stat" },
+    { id: 5, name: "кошелёк", value: "wallet" },
+];
 export const switcherFinderMainPage = [
     {
         title: "Искать всё",

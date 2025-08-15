@@ -13,7 +13,7 @@ import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/es
 import CardEstablishmentTab from "./CardEstablishmentTab/CardEstablishmentTab";
 import SkeletonTabEstablishment from "./SkeletonTabEstablishment";
 
-const TabEstablishment = () => {
+const TabEstablishmentCreated = () => {
     const locale = useLocale();
     const t = useTranslations("ProfilePage");
     const { user } = useUser();
@@ -41,7 +41,6 @@ const TabEstablishment = () => {
                       })
                     : [];
 
-                    
             setEstablishmentsData(establishmentsResponse || []);
         }
         if (user) {
@@ -79,9 +78,8 @@ const TabEstablishment = () => {
                         })
                     )}
                 </div>
-                
             )}
         </div>
     );
 };
-export default TabEstablishment;
+export default TabEstablishmentCreated;

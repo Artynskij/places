@@ -44,9 +44,14 @@ const TabBusinessOwner = () => {
             <ul className={style.list}>
                 {businessData?.map((business) => {
                     return (
-                        <li key={business.Id} className={style.list_item}>
-                            {business.OfficialName}
-                        </li>
+                        <Link
+                            href={ROUTES.PROFILE.BUSINESS(business.Id)}
+                            key={business.Id}
+                        >
+                            <li className={style.list_item}>
+                                {business.OfficialName}
+                            </li>
+                        </Link>
                     );
                 })}
             </ul>

@@ -17,14 +17,16 @@ import { FormSettingsTourist } from "@/components/common/Form/Settings/FormSetti
 import { FormNotificationTourist } from "@/components/common/Form/Settings/FormNotificationTourist";
 import { IPageProps } from "@/lib/models";
 interface IProps extends IPageProps {
-    params: IPageProps["params"] & {};
+    params: IPageProps["params"] & {
+        username: string;
+    };
     searchParams: IPageProps["searchParams"] & {
         tab: "personal" | "notification";
     };
 }
-export const TouristSettingsScreen = ({ searchParams }: IProps) => {
+export const TouristSettingsScreen = ({params, searchParams }: IProps) => {
     if (!searchParams.tab) {
-        redirect(ROUTES.PROFILE.SETTINGS("tourist", "personal"));
+        redirect(ROUTES.PROFILE.SETTINGS.TOURIST(params.username, "personal"));
     }
     const tabPersonal = searchParams.tab === "personal";
     return (
