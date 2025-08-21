@@ -1,6 +1,7 @@
 import DataLoadManagementApi from "./dataLoadManagement.endpoints";
 
 import {
+    IBusinessLegalTypesFront,
     ICategoryFront,
     IGenderFront,
     IRoleOwnerWithContentEntity,
@@ -79,5 +80,17 @@ export class DataLoadManagementService {
     async getBlobProxy(): Promise<{ url: string } | null> {
         const response = this.DataLoadManagementApi.getBlobProxy();
         return response;
+    }
+    async getBusinessLegalTypes(lang:string): Promise<IBusinessLegalTypesFront[] | null> {
+        const response =
+            await this.DataLoadManagementApi.getBusinessLegalTypes();
+        if (!response) {
+            return null;
+        }
+        const mappedData = response.map((item) =>
+            this.DataLoadManagementMapper.businessLegalTypesToFront(item, lang)
+        );
+
+        return mappedData;
     }
 }

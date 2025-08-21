@@ -4,6 +4,8 @@ import {
     ICategoryFront,
     ICategoryEstablishmentEntity,
     IRoleOwnerWithContentEntity,
+    IBusinessLegalTypesEntity,
+    IBusinessLegalTypesFront,
 } from "@/lib/models";
 import { IRoleOwnerFront } from "@/lib/models/frontend/(person)/roleOwner.front";
 import { useTranslations } from "next-intl";
@@ -94,8 +96,17 @@ export class DataLoadManagementMapper {
             title: roleEntity.entity.Code,
         };
     }
-    businessLegalTypesToFront(){
-
+    businessLegalTypesToFront(
+        legalTypesEntity: IBusinessLegalTypesEntity,
+        lang: string
+    ): IBusinessLegalTypesFront {
+        return {
+            id: legalTypesEntity.Id,
+            code: legalTypesEntity.Code,
+            title:
+                legalTypesEntity.content.details.find(
+                    (item) => item.lang === lang
+                )?.value || legalTypesEntity.content.details[0].value,
+        };
     }
-  
 }

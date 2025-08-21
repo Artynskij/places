@@ -9,52 +9,33 @@ import { InputPhoneNumber } from "@/components/UI/Input/InputPhone/InputPhone";
 import { Button } from "@/components/UI/Button/Button";
 import { UploadButton } from "../../ButtonFunctional/UploadButton";
 
-import {
-    BlockAgreements,
-    getAgreementsValidation,
-} from "../../BlockFunctional/BlockAgreements";
-import { TAgreementKey } from "@/lib/models/types/TAgreementKey";
+import { BlockAgreements } from "../../BlockFunctional/BlockAgreements";
+
 import { useNotification } from "@/lib/context";
 import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
-import {
-    validAddressSchema,
-    validDateSchema,
-    validDocumentFileSchema,
-    validPhoneSchema,
-} from "@/lib/validationSchemas";
 
-type TTypeForm = Yup.InferType<typeof validationSchemaRegister>;
-const agreementKeys: TAgreementKey[] = [
-    "ConfirmedLegalPerson",
-    "ConfirmedLegalBusiness",
-    "AcceptedTerms",
-    "AgreedMarketing",
-    "AgreedReviewsNotification",
-];
-const validationSchemaRegister = Yup.object().shape({
-    nameOrganization: Yup.string().required(
-        "Название Индивидуального предпринимателя обязатиельно"
-    ),
-    // secondName: Yup.string(),
+import { agreementKeysBusinessSoleProprietor } from "@/asset/constants/agreementsKeys";
+import { validationBusinessSoleProprietorSchema } from "@/lib/validationSchemas/business/soleProprietor.schema";
+import { GeneralBusinessService } from "@/lib/Api/(MainService)/business.general";
+import { useUser } from "@/lib/context/UserContext/UserContext";
+import { useLocale } from "next-intl";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/lib/config/Routes";
+import { CONSTANT_TABS } from "@/asset/constants/switcherTabsPage";
 
-    numberOrganization: Yup.string().required(
-        "Индивидуальный регистрационный номер обязательно"
-    ),
-    date: validDateSchema,
-    emailOrganization: Yup.string()
-        .email("Неккоректный адрес электронной почты")
-        .required("Адрес электронной почты обязателен"),
-    phone: validPhoneSchema,
-    documentsOrganization: Yup.array()
-        .of(validDocumentFileSchema)
-        // .min(1, "Необходимо загрузить хотя бы один документ")
-        .max(10, "Можно загрузить не более 10 документов"),
-    address: validAddressSchema,
-    agreements: getAgreementsValidation(agreementKeys),
-});
+type TTypeForm = Yup.InferType<typeof validationBusinessSoleProprietorSchema>;
 
-export const FormSoleProprietor = () => {
+interface IProp {
+    activeTab: string;
+}
+export const FormSoleProprietor = ({ activeTab }: IProp) => {
     const notification = useNotification();
+    const { user } = useUser();
+    const locale = useLocale();
+    const router = useRouter();
+
+    const generalBusinessService = new GeneralBusinessService();
+
     const {
         register,
         handleSubmit,
@@ -63,11 +44,46 @@ export const FormSoleProprietor = () => {
         watch,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(validationSchemaRegister),
+        resolver: yupResolver(validationBusinessSoleProprietorSchema),
     });
-    const onSubmit: SubmitHandler<TTypeForm> = (data) => {
-        console.log("Form Data:", data);
-        notification.success({ message: "Бизнес отправлен на модерацию" });
+    const onSubmit: SubmitHandler<TTypeForm> = async (formData) => {
+        if (!user) {
+            notification.error({ message: "нету пользователя" });
+            return;
+        }
+
+        const success = await generalBusinessService.create({
+            formData: {
+                officialName: formData.officialName,
+                dateRegister: formData.dateRegister,
+                numberOrganization: formData.numberOrganization,
+                email: formData.email,
+                phone: formData.phone,
+                address: {
+                    country: formData.address.country,
+                    town: formData.address.town,
+                    addressLine: formData.address.addressLine,
+                    postalCode: formData.address.postalCode || null,
+                },
+                agreements: formData.agreements || null,
+                documentsVerify: formData.documentsVerify || null,
+            },
+            activeTab: activeTab,
+
+            userId: user.id,
+            locale: locale,
+        });
+        if (success) {
+            notification.success({ message: "Бизнес отправлен на модерацию" });
+            router.push(
+                ROUTES.PROFILE.OWNER(user.id, CONSTANT_TABS.owner.business)
+            );
+        } else {
+            notification.error({
+                message:
+                    "Произошла ошибка при создании бизнеса. Технические неполадки",
+            });
+        }
     };
     const onSubmitInvalid = () => {
         notification.error({
@@ -81,8 +97,8 @@ export const FormSoleProprietor = () => {
             onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
         >
             <InputForm
-                error={errors.nameOrganization?.message}
-                register={register("nameOrganization")}
+                error={errors.officialName?.message}
+                register={register("officialName")}
                 placeholder="Название Индивидуального предпринимателя"
                 titleSpan="Официальное название Индивидуального предпринимателя*"
                 type="text"
@@ -102,7 +118,7 @@ export const FormSoleProprietor = () => {
                 type="text"
             />
             <Controller
-                name="date"
+                name="dateRegister"
                 control={control}
                 render={({ field, fieldState }) => (
                     <InputDate
@@ -113,26 +129,32 @@ export const FormSoleProprietor = () => {
                     />
                 )}
             />
-            {/* <InputDate titleSpan="Дата регистрации" onChange={() => {}} /> */}
-            <Controller
-                name="documentsOrganization"
-                control={control}
-                defaultValue={[]}
-                render={({ field, fieldState }) => (
-                    <UploadButton
-                        titleSpan="Прикрепление подтверждающих документов"
-                        accept="doc"
-                        maxSizeMB={10}
-                        maxCount={10}
-                        value={field.value}
-                        onChange={field.onChange}
-                        error={fieldState.error || null}
+            <div className={style.selectionBlock}>
+                <div className={style.selectionBlock_title}>
+                    Документы подтверждающие владение бизнесом
+                </div>
+                <div className={style.selectionBlock_content}>
+                    <Controller
+                        name="documentsVerify"
+                        control={control}
+                        defaultValue={[]}
+                        render={({ field, fieldState }) => (
+                            <UploadButton
+                                titleSpan="Прикрепление подтверждающих документов"
+                                accept="image"
+                                maxSizeMB={10}
+                                maxCount={10}
+                                value={field.value}
+                                onChange={field.onChange}
+                                error={fieldState.error || null}
+                            />
+                        )}
                     />
-                )}
-            />
+                </div>
+            </div>
             <InputForm
-                error={errors.emailOrganization?.message}
-                register={register("emailOrganization")}
+                error={errors.email?.message}
+                register={register("email")}
                 placeholder="Адрес электронной почты"
                 titleSpan="Адрес электронной почты"
                 type="email"
@@ -161,12 +183,12 @@ export const FormSoleProprietor = () => {
                     titleSpan="Страна*"
                     type="text"
                 />
-                <InputForm
+                {/* <InputForm
                     error={errors.address?.district?.message}
                     register={register("address.district")}
                     titleSpan="Область*"
                     type="text"
-                />
+                /> */}
                 <InputForm
                     error={errors.address?.town?.message}
                     register={register("address.town")}
@@ -188,7 +210,7 @@ export const FormSoleProprietor = () => {
             </div>
 
             <BlockAgreements
-                agreementKeys={agreementKeys}
+                agreementKeys={agreementKeysBusinessSoleProprietor}
                 value={watch("agreements") as string[]}
                 onChange={(vals) => setValue("agreements", vals)}
                 error={errors.agreements?.message}

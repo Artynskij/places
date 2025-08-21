@@ -4,6 +4,7 @@ export interface IBusinessRequest {
         RegistrationNumber: string | null;
         RegistrationDate: string | null;
         Contacts: string | null;
+        LegalType:string;
     };
 
     content?: {

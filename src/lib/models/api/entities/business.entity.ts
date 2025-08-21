@@ -14,6 +14,7 @@ export interface IBusinessEntity {
     CreatedDate: string;
     DeletedDate: string | null;
     Establishment: IEstablishmentEntity | null;
+    LegalType: IBusinessLegalTypesEntity;
 }
 export interface IBusinessWithContentEntity {
     id: string;

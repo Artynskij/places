@@ -20,6 +20,7 @@ import { getFormatDate } from "@/lib/helpers/getFormatDate";
 import { Loader } from "@/components/common/Loader/Loader";
 import { useNotification } from "@/lib/context";
 import Image from "next/image";
+import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
         business: string;
@@ -28,6 +29,7 @@ interface IProps extends IPageProps {
 
 function BusinessScreenBase({ params, searchParams }: IProps) {
     const t = useTranslations("ProfilePage.header");
+    const { user } = useUser();
     const locale = useLocale();
     const notification = useNotification();
     const personService = new PersonService();
@@ -47,11 +49,25 @@ function BusinessScreenBase({ params, searchParams }: IProps) {
             }
         });
     }, []);
-    const { user } = useUser();
+
     if (!user) return null;
     if (!businessData) return <Loader />;
     return (
         <div className="container">
+            <div className={style.breadcrumb}>
+                <Breadcrumb
+                    links={[
+                        {
+                            title: "личный кабинет",
+                            href: ROUTES.PROFILE.OWNER(user.id),
+                        },
+                        {
+                            title: "кабинет бизнеса",
+                        },
+                    ]}
+                />
+            </div>
+
             <div className={style.user}>
                 <>
                     <div className={style.background}>
@@ -115,7 +131,7 @@ function BusinessScreenBase({ params, searchParams }: IProps) {
                 </>
             </div>
             <div className={style.content}>
-                <ContentComponent  business={businessData}/>
+                <ContentComponent business={businessData} />
             </div>
         </div>
     );

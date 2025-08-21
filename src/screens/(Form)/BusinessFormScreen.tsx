@@ -21,9 +21,9 @@ export const BusinessFormScreen = ({ params, searchParams }: IProps) => {
             <div className={style.container}>
                 <h3>Создание бизнеса</h3>
                 <SwitcherTabs data={switcherBusiness} />
-                {activeTab === "individual" && <FormIndividual />}
-                {activeTab === "sole_proprietor" && <FormSoleProprietor />}
-                {activeTab === "legal_entity" && <FormLegalEntity />}
+                {activeTab === "individual" && <FormIndividual activeTab={activeTab}/>}
+                {activeTab === "sole_proprietor" && <FormSoleProprietor activeTab={activeTab}/>}
+                {activeTab === "legal_entity" && <FormLegalEntity activeTab={activeTab}/>}
             </div>
         </AuthGuard>
     );

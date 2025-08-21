@@ -17,10 +17,10 @@ export const ROUTES = {
         LOGIN: "/login",
     },
     PROFILE: {
-        OWNER:(username: string) => `/owner/${username}`,
-        BUSINESS: (businessId: string) => `/business/${businessId}`,
-        TOURIST: (username: string) => `/tourist/${username}`,
-        USER: (username: string) => `/user/${username}`,
+        OWNER:(username: string, tab?:string) => `/owner/${username}${tab ? `?${CONSTANT_SEARCH_PARAMS.TAB}=${tab}` : ''}`,
+        BUSINESS: (businessId: string, tab?:string) => `/business/${businessId}${tab ? `?${CONSTANT_SEARCH_PARAMS.TAB}=${tab}` : ''}`,
+        TOURIST: (username: string, tab?:string) => `/tourist/${username}${tab ? `?${CONSTANT_SEARCH_PARAMS.TAB}=${tab}` : ''}`,
+        USER: (username: string, tab?:string) => `/user/${username}${tab ? `?${CONSTANT_SEARCH_PARAMS.TAB}=${tab}` : ''}`,
         SETTINGS: {
             OWNER: (username:string) => `/owner/${username}/settings`,
             TOURIST: (username: string, tab?: "notification" | "personal") =>

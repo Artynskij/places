@@ -9,82 +9,33 @@ import { InputPhoneNumber } from "@/components/UI/Input/InputPhone/InputPhone";
 import { Button } from "@/components/UI/Button/Button";
 import { UploadButton } from "../../ButtonFunctional/UploadButton";
 
-import {
-    BlockAgreements,
-    getAgreementsValidation,
-} from "../../BlockFunctional/BlockAgreements";
+import { BlockAgreements } from "../../BlockFunctional/BlockAgreements";
 
-import { TAgreementKey } from "@/lib/models/types/TAgreementKey";
 import { useNotification } from "@/lib/context";
-import {
-    validAddressSchema,
-    validDocumentFileSchema,
-    validImageFileSchema,
-    validPhoneSchema,
-} from "@/lib/validationSchemas";
-import { BusinessService } from "@/lib/Api/business/business.service";
 
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { useEffect } from "react";
-import { ContactsPersonService } from "@/lib/Api/(Person)/contactPerson.api";
-import { AddressService } from "@/lib/Api/(Person)/address/address.api";
-import { VerificationService } from "@/lib/Api/verification/verification.api";
-import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
-import { IConsentsPatchRequest, IImageEntity } from "@/lib/models";
-import { ConsentsService } from "@/lib/Api/(Person)/consents/consents.service";
 
-type TTypeForm = Yup.InferType<typeof validationSchemaRegister>;
-const agreementKeys: TAgreementKey[] = [
-    "ConfirmedLegalPerson",
-    "ConfirmedLegalBusiness",
-    "AcceptedTerms",
-    "AgreedMarketing",
-    "AgreedReviewsNotification",
-];
-const importantAgreementKeys: TAgreementKey[] = [
-    "ConfirmedLegalPerson",
-    "ConfirmedLegalBusiness",
-    "AcceptedTerms",
-];
-const validationSchemaRegister = Yup.object().shape({
-    fullName: Yup.object().shape({
-        name: Yup.string().required("имя обязательно"),
-        secondName: Yup.string(), // Отчество может быть необязательным
-        surname: Yup.string().required("имя обязательно"),
-    }),
+import { useLocale } from "next-intl";
+import { GeneralBusinessService } from "@/lib/Api/(MainService)/business.general";
+import { validationBusinessIndividualSchema } from "@/lib/validationSchemas/business/individual.schema";
+import { agreementKeysBusinessIndividual } from "@/asset/constants/agreementsKeys";
 
-    email: Yup.string()
-        .email("Неккоректный адрес электронной почты")
-        .required("Адрес электронной почты обязателен"),
-    phone: validPhoneSchema.required("телефон обязателен"),
-    documents: Yup.array()
-        .of(validImageFileSchema)
-        .min(1, "Необходимо загрузить хотя бы один документ")
-        .max(10, "Можно загрузить не более 10 документов"),
-    address: Yup.object().shape({
-        country: Yup.string().required("Страна обязательна"),
-        // district: Yup.string().required("Область обязательна"),
-        town: Yup.string().required("Город обязателен"),
-        addressLine: Yup.string().required("Адрес обязателен"),
-        postalCode: Yup.string(),
-    }),
-    agreements: getAgreementsValidation(agreementKeys),
-});
+import { ROUTES } from "@/lib/config/Routes";
+import { useRouter } from "next/navigation";
+import { CONSTANT_TABS } from "@/asset/constants/switcherTabsPage";
 
-export const FormIndividual = () => {
+type TTypeForm = Yup.InferType<typeof validationBusinessIndividualSchema>;
+
+interface IProp {
+    activeTab: string;
+}
+export const FormIndividual = ({ activeTab }: IProp) => {
     const notification = useNotification();
     const { user } = useUser();
-
-    const businessService = new BusinessService();
-    const contactsService = new ContactsPersonService();
-    const addressService = new AddressService();
-    const consentsService = new ConsentsService();
-    const verificationService = new VerificationService();
-    const fileUploadService = new FileUploadService();
-
-    // const personService = new PersonService();
-
-    // const [personData, setPersonData] = useState<IPersonFront>();
+    const locale = useLocale();
+    const router = useRouter();
+    const generalBusinessService = new GeneralBusinessService();
 
     const {
         register,
@@ -94,178 +45,49 @@ export const FormIndividual = () => {
         watch,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(validationSchemaRegister),
+        resolver: yupResolver(validationBusinessIndividualSchema),
     });
 
-    useEffect(() => {
-        // personService.getPersonById(mockPersonId).then(async (person) => {
-        //     if (person) {
-        //         setPersonData(person);
-        //     }
-        // });
-    }, []);
+    useEffect(() => {}, []);
 
     const onSubmit: SubmitHandler<TTypeForm> = async (formData) => {
         if (!user) {
             notification.error({ message: "нету пользователя" });
             return;
         }
-        console.log("Form Data:", formData);
-        // 1. Создание Адреса
-        const createdAddress = await addressService
-            .create({
-                Country: formData.address.country,
-                Town: formData.address.town,
-                Street: formData.address.addressLine,
-                PostalCode: formData.address.postalCode || null,
-            })
-            .then((res) => {
-                return res;
-            });
-        if (createdAddress) {
-            notification.info({ message: "CREATE сущности адреса" });
+
+        const success = await generalBusinessService.create({
+            formData: {
+                officialName: `${formData.fullName.surname} ${
+                    formData.fullName.name
+                } ${formData.fullName.secondName || ""}`,
+                dateRegister: null,
+                numberOrganization: null,
+                email: formData.email,
+                phone: formData.phone,
+                address: {
+                    country: formData.address.country,
+                    town: formData.address.town,
+                    addressLine: formData.address.addressLine,
+                    postalCode: formData.address.postalCode || null,
+                },
+                agreements: formData.agreements || null,
+                documentsVerify: formData.documentsVerify || null,
+            },
+            activeTab: activeTab,
+
+            userId: user.id,
+            locale: locale,
+        });
+        if (success) {
+            notification.success({ message: "Бизнес отправлен на модерацию" });
+            router.push(ROUTES.PROFILE.OWNER(user.id, CONSTANT_TABS.owner.business));
         } else {
             notification.error({
-                message: "ERROR сущности адреса. Может Email такой уже есть",
+                message:
+                    "Произошла ошибка при создании бизнеса. Технические неполадки",
             });
-            return;
         }
-        // 2. Создание Контактов
-        const createdContacts = await contactsService
-            .create({
-                source: {
-                    AddressId: createdAddress?.id || null,
-                    Email: formData.email,
-                    Phone: formData.phone,
-                    SocialContactsId: null,
-                },
-            })
-            .then((res) => {
-                if (res) {
-                    notification.info({ message: "CREATE сущности контактов" });
-                } else {
-                    notification.error({ message: "ERROR сущности контактов" });
-                }
-
-                return res;
-            });
-        // 3. Создание Бизнеса
-        const officialName = `${formData.fullName.surname} ${
-            formData.fullName.name
-        } ${formData.fullName.secondName || ""}`;
-        const createdBusiness = await businessService.createBusiness(
-            {
-                source: {
-                    Contacts: createdContacts?.id || null,
-                    OfficialName: officialName,
-                    RegistrationDate: null,
-                    RegistrationNumber: null,
-                },
-            },
-            user.id
-        );
-
-        if (createdBusiness) {
-            notification.info({ message: "CREATE сущности бизнеса" });
-        } else {
-            notification.error({ message: "ERROR сущности бизнеса" });
-            return;
-        }
-        // 4. Создание Согласий
-        const defaultConsents: IConsentsPatchRequest | null =
-            formData.agreements
-                ? formData.agreements.reduce((acc, key) => {
-                      acc[key as keyof IConsentsPatchRequest] = true;
-                      return acc;
-                  }, {} as IConsentsPatchRequest)
-                : null;
-        const createdConsents = await consentsService.createConsents({
-            ...defaultConsents,
-            Business: createdBusiness.Id,
-        });
-        if (createdConsents) {
-            notification.info({ message: "CREATE сущности Consents" });
-        } else {
-            notification.error({ message: "ERROR сущности Consents" });
-            return;
-        }
-
-        // 5. Создание Верификации
-
-        const documentFiles = formData.documents;
-        if (documentFiles) {
-            const uploadFilesPromises: Promise<IImageEntity>[] = documentFiles
-                .filter((file): file is File => !!file)
-                .map(async (file) => {
-                    return fileUploadService
-                        .uploadPrivateFile({
-                            file,
-                            fileName: "image",
-                            vendorId: createdBusiness.Id,
-                        })
-                        .then((res) => {
-                            if (!res) throw new Error("Файл не загрузился");
-
-                            const uploadedFile: IImageEntity = {
-                                id: res.blobPath,
-                                blobPath: res.blobPath,
-                                fileName: file.name,
-                                type: "image",
-                                width: 400,
-                                height: 400,
-                                details: [
-                                    {
-                                        lang: "ru",
-                                        value: {
-                                            title: "Документ физического лица", // или другое название
-                                        },
-                                    },
-                                ],
-                            };
-
-                            return uploadedFile;
-                        });
-                });
-
-            let uploadFiles: IImageEntity[];
-
-            try {
-                uploadFiles = await Promise.all(uploadFilesPromises);
-            } catch (error) {
-                notification.error({
-                    message: "ошибка загрузки фото верификации",
-                });
-                return;
-            }
-            const createdVerification = await verificationService.create({
-                source: {
-                    Business: createdBusiness.Id,
-                },
-                content: {
-                    details: [
-                        { lang: "ru", value: "documentBusinessIndividual" },
-                    ],
-                    privateMedia: uploadFiles,
-                },
-            });
-
-            if (createdVerification) {
-                notification.info({
-                    message: "CREATE верификации отработал",
-                });
-            } else {
-                notification.error({
-                    message: "ERROR ошибка при отправке данных на верификацию",
-                });
-                return;
-            }
-        }
-        // 6. Создание связи бизнеса и персоны
-        // const createdBusinessAssignment = await businessService.
-
-        console.log("businessId", createdBusiness?.Id);
-
-        notification.success({ message: "Бизнес отправлен на модерацию" });
     };
     const onSubmitInvalid = () => {
         notification.error({
@@ -341,12 +163,6 @@ export const FormIndividual = () => {
                         titleSpan="Страна*"
                         type="text"
                     />
-                    {/* <InputForm
-                        error={errors.address?.district?.message}
-                        register={register("address.district")}
-                        titleSpan="Область*"
-                        type="text"
-                    /> */}
                     <InputForm
                         error={errors.address?.town?.message}
                         register={register("address.town")}
@@ -373,7 +189,7 @@ export const FormIndividual = () => {
                 </div>
                 <div className={style.selectionBlock_content}>
                     <Controller
-                        name="documents"
+                        name="documentsVerify"
                         control={control}
                         defaultValue={[]}
                         render={({ field, fieldState }) => (
@@ -391,7 +207,7 @@ export const FormIndividual = () => {
                 </div>
             </div>
             <BlockAgreements
-                agreementKeys={agreementKeys}
+                agreementKeys={agreementKeysBusinessIndividual}
                 value={watch("agreements") as string[]}
                 onChange={(vals) => setValue("agreements", vals)}
                 error={errors.agreements?.message}
