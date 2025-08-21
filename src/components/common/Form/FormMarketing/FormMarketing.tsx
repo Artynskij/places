@@ -195,7 +195,7 @@ export const FormMarketing: FC<IFormMarketingProps> = ({
                         onChange={(item: ISelectOption) =>
                             setValueSelectFacility(item)
                         }
-                        title={"Выберите объект"}
+                        titleDefault={"Выберите объект"}
                         activeOption={valueSelectFacility?.value}
                         options={mockSelectSquare.mockFacilityForSelect}
                     />
@@ -205,7 +205,7 @@ export const FormMarketing: FC<IFormMarketingProps> = ({
                         onChange={(item: ISelectOption) =>
                             setValueSelectLang(item)
                         }
-                        title={"Выберите язык"}
+                        titleDefault={"Выберите язык"}
                         activeOption={valueSelectLang?.value}
                         options={mockSelectSquare.mockLanguageForSelect}
                     />
@@ -215,7 +215,7 @@ export const FormMarketing: FC<IFormMarketingProps> = ({
                         onChange={(item: ISelectOption) =>
                             setValueSelectCountry(item)
                         }
-                        title={"Выберите страну"}
+                        titleDefault={"Выберите страну"}
                         activeOption={valueSelectCountry?.value}
                         options={mockSelectSquare.mockCountriesForSelect}
                     />
@@ -226,7 +226,7 @@ export const FormMarketing: FC<IFormMarketingProps> = ({
                             onChange={(item: ISelectOption) =>
                                 setValueSelectDistrict(item)
                             }
-                            title={"Выберите область"}
+                            titleDefault={"Выберите область"}
                             activeOption={valueSelectDistrict?.value}
                             options={mockSelectSquare.mockDistrictForSelect}
                         />
@@ -238,7 +238,7 @@ export const FormMarketing: FC<IFormMarketingProps> = ({
                             onChange={(item: ISelectOption) =>
                                 setValueSelectTown(item)
                             }
-                            title={"Выберите город"}
+                            titleDefault={"Выберите город"}
                             activeOption={valueSelectTown?.value}
                             options={mockSelectSquare.mockTownsForSelect}
                         />

@@ -1,0 +1,48 @@
+import { IInvitesByQueryItemResponse } from "./../../models/api/response/invites/invites.response";
+import { IInvitesEntity } from "@/lib/models/api/entities/invites.entity";
+import { IInvitesRequest } from "@/lib/models/api/request/invites/invites.request";
+import apiClient from "../ApiClient";
+
+export default class InvitesApi {
+    constructor() {}
+    async create(body: IInvitesRequest): Promise<"ok" | null> {
+        try {
+            const response = await apiClient.post(`/invites`, body);
+            return response.data ? "ok" : null;
+        } catch (error) {
+            console.error(`Ошибка при CREATE приглашения`);
+            return null;
+        }
+    }
+    async getByQuery({
+        personId,
+        businessId,
+        lang,
+    }: {
+        personId?: string;
+        businessId?: string;
+        lang: string;
+    }): Promise<IInvitesByQueryItemResponse[] | null> {
+        try {
+            const query = [
+                personId ? `personId=${personId}` : null,
+                businessId ? `businessId=${businessId}` : null,
+                `lang=${lang}`,
+            ].filter((item) => !!item);
+            const response = await apiClient.get(`/invites?${query.join("&")}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при GET приглашения`);
+            return null;
+        }
+    }
+    async applyPerson(id: string): Promise<"ok" | null> {
+        try {
+            const response = await apiClient.patch(`/invites/${id}/apply`);
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при Apply приглашения`);
+            return null;
+        }
+    }
+}

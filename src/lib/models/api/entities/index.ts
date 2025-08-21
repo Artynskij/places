@@ -23,7 +23,7 @@ export * from "./article.entity";
 export * from "./business.entity";
 export * from "./locations.entity";
 export * from "./mapItem.entity";
-export * from "./roleOwner.entity";
+export * from "./(person)/roleOwner.entity";
 export * from "./searchItem.entity";
 export * from "./socialContacts.entity";
 export * from "./verification.entity";

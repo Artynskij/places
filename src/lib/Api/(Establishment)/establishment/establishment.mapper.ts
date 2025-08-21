@@ -3,6 +3,7 @@ import {
     IEstablishmentWithContentEntity,
     IEstablishmentFront,
     IMediaFront,
+    IRateEntity,
 } from "@/lib/models";
 import {
     ContactsEstablishmentMapper,
@@ -19,6 +20,61 @@ export default class EstablishmentMapper {
     private contactsEstablishmentMapper: ContactsEstablishmentMapper;
     constructor() {
         this.contactsEstablishmentMapper = new ContactsEstablishmentMapper();
+    }
+    private transformRate(rates?: IRateEntity) {
+        const additionalKeys = [
+            "Atmosphere",
+            "Food",
+            "Service",
+            "Value",
+            "Rooms",
+            "PriceQuality",
+            "Clean",
+            "Location",
+            "Comfort",
+            "Accessibility",
+            "Quality",
+            "Safety",
+        ];
+
+        // function mapRates(rates?: IRateEntity) {
+            if (!rates) {
+                return {
+                    main: 0,
+                    count: 0,
+                    additional: [],
+                };
+            }
+
+            const additional = additionalKeys
+                .map((key) => {
+                    const avgKey = `Average${key}` as keyof IRateEntity;
+                    const countKey = `Count${key}` as keyof IRateEntity;
+
+                    const avg = rates[avgKey] as number | null;
+                    const count = rates[countKey] as number;
+
+                    if (!avg || count === 0) return null;
+
+                    return {
+                        key,
+                        value: avg,
+                        count,
+                    };
+                })
+                .filter(
+                    (
+                        item
+                    ): item is { key: string; value: number; count: number } =>
+                        !!item
+                );
+
+            return {
+                main: rates.AverageRate || 0,
+                count: rates.CountRate || 0,
+                additional,
+            };
+        // }
     }
     transformToFront({
         establishment,
@@ -68,11 +124,12 @@ export default class EstablishmentMapper {
                     establishment.establishment.Categories[0]?.content
                         ?.details[0].value || "default title",
             },
-            rates: {
-                main: establishment.establishment.Rates?.Rate || 0,
-                count: establishment.establishment.Rates?.Count || 0,
-                additional: additionalRates,
-            },
+            rates: this.transformRate(establishment.establishment.Rates),
+            // rates: {
+            //     main: establishment.establishment.Rates?.AverageRate || 0,
+            //     count: establishment.establishment.Rates?.CountRate || 0,
+            //     additional: additionalRates,
+            // },
             location: {
                 country: {
                     id:

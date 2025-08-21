@@ -9,7 +9,7 @@ interface IModalProps {
     closeModal: (prop?: boolean) => void;
     children: React.ReactNode | React.ReactNode[] | null;
     title?: string;
-    view?: "over" | "small" | "middle" | "big";
+    view?: "over" | "small" | "middle" | "big" | 'fit';
 }
 
 export const ModalCustom: FC<IModalProps> = ({
@@ -24,11 +24,13 @@ export const ModalCustom: FC<IModalProps> = ({
         big: string;
         middle: string;
         small: string;
+        fit:string;
     } = {
         over: style.view_content_over,
         big: style.view_content_big,
         middle: style.view_content_middle,
         small: style.view_content_small,
+        fit: style.view_content_fit,
     };
 
     return (

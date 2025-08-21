@@ -10,7 +10,7 @@ interface ISelectProps {
     options: ISelectOption[];
     onChange: (option: ISelectOption) => void;
     activeOption: string | null | undefined;
-    title?: string;
+    titleDefault?: string;
     classNameValue?: string;
     classNameCtn?: string;
     error?: string;
@@ -21,7 +21,7 @@ export const SelectCustom: FC<ISelectProps> = ({
     options,
     activeOption,
     onChange,
-    title,
+    titleDefault: title,
     classNameValue,
     classNameCtn,
     error,

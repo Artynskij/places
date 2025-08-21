@@ -25,6 +25,7 @@ export const switcherTabBusinessData = [
     { id: 3, name: "история заказов", value: "history" },
     { id: 4, name: "статистика", value: "stat" },
     { id: 5, name: "кошелёк", value: "wallet" },
+    { id: 6, name: "сотрудники", value: "employees" },
 ];
 export const switcherFinderMainPage = [
     {

@@ -6,11 +6,11 @@ export * from "./TLocale";
 export * from "./TRoleOwner";
 export * from "./TSocialNetworks";
 export * from "./TTilesContent";
+export * from "./TTravelMapAction";
 export * from "./TTypeFile";
 export * from "./TTypesEstablishment";
 export * from "./TTypesGlobal";
 export * from "./TTypeUser";
-
 
 export * from "./auth/TTypeOwnerBusiness";
 

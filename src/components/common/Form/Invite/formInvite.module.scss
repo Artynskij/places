@@ -1,0 +1,22 @@
+.form {
+    width: 400px;
+    height: 300px;
+    &_buttonOpen {
+        width: fit-content;
+    }
+    &_buttonSubmit {
+        border-radius: $border-radius-10;
+        width: 100%;
+    }
+}
+.selectBlock {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-medium;
+
+    & label {
+    }
+    &_select {
+        border-radius: $border-radius-10;
+    }
+}

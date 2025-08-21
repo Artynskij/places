@@ -1,7 +1,8 @@
 import {
+    IBusinessLegalTypesEntity,
     ICategoryEstablishmentEntity,
     IGenderWithContentEntity,
-    IRoleOwnerEntity,
+    IRoleOwnerWithContentEntity,
     ITagEntity,
     ITypeEstablishmentWithContentEntity,
 } from "@/lib/models";
@@ -9,7 +10,7 @@ import apiClient from "../ApiClient";
 
 export default class DataLoadManagementApi {
     constructor() {}
-    async getRolesOwner(): Promise<IRoleOwnerEntity[] | null> {
+    async getRolesOwner(): Promise<IRoleOwnerWithContentEntity[] | null> {
         try {
             const response = await apiClient.get(`/roles`);
             return response.data;
@@ -73,6 +74,18 @@ export default class DataLoadManagementApi {
     async getBlobProxy(): Promise<{ url: string } | null> {
         try {
             const response = await apiClient.get(`/blob-proxy/resolve`);
+            return response.data;
+        } catch (error) {
+            console.error(
+                `Ошибка при запросе по получению blob-proxy для картинок.`
+            );
+            return null;
+        }
+    }
+
+    async getBusinessLegalTypes(): Promise<IBusinessLegalTypesEntity[] | null> {
+        try {
+            const response = await apiClient.get(`/legal-types`);
             return response.data;
         } catch (error) {
             console.error(

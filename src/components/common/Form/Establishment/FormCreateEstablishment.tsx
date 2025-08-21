@@ -53,7 +53,7 @@ import { EstablishmentPersonAssignmentApi } from "@/lib/Api/(Establishment)/esta
 import { AuthGuard } from "../../Auth/guards/AuthGuard";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
-import Image from "next/image";
+
 import PhotoBlockForm from "../_components/PhotoBlock/PhotoBlock";
 
 const agreementKeys: TAgreementKey[] = [
@@ -455,7 +455,7 @@ const FormCreateEstablishmentBase = ({}: IFormCreateEstablishment) => {
                         error={errors.email?.message}
                         register={register("email")}
                         placeholder="Адрес электронной почты*"
-                        titleSpan="Адрес электронной почты(для тестов пока не обязательное) НАСТЯ, Я ВЕРНУ, ТОК НАПОМНИ"
+                        titleSpan="Адрес электронной почты."
                         type="email"
                     />
 

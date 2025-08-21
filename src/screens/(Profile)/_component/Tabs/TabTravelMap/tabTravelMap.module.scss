@@ -6,22 +6,88 @@
         position: relative;
     }
 }
-.search {
+.blockAbsolute {
+    display: flex;
+    flex-direction: column;
+
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 0;
+    left: 0;
+    // right: 80%;
+    bottom: 0;
+    width: 350px;
+}
+
+.marks {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: $gap-medium;
+    height: 30%;
+    background-color: $color-additional-background;
+    border-bottom: 1px solid $color-main-blue;
+    &_filter {
+        display: flex;
+        flex-direction: column;
+        gap: $gap-small;
+
+        &_item {
+            display: flex;
+            align-items: center;
+            gap: $gap-small;
+            padding: 5px;
+            background-color: $color-main-white;
+            border-radius: $border-radius-5;
+            border: 1px solid $color-main-blue;
+            cursor: pointer;
+            transition: $transition;
+            &:hover {
+                color: $color-main-gold;
+                border-color: $color-main-blue_hover;
+            }
+        }
+    }
+    &_legend {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: $gap-small;
+        margin-top: auto;
+        &_item {
+            display: flex;
+            align-items: center;
+            gap: $gap-small;
+        }
+    }
+    &_buttonOpen {
+        height: fit-content;
+        width: fit-content;
+
+        border-radius: $border-radius-5;
+    }
+}
+.search {
+    &_active {
+        height: 70%;
+    }
     &_block {
         display: flex;
         flex-direction: column;
         gap: $gap-big;
         padding: 15px;
         background-color: $color-additional-background;
-        border-radius: $border-radius-10;
-        min-height: 400px;
-        min-width: 300px;
+        height: 100%;
+        width: 100%;
+        // border-bottom: 1px solid black;
+    }
+    &_input_ctn {
+        margin-bottom: 0;
     }
     &_open {
         border-radius: $border-radius-5;
+        height: fit-content;
+        width: fit-content;
+        margin-top: 20px;
     }
     &_close {
         border-radius: $border-radius-5;
@@ -42,48 +108,12 @@
         width: 100%;
     }
 }
-.marks {
-    &_active {
-        // width: 30%;
-        max-width: 100%;
-        right: auto;
-        overflow: auto;
-        display: block;
-        padding: 10px 15px;
-    }
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    max-width: 0;
-    right: auto;
-    // max-width: 0;
-    overflow: hidden;
-    background-color: $color-additional-background;
-    padding: 10px 0;
-    transition: $transition;
-    &_block {
-        display: flex;
-        align-items: center;
-        gap: $gap-medium;
-        height: 100%;
-    }
-    &_buttonOpen {
-        position: absolute;
-        left: 20px;
-        top: 20px;
-        border-radius: $border-radius-5;
-    }
-}
 .list {
     align-self: flex-start;
     display: flex;
     flex-direction: column;
-    gap: $gap-medium;
+    gap: $gap-small;
+    width: 100%;
     &_item {
         display: grid;
 
@@ -104,50 +134,5 @@
             display: flex;
             align-items: center;
         }
-    }
-}
-.iconDone,
-.iconLike,
-.iconStar,
-.iconArrow,
-.iconEye {
-    cursor: pointer;
-}
-.iconDone {
-    &_active {
-        color: orange;
-    }
-}
-.iconLike {
-    &_active {
-        color: red;
-    }
-}
-.iconStar {
-    &_active {
-        color: green;
-    }
-}
-.iconEye {
-    color: $color-main-blue;
-    transition: $transition;
-    &:hover {
-        color: $color-main-blue_hover;
-    }
-}
-.iconArrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    background-color: $color-main-white;
-    border-radius: $border-radius-5;
-    border: 1px solid $color-main-blue;
-    height: fit-content;
-    color: $color-main-blue;
-
-    &:hover {
-        color: $color-main-blue_hover;
-        border-color: $color-main-blue_hover;
     }
 }

@@ -26,6 +26,7 @@ export interface IEstablishmentFront {
                 | "Location"
                 | string;
             value: number;
+            count: number;
         } | null)[];
     };
     location: {

@@ -209,5 +209,11 @@
                 "unknown": "Unknown"
             }
         }
+    },
+     "Role": {
+        "OWNER": "owner",
+        "ADMIN_MAIN": "main admin",
+        "ADMIN": "admin",
+        "MARKETER": "marketer"
     }
 }

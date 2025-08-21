@@ -1,0 +1,35 @@
+.iconVisited,
+.iconLike,
+.iconWanted,
+.iconArrow,
+.iconEye {
+    font-size: 16px;
+    cursor: pointer;
+    transition: $transition;
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+.iconVisited {
+    &_active {
+        color: green;
+    }
+}
+.iconLike {
+    &_active {
+        color: red;
+    }
+}
+.iconWanted {
+    &_active {
+        color: orange;
+    }
+}
+.iconEye {
+    min-width: 16px;
+    color: $color-main-blue;
+
+    &:hover {
+        color: $color-main-blue_hover;
+    }
+}

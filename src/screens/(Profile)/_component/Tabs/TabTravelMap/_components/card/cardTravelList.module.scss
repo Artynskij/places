@@ -1,0 +1,12 @@
+.buttons {
+    display: flex;
+    align-items: center;
+    gap: $gap-small;
+}
+.left {
+    gap: $gap-small;
+    display: flex;
+    align-items: center;
+}
+
+

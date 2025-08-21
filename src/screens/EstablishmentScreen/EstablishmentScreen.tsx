@@ -47,6 +47,7 @@ import { getBaseUrlServer } from "@/lib/helpers/getBaseUrl";
 import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import BlockMapEstScr from "./_components/BlockMapEstScr/BlockMapEstScr";
 import CardRecommend from "./_components/CardRecommend/CardRecommend";
+import { FormRate } from "@/components/common/Form/Rate/FormRate";
 
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
@@ -352,7 +353,8 @@ export const EstablishmentScreen = async ({
                         </div>
                     </div>
                     <div className={style.info_bestReview}></div>
-                    <Link href={"#reviews"}>
+
+                    <FormRate typeEstablishment={dataEstablishment.typeEstablishment}>
                         <Button
                             className={style.button_estimate}
                             icon={
@@ -363,7 +365,7 @@ export const EstablishmentScreen = async ({
                             type="light"
                             text="Поставить оценку"
                         />
-                    </Link>
+                    </FormRate>
                 </div>
                 <div className={style.info_column}>
                     {dataEstablishment.description && (

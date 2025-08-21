@@ -115,7 +115,7 @@ function BusinessScreenBase({ params, searchParams }: IProps) {
                 </>
             </div>
             <div className={style.content}>
-                <ContentComponent />
+                <ContentComponent  business={businessData}/>
             </div>
         </div>
     );

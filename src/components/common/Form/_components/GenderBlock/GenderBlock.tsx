@@ -46,7 +46,7 @@ export const GenderBlockForm = ({ selectedGender, onChange, error }: Props) => {
                 options={genderData.map((item) => {
                     return { name: item.value, value: item.key, id: item.id };
                 })}
-                title="Выбрать пол"
+                titleDefault="Выбрать пол"
             />
             {error && <SpanErrorForm text={error.message} />}
         </div>

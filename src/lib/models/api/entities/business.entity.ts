@@ -28,8 +28,13 @@ export interface IBusinessPersonAssignEntity {
     IsOwnerVerified: boolean;
 }
 
-export interface IBusinessPosition {
+export interface IBusinessPositionEntity {
     Id: string;
     Code: TRoleOwner;
     Name: string;
+}
+export interface IBusinessLegalTypesEntity {
+    Id: string;
+    Code: string;
+    content: IContentEntity;
 }

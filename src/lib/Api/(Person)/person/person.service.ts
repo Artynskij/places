@@ -39,6 +39,13 @@ export class PersonService {
 
         return response;
     }
+    async getByEmail(email:string): Promise<string | null> {
+     
+
+        const response = this.personApi.getByEmail(email)
+
+        return response;
+    }
 
     async update(
         id: string,

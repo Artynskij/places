@@ -1,14 +1,30 @@
 export interface IRateEntity {
     Id: string;
     EstablishmentId: string;
-    Count: number;
-    Rate: number;
-    Atmosphere: number | null;
-    Food: number | null;
-    Service: number | null;
-    Value: number | null;
-    Rooms: number | null;
-    PriceQuality: number | null;
-    Clean: number | null;
-    Location: number | null;
-  }
+    AverageRate: number | null;
+    CountRate: number;
+    AverageAtmosphere: number | null;
+    CountAtmosphere: number;
+    AverageFood: number | null;
+    CountFood: number;
+    AverageService: number | null;
+    CountService: number;
+    AverageValue: number | null;
+    CountValue: number;
+    AverageRooms: number | null;
+    CountRooms: number;
+    AveragePriceQuality: number | null;
+    CountPriceQuality: number;
+    AverageClean: number | null;
+    CountClean: number;
+    AverageLocation: number | null;
+    CountLocation: number;
+    AverageComfort: number | null;
+    CountComfort: number;
+    AverageAccessibility: number | null;
+    CountAccessibility: number;
+    AverageQuality: number | null;
+    CountQuality: number;
+    AverageSafety: number | null;
+    CountSafety: number;
+}

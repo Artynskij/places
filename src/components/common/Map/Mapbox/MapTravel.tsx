@@ -19,7 +19,7 @@ interface MapTravelProps {
 }
 
 export const MapTravel = ({
-    // setPosition,
+   
     position,
 }: MapTravelProps) => {
     const locale = useLocale();
@@ -27,7 +27,7 @@ export const MapTravel = ({
     const { byName } = useMapboxGeocode();
     const { userLocation, errorUserLocation } = useUserLocation();
     const centerMoscow = { lat: 51.77041291260454, lon: 29.195896311674147 };
-    const zoom = 12;
+    const zoom = 5;
     const [isInitialized, setIsInitialized] = useState(false);
 
     const [viewState, setViewState] = useState({
@@ -40,7 +40,7 @@ export const MapTravel = ({
         if (isInitialized && position && mapRef.current) {
             mapRef.current.flyTo({
                 center: [position.lon, position.lat],
-                zoom: 12,
+                zoom: zoom,
                 essential: true,
             });
             if (position?.bBox) {

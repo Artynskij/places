@@ -1,0 +1,10 @@
+.tab {
+    &_title {
+        display: flex;
+        justify-content: space-between;
+        gap: $gap-medium;
+    }
+}
+.buttonInvite {
+    border-radius: $border-radius-10;
+}

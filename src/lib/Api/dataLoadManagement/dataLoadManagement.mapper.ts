@@ -3,13 +3,14 @@ import {
     ITagBlockFront,
     ICategoryFront,
     ICategoryEstablishmentEntity,
+    IRoleOwnerWithContentEntity,
 } from "@/lib/models";
+import { IRoleOwnerFront } from "@/lib/models/frontend/(person)/roleOwner.front";
 import { useTranslations } from "next-intl";
 
 export class DataLoadManagementMapper {
     constructor() {}
     tagsBlockMapper(tags: ITagEntity[]): ITagBlockFront[] {
-        
         const grouped = tags.reduce<Record<string, ITagBlockFront>>(
             (acc, tag) => {
                 const detail = tag.content.details[0];
@@ -85,7 +86,16 @@ export class DataLoadManagementMapper {
             .sort((a, b) => a.value.localeCompare(b.value));
         return mappedData;
     }
-    //     tagsMapper(tags: ITagEntity[]): ITagBlockFront[] {
-    //       return''
-    //     }
+    roleToFront(roleEntity: IRoleOwnerWithContentEntity): IRoleOwnerFront {
+        return {
+            id: roleEntity.entity.Id,
+            code: roleEntity.entity.Code,
+            key: roleEntity.entity.Name,
+            title: roleEntity.entity.Code,
+        };
+    }
+    businessLegalTypesToFront(){
+
+    }
+  
 }

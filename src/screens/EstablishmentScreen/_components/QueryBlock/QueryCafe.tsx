@@ -1,6 +1,5 @@
 "use client";
 
-
 import style from "./QueryBlock.module.scss";
 import { FC, useState } from "react";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
@@ -29,10 +28,7 @@ const QueryCafe: FC<IQueryCafe> = ({ data }) => {
         setModalQuery(true);
     };
     return (
-        <ul
-            onClick={() => console.log(useMedia)}
-            className={style.queryListCafe}
-        >
+        <ul className={style.queryListCafe}>
             {data.map((tagBlock, index) => {
                 if (index > 1) return null;
                 return (

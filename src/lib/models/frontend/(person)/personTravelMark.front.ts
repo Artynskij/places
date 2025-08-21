@@ -1,5 +1,3 @@
-import { IPersonTravelMarkEntity } from "../../api/entities";
-
 export interface IPersonTravelMarkFront {
     id: string;
     personId: string;

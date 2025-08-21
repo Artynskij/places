@@ -11,8 +11,12 @@ import { TabHistoryOwner } from "../_component/Tabs/TabHistoryOwner/TabHistoryOw
 import { TabStatOwner } from "../_component/Tabs/TabStatOwner/TabStatOwner";
 import TabBusinessOwner from "../_component/Tabs/TabBusinessOwner/TabBusinessOwner";
 import { TabWalletOwner } from "../_component/Tabs/TabWalletOwner/TabWalletOwner";
-
-const ContentComponent = () => {
+import TabEmployees from "../_component/Tabs/TabEmployeesBusiness/TabEmployees";
+import { IBusinessFront } from "@/lib/models";
+interface IProp {
+    business: IBusinessFront;
+}
+const ContentComponent = ({ business }: IProp) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -32,6 +36,8 @@ const ContentComponent = () => {
                     <TabHistoryOwner></TabHistoryOwner>
                 ) : searchParams.get("tab") === "stat" ? (
                     <TabStatOwner></TabStatOwner>
+                ) : searchParams.get("tab") === "employees" ? (
+                    <TabEmployees business={business}></TabEmployees>
                 ) : (
                     <TabWalletOwner></TabWalletOwner>
                 )}

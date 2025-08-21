@@ -47,4 +47,15 @@ export default class PersonApi {
             return null;
         }
     }
+    async getByEmail(email: string): Promise<string | null> {
+        try {
+            const response = await apiClient.get(
+                `/persons/by-email?email=${email}`
+            );
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при получении Person byEmail ${email}`);
+            return null;
+        }
+    }
 }

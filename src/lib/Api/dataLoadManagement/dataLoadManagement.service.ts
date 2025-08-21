@@ -3,13 +3,14 @@ import DataLoadManagementApi from "./dataLoadManagement.endpoints";
 import {
     ICategoryFront,
     IGenderFront,
-    IRoleOwnerEntity,
+    IRoleOwnerWithContentEntity,
     ITagBlockFront,
     ITypeEstablishmentWithContentEntity,
 } from "@/lib/models";
 import { DataLoadManagementMapper } from "./dataLoadManagement.mapper";
 
 import { GenderMapper } from "../(Person)/gender.api";
+import { IRoleOwnerFront } from "@/lib/models/frontend/(person)/roleOwner.front";
 
 export class DataLoadManagementService {
     // DataLoadManagementMapper
@@ -21,10 +22,15 @@ export class DataLoadManagementService {
         this.DataLoadManagementMapper = new DataLoadManagementMapper();
     }
 
-    async getRolesOwner(): Promise<IRoleOwnerEntity[] | null> {
+    async getRolesOwner(): Promise<IRoleOwnerFront[] | null> {
         const response = await this.DataLoadManagementApi.getRolesOwner();
-
-        return response;
+        if (!response) {
+            return null;
+        }
+        const mappedData = response.map((item) =>
+            this.DataLoadManagementMapper.roleToFront(item)
+        );
+        return mappedData;
     }
     async getGenders(locale: string): Promise<IGenderFront[] | null> {
         const mapperGender = new GenderMapper();
