@@ -108,7 +108,7 @@
             "buttonReg": "Register",
             "buttonLog": "Login to account",
             "buttonForgot": "Forgot password?",
-            "inputName": "Name",
+            "inputName": "Nickname",
             "inputPassword": "Password",
             "inputConfirmPassword": "Confirm Password",
             "footerTextReg": "Already have an account?",

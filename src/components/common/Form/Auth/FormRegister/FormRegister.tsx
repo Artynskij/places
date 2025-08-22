@@ -14,22 +14,17 @@ import { IconGoogle } from "@/components/common/Icons/IconGoogle/IconGoogle";
 import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 import { Switcher } from "@/components/common/Switcher/Switcher";
 import { useNotification } from "@/lib/context";
+import { ContactsPersonService } from "@/lib/Api/(Person)/contactPerson.api";
+import { PersonService } from "@/lib/Api/(Person)/person/person.service";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/lib/config/Routes";
+type TTypeForm = Yup.InferType<typeof validationSchemaRegister>;
 
-interface IFormInputs {
-    name?: string;
-    email?: string;
-    age?: number;
-    password?: string;
-    confirmPassword?: string;
-}
 const validationSchemaRegister = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
+    nickname: Yup.string().required("Nickname is required"),
 
     email: Yup.string().email("Invalid email").required("Email is required"),
-    // age: Yup.number()
-    //   .positive("Age must be positive")
-    //   .integer("Age must be an integer")
-    //   .required("Age is required"),
+
     password: Yup.string()
         .required("Password is required")
         .min(8, "Password must be at least 8 characters")
@@ -40,12 +35,9 @@ const validationSchemaRegister = Yup.object().shape({
 });
 
 export const FormRegister = () => {
-    const switcherDataUser = [
-        { title: "турист", value: "tourist" },
-        { title: "владелец", value: "owner" },
-    ];
+    const router = useRouter();
     const notification = useNotification();
-    const [activeUserType, setActiveUserType] = useState<string | null>(null);
+
     const {
         register,
         handleSubmit,
@@ -54,6 +46,8 @@ export const FormRegister = () => {
         resolver: yupResolver(validationSchemaRegister),
     });
     const t = useTranslations("AuthPage.text");
+    const personService = new PersonService();
+    const contactsPersonService = new ContactsPersonService();
     useEffect(() => {
         const header = document.querySelector("header");
         const footer = document.querySelector("footer");
@@ -70,17 +64,48 @@ export const FormRegister = () => {
         };
     }, []);
 
-    const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-        console.log("Form Data:", data);
+    const onSubmit: SubmitHandler<TTypeForm> = async (dataForm) => {
+        console.log("Form Data:", dataForm);
+        const createdContact = await contactsPersonService.create({
+            source: { Email: dataForm.email },
+        });
+        if (!createdContact) {
+            notification.error({
+                message: "Такая почта у нас уже зарегистрирована",
+            });
+            return;
+        }
+        const createdPerson = await personService.create({
+            source: {
+                Nickname: dataForm.nickname,
+                Contacts: createdContact.id,
+            },
+        });
+        if (!createdPerson) {
+            notification.error({
+                message: "Что-то пошло не так при создании пользователя",
+            });
+            return;
+        }
+        console.log(createdPerson);
+        notification.success({ message: "Теперь можете войти" });
+        router.push(ROUTES.AUTH.LOGIN);
     };
-
+    const onSubmitInvalid = () => {
+        notification.error({
+            message: "Пожалуйста, заполните обязательные поля",
+        });
+    };
     return (
         <div className={style.container}>
-            <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
+            <form
+                onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
+                className={style.form}
+            >
                 <div className={style.form_ctnTitle}>
                     <h3>{t("titleTextReg")}</h3>
                 </div>
-                <div className={style.switcher}>
+                {/* <div className={style.switcher}>
                     {switcherDataUser.map((switcherItem) => {
                         const isActive = activeUserType === switcherItem.value;
                         return (
@@ -98,8 +123,8 @@ export const FormRegister = () => {
                             </button>
                         );
                     })}
-                </div>
-                <div
+                </div> */}
+                {/* <div
                     onClick={() => {
                         if (!activeUserType) {
                             notification.info({
@@ -107,65 +132,63 @@ export const FormRegister = () => {
                             });
                         }
                     }}
-                >
-                    <div className={!activeUserType ? style.disable : ""}>
-                        <Button
-                            typeLogic="button"
-                            onClick={() => console.log("goge")}
-                            className={style.form_button_google}
-                            icon={
-                                <IconGoogle
-                                    className={style.form_button_google_icon}
-                                />
-                            }
-                            type="light"
-                            text={t("buttonGoogleReg")}
-                        />
-                        {/* <div className={style.form_textOr}>или</div> */}
-                        <div className={style.form_ctnInput}>
-                            <InputForm
-                                error={errors.name?.message}
-                                register={register("name")}
-                                id="name"
-                                placeholder=""
-                                titleSpan={t("inputName")}
-                                type="text"
-                            />
-                            <InputForm
-                                error={errors.email?.message}
-                                register={register("email")}
-                                id="email"
-                                placeholder=""
-                                titleSpan="Email"
-                                type="email"
-                            />
-                            <InputForm
-                                error={errors.password?.message}
-                                register={register("password")}
-                                id="password"
-                                placeholder=""
-                                titleSpan={t("inputPassword") + " *"}
-                                type="password"
-                                // titleNeighbor={buttonForgotSpan()}
-                            />
-                            <InputForm
-                                error={errors.confirmPassword?.message}
-                                register={register("confirmPassword")}
-                                id="passwordConfirm"
-                                placeholder=""
-                                titleSpan={t("inputConfirmPassword") + " *"}
-                                type="password"
-                                // titleNeighbor={buttonForgotSpan()}
-                            />
-                        </div>
-
-                        <Button
-                            typeLogic="submit"
-                            className={style.form_button_submit}
-                            text={t("buttonReg")}
-                        />
-                    </div>
+                > */}
+                {/* <div className={!activeUserType ? style.disable : ""}> */}
+                <Button
+                    typeLogic="button"
+                    onClick={() => console.log("goge")}
+                    className={style.form_button_google}
+                    icon={
+                        <IconGoogle className={style.form_button_google_icon} />
+                    }
+                    type="light"
+                    text={t("buttonGoogleReg")}
+                />
+                {/* <div className={style.form_textOr}>или</div> */}
+                <div className={style.form_ctnInput}>
+                    <InputForm
+                        error={errors.nickname?.message}
+                        register={register("nickname")}
+                        id="nickname"
+                        placeholder=""
+                        titleSpan={t("inputName")}
+                        type="text"
+                    />
+                    <InputForm
+                        error={errors.email?.message}
+                        register={register("email")}
+                        id="email"
+                        placeholder=""
+                        titleSpan="Email"
+                        type="email"
+                    />
+                    <InputForm
+                        error={errors.password?.message}
+                        register={register("password")}
+                        id="password"
+                        placeholder=""
+                        titleSpan={t("inputPassword") + " *"}
+                        type="password"
+                        // titleNeighbor={buttonForgotSpan()}
+                    />
+                    <InputForm
+                        error={errors.confirmPassword?.message}
+                        register={register("confirmPassword")}
+                        id="passwordConfirm"
+                        placeholder=""
+                        titleSpan={t("inputConfirmPassword") + " *"}
+                        type="password"
+                        // titleNeighbor={buttonForgotSpan()}
+                    />
                 </div>
+
+                <Button
+                    typeLogic="submit"
+                    className={style.form_button_submit}
+                    text={t("buttonReg")}
+                />
+                {/* </div> */}
+                {/* </div> */}
 
                 <div className={style.form_footer}>
                     {t("footerTextReg")}{" "}

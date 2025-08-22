@@ -3,6 +3,10 @@ import { TRoleOwner } from "@/lib/models/types/TRoleOwner";
 import { IPersonEntity } from "./(person)/person.entity";
 import { IEstablishmentEntity } from "./(establishment)/establishment.entity";
 import { IContentEntity } from "./(establishment)/parts/content.entity";
+import {
+    IRoleOwnerEntity,
+    IRoleOwnerWithContentEntity,
+} from "./(person)/roleOwner.entity";
 export interface IBusinessEntity {
     Id: string;
     OfficialName: string;
@@ -25,17 +29,22 @@ export interface IBusinessWithContentEntity {
 export interface IBusinessPersonAssignEntity {
     Person: IPersonEntity | null;
     Business: IBusinessEntity | null;
-    BusinessPosition: string;
+    BusinessPosition: IBusinessPositionEntity | null;
     IsOwnerVerified: boolean;
 }
-
 export interface IBusinessPositionEntity {
     Id: string;
-    Code: TRoleOwner;
-    Name: string;
+    Code: string;
+    content: IContentEntity;
 }
 export interface IBusinessLegalTypesEntity {
     Id: string;
     Code: string;
     content: IContentEntity;
+}
+export interface IBusinessPersonRoleEntity {
+    Id: string;
+    PersonBusinessAssignment: IBusinessPersonAssignEntity;
+    Role: IRoleOwnerWithContentEntity;
+    Activated: boolean;
 }

@@ -8,7 +8,7 @@ import { ISocialContactsFront } from "@/lib/models/frontend/socialContacts.front
 export class PersonMapper {
     constructor() {}
 
-    transformPersonEntity(
+    toFront(
         personDataServer: IPersonWithContentEntity,
         genderFront: IGenderFront | null,
         cdnHost: string | null

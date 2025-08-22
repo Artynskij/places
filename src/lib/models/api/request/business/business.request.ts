@@ -1,32 +1,15 @@
+import { IContentEntity, IRoleOwnerWithContentEntity } from "../../entities";
+
 export interface IBusinessRequest {
     source: {
         OfficialName: string | null;
         RegistrationNumber: string | null;
         RegistrationDate: string | null;
         Contacts: string | null;
-        LegalType:string;
+        LegalType: string;
     };
 
-    content?: {
-        type: "Business";
-        collection: "Business";
-        value: [
-            {
-                lang: "en";
-                value: {
-                    name: "My Business";
-                    description: "Leading tour operator";
-                };
-            },
-            {
-                lang: "ru";
-                value: {
-                    name: "Мой бизнес";
-                    description: "Ведущий туроператор";
-                };
-            }
-        ];
-    };
+    content?: IContentEntity;
 }
 export interface IBusinessAssignmentRequest {
     Person?: string;
@@ -38,4 +21,9 @@ export interface IBusinessAssignmentGetQueryRequest {
     personId?: string;
     businessId?: string;
     establishmentId?: string;
+}
+export interface IBusinessPersonRoleRequest {
+    PersonBusinessAssignments: string;
+    Role: IRoleOwnerWithContentEntity;
+    activated: boolean;
 }

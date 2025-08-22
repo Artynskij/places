@@ -5,10 +5,10 @@ import apiClient from "../ApiClient";
 
 export default class InvitesApi {
     constructor() {}
-    async create(body: IInvitesRequest): Promise<"ok" | null> {
+    async create(body: IInvitesRequest): Promise<{ id: string } | null> {
         try {
             const response = await apiClient.post(`/invites`, body);
-            return response.data ? "ok" : null;
+            return response.data;
         } catch (error) {
             console.error(`Ошибка при CREATE приглашения`);
             return null;

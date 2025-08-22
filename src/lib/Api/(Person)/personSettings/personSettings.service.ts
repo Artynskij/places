@@ -37,7 +37,9 @@ export class PersonSettingsService {
         const response = this.PersonSettingsApi.createPersonSettings()
             .then(async (res) => {
                 await this.PersonService.update(idPerson, {
-                    PersonSettings: res?.Id,
+                    source: {
+                        PersonSettings: res?.Id,
+                    },
                 });
 
                 return res;

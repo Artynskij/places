@@ -1,11 +1,23 @@
 "use client";
 
+import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 import { IUser } from "@/lib/models/common/IUser";
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
-
+import { TTypeUser } from "@/lib/models/types";
+import {
+    createContext,
+    useContext,
+    useState,
+    ReactNode,
+    useEffect,
+} from "react";
+interface IUserLocalStorage {
+    id: string;
+    typeUser: TTypeUser;
+}
 type UserContextType = {
     user: IUser | null;
     setUser: (user: IUser | null) => void;
+    loadingUser: boolean;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -13,11 +25,27 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUserState] = useState<IUser | null>(null);
 
+    const [loadingUser, setLoadingUser] = useState(true);
+    const personService = new PersonService();
     // Загружаем пользователя из localStorage при старте
     useEffect(() => {
         const savedUser = localStorage.getItem("user");
-        if (savedUser) {
-            setUserState(JSON.parse(savedUser));
+        const parsedSavedUser: IUserLocalStorage = savedUser
+            ? JSON.parse(savedUser)
+            : null;
+
+        if (parsedSavedUser) {
+            personService.getById(parsedSavedUser.id).then((res) => {
+                if (res) {
+                    setUserState({
+                        typeUser: parsedSavedUser.typeUser,
+                        ...res,
+                    });
+                    setLoadingUser(false); // закончили загрузку
+                }
+            });
+        } else {
+            setLoadingUser(false); // юзера нет → тоже закончили
         }
     }, []);
 
@@ -25,14 +53,17 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setUserState(newUser);
 
         if (newUser) {
-            localStorage.setItem("user", JSON.stringify(newUser));
+            localStorage.setItem(
+                "user",
+                JSON.stringify({ id: newUser.id, typeUser: newUser.typeUser })
+            );
         } else {
             localStorage.removeItem("user");
         }
     };
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, loadingUser }}>
             {children}
         </UserContext.Provider>
     );

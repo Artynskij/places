@@ -125,7 +125,7 @@
             "buttonReg": "Зарегистрироваться",
             "buttonLog": "Войти в личный кабинет",
             "buttonForgot": "Забыли пароль?",
-            "inputName": "Имя",
+            "inputName": "Никнейм",
             "inputPassword": "Пароль",
             "inputConfirmPassword": "Подтвердите Пароль",
             "footerTextReg": "У вас уже есть аккаунт ?",

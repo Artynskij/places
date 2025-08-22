@@ -39,7 +39,10 @@ import Image from "next/image";
 import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request";
 
 import { getObjectDiffWithNulls } from "@/lib/helpers/getChangedFieldsForApi";
-import { IPersonNameCreateRequest } from "@/lib/models/api/request/(Person)/personName.request";
+import {
+    IPersonNameCreateRequest,
+    IPersonNameUpdateRequest,
+} from "@/lib/models/api/request/(Person)/personName.request";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
 import { Loader } from "../../Loader/Loader";
@@ -73,6 +76,8 @@ const validationSchema = Yup.object().shape({
 });
 export const FormSettingsOwner = () => {
     const notification = useNotification();
+    const { user } = useUser();
+
     const personService = new PersonService();
     const personNameService = new PersonNameService();
 
@@ -80,7 +85,7 @@ export const FormSettingsOwner = () => {
     const fileUploadService = new FileUploadService();
 
     const router = useRouter();
-    const { user } = useUser();
+
     const [personData, setPersonData] = useState<IPersonFront>();
     const [initialFormData, setInitialFormData] = useState<TTypeForm>();
     const {
@@ -94,7 +99,8 @@ export const FormSettingsOwner = () => {
     });
 
     useEffect(() => {
-        personService.getById(mockPersonId).then(async (person) => {
+        if (!user) return;
+        personService.getById(user.id).then(async (person) => {
             if (person) {
                 setPersonData(person);
 
@@ -146,7 +152,7 @@ export const FormSettingsOwner = () => {
             return;
         }
 
-        const bodyToPersonUpdate: IPersonRequest = {};
+        const bodyToPersonUpdate: IPersonRequest = { source: {} };
 
         //  Обработка аватара
         if (changes.avatar) {
@@ -157,9 +163,10 @@ export const FormSettingsOwner = () => {
                     type: "image",
                     vendorId: personData.id,
                 });
-                bodyToPersonUpdate.Avatar2BPhotoPath = imageUrl?.blobPath;
+                bodyToPersonUpdate.source.Avatar2BPhotoPath =
+                    imageUrl?.blobPath;
             } else {
-                bodyToPersonUpdate.Avatar2BPhotoPath = null;
+                bodyToPersonUpdate.source.Avatar2BPhotoPath = null;
             }
         }
 
@@ -167,7 +174,7 @@ export const FormSettingsOwner = () => {
         if ("fullName" in changes && changes.fullName) {
             const fullName = changes.fullName;
 
-            const bodyPersonName: Partial<IPersonNameCreateRequest> = {};
+            const bodyPersonName: Partial<IPersonNameUpdateRequest> = {};
 
             if ("name" in fullName) {
                 // bodyPersonName.FirstName = fullName.name ?? null;
@@ -190,7 +197,8 @@ export const FormSettingsOwner = () => {
                     );
 
                 if (personNameResponse) {
-                    bodyToPersonUpdate.PersonName = personNameResponse.id;
+                    bodyToPersonUpdate.source.PersonName =
+                        personNameResponse.id;
                 }
             }
         }
@@ -285,7 +293,9 @@ export const FormSettingsOwner = () => {
         if (!personData) return;
         personService
             .update(personData.id, {
-                ProfilePhotoPath: null,
+                source: {
+                    ProfilePhotoPath: null,
+                },
             })
             .then(() => {
                 setPersonData((prev) => {

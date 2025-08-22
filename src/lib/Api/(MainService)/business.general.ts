@@ -67,10 +67,10 @@ export class GeneralBusinessService {
         // 2. Создание Контактов
         const createdContacts = await this.contactsService.create({
             source: {
-                AddressId: createdAddress?.id || null,
+                Address: createdAddress?.id || null,
                 Email: formData.email,
                 Phone: formData.phone,
-                SocialContactsId: null,
+                SocialContacts: null,
             },
         });
 
@@ -89,18 +89,22 @@ export class GeneralBusinessService {
             console.error("ERROR LEGAL_TYPE");
             return false;
         }
-        const createdBusiness = await this.businessService.createBusiness(
-            {
-                source: {
-                    LegalType: legalType?.id,
-                    Contacts: createdContacts?.id || null,
-                    OfficialName: formData.officialName,
-                    RegistrationDate: formData.dateRegister,
-                    RegistrationNumber: formData.numberOrganization,
+        const createdBusiness = await this.businessService
+            .createBusiness(
+                {
+                    source: {
+                        LegalType: legalType?.id,
+                        Contacts: createdContacts?.id || null,
+                        OfficialName: formData.officialName,
+                        RegistrationDate: formData.dateRegister,
+                        RegistrationNumber: formData.numberOrganization,
+                    },
                 },
-            },
-            userId
-        );
+                userId
+            )
+            .then((res) => {
+                return res.business;
+            });
 
         if (!createdBusiness) {
             console.error("ERROR сущности бизнеса");

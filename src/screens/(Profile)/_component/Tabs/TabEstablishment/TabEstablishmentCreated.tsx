@@ -25,9 +25,12 @@ const TabEstablishmentCreated = () => {
     const establishmentService = new EstablishmentService();
     useEffect(() => {
         async function getData() {
+            if (!user) {
+                return;
+            }
             const estPersonAssign =
                 await establishmentPersonAssignmentService.getAll({
-                    Person: user?.id,
+                    Person: user.id,
                 });
             const idsEstablishments = estPersonAssign
                 .map((item) => item.EstablishmentId)

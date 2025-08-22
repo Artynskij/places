@@ -12,7 +12,7 @@ export class InvitesService {
         this.InvitesApi = new InvitesApi();
     }
 
-    async create(body: IInvitesRequest): Promise<"ok" | null> {
+    async create(body: IInvitesRequest): Promise<{id:string} | null> {
         const response = await this.InvitesApi.create(body);
         return response;
     }
@@ -24,8 +24,8 @@ export class InvitesService {
         const response = await this.InvitesApi.getByQuery(body);
         return response;
     }
-    async applyPerson(id: string): Promise<"ok" | null> {
-        const response = await this.InvitesApi.applyPerson(id);
+    async applyPerson(idBusPerson: string): Promise<"ok" | null> {
+        const response = await this.InvitesApi.applyPerson(idBusPerson);
         return response;
     }
 }

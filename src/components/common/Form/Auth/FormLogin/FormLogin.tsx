@@ -22,16 +22,8 @@ import { Button } from "@/components/UI/Button/Button";
 import { IconGoogle } from "@/components/common/Icons/IconGoogle/IconGoogle";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 
-interface IFormInputs {
-    name?: string;
-    email?: string;
-    age?: number;
-    password?: string;
-    confirmPassword?: string;
-}
+type TTypeForm = Yup.InferType<typeof validationSchemaSignIn>;
 const validationSchemaSignIn = Yup.object().shape({
-    // name: Yup.string().required("Name is required"),
-
     email: Yup.string().email("Invalid email").required("Email is required"),
 
     password: Yup.string()
@@ -77,33 +69,36 @@ export const FormLogin = () => {
         };
     }, []);
     const { user, setUser } = useUser();
-    const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-        console.log("Form Data:", data);
-        const response = await personService.getById(
-            "01JZMZWTCTHYV5APEJKD6F74DF"
-        );
-
-        if (response && activeUserType) {
-            setUser({ ...response, typeUser: activeUserType });
-            notification.success({
-                message: `добро пожаловать на Places Gold ${
-                    response.personName?.name || response.id
-                }`,
+    const onSubmit: SubmitHandler<TTypeForm> = async (data) => {
+        const findPersonID = await personService.getByEmail(data.email);
+        if (!findPersonID) {
+            notification.error({
+                message: "пользователя с такой почтой не существует",
             });
+            return;
+        }
+        const response = await personService.getById(findPersonID);
 
-            const redirect = searchParams.get(CONSTANT_SEARCH_PARAMS.REDIRECT);
-
-            router.replace(
-                redirect
-                    ? redirect
-                    : activeUserType === "owner"
-                    ? ROUTES.PROFILE.OWNER(response.id || "noNick")
-                    : ROUTES.PROFILE.TOURIST(response.id || "noNick")
-            );
-        } else {
+        if (!response || !activeUserType) {
             notification.error({ message: "нету пользователя" });
             return;
         }
+        setUser({ ...response, typeUser: activeUserType });
+        notification.success({
+            message: `добро пожаловать на Places Gold ${
+                response.personName?.name || response.nickname || response.id
+            }`,
+        });
+
+        const redirect = searchParams.get(CONSTANT_SEARCH_PARAMS.REDIRECT);
+
+        router.replace(
+            redirect
+                ? redirect
+                : activeUserType === "owner"
+                ? ROUTES.PROFILE.OWNER(response.id || "noNick")
+                : ROUTES.PROFILE.TOURIST(response.id || "noNick")
+        );
     };
 
     const buttonForgotSpan = () => {

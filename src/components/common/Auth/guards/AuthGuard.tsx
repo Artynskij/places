@@ -19,16 +19,15 @@ export const AuthGuard = ({
     roles,
     fallback = null,
 }: AuthGuardProps) => {
-    const { user } = useUser();
+    const { user, loadingUser } = useUser();
     const router = useRouter();
     const pathname = usePathname();
-
     const searchParams = useSearchParams();
     const notification = useNotification();
-    const hasRedirected = useRef(false); // ← флаг, чтобы не дублировать
+    const hasRedirected = useRef(false);
 
     useEffect(() => {
-        if (hasRedirected.current) return; // уже редиректили — выходим
+        if (loadingUser || hasRedirected.current) return; // ждём пока user загрузится
 
         if (!user) {
             notification.info({
@@ -47,17 +46,20 @@ export const AuthGuard = ({
                 message: "Зайдите в профиль с другим типом",
             });
             const redirectUrl = encodeURIComponent(pathname);
-           
-
             router.replace(
                 `${ROUTES.AUTH.LOGIN}?${CONSTANT_SEARCH_PARAMS.REDIRECT}=${redirectUrl}`
             );
             hasRedirected.current = true;
         }
-    }, [user, roles, notification, router]);
+    }, [user, roles, notification, router, pathname, loadingUser]);
 
-    if (!user) return <Loader />;
+    // пока грузится — просто спиннер
+    if (loadingUser) return <Loader />;
 
+    // если юзера нет — значит уже идёт редирект
+    if (!user) return null;
+
+    // если роль не подходит
     if (roles && !roles.includes(user.typeUser)) return fallback;
 
     return <>{children}</>;

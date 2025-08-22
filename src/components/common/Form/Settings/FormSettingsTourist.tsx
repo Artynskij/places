@@ -54,9 +54,11 @@ import {
     IContactsRequest,
     IPersonFront,
     IPersonNameCreateRequest,
+    IPersonNameUpdateRequest,
     IPersonRequest,
     ISocialContactsRequest,
 } from "@/lib/models";
+import { useUser } from "@/lib/context/UserContext/UserContext";
 
 type TTypeForm = Yup.InferType<typeof validationSchema>;
 
@@ -83,6 +85,8 @@ const validationSchema = Yup.object().shape({
 });
 export const FormSettingsTourist = () => {
     const notification = useNotification();
+    const { user } = useUser();
+
     const personService = new PersonService();
     const personNameService = new PersonNameService();
     const addressService = new AddressService();
@@ -107,7 +111,8 @@ export const FormSettingsTourist = () => {
     });
     const avatarFiles = watch("avatar");
     useEffect(() => {
-        personService.getById(mockPersonId).then((person) => {
+        if (!user) return;
+        personService.getById(user.id).then((person) => {
             if (person) {
                 setPersonData(person);
 
@@ -173,7 +178,7 @@ export const FormSettingsTourist = () => {
             return;
         }
 
-        const bodyToPersonUpdate: IPersonRequest = {};
+        const bodyToPersonUpdate: IPersonRequest = { source: {} };
 
         //  Обработка аватара
         if (changes.avatar) {
@@ -184,32 +189,32 @@ export const FormSettingsTourist = () => {
                     type: "image",
                     vendorId: personData.id,
                 });
-                bodyToPersonUpdate.AvatarPhotoPath = imageUrl?.blobPath;
+                bodyToPersonUpdate.source.AvatarPhotoPath = imageUrl?.blobPath;
             } else {
-                bodyToPersonUpdate.AvatarPhotoPath = null;
+                bodyToPersonUpdate.source.AvatarPhotoPath = null;
             }
         }
 
         //  Обработка описания
         if ("description" in changes) {
-            bodyToPersonUpdate.About = changes.description ?? null;
+            bodyToPersonUpdate.source.About = changes.description ?? null;
         }
         if ("gender" in changes) {
-            bodyToPersonUpdate.Gender = changes.gender ?? null;
+            bodyToPersonUpdate.source.Gender = changes.gender ?? null;
         }
         if ("dateOfBirth" in changes) {
-            bodyToPersonUpdate.BirthDate = changes.dateOfBirth ?? null;
+            bodyToPersonUpdate.source.BirthDate = changes.dateOfBirth ?? null;
         }
         //  nickname описания
         if ("nickname" in changes) {
-            bodyToPersonUpdate.Nickname = changes.nickname ?? null;
+            bodyToPersonUpdate.source.Nickname = changes.nickname ?? null;
         }
 
         //  Обработка ФИО
         if ("fullName" in changes && changes.fullName) {
             const fullName = changes.fullName;
 
-            const bodyPersonName: Partial<IPersonNameCreateRequest> = {};
+            const bodyPersonName: Partial<IPersonNameUpdateRequest> = {};
 
             if ("name" in fullName) {
                 // bodyPersonName.FirstName = fullName.name ?? null;
@@ -232,7 +237,8 @@ export const FormSettingsTourist = () => {
                     );
 
                 if (personNameResponse) {
-                    bodyToPersonUpdate.PersonName = personNameResponse.id;
+                    bodyToPersonUpdate.source.PersonName =
+                        personNameResponse.id;
                 }
             }
         }
@@ -243,7 +249,7 @@ export const FormSettingsTourist = () => {
             const addr = changes.address || {};
             const bodyAddress = {
                 Country: addr.country ?? null,
-
+                Street: "",
                 Town: addr.town ?? null,
             };
 
@@ -288,24 +294,24 @@ export const FormSettingsTourist = () => {
                         "phone" in changes
                             ? changes.phone ?? null
                             : personData.contacts?.phone ?? null,
-                    AddressId:
+                    Address:
                         addressRes?.id ||
                         personData.contacts?.address?.id ||
                         null,
-                    SocialContactsId:
+                    SocialContacts:
                         socialRes?.id ||
                         personData.contacts?.socialNetworks?.id ||
                         null,
                 },
             };
-
+            console.log(bodyContacts);
             const contactsResponse = await contactsPersonService.updateOrCreate(
                 personData.contacts?.id || null,
                 bodyContacts
             );
-
+            console.log(contactsResponse);
             if (contactsResponse) {
-                bodyToPersonUpdate.Contacts = contactsResponse.id;
+                bodyToPersonUpdate.source.Contacts = contactsResponse.id;
             }
         }
 
@@ -330,7 +336,9 @@ export const FormSettingsTourist = () => {
         if (!personData) return;
         personService
             .update(personData.id, {
-                AvatarPhotoPath: null,
+                source: {
+                    AvatarPhotoPath: null,
+                },
             })
             .then(() => {
                 setPersonData((prev) => {

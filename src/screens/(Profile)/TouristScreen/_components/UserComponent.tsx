@@ -32,10 +32,17 @@ const UserComponent = ({}: IUserComponent) => {
     const { user } = useUser();
     const [travelProgress, setTravelProgress] =
         useState<ITravelProgressFront>();
+    // const [userData, setUserData] = useState<IUser>();
     useEffect(() => {
         if (!user) {
             return;
         }
+        // personService.getById(user.id).then((res) => {
+        //     if (res) {
+        //         console.log(res);
+        //         setUserData({ typeUser: user.typeUser, ...res });
+        //     }
+        // });
         personService.getTravelProgress(user.id).then((res) => {
             if (res) {
                 setTravelProgress(res);

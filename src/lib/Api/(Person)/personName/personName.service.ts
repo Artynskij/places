@@ -55,7 +55,7 @@ export class PersonNameService {
             return null;
         }
         if (!id) {
-            return this.createPersonName(body);
+            return this.createPersonName({ source: { ...body } });
         }
 
         const response = this.personNameApi

@@ -42,18 +42,22 @@ const TabBusinessOwner = () => {
             </div>
 
             <ul className={style.list}>
-                {businessData?.map((business) => {
-                    return (
-                        <Link
-                            href={ROUTES.PROFILE.BUSINESS(business.Id)}
-                            key={business.Id}
-                        >
-                            <li className={style.list_item}>
-                                {business.OfficialName}
-                            </li>
-                        </Link>
-                    );
-                })}
+                {businessData && businessData.length > 0 ? (
+                    businessData.map((business) => {
+                        return (
+                            <Link
+                                href={ROUTES.PROFILE.BUSINESS(business.Id)}
+                                key={business.Id}
+                            >
+                                <li className={style.list_item}>
+                                    {business.OfficialName}
+                                </li>
+                            </Link>
+                        );
+                    })
+                ) : (
+                    <div>нету бизнесов</div>
+                )}
             </ul>
         </div>
     );

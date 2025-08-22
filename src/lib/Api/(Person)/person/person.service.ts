@@ -3,7 +3,7 @@ import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import { PersonMapper } from "./person.mapper";
 import { DataLoadManagementService } from "../../dataLoadManagement/dataLoadManagement.service";
-import { IPersonWithContentEntity } from "@/lib/models/api/entities/(person)/person.entity";
+import { IPersonEntity, IPersonWithContentEntity } from "@/lib/models/api/entities/(person)/person.entity";
 import { GenderService } from "../gender.api";
 import { ITravelProgressFront } from "@/lib/models";
 
@@ -18,7 +18,10 @@ export class PersonService {
         this.dataLoadManagementService = new DataLoadManagementService();
         this.genderService = new GenderService();
     }
-
+    async create(body: IPersonRequest): Promise<IPersonEntity | null> {
+        const response = await this.personApi.create(body);
+        return response;
+    }
     async getById(id: string, lang?: string): Promise<IPersonFront | null> {
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();
 
@@ -29,7 +32,7 @@ export class PersonService {
                 ? await this.genderService.getById(res.person.Gender.Id)
                 : null;
 
-            const mappedData = this.personMapper.transformPersonEntity(
+            const mappedData = this.personMapper.toFront(
                 res,
                 genderServer,
                 cdnHost?.url || null
@@ -39,10 +42,8 @@ export class PersonService {
 
         return response;
     }
-    async getByEmail(email:string): Promise<string | null> {
-     
-
-        const response = this.personApi.getByEmail(email)
+    async getByEmail(email: string): Promise<string | null> {
+        const response = this.personApi.getByEmail(email);
 
         return response;
     }
