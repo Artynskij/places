@@ -19,7 +19,7 @@ interface IProps extends IPageProps {
 export default function BusinessSettingsPage({ params, searchParams }: IProps) {
     return (
         <div className="container">
-            <BusinessSettingsScreen/>
+            <BusinessSettingsScreen params={params} />
             {/* <TouristSettingsScreen
                 params={params}
                 

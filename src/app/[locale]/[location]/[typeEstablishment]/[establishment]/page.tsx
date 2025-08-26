@@ -39,7 +39,7 @@ export default async function EstablishmentPage({
     const apiLocation = new LocationService();
     const apiSchedule = new ScheduleService();
     const apiMap = new MapService();
-    const dataEstablishment = await apiEstablishment.getEstablishmentById(
+    const dataEstablishment = await apiEstablishment.getById(
         params.establishment,
         params.locale
     );
@@ -55,7 +55,6 @@ export default async function EstablishmentPage({
             lon: dataEstablishment.location.longitude,
             radius: 1000,
         });
-   
 
     if (!sortedNearEstablishment) {
         console.log("not found sortedNearEstablishment");

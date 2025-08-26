@@ -11,10 +11,11 @@ import {
 import { LocationService } from "../location/location.service";
 export class PersonTravelMarkMapper {
     toFront(
-        data: IPersonTravelMarkEntity,
-        cdnHost?: string,
-        location?: ILocationFront
+        data: IPersonTravelMarkEntity
+        // cdnHost?: string,
+        // location?: ILocationsWithContentEntity
     ): IPersonTravelMarkFront {
+        console.log(data);
         return {
             id: data.Id,
             isLoved: data.IsLoved,
@@ -22,7 +23,7 @@ export class PersonTravelMarkMapper {
             isVisited: data.IsVisited,
             location: {
                 id: data.Location.Id,
-                title: location?.title || "",
+                title: data.Location.content?.details[0].value || "gavno",
             },
             personId: data.Person.Id,
         };

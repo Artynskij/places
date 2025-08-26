@@ -4,8 +4,14 @@ import style from "./settings.module.scss";
 
 
 import { FormSettingsOwner } from "@/components/common/Form/Settings/FormSettingsOwner";
-
-export const BusinessSettingsScreen = () => {
+import { FormBusinessUpdate } from "@/components/common/Form/Business/FormBusinessUpdate";
+import { IPageProps } from "@/lib/models";
+interface IProps extends IPageProps {
+    params: IPageProps["params"] & {
+        business: string;
+    };
+}
+export const BusinessSettingsScreen = ({params}:IProps) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -14,7 +20,7 @@ export const BusinessSettingsScreen = () => {
        <div className={style.page}>
             <h2>Редактирование бизнеса</h2>
 
-            {/* <FormSettingsOwner /> */}
+            <FormBusinessUpdate businessId={params.business}/>
         </div>
     );
 };

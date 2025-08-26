@@ -53,8 +53,7 @@ import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
 import {
     IContactsRequest,
     IPersonFront,
-    IPersonNameCreateRequest,
-    IPersonNameUpdateRequest,
+    IPersonNameRequest,
     IPersonRequest,
     ISocialContactsRequest,
 } from "@/lib/models";
@@ -214,7 +213,7 @@ export const FormSettingsTourist = () => {
         if ("fullName" in changes && changes.fullName) {
             const fullName = changes.fullName;
 
-            const bodyPersonName: Partial<IPersonNameUpdateRequest> = {};
+            const bodyPersonName: Partial<IPersonNameRequest["source"]> = {};
 
             if ("name" in fullName) {
                 // bodyPersonName.FirstName = fullName.name ?? null;
@@ -233,7 +232,7 @@ export const FormSettingsTourist = () => {
                 const personNameResponse =
                     await personNameService.updatePersonName(
                         personData.personName?.id || null,
-                        bodyPersonName
+                        { source: bodyPersonName }
                     );
 
                 if (personNameResponse) {
@@ -249,7 +248,7 @@ export const FormSettingsTourist = () => {
             const addr = changes.address || {};
             const bodyAddress = {
                 Country: addr.country ?? null,
-                Street: "",
+
                 Town: addr.town ?? null,
             };
 

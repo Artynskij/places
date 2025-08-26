@@ -163,10 +163,9 @@ const FormCreateEstablishmentBase = ({}: IFormCreateEstablishment) => {
                 },
             };
 
-            const createdEstablishment =
-                await establishmentService.createEstablishment(
-                    bodyEstablishment
-                );
+            const createdEstablishment = await establishmentService.create(
+                bodyEstablishment
+            );
 
             if (!createdEstablishment) {
                 notification.error({ message: "Не удалось создать заведение" });
@@ -237,35 +236,31 @@ const FormCreateEstablishmentBase = ({}: IFormCreateEstablishment) => {
             // 6. Обновление заведения с изображениями
 
             const updatedEstablishmentForImages =
-                await establishmentService.updateEstablishment(
-                    createdEstablishment.Id,
-                    {
-                        source: {},
-                        content: {
-                            value: [
-                                {
-                                    lang: locale,
-                                    value: {
-                                        details: {
-                                            title: dataForm.title,
-                                            description:
-                                                dataForm.description || null,
-                                        },
-                                        seo: null,
-                                        location: {
-                                            street1:
-                                                dataForm.coord.addressLine ||
-                                                null,
-                                        },
+                await establishmentService.update(createdEstablishment.Id, {
+                    source: {},
+                    content: {
+                        value: [
+                            {
+                                lang: locale,
+                                value: {
+                                    details: {
+                                        title: dataForm.title,
+                                        description:
+                                            dataForm.description || null,
+                                    },
+                                    seo: null,
+                                    location: {
+                                        street1:
+                                            dataForm.coord.addressLine || null,
                                     },
                                 },
-                            ],
-                            media: {
-                                gallery: imageBlobFiles as IImageEntity[],
                             },
+                        ],
+                        media: {
+                            gallery: imageBlobFiles as IImageEntity[],
                         },
-                    }
-                );
+                    },
+                });
 
             // 7. Создание расписания
             if (dataForm.schedule) {
@@ -423,15 +418,6 @@ const FormCreateEstablishmentBase = ({}: IFormCreateEstablishment) => {
                         defaultValue={[]}
                         render={({ field, fieldState }) => (
                             <>
-                                {/* <UploadButton
-                            titleSpan="Прикрепление фотографии объекта*"
-                            accept="image"
-                            maxSizeMB={10}
-                            maxCount={100}
-                            value={field.value}
-                            onChange={field.onChange}
-                            error={fieldState.error || null}
-                        /> */}
                                 <PhotoBlockForm
                                     error={fieldState.error || null}
                                     onChange={field.onChange}

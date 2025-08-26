@@ -149,10 +149,9 @@ export const FormUpdateEstablishment = ({
             },
         };
         // создание establishment
-        const createdEstablishment =
-            await establishmentService.createEstablishment({
-                ...bodyEstablishment,
-            });
+        const createdEstablishment = await establishmentService.create({
+            ...bodyEstablishment,
+        });
         if (!createdEstablishment) {
             notification.error({
                 message: "системная ошибка. не получилось создать заведение",
@@ -200,7 +199,7 @@ export const FormUpdateEstablishment = ({
                     message: `картинки ${imageFiles.length} сохранены в blob`,
                 });
                 establishmentService
-                    .updateEstablishment(createdEstablishment.Id, {
+                    .update(createdEstablishment.Id, {
                         content: {
                             value: [
                                 {
@@ -284,7 +283,6 @@ export const FormUpdateEstablishment = ({
                 message: `связи тегов(${createdTags.length}) созданы`,
             });
         }
-  
 
         notification.success({ message: "Объект отправлен на модерацию" });
     };

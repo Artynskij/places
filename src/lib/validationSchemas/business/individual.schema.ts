@@ -6,11 +6,9 @@ import { getAgreementsValidation } from "@/components/common/BlockFunctional/Blo
 import { agreementKeysBusinessIndividual } from "@/asset/constants/agreementsKeys";
 
 export const validationBusinessIndividualSchema = Yup.object().shape({
-    fullName: Yup.object().shape({
-        name: Yup.string().required("имя обязательно"),
-        secondName: Yup.string(), // Отчество может быть необязательным
-        surname: Yup.string().required("имя обязательно"),
-    }),
+    officialName: Yup.string().required(
+        "Название организации обязательно"
+    ),
 
     email: Yup.string()
         .email("Неккоректный адрес электронной почты")

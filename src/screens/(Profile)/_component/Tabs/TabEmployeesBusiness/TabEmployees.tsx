@@ -6,24 +6,42 @@ import { IBusinessFront, IInvitesByQueryItemResponse } from "@/lib/models";
 import { useEffect, useState } from "react";
 import { InvitesService } from "@/lib/Api/invites/invites.service";
 import { useLocale } from "next-intl";
+import { useUser } from "@/lib/context/UserContext/UserContext";
 interface IProp {
     business: IBusinessFront;
 }
 const TabEmployees = ({ business }: IProp) => {
     const invitesService = new InvitesService();
     const locale = useLocale();
-
+    const { user } = useUser();
     const [listInvites, setListInvites] =
         useState<IInvitesByQueryItemResponse[]>();
     useEffect(() => {
-        invitesService
-            .getByQuery({ lang: locale, businessId: business.Id })
-            .then((res) => {
-                console.log(res);
-                if (res) {
-                    setListInvites(res);
-                }
+        if (!user) return;
+        const dataLoad = async () => {
+            const firstInvitesList = await invitesService.getByQuery({
+                lang: locale,
+                businessId: business.Id,
             });
+
+            if (!firstInvitesList) return;
+            const foundPersonInvite = firstInvitesList.find(
+                (item) => item.person.id === user?.id
+            );
+            if (!foundPersonInvite) return;
+            if (foundPersonInvite.activated) {
+                setListInvites(firstInvitesList);
+            } else {
+                await invitesService.applyPerson(foundPersonInvite.id);
+                const secondInvitesList = await invitesService.getByQuery({
+                    lang: locale,
+                    businessId: business.Id,
+                });
+                if (!secondInvitesList) return;
+                setListInvites(secondInvitesList);
+            }
+        };
+        dataLoad();
     }, []);
     return (
         <div className={style.tab}>
@@ -41,13 +59,18 @@ const TabEmployees = ({ business }: IProp) => {
                     {listInvites && listInvites.length > 0 ? (
                         listInvites.map((invite) => {
                             return (
-                                <li key={invite.id}>
+                                <li className={style.list_item} key={invite.id}>
                                     <span>
                                         {invite.person.name?.OriginalName ||
                                             "нету имени"}
                                     </span>
                                     <span>
                                         {invite.role.content.details[0].value}
+                                    </span>
+                                    <span className={invite.activated ? style.status_active : style.status_disActive}>
+                                        {invite.activated
+                                            ? "Активен"
+                                            : "Приглашение отправлено"}
                                     </span>
                                 </li>
                             );

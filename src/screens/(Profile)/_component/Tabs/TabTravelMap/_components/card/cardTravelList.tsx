@@ -34,9 +34,7 @@ const CardTravelList = ({
     return (
         <>
             <div className={style.left}>
-                <span>
-                    {searchItem?.title || current?.id || "нету названия"}
-                </span>
+                <span>{current?.location.title || "Отсутсвует имя"}</span>
 
                 <TravelMapIcon
                     onClick={() => {

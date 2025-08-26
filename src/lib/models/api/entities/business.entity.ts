@@ -7,6 +7,7 @@ import {
     IRoleOwnerEntity,
     IRoleOwnerWithContentEntity,
 } from "./(person)/roleOwner.entity";
+
 export interface IBusinessEntity {
     Id: string;
     OfficialName: string;
@@ -14,7 +15,7 @@ export interface IBusinessEntity {
     RegistrationDate: string | null;
     ContentId: string | null;
     LastModifiedDate: string;
-    Contacts: IContactsPersonEntity | null;
+    Contacts: IContactsPersonEntity;
     CreatedDate: string;
     DeletedDate: string | null;
     Establishment: IEstablishmentEntity | null;

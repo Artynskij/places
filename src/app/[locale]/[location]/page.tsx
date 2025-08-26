@@ -37,35 +37,32 @@ export default async function CountryPage({ params, searchParams }: IProps) {
     const apiLocation = new LocationService();
     const apiTags = new TagsService();
 
-    const eaterEstablishment =
-        await apiEstablishment.getEstablishmentByPagination({
-            pagination: { page: 1, pageSize: 10 },
-            filter: {
-                typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.id],
-                locationId: params.location,
-            },
+    const eaterEstablishment = await apiEstablishment.getByPagination({
+        pagination: { page: 1, pageSize: 10 },
+        filter: {
+            typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.id],
+            locationId: params.location,
+        },
 
-            lang: params.locale,
-        });
-    const accommodationEstablishment =
-        await apiEstablishment.getEstablishmentByPagination({
-            pagination: { page: 1, pageSize: 10 },
-            filter: {
-                typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION.id],
-                locationId: params.location,
-            },
+        lang: params.locale,
+    });
+    const accommodationEstablishment = await apiEstablishment.getByPagination({
+        pagination: { page: 1, pageSize: 10 },
+        filter: {
+            typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION.id],
+            locationId: params.location,
+        },
 
-            lang: params.locale,
-        });
-    const attractionEstablishment =
-        await apiEstablishment.getEstablishmentByPagination({
-            pagination: { page: 1, pageSize: 10 },
-            filter: {
-                typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.ATTRACTION.id],
-                locationId: params.location,
-            },
-            lang: params.locale,
-        });
+        lang: params.locale,
+    });
+    const attractionEstablishment = await apiEstablishment.getByPagination({
+        pagination: { page: 1, pageSize: 10 },
+        filter: {
+            typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.ATTRACTION.id],
+            locationId: params.location,
+        },
+        lang: params.locale,
+    });
     const locationData = await apiLocation.getLocationById(params.location);
     const townsData = await apiLocation.getListLocationInside({
         lang: params.locale,

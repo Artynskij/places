@@ -2,12 +2,10 @@ import * as Yup from "yup";
 import { validPhoneSchema } from "../phoneSchema";
 import { validImageFileSchema } from "../file/imageArraySchema";
 
-import { getAgreementsValidation } from "@/components/common/BlockFunctional/BlockAgreements";
-import { agreementKeysBusinessLegalEntity } from "@/asset/constants/agreementsKeys";
 import { validDateSchema } from "../dateSchema";
 
-export const validationBusinessLegalEntitySchema = Yup.object().shape({
-    
+export const validationUpdateBusinessSchema = Yup.object().shape({
+    legalType: Yup.string().required("Должно быть"),
     officialName: Yup.string().required(
         "Название Индивидуального предпринимателя обязатиельно"
     ),
@@ -32,5 +30,5 @@ export const validationBusinessLegalEntitySchema = Yup.object().shape({
         postalCode: Yup.string(),
     }),
 
-    agreements: getAgreementsValidation(agreementKeysBusinessLegalEntity),
+    // agreements: getAgreementsValidation(agreementKeysBusinessIndividual),
 });

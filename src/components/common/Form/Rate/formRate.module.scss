@@ -1,0 +1,17 @@
+.form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $gap-small;
+}
+.rateBlock {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-small;
+    position: relative;
+    margin-bottom: 20px;
+}
+.buttonSubmit {
+    border-radius: $border-radius-5;
+    width: fit-content;
+    grid-column: 1/4;
+}

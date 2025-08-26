@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 
 import { IEstablishmentFront } from "@/lib/models";
 
-
 import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 
@@ -24,11 +23,9 @@ const TabReview = ({ dataUser }: ITabReview) => {
         useState<IEstablishmentFront | null>(null);
     useEffect(() => {
         const api = new EstablishmentService();
-        api.getEstablishmentById("01JJ221DJARES4ATVV9G6Y2GNT", "ru").then(
-            (res) => {
-                setEstablishmentReview(res);
-            }
-        );
+        api.getById("01JJ221DJARES4ATVV9G6Y2GNT", "ru").then((res) => {
+            setEstablishmentReview(res);
+        });
     }, []);
     return (
         <div className={style.review_content}>

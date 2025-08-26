@@ -354,7 +354,10 @@ export const EstablishmentScreen = async ({
                     </div>
                     <div className={style.info_bestReview}></div>
 
-                    <FormRate typeEstablishment={dataEstablishment.typeEstablishment}>
+                    <FormRate
+                        establishment={dataEstablishment}
+                        typeEstablishment={dataEstablishment.typeEstablishment}
+                    >
                         <Button
                             className={style.button_estimate}
                             icon={

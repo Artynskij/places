@@ -30,14 +30,14 @@ const TabEstablishmentCreated = () => {
             }
             const estPersonAssign =
                 await establishmentPersonAssignmentService.getAll({
-                    Person: user.id,
+                    personIds: [user.id],
                 });
             const idsEstablishments = estPersonAssign
                 .map((item) => item.EstablishmentId)
                 .filter((item) => !!item) as string[];
             const establishmentsResponse =
                 idsEstablishments.length > 0
-                    ? await establishmentService.getEstablishmentByPagination({
+                    ? await establishmentService.getByPagination({
                           pagination: { page: 1, pageSize: 10 },
                           lang: locale,
                           ids: idsEstablishments,

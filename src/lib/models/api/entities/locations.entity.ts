@@ -10,6 +10,7 @@ export interface ILocationsEntity {
         Id: string;
         Name: string;
     };
+    content?: IContentLocationEntity;
 }
 
 export interface ILocationsWithContentEntity {

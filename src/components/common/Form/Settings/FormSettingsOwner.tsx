@@ -39,10 +39,7 @@ import Image from "next/image";
 import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request";
 
 import { getObjectDiffWithNulls } from "@/lib/helpers/getChangedFieldsForApi";
-import {
-    IPersonNameCreateRequest,
-    IPersonNameUpdateRequest,
-} from "@/lib/models/api/request/(Person)/personName.request";
+import { IPersonNameRequest } from "@/lib/models/api/request/(Person)/personName.request";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
 import { Loader } from "../../Loader/Loader";
@@ -174,7 +171,7 @@ export const FormSettingsOwner = () => {
         if ("fullName" in changes && changes.fullName) {
             const fullName = changes.fullName;
 
-            const bodyPersonName: Partial<IPersonNameUpdateRequest> = {};
+            const bodyPersonName: Partial<IPersonNameRequest["source"]> = {};
 
             if ("name" in fullName) {
                 // bodyPersonName.FirstName = fullName.name ?? null;
@@ -193,7 +190,7 @@ export const FormSettingsOwner = () => {
                 const personNameResponse =
                     await personNameService.updatePersonName(
                         personData.personName?.id || null,
-                        bodyPersonName
+                        { source: bodyPersonName }
                     );
 
                 if (personNameResponse) {

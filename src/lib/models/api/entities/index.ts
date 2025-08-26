@@ -5,6 +5,7 @@ export * from "./(establishment)/parts/image.entity";
 export * from "./(establishment)/parts/rate.entity";
 
 export * from "./(establishment)/establishment.entity";
+export * from "./(establishment)/establishmentRate.entity";
 export * from "./(establishment)/schedule.entity";
 export * from "./(establishment)/tag.entity";
 export * from "./(establishment)/typeEstablishment.entity";

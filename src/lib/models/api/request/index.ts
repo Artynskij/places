@@ -2,6 +2,7 @@ export * from "./(Establishment)/category.request";
 export * from "./(Establishment)/establishment.request";
 export * from "./(Establishment)/schedule.request";
 export * from "./(Establishment)/tag.request";
+export * from "./(Establishment)/establishmentRate.request";
 export * from "./(Person)/address.request";
 export * from "./(Person)/consents.request";
 export * from "./(Person)/person.request";

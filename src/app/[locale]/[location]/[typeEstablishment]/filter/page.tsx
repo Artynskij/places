@@ -45,7 +45,7 @@ export default async function FilterPage({ params, searchParams }: IProps) {
     const apiLocation = new LocationService();
 
     const [establishmentList, blockTags, locationData] = await Promise.all([
-        apiEst.getEstablishmentByPagination({
+        apiEst.getByPagination({
             lang: params.locale,
             pagination: {
                 page: currentPageQuery

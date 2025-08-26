@@ -1,4 +1,4 @@
-import { ILocationsEntity } from "../locations.entity";
+import { ILocationsEntity, ILocationsWithContentEntity } from "../locations.entity";
 import { IPersonEntity } from "./person.entity";
 
 export interface IPersonTravelMarkEntity {

@@ -12,7 +12,7 @@ import { IEstablishmentEntity } from "@/lib/models";
 export default class EstablishmentApi {
     constructor() {}
 
-    async getAllEstablishment(): Promise<IEstablishmentItemsResponse | null> {
+    async getAll(): Promise<IEstablishmentItemsResponse | null> {
         try {
             const response = await apiClient.get(`/establishment`);
             return response.data;
@@ -22,7 +22,7 @@ export default class EstablishmentApi {
         }
     }
 
-    async getEstablishmentByPagination(
+    async getByPagination(
         body: IPaginationEstablishmentRequest
     ): Promise<IEstablishmentItemsResponse | null> {
         try {
@@ -38,7 +38,7 @@ export default class EstablishmentApi {
         }
     }
 
-    async getEstablishmentById(
+    async getById(
         id: string,
         lang: string
     ): Promise<IEstablishmentResponse | null> {
@@ -52,7 +52,7 @@ export default class EstablishmentApi {
             return null;
         }
     }
-    async createEstablishment(
+    async create(
         body: IEstablishmentCreateRequest
     ): Promise<IEstablishmentEntity | null> {
         try {
@@ -63,7 +63,7 @@ export default class EstablishmentApi {
             return null;
         }
     }
-    async updateEstablishment(
+    async update(
         id: string,
         body: IEstablishmentCreateRequest
     ): Promise<IEstablishmentEntity | null> {

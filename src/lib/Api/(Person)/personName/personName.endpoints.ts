@@ -1,15 +1,12 @@
 import { IPersonNameEntity } from "@/lib/models/api/entities/(person)/personName.entity";
 import apiClient from "../../ApiClient";
 
-import {
-    IPersonNameCreateRequest,
-    IPersonNameUpdateRequest,
-} from "@/lib/models/api/request/(Person)/personName.request";
+import { IPersonNameRequest } from "@/lib/models/api/request/(Person)/personName.request";
 import { IPersonNameFront } from "@/lib/models/frontend/(person)/personName.front";
 
 export default class PersonNameApi {
     constructor() {}
-    async getPersonNameById(
+    async getById(
         id: string,
         lang?: string
     ): Promise<IPersonNameEntity | null> {
@@ -24,9 +21,7 @@ export default class PersonNameApi {
         }
     }
 
-    async createPersonName(
-        body: IPersonNameCreateRequest
-    ): Promise<IPersonNameEntity | null> {
+    async create(body: IPersonNameRequest): Promise<IPersonNameEntity | null> {
         try {
             const response = await apiClient.post(`/persons-name`, body);
             return response.data;
@@ -35,12 +30,12 @@ export default class PersonNameApi {
             return null;
         }
     }
-    async updatePersonName(
+    async update(
         id: string,
-        body: IPersonNameUpdateRequest
+        body: IPersonNameRequest
     ): Promise<IPersonNameEntity | null> {
         try {
-            const response = await apiClient.patch(`/persons-name/${id}`, {source:{...body}});
+            const response = await apiClient.patch(`/persons-name/${id}`, body);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при обновлении PersonName ${id}`);

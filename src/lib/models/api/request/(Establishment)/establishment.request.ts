@@ -72,6 +72,6 @@ export interface IEstablishmentPersonAssignRequest {
     };
 }
 export interface IEstablishmentPersonAssignGetAllRequest {
-    Person?: string;
-    Establishment?: string;
+    personIds?: string[];
+    // establishmentIds?: string[];
 }

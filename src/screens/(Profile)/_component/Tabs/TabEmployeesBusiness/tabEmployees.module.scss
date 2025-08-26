@@ -1,4 +1,7 @@
 .tab {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-medium;
     &_title {
         display: flex;
         justify-content: space-between;
@@ -7,4 +10,31 @@
 }
 .buttonInvite {
     border-radius: $border-radius-10;
+}
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-medium;
+    &_item {
+        padding: 5px 8px;
+        background-color: $color-additional-background;
+        display: flex;
+        gap: $gap-small;
+        align-items: center;
+        border-radius: $border-radius-5;
+    }
+}
+.status {
+    &_active {
+        padding: 5px 8px;
+        border-radius: $border-radius-5;
+        background-color: green;
+        color: $color-main-white;
+    }
+    &_disActive {
+        padding: 5px 8px;
+        border-radius: $border-radius-5;
+        background-color: red;
+        color: $color-main-white;
+    }
 }

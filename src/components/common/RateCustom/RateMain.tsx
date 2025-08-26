@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import styles from "./rate.module.scss";
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
@@ -17,26 +17,34 @@ import SkeletonRate from "./SkeletonRate";
 //   5: <SmileOutlined />,
 // };
 const Rate = dynamic(() => import("antd").then((mod) => mod.Rate), {
-  ssr: false, // Отключаем SSR для этого компонента
-  loading: () => <SkeletonRate />,
+    ssr: false, // Отключаем SSR для этого компонента
+    loading: () => <SkeletonRate />,
 });
 interface IRateMain {
-  defaultValue: number;
-  disabled?: boolean;
-  classNameIcon?: string;
+    value?: number; // для интеграции с react-hook-form
+    onChange?: (val: number) => void;
+    defaultValue?: number;
+    disabled?: boolean;
+    classNameIcon?: string;
 }
 export const RateMain = ({
-  defaultValue: defaultValue,
-  disabled: disabled,
-  classNameIcon,
-}: IRateMain) => (
-  <Flex gap="middle" vertical>
-    <Rate
-      allowHalf
-      className={styles.rateAnt}
-      disabled={disabled}
-      defaultValue={defaultValue}
-      character={<IoHeart className={classNameIcon} />}
-    />
-  </Flex>
-);
+    value,
+    onChange,
+    defaultValue,
+    disabled,
+    classNameIcon,
+}: IRateMain) => {
+    return (
+        <Flex gap="middle" vertical>
+            <Rate
+                allowHalf
+                className={styles.rateAnt}
+                disabled={disabled}
+                value={value}
+                defaultValue={defaultValue}
+                onChange={onChange}
+                character={<IoHeart className={classNameIcon} />}
+            />
+        </Flex>
+    );
+};

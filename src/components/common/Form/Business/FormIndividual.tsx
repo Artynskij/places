@@ -58,9 +58,7 @@ export const FormIndividual = ({ activeTab }: IProp) => {
 
         const success = await generalBusinessService.create({
             formData: {
-                officialName: `${formData.fullName.surname} ${
-                    formData.fullName.name
-                } ${formData.fullName.secondName || ""}`,
+                officialName: formData.officialName,
                 dateRegister: null,
                 numberOrganization: null,
                 email: formData.email,
@@ -81,7 +79,9 @@ export const FormIndividual = ({ activeTab }: IProp) => {
         });
         if (success) {
             notification.success({ message: "Бизнес отправлен на модерацию" });
-            router.push(ROUTES.PROFILE.OWNER(user.id, CONSTANT_TABS.owner.business));
+            router.push(
+                ROUTES.PROFILE.OWNER(user.id, CONSTANT_TABS.owner.business)
+            );
         } else {
             notification.error({
                 message:
@@ -104,13 +104,20 @@ export const FormIndividual = ({ activeTab }: IProp) => {
                 <div className={style.selectionBlock_title}>ФИО</div>
                 <div className={style.selectionBlock_content}>
                     <InputForm
+                        error={errors.officialName?.message}
+                        register={register("officialName")}
+                        placeholder="ФИО*"
+                        titleSpan="ФИО согласно удостоверению личности."
+                        type="text"
+                    />
+                    {/* <InputForm
                         error={errors.fullName?.name?.message}
                         register={register("fullName.name")}
                         placeholder="Имя*"
                         titleSpan="Имя согласно удостоверению личности"
                         type="text"
-                    />
-                    <InputForm
+                    /> */}
+                    {/* <InputForm
                         error={errors.fullName?.secondName?.message}
                         register={register("fullName.secondName")}
                         placeholder="Второе имя"
@@ -123,7 +130,7 @@ export const FormIndividual = ({ activeTab }: IProp) => {
                         placeholder="Фамилия*"
                         titleSpan="Фамилия согласно удостоверению личности*"
                         type="text"
-                    />
+                    /> */}
                 </div>
             </div>
 
