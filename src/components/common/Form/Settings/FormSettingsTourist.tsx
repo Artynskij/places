@@ -130,9 +130,7 @@ export const FormSettingsTourist = () => {
                         secondName: person.personName?.secondName || "",
                         surname: person.personName?.surname || "",
                     },
-                    dateOfBirth: person.birthDate
-                        ? getFormatDate(person.birthDate)
-                        : "",
+                    dateOfBirth: person.birthDate ? person.birthDate : null,
                     gender: person.gender?.id || "",
                     nickname: person.nickname || "",
                     address: {
@@ -303,12 +301,12 @@ export const FormSettingsTourist = () => {
                         null,
                 },
             };
-            console.log(bodyContacts);
+
             const contactsResponse = await contactsPersonService.updateOrCreate(
                 personData.contacts?.id || null,
                 bodyContacts
             );
-            console.log(contactsResponse);
+
             if (contactsResponse) {
                 bodyToPersonUpdate.source.Contacts = contactsResponse.id;
             }
@@ -460,7 +458,7 @@ export const FormSettingsTourist = () => {
                         render={({ field, fieldState }) => (
                             <InputDate
                                 titleSpan="Дата рождения ДД.ММ.ГГГГ*"
-                                value={field.value || ""}
+                                value={field.value || null}
                                 onChange={field.onChange}
                                 error={fieldState.error?.message}
                             />

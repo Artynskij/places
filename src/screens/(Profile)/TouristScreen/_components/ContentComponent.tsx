@@ -37,9 +37,9 @@ const ContentComponent = ({}: IContentComponent) => {
                     <TabPhoto></TabPhoto>
                 ) : searchParams.get("tab") === "videos" ? (
                     <TabVideo></TabVideo>
-                ) : // : searchParams.get("tab") === "reviews" ? (
-                //     <TabReview dataUser={dataUser}></TabReview>
-                // )
+                )  : searchParams.get("tab") === "reviews" ? (
+                     <TabReview ></TabReview>
+                 ):
                 searchParams.get("tab") === "object" ? (
                     <TabEstablishmentCreated></TabEstablishmentCreated>
                 ) : (

@@ -13,7 +13,7 @@ import TravelMapIcon from "../icon/TravelIcon";
 
 interface IProp {
     searchItem?: ISearchItemFront;
-    handlerClickEye: (searchItem: ISearchItemFront) => void;
+    handlerClickEye: (searchItemString: string) => void;
     handlerToggleIcon: ({
         type,
         searchItem,
@@ -34,12 +34,15 @@ const CardTravelList = ({
     return (
         <>
             <div className={style.left}>
-                <span>{current?.location.title || "Отсутсвует имя"}</span>
+                <span>{current?.location.title || searchItem?.title || "Отсутсвует имя"}</span>
 
                 <TravelMapIcon
                     onClick={() => {
-                        if (searchItem) {
-                            handlerClickEye(searchItem);
+                        if (searchItem  ) {
+                            handlerClickEye(searchItem.title);
+                        }
+                        if ( current ) {
+                            handlerClickEye(current.location.title);
                         }
                     }}
                     type="watch"

@@ -6,6 +6,8 @@ import {
     IEstablishmentFront,
     IEstablishmentRateRequest,
     IEstablishmentRateEntity,
+    IEstablishmentRateGetAllRequest,
+    IEstablishmentRateAllResponse,
 } from "@/lib/models";
 import EstablishmentMapper from "./establishment.mapper";
 import {
@@ -101,6 +103,10 @@ export class EstablishmentService {
         body: IEstablishmentRateRequest
     ): Promise<IEstablishmentRateEntity | null> {
         const response = this.establishmentRateApi.create(body);
+        return response;
+    }
+    getAllRates(body: IEstablishmentRateGetAllRequest): Promise<IEstablishmentRateAllResponse | null> {
+        const response = this.establishmentRateApi.getAll(body);
         return response;
     }
 }

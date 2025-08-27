@@ -5,7 +5,7 @@ import { validImageFileSchema } from "../file/imageArraySchema";
 import { getAgreementsValidation } from "@/components/common/BlockFunctional/BlockAgreements";
 import { agreementKeysBusinessIndividual } from "@/asset/constants/agreementsKeys";
 
-export const validationBusinessIndividualSchema = Yup.object().shape({
+ const validationBusinessIndividualSchema = Yup.object().shape({
     officialName: Yup.string().required(
         "Название организации обязательно"
     ),

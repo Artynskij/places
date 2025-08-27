@@ -16,6 +16,8 @@ import { ROUTES } from "@/lib/config/Routes";
 import { FormSettingsTourist } from "@/components/common/Form/Settings/FormSettingsTourist";
 import { FormNotificationTourist } from "@/components/common/Form/Settings/FormNotificationTourist";
 import { IPageProps } from "@/lib/models";
+import { Loader } from "@/components/common/Loader/Loader";
+import { useUser } from "@/lib/context/UserContext/UserContext";
 interface IProps extends IPageProps {
     params: IPageProps["params"] & {
         username: string;
@@ -24,18 +26,20 @@ interface IProps extends IPageProps {
         tab: "personal" | "notification";
     };
 }
-export const TouristSettingsScreen = ({params, searchParams }: IProps) => {
+export const TouristSettingsScreen = ({ params, searchParams }: IProps) => {
     if (!searchParams.tab) {
         redirect(ROUTES.PROFILE.SETTINGS.TOURIST(params.username, "personal"));
     }
     const tabPersonal = searchParams.tab === "personal";
+    const { user } = useUser();
+    if (!user) return <Loader />;
     return (
         <div className={style.page}>
             <Breadcrumb
                 links={[
                     {
                         title: "Личный кабинет",
-                        href: ROUTES.PROFILE.TOURIST("sherlock_bones"),
+                        href: ROUTES.PROFILE.TOURIST(user.id),
                     },
                     { title: tabPersonal ? "Настройки" : "Уведомления" },
                 ]}

@@ -40,7 +40,7 @@ export const switcherTabTouristData = [
     // { id: 1, name: "Публикации", value: "publications" },
     // { id: 2, name: "Фото", value: "photos" },
     // { id: 3, name: "Видео", value: "videos" },
-    // { id: 4, name: "Отзывы / оценки", value: "reviews" },
+    { id: 4, name: "Отзывы / оценки", value: "reviews" },
     { id: 5, name: "Добавленные объекты", value: CONSTANT_TABS.tourist.object },
     {
         id: 6,

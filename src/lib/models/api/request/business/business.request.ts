@@ -4,7 +4,7 @@ export interface IBusinessRequest {
     source: {
         OfficialName: string | null;
         RegistrationNumber: string | null;
-        RegistrationDate: string | null;
+        RegistrationDate: Date | null;
         Contacts: string | null;
         LegalType: string;
     };

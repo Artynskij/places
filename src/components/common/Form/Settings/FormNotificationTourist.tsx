@@ -7,9 +7,11 @@ import { Controller, useForm } from "react-hook-form";
 import { useNotification } from "@/lib/context";
 import { PersonSettingsService } from "@/lib/Api/(Person)/personSettings/personSettings.service";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
-import { mockPersonId } from "@/asset/mockData/mockServerData";
+
 import { useEffect, useState } from "react";
 import { IPersonSettingsFront } from "@/lib/models/frontend/(person)/personSettings.front";
+import { useUser } from "@/lib/context/UserContext/UserContext";
+import { Loader } from "../../Loader/Loader";
 
 type TNotificationSettings = {
     ShowTravelMap: boolean;
@@ -28,60 +30,50 @@ export const FormNotificationTourist = () => {
     const notification = useNotification();
     const personApi = new PersonService();
     const personSettingsApi = new PersonSettingsService();
-    const [notificationData, setNotificationData] =
-        useState<IPersonSettingsFront>();
+    const { user, loadingUser } = useUser();
+    // const [notificationData, setNotificationData] =
+    //     useState<IPersonSettingsFront>();
     const { control, handleSubmit, reset } = useForm<TNotificationSettings>();
 
     useEffect(() => {
-        personApi.getById(mockPersonId).then(async (res) => {
-            if (res) {
-                if (res.personSettings) {
-                    const settings = res.personSettings;
-                    setNotificationData(settings);
-
-                    // Обновляем форму новыми значениями
-                    reset({
-                        ShowTravelMap: settings.showTravelMap,
-                        ShowPosts: settings.showPosts,
-                        ShowPhotoAlbums: settings.showPhotoAlbums,
-                        ShowVideos: settings.showVideos,
-                        ShowRatingsAndReviews: settings.showRatingsAndReviews,
-                        NotifyServiceUpdates: settings.notifyServiceUpdates,
-                        NotifyNewPlaces: settings.notifyNewPlaces,
-                        NotifyPartnerOffers: settings.notifyPartnerOffers,
-                        NotifyPersonalRecommendations:
-                            settings.notifyPersonalRecommendations,
-                        NotifyReviewModeration: settings.notifyReviewModeration,
-                        NotifyContentModeration:
-                            settings.notifyContentModeration,
-                    });
-                } else {
-                    await personSettingsApi.createPersonSettings(res.id);
-                }
-            }
-        });
-    }, [reset]);
-    const onSubmit = async (dataForm: TNotificationSettings) => {
-        console.log("Данные из формы UI:", dataForm);
-        const personData = await personApi.getById(mockPersonId);
-        if (!personData) {
-            notification.success({ message: "не найден пользователь" });
+        if (!user) {
             return;
         }
 
-        if (personData.personSettings) {
-            await personSettingsApi.updatePersonSettings(
-                personData.personSettings.id,
-                dataForm
-            );
-        } else {
-            notification.error({
-                message: "какие-то проблемы при отправке данных",
+        if (user.personSettings) {
+            const settings = user.personSettings;
+
+            // Обновляем форму новыми значениями
+            reset({
+                ShowTravelMap: settings.showTravelMap,
+                ShowPosts: settings.showPosts,
+                ShowPhotoAlbums: settings.showPhotoAlbums,
+                ShowVideos: settings.showVideos,
+                ShowRatingsAndReviews: settings.showRatingsAndReviews,
+                NotifyServiceUpdates: settings.notifyServiceUpdates,
+                NotifyNewPlaces: settings.notifyNewPlaces,
+                NotifyPartnerOffers: settings.notifyPartnerOffers,
+                NotifyPersonalRecommendations:
+                    settings.notifyPersonalRecommendations,
+                NotifyReviewModeration: settings.notifyReviewModeration,
+                NotifyContentModeration: settings.notifyContentModeration,
             });
+        } else {
+            // personSettingsApi.create(user.id);
+        }
+    }, [reset, loadingUser]);
+    const onSubmit = async (dataForm: TNotificationSettings) => {
+        if (!user) return;
+
+        if (user.personSettings) {
+            await personSettingsApi.update(user.personSettings.id, dataForm);
+        } else {
+            await personSettingsApi.create(user.id, dataForm);
         }
 
         notification.success({ message: "данные успешно сохранены" });
     };
+    if (loadingUser) return <Loader />;
     return (
         <form className={style.tab} onSubmit={handleSubmit(onSubmit)}>
             <h2>Уведомления и отображение</h2>

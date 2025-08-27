@@ -13,7 +13,13 @@ export interface IEstablishmentRateRequest {
     Quality: number | null;
     Safety: number | null;
 
-    PersonsVisitDate: string;
+    PersonsVisitDate: Date;
     Person: string;
     Establishment: string;
+}
+export interface IEstablishmentRateGetAllRequest {
+    establishmentIds?: string[];
+    page: number;
+    limit: number;
+    personIds?:string[];
 }

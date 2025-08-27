@@ -73,6 +73,7 @@ export const FormInvite = ({ children, business }: IProp) => {
     };
     const onSubmit: SubmitHandler<TTypeForm> = async (dataForm) => {
         const personInviteId = await personService.getByEmail(dataForm.email);
+        console.log(personInviteId);
         if (!personInviteId) {
             notification.error({
                 message: `Пользователя(${dataForm.email}) не существует`,
@@ -86,7 +87,7 @@ export const FormInvite = ({ children, business }: IProp) => {
         });
         if (invitedData) {
             notification.success({ message: "Приглашение отправлено" });
-            // console.log(dataForm);
+
             setModalActive(false);
         }
     };

@@ -4,7 +4,7 @@ import { IPersonSettingsRequest } from "@/lib/models/api/request/(Person)/person
 
 export default class PersonSettingsApi {
     constructor() {}
-    async getPersonSettingsById(
+    async getById(
         id: string,
         lang?: string
     ): Promise<IPersonSettingsEntity | null> {
@@ -21,16 +21,18 @@ export default class PersonSettingsApi {
         }
     }
 
-    async createPersonSettings(): Promise<IPersonSettingsEntity | null> {
+    async create(
+        body: IPersonSettingsRequest
+    ): Promise<IPersonSettingsEntity | null> {
         try {
-            const response = await apiClient.post(`/person-settings`);
+            const response = await apiClient.post(`/person-settings`,body);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при создании PersonSettings `);
             return null;
         }
     }
-    async updatePersonSettings(
+    async update(
         id: string,
         body: IPersonSettingsRequest
     ): Promise<IPersonSettingsEntity | null> {

@@ -10,6 +10,7 @@ import { MarkersLayer } from "./_common/MarkersLayer";
 
 import { useUserLocation } from "@/lib/hooks/useUserLocation";
 import { IMapItemFront } from "@/lib/models";
+import { useLocale } from "next-intl";
 
 interface MapDisplayProps {
     establishmentList?: IMapItemFront[] | null;
@@ -17,6 +18,7 @@ interface MapDisplayProps {
 }
 
 export const MapDisplay = ({ establishmentList, center }: MapDisplayProps) => {
+    const locale = useLocale();
     const apiMap = useMemo(() => new MapService(), []);
     const centerMoscow = { lon: 37.6173, lat: 55.7558 };
     const zoom = 12;
@@ -129,6 +131,7 @@ export const MapDisplay = ({ establishmentList, center }: MapDisplayProps) => {
             mapStyle="mapbox://styles/mapbox/streets-v12"
             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
             onMoveEnd={handlerMoveEnd}
+            language={locale}
         >
             {establishments.length > 0 && (
                 <MarkersLayer

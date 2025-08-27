@@ -7,12 +7,13 @@ import {
     IRoleOwnerEntity,
     IRoleOwnerWithContentEntity,
 } from "./(person)/roleOwner.entity";
+import { TTypeOwnerBusiness } from "../../types";
 
 export interface IBusinessEntity {
     Id: string;
     OfficialName: string;
     RegistrationNumber: string | null;
-    RegistrationDate: string | null;
+    RegistrationDate: Date | null;
     ContentId: string | null;
     LastModifiedDate: string;
     Contacts: IContactsPersonEntity;
@@ -38,9 +39,10 @@ export interface IBusinessPositionEntity {
     Code: string;
     content: IContentEntity;
 }
+type legalTypeServer = "INDIVIDUAL" | "LEGAL_ENTITY" | "SOLE_PROPRIETOR";
 export interface IBusinessLegalTypesEntity {
     Id: string;
-    Code: string;
+    Code: legalTypeServer;
     content: IContentEntity;
 }
 export interface IBusinessPersonRoleEntity {

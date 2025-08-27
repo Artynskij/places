@@ -79,6 +79,7 @@ const TabTravelMap = () => {
                     localLang: locale,
                 });
                 if (res) {
+                  
                     setSearchList(res.searchItems);
                 }
             } catch (err) {
@@ -92,8 +93,8 @@ const TabTravelMap = () => {
         debouncedSearch(value);
     };
 
-    const handlerClickEye = async (locationSearch: ISearchItemFront) => {
-        const locationPath = await getLocation(locationSearch.title);
+    const handlerClickEye = async (locationSearchString: string) => {
+        const locationPath = await getLocation(locationSearchString);
 
         if (!locationPath) {
             notification.info({ message: "локация не найдена" });
@@ -102,7 +103,7 @@ const TabTravelMap = () => {
         const locationMapData = locationPath.features.find(
             (item) =>
                 item.text.toLocaleLowerCase() ===
-                locationSearch.title.toLocaleLowerCase()
+                locationSearchString.toLocaleLowerCase()
         );
 
         if (locationMapData) {

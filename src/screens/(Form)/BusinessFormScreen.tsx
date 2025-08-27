@@ -17,13 +17,17 @@ export const BusinessFormScreen = ({ params, searchParams }: IProps) => {
     const activeTab = searchParams[CONSTANT_SEARCH_PARAMS.TAB];
 
     return (
-        <AuthGuard roles={['owner']}>
+        <AuthGuard roles={["owner"]}>
             <div className={style.container}>
                 <h3>Создание бизнеса</h3>
                 <SwitcherTabs data={switcherBusiness} />
-                {activeTab === "individual" && <FormIndividual activeTab={activeTab}/>}
-                {activeTab === "sole_proprietor" && <FormSoleProprietor activeTab={activeTab}/>}
-                {activeTab === "legal_entity" && <FormLegalEntity activeTab={activeTab}/>}
+                {activeTab === "individual" && <FormIndividual mode="create" />}
+                {activeTab === "sole_proprietor" && (
+                    <FormSoleProprietor mode="create" />
+                )}
+                {activeTab === "legal_entity" && (
+                    <FormLegalEntity mode="create" />
+                )}
             </div>
         </AuthGuard>
     );

@@ -9,6 +9,7 @@ export const validImageFileSchema = Yup.mixed<File>()
             "image/webp",
             "image/gif",
             "image/jpg",
+            "image/avif",
             "image/svg+xml",
         ];
         return validTypes.includes(file.type);

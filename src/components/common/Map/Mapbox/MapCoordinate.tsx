@@ -8,6 +8,7 @@ import { useUserLocation } from "@/lib/hooks/useUserLocation";
 import { CONSTANT_TYPE_LOCATION } from "@/asset/constants/typeLocation";
 import { DefaultMarker } from "./_common/Markers/DefaultMarker";
 import { IMapboxCoordPropToForm } from "@/lib/models/mapbox/mapbox";
+import { useLocale } from "next-intl";
 
 interface MapCoordinatePickerProps {
     setPosition: (value: IMapboxCoordPropToForm) => void;
@@ -18,7 +19,8 @@ export const MapCoordinatePicker = ({
     setPosition,
     position,
 }: MapCoordinatePickerProps) => {
-    const {byCoordinates} = useMapboxGeocode();
+    const locale = useLocale();
+    const { byCoordinates } = useMapboxGeocode();
     const { userLocation, errorUserLocation } = useUserLocation();
     const centerMoscow = { lat: 51.77041291260454, lon: 29.195896311674147 };
     const zoom = 12;
@@ -84,6 +86,7 @@ export const MapCoordinatePicker = ({
             mapStyle="mapbox://styles/mapbox/streets-v12"
             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
             onClick={handlerClick}
+            language={locale}
         >
             {position && (
                 <DefaultMarker

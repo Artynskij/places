@@ -10,12 +10,7 @@ import {
 } from "@/lib/models";
 import { LocationService } from "../location/location.service";
 export class PersonTravelMarkMapper {
-    toFront(
-        data: IPersonTravelMarkEntity
-        // cdnHost?: string,
-        // location?: ILocationsWithContentEntity
-    ): IPersonTravelMarkFront {
-        console.log(data);
+    toFront(data: IPersonTravelMarkEntity): IPersonTravelMarkFront {
         return {
             id: data.Id,
             isLoved: data.IsLoved,
@@ -23,7 +18,7 @@ export class PersonTravelMarkMapper {
             isVisited: data.IsVisited,
             location: {
                 id: data.Location.Id,
-                title: data.Location.content?.details[0].value || "gavno",
+                title: data.Location.content?.details[0].value || "нету title",
             },
             personId: data.Person.Id,
         };

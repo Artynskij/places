@@ -1,11 +1,12 @@
 import style from "./inputDate.module.scss";
 import InputMask from "react-input-mask";
 import clsx from "clsx";
-import { getFormatDate, parseDateToISO } from "@/lib/helpers/getFormatDate";
+import { parse, format } from "date-fns";
+import { useState, useEffect } from "react";
 
 type Props = {
-    value?: string; // Может прийти ISO или YYYY/DD/MM
-    onChange: (val: string) => void; // Возвращаем ISO
+    value?: Date | null; // текущее значение
+    onChange: (val: Date | null) => void;
     error?: string;
     placeholder?: string;
     titleSpan: string;
@@ -18,8 +19,29 @@ export const InputDate = ({
     placeholder,
     titleSpan,
 }: Props) => {
+    // локальный state для строки
+    const [inputValue, setInputValue] = useState("");
+
+    // если value изменилось извне → синхронизируем
+    useEffect(() => {
+        setInputValue(value ? format(value, "dd.MM.yyyy") : "");
+    }, [value]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(e.target.value);
+        const str = e.target.value;
+        setInputValue(str); // обновляем строку для отображения
+
+        // проверяем полную дату
+        if (str.length === 10) {
+            const parsed = parse(str, "dd.MM.yyyy", new Date());
+            if (!isNaN(parsed.getTime())) {
+                onChange(parsed);
+                return;
+            }
+        }
+
+        // если ещё невалидно → наружу null
+        onChange(null);
     };
 
     return (
@@ -29,8 +51,7 @@ export const InputDate = ({
             </label>
             <InputMask
                 mask="99.99.9999"
-                // maskChar={null}
-                value={value}
+                value={inputValue}
                 onChange={handleChange}
                 placeholder={placeholder || "ДД.ММ.ГГГГ"}
                 className={clsx(style.input, error && style.input_error)}

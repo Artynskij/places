@@ -61,8 +61,8 @@ const UserComponent = ({}: IUserComponent) => {
                             CONSTANT_DEFAULT_AVATAR_URL
                         }
                         alt="avatar"
-                        width={250}
-                        height={250}
+                        width={500}
+                        height={500}
                     />
                 </div>
                 <div className={style.info_container}>

@@ -51,7 +51,7 @@ export const UploadButton: React.FC<Props> = ({
     const message = useAlertMessage();
 
     const ACCEPT_MIME_MAP: Record<NonNullable<Props["accept"]>, string> = {
-        image: ".jpg,.jpeg,.png,.webp,.gif,.svg",
+        image: ".jpg,.jpeg,.png,.webp,.gif,.svg,.avif",
         doc: ".pdf,.doc,.docx,.txt,.rtf",
         video: ".mp4,.webm,.ogg,.mov,.avi,.mkv",
         all: "*/*",

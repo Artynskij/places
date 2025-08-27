@@ -20,13 +20,14 @@ import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/es
 import { IEstablishmentFront } from "@/lib/models";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
+import { validDateSchema } from "@/lib/validationSchemas";
 interface IProp {
     children: React.ReactNode | React.ReactNode[];
     typeEstablishment: TTypesOfEstablishment;
     establishment: IEstablishmentFront;
 }
 const validation = Yup.object({
-    date: Yup.string().required("Дата посещения обязательна"),
+    date: validDateSchema.required("Дата посещения обязательна"),
     averageRate: Yup.number().required("Главная оценка обязательна"),
     // только если это "EATER"
     Food: Yup.number(),
@@ -65,11 +66,9 @@ export const FormRate = ({
     const ratesEater = ["Food", "Service", "Value"] as const;
 
     const {
-        register,
         handleSubmit,
         control,
-        formState: { errors, isSubmitting },
-        watch,
+        formState: { isSubmitting },
         reset,
     } = useForm({
         resolver: yupResolver(validation),
@@ -123,7 +122,8 @@ export const FormRate = ({
                         setModalActive(true);
                     } else {
                         notification.error({
-                            message: "Чтобы оценить объект надо войти в личный кабинет.",
+                            message:
+                                "Чтобы оценить объект надо войти в личный кабинет.",
                         });
                         router.replace(ROUTES.AUTH.LOGIN);
                     }

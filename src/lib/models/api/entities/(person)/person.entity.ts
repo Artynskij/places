@@ -16,7 +16,7 @@ export interface IPersonEntity {
     AvatarPhotoPath: string | null;
     Avatar2BPhotoPath: string | null;
     About: string | null;
-    BirthDate: string | null;
+    BirthDate: Date | null;
     CreatedDate: string;
     LastModifiedDate: string;
     DeletedDate: string | null;

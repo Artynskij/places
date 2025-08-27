@@ -9,7 +9,7 @@ export interface IPersonFront {
     timeZone: string | null;
     isVerified: boolean;
     nickname: string | null;
-    birthDate: string | null;
+    birthDate: Date | null;
     avatar: {
         touristImageSrc: string | null;
         ownerImageSrc: string | null;

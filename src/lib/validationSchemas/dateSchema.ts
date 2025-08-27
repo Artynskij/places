@@ -1,27 +1,22 @@
 import * as Yup from "yup";
 
-export const validDateSchema = Yup.string()
-    .nullable() // разрешает `null`
-    .transform(
-        (value, originalValue) => (originalValue === "" ? null : value) // преобразует "" в null
-    )
-    .test("isValidDate", "Некорректная дата", (value) => {
-        // Если значение пустое (null, undefined, "") — пропускаем валидацию
-        if (!value) return true;
+export const validDateSchema = Yup.date()
+    .nullable() // разрешаем null
+    .transform((value, originalValue) => {
+        // если пришла пустая строка из инпута → null
+        if (!originalValue || originalValue === "") {
+            return null;
+        }
 
-        // Проверяем формат ДД.ММ.ГГГГ
-        // if (!/^\d{2}\.\d{2}\.\d{4}$/.test(value)) {
-        //     return false; // Выведет ошибку из .matches()
-        // }
+        // если уже Date — оставляем
+        if (value instanceof Date && !isNaN(value.getTime())) {
+            return value;
+        }
 
-        const [day, month, year] = value.split(".").map(Number);
-        const date = new Date(year, month - 1, day);
-
-        // Проверяем, что дата корректна (например, 31.02.2025 — invalid)
-        return (
-            date.getFullYear() === year &&
-            date.getMonth() === month - 1 &&
-            date.getDate() === day
-        );
+        return null;
     })
-    .matches(/^\d{2}\.\d{2}\.\d{4}$/, "Введите дату в формате ДД.ММ.ГГГГ");
+    .typeError("Некорректная дата")
+    .test("isValidDate", "Некорректная дата", (value) => {
+        if (!value) return true; // null разрешён
+        return !isNaN(value.getTime()); // валидная ли дата
+    });

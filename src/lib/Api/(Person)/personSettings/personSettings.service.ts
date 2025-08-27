@@ -15,26 +15,25 @@ export class PersonSettingsService {
         this.PersonService = new PersonService();
     }
 
-    async getPersonSettingsById(
+    async getById(
         id: string,
         lang?: string
     ): Promise<IPersonSettingsFront | null> {
-        const response = await this.PersonSettingsApi.getPersonSettingsById(
-            id,
-            lang
-        ).then((res) => {
-            if (!res) return null;
-            const mappedData =
-                this.PersonSettingsMapper.transformPersonSettingsEntity(res);
-            return mappedData;
-        });
+        const response = await this.PersonSettingsApi.getById(id, lang).then(
+            (res) => {
+                if (!res) return null;
+                const mappedData =
+                    this.PersonSettingsMapper.transformPersonSettingsEntity(
+                        res
+                    );
+                return mappedData;
+            }
+        );
         return response;
     }
 
-    async createPersonSettings(
-        idPerson: string
-    ): Promise<IPersonSettingsFront | null> {
-        const response = this.PersonSettingsApi.createPersonSettings()
+    async create(idPerson: string,body: IPersonSettingsRequest): Promise<IPersonSettingsFront | null> {
+        const response = this.PersonSettingsApi.create(body)
             .then(async (res) => {
                 await this.PersonService.update(idPerson, {
                     source: {
@@ -54,14 +53,11 @@ export class PersonSettingsService {
             });
         return response;
     }
-    async updatePersonSettings(
+    async update(
         id: string,
         body: IPersonSettingsRequest
     ): Promise<IPersonSettingsFront | null> {
-        const response = this.PersonSettingsApi.updatePersonSettings(
-            id,
-            body
-        ).then((res) => {
+        const response = this.PersonSettingsApi.update(id, body).then((res) => {
             if (!res) return null;
             const mappedData =
                 this.PersonSettingsMapper.transformPersonSettingsEntity(res);

@@ -121,9 +121,7 @@ function BusinessScreenBase({ params, searchParams }: IProps) {
                         <span className={style.bottom_date}>
                             {`День регистрации: ${
                                 businessData.RegistrationDate
-                                    ? getFormatDate(
-                                          businessData.RegistrationDate
-                                      )
+                                    ? businessData.RegistrationDate
                                     : "не указана"
                             }`}
                         </span>

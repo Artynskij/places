@@ -12,37 +12,37 @@ import { BusinessService } from "../business/business.service";
 import { DataLoadManagementService } from "../dataLoadManagement/dataLoadManagement.service";
 import { FileUploadService } from "../fileUpload/fileUploads.service";
 import { VerificationService } from "../verification/verification.api";
-import { validationUpdateBusinessSchema } from "@/lib/validationSchemas/business/updateBusiness.schema";
+// import { validationUpdateBusinessSchema } from "@/lib/validationSchemas/business/updateBusiness.schema";
 import { getObjectDiffWithNulls } from "@/lib/helpers/getChangedFieldsForApi";
 import { message } from "antd";
-
-interface IPropCreate {
+import {
+    validationBusinessIndividualSchema,
+    validationBusinessLegalEntitySchema,
+    validationBusinessSoleProprietorSchema,
+} from "@/lib/validationSchemas/business/businessValid.schema";
+type TypeFormIndividual = Yup.InferType<
+    typeof validationBusinessIndividualSchema
+>;
+type TypeFormSole = Yup.InferType<
+    typeof validationBusinessSoleProprietorSchema
+>;
+type TypeFormLegal = Yup.InferType<typeof validationBusinessLegalEntitySchema>;
+type TypeForm = TypeFormIndividual | TypeFormSole | TypeFormLegal;
+interface IProp {
     activeTab: string;
-    formData: {
-        officialName: string;
-        numberOrganization: string | null;
-        dateRegister: string | null;
-        email: string;
-        phone: string;
-        address: {
-            country: string;
-            town: string;
-            addressLine: string;
-            postalCode: string | null;
-        };
-        agreements: (string | undefined)[] | null;
-        documentsVerify: (File | undefined)[] | null;
-    };
+    formData: TypeForm;
     userId: string;
     locale: string;
+    business?: IBusinessFront;
+    initialForm?: TypeForm;
 }
-type TTypeFormUpdate = Yup.InferType<typeof validationUpdateBusinessSchema>;
-interface IPropUpdate {
-    formData: TTypeFormUpdate;
-    initialForm: TTypeFormUpdate;
-    business: IBusinessFront;
-    locale: string;
-}
+// type TTypeFormUpdate = Yup.InferType<typeof validationUpdateBusinessSchema>;
+// interface IPropUpdate {
+//     formData: TTypeFormUpdate;
+//     initialForm: TTypeFormUpdate;
+//     businessId: string;
+//     locale: string;
+// }
 export class GeneralBusinessService {
     private businessService: BusinessService;
     private contactsService: ContactsPersonService;
@@ -65,7 +65,7 @@ export class GeneralBusinessService {
         formData,
         userId,
         locale,
-    }: IPropCreate): Promise<Boolean> {
+    }: IProp): Promise<Boolean> {
         // 1. Создание Адреса
         const createdAddress = await this.addressService.create({
             Country: formData.address.country,
@@ -110,8 +110,8 @@ export class GeneralBusinessService {
                         LegalType: legalType?.id,
                         Contacts: createdContacts?.id || null,
                         OfficialName: formData.officialName,
-                        RegistrationDate: formData.dateRegister,
-                        RegistrationNumber: formData.numberOrganization,
+                        RegistrationDate: formData.dateRegister || null,
+                        RegistrationNumber: formData.numberOrganization || null,
                     },
                 },
                 userId
@@ -209,14 +209,16 @@ export class GeneralBusinessService {
     }
     async update({
         formData,
-        initialForm,
+
         business,
-        locale,
-    }: IPropUpdate): Promise<Boolean> {
-        const changes = getObjectDiffWithNulls<TTypeFormUpdate>(
-            initialForm,
-            formData
-        );
+        initialForm,
+    }: IProp): Promise<Boolean> {
+        if (!business || !initialForm) return false;
+
+        const changes = getObjectDiffWithNulls<TypeForm>(initialForm, formData);
+        delete (changes as TypeForm).documentsVerify;
+        delete (changes as TypeForm).agreements;
+        delete (changes as TypeForm).dateRegister;
         console.log(changes);
         if (Object.keys(changes).length === 0) {
             return false;
@@ -245,21 +247,26 @@ export class GeneralBusinessService {
         // --- Адрес ---
 
         if ("address" in changes) {
-            const addr: Partial<TTypeFormUpdate["address"]> =
+            const addr: Partial<TypeFormIndividual["address"]> =
                 changes.address || {};
 
-            const bodyAddress = {
-                Country: addr.country ?? null,
-                Town: addr.town ?? null,
-                Street: addr.addressLine ?? null,
-                PostalCode: addr.postalCode ?? null,
-            };
-            if (business.Contacts?.Address?.Id) {
+            const bodyAddress: Record<string, string> = {};
+
+            if (addr.country !== undefined) bodyAddress.Country = addr.country;
+            if (addr.town !== undefined) bodyAddress.Town = addr.town;
+            if (addr.addressLine !== undefined)
+                bodyAddress.Street = addr.addressLine;
+            if (addr.postalCode !== undefined)
+                bodyAddress.PostalCode = addr.postalCode;
+
+            if (
+                Object.keys(bodyAddress).length > 0 &&
+                business.Contacts?.Address?.Id
+            ) {
                 await this.addressService.update(
                     business.Contacts.Address.Id,
                     bodyAddress
                 );
-            } else {
             }
         }
 
@@ -268,11 +275,11 @@ export class GeneralBusinessService {
             const bodyContacts = {
                 Email:
                     "email" in changes
-                        ? changes.email ?? null
+                        ? changes.email
                         : business.Contacts?.Email ?? null,
                 Phone:
                     "phone" in changes
-                        ? changes.phone ?? null
+                        ? changes.phone
                         : business.Contacts?.Phone ?? null,
             };
 

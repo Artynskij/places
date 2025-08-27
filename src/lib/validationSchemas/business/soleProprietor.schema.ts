@@ -6,7 +6,7 @@ import { getAgreementsValidation } from "@/components/common/BlockFunctional/Blo
 import { agreementKeysBusinessIndividual } from "@/asset/constants/agreementsKeys";
 import { validDateSchema } from "../dateSchema";
 
-export const validationBusinessSoleProprietorSchema = Yup.object().shape({
+ const validationBusinessSoleProprietorSchema = Yup.object().shape({
     officialName: Yup.string().required(
         "Название Индивидуального предпринимателя обязатиельно"
     ),

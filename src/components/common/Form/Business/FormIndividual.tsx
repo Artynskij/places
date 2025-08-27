@@ -18,25 +18,48 @@ import { useEffect } from "react";
 
 import { useLocale } from "next-intl";
 import { GeneralBusinessService } from "@/lib/Api/(MainService)/business.general";
-import { validationBusinessIndividualSchema } from "@/lib/validationSchemas/business/individual.schema";
+// import { validationBusinessIndividualSchema } from "@/lib/validationSchemas/business/individual.schema";
 import { agreementKeysBusinessIndividual } from "@/asset/constants/agreementsKeys";
 
 import { ROUTES } from "@/lib/config/Routes";
 import { useRouter } from "next/navigation";
 import { CONSTANT_TABS } from "@/asset/constants/switcherTabsPage";
+import { validationBusinessIndividualSchema } from "@/lib/validationSchemas/business/businessValid.schema";
+import { TTypeOwnerBusiness } from "@/lib/models/types";
+import { IBusinessFront } from "@/lib/models";
 
 type TTypeForm = Yup.InferType<typeof validationBusinessIndividualSchema>;
 
 interface IProp {
-    activeTab: string;
+    business?: IBusinessFront;
+    mode: "create" | "update";
 }
-export const FormIndividual = ({ activeTab }: IProp) => {
+export const FormIndividual = ({ business, mode }: IProp) => {
     const notification = useNotification();
+    const activeTab: TTypeOwnerBusiness = "individual";
     const { user } = useUser();
     const locale = useLocale();
     const router = useRouter();
     const generalBusinessService = new GeneralBusinessService();
-
+    const initialFormData: TTypeForm | null = business
+        ? {
+              officialName: business.OfficialName,
+              dateRegister: business.RegistrationDate || null,
+              numberOrganization: business.RegistrationNumber || null,
+              phone: business.Contacts.Phone || "",
+              email: business.Contacts.Email || "",
+              address: {
+                  addressLine: business.Contacts.Address?.Street || "",
+                  country: business.Contacts.Address?.Country || "",
+                  town: business.Contacts.Address?.Town || "",
+                  postalCode: business.Contacts.Address?.PostalCode || "",
+              },
+              agreements:
+                  mode === "update"
+                      ? agreementKeysBusinessIndividual
+                      : undefined,
+          }
+        : null;
     const {
         register,
         handleSubmit,
@@ -46,37 +69,38 @@ export const FormIndividual = ({ activeTab }: IProp) => {
         formState: { errors },
     } = useForm({
         resolver: yupResolver(validationBusinessIndividualSchema),
+        defaultValues: initialFormData || undefined,
     });
-
-    useEffect(() => {}, []);
 
     const onSubmit: SubmitHandler<TTypeForm> = async (formData) => {
         if (!user) {
             notification.error({ message: "нету пользователя" });
             return;
         }
+        let success = false;
+        if (!business) {
+            success = !!(await generalBusinessService.create({
+                formData: formData,
+                activeTab: activeTab,
 
-        const success = await generalBusinessService.create({
-            formData: {
-                officialName: formData.officialName,
-                dateRegister: null,
-                numberOrganization: null,
-                email: formData.email,
-                phone: formData.phone,
-                address: {
-                    country: formData.address.country,
-                    town: formData.address.town,
-                    addressLine: formData.address.addressLine,
-                    postalCode: formData.address.postalCode || null,
-                },
-                agreements: formData.agreements || null,
-                documentsVerify: formData.documentsVerify || null,
-            },
-            activeTab: activeTab,
+                userId: user.id,
+                locale: locale,
+            }));
+        } else {
+            if (!initialFormData) {
+                notification.error({ message: "Нету изначальной формы" });
+                return;
+            }
+            success = !!(await generalBusinessService.update({
+                formData: formData,
+                business: business,
+                initialForm: initialFormData,
+                activeTab: activeTab,
+                locale: locale,
+                userId: user.id,
+            }));
+        }
 
-            userId: user.id,
-            locale: locale,
-        });
         if (success) {
             notification.success({ message: "Бизнес отправлен на модерацию" });
             router.push(
@@ -110,27 +134,6 @@ export const FormIndividual = ({ activeTab }: IProp) => {
                         titleSpan="ФИО согласно удостоверению личности."
                         type="text"
                     />
-                    {/* <InputForm
-                        error={errors.fullName?.name?.message}
-                        register={register("fullName.name")}
-                        placeholder="Имя*"
-                        titleSpan="Имя согласно удостоверению личности"
-                        type="text"
-                    /> */}
-                    {/* <InputForm
-                        error={errors.fullName?.secondName?.message}
-                        register={register("fullName.secondName")}
-                        placeholder="Второе имя"
-                        titleSpan="Второе имя (отчество) согласно удостоверению личности"
-                        type="text"
-                    />
-                    <InputForm
-                        error={errors.fullName?.surname?.message}
-                        register={register("fullName.surname")}
-                        placeholder="Фамилия*"
-                        titleSpan="Фамилия согласно удостоверению личности*"
-                        type="text"
-                    /> */}
                 </div>
             </div>
 
@@ -213,12 +216,15 @@ export const FormIndividual = ({ activeTab }: IProp) => {
                     />
                 </div>
             </div>
-            <BlockAgreements
-                agreementKeys={agreementKeysBusinessIndividual}
-                value={watch("agreements") as string[]}
-                onChange={(vals) => setValue("agreements", vals)}
-                error={errors.agreements?.message}
-            />
+            {mode === "create" && (
+                <BlockAgreements
+                    agreementKeys={agreementKeysBusinessIndividual}
+                    value={watch("agreements") as string[]}
+                    onChange={(vals) => setValue("agreements", vals)}
+                    error={errors.agreements?.message}
+                />
+            )}
+
             <Button
                 className={style.buttonAccept}
                 typeLogic="submit"

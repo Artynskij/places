@@ -4,7 +4,7 @@ import { validImageFileSchema } from "../file/imageArraySchema";
 
 import { validDateSchema } from "../dateSchema";
 
-export const validationUpdateBusinessSchema = Yup.object().shape({
+ const validationUpdateBusinessSchema = Yup.object().shape({
     legalType: Yup.string().required("Должно быть"),
     officialName: Yup.string().required(
         "Название Индивидуального предпринимателя обязатиельно"
