@@ -66,7 +66,7 @@ export const BusinessSettingsScreen = ({ params }: IProps) => {
                         />
                     )}
 
-                    {/* <FormBusinessUpdate businessId={params.business} /> */}
+                
                 </div>
             )}
         </AuthGuard>

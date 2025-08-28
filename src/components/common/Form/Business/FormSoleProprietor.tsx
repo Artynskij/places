@@ -244,7 +244,12 @@ export const FormSoleProprietor = ({ business, mode }: IProp) => {
                 />
             )}
 
-            <Button typeLogic="submit" text={"Зарегистрировать"} />
+            <Button
+                typeLogic="submit"
+                text={
+                    mode === "create" ? "Зарегистрировать" : "Отправить форму"
+                }
+            />
         </form>
     );
 };

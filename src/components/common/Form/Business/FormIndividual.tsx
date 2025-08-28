@@ -228,7 +228,7 @@ export const FormIndividual = ({ business, mode }: IProp) => {
             <Button
                 className={style.buttonAccept}
                 typeLogic="submit"
-                text={"Зарегистрировать"}
+                text={mode === 'create' ? "Зарегистрировать" : 'Отправить форму'}
             />
         </form>
     );
