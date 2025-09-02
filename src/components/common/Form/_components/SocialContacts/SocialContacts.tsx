@@ -53,7 +53,7 @@ export const SocialContactsBlockForm: FC<Props> = ({
             const newList = [
                 ...value,
                 {
-                    id: crypto.randomUUID(),
+                    id: item.id,
                     type: item.value as TSocialNetworks,
                     url: "",
                 },

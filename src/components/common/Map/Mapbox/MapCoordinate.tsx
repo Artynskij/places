@@ -5,7 +5,7 @@ import { Map as MapMapboxGL } from "react-map-gl/mapbox";
 
 import { useMapboxGeocode } from "@/lib/hooks/useMapboxGeocode";
 import { useUserLocation } from "@/lib/hooks/useUserLocation";
-import { CONSTANT_TYPE_LOCATION } from "@/asset/constants/typeLocation";
+import { CONSTANT_TYPE_LOCATION_MAPBOX } from "@/asset/constants/typeLocation";
 import { DefaultMarker } from "./_common/Markers/DefaultMarker";
 import { IMapboxCoordPropToForm } from "@/lib/models/mapbox/mapbox";
 import { useLocale } from "next-intl";
@@ -59,13 +59,13 @@ export const MapCoordinatePicker = ({
         const geocode = await byCoordinates(lat, lng);
 
         const country = geocode?.features.find((f) =>
-            f.id.includes(CONSTANT_TYPE_LOCATION.mapbox.country)
+            f.id.includes(CONSTANT_TYPE_LOCATION_MAPBOX.mapbox.country)
         )?.text;
         const place = geocode?.features.find((f) =>
-            f.id.includes(CONSTANT_TYPE_LOCATION.mapbox.place)
+            f.id.includes(CONSTANT_TYPE_LOCATION_MAPBOX.mapbox.place)
         )?.text;
         const address = geocode?.features.find((f) =>
-            f.id.includes(CONSTANT_TYPE_LOCATION.mapbox.address)
+            f.id.includes(CONSTANT_TYPE_LOCATION_MAPBOX.mapbox.address)
         );
 
         const fullLine = [country, place, address?.text, address?.address]

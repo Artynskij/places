@@ -21,7 +21,7 @@ export class VerificationMapper {
                 ? dataServer.content
                 : dataServer.Content || null;
         const privateMedia: IMediaFront[] | null =
-            content?.privateMedia.map((privateFile) => {
+            content?.media.map((privateFile) => {
                 return {
                     id: privateFile.id,
                     blobPath: privateFile.blobPath,

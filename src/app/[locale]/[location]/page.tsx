@@ -63,8 +63,8 @@ export default async function CountryPage({ params, searchParams }: IProps) {
         },
         lang: params.locale,
     });
-    const locationData = await apiLocation.getLocationById(params.location);
-    const townsData = await apiLocation.getListLocationInside({
+    const locationData = await apiLocation.getById(params.location);
+    const townsData = await apiLocation.getAll({
         lang: params.locale,
         locationId: params.location,
         pagination: {

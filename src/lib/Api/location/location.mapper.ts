@@ -29,6 +29,7 @@ export default class LocationMapper {
                 : null,
             pathBreadcrumb: location.location.Path,
             media: mediaFiles,
+            content:location.content
         };
         return mappingData;
     }

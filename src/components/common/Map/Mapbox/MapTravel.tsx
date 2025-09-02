@@ -5,7 +5,7 @@ import { Map as MapMapboxGL, MapRef } from "react-map-gl/mapbox";
 
 import { useMapboxGeocode } from "@/lib/hooks/useMapboxGeocode";
 import { useUserLocation } from "@/lib/hooks/useUserLocation";
-import { CONSTANT_TYPE_LOCATION } from "@/asset/constants/typeLocation";
+import { CONSTANT_TYPE_LOCATION_MAPBOX } from "@/asset/constants/typeLocation";
 import { DefaultMarker } from "./_common/Markers/DefaultMarker";
 import {
     IMapboxCoordProp,
@@ -18,10 +18,7 @@ interface MapTravelProps {
     position?: IMapboxCoordProp;
 }
 
-export const MapTravel = ({
-   
-    position,
-}: MapTravelProps) => {
+export const MapTravel = ({ position }: MapTravelProps) => {
     const locale = useLocale();
     const mapRef = useRef<MapRef>(null);
     const { byName } = useMapboxGeocode();

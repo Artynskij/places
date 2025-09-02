@@ -112,10 +112,10 @@ export const Header = async () => {
                         <Link
                             className={style.header__second_link}
                             href={ROUTES.LOCATION.ESTABLISHMENT(
-                                "01H9ZFTX89YTPD7QJW7N5EAWQP",
-                                CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION
+                                "01JQW07G5Y3AQHM4EXC2M1NZ83",
+                                CONSTANT_TYPES_OF_ESTABLISHMENT.EATER
                                     .key,
-                                "01JJ21RRS0YER1XH9FM4D287JY"
+                                "01JPZDQ0A2WENCX080NTEC4JTJ"
                             )}
                         >
                             <li className={"hover-underline"}>Объекта</li>
@@ -129,6 +129,12 @@ export const Header = async () => {
                             )}
                         >
                             <li className={"hover-underline"}>Фильтр</li>
+                        </Link>
+                        <Link
+                            className={style.header__second_link}
+                            href={ROUTES.ADMIN.ROOT}
+                        >
+                            <li className={"hover-underline"}>Админка</li>
                         </Link>
                     </ul>
                 </div>

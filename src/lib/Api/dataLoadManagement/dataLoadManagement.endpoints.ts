@@ -7,6 +7,7 @@ import {
     ITypeEstablishmentWithContentEntity,
 } from "@/lib/models";
 import apiClient from "../ApiClient";
+import { ILocationTypeWithContentEntity } from "@/lib/models/api/entities/locationType.entity";
 
 export default class DataLoadManagementApi {
     constructor() {}
@@ -42,6 +43,15 @@ export default class DataLoadManagementApi {
             return response.data;
         } catch (error) {
             console.error(`Ошибка при получении справочника типов заведений`);
+            return null;
+        }
+    }
+    async getTypesLocation(): Promise<ILocationTypeWithContentEntity[] | null> {
+        try {
+            const response = await apiClient.post(`/types-of-location/get-all`);
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при получении справочника типов локаций`);
             return null;
         }
     }

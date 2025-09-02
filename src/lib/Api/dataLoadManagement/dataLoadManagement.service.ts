@@ -12,6 +12,7 @@ import { DataLoadManagementMapper } from "./dataLoadManagement.mapper";
 
 import { GenderMapper } from "../(Person)/gender.api";
 import { IRoleOwnerFront } from "@/lib/models/frontend/(person)/roleOwner.front";
+import { ILocationTypeWithContentEntity } from "@/lib/models/api/entities/locationType.entity";
 
 export class DataLoadManagementService {
     // DataLoadManagementMapper
@@ -52,6 +53,11 @@ export class DataLoadManagementService {
 
         return response;
     }
+    async getTypesLocation(): Promise<ILocationTypeWithContentEntity[] | null> {
+        const response = await this.DataLoadManagementApi.getTypesLocation();
+
+        return response;
+    }
     async getBlockTags(locale: string): Promise<ITagBlockFront[] | null> {
         const response =
             await this.DataLoadManagementApi.getTagsBlockOfEstablishments(
@@ -81,7 +87,9 @@ export class DataLoadManagementService {
         const response = this.DataLoadManagementApi.getBlobProxy();
         return response;
     }
-    async getBusinessLegalTypes(lang:string): Promise<IBusinessLegalTypesFront[] | null> {
+    async getBusinessLegalTypes(
+        lang: string
+    ): Promise<IBusinessLegalTypesFront[] | null> {
         const response =
             await this.DataLoadManagementApi.getBusinessLegalTypes();
         if (!response) {

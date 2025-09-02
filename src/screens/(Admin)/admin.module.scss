@@ -1,0 +1,214 @@
+// Стили для админки
+.admin-layout {
+    .ant-layout-sider {
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .ant-menu-item {
+        margin: 4px 8px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        position: relative;
+
+        &:hover {
+            background-color: rgba(24, 144, 255, 0.1);
+            transform: translateX(2px);
+        }
+
+        &.ant-menu-item-selected {
+            background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(24, 144, 255, 0.3);
+            transform: translateX(4px);
+
+            &::before {
+                content: "";
+                position: absolute;
+                left: -8px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 4px;
+                height: 20px;
+                background: #1890ff;
+                border-radius: 2px;
+            }
+
+            .anticon {
+                color: white;
+            }
+        }
+    }
+
+    .ant-menu-item-icon {
+        font-size: 16px;
+    }
+
+    .ant-menu-title-content {
+        font-size: 15px;
+        font-weight: 500;
+    }
+}
+
+.adminMenu {
+    border-right: none !important;
+
+    .ant-menu-item {
+        height: 48px;
+        line-height: 48px;
+        margin: 2px 8px;
+
+        .ant-menu-item-icon {
+            margin-right: 12px;
+        }
+    }
+}
+
+.admin-header {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.admin-content {
+    .ant-breadcrumb {
+        .ant-breadcrumb-link {
+            color: #1890ff;
+            font-weight: 500;
+
+            &:hover {
+                color: #40a9ff;
+            }
+        }
+
+        .ant-breadcrumb-separator {
+            color: #8c8c8c;
+        }
+    }
+
+    .ant-card {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .ant-table {
+        .ant-table-thead > tr > th {
+            background-color: #fafafa;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .ant-table-tbody > tr > td {
+            font-size: 14px;
+        }
+    }
+
+    .ant-tabs {
+        .ant-tabs-tab {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .ant-tabs-tab-active {
+            font-weight: 600;
+        }
+    }
+
+    .ant-btn {
+        border-radius: 6px;
+        font-weight: 500;
+    }
+
+    .ant-btn-primary {
+        background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+        border: none;
+        box-shadow: 0 2px 4px rgba(24, 144, 255, 0.3);
+
+        &:hover {
+            background: linear-gradient(135deg, #40a9ff 0%, #1890ff 100%);
+            box-shadow: 0 4px 8px rgba(24, 144, 255, 0.4);
+        }
+    }
+}
+
+.admin-form {
+    .ant-form-item-label > label {
+        font-weight: 500;
+        font-size: 16px;
+    }
+
+    .ant-input,
+    .ant-input-affix-wrapper,
+    .ant-select-selector {
+        border-radius: 6px;
+        border: 1px solid #d9d9d9;
+        transition: all 0.3s ease;
+
+        &:hover {
+            border-color: #40a9ff;
+        }
+
+        &:focus,
+        &.ant-input-focused,
+        &.ant-select-focused .ant-select-selector {
+            border-color: #1890ff;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+    }
+
+    .ant-input-lg {
+        font-size: 16px;
+        padding: 12px 16px;
+    }
+}
+
+.admin-modal {
+    .ant-modal-header {
+        border-bottom: 1px solid #f0f0f0;
+        padding: 16px 24px;
+    }
+
+    .ant-modal-title {
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    .ant-modal-body {
+        padding: 24px;
+    }
+
+    .ant-modal-footer {
+        border-top: 1px solid #f0f0f0;
+        padding: 12px 24px;
+    }
+}
+
+// Анимации
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-content {
+    animation: fadeIn 0.3s ease-out;
+}
+
+// Адаптивность
+@media (max-width: 768px) {
+    .admin-layout {
+        .ant-layout-sider {
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+        }
+
+        .ant-layout-content {
+            margin-left: 0;
+        }
+    }
+}

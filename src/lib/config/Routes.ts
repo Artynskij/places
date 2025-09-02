@@ -67,6 +67,10 @@ export const ROUTES = {
         BUSINESS: "/form/business",
         ESTABLISHMENT_CREATE: "/form/establishment",
     },
+    ADMIN:{
+        ROOT:'/admin',
+        DATA_MANAGER:'/admin/data-manager'
+    }
 };
 
 export const ROUTES_FINDER = {

@@ -1,6 +1,6 @@
 import { ILocationsWithContentEntity } from "@/lib/models/api/entities/locations.entity";
 import apiClient from "../ApiClient";
-import { ILocationInsidePaginationRequest } from "@/lib/models/api/request/location/location.request";
+import { ILocationInsidePaginationRequest, ILocationUpdateRequest } from "@/lib/models/api/request/location/location.request";
 
 export default class LocationApi {
     constructor() {}
@@ -18,7 +18,7 @@ export default class LocationApi {
             return null;
         }
     }
-    async getListLocationInside(
+    async getAll(
         body: ILocationInsidePaginationRequest
     ): Promise<ILocationsWithContentEntity[] | null> {
         try {
@@ -43,6 +43,18 @@ export default class LocationApi {
             return response.data;
         } catch (error) {
             console.error(`Ошибка при получении breadcrumbs.`);
+            return null;
+        }
+    }
+    async update(id:string,body:ILocationUpdateRequest): Promise<ILocationsWithContentEntity | null>{
+         try {
+            const response = await apiClient.patch(
+                `/locations/${id}`,
+                body
+            );
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при обновлении объекта.`);
             return null;
         }
     }

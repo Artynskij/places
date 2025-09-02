@@ -72,7 +72,7 @@ const AddressBlockForm: React.FC<Props> = ({ locationId, onChange, error }) => {
         onChange(locationSearch.id);
         setSearch(locationSearch.title);
         setShowDropdown(false);
-        locationService.getLocationById(locationSearch.id).then((location) => {
+        locationService.getById(locationSearch.id).then((location) => {
             if (location) {
                 locationService
                     .getBreadcrumbData({

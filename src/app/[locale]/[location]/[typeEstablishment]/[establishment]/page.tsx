@@ -86,12 +86,12 @@ export default async function EstablishmentPage({
         []
     );
     // TODO delete this
-    const locationData = await apiLocation.getLocationById(
+    const locationData = await apiLocation.getById(
         dataEstablishment?.location.town.id,
         params.locale
     );
 
-    const locationCountryData = await apiLocation.getLocationById(
+    const locationCountryData = await apiLocation.getById(
         dataEstablishment.location.country.id,
         params.locale
     );

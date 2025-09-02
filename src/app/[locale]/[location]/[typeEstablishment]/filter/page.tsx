@@ -73,7 +73,7 @@ export default async function FilterPage({ params, searchParams }: IProps) {
             },
             filterQuery || null
         ),
-        apiLocation.getLocationById(params.location, params.locale),
+        apiLocation.getById(params.location, params.locale),
     ]);
     if (!establishmentList || !blockTags) notFound();
     const tagsClassEstablishment =

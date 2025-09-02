@@ -1,21 +1,28 @@
-import { ILocationFront, ILocationInsidePaginationRequest } from "@/lib/models";
+import { getTypeOfFile } from "./../../helpers/getTypeForFile";
+import {
+    IImageEntity,
+    ILocationFront,
+    ILocationInsidePaginationRequest,
+    ILocationUpdateRequest,
+} from "@/lib/models";
 import LocationApi from "./location.endpoint";
 import LocationMapper from "./location.mapper";
 import { DataLoadManagementService } from "../dataLoadManagement/dataLoadManagement.service";
 
+import { FileUploadService } from "../fileUpload/fileUploads.service";
+import { getImageDimensions } from "@/lib/helpers/getImageDimensions";
 export class LocationService {
     private locationApi: LocationApi;
     private locationMapper: LocationMapper;
     private dataLoadManagerService: DataLoadManagementService;
+    private fileUploadService: FileUploadService;
     constructor() {
         this.locationApi = new LocationApi();
         this.locationMapper = new LocationMapper();
         this.dataLoadManagerService = new DataLoadManagementService();
+        this.fileUploadService = new FileUploadService();
     }
-    async getLocationById(
-        id: string,
-        lang?: string
-    ): Promise<ILocationFront | null> {
+    async getById(id: string, lang?: string): Promise<ILocationFront | null> {
         const cdnHost = await this.dataLoadManagerService.getBlobProxy();
         const response = await this.locationApi.getLocationById(id, lang);
         const mappingData =
@@ -24,10 +31,10 @@ export class LocationService {
                 : null;
         return mappingData;
     }
-    async getListLocationInside(
+    async getAll(
         body: ILocationInsidePaginationRequest
     ): Promise<ILocationFront[] | null> {
-        const response = await this.locationApi.getListLocationInside(body);
+        const response = await this.locationApi.getAll(body);
         const cdnHost = await this.dataLoadManagerService.getBlobProxy();
         return response && cdnHost
             ? response
@@ -51,5 +58,16 @@ export class LocationService {
                   this.locationMapper.transformToFront(location, cdnHost.url)
               )
             : null;
+    }
+    async update(
+        id: string,
+        body: ILocationUpdateRequest
+    ): Promise<any | null> {
+        const response = await this.locationApi.update(id, body);
+        return response;
+        // const cdnHost = await this.dataLoadManagerService.getBlobProxy();
+        // return response && cdnHost
+        //     ? this.locationMapper.transformToFront(response, cdnHost.url)
+        //     : null;
     }
 }
