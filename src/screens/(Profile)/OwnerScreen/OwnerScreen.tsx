@@ -4,12 +4,11 @@ import ContentComponent from "./_components/ContentComponent";
 import UserComponent from "./_components/UserComponent";
 import style from "./ownerScreen.module.scss";
 
-import { IPageProps } from "@/lib/models";
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
+import { IBasePageProps } from "@/lib/models";
+interface IProps
+    extends IBasePageProps<{
         username: string;
-    };
-}
+    }> {}
 
 export default function OwnerScreen({ params, searchParams }: IProps) {
     return (

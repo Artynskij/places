@@ -15,19 +15,20 @@ import { ROUTES } from "@/lib/config/Routes";
 
 import { FormSettingsTourist } from "@/components/common/Form/Settings/FormSettingsTourist";
 import { FormNotificationTourist } from "@/components/common/Form/Settings/FormNotificationTourist";
-import { IPageProps } from "@/lib/models";
+import { IBasePageProps } from "@/lib/models";
 import { Loader } from "@/components/common/Loader/Loader";
 import { useUser } from "@/lib/context/UserContext/UserContext";
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        username: string;
-    };
-    searchParams: IPageProps["searchParams"] & {
-        tab: "personal" | "notification";
-    };
-}
+interface IProps
+    extends IBasePageProps<
+        {
+            username: string;
+        },
+        {
+            tab: "personal" | "notification";
+        }
+    > {}
 export const TouristSettingsScreen = ({ params, searchParams }: IProps) => {
-    if (!searchParams.tab) {
+    if (!searchParams?.tab) {
         redirect(ROUTES.PROFILE.SETTINGS.TOURIST(params.username, "personal"));
     }
     const tabPersonal = searchParams.tab === "personal";

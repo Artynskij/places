@@ -2,7 +2,7 @@
 import style from "./filterScreen.module.scss";
 
 import { Suspense, useEffect, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { useViewTypeList } from "@/lib/context";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
@@ -21,21 +21,25 @@ import ParamComponent from "./_components/ContentComponent/ParamComponent/ParamC
 
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
-import { mockFilterSort } from "@/asset/mockData/mockFilterSort";
+import { sortSelectFilter } from "@/asset/constants/selectData";
 import {
     IEstablishmentFront,
     ILocationFront,
-    IPageProps,
+    IBasePageProps,
+    ISelectOption,
     ITagBlockFront,
     ITagWithEstablishmentFront,
 } from "@/lib/models";
 import { TTypesOfEstablishment } from "@/lib/models/types";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { TSortType } from "@/lib/models/types/TSortType";
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        location: string;
-        typeEstablishment: TTypesOfEstablishment;
-    };
+interface IProps
+    extends IBasePageProps<
+        { location: string; typeEstablishment: TTypesOfEstablishment },
+        { sort?: TSortType; filter?: string; page?: string }
+    > {
+    
     establishmentList: IEstablishmentFront[];
     blockTags: ITagBlockFront[];
     locationData: ILocationFront | null;
@@ -51,13 +55,17 @@ export default function FilterScreen({
     tagsClassEstablishment,
     breadcrumbData,
 }: IProps) {
-    const [sortActiveItem, setSortActiveItem] = useState(
-        mockFilterSort[3].value
-    );
+    const [sortActiveItem, setSortActiveItem] = useState<string>();
+    // const sortActiveItem = searchParams
+
+    const router = useRouter();
     const searchParamsClient = useSearchParams();
     const pathname = usePathname();
     const [isLoading, setIsLoading] = useState(false); // Добавляем состояние загрузки
     useEffect(() => {
+        setSortActiveItem(
+            searchParams ? searchParams.sort : sortSelectFilter[0].value
+        );
         setIsLoading(false); // Скрываем лоадер при изменении URL
     }, [pathname, searchParamsClient]);
     const viewType = useViewTypeList();
@@ -67,6 +75,13 @@ export default function FilterScreen({
     const baseUrl = useBaseUrl();
     const filteredBreadcrumb =
         breadcrumbData?.slice(1, breadcrumbData.length) || null;
+    const handleSelectSort = (item: ISelectOption) => {
+        setIsLoading(true);
+        setSortActiveItem(item.value);
+        const params = new URLSearchParams(searchParamsClient.toString());
+        params.set(CONSTANT_SEARCH_PARAMS.SORT, item.value);
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    };
     return (
         <div className="container">
             {isLoading && <Loader />}
@@ -132,18 +147,18 @@ export default function FilterScreen({
                             />
                         </Suspense>
                     </div>
-                    {/* <div className={style.sort}>
+                    <div className={style.sort}>
                         <span>Сортировать</span>
 
                         <SelectCustom
                             classNameCtn={style.sort_select}
-                            options={mockFilterSort}
+                            options={sortSelectFilter}
                             activeOption={sortActiveItem}
                             onChange={(item) => {
-                                setSortActiveItem(item.value);
+                                handleSelectSort(item);
                             }}
                         />
-                    </div> */}
+                    </div>
                     {establishmentList.length ? (
                         viewType.typeView === "list" ? (
                             <div className={style.list}>

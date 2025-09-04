@@ -1,4 +1,4 @@
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 import style from "./newsAuthorScreen.module.scss";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { mockNews } from "@/asset/mockData/mockNews";
@@ -9,10 +9,10 @@ import Image from "next/image";
 import { PopularNews } from "../_component/_PopularNews/_PopularNews";
 import { IArticleFront } from "@/lib/models";
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
+interface IProps
+    extends IBasePageProps<{
         name: string;
-    };
+    }> {
     mainNews: IArticleFront[] | [];
     popularNews: IArticleFront[] | [];
 }

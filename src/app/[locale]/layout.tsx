@@ -8,7 +8,7 @@ import { Footer } from "@/components/common/Footer/Footer";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import ClientOnly from "@/components/ATest/ClientOnly";
 import { ToastProvider } from "@/components/ATest/ToasterProvider";
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 import { locales } from "@/config";
 import { ReactNode, Suspense } from "react";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
@@ -36,7 +36,7 @@ export async function generateMetadata() {
 export function generateStaticParams() {
     return locales.map((locale) => ({ locale }));
 }
-interface IRootLayoutProps extends IPageProps {
+interface IRootLayoutProps extends IBasePageProps {
     children: React.ReactNode;
 }
 

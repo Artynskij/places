@@ -1,9 +1,8 @@
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { InputCustom } from "@/components/UI/Input/InputCustom/InputCustom";
 import style from "./searchScreen.module.scss";
-import { IPageProps, ISearchQueryResponseFront } from "@/lib/models";
+import { IBasePageProps, ISearchQueryResponseFront } from "@/lib/models";
 import InputFind from "./_components/InputFind/InputFind";
-
 
 import Link from "next/link";
 
@@ -18,11 +17,15 @@ import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
 import { PaginationAnt } from "@/components/common/Pagination/PaginationAnt";
 import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
 
-interface ISearchProp extends IPageProps {
-    searchParams: {
-        [CONSTANT_SEARCH_PARAMS.SEARCH]: string;
-        [CONSTANT_SEARCH_PARAMS.INDEX_SEARCH]: TTypesOfSearchKey;
-    };
+interface ISearchProp
+    extends IBasePageProps<
+        {},
+        {
+            [CONSTANT_SEARCH_PARAMS.SEARCH]: string;
+            [CONSTANT_SEARCH_PARAMS.INDEX_SEARCH]: TTypesOfSearchKey;
+            [CONSTANT_SEARCH_PARAMS.PAGE]: string;
+        }
+    > {
     searchData: ISearchQueryResponseFront | null;
 }
 const SearchScreen = async ({
@@ -30,7 +33,9 @@ const SearchScreen = async ({
     searchParams,
     searchData,
 }: ISearchProp) => {
-    const searchQuery = searchParams[CONSTANT_SEARCH_PARAMS.SEARCH];
+    const searchQuery = searchParams
+        ? searchParams[CONSTANT_SEARCH_PARAMS.SEARCH]
+        : "";
 
     const countAllSearchItems = searchData?.info.proportions.total || 0;
     // const countAllSearchItems = searchData?.info.found
@@ -39,7 +44,9 @@ const SearchScreen = async ({
     //       searchData?.info.found.location
     //     : 0;
 
-    const searchValue = searchParams[CONSTANT_SEARCH_PARAMS.SEARCH] || "";
+    const searchValue = searchParams
+        ? searchParams[CONSTANT_SEARCH_PARAMS.SEARCH] || ''
+        : "";
     const baseUrl = await getBaseUrlServer();
 
     return (

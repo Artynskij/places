@@ -1,4 +1,4 @@
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 import style from "./newsCategoryScreen.module.scss";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { mockNews } from "@/asset/mockData/mockNews";
@@ -8,10 +8,7 @@ import { PopularNews } from "../_component/_PopularNews/_PopularNews";
 import { getTranslations } from "next-intl/server";
 import { IArticleFront } from "@/lib/models";
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        category: string;
-    };
+interface IProps extends IBasePageProps<{ category: string }> {
     mainNews: IArticleFront[] | [];
     popularNews: IArticleFront[] | [];
 }

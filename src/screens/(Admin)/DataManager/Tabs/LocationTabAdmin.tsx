@@ -149,17 +149,17 @@ const LocationTabAdmin: React.FC<Props> = () => {
     const handleOk = async () => {
         if (!editLocation) return;
         const values = await form.validateFields();
-  console.log(values);
+
         const files = values.media
             ? await fileUploadService.uploadPublicFileOfAntdFiles(
                   editLocation.id,
                   values.media
               )
             : [];
-      
+
         const updatedLocation = await locationService.update(editLocation?.id, {
             source: {
-                LocationType:values.locationType
+                LocationType: values.locationType,
             },
             content: {
                 details: [

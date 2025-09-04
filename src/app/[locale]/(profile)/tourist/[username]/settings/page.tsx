@@ -1,4 +1,4 @@
-import { IPageProps } from "@/lib/models";
+import { IBasePageProps } from "@/lib/models";
 // import { OwnerSettingsScreen } from "@/screens/(Profile)/SettingsProfile/OwnerSettingsScreen/OwnerSettingScreen";
 
 import { TouristSettingsScreen } from "@/screens/(Profile)/SettingsProfile/TouristSettingsScreen";
@@ -9,14 +9,15 @@ export async function generateMetadata() {
     };
 }
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        username:string;
-    };
-    searchParams: IPageProps["searchParams"] & {
-        tab: "personal" | "notification";
-    };
-}
+interface IProps
+    extends IBasePageProps<
+        {
+            username: string;
+        },
+        {
+            tab: "personal" | "notification";
+        }
+    > {}
 
 export default function TouristSettingsPage({ params, searchParams }: IProps) {
     return (

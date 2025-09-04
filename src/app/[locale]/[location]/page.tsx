@@ -3,7 +3,7 @@ import { Video } from "@/components/UI/Video/Video";
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 
 import LocationScreen from "@/screens/LocationScreen/LocationScreen";
@@ -26,10 +26,8 @@ export async function generateMetadata({
     };
 }
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        location: string;
-    };
+interface IProps extends IBasePageProps<{location: string;}> {
+   
 }
 
 export default async function CountryPage({ params, searchParams }: IProps) {

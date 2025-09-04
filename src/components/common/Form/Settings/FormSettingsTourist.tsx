@@ -47,7 +47,7 @@ import { Loader } from "../../Loader/Loader";
 import { DeleteButton } from "../../ButtonFunctional/DeleteButton";
 import { GenderBlockForm } from "../_components/GenderBlock/GenderBlock";
 import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
-import { getFormatDate, parseDateToISO } from "@/lib/helpers/getFormatDate";
+
 import { AvatarBlockForm } from "../_components/AvatarBlock/AvatarBlock";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
 import {
@@ -163,7 +163,8 @@ export const FormSettingsTourist = () => {
             initialFormData,
             dataForm
         );
-        console.log(changes);
+        console.log(initialFormData);
+        console.log(dataForm);
 
         if (Object.keys(changes).length === 0) {
             notification.info({ message: "Нет изменений для сохранения" });

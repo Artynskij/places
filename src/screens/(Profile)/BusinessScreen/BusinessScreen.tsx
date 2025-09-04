@@ -4,7 +4,7 @@ import ContentComponent from "./ContentComponent";
 import UserComponent from "./UserComponent";
 import style from "./businessScreen.module.scss";
 
-import { IBusinessFront, IPageProps } from "@/lib/models";
+import { IBusinessFront, IBasePageProps } from "@/lib/models";
 import { useLocale, useTranslations } from "next-intl";
 
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
@@ -21,11 +21,7 @@ import { Loader } from "@/components/common/Loader/Loader";
 import { useNotification } from "@/lib/context";
 import Image from "next/image";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        business: string;
-    };
-}
+interface IProps extends IBasePageProps<{ business: string }> {}
 
 function BusinessScreenBase({ params, searchParams }: IProps) {
     const t = useTranslations("ProfilePage.header");

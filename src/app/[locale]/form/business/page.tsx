@@ -1,5 +1,5 @@
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
-import { IPageProps } from "@/lib/models";
+import { IBasePageProps } from "@/lib/models";
 import { TTypeOwnerBusiness } from "@/lib/models/types/auth/TTypeOwnerBusiness";
 import { BusinessFormScreen } from "@/screens/(Form)/BusinessFormScreen";
 
@@ -9,11 +9,11 @@ export async function generateMetadata() {
     };
 }
 
-interface IProps extends IPageProps {
-    searchParams: {
-        [CONSTANT_SEARCH_PARAMS.TAB]: TTypeOwnerBusiness;
-    };
-}
+interface IProps
+    extends IBasePageProps<
+        {},
+        { [CONSTANT_SEARCH_PARAMS.TAB]: TTypeOwnerBusiness }
+    > {}
 export default function BusinessFormPage({ params, searchParams }: IProps) {
     return (
         <div className="container">

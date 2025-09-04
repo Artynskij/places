@@ -1,24 +1,14 @@
 import type { Metadata } from "next";
 
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 import NewsCategoryScreen from "@/screens/(News)/NewsCategoryScreen/NewsCategoryScreen";
 import NewsAuthorScreen from "@/screens/(News)/NewsAuthorScreen/NewsAuthorScreen";
 import { ArticleService } from "@/lib/Api/article/article.service";
-
-export async function generateMetadata({
-    params,
-}: {
-    params: { name: string };
-}) {
+interface IProps extends IBasePageProps<{ name: string }> {}
+export async function generateMetadata({ params }: IProps) {
     return {
         title: `${process.env.BASE_NAME} | ${params.name}`,
-    };
-}
-
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        name: string;
     };
 }
 

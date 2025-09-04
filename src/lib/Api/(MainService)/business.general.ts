@@ -14,12 +14,13 @@ import { FileUploadService } from "../fileUpload/fileUploads.service";
 import { VerificationService } from "../verification/verification.api";
 // import { validationUpdateBusinessSchema } from "@/lib/validationSchemas/business/updateBusiness.schema";
 import { getObjectDiffWithNulls } from "@/lib/helpers/getChangedFieldsForApi";
-import { message } from "antd";
+
 import {
     validationBusinessIndividualSchema,
     validationBusinessLegalEntitySchema,
     validationBusinessSoleProprietorSchema,
 } from "@/lib/validationSchemas/business/businessValid.schema";
+import { format } from "date-fns";
 type TypeFormIndividual = Yup.InferType<
     typeof validationBusinessIndividualSchema
 >;
@@ -214,11 +215,21 @@ export class GeneralBusinessService {
         initialForm,
     }: IProp): Promise<Boolean> {
         if (!business || !initialForm) return false;
-
+        // formData.dateRegister = formData.dateRegister
+        //     ? format(new Date(formData.dateRegister), "yyyy-MM-dd")
+        //     : formData.dateRegister;
         const changes = getObjectDiffWithNulls<TypeForm>(initialForm, formData);
+        // const formating = initialForm.dateRegister
+        //     ? new Date(initialForm.dateRegister)
+        //     : new Date();
+        // console.log(formData.dateRegister);
+        // console.log(formating);
+        // console.log(formData.dateRegister == formating);
+
         delete (changes as TypeForm).documentsVerify;
         delete (changes as TypeForm).agreements;
-        delete (changes as TypeForm).dateRegister;
+        // delete (changes as TypeForm).dateRegister;
+        // return false;
         console.log(changes);
         if (Object.keys(changes).length === 0) {
             return false;

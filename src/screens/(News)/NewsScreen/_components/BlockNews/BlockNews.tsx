@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 
 import { ROUTES } from "@/lib/config/Routes";
 
-import { IArticleFront, IPageProps } from "@/lib/models";
+import { IArticleFront, IBasePageProps } from "@/lib/models";
 
 import style from "./blockNews.module.scss";
 import Image from "next/image";
@@ -24,7 +24,7 @@ import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 interface IBlockNews {
     article: IArticleFront | null;
     updateAnotherNews: () => void;
-    params: IPageProps["params"] & {
+    params: IBasePageProps["params"] & {
         category: TCategoriesNews;
         news: string;
     };

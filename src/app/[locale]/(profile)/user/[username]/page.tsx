@@ -1,4 +1,4 @@
-import { IPageProps } from "@/lib/models";
+import { IBasePageProps } from "@/lib/models";
 import UsersScreen from "@/screens/(Profile)/UserScreen/UserScreen";
 export async function generateMetadata({
     params,
@@ -10,11 +10,10 @@ export async function generateMetadata({
     };
 }
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
+interface IProps
+    extends IBasePageProps<{
         username: string;
-    };
-}
+    }> {}
 
 export default function UserPage({ params, searchParams }: IProps) {
     return (

@@ -2,7 +2,7 @@
 
 import style from "./settings.module.scss";
 
-import { IBusinessFront, IPageProps } from "@/lib/models";
+import { IBusinessFront, IBasePageProps } from "@/lib/models";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { ROUTES } from "@/lib/config/Routes";
 import { Loader } from "@/components/common/Loader/Loader";
@@ -13,11 +13,7 @@ import { BusinessService } from "@/lib/Api/business/business.service";
 import { FormIndividual } from "@/components/common/Form/Business/FormIndividual";
 import { FormLegalEntity } from "@/components/common/Form/Business/FormLegalEntity";
 import { AuthGuard } from "@/components/common/Auth/guards/AuthGuard";
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        business: string;
-    };
-}
+interface IProps extends IBasePageProps<{ business: string }> {}
 export const BusinessSettingsScreen = ({ params }: IProps) => {
     const [businessData, setBusinessData] = useState<IBusinessFront>();
     const businessService = new BusinessService();
@@ -65,8 +61,6 @@ export const BusinessSettingsScreen = ({ params }: IProps) => {
                             business={businessData}
                         />
                     )}
-
-                
                 </div>
             )}
         </AuthGuard>

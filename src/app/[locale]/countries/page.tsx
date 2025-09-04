@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 
 import CountriesScreen from "@/screens/CountriesScreen/CountriesScreen";
 
@@ -10,8 +10,8 @@ export async function generateMetadata() {
     };
 }
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {};
+interface IProps extends IBasePageProps {
+   
 }
 
 export default function CountriesPage({ params, searchParams }: IProps) {

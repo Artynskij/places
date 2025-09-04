@@ -4,5 +4,11 @@ export const CONSTANT_SEARCH_PARAMS = {
     SEARCH: "l",
     INDEX_SEARCH: "f",
     TAB: "tab",
-    REDIRECT:'r'
+    REDIRECT: "r",
+    SORT: "sort",
+    ampersand: "&",
+    filterParam: {
+        category: "c",
+        tag: "t",
+    },
 } as const;

@@ -18,6 +18,7 @@ import {
     SettingOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
+import { ROUTES } from "@/lib/config/Routes";
 
 const { Header, Sider, Content } = Layout;
 
@@ -35,14 +36,54 @@ export default function RootLayout({ children }: AdminLayoutProps) {
 
     const menuItems = [
         {
-            key: "/admin/data-management",
+            key: ROUTES.ADMIN.USERS,
             icon: <DatabaseOutlined />,
-            label: "Управление данными",
+            label: "Пользователи",
+        },
+        // {
+        //     key: ROUTES.ADMIN.USERS,
+        //     icon: <DatabaseOutlined />,
+        //     label: "Бизнесы",
+        // },
+        // {
+        //     key: ROUTES.ADMIN.USERS,
+        //     icon: <DatabaseOutlined />,
+        //     label: "Админы",
+        // },
+        {
+            key: ROUTES.ADMIN.ESTABLISHMENTS,
+            icon: <DatabaseOutlined />,
+            label: "Объекты",
         },
         {
-            key: "/admin/article-creation",
+            key: ROUTES.ADMIN.LOCATIONS,
+            icon: <DatabaseOutlined />,
+            label: "Локации",
+        },
+        {
+            key: ROUTES.ADMIN.ATTRIBUTES,
+            icon: <DatabaseOutlined />,
+            label: "Атрибуты",
+        },
+        {
+            key: ROUTES.ADMIN.ARTICLES,
             icon: <FileTextOutlined />,
-            label: "Создание статей",
+            label: "Контент",
+        },
+        // {
+        //     key: "/admin/article-creation",
+        //     icon: <FileTextOutlined />,
+        //     label: "Медиафайлы",
+        // },
+        // {
+        //     key: "/admin/article-creation",
+        //     icon: <FileTextOutlined />,
+        //     label: "Модерация",
+        // },
+        {
+            key: ROUTES.ADMIN.DATA_MANAGER,
+            icon: <DatabaseOutlined />,
+            label: "Данные",
         },
     ];
 
@@ -52,50 +93,50 @@ export default function RootLayout({ children }: AdminLayoutProps) {
 
     // Определяем активный пункт меню на основе текущего пути
     const getSelectedKeys = () => {
-        const active = menuItems.find((item) => item.key.includes(pathname));
+        const active = menuItems.find((item) => pathname.includes(item.key));
 
         return active ? [active.key] : [];
     };
 
     // Получаем название активной страницы для заголовка
     const getActivePageTitle = () => {
-        if (pathname.startsWith("/admin/data-management")) {
+        if (pathname.includes(ROUTES.ADMIN.DATA_MANAGER)) {
             return "Управление данными";
         }
-        if (pathname.startsWith("/admin/article-creation")) {
+        if (pathname.includes(ROUTES.ADMIN.ARTICLES)) {
             return "Создание статей";
         }
         return "Админ панель";
     };
 
     // Получаем хлебные крошки
-    const getBreadcrumbItems = () => {
-        const items = [
-            {
-                title: (
-                    <span style={{ display: "flex", alignItems: "center" }}>
-                        <HomeOutlined style={{ marginRight: 4 }} />
-                        Админ панель
-                    </span>
-                ),
-                href: "/admin",
-            },
-        ];
+    // const getBreadcrumbItems = () => {
+    //     const items = [
+    //         {
+    //             title: (
+    //                 <span style={{ display: "flex", alignItems: "center" }}>
+    //                     <HomeOutlined style={{ marginRight: 4 }} />
+    //                     Админ панель
+    //                 </span>
+    //             ),
+    //             href: "/admin",
+    //         },
+    //     ];
 
-        if (pathname.startsWith("/admin/data-management")) {
-            items.push({
-                title: <span>Управление данными</span>,
-                href: "/admin/data-management",
-            });
-        } else if (pathname.startsWith("/admin/article-creation")) {
-            items.push({
-                title: <span>Создание статей</span>,
-                href: "/admin/article-creation",
-            });
-        }
+    //     if (pathname.startsWith("/admin/data-management")) {
+    //         items.push({
+    //             title: <span>Управление данными</span>,
+    //             href: "/admin/data-management",
+    //         });
+    //     } else if (pathname.startsWith("/admin/article-creation")) {
+    //         items.push({
+    //             title: <span>Создание статей</span>,
+    //             href: "/admin/article-creation",
+    //         });
+    //     }
 
-        return items;
-    };
+    //     return items;
+    // };
 
     return (
         <Layout style={{ minHeight: "100vh" }} className={styles.adminLayout}>
@@ -148,7 +189,7 @@ export default function RootLayout({ children }: AdminLayoutProps) {
                         { key: "13", label: "Option 13" },
                         { key: "14", label: "Option 14" },
                     ]}
-                /> */}
+                         /> */}
             </Sider>
             <Layout>
                 <Header
@@ -211,12 +252,12 @@ export default function RootLayout({ children }: AdminLayoutProps) {
                         borderRadius: borderRadiusLG,
                     }}
                 >
-                    {pathname !== "/admin" && (
+                    {/* {pathname !== "/admin" && (
                         <Breadcrumb
                             items={getBreadcrumbItems()}
                             style={{ marginBottom: 16, fontSize: "14px" }}
                         />
-                    )}
+                    )} */}
                     {children}
                 </Content>
             </Layout>

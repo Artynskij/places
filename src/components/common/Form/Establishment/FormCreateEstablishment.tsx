@@ -361,21 +361,29 @@ const FormCreateEstablishmentBase = ({}: IFormCreateEstablishment) => {
                             </div>
                         )}
                     />
-
-                    <Controller
-                        name="categories"
-                        control={control}
-                        render={({ field, fieldState }) => (
-                            <div className={style.selectBlock}>
-                                <label>Категория объекта*</label>
-                                <CategoryBlockForm
-                                    selectedCategories={field.value as string[]}
-                                    onChange={field.onChange}
-                                    error={fieldState.error || null}
-                                />
-                            </div>
-                        )}
-                    />
+                    {typeEstablishment && (
+                        <Controller
+                            name="categories"
+                            control={control}
+                            render={({ field, fieldState }) => (
+                                <div className={style.selectBlock}>
+                                    <label>Категория объекта*</label>
+                                    <CategoryBlockForm
+                                        typeEstablishmentId={
+                                            CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                                typeEstablishment
+                                            ].id
+                                        }
+                                        selectedCategories={
+                                            field.value as string[]
+                                        }
+                                        onChange={field.onChange}
+                                        error={fieldState.error || null}
+                                    />
+                                </div>
+                            )}
+                        />
+                    )}
                 </div>
             </div>
 

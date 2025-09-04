@@ -1,4 +1,4 @@
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 import style from "./countriesScreen.module.scss";
 import { countriesData, continentsData } from "@/asset/constants/countries";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
@@ -6,8 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ROUTES } from "@/lib/config/Routes";
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"];
+interface IProps extends IBasePageProps {
+    params: IBasePageProps["params"];
 }
 export default function CountriesScreen({ params, searchParams }: IProps) {
     const countries = countriesData;

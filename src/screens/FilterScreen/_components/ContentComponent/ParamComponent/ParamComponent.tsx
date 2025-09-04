@@ -54,7 +54,7 @@ const ParamComponent = ({ dataTags, setIsLoading }: IParamComponentProp) => {
         if (filterValue?.length !== 0) {
             params.set(
                 CONSTANT_SEARCH_PARAMS.FILTER,
-                filterValue?.map((item) => item.key)?.join("%") || "123"
+                filterValue?.map((item) => item.key)?.join(CONSTANT_SEARCH_PARAMS.ampersand) || "123"
             );
         } else {
             params.delete(CONSTANT_SEARCH_PARAMS.FILTER);

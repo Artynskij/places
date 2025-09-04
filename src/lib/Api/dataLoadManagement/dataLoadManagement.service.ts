@@ -71,10 +71,14 @@ export class DataLoadManagementService {
 
         return mappedData;
     }
-    async getCategories(locale: string): Promise<ICategoryFront[] | null> {
+    async getCategories(
+        locale: string,
+        typeEstablishmentId: string | null
+    ): Promise<ICategoryFront[] | null> {
         const response =
             await this.DataLoadManagementApi.getCategoriesOfEstablishments(
-                locale
+                locale,
+                typeEstablishmentId
             );
         if (!response) {
             return null;

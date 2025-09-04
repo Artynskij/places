@@ -1,4 +1,4 @@
-import { IPageProps } from "@/lib/models";
+import { IBasePageProps } from "@/lib/models";
 import OwnerScreen from "@/screens/(Profile)/OwnerScreen/OwnerScreen";
 import { unstable_setRequestLocale } from "next-intl/server";
 export async function generateMetadata() {
@@ -7,10 +7,8 @@ export async function generateMetadata() {
     };
 }
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        username:string
-    };
+interface IProps extends IBasePageProps<{ username: string }> {
+    
 }
 
 export default function OwnerPage({ params, searchParams }: IProps) {

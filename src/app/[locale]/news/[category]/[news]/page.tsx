@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 import NewsScreen from "@/screens/(News)/NewsScreen/NewsScreen";
 
@@ -18,12 +18,8 @@ export async function generateMetadata({
     };
 }
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        category: TCategoriesNews;
-        news: string;
-    };
-}
+interface IProps
+    extends IBasePageProps<{ category: TCategoriesNews; news: string }> {}
 
 export default async function NewsCategoryPage({
     params,

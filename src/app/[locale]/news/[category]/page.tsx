@@ -1,4 +1,4 @@
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 import NewsCategoryScreen from "@/screens/(News)/NewsCategoryScreen/NewsCategoryScreen";
 import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
@@ -10,11 +10,8 @@ import { ArticleService } from "@/lib/Api/article/article.service";
 //         category,
 //     }));
 // }
-export async function generateMetadata({
-    params,
-}: {
-    params: { category: string };
-}) {
+interface IProps extends IBasePageProps<{ category: string }> {}
+export async function generateMetadata({ params }: IProps) {
     const categoryName = Object.keys(CONSTANT_CATEGORIES_NEWS).find(
         (category) => params.category === category
     );
@@ -26,12 +23,6 @@ export async function generateMetadata({
     return {
         title: `${process.env.BASE_NAME} | ${params.category}`,
         description: `Самые лучшие ${params.category} для туристов всего мира.`,
-    };
-}
-
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        category: string;
     };
 }
 

@@ -69,7 +69,14 @@ export const ROUTES = {
     },
     ADMIN:{
         ROOT:'/admin',
-        DATA_MANAGER:'/admin/data-manager'
+        ARTICLES:'/admin/articles',
+        ATTRIBUTES:'/admin/attributes',
+        BUSINESSES:'/admin/businesses',
+        ESTABLISHMENTS:'/admin/establishments',
+        LOCATIONS:'/admin/locations',
+        USERS:'/admin/users',
+
+        DATA_MANAGER:'/admin/data-management',
     }
 };
 

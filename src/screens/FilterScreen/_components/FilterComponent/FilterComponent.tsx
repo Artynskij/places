@@ -59,7 +59,7 @@ const FiltersComponent = ({
         if (checkedValues.length === 0) {
             params.delete(CONSTANT_SEARCH_PARAMS.FILTER);
         } else {
-            params.set(CONSTANT_SEARCH_PARAMS.FILTER, checkedValues.join("%"));
+            params.set(CONSTANT_SEARCH_PARAMS.FILTER, checkedValues.join(CONSTANT_SEARCH_PARAMS.ampersand));
         }
         params.delete(CONSTANT_SEARCH_PARAMS.PAGE);
         router.replace(`${pathname}?${params.toString()}`, { scroll: false });
@@ -113,7 +113,7 @@ const FiltersComponent = ({
                             value={checkedValues}
                             defaultValue={searchParams
                                 .get(CONSTANT_SEARCH_PARAMS.FILTER)
-                                ?.split("%")}
+                                ?.split(CONSTANT_SEARCH_PARAMS.ampersand)}
                             onChange={onChangeFilter}
                         >
                             {dataTags?.map((item) => {

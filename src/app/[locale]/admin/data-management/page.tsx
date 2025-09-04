@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
-import { IPageProps } from "@/lib/models/common/IType";
-
+import { IBasePageProps } from "@/lib/models/common/IType";
 
 import { DataManagerScreen } from "@/screens/(Admin)/DataManager/DataManager.screen";
 
@@ -11,8 +10,8 @@ export async function generateMetadata() {
     };
 }
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {};
+interface IProps extends IBasePageProps {
+    params: IBasePageProps["params"] & {};
 }
 
 export default function DataManagerPage({ params, searchParams }: IProps) {

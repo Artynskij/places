@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export const getObjectDiffWithNulls = <T extends object>(
   initial: Partial<T>,
   current: Partial<T>
@@ -9,24 +11,40 @@ export const getObjectDiffWithNulls = <T extends object>(
     ...Object.keys(current) as (keyof T)[],
   ]);
 
+  const formatDate = (date: Date): string => dayjs(date).format("YYYY-MM-DD");
+
   for (const key of allKeys) {
     const initialValue = initial[key];
     const currentValue = current[key];
-  if (initialValue === currentValue) {
-    continue;
-  }
-    const isGone = !(key in current) || currentValue === '';
 
+    if (initialValue === currentValue) {
+      continue;
+    }
+
+    const isGone = !(key in current) || currentValue === "";
     if (isGone) {
       (diff as any)[key] = null;
       continue;
     }
 
+    // 🔹 Проверка на Date
+    if (initialValue instanceof Date || currentValue instanceof Date) {
+      const formattedInitial =
+        initialValue instanceof Date ? formatDate(initialValue) : initialValue;
+      const formattedCurrent =
+        currentValue instanceof Date ? formatDate(currentValue) : currentValue;
+
+      if (formattedInitial !== formattedCurrent) {
+        (diff as any)[key] = formattedCurrent;
+      }
+      continue;
+    }
+
     // Рекурсивное сравнение объектов
     if (
-      typeof currentValue === 'object' &&
+      typeof currentValue === "object" &&
       currentValue !== null &&
-      typeof initialValue === 'object' &&
+      typeof initialValue === "object" &&
       initialValue !== null &&
       !Array.isArray(currentValue) &&
       !Array.isArray(initialValue)

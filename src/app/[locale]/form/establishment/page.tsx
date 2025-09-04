@@ -1,7 +1,5 @@
-
 import { FormCreateEstablishment } from "@/components/common/Form/Establishment/FormCreateEstablishment";
-import { IPageProps } from "@/lib/models";
-
+import { IBasePageProps } from "@/lib/models";
 
 export async function generateMetadata() {
     return {
@@ -9,18 +7,13 @@ export async function generateMetadata() {
     };
 }
 
-interface IProps extends IPageProps {
-    searchParams: {
-        // [CONSTANT_SEARCH_PARAMS.TAB]: TTypeOwnerBusiness;
-    };
-}
+interface IProps extends IBasePageProps {}
 export default function EstablishmentFormPage({
     params,
     searchParams,
 }: IProps) {
     return (
         <div className="container">
-            {/* <BusinessFormScreen params={params} searchParams={searchParams} /> */}
             <FormCreateEstablishment />
         </div>
     );

@@ -1,0 +1,20 @@
+import { IBasePageProps } from "@/lib/models/common/IType";
+
+export async function generateMetadata() {
+    return {
+        title: `${process.env.BASE_NAME} | admin-users`,
+    };
+}
+
+interface IProps extends IBasePageProps {
+    params: IBasePageProps["params"] & {};
+}
+
+export default function UsersAdminPage({ params, searchParams }: IProps) {
+    return (
+        <>
+            <div>users</div>
+            {/* <DataManagerScreen /> */}
+        </>
+    );
+}

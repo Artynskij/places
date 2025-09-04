@@ -11,7 +11,9 @@ export interface IPaginationEstablishmentRequest extends IPaginationRequest {
         tagsIds?: number[] | string[];
         locationId?: string;
     };
-
+    sort?: {
+        avgRate: string;
+    };
     pagination: {
         page: number;
         pageSize: number;

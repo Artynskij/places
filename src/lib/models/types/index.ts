@@ -5,6 +5,7 @@ export * from "./TCategoryClassTag";
 export * from "./TLocale";
 export * from "./TRoleOwner";
 export * from "./TSocialNetworks";
+export * from "./TSortType";
 export * from "./TTilesContent";
 export * from "./TTravelMapAction";
 export * from "./TTypeFile";

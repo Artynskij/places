@@ -68,12 +68,13 @@ export default class DataLoadManagementApi {
         }
     }
     async getCategoriesOfEstablishments(
-        locale: string
+        locale: string,
+        typeEstablishmentId: string | null
     ): Promise<ICategoryEstablishmentEntity[] | null> {
         try {
             const response = await apiClient.post(
                 `/category-of-establishment/get-all`,
-                { lang: locale }
+                { lang: locale, typeId: typeEstablishmentId }
             );
             return response.data;
         } catch (error) {

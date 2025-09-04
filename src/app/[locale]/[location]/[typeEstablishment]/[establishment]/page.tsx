@@ -1,5 +1,5 @@
 import { EstablishmentScreen } from "@/screens/EstablishmentScreen/EstablishmentScreen";
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 import { notFound } from "next/navigation";
 
 import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
@@ -12,13 +12,12 @@ import { MapService } from "@/lib/Api/map/map.service";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 import { ScheduleService } from "@/lib/Api/(Establishment)/schedule/schedule.service";
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
+interface IProps
+    extends IBasePageProps<{
         location: string;
         typeEstablishment: TTypesOfEstablishment;
         establishment: string;
-    };
-}
+    }> {}
 export async function generateMetadata({
     params,
 }: {

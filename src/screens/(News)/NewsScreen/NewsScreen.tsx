@@ -1,6 +1,6 @@
 "use client";
 
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 
 import style from "./newsScreen.module.scss";
 import { mockNews } from "@/asset/mockData/mockNews";
@@ -16,11 +16,8 @@ import BlockNews from "./_components/BlockNews/BlockNews";
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
 import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        category: TCategoriesNews;
-        news: string;
-    };
+interface IProps
+    extends IBasePageProps<{ category: TCategoriesNews; news: string }> {
     articleData: IArticleFront | null;
     popularNews: IArticleFront[] | [];
 }

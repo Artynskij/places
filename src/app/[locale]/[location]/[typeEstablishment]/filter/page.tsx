@@ -1,6 +1,6 @@
 import { IMockBlock } from "@/asset/mockData/mockFilterCheckBox";
 import FilterScreen from "@/screens/FilterScreen/FilterScreen";
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 import { notFound } from "next/navigation";
 
 import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
@@ -10,6 +10,8 @@ import { LocationService } from "@/lib/Api/location/location.service";
 import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { TSortType } from "@/lib/models/types/TSortType";
 
 // export async function generateMetadata({
 //   params,
@@ -21,15 +23,20 @@ import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/es
 //   };
 // }
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
-        location: string;
-        typeEstablishment: TTypesOfEstablishment;
-    };
-}
+interface IProps
+    extends IBasePageProps<
+        { location: string; typeEstablishment: TTypesOfEstablishment },
+        { sort?: TSortType; filter?: string; page?: string }
+    > {}
 
 export default async function FilterPage({ params, searchParams }: IProps) {
-    const filterQuery = searchParams?.filter?.toString().split("%");
+    const filterQuery = searchParams?.filter
+        ?.toString()
+        .split(CONSTANT_SEARCH_PARAMS.ampersand);
+
+    const sortQuery = searchParams?.sort?.toString();
+
+    CONSTANT_SEARCH_PARAMS;
     const tagsQuery =
         filterQuery
             ?.filter((query) => query.includes("t"))
@@ -38,6 +45,10 @@ export default async function FilterPage({ params, searchParams }: IProps) {
         filterQuery
             ?.filter((query) => query.includes("c"))
             .map((queryTag) => queryTag.replace("c", "")) || [];
+    // const sortQuery =
+    //     filterQuery
+    //         ?.filter((query) => query.includes(CONSTANT_SEARCH_PARAMS.SORT))
+    //         .map((queryTag) => queryTag.replace("c", "")) || [];
     const currentPageQuery = searchParams?.page?.toString();
 
     const apiEst = new EstablishmentService();
@@ -52,6 +63,9 @@ export default async function FilterPage({ params, searchParams }: IProps) {
                     ? +currentPageQuery / CONSTANT_DEFAULT_PAGE_SIZE
                     : 1,
                 pageSize: CONSTANT_DEFAULT_PAGE_SIZE,
+            },
+            sort: {
+                avgRate: sortQuery || "NONE",
             },
             filter: {
                 tagsIds: tagsQuery || [],

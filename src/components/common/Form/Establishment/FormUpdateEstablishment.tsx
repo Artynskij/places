@@ -345,6 +345,7 @@ export const FormUpdateEstablishment = ({
                             <div className={style.selectBlock}>
                                 <label>Категория объекта*</label>
                                 <CategoryBlockForm
+                                    typeEstablishmentId={typeEstablishment}
                                     selectedCategories={field.value as string[]}
                                     onChange={field.onChange}
                                     error={fieldState.error || null}

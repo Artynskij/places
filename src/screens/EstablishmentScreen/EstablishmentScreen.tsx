@@ -17,7 +17,7 @@ import { ContactButton } from "@/components/common/ButtonFunctional/ContactButto
 
 import { Slider } from "@/components/common/Slider/Slider";
 
-import { IPageProps } from "@/lib/models/common/IType";
+import { IBasePageProps } from "@/lib/models/common/IType";
 
 import Link from "next/link";
 
@@ -49,13 +49,12 @@ import BlockMapEstScr from "./_components/BlockMapEstScr/BlockMapEstScr";
 import CardRecommend from "./_components/CardRecommend/CardRecommend";
 import { FormRate } from "@/components/common/Form/Rate/FormRate";
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
+interface IProps
+    extends IBasePageProps<{
         location: string;
         typeEstablishment: TTypesOfEstablishment;
         establishment: string;
-    };
-
+    }> {
     dataEstablishment: IEstablishmentFront;
     dataNearEstablishment: {
         eater: IMapItemFront[] | [];

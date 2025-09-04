@@ -1,13 +1,12 @@
 import style from "./userScreen.module.scss";
 import { UserComponent } from "./_components/UserComponent/UserComponent";
 import { ContentComponent } from "./_components/ContentComponent/ContentComponent";
-import { IPageProps } from "@/lib/models";
+import { IBasePageProps } from "@/lib/models";
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
+interface IProps
+    extends IBasePageProps<{
         username: string;
-    };
-}
+    }> {}
 
 export default function UsersScreen({ params, searchParams }: IProps) {
     return (

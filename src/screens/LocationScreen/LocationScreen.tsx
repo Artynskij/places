@@ -18,16 +18,16 @@ import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 import {
     IEstablishmentFront,
     ILocationFront,
-    IPageProps,
+    IBasePageProps,
     ITagWithEstablishmentFront,
 } from "@/lib/models";
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {
+interface IProps
+    extends IBasePageProps<{
         location: string;
         district?: string;
         town?: string;
-    };
+    }> {
     typePage?: "country" | "district" | "town";
     dataEstablishment: {
         eater: IEstablishmentFront[] | [];
@@ -59,16 +59,14 @@ export default async function LocationScreen({
     const baseUrl = await getBaseUrlServer();
     const filteredBreadcrumb =
         breadcrumbData?.slice(1, breadcrumbData.length - 1) || null;
-        
+
     return (
         <div className="container">
             <section className={style.banner}>
                 <div className={style.banner_video_block}>
                     <Video
                         videoSrc={
-                            locationData?.media
-                                ? locationData.media[0].src
-                                : ""
+                            locationData?.media ? locationData.media[0].src : ""
                         }
                         posterSrc={CONSTANT_DEFAULT_IMAGE_URL}
                     />

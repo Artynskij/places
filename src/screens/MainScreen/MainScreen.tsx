@@ -10,13 +10,13 @@ import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
 
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 
-import { IArticleFront, IPageProps } from "@/lib/models";
+import { IArticleFront, IBasePageProps } from "@/lib/models";
 import { getTranslations } from "next-intl/server";
 import { ROUTES } from "@/lib/config/Routes";
 import FinderMainPage from "@/components/common/Finder/FinderMainPage/FinderMainPage";
 
-interface IProps extends IPageProps {
-    params: IPageProps["params"] & {};
+interface IProps extends IBasePageProps {
+    params: IBasePageProps["params"] & {};
     articlesData: IArticleFront[] | [];
 }
 export const MainScreen = async ({

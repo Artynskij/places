@@ -1,8 +1,11 @@
 import style from "./inputDate.module.scss";
 import InputMask from "react-input-mask";
 import clsx from "clsx";
-import { parse, format } from "date-fns";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useState, useEffect } from "react";
+
+dayjs.extend(customParseFormat);
 
 type Props = {
     value?: Date | null; // текущее значение
@@ -19,29 +22,29 @@ export const InputDate = ({
     placeholder,
     titleSpan,
 }: Props) => {
-    // локальный state для строки
     const [inputValue, setInputValue] = useState("");
 
-    // если value изменилось извне → синхронизируем
+    // синхронизируем value → строку
     useEffect(() => {
-        setInputValue(value ? format(value, "dd.MM.yyyy") : "");
+        setInputValue(value ? dayjs(value).format("DD.MM.YYYY") : "");
     }, [value]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const str = e.target.value;
-        setInputValue(str); // обновляем строку для отображения
+        setInputValue(str);
 
-        // проверяем полную дату
         if (str.length === 10) {
-            const parsed = parse(str, "dd.MM.yyyy", new Date());
-            if (!isNaN(parsed.getTime())) {
-                onChange(parsed);
+            const parsed = dayjs(str, "DD.MM.YYYY", true);
+            if (parsed.isValid()) {
+                onChange(parsed.toDate());
                 return;
             }
         }
 
-        // если ещё невалидно → наружу null
-        onChange(null);
+        // если поле не пустое, но дата ещё невалидная → ничего не делаем
+        if (str.trim() === "") {
+            onChange(null);
+        }
     };
 
     return (
@@ -50,6 +53,7 @@ export const InputDate = ({
                 {titleSpan}
             </label>
             <InputMask
+                // maskChar={null}
                 mask="99.99.9999"
                 value={inputValue}
                 onChange={handleChange}
