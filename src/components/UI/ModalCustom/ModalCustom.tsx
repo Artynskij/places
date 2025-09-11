@@ -1,5 +1,7 @@
-import { FC } from "react";
+"use client";
 
+import { FC, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import style from "./modalCustom.module.scss";
 import { ButtonClose } from "../Button/ButtonClose";
 import { Overlay } from "@/components/common/Overlay/Overlay";
@@ -7,9 +9,10 @@ import { Overlay } from "@/components/common/Overlay/Overlay";
 interface IModalProps {
     active: boolean;
     closeModal: (prop?: boolean) => void;
-    children: React.ReactNode | React.ReactNode[] | null;
+    children: React.ReactNode;
     title?: string;
-    view?: "over" | "small" | "middle" | "big" | 'fit';
+    view?: "over" | "small" | "middle" | "big" | "fit";
+    zIndex?: number;
 }
 
 export const ModalCustom: FC<IModalProps> = ({
@@ -18,27 +21,28 @@ export const ModalCustom: FC<IModalProps> = ({
     children,
     title,
     view = "small",
+    zIndex = 10,
 }) => {
-    const viewModal: {
-        over: string;
-        big: string;
-        middle: string;
-        small: string;
-        fit:string;
-    } = {
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const viewModal = {
         over: style.view_content_over,
         big: style.view_content_big,
         middle: style.view_content_middle,
         small: style.view_content_small,
         fit: style.view_content_fit,
     };
+    if (!mounted) return null;
+    // if (typeof window === "undefined") return null;
 
-    return (
+    return createPortal(
         <>
             <div
-                className={`${style.modal}  ${
-                    active ? " " + style.modal_active : ""
-                }`}
+                className={`${style.modal} ${active ? style.modal_active : ""}`}
+                style={{ zIndex }}
             >
                 <div className={`${style.modal_content} ${viewModal[view]}`}>
                     <div className={style.modal_content_title}>
@@ -53,7 +57,13 @@ export const ModalCustom: FC<IModalProps> = ({
                     </div>
                 </div>
             </div>
-            <Overlay setActive={closeModal} active={active} />
-        </>
+            <Overlay
+                setActive={closeModal}
+                active={active}
+                zIndex={zIndex - 1}
+            />
+        </>,
+
+        document.body
     );
 };

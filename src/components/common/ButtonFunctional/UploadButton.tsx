@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./buttonFunctional.module.scss";
 import { InboxOutlined } from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd";
@@ -10,6 +10,8 @@ import { FieldError, useFormContext } from "react-hook-form";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { Button } from "@/components/UI/Button/Button";
 import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
+import { IMediaFront } from "@/lib/models";
+import Image from "next/image";
 
 const { Dragger } = Upload;
 
@@ -21,6 +23,7 @@ interface Props {
 
     onChange?: (files: File[]) => void;
     value?: (File | undefined)[];
+    downloadedValue?: IMediaFront[] | null;
     error: FieldError | null;
 
     accept?: "image" | "doc" | "video" | "all";
@@ -28,8 +31,7 @@ interface Props {
     maxCount?: number;
     multiple?: boolean;
     action?: string;
-    onSuccess?: (file: File, response: any) => void;
-    onError?: (file: File, error: any) => void;
+
     disabled?: boolean;
     type?: "box" | "avatar";
 }
@@ -39,12 +41,12 @@ export const UploadButton: React.FC<Props> = ({
     maxSizeMB,
     maxCount = 5,
     multiple = true,
-    onSuccess,
-    onError,
+
     disabled = false,
     onChange,
     error,
     value,
+    downloadedValue,
     type = "box",
     className,
 }) => {
@@ -57,7 +59,7 @@ export const UploadButton: React.FC<Props> = ({
         all: "*/*",
     };
     const maxSize: Record<NonNullable<Props["accept"]>, number> = {
-        image: 5,
+        image: 47,
         doc: 10,
         video: 10000,
         all: 100,
@@ -87,17 +89,46 @@ export const UploadButton: React.FC<Props> = ({
             return type === mimeType;
         });
     };
-    const fileList: UploadFile[] = value
-        ? value
-              .filter((item) => !!item)
-              .map((file, idx) => ({
-                  uid: `${idx}`,
-                  name: file?.name || "impossible",
-                  size: file?.size || -1,
-                  status: "done",
-                  originFileObj: file as RcFile, // при drag&drop это уже RcFile
-              }))
-        : [];
+    // useEffect(() => {
+    //     if (downloadedValue?.length && !value?.length) {
+    //         const defaultFiles = downloadedValue.map((media, idx) => {
+    //             const fakeFile = new File([""], media.fileName, {
+    //                 type: media.type || "image/jpeg",
+    //             });
+    //             return Object.assign(fakeFile, {
+    //                 uid: String(idx),
+    //                 url: media.src,
+    //                 isExisting: true,
+    //             });
+    //         });
+
+    //         onChange?.(defaultFiles);
+    //     }
+    // }, []);
+
+    // формируем список только из value
+    const newFiles: UploadFile[] =
+        value?.filter(Boolean).map((file, idx) => {
+            const rcFile = file as RcFile & { url?: string };
+            return {
+                uid: rcFile.uid || `file-${idx}`,
+                name: rcFile.name,
+                size: rcFile.size,
+                status: "done" as const,
+                url: rcFile.url, // поддержка превью для скачанных
+                originFileObj: rcFile,
+            };
+        }) ?? [];
+    const defaultFiles: UploadFile[] =
+        downloadedValue?.map((media, idx) => {
+            return {
+                uid: String(idx),
+                name: media.title || `file-${idx}`,
+                status: "done",
+                url: media.src,
+            };
+        }) || [];
+    const fileList: UploadFile[] = [...defaultFiles, ...newFiles];
 
     const props: UploadProps = {
         name: "file",
@@ -106,70 +137,42 @@ export const UploadButton: React.FC<Props> = ({
         accept: resolvedAccept,
         maxCount,
         disabled,
-        fileList: (value || [])
-            .filter((item) => !!item)
-            .map((file, index) => {
-                const rcFile = file as RcFile;
-                if (!(rcFile as any).uid) {
-                    (rcFile as any).uid = `${file?.name || ""}_${
-                        file?.size || -1
-                    }_${Date()}`;
-                }
-                if (!(rcFile as any).lastModifiedDate) {
-                    (rcFile as any).lastModifiedDate = new Date(
-                        rcFile.lastModified
-                    );
-                }
-                return {
-                    uid: rcFile.uid,
-                    name: rcFile.name,
-                    status: "done" as const,
-                    originFileObj: rcFile,
-                } as UploadFile;
-            }),
+        fileList: fileList,
+
         beforeUpload(file: RcFile) {
             const isAllowed = checkFileType(file, resolvedAccept);
             const resolvedMaxSize = maxSizeMB ?? maxSize[accept];
             const isLtMax = file.size / 1024 / 1024 < resolvedMaxSize;
-            const isDuplicate = fileList.some(
-                (f) => f.name === file.name && f.size === file.size
-            );
 
-            if (isDuplicate) {
-                message.error(`Файл ${file.name} уже добавлен`);
-                return Upload.LIST_IGNORE;
-            }
             if (!isAllowed) {
                 message.error(`Тип файла ${file.type} не поддерживается`);
-                return Upload.LIST_IGNORE; // лучше для ant-design v4+
-            }
-
-            if (!isLtMax) {
-                message.error(`Файл ${file.name} больше ${maxSizeMB}MB`);
                 return Upload.LIST_IGNORE;
             }
-
+            if (!isLtMax) {
+                message.error(`Файл ${file.name} больше ${resolvedMaxSize}MB`);
+                return Upload.LIST_IGNORE;
+            }
             return true;
         },
         onChange(info) {
-            const validFiles = info.fileList
-                .filter((f) => f.status !== "error")
-                .map((f) => f.originFileObj as File)
-                .filter(Boolean);
-            onChange?.(validFiles); // обновляем состояние формы
-            const latestFile = info.file;
+            // ✅ Вытащим только новые файлы
+            const newFiles = info.fileList
+                .filter((f) => !!f.originFileObj)
+                .map((f) => f.originFileObj as File);
 
+            onChange?.(newFiles); // обновляем react-hook-form
+
+            // Уведомления
+            const latestFile = info.file;
             if (latestFile.status === "done") {
                 message.success(`${latestFile.name} загружен`);
-                onSuccess?.(latestFile.originFileObj!, latestFile.response);
             } else if (latestFile.status === "error") {
                 message.error(`${latestFile.name} не удалось загрузить`);
-                onError?.(latestFile.originFileObj!, latestFile.response);
             }
         },
-        onDrop(e) {
-            console.log("Файлы перетянуты:", e.dataTransfer.files);
-        },
+        // onDrop(e) {
+        //     console.log("Файлы перетянуты:", e.dataTransfer.files);
+        // },
     };
 
     return (
@@ -178,6 +181,20 @@ export const UploadButton: React.FC<Props> = ({
                 style={error?.message ? inlineStyles.error : {}}
                 {...props}
             >
+                {/* <div className={style.oldFiles_block}>
+                    {downloadedValue?.map((media) => {
+                        return (
+                            <Image
+                                key={media.blobPath}
+                                alt={media.title}
+                                src={media.src}
+                                height={50}
+                                width={50}
+                            />
+                        );
+                    })}
+                </div> */}
+
                 {type === "box" && (
                     <>
                         <p className="ant-upload-drag-icon">

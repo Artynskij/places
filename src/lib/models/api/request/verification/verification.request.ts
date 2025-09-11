@@ -1,4 +1,5 @@
-import { IImageEntity } from "../../entities";
+import { IContentVerificationEntity, IImageEntity } from "../../entities";
+import { IContentPartRequest } from "../_part/contentPart.request";
 
 export interface IVerificationRequest {
     source: {
@@ -8,11 +9,5 @@ export interface IVerificationRequest {
         IsVerified?: boolean;
     };
 
-    content: {
-        details: {
-            lang: string;
-            value: string;
-        }[];
-        privateMedia: IImageEntity[];
-    };
+    content: IContentPartRequest;
 }

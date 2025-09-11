@@ -11,6 +11,7 @@ export * from "./TTravelMapAction";
 export * from "./TTypeFile";
 export * from "./TTypesEstablishment";
 export * from "./TTypesGlobal";
+export * from "./TTypesSort";
 export * from "./TTypeUser";
 
 export * from "./auth/TTypeOwnerBusiness";

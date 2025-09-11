@@ -1,4 +1,5 @@
 import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { ITagBlockFront, ITagWithEstablishmentFront } from "@/lib/models";
 
 import {
@@ -44,7 +45,7 @@ export default class TagsMapper {
                                       : null;
                               return {
                                   id: tag.Id,
-                                  key: `t${tag.Id}`,
+                                  key: `${CONSTANT_SEARCH_PARAMS.filterParam.tag}${tag.Id}`,
                                   value: tag.content.details[0].value,
                                   secondaryValue:
                                       tag.content.details[0].secondaryValue ||
@@ -87,7 +88,7 @@ export default class TagsMapper {
                       .map((cat) => {
                           return {
                               id: cat.Id,
-                              key: `c${cat.Id}`,
+                              key: `${CONSTANT_SEARCH_PARAMS.filterParam.category}${cat.Id}`,
                               value: cat.content.details[0].value,
                               secondaryValue:
                                   cat.content.details[0].secondaryValue || null,

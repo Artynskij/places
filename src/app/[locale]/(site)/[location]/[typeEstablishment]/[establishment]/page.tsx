@@ -94,7 +94,7 @@ export default async function EstablishmentPage({
         dataEstablishment.location.country.id,
         params.locale
     );
-    const scheduleData = await apiSchedule.getScheduleById(
+    const scheduleData = await apiSchedule.getScheduleByEstablishmentId(
         params.establishment
     );
     if (!tagsEstablishment || !locationCountryData) {

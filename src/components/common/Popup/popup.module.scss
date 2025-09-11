@@ -1,5 +1,4 @@
-@import "/src/asset/common-styles/";
-.popup {
+@import "/src/asset/common-styles/";.popup {
     position: fixed;
     top: 0;
     left: 0;
@@ -10,7 +9,7 @@
     flex-direction: column;
     justify-content: flex-end;
     opacity: 0;
-    z-index: 1000;
+  
     transition: $transition;
     pointer-events: none;
     cursor: default;

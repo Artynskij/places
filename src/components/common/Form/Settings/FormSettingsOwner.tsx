@@ -38,7 +38,7 @@ import Image from "next/image";
 
 import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request";
 
-import { getObjectDiffWithNulls } from "@/lib/helpers/getChangedFieldsForApi";
+import { getSimpleObjectDiff } from "@/lib/helpers/getChangedFieldsForApi";
 import { IPersonNameRequest } from "@/lib/models/api/request/(Person)/personName.request";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
@@ -133,7 +133,7 @@ export const FormSettingsOwner = () => {
             return;
         }
 
-        const changes = getObjectDiffWithNulls<TTypeForm>(
+        const changes = getSimpleObjectDiff<TTypeForm>(
             initialFormData,
             dataForm
         );
@@ -252,7 +252,7 @@ export const FormSettingsOwner = () => {
                 },
                 content: {
                     details: [{ lang: "ru", value: "documentPerson" }],
-                    privateMedia: uploadFiles,
+                    media: {gallery:uploadFiles},
                 },
             });
 

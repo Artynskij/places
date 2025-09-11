@@ -83,13 +83,19 @@ export default class EstablishmentMapper {
         }
         const title =
             establishment.content.value[0]?.value.details?.title ||
-            establishment.content.value[0]?.value.seoTrip.find(
+            establishment.content.value[0]?.value.seoTrip?.find(
+                (item) => item.key == "MAIN_H1"
+            )?.value ||
+            establishment.content.value[0]?.value.seo?.find(
                 (item) => item.key == "MAIN_H1"
             )?.value ||
             "default title";
         const description =
             establishment.content.value[0]?.value.details?.description ||
-            establishment.content.value[0]?.value.seoTrip.find(
+            establishment.content.value[0]?.value.seoTrip?.find(
+                (item) => item.key == "META_DESCRIPTION"
+            )?.value ||
+            establishment.content.value[0]?.value.seo?.find(
                 (item) => item.key == "META_DESCRIPTION"
             )?.value ||
             "default description";
@@ -106,6 +112,7 @@ export default class EstablishmentMapper {
         const galleryImages: IMediaFront[] | null =
             establishment.content?.media.gallery?.map((image) => {
                 return {
+                    id: image.id,
                     title: image.details[0]?.value.title || "default title",
                     blobPath: image.blobPath,
                     fileName: image.fileName,
@@ -115,19 +122,21 @@ export default class EstablishmentMapper {
                     src: `${info.cdnHost}/${image.blobPath}`,
                 };
             }) || null;
-
+        const categories = establishment.establishment.Categories.map((cat) => {
+            return {
+                id: cat?.Id || "",
+                key: cat?.Id || "",
+                value: cat?.content?.details[0]?.value || "default title",
+            };
+        });
         return {
             id: establishment.establishment.Id,
             title: title,
             description: description,
             typeEstablishment: establishment.establishment.Type.Name,
-            category: {
-                id: establishment.establishment.Categories[0]?.Id || "",
-                key: establishment.establishment.Categories[0]?.Id || "",
-                value:
-                    establishment.establishment.Categories[0]?.content
-                        ?.details[0]?.value || "default title",
-            },
+            category: categories[0],
+            categoriesAll: categories,
+
             rates: this.transformRate(establishment.establishment.Rates),
             // rates: {
             //     main: establishment.establishment.Rates?.AverageRate || 0,
@@ -166,7 +175,11 @@ export default class EstablishmentMapper {
             media: {
                 gallery: galleryImages,
             },
-            seo: establishment.content.value[0].value.seoTrip,
+            seo:
+                establishment.content.value[0].value.seoTrip ||
+                establishment.content.value[0].value.seo ||
+                null,
+            content: establishment.content,
         };
     }
 }

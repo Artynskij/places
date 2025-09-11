@@ -12,6 +12,7 @@ import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 import { TSortType } from "@/lib/models/types/TSortType";
+import { TTypeSortEstablishmentServer } from "@/lib/models/types";
 
 // export async function generateMetadata({
 //   params,
@@ -34,17 +35,17 @@ export default async function FilterPage({ params, searchParams }: IProps) {
         ?.toString()
         .split(CONSTANT_SEARCH_PARAMS.ampersand);
 
-    const sortQuery = searchParams?.sort?.toString();
+    const sortQuery = searchParams?.sort?.toString() as TTypeSortEstablishmentServer | undefined;
 
     CONSTANT_SEARCH_PARAMS;
     const tagsQuery =
         filterQuery
-            ?.filter((query) => query.includes("t"))
-            .map((queryTag) => queryTag.replace("t", "")) || [];
+            ?.filter((query) => query.includes(CONSTANT_SEARCH_PARAMS.filterParam.tag))
+            .map((queryTag) => queryTag.replace(CONSTANT_SEARCH_PARAMS.filterParam.tag, "")) || [];
     const categoriesQuery =
         filterQuery
-            ?.filter((query) => query.includes("c"))
-            .map((queryTag) => queryTag.replace("c", "")) || [];
+            ?.filter((query) => query.includes(CONSTANT_SEARCH_PARAMS.filterParam.category))
+            .map((queryTag) => queryTag.replace(CONSTANT_SEARCH_PARAMS.filterParam.category, "")) || [];
     // const sortQuery =
     //     filterQuery
     //         ?.filter((query) => query.includes(CONSTANT_SEARCH_PARAMS.SORT))

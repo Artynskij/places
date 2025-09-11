@@ -40,11 +40,11 @@ export default class EstablishmentApi {
 
     async getById(
         id: string,
-        lang: string
+        lang?: string
     ): Promise<IEstablishmentResponse | null> {
         try {
             const response = await apiClient.get(
-                `/establishment/${id}?lang=${lang}`
+                `/establishment/${id}${lang ? `?lang=${lang}` : ""}`
             );
             return response.data;
         } catch (error) {

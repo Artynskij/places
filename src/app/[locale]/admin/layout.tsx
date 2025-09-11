@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Layout, Menu, theme } from "antd";
+import React, { useEffect, useState, useMemo } from "react";
+import { Layout, Menu, theme, Button } from "antd";
 import {
     DatabaseOutlined,
     FileTextOutlined,
@@ -9,15 +9,7 @@ import {
     MenuUnfoldOutlined,
 } from "@ant-design/icons";
 import { useRouter, usePathname } from "next/navigation";
-import { Breadcrumb } from "antd";
-import { HomeOutlined } from "@ant-design/icons";
 import styles from "./admin.module.scss";
-import {
-    AppstoreOutlined,
-    MailOutlined,
-    SettingOutlined,
-} from "@ant-design/icons";
-import type { MenuProps } from "antd";
 import { ROUTES } from "@/lib/config/Routes";
 
 const { Header, Sider, Content } = Layout;
@@ -26,117 +18,67 @@ interface AdminLayoutProps {
     children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: AdminLayoutProps) {
+const menuItems = [
+    {
+        key: ROUTES.ADMIN.USERS,
+        icon: <DatabaseOutlined />,
+        label: "Пользователи",
+    },
+    {
+        key: ROUTES.ADMIN.ESTABLISHMENTS,
+        icon: <DatabaseOutlined />,
+        label: "Объекты",
+    },
+    {
+        key: ROUTES.ADMIN.LOCATIONS,
+        icon: <DatabaseOutlined />,
+        label: "Локации",
+    },
+    {
+        key: ROUTES.ADMIN.ATTRIBUTES,
+        icon: <DatabaseOutlined />,
+        label: "Атрибуты",
+    },
+    {
+        key: ROUTES.ADMIN.ARTICLES,
+        icon: <FileTextOutlined />,
+        label: "Контент",
+    },
+    {
+        key: ROUTES.ADMIN.DATA_MANAGER,
+        icon: <DatabaseOutlined />,
+        label: "Данные",
+    },
+];
+
+const pageTitles: Record<string, string> = {
+    [ROUTES.ADMIN.DATA_MANAGER]: "Управление данными",
+    [ROUTES.ADMIN.ARTICLES]: "Создание статей",
+    [ROUTES.ADMIN.ESTABLISHMENTS]: "Управление объектами",
+};
+
+export default function AdminLayout({ children }: AdminLayoutProps) {
     const [collapsed, setCollapsed] = useState(false);
+    const [selectedKeyMenu, setSelectedKeyMenu] = useState<string[]>([]);
     const router = useRouter();
     const pathname = usePathname();
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
 
-    const menuItems = [
-        {
-            key: ROUTES.ADMIN.USERS,
-            icon: <DatabaseOutlined />,
-            label: "Пользователи",
-        },
-        // {
-        //     key: ROUTES.ADMIN.USERS,
-        //     icon: <DatabaseOutlined />,
-        //     label: "Бизнесы",
-        // },
-        // {
-        //     key: ROUTES.ADMIN.USERS,
-        //     icon: <DatabaseOutlined />,
-        //     label: "Админы",
-        // },
-        {
-            key: ROUTES.ADMIN.ESTABLISHMENTS,
-            icon: <DatabaseOutlined />,
-            label: "Объекты",
-        },
-        {
-            key: ROUTES.ADMIN.LOCATIONS,
-            icon: <DatabaseOutlined />,
-            label: "Локации",
-        },
-        {
-            key: ROUTES.ADMIN.ATTRIBUTES,
-            icon: <DatabaseOutlined />,
-            label: "Атрибуты",
-        },
-        {
-            key: ROUTES.ADMIN.ARTICLES,
-            icon: <FileTextOutlined />,
-            label: "Контент",
-        },
-        // {
-        //     key: "/admin/article-creation",
-        //     icon: <FileTextOutlined />,
-        //     label: "Медиафайлы",
-        // },
-        // {
-        //     key: "/admin/article-creation",
-        //     icon: <FileTextOutlined />,
-        //     label: "Модерация",
-        // },
-        {
-            key: ROUTES.ADMIN.DATA_MANAGER,
-            icon: <DatabaseOutlined />,
-            label: "Данные",
-        },
-    ];
+    useEffect(() => {
+        const active = menuItems.find((item) => pathname.includes(item.key));
+        setSelectedKeyMenu(active ? [active.key] : []);
+    }, [pathname]);
 
     const handleMenuClick = ({ key }: { key: string }) => {
         router.push(key);
     };
 
-    // Определяем активный пункт меню на основе текущего пути
-    const getSelectedKeys = () => {
-        const active = menuItems.find((item) => pathname.includes(item.key));
-
-        return active ? [active.key] : [];
-    };
-
-    // Получаем название активной страницы для заголовка
-    const getActivePageTitle = () => {
-        if (pathname.includes(ROUTES.ADMIN.DATA_MANAGER)) {
-            return "Управление данными";
-        }
-        if (pathname.includes(ROUTES.ADMIN.ARTICLES)) {
-            return "Создание статей";
-        }
-        return "Админ панель";
-    };
-
-    // Получаем хлебные крошки
-    // const getBreadcrumbItems = () => {
-    //     const items = [
-    //         {
-    //             title: (
-    //                 <span style={{ display: "flex", alignItems: "center" }}>
-    //                     <HomeOutlined style={{ marginRight: 4 }} />
-    //                     Админ панель
-    //                 </span>
-    //             ),
-    //             href: "/admin",
-    //         },
-    //     ];
-
-    //     if (pathname.startsWith("/admin/data-management")) {
-    //         items.push({
-    //             title: <span>Управление данными</span>,
-    //             href: "/admin/data-management",
-    //         });
-    //     } else if (pathname.startsWith("/admin/article-creation")) {
-    //         items.push({
-    //             title: <span>Создание статей</span>,
-    //             href: "/admin/article-creation",
-    //         });
-    //     }
-
-    //     return items;
-    // };
+    const activePageTitle =
+        Object.entries(pageTitles).find(([key]) =>
+            pathname.includes(key)
+        )?.[1] ?? "Админ панель";
 
     return (
         <Layout style={{ minHeight: "100vh" }} className={styles.adminLayout}>
@@ -144,52 +86,20 @@ export default function RootLayout({ children }: AdminLayoutProps) {
                 trigger={null}
                 collapsible
                 collapsed={collapsed}
-                style={{
-                    background: colorBgContainer,
-                }}
+                style={{ background: colorBgContainer }}
             >
-                <div
-                    style={{
-                        height: 40,
-                        margin: 16,
-                        background:
-                            "linear-gradient(135deg, #1890ff 0%, #096dd9 100%)",
-                        borderRadius: 8,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontWeight: "bold",
-                        color: "white",
-                        fontSize: collapsed ? "16px" : "18px",
-                        boxShadow: "0 2px 8px rgba(24, 144, 255, 0.3)",
-                    }}
-                >
+                <h4 className={styles.adminLogo}>
                     {collapsed ? "A" : "Admin"}
-                </div>
+                </h4>
                 <Menu
                     mode="inline"
-                    // selectedKeys={getSelectedKeys()}
                     items={menuItems}
                     onClick={handleMenuClick}
-                    defaultSelectedKeys={getSelectedKeys()}
-                    style={{
-                        fontSize: "15px",
-                        fontWeight: "500",
-                    }}
+                    selectedKeys={selectedKeyMenu}
+                    style={{ fontSize: "15px", fontWeight: 500 }}
                     theme="light"
                     className={styles.adminMenu}
                 />
-                {/* <Menu
-                    onClick={onClick}
-                    style={{ width: 256 }}
-                    defaultSelectedKeys={["1"]}
-                    // defaultOpenKeys={["sub1"]}
-                    mode="inline"
-                    items={[
-                        { key: "13", label: "Option 13" },
-                        { key: "14", label: "Option 14" },
-                    ]}
-                         /> */}
             </Sider>
             <Layout>
                 <Header
@@ -201,46 +111,28 @@ export default function RootLayout({ children }: AdminLayoutProps) {
                         alignItems: "center",
                     }}
                 >
-                    <button
-                        type="button"
+                    <Button
+                        type="text"
+                        icon={
+                            collapsed ? (
+                                <MenuUnfoldOutlined />
+                            ) : (
+                                <MenuFoldOutlined />
+                            )
+                        }
                         onClick={() => setCollapsed(!collapsed)}
+                        style={{ width: 64, height: 64 }}
+                    />
+                    <h1
                         style={{
-                            fontSize: "16px",
-                            width: 64,
-                            height: 64,
-                            border: "none",
-                            background: "transparent",
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
+                            margin: 0,
+                            marginLeft: 16,
+                            fontSize: 24,
+                            fontWeight: 600,
                         }}
                     >
-                        {collapsed ? (
-                            <MenuUnfoldOutlined />
-                        ) : (
-                            <MenuFoldOutlined />
-                        )}
-                    </button>
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            flex: 1,
-                        }}
-                    >
-                        <h1
-                            style={{
-                                margin: 0,
-                                marginLeft: 16,
-                                fontSize: "24px",
-                                fontWeight: "600",
-                                color: "#262626",
-                            }}
-                        >
-                            {getActivePageTitle()}
-                        </h1>
-                    </div>
+                        {activePageTitle}
+                    </h1>
                 </Header>
                 <Content
                     className={styles.adminContent}
@@ -252,12 +144,6 @@ export default function RootLayout({ children }: AdminLayoutProps) {
                         borderRadius: borderRadiusLG,
                     }}
                 >
-                    {/* {pathname !== "/admin" && (
-                        <Breadcrumb
-                            items={getBreadcrumbItems()}
-                            style={{ marginBottom: 16, fontSize: "14px" }}
-                        />
-                    )} */}
                     {children}
                 </Content>
             </Layout>
@@ -265,4 +151,4 @@ export default function RootLayout({ children }: AdminLayoutProps) {
     );
 }
 
-// export default RootLayout;
+// import RootLayout from "@/components/admin/RootLayout";

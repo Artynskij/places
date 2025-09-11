@@ -11,8 +11,8 @@ import {
     useForm,
 } from "react-hook-form";
 
-import { IImageEntity, ISelectOption } from "@/lib/models";
-import { TAgreementKey } from "@/lib/models/types";
+import { IEstablishmentFront, ISelectOption } from "@/lib/models";
+
 import {
     IEstablishmentCreateRequest,
     ISocialContactsRequest,
@@ -25,11 +25,10 @@ import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/es
 
 import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 import { InputPhoneNumber } from "@/components/UI/Input/InputPhone/InputPhone";
-import { UploadButton } from "../../ButtonFunctional/UploadButton";
+
 import { Button } from "@/components/UI/Button/Button";
 
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
-import { TextareaForm } from "@/components/UI/Textarea/TextareaForm/TextareaForm";
 
 import { Loader } from "../../Loader/Loader";
 
@@ -44,27 +43,43 @@ import { ContactsEstablishmentService } from "@/lib/Api/(Establishment)/contacts
 import { SocialNetworksService } from "@/lib/Api/(Person)/socialNetworksPerson/socialNetworksPerson.service";
 import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
 import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
-import { getImageDimensions } from "@/lib/helpers/getImageDimensions";
-import { getSchemaByTypeUser } from "./validationSchema";
-import { TTypeUser } from "@/lib/models/types";
 
+import { validationSchemaEstablishmentUpdate } from "./validationSchema";
+
+import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
+import { useEffect, useState } from "react";
+import { useUser } from "@/lib/context/UserContext/UserContext";
+import { GeneralEstablishmentService } from "@/lib/Api/(MainService)/establishment.general";
+import { FormLanguagesBlock } from "../_components/ContentBlock/ContentBlock";
+
+import PhotoBlockForm from "../_components/PhotoBlock/PhotoBlock";
+
+import { SpinnerAnt } from "../../Spinner/SpinnerAnt";
+import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
 interface IFormCreateEstablishment {
-    typeUser: TTypeUser;
+    establishmentId: string;
+    closeModal?: (value: false) => void;
 }
-export const FormUpdateEstablishment = ({
-    typeUser,
+const FormUpdateEstablishmentBase = ({
+    establishmentId,
+    closeModal,
 }: IFormCreateEstablishment) => {
-    const validationSchemaRegister = getSchemaByTypeUser(typeUser);
-    type TTypeForm = Yup.InferType<typeof validationSchemaRegister>;
+    const { user } = useUser();
+    const typeUser = user?.typeUser || "admin";
+    const schema = validationSchemaEstablishmentUpdate;
+    type TTypeForm = Yup.InferType<typeof schema>;
 
+    const [mounted, setMounted] = useState(false);
+    const [initialFormData, setInitialFormData] = useState<TTypeForm>();
+    const [establishment, setEstablishment] = useState<IEstablishmentFront>();
     const notification = useNotification();
 
+    const generalEstablishmentService = new GeneralEstablishmentService();
     const establishmentService = new EstablishmentService();
+
     const scheduleService = new ScheduleService();
-    const contactEstablishmentService = new ContactsEstablishmentService();
-    const socialContactsService = new SocialNetworksService();
+
     const tagsService = new TagsService();
-    const fileUploadService = new FileUploadService();
 
     const locale = useLocale();
     const {
@@ -73,218 +88,127 @@ export const FormUpdateEstablishment = ({
         control,
         formState: { errors, isSubmitting },
         watch,
+        reset,
     } = useForm({
-        resolver: yupResolver(validationSchemaRegister),
+        resolver: yupResolver(schema),
+        defaultValues: {
+            content: [],
+        },
     });
     const typeEstablishment = watch("typeEstablishment");
-    const onSubmit: SubmitHandler<TTypeForm> = async (dataForm) => {
-        console.log("Form Data:", dataForm);
+    const locationId = watch("locationId");
 
-        const bodySocialNetworks =
-            dataForm.socialContacts?.reduce<ISocialContactsRequest>(
-                (acc, soc) => {
-                    acc[soc.type] = soc.url;
-                    return acc;
-                },
-                {}
-            ) ?? null;
-        const createdSocialContact = bodySocialNetworks
-            ? await socialContactsService.createSocialNetworksPerson(
-                  bodySocialNetworks
-              )
-            : null;
-
-        const createdContacts = await contactEstablishmentService.create({
-            source: {
-                Email: dataForm.email || null,
-                Menu: dataForm.menu || null,
-                Phone: dataForm.phone || null,
-                SocialContactsId: createdSocialContact?.id || null,
-                Web: null,
-            },
-        });
-
-        if (!createdContacts) {
-            notification.error({
-                message: "системная ошибка. не получилось создать контакты",
-            });
-            return null;
-        } else {
-            notification.success({
-                message: "contact entity созданы",
-            });
-        }
-
-        const bodyEstablishment: IEstablishmentCreateRequest = {
-            source: {
-                CategoryIds: dataForm.categories as string[],
-                Contacts: createdContacts.id,
-                Latitude: dataForm.coord.lat,
-                Longitude: dataForm.coord.lon,
-                Locations: dataForm.locationId,
-                // Moderate: false,
-                Type: CONSTANT_TYPES_OF_ESTABLISHMENT[
-                    dataForm.typeEstablishment
-                ].id,
-            },
-            content: {
-                value: [
-                    {
-                        lang: locale,
-                        value: {
-                            details: {
-                                title: dataForm.title,
-                                description: dataForm?.description || null,
-                            },
-                            seo: null,
-                            location: {
-                                street1: !!dataForm.coord.addressLine
-                                    ? (dataForm.coord.addressLine as string)
-                                    : null,
-                            },
-                        },
-                    },
-                ],
-                media: { gallery: null },
-            },
-        };
-        // создание establishment
-        const createdEstablishment = await establishmentService.create({
-            ...bodyEstablishment,
-        });
-        if (!createdEstablishment) {
-            notification.error({
-                message: "системная ошибка. не получилось создать заведение",
-            });
-            return null;
-        }
-
-        // создание фотографий
-        if (dataForm.images) {
-            const filesPromises: Promise<IImageEntity | null>[] =
-                dataForm.images.filter(Boolean).map(async (imageForm) => {
-                    const file = imageForm as File;
-
-                    try {
-                        const dimensions = await getImageDimensions(file);
-
-                        const res = await fileUploadService.uploadPublicFile({
-                            file,
-                            type: "image",
-                            vendorId: createdEstablishment.Id,
-                        });
-
-                        if (!res) return null;
-
-                        return {
-                            id: res.blobPath,
-                            type: "image",
-                            blobPath: res.blobPath,
-                            fileName: imageForm?.name ?? "",
-                            details: [],
-                            width: dimensions.width,
-                            height: dimensions.height,
-                        } as IImageEntity;
-                    } catch (error) {
-                        console.error("Ошибка обработки изображения:", error);
-                        return null;
-                    }
-                });
-
-            const imageFiles = (await Promise.all(filesPromises)).filter(
-                (item) => !!item
+    useEffect(() => {
+        const getAllData = async () => {
+            const establishment = await establishmentService.getById(
+                establishmentId
             );
-            if (imageFiles.length > 0) {
-                notification.success({
-                    message: `картинки ${imageFiles.length} сохранены в blob`,
-                });
-                establishmentService
-                    .update(createdEstablishment.Id, {
-                        content: {
-                            value: [
-                                {
-                                    lang: locale,
-                                    value: {
-                                        details: {
-                                            title: dataForm.title,
-                                            description:
-                                                dataForm.description || null,
-                                        },
-                                        seo: null,
-                                        location: {
-                                            street1: !!dataForm.coord
-                                                .addressLine
-                                                ? (dataForm.coord
-                                                      .addressLine as string)
-                                                : null,
-                                        },
-                                    },
-                                },
-                            ],
-                            media: {
-                                gallery: imageFiles as IImageEntity[],
-                            },
-                        },
-                    })
-                    .then((res) => {
-                        if (res) {
-                            notification.success({
-                                message: `к заведению прикрепились фотографии`,
-                            });
-                        }
-                        return res;
-                    });
+            if (!establishment) {
+                return;
             }
-        }
+            setEstablishment(establishment);
+            const scheduleRes =
+                await scheduleService.getScheduleByEstablishmentId(
+                    establishment.id
+                );
+            const tagResponse = await tagsService.getAllTagsOfEstablishment({
+                lang: locale,
+                establishmentIds: [establishment.id],
+            });
 
-        notification.success({ message: "establishmentService отработал" });
-        // создание расписаний
-        const scheduleRes = dataForm.schedule
-            ? await Promise.all(
-                  dataForm.schedule.map((schItem) =>
-                      scheduleService.createScheduleDay({
-                          Establishment: createdEstablishment.Id,
-                          Day: schItem.day,
-                          OpenTime: schItem.openTime,
-                          CloseTime: schItem.closeTime,
-                          Is24Hours: schItem.is24Hours,
-                          IsHoliday: schItem.isHoliday,
-                      })
-                  )
-              )
-            : null;
-        if (!scheduleRes) {
-            notification.error({
-                message: "Не получилось создать расписание или привязать его",
-            });
-        } else {
-            notification.success({
-                message: "Schedule создано",
-            });
-        }
-        // привязка тегов
-        const createdTags = dataForm.tags
-            ? await Promise.all(
-                  dataForm.tags.map((tag) => {
-                      if (!tag) return;
-                      return tagsService.createTagEstablishmentConnect({
-                          Establishment: createdEstablishment.Id,
-                          Tag: tag,
-                      });
-                  })
-              )
-            : null;
-        if (!createdTags) {
-            notification.error({
-                message: "Не получилось создать связь тегов",
-            });
-        } else {
-            notification.success({
-                message: `связи тегов(${createdTags.length}) созданы`,
-            });
-        }
+            const socialEntity = establishment.contacts?.socialNetworks || null;
+            const socialNetworks =
+                socialEntity &&
+                CONSTANT_SOCIAL_NETWORKS_ARRAY.map((type) => {
+                    const url = socialEntity[type];
+                    if (url) return { type, url };
+                    return null;
+                }).filter(Boolean); // удаляем null
+            const initialForm: TTypeForm = {
+                typeEstablishment: establishment.typeEstablishment,
+                categories: establishment.categoriesAll.map((cat) => cat.id),
+                coord: {
+                    lat: establishment.location.latitude,
+                    lon: establishment.location.longitude,
+                    addressFullLine: establishment.location.street || null,
+                    addressLine: establishment.location.street || null,
+                },
+                locationId: establishment.location.town.id,
+                email: establishment.contacts?.email || "",
+                phone: establishment.contacts?.phone || "",
 
-        notification.success({ message: "Объект отправлен на модерацию" });
+                images:
+                    establishment.media.gallery?.map((media, idx) => ({
+                        uid: String(idx),
+                        name: media.title || `file-${idx}`,
+                        status: "done",
+                        url: media.src,
+                    })) || [],
+                menu: establishment.contacts?.menu || "",
+                tags: tagResponse
+                    ? tagResponse.map((item) => item.tag.id.toString())
+                    : [],
+
+                schedule: scheduleRes ? scheduleRes : [],
+                content:
+                    establishment.content?.value?.map((content) => ({
+                        ...content,
+                        value: {
+                            ...content.value,
+                            seo:
+                                content.value.seo ??
+                                content.value.seoTrip ??
+                                null,
+                            seoTrip: content.value.seoTrip ?? null,
+                        },
+                    })) ?? [],
+                socialContacts: socialNetworks as TTypeForm["socialContacts"],
+            };
+
+            setInitialFormData(initialForm);
+            reset(initialForm);
+            setMounted(true);
+        };
+
+        getAllData();
+    }, [establishmentId, reset]);
+    const onSubmit: SubmitHandler<TTypeForm> = async (formData) => {
+        if (!user) {
+            notification.error({ message: "Это невозможно. User нету" });
+            return;
+        }
+        if (!initialFormData) {
+            notification.error({ message: "Это невозможно. initialForm нету" });
+            return;
+        }
+        if (!establishment) {
+            notification.error({
+                message: "Это невозможно. establishment нету",
+            });
+            return;
+        }
+        try {
+            const success = await generalEstablishmentService.update({
+                initialForm: initialFormData,
+                establishment: establishment,
+                formData: formData,
+            });
+            if (success) {
+                notification.success({
+                    message: "Объект успешно создан и отправлен на модерацию",
+                });
+                closeModal && closeModal(false);
+            } else {
+                notification.error({
+                    message: "Нету изменённых данных",
+                });
+            }
+        } catch (error) {
+            console.error("Ошибка при обновлении объекта:", error);
+            notification.error({
+                message: "Произошла ошибка при обновлении объекта",
+            });
+        }
     };
     const onSubmitInvalid = (e: any) => {
         console.log(e);
@@ -303,22 +227,35 @@ export const FormUpdateEstablishment = ({
             })
         ),
     ];
-
+    if (!mounted) return <SpinnerAnt></SpinnerAnt>;
     return (
         <form
             className={style.form}
             onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
         >
-            <h2>Создание объекта</h2>
+            {/* <h2>Создание объекта</h2> */}
+            <div className={style.selectionBlock}>
+                <div className={style.selectionBlock_title}>
+                    Название и описание
+                </div>
+                <div className={style.selectionBlock_content}>
+                    <Controller
+                        name="content"
+                        control={control}
+                        defaultValue={[]}
+                        render={({ field, fieldState }) => (
+                            <FormLanguagesBlock
+                                value={field.value}
+                                onChange={field.onChange}
+                                errors={fieldState.error}
+                                withSeo={typeUser === "admin"} // 👈 SEO только в админке
+                            />
+                        )}
+                    />
+                </div>
+            </div>
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_content}>
-                    <InputForm
-                        error={errors.title?.message}
-                        register={register("title")}
-                        placeholder="Название заведения*"
-                        titleSpan="Название заведения"
-                        type="text"
-                    />
                     <Controller
                         control={control}
                         name="typeEstablishment"
@@ -337,22 +274,29 @@ export const FormUpdateEstablishment = ({
                             </div>
                         )}
                     />
-
-                    <Controller
-                        name="categories"
-                        control={control}
-                        render={({ field, fieldState }) => (
-                            <div className={style.selectBlock}>
-                                <label>Категория объекта*</label>
-                                <CategoryBlockForm
-                                    typeEstablishmentId={typeEstablishment}
-                                    selectedCategories={field.value as string[]}
-                                    onChange={field.onChange}
-                                    error={fieldState.error || null}
-                                />
-                            </div>
-                        )}
-                    />
+                    {typeEstablishment && (
+                        <Controller
+                            name="categories"
+                            control={control}
+                            render={({ field, fieldState }) => (
+                                <div className={style.selectBlock}>
+                                    <label>Категория объекта*</label>
+                                    <CategoryBlockForm
+                                        typeEstablishmentId={
+                                            CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                                typeEstablishment
+                                            ].id
+                                        }
+                                        selectedCategories={
+                                            field.value as string[]
+                                        }
+                                        onChange={field.onChange}
+                                        error={fieldState.error || null}
+                                    />
+                                </div>
+                            )}
+                        />
+                    )}
                 </div>
             </div>
 
@@ -377,29 +321,39 @@ export const FormUpdateEstablishment = ({
                         control={control}
                         render={({ field, fieldState }) => (
                             <MapBlockForm
+                                value={{
+                                    lon: field.value.lon,
+                                    lat: field.value.lat,
+                                    addressFullLine:
+                                        field.value.addressFullLine || null,
+                                    addressLine:
+                                        field.value.addressLine || null,
+                                }}
                                 onChange={field.onChange}
                                 error={fieldState.error || null}
+                                locationId={locationId || null}
                             />
                         )}
                     />
                 </div>
             </div>
+
             <Controller
                 name="images"
                 control={control}
                 defaultValue={[]}
                 render={({ field, fieldState }) => (
-                    <UploadButton
-                        titleSpan="Прикрепление фотографии объекта*"
-                        accept="image"
-                        maxSizeMB={10}
-                        maxCount={100}
-                        value={field.value}
-                        onChange={field.onChange}
-                        error={fieldState.error || null}
-                    />
+                    <>
+                        <PhotoBlockForm
+                            error={fieldState.error || null}
+                            onChange={field.onChange}
+                            value={field.value?.filter((item) => !!item) || []}
+                            // downloadedValue={establishment.media.gallery}
+                        />
+                    </>
                 )}
             />
+
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
                     Контактные данные
@@ -409,7 +363,7 @@ export const FormUpdateEstablishment = ({
                         error={errors.email?.message}
                         register={register("email")}
                         placeholder="Адрес электронной почты*"
-                        titleSpan="Адрес электронной почты(для тестов пока не обязательное) НАСТЯ, Я ВЕРНУ, ТОК НАПОМНИ"
+                        titleSpan="Адрес электронной почты"
                         type="email"
                     />
 
@@ -473,12 +427,12 @@ export const FormUpdateEstablishment = ({
                 </div>
 
                 <div className={style.selectionBlock_content}>
-                    <TextareaForm
+                    {/* <TextareaForm
                         error={errors.description?.message}
                         register={register("description")}
                         placeholder="Описание объекта*"
                         titleSpan="Описание объекта"
-                    />
+                    /> */}
                     <Controller
                         name="tags"
                         control={control}
@@ -492,39 +446,47 @@ export const FormUpdateEstablishment = ({
                     />
                 </div>
             </div>
-            {/* {typeUser === "owner" && (
-                <div className={style.selectionBlock}>
-                    <div className={style.selectionBlock_title}>
-                        Видео подтверждающее о владении
-                    </div>
-
-                    <div className={style.selectionBlock_content}>
-                        <Controller
-                            name="videoVerification"
-                            control={control}
-                            defaultValue={[]}
-                            render={({ field, fieldState }) => (
-                                <UploadButton
-                                    titleSpan="Прикрепление видеоверификацию объекта*"
-                                    accept="video"
-                                    // maxSizeMB={10}
-                                    maxCount={1}
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                    error={fieldState.error || null}
-                                />
-                            )}
-                        />
-                    </div>
-                </div>
-            )} */}
 
             <Button
                 className={style.form_buttonSubmit}
                 typeLogic="submit"
-                text={"Зарегистрировать"}
+                text={"Обновить"}
             />
             {isSubmitting && <Loader />}
         </form>
+    );
+};
+interface IProp {
+    children: React.ReactNode | React.ReactNode[] | null;
+    establishment: IEstablishmentFront;
+}
+export const FormUpdateEstablishment = ({ children, establishment }: IProp) => {
+    const [modalCreateActive, setModalCreateActive] = useState(false);
+
+    return (
+        <>
+            <div onClick={() => setModalCreateActive(true)}>{children}</div>
+            {/* <AuthGuard> */}
+
+            <ModalCustom
+                title="Обновить объект"
+                view="middle"
+                active={modalCreateActive}
+                closeModal={() => {
+                    setModalCreateActive(false);
+                }}
+            >
+                <div className="container">
+                    {modalCreateActive && (
+                        <FormUpdateEstablishmentBase
+                            establishmentId={establishment.id}
+                            closeModal={setModalCreateActive}
+                        />
+                    )}
+                </div>
+            </ModalCustom>
+
+            {/* </AuthGuard> */}
+        </>
     );
 };

@@ -100,6 +100,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
                 title="Характеристики объекта"
                 active={activePopup}
                 closeModal={() => setActivePopup(false)}
+                zIndex={11}
             >
                 <div>
                     {/* Выбор группы тегов */}

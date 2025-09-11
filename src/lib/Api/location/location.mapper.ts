@@ -1,4 +1,8 @@
-import { ILocationFront, ILocationsWithContentEntity } from "@/lib/models";
+import {
+    ILocationFront,
+    ILocationsWithContentEntity,
+    IMediaFront,
+} from "@/lib/models";
 
 export default class LocationMapper {
     constructor() {}
@@ -6,9 +10,10 @@ export default class LocationMapper {
         location: ILocationsWithContentEntity,
         cdnHost: string
     ): ILocationFront {
-        const mediaFiles =
+        const mediaFiles: IMediaFront[] =
             location.content?.media?.gallery.map((mediaItem) => {
                 return {
+                    id: mediaItem.id,
                     blobPath: mediaItem.blobPath,
                     fileName: mediaItem.fileName,
                     height: mediaItem.height,
@@ -18,7 +23,7 @@ export default class LocationMapper {
                     src: `${cdnHost}${mediaItem.blobPath}`,
                 };
             }) || null;
-        const mappingData = {
+        const mappingData: ILocationFront = {
             id: location.location.Id,
             title: location?.content?.details[0].value || "",
             locationType: location.location.LocationType
@@ -29,7 +34,7 @@ export default class LocationMapper {
                 : null,
             pathBreadcrumb: location.location.Path,
             media: mediaFiles,
-            content:location.content
+            content: location.content,
         };
         return mappingData;
     }

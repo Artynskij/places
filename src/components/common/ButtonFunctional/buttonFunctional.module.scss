@@ -126,13 +126,17 @@
     flex-direction: column;
     gap: $gap-small;
     position: relative;
-    
+
     width: 100%;
 
-
-   &_text{
-    @extend %Text16;
-   }
+    .oldFiles_block {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: $gap-small;
+    }
+    &_text {
+        @extend %Text16;
+    }
 }
 .delete {
     font-size: 50px;

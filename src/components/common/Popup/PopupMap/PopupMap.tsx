@@ -2,14 +2,11 @@
 import React from "react";
 
 import { Overlay } from "../../Overlay/Overlay";
-
+import clsx from "clsx";
 import style from "./popupMap.module.scss";
 import { Button } from "../../../UI/Button/Button";
 
-
 import { IconCancel, IconDone } from "../../Icons";
-
-
 
 import { MapDisplay } from "../../Map/Mapbox/MapDisplay";
 import { IMapItemFront } from "@/lib/models";
@@ -17,25 +14,23 @@ interface IPopupMap {
     establishmentList?: IMapItemFront[];
     mapActive: boolean;
     setMapActive: (value: boolean) => void;
-    // mode?: TModeMap[];
-    // setPosition?: (value: IMapboxCoordPropToForm) => void;
-    // position?: IMapboxCoordPropToForm;
+    zIndex?: number;
 }
 export const PopupMap = ({
     establishmentList,
     mapActive,
     setMapActive,
-    // mode,
-    // setPosition,
-    // position,
+    zIndex = 10,
 }: IPopupMap) => {
     return (
         <>
             <div className={style.popup_map}>
                 <div
-                    className={
-                        style.popup_content + " " + (mapActive && style.active)
-                    }
+                    className={clsx(
+                        style.popup_content,
+                        mapActive && style.active
+                    )}
+                    style={{ zIndex: zIndex + 1 }}
                 >
                     <Button
                         className={style.buttonClose}
@@ -46,10 +41,16 @@ export const PopupMap = ({
                         text="Закрыть"
                         icon={<IconCancel className={style.buttonClose_icon} />}
                     />
-                  
-                    {mapActive && <MapDisplay establishmentList={establishmentList}/>}
+
+                    {mapActive && (
+                        <MapDisplay establishmentList={establishmentList} />
+                    )}
                 </div>
-                <Overlay active={mapActive} setActive={setMapActive} />
+                <Overlay
+                    zIndex={zIndex}
+                    active={mapActive}
+                    setActive={setMapActive}
+                />
             </div>
         </>
     );

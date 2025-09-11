@@ -1,4 +1,5 @@
 export interface IMediaFront {
+    id:string;
     title: string;
     width: number;
     height: number;

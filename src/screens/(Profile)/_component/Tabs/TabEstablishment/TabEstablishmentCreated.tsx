@@ -12,6 +12,7 @@ import { EstablishmentPersonAssignmentApi } from "@/lib/Api/(Establishment)/esta
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 import CardEstablishmentTab from "./CardEstablishmentTab/CardEstablishmentTab";
 import SkeletonTabEstablishment from "./SkeletonTabEstablishment";
+import { FormCreateEstablishment } from "@/components/common/Form/Establishment/FormCreateEstablishment";
 
 const TabEstablishmentCreated = () => {
     const locale = useLocale();
@@ -54,14 +55,15 @@ const TabEstablishmentCreated = () => {
         <div className={style.tabEstablishment_content}>
             <div className={style.tab_title}>
                 <h3>{t("objectTab.myObject")}</h3>
-                <Link href={ROUTES.FORM.ESTABLISHMENT_CREATE}>
+
+                <FormCreateEstablishment>
                     <Button
                         text={t("objectTab.regObject")}
                         type="blue"
                         className={style.title_button}
                         icon={<IconPlus className={style.title_button_icon} />}
                     />
-                </Link>
+                </FormCreateEstablishment>
             </div>
             {!establishmentsData ? (
                 <SkeletonTabEstablishment />

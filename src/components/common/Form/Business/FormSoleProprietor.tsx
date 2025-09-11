@@ -33,8 +33,9 @@ type TTypeForm = Yup.InferType<typeof validationBusinessSoleProprietorSchema>;
 interface IProp {
     business?: IBusinessFront;
     mode: "create" | "update";
+    closeModal?: (value: false) => void;
 }
-export const FormSoleProprietor = ({ business, mode }: IProp) => {
+export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
     const notification = useNotification();
     const activeTab: TTypeOwnerBusiness = "sole_proprietor";
     const { user } = useUser();
@@ -106,9 +107,10 @@ export const FormSoleProprietor = ({ business, mode }: IProp) => {
 
         if (success) {
             notification.success({ message: "Бизнес отправлен на модерацию" });
-            router.push(
-                ROUTES.PROFILE.OWNER(user.id, CONSTANT_TABS.owner.business)
-            );
+            closeModal && closeModal(false);
+            // router.push(
+            //     ROUTES.PROFILE.OWNER(user.id, CONSTANT_TABS.owner.business)
+            // );
         } else {
             notification.error({
                 message:

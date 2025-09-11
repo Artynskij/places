@@ -3,6 +3,7 @@ import { IPaginationRequest } from "../IPagination.request";
 import { TLocale } from "@/lib/models/types/TLocale";
 import { TTypeFile } from "@/lib/models/types/TTypeFile";
 import { IImageEntity } from "../../entities";
+import { TTypeSortEstablishmentServer } from "@/lib/models/types";
 
 export interface IPaginationEstablishmentRequest extends IPaginationRequest {
     filter?: {
@@ -12,14 +13,33 @@ export interface IPaginationEstablishmentRequest extends IPaginationRequest {
         locationId?: string;
     };
     sort?: {
-        avgRate: string;
+        avgRate: TTypeSortEstablishmentServer;
     };
     pagination: {
         page: number;
         pageSize: number;
     };
 }
-
+export interface IContentEstablishmentCreateRequest{
+        value?: {
+            lang: string;
+            value: {
+                details: {
+                    title: string;
+                    description: string | null;
+                };
+                seo?: { key: string; value: string }[] | null;
+                location: {
+                    street1: string | null;
+                    street2?: string | null;
+                };
+                seoTrip?: { key: string; value: string }[] | null;
+            };
+        }[];
+        media?: {
+            gallery: IImageEntity[] | null;
+        };
+    }
 export interface IEstablishmentCreateRequest {
     source?: {
         Latitude?: number;
@@ -34,25 +54,7 @@ export interface IEstablishmentCreateRequest {
         Contacts?: string;
         Type?: string;
     };
-    content?: {
-        value?: {
-            lang: string;
-            value: {
-                details: {
-                    title: string;
-                    description: string | null;
-                };
-                seo: { key: string; value: string }[] | null;
-                location: {
-                    street1: string | null;
-                    street2?: string | null;
-                };
-            };
-        }[];
-        media?: {
-            gallery: IImageEntity[] | null;
-        };
-    };
+    content?: IContentEstablishmentCreateRequest;
 }
 export interface IEstablishmentPersonAssignRequest {
     source: {

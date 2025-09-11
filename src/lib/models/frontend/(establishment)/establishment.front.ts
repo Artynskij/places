@@ -11,6 +11,7 @@ export interface IEstablishmentFront {
     description: string;
     typeEstablishment: TTypesOfEstablishment;
     category: ICategoryFront;
+    categoriesAll:ICategoryFront[];
     rates: {
         main: number;
         count: number;
@@ -45,7 +46,7 @@ export interface IEstablishmentFront {
     media: {
         gallery: IMediaFront[] | null;
     };
-    seo: { key: string; value: string }[];
+    seo: { key: string; value: string }[] | null;
     content?:IContentEstablishment
 }
 export interface IEstablishmentPersonAssignFront {

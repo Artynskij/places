@@ -33,8 +33,9 @@ type TTypeForm = Yup.InferType<typeof validationBusinessIndividualSchema>;
 interface IProp {
     business?: IBusinessFront;
     mode: "create" | "update";
+    closeModal?: (value: false) => void;
 }
-export const FormIndividual = ({ business, mode }: IProp) => {
+export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
     const notification = useNotification();
     const activeTab: TTypeOwnerBusiness = "individual";
     const { user } = useUser();
@@ -103,9 +104,10 @@ export const FormIndividual = ({ business, mode }: IProp) => {
 
         if (success) {
             notification.success({ message: "Бизнес отправлен на модерацию" });
-            router.push(
-                ROUTES.PROFILE.OWNER(user.id, CONSTANT_TABS.owner.business)
-            );
+            closeModal && closeModal(false);
+            // router.push(
+            //     ROUTES.PROFILE.OWNER(user.id, CONSTANT_TABS.owner.business)
+            // );
         } else {
             notification.error({
                 message:
@@ -228,7 +230,9 @@ export const FormIndividual = ({ business, mode }: IProp) => {
             <Button
                 className={style.buttonAccept}
                 typeLogic="submit"
-                text={mode === 'create' ? "Зарегистрировать" : 'Отправить форму'}
+                text={
+                    mode === "create" ? "Зарегистрировать" : "Отправить форму"
+                }
             />
         </form>
     );

@@ -39,7 +39,6 @@ interface IProps
         { location: string; typeEstablishment: TTypesOfEstablishment },
         { sort?: TSortType; filter?: string; page?: string }
     > {
-    
     establishmentList: IEstablishmentFront[];
     blockTags: ITagBlockFront[];
     locationData: ILocationFront | null;

@@ -1,3 +1,5 @@
+export * from "./_part/contentPart.request";
+
 export * from "./(Establishment)/category.request";
 export * from "./(Establishment)/establishment.request";
 export * from "./(Establishment)/schedule.request";

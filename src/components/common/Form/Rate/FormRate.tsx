@@ -18,9 +18,10 @@ import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 import { IEstablishmentFront } from "@/lib/models";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
 import { validDateSchema } from "@/lib/validationSchemas";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
 interface IProp {
     children: React.ReactNode | React.ReactNode[];
     typeEstablishment: TTypesOfEstablishment;
@@ -46,6 +47,7 @@ export const FormRate = ({
     typeEstablishment,
     establishment,
 }: IProp) => {
+    const pathname = usePathname();
     const tRate = useTranslations("Rates");
     const notification = useNotification();
     const router = useRouter();
@@ -73,7 +75,19 @@ export const FormRate = ({
     } = useForm({
         resolver: yupResolver(validation),
     });
-
+    const openModal = () => {
+        const redirectUrl = encodeURIComponent(pathname);
+        if (user) {
+            setModalActive(true);
+        } else {
+            notification.error({
+                message: "Чтобы оценить объект надо войти в личный кабинет.",
+            });
+            router.replace(
+                `${ROUTES.AUTH.LOGIN}?${CONSTANT_SEARCH_PARAMS.REDIRECT}=${redirectUrl}`
+            );
+        }
+    };
     const onSubmit: SubmitHandler<TTypeForm> = async (dataForm) => {
         if (!user) return;
         establishmentService
@@ -116,21 +130,7 @@ export const FormRate = ({
     };
     return (
         <>
-            <div
-                onClick={() => {
-                    if (user) {
-                        setModalActive(true);
-                    } else {
-                        notification.error({
-                            message:
-                                "Чтобы оценить объект надо войти в личный кабинет.",
-                        });
-                        router.replace(ROUTES.AUTH.LOGIN);
-                    }
-                }}
-            >
-                {children}
-            </div>
+            <div onClick={openModal}>{children}</div>
             <ModalCustom
                 title="Оценить объект"
                 closeModal={handlerCloseModal}

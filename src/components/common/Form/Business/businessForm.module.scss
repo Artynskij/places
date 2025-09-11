@@ -1,3 +1,33 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-big;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.tabList {
+    display: flex;
+    gap: $gap-medium;
+    align-items: center;
+    margin: 0 auto;
+    @extend %Text16;
+    &_item {
+        color: $color-main-black;
+        background-color: $color-additional-background;
+        transition: $transition;
+        padding: 8px 10px;
+        cursor: pointer;
+        border-radius: $border-radius-10;
+        &_active {
+            color: $color-main-white;
+            background-color: $color-main-blue;
+        }
+        &:hover {
+            color: $color-main-white;
+            background-color: $color-main-blue_hover;
+        }
+    }
+}
 .form {
     // max-width: 400px;
     // margin: 0 auto;

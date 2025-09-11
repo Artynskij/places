@@ -39,7 +39,7 @@ import Image from "next/image";
 import { TextareaForm } from "@/components/UI/Textarea/TextareaForm/TextareaForm";
 
 import { SocialContactsBlockForm } from "../_components/SocialContacts/SocialContacts";
-import { getObjectDiffWithNulls } from "@/lib/helpers/getChangedFieldsForApi";
+import { getSimpleObjectDiff } from "@/lib/helpers/getChangedFieldsForApi";
 
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
@@ -108,7 +108,7 @@ export const FormSettingsTourist = () => {
     } = useForm<TTypeForm>({
         resolver: yupResolver(validationSchema),
     });
-    const avatarFiles = watch("avatar");
+
     useEffect(() => {
         if (!user) return;
         personService.getById(user.id).then((person) => {
@@ -159,12 +159,10 @@ export const FormSettingsTourist = () => {
             return;
         }
 
-        const changes = getObjectDiffWithNulls<TTypeForm>(
+        const changes = getSimpleObjectDiff<TTypeForm>(
             initialFormData,
             dataForm
         );
-        console.log(initialFormData);
-        console.log(dataForm);
 
         if (Object.keys(changes).length === 0) {
             notification.info({ message: "Нет изменений для сохранения" });

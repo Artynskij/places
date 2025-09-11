@@ -43,7 +43,7 @@ export const CardInfo: FC<ICardInfo> = ({
     const searchParams = useSearchParams();
     function openPopup() {
         setActive(true);
-        router.push(`${pathname}?popup=${data.value}`, { scroll: false });
+        router.replace(`${pathname}?popup=${data.value}`, { scroll: false });
     }
 
     function closePopup(_item?: boolean) {

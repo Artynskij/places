@@ -4,82 +4,83 @@ import { useEffect, useState } from "react";
 import { UploadButton } from "@/components/common/ButtonFunctional/UploadButton";
 import Image from "next/image";
 import { IconCancel } from "@/components/common/Icons";
-import { UploadPhoto } from "@/components/common/Upload/UploadPhoto";
-import { UploadFile } from "antd";
-import { RcFile } from "antd/lib/upload";
+import { Upload } from "antd";
+import { UploadOutlined, StarOutlined, StarFilled } from "@ant-design/icons";
+import type { UploadFile } from "antd/es/upload/interface";
+import { IMediaFront } from "@/lib/models";
+import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
 
 interface Props {
-    value: (File | undefined)[];
-    onChange: (files: (File | undefined)[]) => void;
+    value: (UploadFile | undefined)[];
+    onChange: (files: (UploadFile | undefined)[]) => void;
     error: FieldError | null;
+    downloadedValue?: IMediaFront[] | null;
 }
 
-const PhotoBlockForm = ({ value = [], onChange, error }: Props) => {
-    const [activeModal, setActiveModal] = useState(false);
+const PhotoBlockForm = ({
+    value = [],
+    onChange,
+    error,
+    downloadedValue,
+}: Props) => {
     const handlerToStart = (indexFile: number) => {
-        const newValue = [...value] as File[];
+        const newValue = [...value] as UploadFile[];
         newValue.unshift(newValue.splice(indexFile, 1)[0]);
         onChange?.(newValue);
     };
 
     const handlerRemove = (indexFile: number) => {
         if (!value) return;
-        const newValue = [...value] as File[];
+        const newValue = [...value] as UploadFile[];
         newValue.splice(indexFile, 1); // удаляем строго по индексу
         onChange?.(newValue);
     };
 
     return (
-        <>
-            <UploadButton
-                titleSpan="Прикрепление фотографии объекта*"
-                accept="image"
-                maxSizeMB={10}
-                maxCount={100}
-                value={value}
-                onChange={onChange}
-                error={error || null}
-            />
-            {/* <UploadPhoto
-                value={value.map((file) => ({
-                    uid: `${file.name} - ${file.lastModified}`,
-                    ...file,
-                }))}
-                error={error || null}
-                onChange={onChange}
-            /> */}
-            <div className={style.list}>
-                {value.map((file, indexFile) => {
-                    if (!file) return null;
+        <div className={style.photoBlock}>
+            <Upload
+                fileList={(value || []).filter(Boolean) as UploadFile[]}
+                name="file"
+                listType="picture-card"
+                multiple
+                beforeUpload={() => false} // чтобы не грузить сразу, а только при сабмите
+                onChange={({ fileList }) => onChange(fileList)}
+                itemRender={(originNode, file, fileList) => {
+                    const isMain = file === fileList[0];
 
                     return (
-                        <div
-                            className={style.list_item}
-                            key={`${file.name}_${file.size}_${Date()}`}
-                        >
-                            <div className={style.list_item_iconDelete}>
-                                <IconCancel
-                                    onClick={() => handlerRemove(indexFile)}
-                                    className={style.list_item_iconDelete_icon}
-                                />
-                            </div>
+                        <div className={style.card}>
+                            {originNode}{" "}
+                            {/* 👈 тут сохраняется дефолтный preview + delete */}
+                            {/* своя кнопка "сделать главной" */}
                             <div
-                                onClick={() => handlerToStart(indexFile)}
-                                className={style.list_item_buttonToStart}
+                                className={style.card_buttonMain}
+                                style={{
+                                    color: isMain ? "#fadb14" : "#999",
+                                }}
+                                onClick={(e) => {
+                                    e.stopPropagation(); 
+                                    fileList.forEach((f, index) => {
+                                        if (f.uid === file.uid) {
+                                            handlerToStart(index);
+                                        }
+                                    });
+                                    
+                                }}
                             >
-                                сделать главной
+                                {isMain ? <StarFilled /> : <StarOutlined />}
                             </div>
-                            <Image
-                                className={style.list_item_img}
-                                alt={file.name}
-                                fill
-                                src={URL.createObjectURL(file)}
-                            />
                         </div>
                     );
-                })}
-            </div>
-        </>
+                }}
+            >
+                <div>
+                    <UploadOutlined />
+                    <div style={{ marginTop: 8 }}>Загрузить</div>
+                </div>
+            </Upload>
+            {error && <SpanErrorForm text={error.message}/>}
+        </div>
     );
 };
 

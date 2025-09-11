@@ -1,0 +1,23 @@
+.contentBlock {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-medium;
+    position: relative;
+    margin-bottom: 20px;
+}
+.langBlock {
+    border-bottom: 1px solid black;
+}
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $gap-small;
+}
+.selectLang {
+    border-radius: $border-radius-10;
+}

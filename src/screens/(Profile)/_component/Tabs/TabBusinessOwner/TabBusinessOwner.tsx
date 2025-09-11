@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { BusinessService } from "@/lib/Api/business/business.service";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { IBusinessFront } from "@/lib/models";
+import { BusinessFormScreen } from "@/screens/(Form)/BusinessFormScreen";
+import { BusinessForm } from "@/components/common/Form/Business/BusinessForm";
 
 const TabBusinessOwner = () => {
     const businessService = new BusinessService();
@@ -31,14 +33,14 @@ const TabBusinessOwner = () => {
         <div className={style.tab}>
             <div className={style.tab_title}>
                 <h3>Мои бизнесы</h3>
-                <Link href={ROUTES.FORM.BUSINESS}>
+                <BusinessForm>
                     <Button
                         text={"Создать Бизнес"}
                         type="blue"
                         className={style.title_button}
                         icon={<IconPlus className={style.title_button_icon} />}
                     />
-                </Link>
+                </BusinessForm>
             </div>
 
             <ul className={style.list}>

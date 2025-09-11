@@ -52,7 +52,7 @@ export class EstablishmentService {
 
     async getById(
         id: string,
-        lang: string
+        lang?: string
     ): Promise<IEstablishmentFront | null> {
         const response = await this.establishmentApi.getById(id, lang);
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();
@@ -96,7 +96,7 @@ export class EstablishmentService {
         body: IEstablishmentCreateRequest
     ): Promise<IEstablishmentEntity | null> {
         const response = this.establishmentApi.update(id, body);
-
+        console.log(body);
         return response;
     }
     async createRate(
@@ -105,7 +105,9 @@ export class EstablishmentService {
         const response = this.establishmentRateApi.create(body);
         return response;
     }
-    getAllRates(body: IEstablishmentRateGetAllRequest): Promise<IEstablishmentRateAllResponse | null> {
+    getAllRates(
+        body: IEstablishmentRateGetAllRequest
+    ): Promise<IEstablishmentRateAllResponse | null> {
         const response = this.establishmentRateApi.getAll(body);
         return response;
     }

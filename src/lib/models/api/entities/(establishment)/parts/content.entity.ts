@@ -16,7 +16,7 @@ export interface IContentLocationEntity extends IContentEntity {
 }
 
 export interface IContentVerificationEntity extends IContentEntity {
-    media: IImageEntity[];
+    media: { gallery: IImageEntity[] };
 }
 export interface IContentEstablishment {
     id: string;
@@ -29,7 +29,13 @@ export interface IContentEstablishment {
                 title: string;
                 description: string;
             };
-            seoTrip:
+            seoTrip?:
+                | {
+                      key: string;
+                      value: string;
+                  }[]
+                | [];
+            seo?:
                 | {
                       key: string;
                       value: string;

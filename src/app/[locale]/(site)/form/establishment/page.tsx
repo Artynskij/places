@@ -14,7 +14,7 @@ export default function EstablishmentFormPage({
 }: IProps) {
     return (
         <div className="container">
-            <FormCreateEstablishment />
+            {/* <FormCreateEstablishment /> */}
         </div>
     );
 }

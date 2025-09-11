@@ -9,19 +9,23 @@ import { CONSTANT_TYPE_LOCATION_MAPBOX } from "@/asset/constants/typeLocation";
 import { DefaultMarker } from "./_common/Markers/DefaultMarker";
 import { IMapboxCoordPropToForm } from "@/lib/models/mapbox/mapbox";
 import { useLocale } from "next-intl";
+import { LocationService } from "@/lib/Api/location/location.service";
 
 interface MapCoordinatePickerProps {
     setPosition: (value: IMapboxCoordPropToForm) => void;
-    position?: IMapboxCoordPropToForm;
+    position?: IMapboxCoordPropToForm | null;
+    locationId?: string | null;
 }
 
 export const MapCoordinatePicker = ({
     setPosition,
     position,
+    locationId,
 }: MapCoordinatePickerProps) => {
     const locale = useLocale();
-    const { byCoordinates } = useMapboxGeocode();
+    const { byCoordinates, byName } = useMapboxGeocode();
     const { userLocation, errorUserLocation } = useUserLocation();
+    const locationService = new LocationService();
     const centerMoscow = { lat: 51.77041291260454, lon: 29.195896311674147 };
     const zoom = 12;
     const [isInitialized, setIsInitialized] = useState(false);
@@ -35,24 +39,53 @@ export const MapCoordinatePicker = ({
     useEffect(() => {
         if (isInitialized) return;
 
-        if (position) {
-            setViewState({
-                latitude: position.lat,
-                longitude: position.lon,
-                zoom,
-            });
-            setIsInitialized(true);
-        } else if (userLocation) {
-            setViewState({
-                latitude: userLocation.lat,
-                longitude: userLocation.lon,
-                zoom,
-            });
-            setIsInitialized(true);
-        } else if (errorUserLocation) {
-            setIsInitialized(true);
-        }
-    }, [position, userLocation, errorUserLocation]);
+        const getCenter = async () => {
+            switch (true) {
+                case !!position:
+                    setViewState({
+                        latitude: position.lat,
+                        longitude: position.lon,
+                        zoom,
+                    });
+                    setIsInitialized(true);
+                    break;
+                case !!locationId:
+                    const location = await locationService.getById(locationId);
+
+                    const coordByName = location
+                        ? await byName(location.title)
+                        : null;
+                    const coordinates = coordByName?.features.find((item) =>
+                        item.id.includes(
+                            CONSTANT_TYPE_LOCATION_MAPBOX.mapbox.place
+                        )
+                    )?.center;
+                    if (coordinates) {
+                        setViewState({
+                            latitude: coordinates[1],
+                            longitude: coordinates[0],
+                            zoom,
+                        });
+                        setIsInitialized(true);
+                        break;
+                    }
+                case !!userLocation:
+                    if (userLocation) {
+                        setViewState({
+                            latitude: userLocation.lat,
+                            longitude: userLocation.lon,
+                            zoom,
+                        });
+                        setIsInitialized(true);
+                        break;
+                    }
+
+                case !!errorUserLocation:
+                    setIsInitialized(true);
+            }
+        };
+        getCenter();
+    }, [position, userLocation, errorUserLocation, locationId]);
 
     const handlerClick = async (e: mapboxgl.MapMouseEvent) => {
         const { lng, lat } = e.lngLat;

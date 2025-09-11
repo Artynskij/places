@@ -46,7 +46,7 @@ const FiltersComponent = ({
 
     useEffect(() => {
         const filterValues =
-            searchParams.get(CONSTANT_SEARCH_PARAMS.FILTER)?.split("%") || [];
+            searchParams.get(CONSTANT_SEARCH_PARAMS.FILTER)?.split(CONSTANT_SEARCH_PARAMS.ampersand) || [];
         setCheckedValues(filterValues);
     }, [searchParams]);
 

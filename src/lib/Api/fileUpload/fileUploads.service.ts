@@ -69,8 +69,9 @@ export class FileUploadService {
             ? uploadedFiles.map((file, index) => {
                   return {
                       id: filesProp[index].uid,
+                      
                       blobPath: file?.blobPath || "",
-                      fileName: filesProp[index].fileName || "",
+                      fileName: filesProp[index].name || "",
                       width: imageDimensions[index].width || 0,
                       height: imageDimensions[index].height || 0,
                       type: filesProp[index].type || "",

@@ -47,6 +47,24 @@ const AddressBlockForm: React.FC<Props> = ({ locationId, onChange, error }) => {
         }
         // register("address.locationId");
     }, [showDropdown]);
+    useEffect(() => {
+        if (!!locationId) {
+            locationService.getById(locationId).then((location) => {
+                if (location) {
+                    locationService
+                        .getBreadcrumbData({
+                            ids: location.pathBreadcrumb,
+                            lang: locale,
+                        })
+                        .then((breadcrumbRes) => {
+                            if (breadcrumbRes) {
+                                setBreadcrumbLocations(breadcrumbRes);
+                            }
+                        });
+                }
+            });
+        }
+    }, [locationId]);
     const fetchLocationsSearch = async (value: string) => {
         const data = await searchService.querySearch({
             term: value,
@@ -72,20 +90,6 @@ const AddressBlockForm: React.FC<Props> = ({ locationId, onChange, error }) => {
         onChange(locationSearch.id);
         setSearch(locationSearch.title);
         setShowDropdown(false);
-        locationService.getById(locationSearch.id).then((location) => {
-            if (location) {
-                locationService
-                    .getBreadcrumbData({
-                        ids: location.pathBreadcrumb,
-                        lang: locale,
-                    })
-                    .then((breadcrumbRes) => {
-                        if (breadcrumbRes) {
-                            setBreadcrumbLocations(breadcrumbRes);
-                        }
-                    });
-            }
-        });
     };
 
     return (

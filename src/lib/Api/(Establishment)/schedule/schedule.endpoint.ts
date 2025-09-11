@@ -1,9 +1,17 @@
-import { IScheduleCreateRequest, IScheduleCreateResponse, IScheduleEntity } from "@/lib/models";
+import {
+    IScheduleCreateRequest,
+    IScheduleCreateResponse,
+    IScheduleEntity,
+    IScheduleUpdateRequest,
+} from "@/lib/models";
 import apiClient from "../../ApiClient";
 
 export class ScheduleApi {
     constructor() {}
-    async getScheduleById(id: string): Promise<IScheduleEntity[] | null> {
+
+    async getScheduleByEstablishmentId(
+        id: string
+    ): Promise<IScheduleEntity[] | null> {
         try {
             const response = await apiClient.get(
                 `/schedule/by-establishment/${id}`
@@ -19,6 +27,18 @@ export class ScheduleApi {
     ): Promise<IScheduleCreateResponse | null> {
         try {
             const response = await apiClient.post(`/schedule`, body);
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при создании расписания `);
+            return null;
+        }
+    }
+    async updateScheduleDay(
+        id: string,
+        body: IScheduleUpdateRequest
+    ): Promise<IScheduleCreateResponse | null> {
+        try {
+            const response = await apiClient.patch(`/schedule/${id}`, body);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при создании расписания `);
