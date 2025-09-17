@@ -1,6 +1,6 @@
-import { IPersonSettingsEntity } from "@/lib/models/api/entities/(person)/personSettings.entity";
+import { IPersonSettingsEntity } from "@/lib/models/server/entities/(person)/personSettings.entity";
 import apiClient from "../../ApiClient";
-import { IPersonSettingsRequest } from "@/lib/models/api/request/(Person)/personSettings.request";
+import { IPersonSettingsRequest } from "@/lib/models/server/request/(Person)/personSettings.request";
 
 export default class PersonSettingsApi {
     constructor() {}
@@ -25,7 +25,7 @@ export default class PersonSettingsApi {
         body: IPersonSettingsRequest
     ): Promise<IPersonSettingsEntity | null> {
         try {
-            const response = await apiClient.post(`/person-settings`,body);
+            const response = await apiClient.post(`/person-settings`, body);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при создании PersonSettings `);

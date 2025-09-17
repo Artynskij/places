@@ -1,6 +1,6 @@
 import PersonSettingsApi from "./personSettings.endpoints";
 import { IPersonSettingsFront } from "@/lib/models/frontend/(person)/personSettings.front";
-import { IPersonSettingsRequest } from "@/lib/models/api/request/(Person)/personSettings.request";
+import { IPersonSettingsRequest } from "@/lib/models/server/request/(Person)/personSettings.request";
 import { PersonService } from "../person/person.service";
 import { PersonSettingsMapper } from "./personSettings.mapper";
 
@@ -32,7 +32,10 @@ export class PersonSettingsService {
         return response;
     }
 
-    async create(idPerson: string,body: IPersonSettingsRequest): Promise<IPersonSettingsFront | null> {
+    async create(
+        idPerson: string,
+        body: IPersonSettingsRequest
+    ): Promise<IPersonSettingsFront | null> {
         const response = this.PersonSettingsApi.create(body)
             .then(async (res) => {
                 await this.PersonService.update(idPerson, {

@@ -1,6 +1,6 @@
-import { IAddressEntity } from "@/lib/models/api/entities/(person)/address.entity";
+import { IAddressEntity } from "@/lib/models/server/entities/(person)/address.entity";
 import apiClient from "../../ApiClient";
-import { IAddressRequest } from "@/lib/models/api/request/(Person)/address.request";
+import { IAddressRequest } from "@/lib/models/server/request/(Person)/address.request";
 
 export default class AddressApi {
     constructor() {}

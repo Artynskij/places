@@ -1,8 +1,6 @@
-
-
-export * from "./api/entities";
-export * from "./api/request";
-export * from "./api/response";
+export * from "./server/entities";
+export * from "./server/request";
+export * from "./server/response";
 
 export * from "./common/IUser";
 

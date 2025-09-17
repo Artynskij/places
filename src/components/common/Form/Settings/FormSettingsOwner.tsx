@@ -36,10 +36,10 @@ import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
 import Image from "next/image";
 
-import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request";
+import { IPersonRequest } from "@/lib/models/server/request/(Person)/person.request";
 
 import { getSimpleObjectDiff } from "@/lib/helpers/getChangedFieldsForApi";
-import { IPersonNameRequest } from "@/lib/models/api/request/(Person)/personName.request";
+import { IPersonNameRequest } from "@/lib/models/server/request/(Person)/personName.request";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
 import { Loader } from "../../Loader/Loader";
@@ -155,7 +155,7 @@ export const FormSettingsOwner = () => {
         if (changes.avatar) {
             const file = changes.avatar[0];
             if (file) {
-                const imageUrl = await fileUploadService.uploadPublicFile({
+                const imageUrl = await fileUploadService.uploadPublic({
                     file,
                     type: "image",
                     vendorId: personData.id,
@@ -206,7 +206,7 @@ export const FormSettingsOwner = () => {
                 .filter((file): file is File => !!file)
                 .map(async (file) => {
                     return fileUploadService
-                        .uploadPrivateFile({
+                        .uploadPrivate({
                             file,
                             fileName: "image",
                             vendorId: personData.id,
@@ -252,7 +252,7 @@ export const FormSettingsOwner = () => {
                 },
                 content: {
                     details: [{ lang: "ru", value: "documentPerson" }],
-                    media: {gallery:uploadFiles},
+                    media: { gallery: uploadFiles },
                 },
             });
 

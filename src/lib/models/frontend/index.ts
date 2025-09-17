@@ -7,6 +7,7 @@ export * from "./(establishment)/parts/media.front";
 export * from "./(person)/address.front";
 export * from "./(person)/consents.front";
 export * from "./(person)/contactsPerson.front";
+export * from "./(person)/favorite.front";
 export * from "./(person)/gender.front";
 export * from "./(person)/person.front";
 export * from "./(person)/personName.front";

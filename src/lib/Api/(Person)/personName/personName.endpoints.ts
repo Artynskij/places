@@ -1,7 +1,7 @@
-import { IPersonNameEntity } from "@/lib/models/api/entities/(person)/personName.entity";
+import { IPersonNameEntity } from "@/lib/models/server/entities/(person)/personName.entity";
 import apiClient from "../../ApiClient";
 
-import { IPersonNameRequest } from "@/lib/models/api/request/(Person)/personName.request";
+import { IPersonNameRequest } from "@/lib/models/server/request/(Person)/personName.request";
 import { IPersonNameFront } from "@/lib/models/frontend/(person)/personName.front";
 
 export default class PersonNameApi {

@@ -1,4 +1,4 @@
-import { IEstablishmentPersonAssignWithContentEntity } from "./../../../models/api/entities/(establishment)/establishment.entity";
+import { IEstablishmentPersonAssignWithContentEntity } from "../../../models/server/entities/(establishment)/establishment.entity";
 
 import {
     IEstablishmentPersonAssignEntity,
@@ -41,19 +41,16 @@ export class EstablishmentPersonAssignmentApi extends BaseApiService<
     IEstablishmentPersonAssignEntity,
     IEstablishmentPersonAssignWithContentEntity,
     IEstablishmentPersonAssignFront,
-     IEstablishmentPersonAssignRequest
+    IEstablishmentPersonAssignRequest
     // RequestGetAllType: IEstablishmentPersonAssignGetAllRequest;
 > {
     protected baseUrl = "/establishments-of-person";
     protected mapper = new EstablishmentPersonAssignmentMapper();
     async getAll(body: IEstablishmentPersonAssignGetAllRequest) {
         try {
-        
-            
-            const res = await apiClient.post<IEstablishmentPersonAssignWithContentEntity[]>(
-                `${this.baseUrl}/get-all`,
-                body
-            );
+            const res = await apiClient.post<
+                IEstablishmentPersonAssignWithContentEntity[]
+            >(`${this.baseUrl}/get-all`, body);
             return res.data.map((e) => this.mapper.toFront(e));
         } catch (error) {
             console.error(`error [post ${this.baseUrl}/get-all]`, error);

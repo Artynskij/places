@@ -1,6 +1,6 @@
-import { ISearchQueryResponse } from "@/lib/models/api/response/search/search.response";
+import { ISearchQueryResponse } from "@/lib/models/server/response/search/search.response";
 import { SearchApi } from "./search.endpoint";
-import { ISearchQueryRequest } from "@/lib/models/api/request/search/search.request";
+import { ISearchQueryRequest } from "@/lib/models/server/request/search/search.request";
 
 import { SearchMapper } from "./search.mapper";
 import DataLoadManagementApi from "../dataLoadManagement/dataLoadManagement.endpoints";

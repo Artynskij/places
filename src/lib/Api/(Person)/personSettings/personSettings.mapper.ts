@@ -1,5 +1,5 @@
 import { IPersonSettingsFront } from "@/lib/models/frontend/(person)/personSettings.front";
-import { IPersonSettingsEntity } from "./../../../models/api/entities/(person)/personSettings.entity";
+import { IPersonSettingsEntity } from "../../../models/server/entities/(person)/personSettings.entity";
 
 export class PersonSettingsMapper {
     constructor() {}

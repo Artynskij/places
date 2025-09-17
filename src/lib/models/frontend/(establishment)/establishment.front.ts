@@ -1,4 +1,8 @@
-import { IContentEntity, IContentEstablishment, IEstablishmentPersonAssignWithContentEntity } from "../../api/entities";
+import {
+    IContentEntity,
+    IContentEstablishment,
+    IEstablishmentPersonAssignWithContentEntity,
+} from "../../server/entities";
 import { TTypesOfEstablishment } from "../../types/TTypesEstablishment";
 import { ICategoryFront } from "./category.front";
 
@@ -11,7 +15,7 @@ export interface IEstablishmentFront {
     description: string;
     typeEstablishment: TTypesOfEstablishment;
     category: ICategoryFront;
-    categoriesAll:ICategoryFront[];
+    categoriesAll: ICategoryFront[];
     rates: {
         main: number;
         count: number;
@@ -47,7 +51,7 @@ export interface IEstablishmentFront {
         gallery: IMediaFront[] | null;
     };
     seo: { key: string; value: string }[] | null;
-    content?:IContentEstablishment
+    content?: IContentEstablishment;
 }
 export interface IEstablishmentPersonAssignFront {
     Id: string;

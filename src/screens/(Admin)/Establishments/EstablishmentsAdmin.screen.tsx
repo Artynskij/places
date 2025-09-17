@@ -1,10 +1,9 @@
 "use client";
 import styles from "../admin.module.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
-    IContentEstablishment,
-    IContentEstablishmentCreateRequest,
     IEstablishmentFront,
+    ILocationFront,
     IMediaFront,
     IPaginationEstablishmentRequest,
     ISearchItemFront,
@@ -29,12 +28,13 @@ import { FormCreateEstablishment } from "@/components/common/Form/Establishment/
 import { FormUpdateEstablishment } from "@/components/common/Form/Establishment/FormUpdateEstablishment";
 
 import { SearchService } from "@/lib/Api/search/search.service";
-import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
-import { useLocale } from "next-intl";
+
+import { useLocale, useTranslations } from "next-intl";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { sortSelectFilter } from "@/asset/constants/selectData";
 import { TTypeSortEstablishmentServer } from "@/lib/models/types";
+import { LocationService } from "@/lib/Api/location/location.service";
 
 const { Search } = Input;
 
@@ -58,11 +58,11 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
     const locale = useLocale();
 
     const [form] = Form.useForm<LocationFormValues>();
+    const [countriesOfEstablishments, setCountriesOfEstablishments] =
+        useState<{ title: string; id: string }[]>();
     const [establishments, setEstablishments] = useState<IEstablishmentFront[]>(
         []
     );
-    const [editEstablishment, setEditEstablishment] =
-        useState<IEstablishmentFront | null>(null);
 
     const [loading, setLoading] = useState(false);
     const [searchLoading, setSearchLoading] = useState(false);
@@ -72,7 +72,6 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
     >([]);
     const [searchLocationId, setSearchLocationId] = useState<string>();
 
-    // const [typeOptions, setTypeOptions] = useState<TypeOptionSelect[]>([]);
     const [typeEstablishment, setTypeEstablishment] = useState<string>();
     const [categoryOptions, setCategoryOption] = useState<TypeOptionSelect[]>(
         []
@@ -94,12 +93,18 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
         useState<TTypeSortEstablishmentServer>();
 
     const establishmentService = new EstablishmentService();
+    const locationService = new LocationService();
     const dataLoadManagerService = new DataLoadManagementService();
     const searchService = new SearchService();
 
     useEffect(() => {
         fetchAll(1);
-    }, [searchLocationId, typeEstablishment, categoryEstablishment,sortEstablishment]);
+    }, [
+        searchLocationId,
+        typeEstablishment,
+        categoryEstablishment,
+        sortEstablishment,
+    ]);
     useEffect(() => {
         dataLoadManagerService
             .getCategories(locale, typeEstablishment || null)
@@ -128,18 +133,48 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
             const data = await establishmentService.getByPagination(
                 bodyPagination
             );
+            if (!data) {
+                message.error("Ошибка загрузки заведений");
+                return;
+            }
+            const idsLocationsCountry = data
+                .map((est) => {
+                    return est.location.country.id;
+                })
+                .join(".");
+
+            const dataCountries = await locationService.getBreadcrumbData({
+                ids: idsLocationsCountry,
+                lang: locale,
+            });
+
+            if (dataCountries) {
+                const optionsCountries = dataCountries.map((item) => ({
+                    title: item.title,
+                    id: item.id,
+                }));
+                setCountriesOfEstablishments(optionsCountries);
+            }
             setEstablishments(data || []);
         } catch {
-            message.error("Ошибка загрузки локаций");
+            message.error("Ошибка загрузки заведений");
         } finally {
             setLoading(false);
         }
     };
+    const countriesMap = useMemo(() => {
+        const map: Record<string, string> = {};
+        countriesOfEstablishments?.forEach((c) => {
+            map[c.id] = c.title;
+        });
+        return map;
+    }, [countriesOfEstablishments]);
     const fetchById = async (id: string) => {
         setLoading(true);
 
         try {
             const data = await establishmentService.getById(id, locale);
+
             setEstablishments(data ? [data] : []);
         } catch {
             message.error("Ошибка загрузки локаций");
@@ -174,22 +209,19 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
         }
     };
 
-    const handleEdit = (record: IEstablishmentFront) => {
-        setEditEstablishment(record);
-
-        console.log(record);
-    };
     const handleDelete = (id: string) => {
         // setLocations((prev) => prev.filter((l) => l.id !== id));
         message.error("Пока невозможно удалить");
     };
-
+    CONSTANT_TYPES_OF_ESTABLISHMENT;
     const columns: ColumnsType<IEstablishmentFront> = [
         { title: "Название", dataIndex: "title", key: "title" },
         {
             title: "Тип",
             dataIndex: "typeEstablishment",
             key: "typeEstablishment",
+            render: (type: keyof typeof CONSTANT_TYPES_OF_ESTABLISHMENT) =>
+                CONSTANT_TYPES_OF_ESTABLISHMENT[type]?.title || type,
         },
         {
             title: "id",
@@ -200,6 +232,13 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
             title: "Категория",
             dataIndex: ["category", "value"],
             key: "category",
+        },
+        {
+            title: "Страна",
+            dataIndex: ["location", "country", "id"],
+            key: "country",
+            render: (idCountry: string) =>
+                countriesMap[idCountry] || "не найдена страна",
         },
         {
             title: "Город",
@@ -226,10 +265,7 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
                 <Space>
                     {
                         <FormUpdateEstablishment establishment={record}>
-                            <Button
-                                icon={<EditOutlined />}
-                                onClick={() => handleEdit(record)}
-                            />
+                            <Button icon={<EditOutlined />} />
                         </FormUpdateEstablishment>
                     }
 
@@ -245,7 +281,9 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
 
     return (
         <Card
-            title="Заведения"
+            title={`Заведения ${
+                establishments?.[0]?.location.info.totalEstablishment || ""
+            }`}
             extra={
                 <FormCreateEstablishment>
                     <Button type="primary" icon={<PlusOutlined />}>

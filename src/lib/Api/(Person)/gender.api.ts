@@ -1,9 +1,9 @@
-import { IContactsRequest } from "@/lib/models/api/request/contacts/contacts.request";
+import { IContactsRequest } from "@/lib/models/server/request/contacts/contacts.request";
 import { BaseApiService } from "../BaseApi.service";
 import {
     IGenderEntity,
     IGenderWithContentEntity,
-} from "@/lib/models/api/entities/(person)/gender.entity";
+} from "@/lib/models/server/entities/(person)/gender.entity";
 import { IGenderFront } from "@/lib/models/frontend/(person)/gender.front";
 export class GenderMapper {
     toFront(data: IGenderWithContentEntity | IGenderEntity): IGenderFront {

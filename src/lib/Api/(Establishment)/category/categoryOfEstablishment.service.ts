@@ -1,9 +1,7 @@
 import { CategoryOfEstablishmentApi } from "./categoryOfEstablishment.endpoints";
 
-
-
-import { ICategoryAndEstablishmentConnectionRequest } from "@/lib/models/api/request/(Establishment)/category.request";
-import { ICategoryAndEstablishmentConnectionResponse } from "@/lib/models/api/response/(Establishment)/category.response";
+import { ICategoryAndEstablishmentConnectionRequest } from "@/lib/models/server/request/(Establishment)/category.request";
+import { ICategoryAndEstablishmentConnectionResponse } from "@/lib/models/server/response/(Establishment)/category.response";
 // import { ITagClassFront, ITagClassWithEstablishmentFront } from "@/lib/models";
 
 export class CategoryEstablishment {

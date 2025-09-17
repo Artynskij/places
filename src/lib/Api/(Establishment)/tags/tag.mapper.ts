@@ -5,7 +5,7 @@ import { ITagBlockFront, ITagWithEstablishmentFront } from "@/lib/models";
 import {
     ITagsOfEstablishmentFilterResponse,
     ITagsOfEstablishmentResponse,
-} from "@/lib/models/api/response";
+} from "@/lib/models/server/response";
 
 export default class TagsMapper {
     constructor() {}

@@ -1,5 +1,5 @@
-import { IBusinessLegalTypesEntity } from "./../api/entities/business.entity";
-import { IBusinessEntity } from "../api/entities/business.entity";
+import { IBusinessLegalTypesEntity } from "../server/entities/business.entity";
+import { IBusinessEntity } from "../server/entities/business.entity";
 
 export interface IBusinessFront extends IBusinessEntity {}
 

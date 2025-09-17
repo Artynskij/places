@@ -1,7 +1,7 @@
-import { IMapItemsSortedResponse } from "../../models/api/response/map/map.response";
+import { IMapItemsSortedResponse } from "../../models/server/response/map/map.response";
 import MapApi from "./map.endpoint";
 
-import { IMapQueryRequest } from "@/lib/models/api/request/map/map.request";
+import { IMapQueryRequest } from "@/lib/models/server/request/map/map.request";
 import { MapMapper } from "./map.mapper";
 import { ISearchItemFront } from "@/lib/models";
 import { DataLoadManagementService } from "../dataLoadManagement/dataLoadManagement.service";
@@ -20,7 +20,6 @@ export class MapService {
     ): Promise<ISearchItemFront[] | null> {
         const response = await this.mapApi.getEstablishmentByCoord(body);
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();
-      
 
         const mappingData = response
             ? this.mapMapper.mappingMapQuery(response, cdnHost?.url || "")

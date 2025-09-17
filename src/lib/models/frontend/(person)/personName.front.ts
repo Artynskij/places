@@ -1,4 +1,4 @@
-import { IPersonNameEntity } from "../../api/entities/(person)/personName.entity";
+import { IPersonNameEntity } from "../../server/entities/(person)/personName.entity";
 
 export interface IPersonNameFront {
     id: string;

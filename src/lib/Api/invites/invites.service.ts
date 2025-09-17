@@ -1,6 +1,6 @@
 // import { IRoleOwnerEntity } from "@/lib/models/api/entities/FileUpload/roleOwner.entity";
 
-import { IInvitesRequest } from "@/lib/models/api/request/invites/invites.request";
+import { IInvitesRequest } from "@/lib/models/server/request/invites/invites.request";
 import InvitesApi from "./invites.endpoints";
 import { IInvitesFront } from "@/lib/models/frontend/invites.front";
 import { IInvitesByQueryItemResponse } from "@/lib/models";
@@ -12,7 +12,7 @@ export class InvitesService {
         this.InvitesApi = new InvitesApi();
     }
 
-    async create(body: IInvitesRequest): Promise<{id:string} | null> {
+    async create(body: IInvitesRequest): Promise<{ id: string } | null> {
         const response = await this.InvitesApi.create(body);
         return response;
     }

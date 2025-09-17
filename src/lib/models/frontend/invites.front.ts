@@ -1,3 +1,3 @@
-import { IInvitesEntity } from "../api/entities/invites.entity";
+import { IInvitesEntity } from "../server/entities/invites.entity";
 
 export interface IInvitesFront extends IInvitesEntity {}

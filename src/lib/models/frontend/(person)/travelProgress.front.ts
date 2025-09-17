@@ -1,3 +1,3 @@
-import { ITravelProgressEntity } from "../../api/entities";
+import { ITravelProgressEntity } from "../../server/entities";
 
 export interface ITravelProgressFront extends ITravelProgressEntity {}

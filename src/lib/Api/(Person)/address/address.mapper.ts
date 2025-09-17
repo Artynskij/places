@@ -1,4 +1,4 @@
-import { IAddressEntity } from "@/lib/models/api/entities/(person)/address.entity";
+import { IAddressEntity } from "@/lib/models/server/entities/(person)/address.entity";
 import { IAddressFront } from "@/lib/models/frontend/(person)/address.front";
 
 export class AddressMapper {

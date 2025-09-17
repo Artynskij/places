@@ -1,4 +1,4 @@
-import { IGenderWithContentEntity } from "../../api/entities/(person)/gender.entity";
+import { IGenderWithContentEntity } from "../../server/entities/(person)/gender.entity";
 
 export interface IGenderFront {
     id: string;

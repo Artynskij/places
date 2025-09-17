@@ -16,7 +16,7 @@ import { IEstablishmentFront, ISelectOption } from "@/lib/models";
 import {
     IEstablishmentCreateRequest,
     ISocialContactsRequest,
-} from "@/lib/models/api/request";
+} from "@/lib/models/server/request";
 
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 

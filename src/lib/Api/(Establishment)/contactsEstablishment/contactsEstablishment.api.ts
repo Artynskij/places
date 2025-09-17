@@ -1,12 +1,12 @@
-import { IContactsPersonEntity } from "@/lib/models/api/entities/(person)/contactsPerson.entity";
+import { IContactsPersonEntity } from "@/lib/models/server/entities/(person)/contactsPerson.entity";
 import { IContactsPersonFront } from "@/lib/models/frontend/(person)/contactsPerson.front";
-import { IContactsRequest } from "@/lib/models/api/request/contacts/contacts.request";
+import { IContactsRequest } from "@/lib/models/server/request/contacts/contacts.request";
 import { BaseApiService } from "../../BaseApi.service";
 import {
     IContactsEstablishmentEntity,
     IContactsEstablishmentFront,
 } from "@/lib/models";
-import { IContactEstablishmentRequest } from "@/lib/models/api/request/(Establishment)/contactsEstablishment.request";
+import { IContactEstablishmentRequest } from "@/lib/models/server/request/(Establishment)/contactsEstablishment.request";
 
 export class ContactsEstablishmentMapper {
     constructor() {}

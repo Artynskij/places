@@ -180,7 +180,7 @@ export const FormSettingsTourist = () => {
         if (changes.avatar) {
             const file = changes.avatar[0];
             if (file) {
-                const imageUrl = await fileUploadService.uploadPublicFile({
+                const imageUrl = await fileUploadService.uploadPublic({
                     file,
                     type: "image",
                     vendorId: personData.id,

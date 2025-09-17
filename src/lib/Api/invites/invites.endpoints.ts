@@ -1,6 +1,6 @@
-import { IInvitesByQueryItemResponse } from "./../../models/api/response/invites/invites.response";
-import { IInvitesEntity } from "@/lib/models/api/entities/invites.entity";
-import { IInvitesRequest } from "@/lib/models/api/request/invites/invites.request";
+import { IInvitesByQueryItemResponse } from "../../models/server/response/invites/invites.response";
+import { IInvitesEntity } from "@/lib/models/server/entities/invites.entity";
+import { IInvitesRequest } from "@/lib/models/server/request/invites/invites.request";
 import apiClient from "../ApiClient";
 
 export default class InvitesApi {

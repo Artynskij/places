@@ -1,7 +1,7 @@
 import { IArticleEntity } from "@/lib/models";
 
 import apiClient from "../ApiClient";
-import { IPaginationArticleRequest } from "@/lib/models/api/request/article/article.request";
+import { IPaginationArticleRequest } from "@/lib/models/server/request/article/article.request";
 
 export default class ArticleApi {
     constructor() {}

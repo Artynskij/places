@@ -1,6 +1,6 @@
-import { IContactsPersonEntity } from "@/lib/models/api/entities/(person)/contactsPerson.entity";
+import { IContactsPersonEntity } from "@/lib/models/server/entities/(person)/contactsPerson.entity";
 import { IContactsPersonFront } from "@/lib/models/frontend/(person)/contactsPerson.front";
-import { IContactsRequest } from "@/lib/models/api/request/contacts/contacts.request";
+import { IContactsRequest } from "@/lib/models/server/request/contacts/contacts.request";
 import { BaseApiService } from "../BaseApi.service";
 class ContactsPersonMapper {
     constructor() {}

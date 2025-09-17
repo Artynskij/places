@@ -3,8 +3,8 @@ import apiClient from "../../ApiClient";
 import {
     IPersonEntity,
     IPersonWithContentEntity,
-} from "@/lib/models/api/entities/(person)/person.entity";
-import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request";
+} from "@/lib/models/server/entities/(person)/person.entity";
+import { IPersonRequest } from "@/lib/models/server/request/(Person)/person.request";
 
 export default class PersonApi {
     constructor() {}

@@ -1,9 +1,12 @@
 import PersonApi from "./person.endpoints";
-import { IPersonRequest } from "@/lib/models/api/request/(Person)/person.request";
+import { IPersonRequest } from "@/lib/models/server/request/(Person)/person.request";
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import { PersonMapper } from "./person.mapper";
 import { DataLoadManagementService } from "../../dataLoadManagement/dataLoadManagement.service";
-import { IPersonEntity, IPersonWithContentEntity } from "@/lib/models/api/entities/(person)/person.entity";
+import {
+    IPersonEntity,
+    IPersonWithContentEntity,
+} from "@/lib/models/server/entities/(person)/person.entity";
 import { GenderService } from "../gender.api";
 import { ITravelProgressFront } from "@/lib/models";
 

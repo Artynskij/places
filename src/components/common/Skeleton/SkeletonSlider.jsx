@@ -1,5 +1,5 @@
 import { Skeleton } from "antd";
-import style from "./slider.module.scss";
+import style from "./skeleton.module.scss";
 
 export const SkeletonSlider = () => {
   const inlineStyle = {

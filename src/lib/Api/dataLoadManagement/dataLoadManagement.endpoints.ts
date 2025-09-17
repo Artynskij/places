@@ -1,13 +1,14 @@
 import {
     IBusinessLegalTypesEntity,
     ICategoryEstablishmentEntity,
+    IFavoriteTypeEntity,
     IGenderWithContentEntity,
     IRoleOwnerWithContentEntity,
     ITagEntity,
     ITypeEstablishmentWithContentEntity,
 } from "@/lib/models";
 import apiClient from "../ApiClient";
-import { ILocationTypeWithContentEntity } from "@/lib/models/api/entities/locationType.entity";
+import { ILocationTypeWithContentEntity } from "@/lib/models/server/entities/locationType.entity";
 
 export default class DataLoadManagementApi {
     constructor() {}
@@ -100,7 +101,18 @@ export default class DataLoadManagementApi {
             return response.data;
         } catch (error) {
             console.error(
-                `Ошибка при запросе по получению blob-proxy для картинок.`
+                `Ошибка при запросе по получению BusinessLegalTypes.`
+            );
+            return null;
+        }
+    }
+    async getFavoriteTypes(): Promise<IFavoriteTypeEntity[] | null> {
+        try {
+            const response = await apiClient.get(`/favorite-item-types`);
+            return response.data;
+        } catch (error) {
+            console.error(
+                `Ошибка при запросе по получению FavoriteTypes.`
             );
             return null;
         }

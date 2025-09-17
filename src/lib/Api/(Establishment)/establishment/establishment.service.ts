@@ -13,7 +13,7 @@ import EstablishmentMapper from "./establishment.mapper";
 import {
     IEstablishmentCreateRequest,
     IPaginationEstablishmentRequest,
-} from "@/lib/models/api/request/(Establishment)/establishment.request";
+} from "@/lib/models/server/request/(Establishment)/establishment.request";
 import { DataLoadManagementService } from "../../dataLoadManagement/dataLoadManagement.service";
 import { EstablishmentPersonAssignmentApi } from "./establishmentAssignment.api";
 import EstablishmentRateApi from "./establishmentRate.endpoints";

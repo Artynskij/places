@@ -2,11 +2,11 @@ import apiClient from "../../ApiClient";
 import {
     IEstablishmentItemsResponse,
     IEstablishmentResponse,
-} from "@/lib/models/api/response/(Establishment)/establishment.response";
+} from "@/lib/models/server/response/(Establishment)/establishment.response";
 import {
     IEstablishmentCreateRequest,
     IPaginationEstablishmentRequest,
-} from "@/lib/models/api/request/(Establishment)/establishment.request";
+} from "@/lib/models/server/request/(Establishment)/establishment.request";
 import { IEstablishmentEntity } from "@/lib/models";
 
 export default class EstablishmentApi {

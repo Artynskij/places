@@ -1,4 +1,4 @@
-import { IPersonNameEntity } from "@/lib/models/api/entities/(person)/personName.entity";
+import { IPersonNameEntity } from "@/lib/models/server/entities/(person)/personName.entity";
 import { IPersonNameFront } from "@/lib/models/frontend/(person)/personName.front";
 
 export class PersonNameMapper {

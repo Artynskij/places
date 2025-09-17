@@ -1,8 +1,8 @@
 import { ScheduleMapper } from "./schedule.mapper";
 import { IScheduleFront } from "@/lib/models/frontend/(establishment)/schedule.front";
 import { ScheduleApi } from "./schedule.endpoint";
-import { IScheduleCreateRequest } from "@/lib/models/api/request/(Establishment)/schedule.request";
-import { IScheduleCreateResponse } from "@/lib/models/api/response/(Establishment)/schedule.response";
+import { IScheduleCreateRequest } from "@/lib/models/server/request/(Establishment)/schedule.request";
+import { IScheduleCreateResponse } from "@/lib/models/server/response/(Establishment)/schedule.response";
 
 export class ScheduleService {
     private scheduleApi: ScheduleApi;

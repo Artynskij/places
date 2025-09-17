@@ -13,6 +13,7 @@ export * from "./(establishment)/typeEstablishment.entity";
 export * from "./(person)/address.entity";
 export * from "./(person)/consents.entity";
 export * from "./(person)/contactsPerson.entity";
+export * from "./(person)/favorite.entity";
 export * from "./(person)/gender.entity";
 export * from "./(person)/person.entity";
 export * from "./(person)/personName.entity";
@@ -22,6 +23,7 @@ export * from "./(person)/travelProgress.entity";
 
 export * from "./article.entity";
 export * from "./business.entity";
+
 export * from "./locations.entity";
 export * from "./mapItem.entity";
 export * from "./(person)/roleOwner.entity";

@@ -3,6 +3,7 @@ import DataLoadManagementApi from "./dataLoadManagement.endpoints";
 import {
     IBusinessLegalTypesFront,
     ICategoryFront,
+    IFavoriteTypeEntity,
     IGenderFront,
     IRoleOwnerWithContentEntity,
     ITagBlockFront,
@@ -12,7 +13,7 @@ import { DataLoadManagementMapper } from "./dataLoadManagement.mapper";
 
 import { GenderMapper } from "../(Person)/gender.api";
 import { IRoleOwnerFront } from "@/lib/models/frontend/(person)/roleOwner.front";
-import { ILocationTypeWithContentEntity } from "@/lib/models/api/entities/locationType.entity";
+import { ILocationTypeWithContentEntity } from "@/lib/models/server/entities/locationType.entity";
 
 export class DataLoadManagementService {
     // DataLoadManagementMapper
@@ -104,5 +105,10 @@ export class DataLoadManagementService {
         );
 
         return mappedData;
+    }
+    async getFavoriteTypes(): Promise<IFavoriteTypeEntity[] | null> {
+        const response = await this.DataLoadManagementApi.getFavoriteTypes();
+
+        return response;
     }
 }

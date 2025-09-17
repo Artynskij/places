@@ -1,9 +1,6 @@
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import PersonNameApi from "./personName.endpoints";
-import {
-    IPersonNameRequest,
-    
-} from "@/lib/models/api/request/(Person)/personName.request";
+import { IPersonNameRequest } from "@/lib/models/server/request/(Person)/personName.request";
 import { IPersonNameFront } from "@/lib/models/frontend/(person)/personName.front";
 import PersonApi from "../person/person.endpoints";
 import { PersonService } from "../person/person.service";
@@ -51,7 +48,7 @@ export class PersonNameService {
             return null;
         }
         if (!id) {
-            return this.createPersonName( body  );
+            return this.createPersonName(body);
         }
 
         const response = this.personNameApi.update(id, body).then((res) => {

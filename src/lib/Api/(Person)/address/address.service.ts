@@ -1,7 +1,7 @@
 import { AddressMapper } from "./address.mapper";
 import AddressApi from "./address.endpoints";
 import { IAddressFront } from "@/lib/models/frontend/(person)/address.front";
-import { IAddressRequest } from "@/lib/models/api/request/(Person)/address.request";
+import { IAddressRequest } from "@/lib/models/server/request/(Person)/address.request";
 
 export class AddressService {
     private AddressApi: AddressApi;

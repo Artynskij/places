@@ -2,9 +2,9 @@
 import {
     IFilePrivateUploadBodyRequest,
     IFilePublicUploadBodyRequest,
-} from "@/lib/models/api/request/fileUpload/fileUpload.request";
+} from "@/lib/models/server/request/fileUpload/fileUpload.request";
 import FileUploadApi from "./fileUpload.endpoints";
-import { IFileUploadResponse } from "@/lib/models/api/response/fileUpload/fileUpload.response";
+import { IFileUploadResponse } from "@/lib/models/server/response/fileUpload/fileUpload.response";
 import type { UploadFile } from "antd/es/upload/interface";
 import { getTypeOfFile } from "@/lib/helpers/getTypeForFile";
 import { getImageDimensions } from "@/lib/helpers/getImageDimensions";
@@ -17,18 +17,26 @@ export class FileUploadService {
         this.FileUploadApi = new FileUploadApi();
     }
 
-    async uploadPublicFile(
+    async uploadPublic(
         body: IFilePublicUploadBodyRequest
     ): Promise<IFileUploadResponse | null> {
-        const response = await this.FileUploadApi.uploadPublicFile(body);
+        const response = await this.FileUploadApi.uploadPublic(body);
 
         return response;
     }
-    async uploadPrivateFile(
+    async deletePublic(filePath: string) {
+        const response = await this.FileUploadApi.deletePublic(filePath);
+        return response;
+    }
+    async uploadPrivate(
         body: IFilePrivateUploadBodyRequest
     ): Promise<IFileUploadResponse | null> {
-        const response = await this.FileUploadApi.uploadPrivateFile(body);
+        const response = await this.FileUploadApi.uploadPrivate(body);
 
+        return response;
+    }
+    async deletePrivate(filePath: string) {
+        const response = await this.FileUploadApi.deletePrivate(filePath);
         return response;
     }
     async uploadPublicFileOfAntdFiles(
@@ -48,7 +56,7 @@ export class FileUploadService {
             })
             .filter(Boolean)
             .map((file) => {
-                const res = this.uploadPublicFile({
+                const res = this.uploadPublic({
                     file: file as File,
                     vendorId: vendorId,
                     type: getTypeOfFile(file?.type || ""),
@@ -69,7 +77,7 @@ export class FileUploadService {
             ? uploadedFiles.map((file, index) => {
                   return {
                       id: filesProp[index].uid,
-                      
+
                       blobPath: file?.blobPath || "",
                       fileName: filesProp[index].name || "",
                       width: imageDimensions[index].width || 0,

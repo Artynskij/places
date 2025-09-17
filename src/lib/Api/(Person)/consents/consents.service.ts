@@ -1,6 +1,9 @@
 import ConsentsApi from "./consents.endpoints";
 import { IConsentsFront } from "@/lib/models/frontend/(person)/consents.front";
-import { IConsentsPatchRequest, IConsentsRequest } from "@/lib/models/api/request/(Person)/consents.request";
+import {
+    IConsentsPatchRequest,
+    IConsentsRequest,
+} from "@/lib/models/server/request/(Person)/consents.request";
 
 export class ConsentsService {
     private ConsentsApi: ConsentsApi;

@@ -144,7 +144,7 @@ export class GeneralBusinessService {
                 .filter((file): file is File => !!file)
                 .map(async (file) => {
                     return this.fileUploadService
-                        .uploadPrivateFile({
+                        .uploadPrivate({
                             file,
                             fileName: "image",
                             vendorId: createdBusiness.Id,
@@ -299,7 +299,7 @@ export class GeneralBusinessService {
                         .filter((file): file is File => !!file)
                         .map(async (file) => {
                             return this.fileUploadService
-                                .uploadPrivateFile({
+                                .uploadPrivate({
                                     file,
                                     fileName: "image",
                                     vendorId: business.Id,

@@ -1,6 +1,9 @@
-import { ILocationsWithContentEntity } from "@/lib/models/api/entities/locations.entity";
+import { ILocationsWithContentEntity } from "@/lib/models/server/entities/locations.entity";
 import apiClient from "../ApiClient";
-import { ILocationInsidePaginationRequest, ILocationUpdateRequest } from "@/lib/models/api/request/location/location.request";
+import {
+    ILocationInsidePaginationRequest,
+    ILocationUpdateRequest,
+} from "@/lib/models/server/request/location/location.request";
 
 export default class LocationApi {
     constructor() {}
@@ -46,12 +49,12 @@ export default class LocationApi {
             return null;
         }
     }
-    async update(id:string,body:ILocationUpdateRequest): Promise<ILocationsWithContentEntity | null>{
-         try {
-            const response = await apiClient.patch(
-                `/locations/${id}`,
-                body
-            );
+    async update(
+        id: string,
+        body: ILocationUpdateRequest
+    ): Promise<ILocationsWithContentEntity | null> {
+        try {
+            const response = await apiClient.patch(`/locations/${id}`, body);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при обновлении объекта.`);

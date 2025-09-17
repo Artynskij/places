@@ -1,6 +1,9 @@
-import { IBusinessEntity, IBusinessWithContentEntity } from "@/lib/models/api/entities/business.entity";
+import {
+    IBusinessEntity,
+    IBusinessWithContentEntity,
+} from "@/lib/models/server/entities/business.entity";
 import apiClient from "../ApiClient";
-import { IBusinessRequest } from "@/lib/models/api/request/business/business.request";
+import { IBusinessRequest } from "@/lib/models/server/request/business/business.request";
 
 export default class BusinessApi {
     constructor() {}

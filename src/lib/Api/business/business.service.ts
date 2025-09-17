@@ -6,7 +6,7 @@ import {
     IBusinessAssignmentGetQueryRequest,
     IBusinessAssignmentRequest,
     IBusinessRequest,
-} from "@/lib/models/api/request/business/business.request";
+} from "@/lib/models/server/request/business/business.request";
 import { IBusinessPersonAssignEntity } from "@/lib/models";
 import { InvitesService } from "../invites/invites.service";
 

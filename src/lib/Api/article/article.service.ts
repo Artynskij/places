@@ -1,7 +1,7 @@
 import { IArticleEntity, IArticleFront } from "@/lib/models";
 
 import ArticleApi from "./article.endpoints";
-import { IPaginationArticleRequest } from "@/lib/models/api/request/article/article.request";
+import { IPaginationArticleRequest } from "@/lib/models/server/request/article/article.request";
 import ArticleMapper from "./article.mapper";
 
 export class ArticleService {

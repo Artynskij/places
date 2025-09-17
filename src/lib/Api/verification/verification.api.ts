@@ -5,7 +5,7 @@ import {
     IVerificationWithContentEntity,
 } from "@/lib/models";
 import { BaseApiService } from "../BaseApi.service";
-import { IVerificationRequest } from "@/lib/models/api/request/verification/verification.request";
+import { IVerificationRequest } from "@/lib/models/server/request/verification/verification.request";
 import { DataLoadManagementService } from "../dataLoadManagement/dataLoadManagement.service";
 
 export class VerificationMapper {

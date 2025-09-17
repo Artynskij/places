@@ -1,14 +1,21 @@
 import { FC } from "react";
 import style from "./video.module.scss";
 import Image from "next/image";
+import { getMediaType } from "@/lib/helpers/getMediaType";
+
 interface IVideo {
     videoSrc: string | null;
     posterSrc: string;
 }
+
+// Функция для определения типа медиа по расширению
+
 export const Video: FC<IVideo> = ({ videoSrc, posterSrc }) => {
+    const mediaType = getMediaType(videoSrc);
+
     return (
         <>
-            {videoSrc ? (
+            {mediaType === "video" ? (
                 <video
                     preload="none"
                     className={style.video}
@@ -18,13 +25,7 @@ export const Video: FC<IVideo> = ({ videoSrc, posterSrc }) => {
                     playsInline
                     poster={posterSrc}
                 >
-                    <source src={videoSrc} type="video/mp4" />
-                    <track
-                        src={videoSrc}
-                        kind="subtitles"
-                        srcLang="en"
-                        label="English"
-                    />
+                    <source src={videoSrc!} type="video/mp4" />
                     <Image
                         style={{
                             width: "100%",
@@ -45,7 +46,7 @@ export const Video: FC<IVideo> = ({ videoSrc, posterSrc }) => {
                         objectFit: "cover",
                         height: "100%",
                     }}
-                    src={posterSrc}
+                    src={videoSrc || posterSrc}
                     width={800}
                     height={500}
                     alt="poster photo"

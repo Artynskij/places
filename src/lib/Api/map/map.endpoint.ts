@@ -1,6 +1,6 @@
-import { ILocationsWithContentEntity } from "@/lib/models/api/entities/locations.entity";
+import { ILocationsWithContentEntity } from "@/lib/models/server/entities/locations.entity";
 import apiClient from "../ApiClient";
-import { IMapQueryRequest } from "@/lib/models/api/request/map/map.request";
+import { IMapQueryRequest } from "@/lib/models/server/request/map/map.request";
 import { ISearchItemEntity } from "@/lib/models";
 
 export default class MapApi {

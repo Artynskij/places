@@ -1,3 +1,3 @@
-import { IConsentsEntity } from "../../api/entities/(person)/consents.entity";
+import { IConsentsEntity } from "../../server/entities/(person)/consents.entity";
 
 export interface IConsentsFront extends IConsentsEntity {}

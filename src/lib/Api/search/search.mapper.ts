@@ -5,14 +5,14 @@ import {
     ISearchItemFront,
     ISearchQueryResponseFront,
 } from "@/lib/models";
-import { ISearchQueryResponse } from "@/lib/models/api/response/search/search.response";
+import { ISearchQueryResponse } from "@/lib/models/server/response/search/search.response";
 import {
     TGlobalTypes,
     TTypesOfSearchKey,
 } from "@/lib/models/types/TTypesGlobal";
 
 import TagsMapper from "../(Establishment)/tags/tag.mapper";
-import { ISearchQueryRequest } from "@/lib/models/api/request/search/search.request";
+import { ISearchQueryRequest } from "@/lib/models/server/request/search/search.request";
 
 export class SearchMapper {
     private tagsMapper: TagsMapper;
@@ -200,7 +200,9 @@ export class SearchMapper {
             id: itemBack.dbCrossId,
             title: itemBack.title,
             description: itemBack.description,
-            media: itemBack.image ? { mainImage: `${cdnHost}${itemBack.image}` } : null, // You might want to map this from item if available
+            media: itemBack.image
+                ? { mainImage: `${cdnHost}${itemBack.image}` }
+                : null, // You might want to map this from item if available
             lang: itemBack.lang,
             location: locationPart,
             typeId: itemBack.typeId || null,
