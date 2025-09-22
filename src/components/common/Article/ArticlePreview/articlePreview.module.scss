@@ -1,0 +1,109 @@
+$marginNews: 40px;
+.preview {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 0 $gap-big;
+    position: relative;
+    &_content {
+        grid-column: 1/2;
+        background-color: $color-additional-background;
+        border-radius: $border-radius-10;
+        padding: 30px;
+        margin-bottom: 70px;
+        min-width: 0;
+    }
+}
+
+.breadcrumb {
+    margin-bottom: 20px;
+}
+.title {
+    margin-bottom: 10px;
+}
+.underTitle {
+    width: 100%;
+    margin-bottom: 30px;
+    display: flex;
+    // justify-content: space-between;
+    flex-wrap: wrap;
+    gap: $gap-medium;
+
+    &_author {
+        text-wrap: nowrap;
+        color: $color-main-blue;
+        transition: $transition;
+        &:hover {
+            color: $color-main-gold;
+        }
+    }
+    &_publicDate {
+        margin-left: auto;
+        // font-weight: 500;
+    }
+}
+.description {
+    margin-bottom: 30px;
+    @extend %Text18;
+    text-align: justify;
+    font-style: italic;
+}
+.mainImage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $gap-small;
+    & img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: $border-radius-20;
+        max-height: 500px;
+    }
+    & span {
+        @extend %Text12;
+        color: $color-main-grey;
+    }
+}
+
+.share {
+    margin-bottom: 15px;
+}
+.tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    &_title {
+        @extend %Text18;
+    }
+    &_list {
+        display: flex;
+        gap: 5px;
+        &_item {
+            padding: 3px;
+            border: 1.5px solid $color-main-black;
+            border-radius: $border-radius-5;
+            cursor: pointer;
+            background: $color-main-background;
+            transition: $transition;
+            &:hover {
+                border-color: $color-main-gold;
+                border-radius: $border-radius-10;
+                color: $color-main-gold;
+            }
+        }
+    }
+}
+.reaction {
+}
+.popular {
+    background-color: $color-additional-background;
+    border-radius: $border-radius-10;
+}
+@include mediaTablet {
+    .container_news {
+        padding: 15px;
+        margin-bottom: 30px;
+    }
+}

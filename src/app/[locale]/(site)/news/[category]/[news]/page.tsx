@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { IBasePageProps } from "@/lib/models/common/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
-import NewsScreen from "@/screens/(News)/NewsScreen/NewsScreen";
+import ArticleScreen from "@/screens/(Article)/ArticleScreen/ArticleScreen";
 
 import { notFound } from "next/navigation";
 import { ArticleService } from "@/lib/Api/article/article.service";
@@ -37,7 +37,7 @@ export default async function NewsCategoryPage({
         })) || [];
     return (
         <>
-            <NewsScreen
+            <ArticleScreen
                 articleData={article}
                 params={params}
                 popularNews={popularNews}

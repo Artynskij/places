@@ -1,0 +1,24 @@
+@import "../prose-base";
+
+.ProseMirror {
+  @extend .prose-base;
+  
+}
+
+.article-editor {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  background: #fff;
+}
+
+.editor-toolbar {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 100;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+

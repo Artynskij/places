@@ -1,6 +1,6 @@
 import { IBasePageProps } from "@/lib/models/common/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
-import NewsCategoryScreen from "@/screens/(News)/NewsCategoryScreen/NewsCategoryScreen";
+import ArticlesCategoryScreen from "@/screens/(Article)/ArticleCategoryScreen/ArticleCategoryScreen";
 import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
 import { notFound } from "next/navigation";
 import { ArticleService } from "@/lib/Api/article/article.service";
@@ -51,7 +51,7 @@ export default async function NewsCategoryPage({
 
     return (
         <>
-            <NewsCategoryScreen
+            <ArticlesCategoryScreen
                 params={params}
                 searchParams={searchParams}
                 mainNews={mainNews}
