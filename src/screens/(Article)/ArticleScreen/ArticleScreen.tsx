@@ -11,7 +11,7 @@ import { PopularArticles } from "../_component/_PopularNews/_PopularNews";
 import { IArticleFront } from "@/lib/models/frontend/article.front";
 import { ArticleService } from "@/lib/Api/article/article.service";
 
-import BlockArticles from "./_components/BlockNews/BlockArticles";
+import BlockArticles from "./_components/BlockArticle/BlockArticles";
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
 import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";
 

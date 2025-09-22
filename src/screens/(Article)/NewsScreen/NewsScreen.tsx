@@ -12,9 +12,10 @@ import { PopularArticles } from "../_component/_PopularNews/_PopularNews";
 import { IArticleFront } from "@/lib/models/frontend/article.front";
 import { ArticleService } from "@/lib/Api/article/article.service";
 
-import BlockNews from "./_components/BlockNews/BlockNews";
+
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
 import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";
+import BlockArticles from "../ArticleScreen/_components/BlockArticle/BlockArticles";
 
 interface IProps
     extends IBasePageProps<{ category: TCategoriesNews; news: string }> {
@@ -48,7 +49,7 @@ export default function NewsScreen({
         <div className="container">
             <section className={style.content}>
                 <div className={style.content_item}>
-                    <BlockNews
+                    <BlockArticles
                         updateAnotherNews={updateAnotherNews}
                         article={articleData}
                         params={params}
@@ -64,7 +65,7 @@ export default function NewsScreen({
                     {anotherNews.length ? (
                         anotherNews.map((item, index) => {
                             return (
-                                <BlockNews
+                                <BlockArticles
                                     updateAnotherNews={updateAnotherNews}
                                     key={index}
                                     article={item}

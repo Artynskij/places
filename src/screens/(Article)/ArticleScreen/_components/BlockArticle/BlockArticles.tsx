@@ -21,7 +21,7 @@ import { Markdown } from "@/components/common/MarkDown/MarkDown";
 import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 
-interface IBlockNews {
+interface IBlockArticles {
     article: IArticleFront | null;
     updateAnotherNews: () => void;
     params: IBasePageProps["params"] & {
@@ -33,7 +33,7 @@ export default function BlockArticles({
     article,
     updateAnotherNews,
     params,
-}: IBlockNews) {
+}: IBlockArticles) {
     const pathname = usePathname();
     const observerUrl = useInView({
         threshold: 0,
