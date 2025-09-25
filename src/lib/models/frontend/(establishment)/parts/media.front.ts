@@ -1,10 +1,16 @@
+import { TTypeFile } from "@/lib/models/types";
+import type { UploadFile } from "antd/lib";
 export interface IMediaFront {
-    id:string;
+    id: string;
     title: string;
     width: number;
     height: number;
-    type: "image" | "video" | string;
+    type: TTypeFile;
     fileName: string;
     blobPath: string;
+    alt: string;
     src: string;
+}
+export interface IMediaFrontWithFile extends IMediaFront {
+    file?: UploadFile;
 }

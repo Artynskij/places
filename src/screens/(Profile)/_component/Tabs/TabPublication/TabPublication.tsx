@@ -22,7 +22,7 @@ const TabPublication = () => {
     useEffect(() => {
         const articleService = new ArticleService();
         articleService
-            .getArticlesByPagination({
+            .getByPagination({
                 lang: locale,
                 pagination: { page: 1, pageSize: 10 },
             })

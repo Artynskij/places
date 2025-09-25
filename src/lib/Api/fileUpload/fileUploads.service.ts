@@ -9,7 +9,11 @@ import type { UploadFile } from "antd/es/upload/interface";
 import { getTypeOfFile } from "@/lib/helpers/getTypeForFile";
 import { getImageDimensions } from "@/lib/helpers/getImageDimensions";
 import { IImageEntity } from "@/lib/models";
-
+interface IPropUploadPublicFileOfAntdFiles {
+    vendorId: string;
+    files: UploadFile[] | [];
+    seo?: { title: string; alt: string }[];
+}
 export class FileUploadService {
     private FileUploadApi: FileUploadApi;
 
@@ -39,23 +43,25 @@ export class FileUploadService {
         const response = await this.FileUploadApi.deletePrivate(filePath);
         return response;
     }
-    async uploadPublicFileOfAntdFiles(
-        vendorId: string,
-        filesProp: UploadFile[] | []
-    ): Promise<IImageEntity[] | []> {
-        const mediaFiles: File[] = filesProp
+    async uploadPublicFileOfAntdFiles({
+        vendorId,
+        files,
+        seo,
+    }: IPropUploadPublicFileOfAntdFiles): Promise<IImageEntity[] | []> {
+        const mediaFiles: File[] = files
             ?.map((file) => {
                 const originFile = file.originFileObj;
                 return originFile;
             })
             .filter(Boolean) as File[];
-        const uploadedFilesPromise = filesProp
+        const uploadedFilesPromise = files
             ?.map((file) => {
                 const originFile = file.originFileObj;
                 return originFile;
             })
             .filter(Boolean)
             .map((file) => {
+                getTypeOfFile(file?.type || "");
                 const res = this.uploadPublic({
                     file: file as File,
                     vendorId: vendorId,
@@ -76,17 +82,21 @@ export class FileUploadService {
         const filesTransformToContent: IImageEntity[] | [] = uploadedFiles
             ? uploadedFiles.map((file, index) => {
                   return {
-                      id: filesProp[index].uid,
+                      id: files[index].uid,
 
                       blobPath: file?.blobPath || "",
-                      fileName: filesProp[index].name || "",
+                      fileName: files[index].name || "",
                       width: imageDimensions[index].width || 0,
                       height: imageDimensions[index].height || 0,
-                      type: filesProp[index].type || "",
+                      type: getTypeOfFile(files[index].type || ""),
                       details: [
                           {
                               lang: "ru",
-                              value: { title: filesProp[index].name },
+                              value: {
+                                  title:
+                                      seo?.[index].title || files[index].name,
+                                  alt: seo?.[index].alt || files[index].name,
+                              },
                           },
                       ],
                   };

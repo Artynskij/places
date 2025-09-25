@@ -185,10 +185,10 @@ export class GeneralEstablishmentService {
         const imagesFilter = formData.images?.filter(Boolean) as UploadFile[];
 
         const imageBlobFiles =
-            await this.fileUploadService.uploadPublicFileOfAntdFiles(
-                createdEstablishment.Id,
-                imagesFilter
-            );
+            await this.fileUploadService.uploadPublicFileOfAntdFiles({
+                vendorId: createdEstablishment.Id,
+                files: imagesFilter,
+            });
         // 6. Обновление заведения с изображениями
 
         const updatedEstablishmentForImages =
@@ -349,10 +349,10 @@ export class GeneralEstablishmentService {
             console.log(filesWithoutDeleted);
             const filesAdded = changesHard.images?.added;
             const filesUploaded = filesAdded
-                ? await this.fileUploadService.uploadPublicFileOfAntdFiles(
-                      establishment.id,
-                      filesAdded as UploadFile[]
-                  )
+                ? await this.fileUploadService.uploadPublicFileOfAntdFiles({
+                      vendorId: establishment.id,
+                      files: filesAdded as UploadFile[],
+                  })
                 : [];
 
             const filesToBody: IImageEntity[] = [

@@ -21,6 +21,7 @@ export default class LocationMapper {
                     title: mediaItem.details[0].value.title || "",
                     type: mediaItem.type,
                     src: `${cdnHost}${mediaItem.blobPath}`,
+                    alt: mediaItem.details[0].value.alt || "",
                 };
             }) || null;
         const mappingData: ILocationFront = {

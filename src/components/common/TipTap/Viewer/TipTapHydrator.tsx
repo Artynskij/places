@@ -1,35 +1,50 @@
 "use client";
 import style from "./tiptapViewer.module.scss";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import { SliderViewer } from "../extensions/slider/SliderViewer";
 import clsx from "clsx";
+import { IMediaFront } from "@/lib/models";
+
+interface Props {
+    html: string;
+    reHydrate: number;
+    mediaCollection: IMediaFront[];
+}
 
 export default function TipTapHydrator({
     html,
     reHydrate,
-}: {
-    html: string;
-    reHydrate: number;
-}) {
+    mediaCollection,
+}: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        console.log(reHydrate);
         if (!containerRef.current) return;
 
-        const sliders = containerRef.current.querySelectorAll(".slider");
+        // Обрабатываем слайдеры
+        const sliders = containerRef.current.querySelectorAll(
+            '[data-type="slider"]'
+        );
 
         sliders.forEach((el) => {
-            const json = (el as HTMLElement).getAttribute("data-node");
+            const json = el.getAttribute("data-node");
             if (!json) return;
 
-            el.innerHTML = ""; // очищаем
+            // Парсим содержимое слайдера - ВСЕ ДАННЫЕ УЖЕ ЗДЕСЬ!
+            const nodeData = JSON.parse(json);
+            // console.log("Slider node data:", nodeData);
 
-            const root = createRoot(el as HTMLElement);
-            root.render(<SliderViewer node={JSON.parse(json)} />);
+            el.innerHTML = "";
+            const root = createRoot(el);
+            root.render(
+                <SliderViewer
+                    node={nodeData}
+                    mediaCollection={mediaCollection}
+                />
+            );
         });
-    }, [html, reHydrate]); // важно зависеть от html
+    }, [html, reHydrate, mediaCollection]);
 
     return (
         <div

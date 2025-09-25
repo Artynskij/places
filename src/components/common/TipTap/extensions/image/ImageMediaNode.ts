@@ -1,7 +1,8 @@
 // extensions/ImageWithCaption.ts
 import { Node, mergeAttributes, CommandProps } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
-import ImageNodeView from "./ImageView";
+import ImageEditor from "./ImageEditor";
+import { IMediaFrontWithFile } from "@/lib/models";
 
 declare module "@tiptap/core" {
     interface Commands<ReturnType> {
@@ -10,17 +11,18 @@ declare module "@tiptap/core" {
              * Вставить кастомную картинку с подписью
              */
             setMediaImage: (options: {
+                mediaId: string;
                 src: string;
-                alt?: string;
-                title?: string;
-                caption?: string;
-                height?: number;
-                width?: number;
+                alt: string;
             }) => ReturnType;
         };
     }
 }
-
+export interface ImageNodeAttributes {
+    mediaId: string;
+    src: string;
+    alt: string;
+}
 export const ImageMediaNode = Node.create({
     name: "mediaImage",
     group: "block",
@@ -28,12 +30,9 @@ export const ImageMediaNode = Node.create({
 
     addAttributes() {
         return {
-            src: { default: null },
-            alt: { default: null },
-            title: { default: null },
-            height: { default: null },
-            width: { default: null },
-            caption: { default: "" },
+            mediaId: { default: null },
+            src: { default: "" },
+            alt: { default: "" },
         };
     },
 
@@ -41,9 +40,6 @@ export const ImageMediaNode = Node.create({
         return [{ tag: "figure[data-type='mediaImage']" }];
     },
 
-    addNodeView() {
-        return ReactNodeViewRenderer(ImageNodeView);
-    },
     renderHTML({ HTMLAttributes }) {
         return [
             "figure",
@@ -54,6 +50,9 @@ export const ImageMediaNode = Node.create({
             ["img", { src: HTMLAttributes.src, alt: HTMLAttributes.alt || "" }],
             ["figcaption", {}, HTMLAttributes.caption || ""],
         ];
+    },
+    addNodeView() {
+        return ReactNodeViewRenderer(ImageEditor);
     },
     addCommands() {
         return {

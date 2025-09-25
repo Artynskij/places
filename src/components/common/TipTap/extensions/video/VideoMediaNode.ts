@@ -1,6 +1,7 @@
 import { Node, mergeAttributes, CommandProps } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
-import VideoNodeView from "./VideoView";
+import VideoEditor from "./VideoEditor";
+import { IMediaFront } from "@/lib/models";
 
 declare module "@tiptap/core" {
     interface Commands<ReturnType> {
@@ -9,12 +10,13 @@ declare module "@tiptap/core" {
              * Вставить кастомное видео с подписью
              */
             setMediaVideo: (options: {
+                mediaId: string;
                 src: string;
-                title?: string;
-                caption?: string;
-                width?: number | string;
-                height?: number | string;
-                controls?: boolean;
+                // title?: string;
+                // caption?: string;
+                // width?: number | string;
+                // height?: number | string;
+                // controls?: boolean;
             }) => ReturnType;
         };
     }
@@ -27,12 +29,8 @@ export const VideoMediaNode = Node.create({
 
     addAttributes() {
         return {
+            mediaId: { default: null },
             src: { default: null },
-            title: { default: null },
-            caption: { default: "" },
-            width: { default: "100%" },
-            height: { default: 400 },
-            controls: { default: true },
         };
     },
 
@@ -45,7 +43,7 @@ export const VideoMediaNode = Node.create({
             "figure",
             mergeAttributes(HTMLAttributes, {
                 "data-type": "mediaVideo",
-                class: "article-video",
+                class: "media-video",
             }),
             [
                 "video",
@@ -62,7 +60,7 @@ export const VideoMediaNode = Node.create({
     },
 
     addNodeView() {
-        return ReactNodeViewRenderer(VideoNodeView);
+        return ReactNodeViewRenderer(VideoEditor);
     },
 
     addCommands() {

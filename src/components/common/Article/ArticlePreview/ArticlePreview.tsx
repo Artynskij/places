@@ -60,13 +60,14 @@ export const ArticlePreview = ({ article, reHydrate }: IProp) => {
                         <Image
                             width={article.titleImage.width}
                             height={article.titleImage.height}
-                            alt={article.titleImage.title}
+                            alt={article.titleImage.alt}
                             src={article.titleImage.src}
                         />
-                        <span>Подпись фото</span>
+                        <span>{article.titleImage.title}</span>
                     </div>
 
                     <TipTapViewer
+                        mediaCollection={article.media}
                         reHydrate={reHydrate}
                         json={article.content}
                     />

@@ -1,0 +1,72 @@
+// imageUpdateSeo.module.scss
+.container {
+    width: fit-content;
+    position: relative;
+    // display: inline-block;
+    transition: $transition;
+    border-radius: 8px;
+    overflow: hidden;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+}
+
+.image {
+    object-fit: cover;
+    height: 100%;
+}
+
+.container .editButton {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9;
+    transition: $transition;
+
+    &:hover {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+.modalContent {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+}
+
+.previewImage {
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.fileInfo {
+    flex: 1;
+
+    p {
+        margin: 4px 0;
+        font-size: 14px;
+    }
+}
+
+// Дополнительные стили для формы
+.formItem {
+    margin-bottom: 16px;
+}
+
+.textArea {
+    resize: vertical;
+}

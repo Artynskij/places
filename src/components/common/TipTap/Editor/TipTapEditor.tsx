@@ -42,11 +42,17 @@ import { VideoMediaNode } from "../extensions/video/VideoMediaNode";
 import VideoModalEditor from "../toolbar/VideoModalEditor";
 import { useEffect, useState } from "react";
 import { LinkModalEditor } from "../toolbar/LinkModalEditor";
+import MediaStateExtension from "../extensions/state/mediaStateEditor";
+import { IMediaFrontWithFile } from "@/lib/models";
 interface IProp {
-    setJson: (json: any) => void;
+    setEditorData: (data: {
+        content: any;
+        mediaStorage: IMediaFrontWithFile[];
+    }) => void;
+    onEditorInit?: (editor: any) => void; // ✅ Новый пропс
 }
 
-export default function TipTapEditor({ setJson }: IProp) {
+export default function TipTapEditor({ setEditorData, onEditorInit }: IProp) {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -79,18 +85,26 @@ export default function TipTapEditor({ setJson }: IProp) {
             }),
             CodeBlockLowlight.configure({ lowlight }),
             SliderNode,
+            MediaStateExtension,
         ],
         // content: "<p>Добро пожаловать в редактор статей 🚀</p>",
         immediatelyRender: false,
         onUpdate: ({ editor }) => {
-            // 🚀 сразу отдаем JSON наверх
-            setJson(editor.getJSON());
+            const content = editor.getJSON();
+            const mediaStorage = editor.storage.mediaStore.items;
+
+            setEditorData({
+                content: content,
+                mediaStorage: mediaStorage, // ✅ Сохраняем медиа вместе с контентом
+            });
         },
     });
     const [, setRender] = useState(0);
     useEffect(() => {
         if (!editor) return;
-
+        if (onEditorInit) {
+            onEditorInit(editor);
+        }
         const update = () => setRender((x) => x + 1);
 
         editor.on("selectionUpdate", update);
@@ -100,7 +114,7 @@ export default function TipTapEditor({ setJson }: IProp) {
             editor.off("selectionUpdate", update);
             editor.off("transaction", update);
         };
-    }, [editor]);
+    }, [editor, onEditorInit]);
 
     if (!editor) return <SpinnerAnt />;
 

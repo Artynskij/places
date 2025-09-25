@@ -218,7 +218,7 @@ export const FormSettingsOwner = () => {
                                 id: res.blobPath,
                                 blobPath: res.blobPath,
                                 fileName: file.name,
-                                type: "iamge",
+                                type: "image",
                                 width: 400,
                                 height: 400,
                                 details: [

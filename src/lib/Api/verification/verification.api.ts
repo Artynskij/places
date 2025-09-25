@@ -33,6 +33,7 @@ export class VerificationMapper {
                     src: cdnHost
                         ? `${cdnHost}/${privateFile.blobPath}`
                         : privateFile.blobPath,
+                    alt: privateFile.details[0].value.alt || "",
                 };
             }) || null;
         return {

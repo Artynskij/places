@@ -36,12 +36,12 @@ export default async function NewsCategoryPage({
         (category) => params.category === category
     );
     const mainNews =
-        (await apiArticles.getArticlesByPagination({
+        (await apiArticles.getByPagination({
             lang: params.locale,
             pagination: { page: 1, pageSize: 8 },
         })) || [];
     const popularNews =
-        (await apiArticles.getArticlesByPagination({
+        (await apiArticles.getByPagination({
             lang: params.locale,
             pagination: { page: 1, pageSize: 8 },
         })) || [];

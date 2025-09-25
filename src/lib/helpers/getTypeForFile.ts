@@ -1,7 +1,9 @@
-export const getTypeOfFile = (type: string) => {
+import { TTypeFile } from "../models/types";
+
+export const getTypeOfFile = (type: string):TTypeFile => {
     return type.includes("video")
         ? "video"
-        : type.includes("video")
+        : type.includes("image")
         ? "image"
         : "document";
 };

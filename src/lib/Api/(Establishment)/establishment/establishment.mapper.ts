@@ -114,6 +114,7 @@ export default class EstablishmentMapper {
                 return {
                     id: image.id,
                     title: image.details[0]?.value.title || "default title",
+                    alt: image.details[0]?.value.alt || "default alt",
                     blobPath: image.blobPath,
                     fileName: image.fileName,
                     height: image.height,

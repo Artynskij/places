@@ -144,10 +144,10 @@ const EstablishmentTabAdmin: React.FC<Props> = ({}) => {
         const values = await form.validateFields();
 
         const files = values.media
-            ? await fileUploadService.uploadPublicFileOfAntdFiles(
-                  editEstablishment.id,
-                  values.media
-              )
+            ? await fileUploadService.uploadPublicFileOfAntdFiles({
+                  vendorId: editEstablishment.id,
+                  files: values.media,
+              })
             : [];
         const updatedLocation = await locationService.update(
             editEstablishment?.id,
@@ -392,7 +392,6 @@ const EstablishmentTabAdmin: React.FC<Props> = ({}) => {
                             listType="picture-card"
                             multiple
                             beforeUpload={() => false} // чтобы не грузить сразу, а только при сабмите
-                            
                         >
                             <div>
                                 <UploadOutlined />

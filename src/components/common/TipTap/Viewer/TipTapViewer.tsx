@@ -13,18 +13,25 @@ import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import Youtube from "@tiptap/extension-youtube";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 
-import { ImageMediaNode } from "../extensions/image/ImageMediaNode";
-import { VideoMediaNode } from "../extensions/video/VideoMediaNode";
+
 import SliderNode from "../extensions/slider/SliderNode";
 import { lowlight } from "../utils/lowright";
 import TipTapHydrator from "./TipTapHydrator";
+import MediaStateExtension from "../extensions/state/mediaStateEditor";
+import { IMediaFront } from "@/lib/models";
+import { ImageMediaNodeViewer } from "../extensions/image/ImageMediaNodeViewer";
+import { VideoMediaNodeViewer } from "../extensions/video/VideoMediaNodeViewer";
 
 interface Props {
     json: any;
     reHydrate: number;
+    mediaCollection: IMediaFront[];
 }
 
-export const TipTapViewer = ({ json, reHydrate }: Props) => {
+export const TipTapViewer = ({ json, reHydrate, mediaCollection }: Props) => {
+    const ImageNode = ImageMediaNodeViewer(mediaCollection);
+    const VideoNode = VideoMediaNodeViewer(mediaCollection);
+
     const html = generateHTML(json, [
         StarterKit.configure({
             blockquote: false,
@@ -35,9 +42,9 @@ export const TipTapViewer = ({ json, reHydrate }: Props) => {
         }),
         Underline,
         Link,
-        ImageMediaNode,
+        ImageNode,
         Image,
-        VideoMediaNode,
+        VideoNode,
         Blockquote,
         HorizontalRule,
         Table,
@@ -47,11 +54,16 @@ export const TipTapViewer = ({ json, reHydrate }: Props) => {
         Youtube,
         CodeBlockLowlight.configure({ lowlight }),
         SliderNode,
+        MediaStateExtension,
     ]);
 
     return (
         // <div className={style.articleViewer}>
-        <TipTapHydrator  reHydrate={reHydrate} html={html} />
+        <TipTapHydrator
+            mediaCollection={mediaCollection}
+            reHydrate={reHydrate}
+            html={html}
+        />
         // </div>
     );
 };

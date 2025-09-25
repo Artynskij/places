@@ -15,12 +15,12 @@ export async function generateMetadata({ params }: IProps) {
 export default async function AuthorPage({ params, searchParams }: IProps) {
     const apiArticles = new ArticleService();
     const mainNews =
-        (await apiArticles.getArticlesByPagination({
+        (await apiArticles.getByPagination({
             lang: params.locale,
             pagination: { page: 1, pageSize: 8 },
         })) || [];
     const popularNews =
-        (await apiArticles.getArticlesByPagination({
+        (await apiArticles.getByPagination({
             lang: params.locale,
             pagination: { page: 1, pageSize: 8 },
         })) || [];

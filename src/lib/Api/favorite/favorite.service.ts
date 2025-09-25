@@ -5,7 +5,7 @@ import {
 import FavoriteApi from "./favorite.endpoints";
 import { IFavoriteEntity } from "@/lib/models";
 
-export class FileUploadService {
+export class FavoriteService {
     private FavoriteApi: FavoriteApi;
 
     constructor() {

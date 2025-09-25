@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: IProps) {
 
 export default async function Home({ params, searchParams }: IProps) {
     const articleService = new ArticleService();
-    const articles = await articleService.getArticlesByPagination({
+    const articles = await articleService.getByPagination({
         pagination: { page: 1, pageSize: 8 },
         lang: params.locale,
     });

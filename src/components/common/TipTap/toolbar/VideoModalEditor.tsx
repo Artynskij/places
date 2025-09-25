@@ -4,6 +4,12 @@ import { Button, Modal, Tabs, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import type { UploadFile } from "antd/es/upload/interface";
+import { nanoid } from "nanoid";
+import {
+    getImageDimensions,
+    getVideoDimensions,
+} from "@/lib/helpers/getImageDimensions";
+import { IMediaFrontWithFile } from "@/lib/models";
 
 interface IProp {
     editor: Editor;
@@ -14,22 +20,25 @@ const VideoModalEditor = ({ editor, children }: IProp) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedVideo, setSelectedVideo] = useState<UploadFile | null>(null);
 
-    const handleOk = () => {
+    const handleOk = async () => {
         if (!editor || !selectedVideo?.originFileObj) return;
+        const id = nanoid();
+        const params = await getVideoDimensions(selectedVideo.originFileObj);
         const url = URL.createObjectURL(selectedVideo.originFileObj);
-
-        editor
-            .chain()
-            .focus()
-            .setMediaVideo({
-                src: url,
-                title: selectedVideo.name,
-                caption: selectedVideo.name,
-                width: "100%",
-                height: 400,
-                controls: true,
-            })
-            .run();
+        const mediaItem: IMediaFrontWithFile = {
+            blobPath: url,
+            src: url,
+            fileName: selectedVideo.name,
+            title: selectedVideo.name,
+            type: "video",
+            width: params.width,
+            height: params.height,
+            id: id,
+            alt: selectedVideo.name,
+            file:selectedVideo
+        };
+        editor.commands.addMedia(mediaItem);
+        editor.commands.setMediaVideo({ mediaId: id, src: url });
 
         setIsModalOpen(false);
         setSelectedVideo(null);
@@ -57,6 +66,9 @@ const VideoModalEditor = ({ editor, children }: IProp) => {
                             label: "Загрузить",
                             children: (
                                 <Upload
+                                    fileList={
+                                        selectedVideo ? [selectedVideo] : []
+                                    }
                                     accept="video/*"
                                     maxCount={1}
                                     beforeUpload={() => false}

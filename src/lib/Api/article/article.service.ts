@@ -1,7 +1,14 @@
-import { IArticleEntity, IArticleFront } from "@/lib/models";
+import {
+    IArticleEntity,
+    IArticleEntityWithContent,
+    IArticleFront,
+} from "@/lib/models";
 
 import ArticleApi from "./article.endpoints";
-import { IPaginationArticleRequest } from "@/lib/models/server/request/article/article.request";
+import {
+    IArticleRequest,
+    IPaginationArticleRequest,
+} from "@/lib/models/server/request/article/article.request";
 import ArticleMapper from "./article.mapper";
 
 export class ArticleService {
@@ -12,19 +19,16 @@ export class ArticleService {
         this.articleMapper = new ArticleMapper();
     }
 
-    async getArticleById(
-        id: string,
-        lang: string
-    ): Promise<IArticleFront | null> {
-        const response = await this.articleApi.getArticleById(id, lang);
+    async getById(id: string, lang: string): Promise<IArticleFront | null> {
+        const response = await this.articleApi.getById(id, lang);
 
         return response ? this.articleMapper.transformToFront(response) : null;
     }
 
-    async getArticlesByPagination(
+    async getByPagination(
         body: IPaginationArticleRequest
     ): Promise<IArticleFront[] | null> {
-        const response = await this.articleApi.getArticlesByPagination(body);
+        const response = await this.articleApi.getByPagination(body);
         return response
             ? (response
                   .map((resItem) =>
@@ -32,5 +36,16 @@ export class ArticleService {
                   )
                   .filter((item) => !!item) as IArticleFront[]) || []
             : null;
+    }
+    async create(body: IArticleRequest): Promise<IArticleEntity | null> {
+        const response = await this.articleApi.create(body);
+        return response;
+    }
+    async update(
+        id: string,
+        body: IArticleRequest
+    ): Promise<IArticleEntity | null> {
+        const response = await this.articleApi.update(id, body);
+        return response;
     }
 }

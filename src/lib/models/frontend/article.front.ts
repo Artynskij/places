@@ -1,4 +1,7 @@
-import { IMediaFront } from "./(establishment)/parts/media.front";
+import {
+    IMediaFront,
+    IMediaFrontWithFile,
+} from "./(establishment)/parts/media.front";
 
 export interface IArticleFront {
     id: string;
@@ -17,11 +20,12 @@ export interface IArticleNewFront {
     author: string;
 
     date: string;
-    titleImage: IMediaFront;
+    titleImage: IMediaFrontWithFile;
     reactions: number[];
 
     category: string;
 
     // contentString: string;
+    media: IMediaFrontWithFile[];
     content: any;
 }

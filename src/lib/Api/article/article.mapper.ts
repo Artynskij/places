@@ -1,10 +1,10 @@
-import { IArticleEntity, IArticleFront } from "@/lib/models";
+import { IArticleEntityWithContent, IArticleFront } from "@/lib/models";
 
 export default class ArticleMapper {
     constructor() {}
-    transformToFront(article: IArticleEntity): IArticleFront | null {
-        if(!article.content) {
-            return null
+    transformToFront(article: IArticleEntityWithContent): IArticleFront | null {
+        if (!article.content) {
+            return null;
         }
         return {
             id: article.article.Id,

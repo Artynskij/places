@@ -24,3 +24,29 @@ export const getImageDimensions = (
         reader.readAsDataURL(file);
     });
 };
+export const getVideoDimensions = (
+    file: File | Blob
+): Promise<{ width: number; height: number }> => {
+    return new Promise((resolve, reject) => {
+        const video = document.createElement("video");
+        const url = URL.createObjectURL(file);
+
+        video.src = url;
+
+        video.addEventListener("loadedmetadata", () => {
+            resolve({
+                width: video.videoWidth,
+                height: video.videoHeight,
+            });
+            URL.revokeObjectURL(url); // Очищаем URL
+        });
+
+        video.addEventListener("error", (err) => {
+            URL.revokeObjectURL(url);
+            reject(new Error("Не удалось загрузить видео"));
+        });
+
+        // Загружаем метаданные
+        video.load();
+    });
+};

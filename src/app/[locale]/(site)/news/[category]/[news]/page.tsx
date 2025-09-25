@@ -26,12 +26,9 @@ export default async function NewsCategoryPage({
     searchParams,
 }: IProps) {
     const apiArticles = new ArticleService();
-    const article = await apiArticles.getArticleById(
-        params.news,
-        params.locale
-    );
+    const article = await apiArticles.getById(params.news, params.locale);
     const popularNews =
-        (await apiArticles.getArticlesByPagination({
+        (await apiArticles.getByPagination({
             lang: params.locale,
             pagination: { page: 1, pageSize: 8 },
         })) || [];

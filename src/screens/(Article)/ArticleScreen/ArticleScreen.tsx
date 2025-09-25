@@ -34,7 +34,7 @@ export default function ArticleScreen({
     const [countAnotherArticle, setCountAnotherArticle] = useState<number>(1);
 
     async function updateAnotherArticles() {
-        const newArticle = await api.getArticlesByPagination({
+        const newArticle = await api.getByPagination({
             pagination: { page: countAnotherArticle, pageSize: 1 },
             lang: params.locale,
         });

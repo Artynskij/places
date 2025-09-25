@@ -1,92 +1,103 @@
 "use client";
 import { Editor } from "@tiptap/react";
 import { Button, Modal, Tabs, Upload } from "antd";
-
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import type { UploadFile } from "antd/es/upload/interface";
 import { getImageDimensions } from "@/lib/helpers/getImageDimensions";
 import { UploadSortable } from "../../Upload/UploadSortable";
+import { IMediaFrontWithFile } from "@/lib/models";
+
 interface IProp {
     type: "media" | "slider";
     editor: Editor;
     children: React.ReactNode | React.ReactNode[];
 }
+
 const ImageModalEditor = ({ editor, children, type }: IProp) => {
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
     const [selectedImages, setSelectedImages] = useState<UploadFile[]>([]);
-    const createMedia = (files: UploadFile[]) => {
+
+    const createMedia = async (files: UploadFile[]) => {
         if (!editor) return;
-        files.forEach(async (file) => {
-            if (!file.originFileObj) return;
+
+        for (const file of files) {
+            if (!file.originFileObj) continue;
+
+            const id = nanoid();
             const params = await getImageDimensions(file.originFileObj);
-            editor
-                .chain()
-                .focus()
-                .setMediaImage({
-                    src: URL.createObjectURL(file.originFileObj),
-                    height: params.height,
-                    width: params.width,
-                    alt: file.name,
-                    title: file.name,
-                    caption: file.name,
-                })
-                .run();
-        });
+            const url = URL.createObjectURL(file.originFileObj);
+            const mediaItem: IMediaFrontWithFile = {
+                blobPath: url,
+                src: url,
+                fileName: file.name,
+                title: file.name,
+                type: "image",
+                width: params.width,
+                height: params.height,
+                id: id,
+                alt: file.name,
+                file: file,
+            };
+            editor.commands.addMedia(mediaItem);
+            editor.commands.setMediaImage({
+                mediaId: id,
+                src: url,
+                alt: file.name,
+            });
+        }
     };
+
     const createSlider = async (files: UploadFile[]) => {
         if (!editor || files.length === 0) return;
-        const PromisesParams = files.map((file) => {
-            if (!file.originFileObj) return;
-            return getImageDimensions(file.originFileObj);
-        });
-        const ParamsArray = await Promise.all(PromisesParams);
-        editor
-            .chain()
-            .focus()
-            .insertContent({
-                attrs: { id: nanoid() },
-                type: "slider",
-                content: files.map((file, index) => {
-                    // if (!file.originFileObj) return ' ';
-                    const params = ParamsArray[index];
 
-                    return {
-                        type: "image",
-                        attrs: {
-                            src: file.originFileObj
-                                ? URL.createObjectURL(file.originFileObj)
-                                : "",
-                            height: params?.height || 600,
-                            width: params?.width || 800,
-                            alt: file.name,
-                            title: file.name,
-                        },
-                    };
-                }),
-            })
-            .run();
+        const mediaIds: string[] = [];
+
+        // Сначала создаем медиа элементы в storage
+        for (const file of files) {
+            if (!file.originFileObj) continue;
+
+            const id = nanoid();
+            const params = await getImageDimensions(file.originFileObj);
+            const mediaItem: IMediaFrontWithFile = {
+                blobPath: URL.createObjectURL(file.originFileObj),
+                src: URL.createObjectURL(file.originFileObj),
+                fileName: file.name,
+                title: file.name,
+                type: "image",
+                width: params.width,
+                height: params.height,
+                id: id,
+                alt: file.name,
+                file: file,
+            };
+
+            editor.commands.addMedia(mediaItem);
+            mediaIds.push(id);
+        }
+
+        // Используем команду для вставки слайдера
+        editor.commands.insertSlider({
+            mediaIds: mediaIds,
+            id: nanoid(),
+        });
     };
-    const handleOk = () => {
+
+    const handleOk = async () => {
         if (type === "media") {
-            createMedia(selectedImages);
+            await createMedia(selectedImages);
         }
         if (type === "slider") {
-            createSlider(selectedImages);
+            await createSlider(selectedImages);
         }
 
         setIsImageModalOpen(false);
         setSelectedImages([]);
     };
+
     return (
         <>
-            <div
-                onClick={() => {
-                    setIsImageModalOpen(true);
-                }}
-            >
-                {children}
-            </div>
+            <div onClick={() => setIsImageModalOpen(true)}>{children}</div>
             <Modal
                 title="Добавить картинку"
                 open={isImageModalOpen}
@@ -105,17 +116,12 @@ const ImageModalEditor = ({ editor, children, type }: IProp) => {
                             key: "upload",
                             label: "Загрузить",
                             children: (
-                                <>
-                                    {/* сортируемый список превью */}
-                                    <UploadSortable
-                                        fileList={selectedImages}
-                                        onChange={({ fileList }) =>
-                                            setSelectedImages(fileList)
-                                        }
-                                    />
-
-                                   
-                                </>
+                                <UploadSortable
+                                    fileList={selectedImages}
+                                    onChange={({ fileList }) =>
+                                        setSelectedImages(fileList)
+                                    }
+                                />
                             ),
                         },
                     ]}
@@ -124,4 +130,5 @@ const ImageModalEditor = ({ editor, children, type }: IProp) => {
         </>
     );
 };
+
 export default ImageModalEditor;
