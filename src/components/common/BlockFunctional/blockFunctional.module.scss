@@ -129,6 +129,22 @@
         color: red;
     }
 }
+.extraInfo {
+   @extend %Text12;
+    padding: 8px 12px;
+    border-radius: 8px;
+    width: 100%;
+   
+    &--info {
+    background-color: $color-info-bg;
+    border: 1px solid $color-info-border;
+  }
+  
+   &--success {
+    background-color: $color-success-bg;
+    border: 1px solid $color-success-border;
+  }
+}
 @include mediaTablet {
     .blockReaction {
         padding: 15px;
@@ -142,3 +158,4 @@
         }
     }
 }
+

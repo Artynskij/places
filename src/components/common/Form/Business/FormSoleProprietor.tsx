@@ -27,6 +27,7 @@ import { useEffect, useState } from "react";
 import { BusinessService } from "@/lib/Api/business/business.service";
 import { TTypeOwnerBusiness } from "@/lib/models/types";
 import { IBusinessFront } from "@/lib/models";
+import { BlockExtraInfo } from "../../BlockFunctional/BlockExtraInfo";
 
 type TTypeForm = Yup.InferType<typeof validationBusinessSoleProprietorSchema>;
 
@@ -130,6 +131,7 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
             className={style.form}
             onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
         >
+            <BlockExtraInfo text="*Индивидуальный предприниматель, который самостоятельно владеет и управляет бизнесом без образования юридического лица"/>
             <InputForm
                 error={errors.officialName?.message}
                 register={register("officialName")}
