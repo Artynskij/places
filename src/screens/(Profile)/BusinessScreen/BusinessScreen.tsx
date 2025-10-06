@@ -37,7 +37,7 @@ function BusinessScreenBase({ params, searchParams }: IProps) {
             notification.error({ message: "user нету?????" });
             return;
         }
-        businessService.getBusinessById(params.business).then((res) => {
+        businessService.getById(params.business).then((res) => {
             if (res) {
                 setBusinessData(res);
             } else {

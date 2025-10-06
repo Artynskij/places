@@ -22,14 +22,8 @@ import { useEffect, useState } from "react";
 import { UploadButton } from "@/components/common/ButtonFunctional/UploadButton";
 import { validImageFileSchema } from "@/lib/validationSchemas/file/imageArraySchema";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
-import { mockPersonId } from "@/asset/mockData/mockServerData";
 
-import { PersonNameService } from "@/lib/Api/(Person)/personName/personName.service";
-
-import { ContactsPersonService } from "@/lib/Api/(Person)/contactPerson.api";
-import { AddressService } from "@/lib/Api/(Person)/address/address.api";
-// import { AddressService } from "@/lib/Api/(Person)/address/address.service";
-import { SocialNetworksService } from "@/lib/Api/(Person)/socialNetworksPerson/socialNetworksPerson.service";
+// import { PersonNameService } from "@/lib/Api/(Person)/personName/personName.service";
 
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 
@@ -46,40 +40,25 @@ import { Loader } from "../../Loader/Loader";
 
 import { AvatarBlockForm } from "../_components/AvatarBlock/AvatarBlock";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
-import { VerificationService } from "@/lib/Api/verification/verification.api";
+import { VerificationService } from "@/lib/Api/verification.api";
 import { IImageEntity } from "@/lib/models";
 import { useUser } from "@/lib/context/UserContext/UserContext";
+import { PersonNameService } from "@/lib/Api/(Person)/personName.api";
+import { validationPersonOwner } from "@/lib/validationSchemas/person/personValid.schema";
+import { GeneralPersonService } from "@/lib/Api/(MainService)/person.general";
+import { ModerationService } from "@/lib/Api/moderation/moderation.service";
+// import { PersonNameService } from "@/lib/Api/(Person)/personName/personName.service";
 
-type TTypeForm = Yup.InferType<typeof validationSchema>;
+type TTypeForm = Yup.InferType<typeof validationPersonOwner>;
 
-const validationSchema = Yup.object().shape({
-    fullName: Yup.object().shape({
-        name: Yup.string().required("Имя обязательна"),
-        secondName: Yup.string(),
-        surname: Yup.string().required("Фамилия обязательна"),
-    }),
-
-    email: Yup.string().email("Невалидный email").required("Почта обязательна"),
-    phone: validPhoneSchema,
-
-    avatar: Yup.array()
-        .of(validImageFileSchema)
-        .max(1, "Можно загрузить не более 1 фоток"),
-
-    passportDocument: Yup.array()
-        .of(validImageFileSchema)
-        .min(1, "Вы должны загрузить минимум 1 фото")
-        .max(5, "Можно загрузить не более 5 фоток"),
-});
 export const FormSettingsOwner = () => {
     const notification = useNotification();
     const { user } = useUser();
 
     const personService = new PersonService();
-    const personNameService = new PersonNameService();
+    const moderationService = new ModerationService();
 
-    const verificationService = new VerificationService();
-    const fileUploadService = new FileUploadService();
+    const generalPersonService = new GeneralPersonService();
 
     const router = useRouter();
 
@@ -92,7 +71,7 @@ export const FormSettingsOwner = () => {
         reset,
         formState: { errors },
     } = useForm<TTypeForm>({
-        resolver: yupResolver(validationSchema),
+        resolver: yupResolver(validationPersonOwner),
     });
 
     useEffect(() => {
@@ -119,164 +98,33 @@ export const FormSettingsOwner = () => {
         });
     }, [reset]);
 
-    const onSubmit = async (dataForm: TTypeForm) => {
-        if (!user) {
-            notification.error({
-                message: "user где",
-            });
-            return;
-        }
+    const onSubmit = async (formData: TTypeForm) => {
         if (!initialFormData) {
             notification.error({
                 message: "не найден изначальные данные формы",
             });
             return;
         }
-
-        const changes = getSimpleObjectDiff<TTypeForm>(
-            initialFormData,
-            dataForm
-        );
-        console.log(changes);
-
-        if (Object.keys(changes).length === 0) {
-            notification.info({ message: "Нет изменений для сохранения" });
-            return;
-        }
-
         if (!personData) {
             notification.error({ message: "не найден пользователь" });
             return;
         }
-
-        const bodyToPersonUpdate: IPersonRequest = { source: {} };
-
-        //  Обработка аватара
-        if (changes.avatar) {
-            const file = changes.avatar[0];
-            if (file) {
-                const imageUrl = await fileUploadService.uploadPublic({
-                    file,
-                    type: "image",
-                    vendorId: personData.id,
-                });
-                bodyToPersonUpdate.source.Avatar2BPhotoPath =
-                    imageUrl?.blobPath;
-            } else {
-                bodyToPersonUpdate.source.Avatar2BPhotoPath = null;
-            }
-        }
-
-        //  Обработка ФИО
-        if ("fullName" in changes && changes.fullName) {
-            const fullName = changes.fullName;
-
-            const bodyPersonName: Partial<IPersonNameRequest["source"]> = {};
-
-            if ("name" in fullName) {
-                // bodyPersonName.FirstName = fullName.name ?? null;
-                bodyPersonName.OriginalName = fullName.name ?? null; // если нужно
-            }
-            if ("surname" in fullName) {
-                // bodyPersonName.LastName = fullName.surname ?? null;
-                bodyPersonName.OriginalLastName = fullName.surname ?? null; // если нужно
-            }
-            if ("secondName" in fullName) {
-                bodyPersonName.OriginalMiddleName = fullName.secondName ?? null;
-            }
-
-            // Если есть хоть одно поле
-            if (Object.keys(bodyPersonName).length > 0) {
-                const personNameResponse =
-                    await personNameService.updatePersonName(
-                        personData.personName?.id || null,
-                        { source: bodyPersonName }
-                    );
-
-                if (personNameResponse) {
-                    bodyToPersonUpdate.source.PersonName =
-                        personNameResponse.id;
-                }
-            }
-        }
-        if (changes.passportDocument) {
-            const documentFiles = changes.passportDocument;
-
-            const uploadFilesPromises: Promise<IImageEntity>[] = documentFiles
-                .filter((file): file is File => !!file)
-                .map(async (file) => {
-                    return fileUploadService
-                        .uploadPrivate({
-                            file,
-                            fileName: "image",
-                            vendorId: personData.id,
-                        })
-                        .then((res) => {
-                            if (!res) throw new Error("Файл не загрузился");
-
-                            const uploadedFile: IImageEntity = {
-                                id: res.blobPath,
-                                blobPath: res.blobPath,
-                                fileName: file.name,
-                                type: "image",
-                                width: 400,
-                                height: 400,
-                                details: [
-                                    {
-                                        lang: "ru",
-                                        value: {
-                                            title: "Документ", // или другое название
-                                        },
-                                    },
-                                ],
-                            };
-
-                            return uploadedFile;
-                        });
-                });
-
-            let uploadFiles: IImageEntity[];
-
-            try {
-                uploadFiles = await Promise.all(uploadFilesPromises);
-            } catch (error) {
-                notification.error({
-                    message: "ошибка загрузки фото верификации",
-                });
-                return;
-            }
-
-            const createdVerification = await verificationService.create({
-                source: {
-                    Person: personData.id,
-                },
-                content: {
-                    details: [{ lang: "ru", value: "documentPerson" }],
-                    media: { gallery: uploadFiles },
-                },
+        const response = await generalPersonService.updateOwner({
+            formData: formData,
+            initialForm: initialFormData,
+            personData: personData,
+        });
+        if (response) {
+            notification.success({
+                message: "Данные отправлены на верификацию",
             });
 
-            if (createdVerification) {
-                notification.success({
-                    message: "сервис верификации отработал",
-                });
-            } else {
-                notification.error({
-                    message: "ошибка при отправке данных на верификацию",
-                });
-                return;
-            }
+            router.push(ROUTES.PROFILE.OWNER(personData.id));
+        } else {
+            notification.error({
+                message: "Что-то пошло не так при обновлении данных",
+            });
         }
-        // 📌 Финальный update
-        if (bodyToPersonUpdate) {
-            await personService.update(personData.id, bodyToPersonUpdate);
-        }
-
-        notification.success({
-            message: "Данные успешно отправлены на модерацию",
-        });
-
-        router.push(ROUTES.PROFILE.OWNER(user.id));
     };
 
     const onSubmitInvalid = (e: any) => {
@@ -286,12 +134,19 @@ export const FormSettingsOwner = () => {
             message: "Пожалуйста, заполните обязательные поля",
         });
     };
-    const handlerDeleteAvatar = () => {
+    const handlerDeleteAvatar = async () => {
         if (!personData) return;
+        const moderationObject = await moderationService.getModerationData(
+            personData.id
+        );
+        if (!moderationObject) return;
         personService
             .update(personData.id, {
-                source: {
-                    ProfilePhotoPath: null,
+                moderation: moderationObject,
+                data: {
+                    source: {
+                        ProfilePhotoPath: null,
+                    },
                 },
             })
             .then(() => {

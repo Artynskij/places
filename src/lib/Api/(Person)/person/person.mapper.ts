@@ -4,9 +4,13 @@ import { IGenderFront } from "@/lib/models/frontend/(person)/gender.front";
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import { IPersonSettingsFront } from "@/lib/models/frontend/(person)/personSettings.front";
 import { ISocialContactsFront } from "@/lib/models/frontend/socialContacts.front";
+import { PersonNameMapper } from "../personName.api";
 
 export class PersonMapper {
-    constructor() {}
+    private personNameMapper: PersonNameMapper;
+    constructor() {
+        this.personNameMapper = new PersonNameMapper();
+    }
 
     toFront(
         personDataServer: IPersonWithContentEntity,
@@ -78,17 +82,7 @@ export class PersonMapper {
             : null;
 
         const personName = personDataServer.person.PersonName
-            ? {
-                  id: personDataServer.person.PersonName.Id,
-                  name: personDataServer.person.PersonName.FirstName,
-                  secondName: personDataServer.person.PersonName.MiddleName,
-                  surname: personDataServer.person.PersonName.LastName,
-                  originalSurname:
-                      personDataServer.person.PersonName.OriginalLastName,
-                  originalName: personDataServer.person.PersonName.OriginalName,
-                  originalSecondName:
-                      personDataServer.person.PersonName.OriginalMiddleName,
-              }
+            ? this.personNameMapper.toFront(personDataServer.person.PersonName)
             : null;
         const personSettings: IPersonSettingsFront | null = personDataServer
             .person.PersonSettings

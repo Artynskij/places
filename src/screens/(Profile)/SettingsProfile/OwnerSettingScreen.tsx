@@ -13,6 +13,7 @@ import { ROUTES } from "@/lib/config/Routes";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { Loader } from "@/components/common/Loader/Loader";
+import { AuthGuard } from "@/components/common/Auth/guards/AuthGuard";
 
 export const OwnerSettingsScreen = () => {
     const router = useRouter();
@@ -21,19 +22,21 @@ export const OwnerSettingsScreen = () => {
     const { user } = useUser();
     if (!user) return <Loader />;
     return (
-        <div className={style.page}>
-            <Breadcrumb
-                links={[
-                    {
-                        title: "Личный кабинет",
-                        href: ROUTES.PROFILE.OWNER(user.id),
-                    },
-                    { title: "Настройки" },
-                ]}
-            />
-            <h2>Настройки профиля владельца</h2>
+        <AuthGuard roles={["owner"]}>
+            <div className={style.page}>
+                <Breadcrumb
+                    links={[
+                        {
+                            title: "Личный кабинет",
+                            href: ROUTES.PROFILE.OWNER(user.id),
+                        },
+                        { title: "Настройки" },
+                    ]}
+                />
+                <h2>Настройки профиля владельца</h2>
 
-            <FormSettingsOwner />
-        </div>
+                <FormSettingsOwner />
+            </div>
+        </AuthGuard>
     );
 };

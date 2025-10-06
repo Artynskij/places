@@ -1,4 +1,6 @@
-export interface ISocialContactsRequest {
+import { IBaseModerationRequest } from "../base/base-with-moderation.request";
+
+interface SocialNetworksData {
     Web?: string;
     Telegram?: string;
     WhatsApp?: string;
@@ -13,3 +15,5 @@ export interface ISocialContactsRequest {
     TikTok?: string;
     Threads?: string;
 }
+export interface ISocialContactsRequest
+    extends IBaseModerationRequest<SocialNetworksData> {}

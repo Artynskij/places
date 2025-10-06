@@ -1,10 +1,13 @@
 import { IContactsRequest } from "@/lib/models/server/request/contacts/contacts.request";
-import { BaseApiService } from "../BaseApi.service";
+import { BaseApiService } from "../base/BaseApi.service";
 import {
     IGenderEntity,
     IGenderWithContentEntity,
 } from "@/lib/models/server/entities/(person)/gender.entity";
 import { IGenderFront } from "@/lib/models/frontend/(person)/gender.front";
+
+import { IPaginationRequest } from "@/lib/models/server/request/IPagination.request";
+import apiClient from "../base/ApiClient";
 export class GenderMapper {
     toFront(data: IGenderWithContentEntity | IGenderEntity): IGenderFront {
         const entity = "gender" in data ? data.gender : data;
@@ -24,4 +27,17 @@ export class GenderService extends BaseApiService<
 > {
     protected baseUrl = "/gender";
     protected mapper = new GenderMapper();
+    async getAll(body: IPaginationRequest): Promise<IGenderFront[]> {
+        try {
+            const res = await apiClient.post<IGenderWithContentEntity[]>(
+                `${this.baseUrl}/get-all`,
+                body
+            );
+
+            return res.data.map((markItem) => this.mapper.toFront(markItem));
+        } catch (error) {
+            console.error(`error [post ${this.baseUrl}/get-all]`, error);
+            return [];
+        }
+    }
 }

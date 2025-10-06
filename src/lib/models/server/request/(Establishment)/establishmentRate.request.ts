@@ -1,4 +1,6 @@
-export interface IEstablishmentRateRequest {
+import { IBaseModerationRequest } from "../base/base-with-moderation.request";
+
+interface EstablishmentRateRequestData {
     Rooms: number | null;
     PriceQuality: number | null;
     Clean: number | null;
@@ -17,9 +19,11 @@ export interface IEstablishmentRateRequest {
     Person: string;
     Establishment: string;
 }
+export interface IEstablishmentRateRequest
+    extends IBaseModerationRequest<EstablishmentRateRequestData> {}
 export interface IEstablishmentRateGetAllRequest {
     establishmentIds?: string[];
     page: number;
     limit: number;
-    personIds?:string[];
+    personIds?: string[];
 }

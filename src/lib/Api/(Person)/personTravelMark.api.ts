@@ -1,5 +1,5 @@
-import apiClient from "../ApiClient";
-import { BaseApiService } from "../BaseApi.service";
+
+import { BaseApiService } from "../base/BaseApi.service";
 
 import {
     ILocationFront,
@@ -9,6 +9,7 @@ import {
     IPersonTravelMarkRequest,
 } from "@/lib/models";
 import { LocationService } from "../location/location.service";
+import apiClient from "../base/ApiClient";
 export class PersonTravelMarkMapper {
     toFront(data: IPersonTravelMarkEntity): IPersonTravelMarkFront {
         return {

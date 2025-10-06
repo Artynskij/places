@@ -1,3 +1,7 @@
+export * from "./(article)/article.entity";
+export * from "./(article)/article-status.entity";
+
+
 export * from "./(establishment)/parts/categoryEstablishmentPart.entity";
 export * from "./(establishment)/parts/contactEstablishment.entity";
 export * from "./(establishment)/parts/content.entity";
@@ -21,7 +25,6 @@ export * from "./(person)/personSettings.entity";
 export * from "./(person)/personTravelMark.entity";
 export * from "./(person)/travelProgress.entity";
 
-export * from "./article.entity";
 export * from "./business.entity";
 
 export * from "./locations.entity";

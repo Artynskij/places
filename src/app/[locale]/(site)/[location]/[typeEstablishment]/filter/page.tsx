@@ -1,4 +1,3 @@
-import { IMockBlock } from "@/asset/mockData/mockFilterCheckBox";
 import FilterScreen from "@/screens/FilterScreen/FilterScreen";
 import { IBasePageProps } from "@/lib/models/common/IType";
 import { notFound } from "next/navigation";
@@ -35,17 +34,30 @@ export default async function FilterPage({ params, searchParams }: IProps) {
         ?.toString()
         .split(CONSTANT_SEARCH_PARAMS.ampersand);
 
-    const sortQuery = searchParams?.sort?.toString() as TTypeSortEstablishmentServer | undefined;
+    const sortQuery = searchParams?.sort?.toString() as
+        | TTypeSortEstablishmentServer
+        | undefined;
 
     CONSTANT_SEARCH_PARAMS;
     const tagsQuery =
         filterQuery
-            ?.filter((query) => query.includes(CONSTANT_SEARCH_PARAMS.filterParam.tag))
-            .map((queryTag) => queryTag.replace(CONSTANT_SEARCH_PARAMS.filterParam.tag, "")) || [];
+            ?.filter((query) =>
+                query.includes(CONSTANT_SEARCH_PARAMS.filterParam.tag)
+            )
+            .map((queryTag) =>
+                queryTag.replace(CONSTANT_SEARCH_PARAMS.filterParam.tag, "")
+            ) || [];
     const categoriesQuery =
         filterQuery
-            ?.filter((query) => query.includes(CONSTANT_SEARCH_PARAMS.filterParam.category))
-            .map((queryTag) => queryTag.replace(CONSTANT_SEARCH_PARAMS.filterParam.category, "")) || [];
+            ?.filter((query) =>
+                query.includes(CONSTANT_SEARCH_PARAMS.filterParam.category)
+            )
+            .map((queryTag) =>
+                queryTag.replace(
+                    CONSTANT_SEARCH_PARAMS.filterParam.category,
+                    ""
+                )
+            ) || [];
     // const sortQuery =
     //     filterQuery
     //         ?.filter((query) => query.includes(CONSTANT_SEARCH_PARAMS.SORT))

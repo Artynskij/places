@@ -1,0 +1,1 @@
+export type TLegalTypeOfBusiness = "INDIVIDUAL" | "LEGAL_ENTITY" | "SOLE_PROPRIETOR";

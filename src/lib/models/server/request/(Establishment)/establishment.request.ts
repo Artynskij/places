@@ -4,6 +4,7 @@ import { TLocale } from "@/lib/models/types/TLocale";
 import { TTypeFile } from "@/lib/models/types/TTypeFile";
 import { IImageEntity } from "../../entities";
 import { TTypeSortEstablishmentServer } from "@/lib/models/types";
+import { IBaseModerationRequest } from "../base/base-with-moderation.request";
 
 export interface IPaginationEstablishmentRequest extends IPaginationRequest {
     filter?: {
@@ -20,27 +21,27 @@ export interface IPaginationEstablishmentRequest extends IPaginationRequest {
         pageSize: number;
     };
 }
-export interface IContentEstablishmentCreateRequest{
-        value?: {
-            lang: string;
-            value: {
-                details: {
-                    title: string;
-                    description: string | null;
-                };
-                seo?: { key: string; value: string }[] | null;
-                location: {
-                    street1: string | null;
-                    street2?: string | null;
-                };
-                seoTrip?: { key: string; value: string }[] | null;
+export interface IContentEstablishmentCreateRequest {
+    value?: {
+        lang: string;
+        value: {
+            details: {
+                title: string;
+                description: string | null;
             };
-        }[];
-        media?: {
-            gallery: IImageEntity[] | null;
+            seo?: { key: string; value: string }[] | null;
+            location: {
+                street1: string | null;
+                street2?: string | null;
+            };
+            seoTrip?: { key: string; value: string }[] | null;
         };
-    }
-export interface IEstablishmentCreateRequest {
+    }[];
+    media?: {
+        gallery: IImageEntity[] | null;
+    };
+}
+interface EstablishmentCreateRequestData {
     source?: {
         Latitude?: number;
         Longitude?: number;
@@ -56,7 +57,9 @@ export interface IEstablishmentCreateRequest {
     };
     content?: IContentEstablishmentCreateRequest;
 }
-export interface IEstablishmentPersonAssignRequest {
+export interface IEstablishmentCreateRequest
+    extends IBaseModerationRequest<EstablishmentCreateRequestData> {}
+interface EstablishmentPersonAssignRequestData {
     source: {
         Person: string;
         Establishment: string;
@@ -75,7 +78,8 @@ export interface IEstablishmentPersonAssignRequest {
         ];
     };
 }
+export interface IEstablishmentPersonAssignRequest
+    extends IBaseModerationRequest<EstablishmentPersonAssignRequestData> {}
 export interface IEstablishmentPersonAssignGetAllRequest {
     personIds?: string[];
-    // establishmentIds?: string[];
 }

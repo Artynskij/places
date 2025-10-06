@@ -24,7 +24,7 @@ export class LocationService {
     }
     async getById(id: string, lang?: string): Promise<ILocationFront | null> {
         const cdnHost = await this.dataLoadManagerService.getBlobProxy();
-        const response = await this.locationApi.getLocationById(id, lang);
+        const response = await this.locationApi.getById(id, lang);
         const mappingData =
             response && cdnHost
                 ? this.locationMapper.transformToFront(response, cdnHost.url)

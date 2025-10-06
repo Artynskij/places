@@ -39,8 +39,7 @@ import CategoryBlockForm from "../_components/CategoryBlock/CategoryBlockForm";
 import { ScheduleBlockForm } from "../_components/ScheduleBlock/ScheduleBlock";
 import { SocialContactsBlockForm } from "../_components/SocialContacts/SocialContacts";
 import { ScheduleService } from "@/lib/Api/(Establishment)/schedule/schedule.service";
-import { ContactsEstablishmentService } from "@/lib/Api/(Establishment)/contactsEstablishment/contactsEstablishment.api";
-import { SocialNetworksService } from "@/lib/Api/(Person)/socialNetworksPerson/socialNetworksPerson.service";
+
 import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
 import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
 
@@ -192,10 +191,11 @@ const FormUpdateEstablishmentBase = ({
                 initialForm: initialFormData,
                 establishment: establishment,
                 formData: formData,
+                userId: user.id,
             });
             if (success) {
                 notification.success({
-                    message: "Объект успешно создан и отправлен на модерацию",
+                    message: "Объект успешно обновлен и отправлен на модерацию",
                 });
                 closeModal && closeModal(false);
             } else {

@@ -9,6 +9,7 @@ import {
 } from "@/lib/models/server/entities/(person)/person.entity";
 import { GenderService } from "../gender.api";
 import { ITravelProgressFront } from "@/lib/models";
+import { IPaginationRequest } from "@/lib/models/server/request/IPagination.request";
 
 export class PersonService {
     private personApi: PersonApi;
@@ -23,6 +24,29 @@ export class PersonService {
     }
     async create(body: IPersonRequest): Promise<IPersonEntity | null> {
         const response = await this.personApi.create(body);
+        return response;
+    }
+    async getAll(body: IPaginationRequest): Promise<IPersonFront[] | null> {
+        const cdnHost = await this.dataLoadManagementService.getBlobProxy();
+
+        const response = this.personApi.getAll(body).then(async (res) => {
+            const gendersServer = await this.genderService.getAll({lang:body.lang});
+            if (!res || !gendersServer) return null;
+
+            const mappedData = res.map((person) => {
+                const genderFound = gendersServer.find(
+                    (gen) => gen.id === person.person.Gender?.Id
+                );
+                return this.personMapper.toFront(
+                    person,
+                    genderFound || null,
+                    cdnHost?.url || null
+                );
+            });
+
+            return mappedData;
+        });
+
         return response;
     }
     async getById(id: string, lang?: string): Promise<IPersonFront | null> {

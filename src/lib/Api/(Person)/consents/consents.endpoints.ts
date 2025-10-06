@@ -1,6 +1,7 @@
 import { IConsentsEntity } from "@/lib/models/server/entities/(person)/consents.entity";
-import apiClient from "../../ApiClient";
+
 import { IConsentsPatchRequest } from "@/lib/models/server/request/(Person)/consents.request";
+import apiClient from "../../base/ApiClient";
 
 export default class ConsentsApi {
     constructor() {}

@@ -3,8 +3,8 @@ import { IGenderEntity, IGenderWithContentEntity } from "./gender.entity";
 import { IPersonNameEntity } from "./personName.entity";
 import { IPersonSettingsEntity } from "./personSettings.entity";
 import { IContentEntity } from "../(establishment)/parts/content.entity";
-export interface IPersonEntity {
-    Id: string;
+import { IBaseEntity } from "../base/base.entity";
+export interface IPersonEntity extends IBaseEntity {
     TZ: null;
     IsVerified: boolean;
     ContentId: string | null;
@@ -17,9 +17,7 @@ export interface IPersonEntity {
     Avatar2BPhotoPath: string | null;
     About: string | null;
     BirthDate: Date | null;
-    CreatedDate: string;
-    LastModifiedDate: string;
-    DeletedDate: string | null;
+
     PersonType: "" | null;
     PersonName: IPersonNameEntity | null;
     Gender: IGenderEntity | null;

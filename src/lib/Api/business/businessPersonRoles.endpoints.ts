@@ -1,5 +1,9 @@
-import { IBusinessPersonAssignEntity, IBusinessPersonRoleEntity, IBusinessPersonRoleRequest } from "@/lib/models";
-import apiClient from "../ApiClient";
+import {
+    IBusinessPersonAssignEntity,
+    IBusinessPersonRoleEntity,
+    IBusinessPersonRoleRequest,
+} from "@/lib/models";
+import apiClient from "../base/ApiClient";
 
 export class BusinessPersonRolesApi {
     constructor() {}

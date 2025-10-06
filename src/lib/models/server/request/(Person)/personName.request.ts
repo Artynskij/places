@@ -1,5 +1,6 @@
+import { IBaseModerationRequest } from "../base/base-with-moderation.request";
 
-export interface IPersonNameRequest {
+interface PersonNameData {
     source: {
         FirstName?: string | null;
         MiddleName?: string | null;
@@ -9,3 +10,5 @@ export interface IPersonNameRequest {
         OriginalLastName?: string | null;
     };
 }
+export interface IPersonNameRequest
+    extends IBaseModerationRequest<PersonNameData> {}

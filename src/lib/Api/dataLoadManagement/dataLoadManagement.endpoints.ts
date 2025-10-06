@@ -7,8 +7,9 @@ import {
     ITagEntity,
     ITypeEstablishmentWithContentEntity,
 } from "@/lib/models";
-import apiClient from "../ApiClient";
+
 import { ILocationTypeWithContentEntity } from "@/lib/models/server/entities/locationType.entity";
+import apiClient from "../base/ApiClient";
 
 export default class DataLoadManagementApi {
     constructor() {}
@@ -117,4 +118,6 @@ export default class DataLoadManagementApi {
             return null;
         }
     }
+    
+    
 }

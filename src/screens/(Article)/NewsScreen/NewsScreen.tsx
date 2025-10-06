@@ -10,11 +10,12 @@ import { useState } from "react";
 import { PopularArticles } from "../_component/_PopularNews/_PopularNews";
 
 import { IArticleFront } from "@/lib/models/frontend/article.front";
-import { ArticleService } from "@/lib/Api/article/article.service";
+
 
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
 import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";
 import BlockArticles from "../ArticleScreen/_components/BlockArticle/BlockArticles";
+import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
 
 interface IProps
     extends IBasePageProps<{ category: TCategoriesNews; news: string }> {

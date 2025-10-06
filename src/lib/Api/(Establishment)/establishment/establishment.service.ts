@@ -17,6 +17,7 @@ import {
 import { DataLoadManagementService } from "../../dataLoadManagement/dataLoadManagement.service";
 import { EstablishmentPersonAssignmentApi } from "./establishmentAssignment.api";
 import EstablishmentRateApi from "./establishmentRate.endpoints";
+import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
 
 export class EstablishmentService {
     private establishmentRateApi: EstablishmentRateApi;
@@ -86,7 +87,7 @@ export class EstablishmentService {
     }
     async create(
         body: IEstablishmentCreateRequest
-    ): Promise<IEstablishmentEntity | null> {
+    ): Promise<IBaseModerationResponse | null> {
         const response = this.establishmentApi.create(body);
 
         return response;
@@ -94,14 +95,14 @@ export class EstablishmentService {
     async update(
         id: string,
         body: IEstablishmentCreateRequest
-    ): Promise<IEstablishmentEntity | null> {
+    ): Promise<IBaseModerationResponse | null> {
         const response = this.establishmentApi.update(id, body);
-        console.log(body);
+       
         return response;
     }
     async createRate(
         body: IEstablishmentRateRequest
-    ): Promise<IEstablishmentRateEntity | null> {
+    ): Promise<IBaseModerationResponse | null> {
         const response = this.establishmentRateApi.create(body);
         return response;
     }

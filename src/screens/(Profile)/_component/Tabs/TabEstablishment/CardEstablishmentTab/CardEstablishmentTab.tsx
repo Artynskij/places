@@ -6,6 +6,9 @@ import { Button } from "@/components/UI/Button/Button";
 import Image from "next/image";
 import { IEstablishmentFront } from "@/lib/models";
 import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import Link from "next/link";
+import { ROUTES } from "@/lib/config/Routes";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 
 interface ICardEstablishmentTab {
     establishment: IEstablishmentFront;
@@ -31,9 +34,20 @@ const CardEstablishmentTab: FC<ICardEstablishmentTab> = ({
                             <div>Отзывов пока не было</div>
                         )}
                     </div>
-                    <div className={style.card_title_text}>
-                        {establishment.title}
-                    </div>
+                    <Link
+                        target="_blank"
+                        href={ROUTES.LOCATION.ESTABLISHMENT(
+                            establishment.location.town.id,
+                            CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                establishment.typeEstablishment
+                            ].key,
+                            establishment.id
+                        )}
+                    >
+                        <div className={style.card_title_text}>
+                            {establishment.title}
+                        </div>
+                    </Link>
                     <div className={style.card_title_location}>
                         <IconLocation
                             className={style.card_title_location_icon}

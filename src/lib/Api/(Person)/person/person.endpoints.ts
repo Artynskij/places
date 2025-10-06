@@ -1,10 +1,12 @@
 import { ITravelProgressEntity } from "@/lib/models";
-import apiClient from "../../ApiClient";
+
 import {
     IPersonEntity,
     IPersonWithContentEntity,
 } from "@/lib/models/server/entities/(person)/person.entity";
 import { IPersonRequest } from "@/lib/models/server/request/(Person)/person.request";
+import { IPaginationRequest } from "@/lib/models/server/request/IPagination.request";
+import apiClient from "../../base/ApiClient";
 
 export default class PersonApi {
     constructor() {}
@@ -14,6 +16,18 @@ export default class PersonApi {
             return response.data;
         } catch (error) {
             console.error(`Ошибка при создании Персоны`);
+            return null;
+        }
+    }
+
+    async getAll(
+        body: IPaginationRequest
+    ): Promise<IPersonWithContentEntity[] | null> {
+        try {
+            const response = await apiClient.post(`/persons/get-all`, body);
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при получении данных getAll Person `);
             return null;
         }
     }

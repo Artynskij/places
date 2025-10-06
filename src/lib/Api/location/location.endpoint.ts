@@ -1,13 +1,14 @@
 import { ILocationsWithContentEntity } from "@/lib/models/server/entities/locations.entity";
-import apiClient from "../ApiClient";
+
 import {
     ILocationInsidePaginationRequest,
     ILocationUpdateRequest,
 } from "@/lib/models/server/request/location/location.request";
+import apiClient from "../base/ApiClient";
 
 export default class LocationApi {
     constructor() {}
-    async getLocationById(
+    async getById(
         id: string,
         lang?: string
     ): Promise<ILocationsWithContentEntity | null> {

@@ -4,14 +4,15 @@ import {
     IEstablishmentRateGetAllRequest,
     IEstablishmentRateRequest,
 } from "@/lib/models";
-import apiClient from "../../ApiClient";
+import apiClient from "../../base/ApiClient";
+import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
 
 export default class EstablishmentRateApi {
     constructor() {}
 
     async create(
         body: IEstablishmentRateRequest
-    ): Promise<IEstablishmentRateEntity | null> {
+    ): Promise<IBaseModerationResponse | null> {
         try {
             const response = await apiClient.post(`/establishment-rates`, body);
 
@@ -21,9 +22,14 @@ export default class EstablishmentRateApi {
             return null;
         }
     }
-    async getAll(body: IEstablishmentRateGetAllRequest): Promise<IEstablishmentRateAllResponse | null> {
+    async getAll(
+        body: IEstablishmentRateGetAllRequest
+    ): Promise<IEstablishmentRateAllResponse | null> {
         try {
-            const response = await apiClient.post(`/establishment-rates/get-all`, body);
+            const response = await apiClient.post(
+                `/establishment-rates/get-all`,
+                body
+            );
 
             return response.data;
         } catch (error) {

@@ -1,4 +1,6 @@
-export interface IAddressRequest {
+import { IBaseModerationRequest } from "../base/base-with-moderation.request";
+
+interface AddressData {
     Street?: string | null;
     House?: string | null;
     Building?: string | null;
@@ -7,5 +9,6 @@ export interface IAddressRequest {
     Country?: string | null;
     District?: string | null;
     Town?: string | null;
-    Location?: string | null;
+    Location?: { Id: string } | null;
 }
+export interface IAddressRequest extends IBaseModerationRequest<AddressData> {}

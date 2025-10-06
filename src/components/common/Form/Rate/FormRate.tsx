@@ -22,6 +22,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
 import { validDateSchema } from "@/lib/validationSchemas";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { ModerationService } from "@/lib/Api/moderation/moderation.service";
 interface IProp {
     children: React.ReactNode | React.ReactNode[];
     typeEstablishment: TTypesOfEstablishment;
@@ -54,6 +55,7 @@ export const FormRate = ({
     const { user } = useUser();
 
     const establishmentService = new EstablishmentService();
+    const moderationService = new ModerationService();
     const [modalActive, setModalActive] = useState(false);
     const handlerCloseModal = () => {
         setModalActive(false);
@@ -90,24 +92,36 @@ export const FormRate = ({
     };
     const onSubmit: SubmitHandler<TTypeForm> = async (dataForm) => {
         if (!user) return;
+        const moderationObject = await moderationService.getModerationData(
+            user.id
+        );
+        if (!moderationObject) {
+            notification.error({
+                message: "системная ошибка. Попробуйте позже",
+            });
+            return;
+        }
         establishmentService
             .createRate({
-                Person: user.id,
-                Establishment: establishment.id,
-                PersonsVisitDate: dataForm.date,
-                Rate: dataForm.averageRate,
-                Rooms: dataForm.Rooms || null,
-                PriceQuality: dataForm.PriceQuality || null,
-                Clean: dataForm.Clean || null,
-                Location: dataForm.Location || null,
-                Food: dataForm.Food || null,
-                Service: dataForm.Service || null,
-                Value: dataForm.Value || null,
-                Accessibility: null,
-                Atmosphere: null,
-                Comfort: null,
-                Quality: null,
-                Safety: null,
+                moderation: moderationObject,
+                data: {
+                    Person: user.id,
+                    Establishment: establishment.id,
+                    PersonsVisitDate: dataForm.date,
+                    Rate: dataForm.averageRate,
+                    Rooms: dataForm.Rooms || null,
+                    PriceQuality: dataForm.PriceQuality || null,
+                    Clean: dataForm.Clean || null,
+                    Location: dataForm.Location || null,
+                    Food: dataForm.Food || null,
+                    Service: dataForm.Service || null,
+                    Value: dataForm.Value || null,
+                    Accessibility: null,
+                    Atmosphere: null,
+                    Comfort: null,
+                    Quality: null,
+                    Safety: null,
+                },
             })
             .then((res) => {
                 if (res) {
@@ -145,19 +159,14 @@ export const FormRate = ({
                         control={control}
                         render={({ field, fieldState }) => (
                             <InputDate
-                                titleSpan="Дата рождения ДД.ММ.ГГГГ*"
+                                titleSpan="Дата посещения ДД.ММ.ГГГГ*"
                                 value={field.value || ""}
                                 onChange={field.onChange}
                                 error={fieldState.error?.message}
                             />
                         )}
                     />
-                    {/* <InputDate
-                        register={register("date")}
-                        error={errors.date?.message}
-                        titleSpan="Когда посещали"
-                        onChange={() => {}}
-                    /> */}
+
                     <Controller
                         control={control}
                         name="averageRate"

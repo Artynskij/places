@@ -20,7 +20,7 @@ export const BusinessSettingsScreen = ({ params }: IProps) => {
     const { user } = useUser();
 
     useEffect(() => {
-        businessService.getBusinessById(params.business).then((res) => {
+        businessService.getById(params.business).then((res) => {
             if (!res) return;
             setBusinessData(res);
         });

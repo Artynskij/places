@@ -1,7 +1,7 @@
 import { TDayOfWeek } from "@/lib/models/types/schedule/TDayOfWeek";
+import { IBaseEntity } from "../base/base.entity";
 
-export interface IScheduleEntity {
-    Id: string;
+export interface IScheduleEntity extends IBaseEntity {
     Day: TDayOfWeek;
     OpenTime: string;
     CloseTime: string;
@@ -19,7 +19,4 @@ export interface IScheduleEntity {
     IsReservationOnly: boolean;
     IsTemporary: boolean;
     IsEventTime: boolean;
-    CreatedDate: string;
-    LastModifiedDate: string;
-    DeletedDate: null;
 }

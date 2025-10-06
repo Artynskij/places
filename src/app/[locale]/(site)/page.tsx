@@ -3,7 +3,8 @@ import styles from "./page.module.scss";
 import { notFound, redirect } from "next/navigation";
 import { MainScreen } from "@/screens/MainScreen/MainScreen";
 import { IBasePageProps } from "@/lib/models/common/IType";
-import { ArticleService } from "@/lib/Api/article/article.service";
+import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
+
 interface IProps extends IBasePageProps {}
 export async function generateMetadata({ params }: IProps) {
     return {
@@ -17,6 +18,6 @@ export default async function Home({ params, searchParams }: IProps) {
         pagination: { page: 1, pageSize: 8 },
         lang: params.locale,
     });
-    if (!articles) notFound();
-    return <MainScreen articlesData={articles} params={params} />;
+    // if (!articles) notFound();
+    return <MainScreen articlesData={articles || []} params={params} />;
 }

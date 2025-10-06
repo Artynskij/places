@@ -9,18 +9,17 @@ import {
     IEstablishmentCreateRequest,
     IEstablishmentFront,
     IImageEntity,
-    IMediaFront,
     IScheduleFront,
+    IScheduleRequest,
     ISocialContactsRequest,
 } from "@/lib/models";
 import { TTypeUser } from "@/lib/models/types";
-import { SocialNetworksService } from "../(Person)/socialNetworksPerson/socialNetworksPerson.service";
-import { ContactsPersonService } from "../(Person)/contactPerson.api";
-import { ContactsEstablishmentService } from "../(Establishment)/contactsEstablishment/contactsEstablishment.api";
+
+import { ContactsEstablishmentService } from "../(Establishment)/contactsEstablishment.api";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { EstablishmentService } from "../(Establishment)/establishment/establishment.service";
 import { EstablishmentPersonAssignmentApi } from "../(Establishment)/establishment/establishmentAssignment.api";
-import { getImageDimensions } from "@/lib/helpers/getImageDimensions";
+
 import { FileUploadService } from "../fileUpload/fileUploads.service";
 import { ScheduleService } from "../(Establishment)/schedule/schedule.service";
 import { TagsService } from "../(Establishment)/tags/tag.service";
@@ -29,6 +28,8 @@ import {
     getHardObjectDiff,
     getSimpleObjectDiff,
 } from "@/lib/helpers/getChangedFieldsForApi";
+import { ModerationService } from "../moderation/moderation.service";
+import { SocialNetworksService } from "../socialNetworks.api";
 
 const validationSchemaRegisterTourist =
     getSchemaEstablishmentByTypeUser("tourist");
@@ -53,13 +54,7 @@ interface IPropUpdate {
     formData: TTypeFormUpdate;
     initialForm: TTypeFormUpdate;
     establishment: IEstablishmentFront;
-    // typeUser: TTypeUser;
-
-    // activeTab: string;
-    // userId: string;
-    // locale: string;
-    // business?: IBusinessFront;
-    // initialForm?: TypeForm;
+    userId: string;
 }
 
 export class GeneralEstablishmentService {
@@ -70,6 +65,7 @@ export class GeneralEstablishmentService {
     private fileUploadService: FileUploadService;
     private scheduleService: ScheduleService;
     private tagsService: TagsService;
+    private moderationService: ModerationService;
 
     constructor() {
         this.socialContactsService = new SocialNetworksService();
@@ -80,11 +76,24 @@ export class GeneralEstablishmentService {
         this.fileUploadService = new FileUploadService();
         this.scheduleService = new ScheduleService();
         this.tagsService = new TagsService();
+        this.moderationService = new ModerationService();
     }
     async create({ formData, userId, locale }: IPropCreate): Promise<Boolean> {
+        // 0. Токены модерации
+        const batchId = await this.moderationService.createBatchId(userId);
+        const sessionId = await this.moderationService.createSessionId();
+        if (!batchId || !sessionId) {
+            console.log("cant get batchId or sessionId");
+            return false;
+        }
+        const moderationObject = {
+            ModerationBatchId: batchId,
+            SessionId: sessionId,
+            SubmittedById: userId,
+        };
         // 1. Создание соц.сетей
         const bodySocialNetworks =
-            formData.socialContacts?.reduce<ISocialContactsRequest>(
+            formData.socialContacts?.reduce<ISocialContactsRequest["data"]>(
                 (acc, soc) => {
                     acc[soc.type] = soc.url;
                     return acc;
@@ -93,19 +102,23 @@ export class GeneralEstablishmentService {
             ) ?? null;
 
         const createdSocialContact = bodySocialNetworks
-            ? await this.socialContactsService.createSocialNetworksPerson(
-                  bodySocialNetworks
-              )
+            ? await this.socialContactsService.create({
+                  moderation: moderationObject,
+                  data: bodySocialNetworks,
+              })
             : null;
 
         // 2. Создание контактов
         const createdContacts = await this.contactEstablishmentService.create({
-            source: {
-                Email: formData.email || null,
-                Menu: formData.menu || null,
-                Phone: formData.phone || null,
-                SocialContactsId: createdSocialContact?.id || null,
-                Web: null,
+            moderation: moderationObject,
+            data: {
+                source: {
+                    Email: formData.email || null,
+                    Menu: formData.menu || null,
+                    Phone: formData.phone || null,
+                    SocialContactsId: createdSocialContact?.entityId || null,
+                    Web: null,
+                },
             },
         });
 
@@ -117,83 +130,18 @@ export class GeneralEstablishmentService {
 
         // 3. Создание заведения
         const bodyEstablishment: IEstablishmentCreateRequest = {
-            source: {
-                CategoryIds: formData.categories as string[],
-                Contacts: createdContacts.id,
-                Latitude: formData.coord.lat,
-                Longitude: formData.coord.lon,
-                Locations: formData.locationId,
-                Type: CONSTANT_TYPES_OF_ESTABLISHMENT[
-                    formData.typeEstablishment
-                ].id,
-            },
-            content: {
-                value: [
-                    {
-                        lang: locale,
-                        value: {
-                            details: {
-                                title: formData.title,
-                                description: formData.description || null,
-                            },
-                            seo: null,
-                            location: {
-                                street1: formData.coord.addressLine || null,
-                            },
-                        },
-                    },
-                ],
-                media: { gallery: null },
-            },
-        };
-
-        const createdEstablishment = await this.establishmentService.create(
-            bodyEstablishment
-        );
-
-        if (!createdEstablishment) {
-            console.error("Не удалось создать заведение");
-
-            return false;
-        }
-
-        // 4. Создание связи персоны и заведения
-        const createdPersonEstablishmentAssign =
-            await this.establishmentAssignmentService.create({
+            moderation: moderationObject,
+            data: {
                 source: {
-                    Person: userId, // гарантированно есть
-                    Establishment: createdEstablishment.Id,
-                    IsAddedByPerson: true,
-                    Note: "Создание пользователем",
-                    Source: "Cabinet",
+                    CategoryIds: formData.categories as string[],
+                    Contacts: createdContacts.entityId,
+                    Latitude: formData.coord.lat,
+                    Longitude: formData.coord.lon,
+                    Locations: formData.locationId,
+                    Type: CONSTANT_TYPES_OF_ESTABLISHMENT[
+                        formData.typeEstablishment
+                    ].id,
                 },
-            });
-
-        if (!createdPersonEstablishmentAssign) {
-            console.log(
-                "Establishment",
-                createdEstablishment.Id,
-                "Person",
-                userId
-            );
-            console.error("Не удалось создать связь заведение-персона");
-
-            return false;
-        }
-
-        // 5. Загрузка изображений
-        const imagesFilter = formData.images?.filter(Boolean) as UploadFile[];
-
-        const imageBlobFiles =
-            await this.fileUploadService.uploadPublicFileOfAntdFiles({
-                vendorId: createdEstablishment.Id,
-                files: imagesFilter,
-            });
-        // 6. Обновление заведения с изображениями
-
-        const updatedEstablishmentForImages =
-            await this.establishmentService.update(createdEstablishment.Id, {
-                source: {},
                 content: {
                     value: [
                         {
@@ -210,23 +158,106 @@ export class GeneralEstablishmentService {
                             },
                         },
                     ],
-                    media: {
-                        gallery: imageBlobFiles as IImageEntity[],
+                    media: { gallery: null },
+                },
+            },
+        };
+
+        const createdEstablishment = await this.establishmentService.create(
+            bodyEstablishment
+        );
+
+        if (!createdEstablishment) {
+            console.error("Не удалось создать заведение");
+
+            return false;
+        }
+
+        // 4. Создание связи персоны и заведения
+        const createdPersonEstablishmentAssign =
+            await this.establishmentAssignmentService.create({
+                moderation: moderationObject,
+                data: {
+                    source: {
+                        Person: userId, // гарантированно есть
+                        Establishment: createdEstablishment.entityId,
+                        IsAddedByPerson: true,
+                        Note: "Создание пользователем",
+                        Source: "Cabinet",
                     },
                 },
             });
+
+        if (!createdPersonEstablishmentAssign) {
+            console.log(
+                "Establishment",
+                createdEstablishment.entityId,
+                "Person",
+                userId
+            );
+            console.error("Не удалось создать связь заведение-персона");
+
+            return false;
+        }
+
+        // 5. Загрузка изображений
+        const imagesFilter = formData.images?.filter(Boolean) as UploadFile[];
+
+        const imageBlobFiles =
+            await this.fileUploadService.uploadPublicFileOfAntdFiles({
+                vendorId: createdEstablishment.entityId,
+                files: imagesFilter,
+            });
+        // 6. Обновление заведения с изображениями
+
+        const updatedEstablishmentForImages =
+            await this.establishmentService.update(
+                createdEstablishment.entityId,
+                {
+                    moderation: moderationObject,
+                    data: {
+                        source: {},
+                        content: {
+                            value: [
+                                {
+                                    lang: locale,
+                                    value: {
+                                        details: {
+                                            title: formData.title,
+                                            description:
+                                                formData.description || null,
+                                        },
+                                        seo: null,
+                                        location: {
+                                            street1:
+                                                formData.coord.addressLine ||
+                                                null,
+                                        },
+                                    },
+                                },
+                            ],
+                            media: {
+                                gallery: imageBlobFiles as IImageEntity[],
+                            },
+                        },
+                    },
+                }
+            );
 
         // 7. Создание расписания
         if (formData.schedule) {
             await Promise.all(
                 formData.schedule.map((schItem) =>
                     this.scheduleService.createScheduleDay({
-                        Establishment: createdEstablishment.Id,
-                        Day: schItem.day,
-                        OpenTime: schItem.openTime,
-                        CloseTime: schItem.closeTime,
-                        Is24Hours: schItem.is24Hours,
-                        IsHoliday: schItem.isHoliday,
+                        moderation: moderationObject,
+                        data: {
+                            Establishment: createdEstablishment.entityId,
+                            Day: schItem.day,
+                            OpenTime: schItem.openTime,
+                            CloseTime: schItem.closeTime,
+                            Is24Hours: schItem.is24Hours,
+                            IsHoliday: schItem.isHoliday,
+                        },
                     })
                 )
             );
@@ -239,19 +270,22 @@ export class GeneralEstablishmentService {
                     .filter((item) => !!item)
                     .map((tag) =>
                         this.tagsService.createTagEstablishmentConnect({
-                            Establishment: createdEstablishment.Id,
-                            Tag: tag as string,
+                            moderation: moderationObject,
+                            data: {
+                                Establishment: createdEstablishment.entityId,
+                                Tag: tag as string,
+                            },
                         })
                     )
             );
         }
-        console.log("Созданное заведение:", createdEstablishment.Id);
+        console.log("Созданное заведение:", createdEstablishment.entityId);
         return true;
     }
     async update({
         formData,
         initialForm,
-
+        userId,
         establishment,
     }: IPropUpdate): Promise<boolean> {
         const changesFirstMedia =
@@ -259,9 +293,8 @@ export class GeneralEstablishmentService {
         const changesSimple = getSimpleObjectDiff(initialForm, formData);
 
         const changesHard = getHardObjectDiff(initialForm, formData);
-        console.log(changesSimple);
-        console.log(changesHard);
-
+        console.log("changesSimple", changesSimple);
+        console.log("changesHard", changesHard);
         if (
             Object.keys(changesSimple).length === 0 &&
             Object.keys(changesHard).length === 0 &&
@@ -269,26 +302,34 @@ export class GeneralEstablishmentService {
         ) {
             return false; // нечего обновлять
         }
+        // 📌0. Токены модерации
 
-        // 📌 Обработка соцсетей
+        const moderationObject = await this.moderationService.getModerationData(
+            userId
+        );
+        if (!moderationObject) {
+            console.log("cant get batchId or sessionId");
+            return false;
+        }
+        // 📌1. Обработка соцсетей
         let socialRes = null;
         if ("socialContacts" in changesSimple) {
             const bodySocialNetworks =
-                changesSimple.socialContacts?.reduce<ISocialContactsRequest>(
-                    (acc, soc) => {
-                        acc[soc.type] = soc.url;
-                        return acc;
-                    },
-                    {}
-                ) ?? null;
+                changesSimple.socialContacts?.reduce<
+                    ISocialContactsRequest["data"]
+                >((acc, soc) => {
+                    acc[soc.type] = soc.url;
+                    return acc;
+                }, {}) ?? null;
 
-            socialRes =
-                await this.socialContactsService.updateSocialNetworksPerson(
-                    establishment.contacts?.socialNetworksId || null,
-                    bodySocialNetworks
-                );
+            socialRes = bodySocialNetworks
+                ? await this.socialContactsService.updateOrCreate(
+                      establishment.contacts?.socialNetworksId || null,
+                      { moderation: moderationObject, data: bodySocialNetworks }
+                  )
+                : null;
         }
-        // 📌 Обновление контактов
+        // 📌2. Обновление контактов
         let contactRes = null;
         if (
             "email" in changesSimple ||
@@ -299,41 +340,78 @@ export class GeneralEstablishmentService {
             contactRes = await this.contactEstablishmentService.updateOrCreate(
                 establishment.id,
                 {
-                    source: {
-                        Email:
-                            changesSimple.email ||
-                            establishment.contacts?.email ||
-                            null,
-                        Menu:
-                            changesSimple.menu ||
-                            establishment.contacts?.menu ||
-                            null,
-                        Phone:
-                            changesSimple.phone ||
-                            establishment.contacts?.phone ||
-                            null,
-                        SocialContactsId:
-                            socialRes?.id ||
-                            establishment.contacts?.socialNetworksId ||
-                            null,
-                        Web: null,
+                    moderation: moderationObject,
+                    data: {
+                        source: {
+                            Email:
+                                changesSimple.email ||
+                                establishment.contacts?.email ||
+                                null,
+                            Menu:
+                                changesSimple.menu ||
+                                establishment.contacts?.menu ||
+                                null,
+                            Phone:
+                                changesSimple.phone ||
+                                establishment.contacts?.phone ||
+                                null,
+                            SocialContactsId:
+                                socialRes?.entityId ||
+                                establishment.contacts?.socialNetworksId ||
+                                null,
+                            Web: null,
+                        },
                     },
                 }
             );
         }
-        // 📌 Обновление расписания
-        if ("schedule" in changesHard && changesHard.schedule?.updated) {
+        // 📌3. Обновление расписания(пачкой)
+
+        if (
+            "schedule" in changesHard &&
+            (changesHard.schedule?.updated || changesHard.schedule?.added)
+        ) {
+            const updatedScheduleForm = changesHard.schedule?.updated
+                ? (changesHard.schedule.updated as IScheduleFront[])
+                : [];
+            const addedScheduleForm = changesHard.schedule?.added
+                ? (changesHard.schedule?.added as IScheduleFront[])
+                : [];
+            const splitArrayScheduleForm = [
+                ...addedScheduleForm,
+                ...updatedScheduleForm,
+            ];
+
+            const arrayScheduleBodies: {
+                id: string;
+                body: IScheduleRequest;
+            }[] = splitArrayScheduleForm.map((item) => {
+                return {
+                    id: item.id,
+                    body: {
+                        moderation: moderationObject,
+                        data: {
+                            Day: item.day,
+                            CloseTime: item.closeTime,
+                            Is24Hours: item.is24Hours,
+                            IsHoliday: item.isHoliday,
+                            OpenTime: item.openTime,
+                        },
+                    },
+                };
+            });
+            console.log(arrayScheduleBodies);
             await this.scheduleService.updateAllScheduleOfEstablishment(
-                changesHard.schedule?.updated as IScheduleFront[]
+                arrayScheduleBodies
             );
         }
         // TODO
-        // 📌 Обновление тегов
+        // 📌4. Обновление тегов
         // if ("tags" in changes) {
         //     await this.tagsService.resetTags(establishmentId, formData.tags);
         // }
 
-        // 📌 Обновление картинок
+        // 📌5. Обновление картинок
         let imagesNewArray = null;
         if ("images" in changesHard) {
             const filesWithoutDeleted: IImageEntity[] =
@@ -344,9 +422,6 @@ export class GeneralEstablishmentService {
                         );
                     }
                 ) || [];
-            console.log(establishment.content?.media?.gallery);
-            console.log(changesHard.images?.removed);
-            console.log(filesWithoutDeleted);
             const filesAdded = changesHard.images?.added;
             const filesUploaded = filesAdded
                 ? await this.fileUploadService.uploadPublicFileOfAntdFiles({
@@ -366,7 +441,7 @@ export class GeneralEstablishmentService {
 
             // тут можно сразу дернуть update establishment и положить в media.gallery
         }
-        // 📌 Обновление конетента
+        // 📌6. Обновление конетента
         let contentBody = null;
         if ("content" in changesHard) {
             const contentForm:
@@ -392,11 +467,11 @@ export class GeneralEstablishmentService {
             contentBody = contentForm;
         }
 
-        // 📌 Обновление самого объекта и его сборка
-        let bodyEstablishment: IEstablishmentCreateRequest = {
+        // 📌7. Обновление самого объекта и его сборка
+        let bodyEstablishment: IEstablishmentCreateRequest["data"] = {
             source: {},
         };
-        // // 📌 Обновление категорий
+        // 📌8. Обновление общей сущности establishment
         if ("categories" in changesHard && bodyEstablishment.source) {
             bodyEstablishment.source.CategoryIds =
                 formData.categories as string[];
@@ -412,7 +487,7 @@ export class GeneralEstablishmentService {
             bodyEstablishment.source.Type = formData.typeEstablishment;
         }
         if (contactRes && !establishment.contacts) {
-            bodyEstablishment.source?.Contacts === contactRes.id;
+            bodyEstablishment.source?.Contacts === contactRes.entityId;
         }
         if (contentBody || imagesNewArray) {
             bodyEstablishment.content = {
@@ -421,14 +496,13 @@ export class GeneralEstablishmentService {
                     gallery: imagesNewArray
                         ? imagesNewArray
                         : establishment.content?.media.gallery || null,
-                    // gallery: null,
                 }, // картинки выше
             };
         }
-        console.log(bodyEstablishment);
+        console.log("bodyEstablishment", bodyEstablishment);
         const updatedEstablishment = await this.establishmentService.update(
             establishment.id,
-            bodyEstablishment
+            { moderation: moderationObject, data: bodyEstablishment }
         );
         if (!updatedEstablishment) {
             return false;

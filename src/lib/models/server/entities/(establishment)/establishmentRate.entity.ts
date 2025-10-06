@@ -1,5 +1,7 @@
-export interface IEstablishmentRateEntity {
-    Id: string;
+import { IBaseEntity } from "../base/base.entity";
+
+export interface IEstablishmentRateEntity extends IBaseEntity {
+    // Id: string;
     PersonsVisitDate: Date;
     Person: string;
     Establishment: string;
@@ -16,7 +18,7 @@ export interface IEstablishmentRateEntity {
     Accessibility: number | null;
     Quality: number | null;
     Safety: number | null;
-    CreatedDate: string;
-    LastModifiedDate: string;
-    DeletedDate: null;
+    // CreatedDate: string;
+    // LastModifiedDate: string;
+    // DeletedDate: null;
 }

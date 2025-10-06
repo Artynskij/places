@@ -1,6 +1,7 @@
 import { IPersonSettingsEntity } from "@/lib/models/server/entities/(person)/personSettings.entity";
-import apiClient from "../../ApiClient";
+
 import { IPersonSettingsRequest } from "@/lib/models/server/request/(Person)/personSettings.request";
+import apiClient from "../../base/ApiClient";
 
 export default class PersonSettingsApi {
     constructor() {}

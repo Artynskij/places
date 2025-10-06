@@ -5,8 +5,9 @@ import { unstable_setRequestLocale } from "next-intl/server";
 import ArticleScreen from "@/screens/(Article)/ArticleScreen/ArticleScreen";
 
 import { notFound } from "next/navigation";
-import { ArticleService } from "@/lib/Api/article/article.service";
+
 import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";
+import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
 
 export async function generateMetadata({
     params,

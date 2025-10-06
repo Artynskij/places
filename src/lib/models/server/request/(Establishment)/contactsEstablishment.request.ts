@@ -1,4 +1,6 @@
-export interface IContactEstablishmentRequest {
+import { IBaseModerationRequest } from "../base/base-with-moderation.request";
+
+interface ContactEstablishment {
     source: {
         Phone: string | null;
         Web: string | null;
@@ -6,10 +8,6 @@ export interface IContactEstablishmentRequest {
         Menu: string | null;
         SocialContactsId: string | null;
     };
-    // content: {
-    //     lang: string;
-    //     value: {
-    //         addressLine: string;
-    //     };
-    // };
 }
+export interface IContactEstablishmentRequest
+    extends IBaseModerationRequest<ContactEstablishment> {}

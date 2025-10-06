@@ -1,3 +1,4 @@
+import { IBaseModerationRequest } from "../base/base-with-moderation.request";
 import { IPaginationRequest } from "../IPagination.request";
 
 export interface ITagsOfEstablishmentRequest extends IPaginationRequest {
@@ -5,7 +6,9 @@ export interface ITagsOfEstablishmentRequest extends IPaginationRequest {
     establishmentTypeId?: string;
     locationId?: string;
 }
-export interface ITagAndEstablishmentConnectionRequest {
+interface TagAndEstablishmentConnectionRequestData {
     Establishment: string;
     Tag: string;
 }
+export interface ITagAndEstablishmentConnectionRequest
+    extends IBaseModerationRequest<TagAndEstablishmentConnectionRequestData> {}

@@ -1,3 +1,4 @@
+import { data } from "@maptiler/sdk";
 import PersonSettingsApi from "./personSettings.endpoints";
 import { IPersonSettingsFront } from "@/lib/models/frontend/(person)/personSettings.front";
 import { IPersonSettingsRequest } from "@/lib/models/server/request/(Person)/personSettings.request";
@@ -39,8 +40,11 @@ export class PersonSettingsService {
         const response = this.PersonSettingsApi.create(body)
             .then(async (res) => {
                 await this.PersonService.update(idPerson, {
-                    source: {
-                        PersonSettings: res?.Id,
+                    moderation: body.moderation,
+                    data: {
+                        source: {
+                            PersonSettings: res?.Id,
+                        },
                     },
                 });
 

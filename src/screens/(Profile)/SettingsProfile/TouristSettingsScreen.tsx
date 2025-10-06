@@ -18,6 +18,7 @@ import { FormNotificationTourist } from "@/components/common/Form/Settings/FormN
 import { IBasePageProps } from "@/lib/models";
 import { Loader } from "@/components/common/Loader/Loader";
 import { useUser } from "@/lib/context/UserContext/UserContext";
+import { AuthGuard } from "@/components/common/Auth/guards/AuthGuard";
 interface IProps
     extends IBasePageProps<
         {
@@ -35,29 +36,31 @@ export const TouristSettingsScreen = ({ params, searchParams }: IProps) => {
     const { user } = useUser();
     if (!user) return <Loader />;
     return (
-        <div className={style.page}>
-            <Breadcrumb
-                links={[
-                    {
-                        title: "Личный кабинет",
-                        href: ROUTES.PROFILE.TOURIST(user.id),
-                    },
-                    { title: tabPersonal ? "Настройки" : "Уведомления" },
-                ]}
-            />
-            {/* <h3>
+        <AuthGuard roles={["tourist"]}>
+            <div className={style.page}>
+                <Breadcrumb
+                    links={[
+                        {
+                            title: "Личный кабинет",
+                            href: ROUTES.PROFILE.TOURIST(user.id),
+                        },
+                        { title: tabPersonal ? "Настройки" : "Уведомления" },
+                    ]}
+                />
+                {/* <h3>
                 {tabPersonal
                     ? "Настройки персональных данных"
                     : "Настройки уведомлений"}
             </h3> */}
 
-            <div className={style.switcher_content}>
-                {tabPersonal ? (
-                    <FormSettingsTourist />
-                ) : (
-                    <FormNotificationTourist />
-                )}
+                <div className={style.switcher_content}>
+                    {tabPersonal ? (
+                        <FormSettingsTourist />
+                    ) : (
+                        <FormNotificationTourist />
+                    )}
+                </div>
             </div>
-        </div>
+        </AuthGuard>
     );
 };

@@ -1,24 +1,18 @@
 import { IContactsPersonEntity } from "./(person)/contactsPerson.entity";
-import { TRoleOwner } from "@/lib/models/types/TRoleOwner";
+
 import { IPersonEntity } from "./(person)/person.entity";
 import { IEstablishmentEntity } from "./(establishment)/establishment.entity";
 import { IContentEntity } from "./(establishment)/parts/content.entity";
-import {
-    IRoleOwnerEntity,
-    IRoleOwnerWithContentEntity,
-} from "./(person)/roleOwner.entity";
-import { TTypeOwnerBusiness } from "../../types";
+import { IRoleOwnerWithContentEntity } from "./(person)/roleOwner.entity";
+import { TLegalTypeOfBusiness } from "../../types/TLegalTypeOfBusiness";
+import { IBaseEntity } from "./base/base.entity";
 
-export interface IBusinessEntity {
-    Id: string;
+export interface IBusinessEntity extends IBaseEntity {
     OfficialName: string;
     RegistrationNumber: string | null;
     RegistrationDate: Date | null;
-    ContentId: string | null;
     LastModifiedDate: string;
     Contacts: IContactsPersonEntity;
-    CreatedDate: string;
-    DeletedDate: string | null;
     Establishment: IEstablishmentEntity | null;
     LegalType: IBusinessLegalTypesEntity;
 }
@@ -39,10 +33,10 @@ export interface IBusinessPositionEntity {
     Code: string;
     content: IContentEntity;
 }
-type legalTypeServer = "INDIVIDUAL" | "LEGAL_ENTITY" | "SOLE_PROPRIETOR";
+
 export interface IBusinessLegalTypesEntity {
     Id: string;
-    Code: legalTypeServer;
+    Code: TLegalTypeOfBusiness;
     content: IContentEntity;
 }
 export interface IBusinessPersonRoleEntity {

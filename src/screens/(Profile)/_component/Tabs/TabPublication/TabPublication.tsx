@@ -9,7 +9,8 @@ import { useEffect, useState } from "react";
 
 import { useLocale } from "next-intl";
 import Skeleton from "./SkeletonTabPublication";
-import { ArticleService } from "@/lib/Api/article/article.service";
+import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
+
 // interface ITabPublication {
 //   publications: IArticleFront[];
 // }

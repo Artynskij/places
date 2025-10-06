@@ -149,6 +149,18 @@
         color: rgb(92, 22, 22);
     }
 }
+.copyString {
+    margin: 0 4px;
+    &_icon {
+        color: $color-main-black !important;
+        transition: $transition;
+    }
+    &:hover {
+        .copyString_icon {
+            color: $color-main-blue_hover !important;
+        }
+    }
+}
 @include mediaPhone {
     .share_popup {
         &_list {

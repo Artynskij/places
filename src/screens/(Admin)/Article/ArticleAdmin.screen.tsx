@@ -13,11 +13,12 @@ import {
 import { getImageDimensions } from "@/lib/helpers/getImageDimensions";
 import { locales } from "@/config";
 import { ImageUpdateSeo } from "@/components/common/Image/ImageUpdateSeo";
-import { ArticleService } from "@/lib/Api/article/article.service";
+
 import { nanoid } from "nanoid";
 import type { UploadFile } from "antd/lib";
 import { TLocale } from "@/lib/models/types";
 import { GeneralArticleService } from "@/lib/Api/(MainService)/article.general";
+import { useUser } from "@/lib/context/UserContext/UserContext";
 
 interface ArticleFormValues {
     lang: TLocale;
@@ -31,6 +32,7 @@ interface ArticleFormValues {
 
 export const ArticleAdminScreen: React.FC = () => {
     const [form] = Form.useForm<ArticleFormValues>();
+    const { user } = useUser();
     const [editorData, setEditorData] = useState<{
         content: any;
         mediaStorage: IMediaFront[];
@@ -50,6 +52,10 @@ export const ArticleAdminScreen: React.FC = () => {
     const handleSave = async (values: ArticleFormValues) => {
         if (!editorData) {
             message.error("нету контента");
+            return;
+        }
+        if (!user) {
+            message.error("нету пользователя");
             return;
         }
 
@@ -84,19 +90,20 @@ export const ArticleAdminScreen: React.FC = () => {
                 file: fileMainImage,
             },
         };
-        // const response = await articleGeneralService.create({
-        //     articleState: newArticle,
-        //     formData: { ...values, ...editorData },
-        // });
+        const response = await articleGeneralService.create({
+            articleState: newArticle,
+            formData: { ...values, ...editorData },
+            user: user,
+        });
         // ✅ отправка на сервер
         setArticleData(newArticle);
 
-        // if (response) {
-        //     message.error("всё ок");
-        // } else {
-        //     message.error("что-то пошло не так");
-        // }
-        message.error("пока не отправляем");
+        if (response) {
+            message.error("всё ок");
+        } else {
+            message.error("что-то пошло не так");
+        }
+        // message.error("пока не отправляем");
     };
 
     const handlePreview = async () => {

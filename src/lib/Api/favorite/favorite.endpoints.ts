@@ -2,13 +2,16 @@ import {
     IFavoriteCreateRequest,
     IFavoriteGetQueryRequest,
 } from "@/lib/models/server/request/(Person)/favorite.request";
-import apiClient from "../ApiClient";
+
 import { IFavoriteEntity } from "@/lib/models";
+import apiClient from "../base/ApiClient";
 
 export default class FavoriteApi {
     constructor() {}
 
-    async create(body: IFavoriteCreateRequest): Promise<IFavoriteEntity | null> {
+    async create(
+        body: IFavoriteCreateRequest
+    ): Promise<IFavoriteEntity | null> {
         try {
             const response = await apiClient.post(`/favorites`, body);
             return response.data;
@@ -17,7 +20,9 @@ export default class FavoriteApi {
             return null;
         }
     }
-    async getByQuery(query: IFavoriteGetQueryRequest): Promise<IFavoriteEntity[] | null> {
+    async getByQuery(
+        query: IFavoriteGetQueryRequest
+    ): Promise<IFavoriteEntity[] | null> {
         try {
             const queryParams = Object.entries(query)
                 .map(([key, value]) => `${key}=${value}`)
@@ -31,7 +36,7 @@ export default class FavoriteApi {
             return null;
         }
     }
-     async delete(id: string): Promise<IFavoriteEntity | null> {
+    async delete(id: string): Promise<IFavoriteEntity | null> {
         try {
             const response = await apiClient.delete(`/favorites/${id}`);
             return response.data;

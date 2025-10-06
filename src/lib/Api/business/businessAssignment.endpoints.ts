@@ -3,7 +3,7 @@ import {
     IBusinessAssignmentRequest,
     IBusinessPersonAssignEntity,
 } from "@/lib/models";
-import apiClient from "../ApiClient";
+import apiClient from "../base/ApiClient";
 
 export class BusinessAssignmentApi {
     constructor() {}
@@ -11,7 +11,9 @@ export class BusinessAssignmentApi {
         personId,
         businessId,
         establishmentId,
-    }: IBusinessAssignmentGetQueryRequest):Promise<IBusinessPersonAssignEntity[] | null> {
+    }: IBusinessAssignmentGetQueryRequest): Promise<
+        IBusinessPersonAssignEntity[] | null
+    > {
         try {
             const query = [
                 personId ? `personId=${personId}` : null,

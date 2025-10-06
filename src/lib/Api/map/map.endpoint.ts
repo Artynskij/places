@@ -1,7 +1,8 @@
 import { ILocationsWithContentEntity } from "@/lib/models/server/entities/locations.entity";
-import apiClient from "../ApiClient";
+
 import { IMapQueryRequest } from "@/lib/models/server/request/map/map.request";
 import { ISearchItemEntity } from "@/lib/models";
+import apiClient from "../base/ApiClient";
 
 export default class MapApi {
     constructor() {}
@@ -12,7 +13,7 @@ export default class MapApi {
     }: IMapQueryRequest): Promise<ISearchItemEntity[] | null> {
         try {
             const response = await apiClient.get(
-                `maps/query/establishments?lat=${lat}&lon=${lon}&radius=${radius}`
+                `/maps/query/establishments?lat=${lat}&lon=${lon}&radius=${radius}`
             );
             return response.data;
         } catch (error) {
@@ -29,7 +30,7 @@ export default class MapApi {
     }: IMapQueryRequest): Promise<ISearchItemEntity[] | null> {
         try {
             const response = await apiClient.get(
-                `maps/query/locations?lat=${lat}&lon=${lon}&radius=${radius}`
+                `/maps/query/locations?lat=${lat}&lon=${lon}&radius=${radius}`
             );
             return response.data;
         } catch (error) {

@@ -14,27 +14,21 @@ interface Props {
     value: (UploadFile | undefined)[];
     onChange: (files: (UploadFile | undefined)[]) => void;
     error: FieldError | null;
-    downloadedValue?: IMediaFront[] | null;
 }
 
-const PhotoBlockForm = ({
-    value = [],
-    onChange,
-    error,
-    downloadedValue,
-}: Props) => {
-    const handlerToStart = (indexFile: number) => {
-        const newValue = [...value] as UploadFile[];
-        newValue.unshift(newValue.splice(indexFile, 1)[0]);
-        onChange?.(newValue);
-    };
+const PhotoBlockForm = ({ value = [], onChange, error }: Props) => {
+    // const handlerToStart = (indexFile: number) => {
+    //     const newValue = [...value] as UploadFile[];
+    //     newValue.unshift(newValue.splice(indexFile, 1)[0]);
+    //     onChange?.(newValue);
+    // };
 
-    const handlerRemove = (indexFile: number) => {
-        if (!value) return;
-        const newValue = [...value] as UploadFile[];
-        newValue.splice(indexFile, 1); // удаляем строго по индексу
-        onChange?.(newValue);
-    };
+    // const handlerRemove = (indexFile: number) => {
+    //     if (!value) return;
+    //     const newValue = [...value] as UploadFile[];
+    //     newValue.splice(indexFile, 1); // удаляем строго по индексу
+    //     onChange?.(newValue);
+    // };
 
     return (
         <div className={style.photoBlock}>
@@ -46,14 +40,14 @@ const PhotoBlockForm = ({
                 beforeUpload={() => false} // чтобы не грузить сразу, а только при сабмите
                 onChange={({ fileList }) => onChange(fileList)}
                 itemRender={(originNode, file, fileList) => {
-                    const isMain = file === fileList[0];
+                    // const isMain = file === fileList[0];
 
                     return (
                         <div className={style.card}>
                             {originNode}{" "}
                             {/* 👈 тут сохраняется дефолтный preview + delete */}
                             {/* своя кнопка "сделать главной" */}
-                            <div
+                            {/* <div
                                 className={style.card_buttonMain}
                                 style={{
                                     color: isMain ? "#fadb14" : "#999",
@@ -69,7 +63,7 @@ const PhotoBlockForm = ({
                                 }}
                             >
                                 {isMain ? <StarFilled /> : <StarOutlined />}
-                            </div>
+                            </div> */}
                         </div>
                     );
                 }}
@@ -79,7 +73,7 @@ const PhotoBlockForm = ({
                     <div style={{ marginTop: 8 }}>Загрузить</div>
                 </div>
             </Upload>
-            {error && <SpanErrorForm text={error.message}/>}
+            {error && <SpanErrorForm text={error.message} />}
         </div>
     );
 };

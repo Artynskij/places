@@ -1,6 +1,6 @@
-export interface IPersonSettingsEntity {
-    Id: string;
-    LastModifiedDate: string;
+import { IBaseEntity } from "../base/base.entity";
+
+export interface IPersonSettingsEntity extends IBaseEntity {
     ShowTravelMap: boolean;
     ShowPosts: boolean;
     ShowPhotoAlbums: boolean;
@@ -12,6 +12,4 @@ export interface IPersonSettingsEntity {
     NotifyPersonalRecommendations: boolean;
     NotifyReviewModeration: boolean;
     NotifyContentModeration: boolean;
-    CreatedDate: string;
-    DeletedDate: string | null;
 }

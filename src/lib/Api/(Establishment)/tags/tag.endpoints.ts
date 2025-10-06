@@ -1,6 +1,7 @@
 
 import { ITagAndEstablishmentConnectionRequest, ITagsOfEstablishmentFilterResponse, ITagsOfEstablishmentRequest, ITagsOfEstablishmentResponse } from "@/lib/models";
-import apiClient from "../../ApiClient";
+import apiClient from "../../base/ApiClient";
+
 
 
 

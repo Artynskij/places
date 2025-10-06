@@ -1,5 +1,6 @@
-export interface ISocialContactsEntity {
-    Id: string;
+import { IBaseEntity } from "./base/base.entity";
+
+export interface ISocialContactsEntity extends IBaseEntity {
     Web: string | null;
     Telegram: string | null;
     WhatsApp: string | null;
@@ -13,8 +14,4 @@ export interface ISocialContactsEntity {
     YouTube: string | null;
     TikTok: string | null;
     Threads: string | null;
-    ContentId: string | null;
-    CreatedDate: string;
-    LastModifiedDate: string;
-    DeletedDate: string | null;
 }

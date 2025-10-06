@@ -1,4 +1,4 @@
-import apiClient from "../../ApiClient";
+
 import {
     IEstablishmentItemsResponse,
     IEstablishmentResponse,
@@ -8,6 +8,8 @@ import {
     IPaginationEstablishmentRequest,
 } from "@/lib/models/server/request/(Establishment)/establishment.request";
 import { IEstablishmentEntity } from "@/lib/models";
+import apiClient from "../../base/ApiClient";
+import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
 
 export default class EstablishmentApi {
     constructor() {}
@@ -54,7 +56,7 @@ export default class EstablishmentApi {
     }
     async create(
         body: IEstablishmentCreateRequest
-    ): Promise<IEstablishmentEntity | null> {
+    ): Promise<IBaseModerationResponse | null> {
         try {
             const response = await apiClient.post(`/establishment`, body);
             return response.data;
@@ -66,7 +68,7 @@ export default class EstablishmentApi {
     async update(
         id: string,
         body: IEstablishmentCreateRequest
-    ): Promise<IEstablishmentEntity | null> {
+    ): Promise<IBaseModerationResponse | null> {
         try {
             const response = await apiClient.patch(
                 `/establishment/${id}`,

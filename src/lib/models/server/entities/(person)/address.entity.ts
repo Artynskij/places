@@ -1,5 +1,6 @@
-export interface IAddressEntity {
-    Id: string;
+import { IBaseEntity } from "../base/base.entity";
+
+export interface IAddressEntity extends IBaseEntity {
     Street: string | null;
     House: string | null;
     Building: string | null;
@@ -8,9 +9,6 @@ export interface IAddressEntity {
     Country: string | null;
     District: string | null;
     Town: string | null;
-    CreatedDate: string;
-    LastModifiedDate: string;
-    DeletedDate: string | null;
 
     Location: string | null;
 }

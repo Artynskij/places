@@ -13,6 +13,7 @@ interface IPropUploadPublicFileOfAntdFiles {
     vendorId: string;
     files: UploadFile[] | [];
     seo?: { title: string; alt: string }[];
+    main?:boolean;
 }
 export class FileUploadService {
     private FileUploadApi: FileUploadApi;

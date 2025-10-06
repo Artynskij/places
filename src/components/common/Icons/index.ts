@@ -5,6 +5,7 @@ export { IconArrowRight } from "./IconArrowRight/ArrowRightIcon";
 export { IconAttraction } from "./IconAttraction/AttractionIcon";
 export { IconCancel } from "./IconCancel/IconCancel";
 export { IconClock } from "./IconClock/IconClock";
+export { IconCopy } from "./IconCopy/IconCopy";
 export { IconDelete } from "./IconDelete/IconDelete";
 export { IconDone } from "./IconDone/IconDone";
 export { IconEater } from "./IconEater/EaterIcon";

@@ -5,10 +5,15 @@ import BusinessApi from "./business.endpoints";
 import {
     IBusinessAssignmentGetQueryRequest,
     IBusinessAssignmentRequest,
+    IBusinessGetAllQueryRequest,
     IBusinessRequest,
 } from "@/lib/models/server/request/business/business.request";
-import { IBusinessPersonAssignEntity } from "@/lib/models";
+import {
+    IBusinessPersonAssignEntity,
+    IBusinessWithContentEntity,
+} from "@/lib/models";
 import { InvitesService } from "../invites/invites.service";
+import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
 
 export class BusinessService {
     private BusinessApi: BusinessApi;
@@ -22,19 +27,21 @@ export class BusinessService {
         this.DataLoadManagementService = new DataLoadManagementService();
         this.InvitesService = new InvitesService();
     }
-
-    async getBusinessById(
-        id: string,
-        lang?: string
-    ): Promise<IBusinessFront | null> {
-        const response = this.BusinessApi.getBusinessById(id, lang).then(
+    async getAll(
+        query: IBusinessGetAllQueryRequest
+    ): Promise<IBusinessWithContentEntity[] | null> {
+        const response = this.BusinessApi.getAll(query);
+        return response;
+    }
+    async getById(id: string, lang?: string): Promise<IBusinessFront | null> {
+        const response = this.BusinessApi.getById(id, lang).then(
             (res) => res?.business || null
         );
 
         return response;
     }
 
-    async createBusiness(
+    async create(
         body: IBusinessRequest,
         personId: string
     ): Promise<ICreateBusinessResponse> {
@@ -49,7 +56,7 @@ export class BusinessService {
         };
 
         // 1. Создание бизнеса
-        const businessResponse = await this.BusinessApi.createBusiness(body);
+        const businessResponse = await this.BusinessApi.create(body);
         if (!businessResponse) {
             mainResponse.status.businessCreated = StepStatus.Failed;
             return mainResponse;
@@ -59,8 +66,14 @@ export class BusinessService {
 
         // 2. Привязка владельца
         const businessAssignResponse = await this.BusinessAssignmentApi.create({
-            Business: businessResponse.Id,
-            Person: personId,
+            moderation: body.moderation,
+            data: {
+                source: {
+                    BusinessId: businessResponse.entityId,
+                    PersonId: personId,
+                    // BusinessPositionId: "01K0Z1V1C2N000000000000005",
+                },
+            },
         });
         if (!businessAssignResponse) {
             mainResponse.status.businessAssignCreated = StepStatus.Failed;
@@ -80,7 +93,7 @@ export class BusinessService {
 
         // 4. Создание инвайта
         const inviteResponse = await this.InvitesService.create({
-            businessId: businessResponse.Id,
+            businessId: businessResponse.entityId,
             personId,
             roleId: roleOwnerId,
         });
@@ -101,11 +114,11 @@ export class BusinessService {
         return mainResponse;
     }
 
-    async updateBusiness(
+    async update(
         id: string,
         body: IBusinessRequest
-    ): Promise<IBusinessFront | null> {
-        const response = this.BusinessApi.updateBusiness(id, body);
+    ): Promise<IBaseModerationResponse | null> {
+        const response = this.BusinessApi.update(id, body);
         return response;
     }
 
@@ -131,6 +144,6 @@ interface ICreateBusinessStatus {
 }
 
 interface ICreateBusinessResponse {
-    business: IBusinessFront | null;
+    business: IBaseModerationResponse | null;
     status: ICreateBusinessStatus;
 }

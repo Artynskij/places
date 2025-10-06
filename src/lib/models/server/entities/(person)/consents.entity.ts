@@ -1,5 +1,6 @@
-export interface IConsentsEntity {
-    Id:string;
+import { IBaseEntity } from "../base/base.entity";
+
+export interface IConsentsEntity extends IBaseEntity {
     PersonId: string;
     BusinessId: string | null;
     ConfirmedHonesty: boolean;
@@ -9,8 +10,4 @@ export interface IConsentsEntity {
     AgreedReviewsNotification: boolean;
     AgreedPersonalDataProcessing: boolean;
     AgreedAutoPublish: boolean;
-    ContentId: string|  null;
-    CreatedDate: string;
-    LastModifiedDate: string;
-    DeletedDate:string|  null;
 }

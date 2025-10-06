@@ -17,15 +17,28 @@ export const ROUTES = {
         LOGIN: "/login",
     },
     PROFILE: {
-        OWNER:(username: string, tab?:string) => `/owner/${username}${tab ? `?${CONSTANT_SEARCH_PARAMS.TAB}=${tab}` : ''}`,
-        BUSINESS: (businessId: string, tab?:string) => `/business/${businessId}${tab ? `?${CONSTANT_SEARCH_PARAMS.TAB}=${tab}` : ''}`,
-        TOURIST: (username: string, tab?:string) => `/tourist/${username}${tab ? `?${CONSTANT_SEARCH_PARAMS.TAB}=${tab}` : ''}`,
-        USER: (username: string, tab?:string) => `/user/${username}${tab ? `?${CONSTANT_SEARCH_PARAMS.TAB}=${tab}` : ''}`,
+        OWNER: (username: string, tab?: string) =>
+            `/owner/${username}${
+                tab ? `?${CONSTANT_SEARCH_PARAMS.TAB}=${tab}` : ""
+            }`,
+        BUSINESS: (businessId: string, tab?: string) =>
+            `/business/${businessId}${
+                tab ? `?${CONSTANT_SEARCH_PARAMS.TAB}=${tab}` : ""
+            }`,
+        TOURIST: (username: string, tab?: string) =>
+            `/tourist/${username}${
+                tab ? `?${CONSTANT_SEARCH_PARAMS.TAB}=${tab}` : ""
+            }`,
+        USER: (username: string, tab?: string) =>
+            `/user/${username}${
+                tab ? `?${CONSTANT_SEARCH_PARAMS.TAB}=${tab}` : ""
+            }`,
         SETTINGS: {
-            OWNER: (username:string) => `/owner/${username}/settings`,
+            OWNER: (username: string) => `/owner/${username}/settings`,
             TOURIST: (username: string, tab?: "notification" | "personal") =>
                 `/tourist/${username}/settings${`?tab=${tab || "personal"}`}`,
-            BUSINESS:(businessId:string) => `/business/${businessId}/settings`
+            BUSINESS: (businessId: string) =>
+                `/business/${businessId}/settings`,
         },
     },
     FILTER: (location: string, typeEst: string) =>
@@ -67,17 +80,17 @@ export const ROUTES = {
         BUSINESS: "/form/business",
         ESTABLISHMENT_CREATE: "/form/establishment",
     },
-    ADMIN:{
-        ROOT:'/admin',
-        ARTICLES:'/admin/articles',
-        ATTRIBUTES:'/admin/attributes',
-        BUSINESSES:'/admin/businesses',
-        ESTABLISHMENTS:'/admin/establishments',
-        LOCATIONS:'/admin/locations',
-        USERS:'/admin/users',
+    ADMIN: {
+        ROOT: "/admin",
+        ARTICLES: "/admin/articles",
+        ATTRIBUTES: "/admin/attributes",
+        BUSINESS: "/admin/business",
+        ESTABLISHMENTS: "/admin/establishments",
+        LOCATIONS: "/admin/locations",
+        USERS: "/admin/users",
 
-        DATA_MANAGER:'/admin/data-management',
-    }
+        DATA_MANAGER: "/admin/data-management",
+    },
 };
 
 export const ROUTES_FINDER = {

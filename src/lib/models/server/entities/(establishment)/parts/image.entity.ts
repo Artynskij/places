@@ -5,6 +5,7 @@ export interface IImageEntity {
     type: TTypeFile;
     blobPath: string;
     fileName: string;
+    main?: boolean;
     details: {
         lang: TLocale;
         value: {
@@ -29,4 +30,4 @@ export interface IImagePrivateEntity {
     width: number;
     height: number;
 }
-export interface IImageCreateEntity {}
+// export interface IImageCreateEntity {}

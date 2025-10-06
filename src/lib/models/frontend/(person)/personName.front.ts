@@ -5,7 +5,9 @@ export interface IPersonNameFront {
     name: string | null;
     secondName: string | null;
     surname: string | null;
+    fullName: string | null;
     originalName: string | null;
     originalSurname: string | null;
     originalSecondName: string | null;
+    originalFullName: string | null;
 }

@@ -66,8 +66,12 @@ export const FormRegister = () => {
 
     const onSubmit: SubmitHandler<TTypeForm> = async (dataForm) => {
         console.log("Form Data:", dataForm);
+        const batchId = "";
         const createdContact = await contactsPersonService.create({
-            source: { Email: dataForm.email },
+            moderation: {},
+            data: {
+                source: { Email: dataForm.email },
+            },
         });
         if (!createdContact) {
             notification.error({
@@ -76,9 +80,13 @@ export const FormRegister = () => {
             return;
         }
         const createdPerson = await personService.create({
-            source: {
-                Nickname: dataForm.nickname,
-                Contacts: createdContact.id,
+            moderation: {},
+            data: {
+                source: {
+                    Nickname: dataForm.nickname,
+                    Email: dataForm.email,
+                    Contacts: createdContact.entityId,
+                },
             },
         });
         if (!createdPerson) {

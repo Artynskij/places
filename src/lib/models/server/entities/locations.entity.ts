@@ -1,11 +1,11 @@
 import { IContentLocationEntity } from "./(establishment)/parts/content.entity";
+import { IBaseEntity } from "./base/base.entity";
 
-export interface ILocationsEntity {
-    Id: string;
+export interface ILocationsEntity extends IBaseEntity {
     ParentId: string;
     LocationTypeSecondary: string | null;
     Path: string;
-    ContentId: string;
+
     LocationType?: {
         Id: string;
         Name: string;

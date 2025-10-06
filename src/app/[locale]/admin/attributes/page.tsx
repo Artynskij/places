@@ -1,4 +1,5 @@
 import { IBasePageProps } from "@/lib/models/common/IType";
+import { AttributesAdminScreen } from "@/screens/(Admin)/Attributes/Attributes.screen";
 
 export async function generateMetadata() {
     return {
@@ -13,8 +14,7 @@ interface IProps extends IBasePageProps {
 export default function AttributesAdminPage({ params, searchParams }: IProps) {
     return (
         <>
-            <div>attributes</div>
-            {/* <DataManagerScreen /> */}
+            <AttributesAdminScreen />
         </>
     );
 }

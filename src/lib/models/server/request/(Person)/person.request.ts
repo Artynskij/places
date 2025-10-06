@@ -1,4 +1,6 @@
-export interface IPersonRequest {
+import { IBaseModerationRequest } from "../base/base-with-moderation.request";
+
+interface PersonData {
     source: {
         TZ?: string | null;
         Nickname?: string | null;
@@ -19,3 +21,4 @@ export interface IPersonRequest {
         PersonSettings?: string | null;
     };
 }
+export interface IPersonRequest extends IBaseModerationRequest<PersonData> {}

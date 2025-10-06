@@ -1,12 +1,8 @@
 import { IContentEntity } from "./(establishment)/parts/content.entity";
+import { IBaseEntity } from "./base/base.entity";
 
-export interface ILocationTypeEntity {
-    Id: string;
+export interface ILocationTypeEntity extends IBaseEntity {
     Name: string;
-    ContentId: null;
-    CreatedDate: string;
-    LastModifiedDate: string;
-    DeletedDate: null;
 }
 export interface ILocationTypeWithContentEntity {
     type: ILocationTypeEntity;

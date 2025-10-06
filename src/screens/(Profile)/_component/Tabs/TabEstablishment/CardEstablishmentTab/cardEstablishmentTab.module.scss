@@ -37,6 +37,10 @@
         }
         &_text {
             @extend %Text18;
+            transition: $transition;
+            &:hover {
+                color: $color-main-blue_hover;
+            }
         }
 
         &_location {

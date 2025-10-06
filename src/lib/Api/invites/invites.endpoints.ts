@@ -1,7 +1,7 @@
 import { IInvitesByQueryItemResponse } from "../../models/server/response/invites/invites.response";
 import { IInvitesEntity } from "@/lib/models/server/entities/invites.entity";
 import { IInvitesRequest } from "@/lib/models/server/request/invites/invites.request";
-import apiClient from "../ApiClient";
+import apiClient from "../base/ApiClient";
 
 export default class InvitesApi {
     constructor() {}

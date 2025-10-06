@@ -5,13 +5,15 @@ import style from "./settings.module.scss";
 import { SwitchToggle } from "@/components/UI/SwitchToggle/SwitchToggle";
 import { Controller, useForm } from "react-hook-form";
 import { useNotification } from "@/lib/context";
-import { PersonSettingsService } from "@/lib/Api/(Person)/personSettings/personSettings.service";
+// import { PersonSettingsService } from "@/lib/Api/(Person)/personSettings/personSettings.service";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 
 import { useEffect, useState } from "react";
 import { IPersonSettingsFront } from "@/lib/models/frontend/(person)/personSettings.front";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { Loader } from "../../Loader/Loader";
+import { ModerationService } from "@/lib/Api/moderation/moderation.service";
+import { PersonSettingsService } from "@/lib/Api/(Person)/personSettings.api";
 
 type TNotificationSettings = {
     ShowTravelMap: boolean;
@@ -28,8 +30,9 @@ type TNotificationSettings = {
 };
 export const FormNotificationTourist = () => {
     const notification = useNotification();
-    const personApi = new PersonService();
-    const personSettingsApi = new PersonSettingsService();
+
+    const personSettingsService = new PersonSettingsService();
+    const moderationService = new ModerationService();
     const { user, loadingUser } = useUser();
     // const [notificationData, setNotificationData] =
     //     useState<IPersonSettingsFront>();
@@ -64,14 +67,30 @@ export const FormNotificationTourist = () => {
     }, [reset, loadingUser]);
     const onSubmit = async (dataForm: TNotificationSettings) => {
         if (!user) return;
-
-        if (user.personSettings) {
-            await personSettingsApi.update(user.personSettings.id, dataForm);
-        } else {
-            await personSettingsApi.create(user.id, dataForm);
+        const moderationObject = await moderationService.getModerationData(
+            user.id
+        );
+        if (!moderationObject) {
+            notification.error({
+                message: "Серверная проблема, попробуйте позже",
+            });
+            return;
         }
-
-        notification.success({ message: "данные успешно сохранены" });
+        const response = await personSettingsService.updateOrCreate(
+            user.personSettings?.id || null,
+            {
+                moderation: moderationObject,
+                data: { source: dataForm },
+            },
+            user.id
+        );
+        if (response) {
+            notification.success({ message: "данные успешно сохранены" });
+        } else {
+            notification.error({
+                message: "Серверная ошибка. Попробуйте позже",
+            });
+        }
     };
     if (loadingUser) return <Loader />;
     return (

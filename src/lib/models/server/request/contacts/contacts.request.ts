@@ -1,4 +1,6 @@
-export interface IContactsRequest {
+import { IBaseModerationRequest } from "../base/base-with-moderation.request";
+
+interface ContactsData {
     source: {
         Email?: string | null;
         Phone?: string | null;
@@ -7,3 +9,5 @@ export interface IContactsRequest {
         Address?: string | null;
     };
 }
+export interface IContactsRequest
+    extends IBaseModerationRequest<ContactsData> {}

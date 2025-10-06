@@ -1,3 +1,4 @@
+import { IBaseModerationResponse } from '@/lib/models/server/response/base/base-moderation.response';
 import { IEstablishmentPersonAssignWithContentEntity } from "../../../models/server/entities/(establishment)/establishment.entity";
 
 import {
@@ -6,8 +7,9 @@ import {
     IEstablishmentPersonAssignGetAllRequest,
     IEstablishmentPersonAssignRequest,
 } from "@/lib/models";
-import { BaseApiService } from "../../BaseApi.service";
-import apiClient from "../../ApiClient";
+import { BaseApiService } from "../../base/BaseApi.service";
+import apiClient from "../../base/ApiClient";
+
 
 export class EstablishmentPersonAssignmentMapper {
     constructor() {}
@@ -41,7 +43,8 @@ export class EstablishmentPersonAssignmentApi extends BaseApiService<
     IEstablishmentPersonAssignEntity,
     IEstablishmentPersonAssignWithContentEntity,
     IEstablishmentPersonAssignFront,
-    IEstablishmentPersonAssignRequest
+    IEstablishmentPersonAssignRequest,
+    IBaseModerationResponse
     // RequestGetAllType: IEstablishmentPersonAssignGetAllRequest;
 > {
     protected baseUrl = "/establishments-of-person";

@@ -4,14 +4,8 @@ import style from "./settings.module.scss";
 import * as Yup from "yup";
 
 import { useNotification } from "@/lib/context";
-import {
-    Controller,
-    FieldError,
-    useFieldArray,
-    useForm,
-} from "react-hook-form";
+import { Controller, FieldError, useForm } from "react-hook-form";
 
-import { validDateSchema, validPhoneSchema } from "@/lib/validationSchemas";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 import { InputPhoneNumber } from "@/components/UI/Input/InputPhone/InputPhone";
@@ -19,80 +13,41 @@ import { Button } from "@/components/UI/Button/Button";
 
 import { useEffect, useState } from "react";
 
-import { UploadButton } from "@/components/common/ButtonFunctional/UploadButton";
-import { validImageFileSchema } from "@/lib/validationSchemas/file/imageArraySchema";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
-import { mockPersonId } from "@/asset/mockData/mockServerData";
 
-import { PersonNameService } from "@/lib/Api/(Person)/personName/personName.service";
-// import { ContactsPersonService } from "@/lib/Api/contacts/contacts.service";
-import { ContactsPersonService } from "@/lib/Api/(Person)/contactPerson.api";
-import { AddressService } from "@/lib/Api/(Person)/address/address.api";
-// import { AddressService } from "@/lib/Api/(Person)/address/address.service";
-import { SocialNetworksService } from "@/lib/Api/(Person)/socialNetworksPerson/socialNetworksPerson.service";
-
-import { validSocialNetworksSchema } from "@/lib/validationSchemas/socialNetworksSchema";
 import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
-import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
+
 import Image from "next/image";
 
 import { TextareaForm } from "@/components/UI/Textarea/TextareaForm/TextareaForm";
 
 import { SocialContactsBlockForm } from "../_components/SocialContacts/SocialContacts";
-import { getSimpleObjectDiff } from "@/lib/helpers/getChangedFieldsForApi";
 
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
 import { Loader } from "../../Loader/Loader";
-import { DeleteButton } from "../../ButtonFunctional/DeleteButton";
+
 import { GenderBlockForm } from "../_components/GenderBlock/GenderBlock";
 import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
 
 import { AvatarBlockForm } from "../_components/AvatarBlock/AvatarBlock";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
-import {
-    IContactsRequest,
-    IPersonFront,
-    IPersonNameRequest,
-    IPersonRequest,
-    ISocialContactsRequest,
-} from "@/lib/models";
+import { IPersonFront } from "@/lib/models";
 import { useUser } from "@/lib/context/UserContext/UserContext";
+import { validationPersonTourist } from "@/lib/validationSchemas/person/personValid.schema";
+import { ModerationService } from "@/lib/Api/moderation/moderation.service";
+import { GeneralPersonService } from "@/lib/Api/(MainService)/person.general";
 
-type TTypeForm = Yup.InferType<typeof validationSchema>;
+type TTypeForm = Yup.InferType<typeof validationPersonTourist>;
 
-const validationSchema = Yup.object().shape({
-    fullName: Yup.object().shape({
-        name: Yup.string(),
-        secondName: Yup.string(), // Отчество может быть необязательным
-        surname: Yup.string(),
-    }),
-    dateOfBirth: validDateSchema,
-    gender: Yup.string(),
-    nickname: Yup.string(),
-    email: Yup.string().email("Невалидный email"),
-    phone: validPhoneSchema,
-    address: Yup.object().shape({
-        country: Yup.string(),
-        town: Yup.string(),
-    }),
-    socialContacts: validSocialNetworksSchema,
-    avatar: Yup.array()
-        .of(validImageFileSchema)
-        .max(1, "Можно загрузить не более 1 фоток"),
-    description: Yup.string(),
-});
 export const FormSettingsTourist = () => {
     const notification = useNotification();
     const { user } = useUser();
 
     const personService = new PersonService();
-    const personNameService = new PersonNameService();
-    const addressService = new AddressService();
-    const contactsPersonService = new ContactsPersonService();
-    const socialNetworksService = new SocialNetworksService();
+    const moderationService = new ModerationService();
 
-    const fileUploadService = new FileUploadService();
+    const generalPersonService = new GeneralPersonService();
 
     const router = useRouter();
 
@@ -106,7 +61,7 @@ export const FormSettingsTourist = () => {
         watch,
         formState: { errors },
     } = useForm<TTypeForm>({
-        resolver: yupResolver(validationSchema),
+        resolver: yupResolver(validationPersonTourist),
     });
 
     useEffect(() => {
@@ -151,7 +106,7 @@ export const FormSettingsTourist = () => {
         });
     }, [reset]);
 
-    const onSubmit = async (dataForm: TTypeForm) => {
+    const onSubmit = async (formData: TTypeForm) => {
         if (!initialFormData) {
             notification.error({
                 message: "не найден изначальные данные формы",
@@ -159,166 +114,26 @@ export const FormSettingsTourist = () => {
             return;
         }
 
-        const changes = getSimpleObjectDiff<TTypeForm>(
-            initialFormData,
-            dataForm
-        );
-
-        if (Object.keys(changes).length === 0) {
-            notification.info({ message: "Нет изменений для сохранения" });
-            return;
-        }
-
         if (!personData) {
             notification.error({ message: "не найден пользователь" });
             return;
         }
+        const response = await generalPersonService.updateTourist({
+            formData: formData,
+            initialForm: initialFormData,
+            personData: personData,
+        });
+        if (response) {
+            notification.success({
+                message: "Данные отправлены на верификацию",
+            });
 
-        const bodyToPersonUpdate: IPersonRequest = { source: {} };
-
-        //  Обработка аватара
-        if (changes.avatar) {
-            const file = changes.avatar[0];
-            if (file) {
-                const imageUrl = await fileUploadService.uploadPublic({
-                    file,
-                    type: "image",
-                    vendorId: personData.id,
-                });
-                bodyToPersonUpdate.source.AvatarPhotoPath = imageUrl?.blobPath;
-            } else {
-                bodyToPersonUpdate.source.AvatarPhotoPath = null;
-            }
+            router.push(ROUTES.PROFILE.TOURIST(personData.id));
+        } else {
+            notification.error({
+                message: "Что-то пошло не так при обновлении данных",
+            });
         }
-
-        //  Обработка описания
-        if ("description" in changes) {
-            bodyToPersonUpdate.source.About = changes.description ?? null;
-        }
-        if ("gender" in changes) {
-            bodyToPersonUpdate.source.Gender = changes.gender ?? null;
-        }
-        if ("dateOfBirth" in changes) {
-            bodyToPersonUpdate.source.BirthDate = changes.dateOfBirth ?? null;
-        }
-        //  nickname описания
-        if ("nickname" in changes) {
-            bodyToPersonUpdate.source.Nickname = changes.nickname ?? null;
-        }
-
-        //  Обработка ФИО
-        if ("fullName" in changes && changes.fullName) {
-            const fullName = changes.fullName;
-
-            const bodyPersonName: Partial<IPersonNameRequest["source"]> = {};
-
-            if ("name" in fullName) {
-                // bodyPersonName.FirstName = fullName.name ?? null;
-                bodyPersonName.FirstName = fullName.name ?? null; // если нужно
-            }
-            if ("surname" in fullName) {
-                // bodyPersonName.LastName = fullName.surname ?? null;
-                bodyPersonName.LastName = fullName.surname ?? null; // если нужно
-            }
-            if ("secondName" in fullName) {
-                bodyPersonName.MiddleName = fullName.secondName ?? null;
-            }
-
-            // Если есть хоть одно поле
-            if (Object.keys(bodyPersonName).length > 0) {
-                const personNameResponse =
-                    await personNameService.updatePersonName(
-                        personData.personName?.id || null,
-                        { source: bodyPersonName }
-                    );
-
-                if (personNameResponse) {
-                    bodyToPersonUpdate.source.PersonName =
-                        personNameResponse.id;
-                }
-            }
-        }
-
-        // 📌 Обработка адреса
-        let addressRes = null;
-        if ("address" in changes) {
-            const addr = changes.address || {};
-            const bodyAddress = {
-                Country: addr.country ?? null,
-
-                Town: addr.town ?? null,
-            };
-
-            addressRes = await addressService.updateOrCreate(
-                personData.contacts?.address?.id || null,
-                bodyAddress
-            );
-        }
-
-        // 📌 Обработка соцсетей
-        let socialRes = null;
-        if ("socialContacts" in changes) {
-            const bodySocialNetworks =
-                changes.socialContacts?.reduce<ISocialContactsRequest>(
-                    (acc, soc) => {
-                        acc[soc.type] = soc.url;
-                        return acc;
-                    },
-                    {}
-                ) ?? null;
-
-            socialRes = await socialNetworksService.updateSocialNetworksPerson(
-                personData.contacts?.socialNetworks?.id || null,
-                bodySocialNetworks
-            );
-        }
-
-        // 📌 Обработка контактов
-        if (
-            "email" in changes ||
-            "phone" in changes ||
-            addressRes ||
-            socialRes
-        ) {
-            const bodyContacts: IContactsRequest = {
-                source: {
-                    Email:
-                        "email" in changes
-                            ? changes.email ?? null
-                            : personData.contacts?.email ?? null,
-                    Phone:
-                        "phone" in changes
-                            ? changes.phone ?? null
-                            : personData.contacts?.phone ?? null,
-                    Address:
-                        addressRes?.id ||
-                        personData.contacts?.address?.id ||
-                        null,
-                    SocialContacts:
-                        socialRes?.id ||
-                        personData.contacts?.socialNetworks?.id ||
-                        null,
-                },
-            };
-
-            const contactsResponse = await contactsPersonService.updateOrCreate(
-                personData.contacts?.id || null,
-                bodyContacts
-            );
-
-            if (contactsResponse) {
-                bodyToPersonUpdate.source.Contacts = contactsResponse.id;
-            }
-        }
-
-        // 📌 Финальный update
-        if (bodyToPersonUpdate) {
-            await personService.update(personData.id, bodyToPersonUpdate);
-        }
-
-        notification.success({ message: "Данные отправлены на верификацию" });
-
-        router.push(ROUTES.PROFILE.TOURIST("sherlock_bones"));
     };
 
     const onSubmitInvalid = (e: any) => {
@@ -328,12 +143,19 @@ export const FormSettingsTourist = () => {
             message: "Пожалуйста, заполните обязательные поля",
         });
     };
-    const handlerDeleteAvatar = () => {
+    const handlerDeleteAvatar = async () => {
         if (!personData) return;
+        const moderationObject = await moderationService.getModerationData(
+            personData.id
+        );
+        if (!moderationObject) return;
         personService
             .update(personData.id, {
-                source: {
-                    AvatarPhotoPath: null,
+                moderation: moderationObject,
+                data: {
+                    source: {
+                        AvatarPhotoPath: null,
+                    },
                 },
             })
             .then(() => {

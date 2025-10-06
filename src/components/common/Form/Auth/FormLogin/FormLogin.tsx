@@ -68,7 +68,7 @@ export const FormLogin = () => {
             }
         };
     }, []);
-    const { user, setUser } = useUser();
+    const { setUser } = useUser();
     const onSubmit: SubmitHandler<TTypeForm> = async (data) => {
         const findPersonID = await personService.getByEmail(data.email);
         if (!findPersonID) {

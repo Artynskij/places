@@ -4,6 +4,7 @@ import { IInvitesRequest } from "@/lib/models/server/request/invites/invites.req
 import InvitesApi from "./invites.endpoints";
 import { IInvitesFront } from "@/lib/models/frontend/invites.front";
 import { IInvitesByQueryItemResponse } from "@/lib/models";
+import { TLocale } from "@/lib/models/types";
 
 export class InvitesService {
     private InvitesApi: InvitesApi;
@@ -19,7 +20,7 @@ export class InvitesService {
     async getByQuery(body: {
         personId?: string;
         businessId?: string;
-        lang: string;
+        lang: TLocale;
     }): Promise<IInvitesByQueryItemResponse[] | null> {
         const response = await this.InvitesApi.getByQuery(body);
         return response;

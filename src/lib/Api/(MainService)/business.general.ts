@@ -1,17 +1,16 @@
-import { TAgreementKey } from "./../../models/types/TAgreementKey";
 import * as Yup from "yup";
 import {
     IBusinessFront,
     IConsentsPatchRequest,
     IImageEntity,
 } from "@/lib/models";
-import { AddressService } from "../(Person)/address/address.api";
+
 import { ConsentsService } from "../(Person)/consents/consents.service";
 import { ContactsPersonService } from "../(Person)/contactPerson.api";
 import { BusinessService } from "../business/business.service";
 import { DataLoadManagementService } from "../dataLoadManagement/dataLoadManagement.service";
 import { FileUploadService } from "../fileUpload/fileUploads.service";
-import { VerificationService } from "../verification/verification.api";
+import { VerificationService } from "../verification.api";
 // import { validationUpdateBusinessSchema } from "@/lib/validationSchemas/business/updateBusiness.schema";
 import { getSimpleObjectDiff } from "@/lib/helpers/getChangedFieldsForApi";
 
@@ -20,6 +19,8 @@ import {
     validationBusinessLegalEntitySchema,
     validationBusinessSoleProprietorSchema,
 } from "@/lib/validationSchemas/business/businessValid.schema";
+import { AddressService } from "../(Person)/address.api";
+import { ModerationService } from "../moderation/moderation.service";
 
 type TypeFormIndividual = Yup.InferType<
     typeof validationBusinessIndividualSchema
@@ -46,6 +47,8 @@ export class GeneralBusinessService {
     private verificationService: VerificationService;
     private fileUploadService: FileUploadService;
     private dataLoadManagementService: DataLoadManagementService;
+
+    private moderationService: ModerationService;
     constructor() {
         this.businessService = new BusinessService();
         this.contactsService = new ContactsPersonService();
@@ -54,6 +57,8 @@ export class GeneralBusinessService {
         this.verificationService = new VerificationService();
         this.fileUploadService = new FileUploadService();
         this.dataLoadManagementService = new DataLoadManagementService();
+
+        this.moderationService = new ModerationService();
     }
     async create({
         activeTab,
@@ -61,12 +66,23 @@ export class GeneralBusinessService {
         userId,
         locale,
     }: IProp): Promise<Boolean> {
+        // 0 📌 получение модерационных данных
+        const moderationObject = await this.moderationService.getModerationData(
+            userId
+        );
+        if (!moderationObject) {
+            console.log("cant get batchId or sessionId");
+            return false;
+        }
         // 1. Создание Адреса
         const createdAddress = await this.addressService.create({
-            Country: formData.address.country,
-            Town: formData.address.town,
-            Street: formData.address.addressLine,
-            PostalCode: formData.address.postalCode || null,
+            moderation: moderationObject,
+            data: {
+                Country: formData.address.country,
+                Town: formData.address.town,
+                Street: formData.address.addressLine,
+                PostalCode: formData.address.postalCode || null,
+            },
         });
 
         if (!createdAddress) {
@@ -75,11 +91,14 @@ export class GeneralBusinessService {
         }
         // 2. Создание Контактов
         const createdContacts = await this.contactsService.create({
-            source: {
-                Address: createdAddress?.id || null,
-                Email: formData.email,
-                Phone: formData.phone,
-                SocialContacts: null,
+            moderation: moderationObject,
+            data: {
+                source: {
+                    Address: createdAddress?.entityId || null,
+                    Email: formData.email,
+                    Phone: formData.phone,
+                    SocialContacts: null,
+                },
             },
         });
 
@@ -99,14 +118,18 @@ export class GeneralBusinessService {
             return false;
         }
         const createdBusiness = await this.businessService
-            .createBusiness(
+            .create(
                 {
-                    source: {
-                        LegalType: legalType?.id,
-                        Contacts: createdContacts?.id || null,
-                        OfficialName: formData.officialName,
-                        RegistrationDate: formData.dateRegister || null,
-                        RegistrationNumber: formData.numberOrganization || null,
+                    moderation: moderationObject,
+                    data: {
+                        source: {
+                            LegalType: legalType?.id,
+                            Contacts: createdContacts?.entityId || null,
+                            OfficialName: formData.officialName,
+                            RegistrationDate: formData.dateRegister || null,
+                            RegistrationNumber:
+                                formData.numberOrganization || null,
+                        },
                     },
                 },
                 userId
@@ -116,9 +139,11 @@ export class GeneralBusinessService {
             });
 
         if (!createdBusiness) {
-            console.error("ERROR сущности бизнеса");
+            console.error("createdBusiness", createdBusiness);
             return false;
         }
+        // 3.1 создание связи person business
+
         // 4. Создание Согласий
         const defaultConsents: IConsentsPatchRequest | null =
             formData.agreements
@@ -129,7 +154,7 @@ export class GeneralBusinessService {
                 : null;
         const createdConsents = await this.consentsService.createConsents({
             ...defaultConsents,
-            Business: createdBusiness.Id,
+            Business: createdBusiness.entityId,
         });
         if (!createdConsents) {
             console.error("ERROR сущности Consents");
@@ -147,7 +172,7 @@ export class GeneralBusinessService {
                         .uploadPrivate({
                             file,
                             fileName: "image",
-                            vendorId: createdBusiness.Id,
+                            vendorId: createdBusiness.entityId,
                         })
                         .then((res) => {
                             if (!res) throw new Error("Файл не загрузился");
@@ -182,14 +207,17 @@ export class GeneralBusinessService {
                 return false;
             }
             const createdVerification = await this.verificationService.create({
-                source: {
-                    Business: createdBusiness.Id,
-                },
-                content: {
-                    details: [
-                        { lang: "ru", value: "documentBusinessIndividual" },
-                    ],
-                    media: { gallery: uploadFiles },
+                moderation: moderationObject,
+                data: {
+                    source: {
+                        Business: createdBusiness.entityId,
+                    },
+                    content: {
+                        details: [
+                            { lang: "ru", value: "documentBusinessIndividual" },
+                        ],
+                        media: { gallery: uploadFiles },
+                    },
                 },
             });
 
@@ -207,9 +235,18 @@ export class GeneralBusinessService {
 
         business,
         initialForm,
+        userId,
     }: IProp): Promise<Boolean> {
         if (!business || !initialForm) return false;
 
+        // 0 📌 получение модерационных данных
+        const moderationObject = await this.moderationService.getModerationData(
+            userId
+        );
+        if (!moderationObject) {
+            console.log("cant get batchId or sessionId");
+            return false;
+        }
         const changes = getSimpleObjectDiff<TypeForm>(initialForm, formData);
         delete (changes as TypeForm).documentsVerify;
 
@@ -260,10 +297,10 @@ export class GeneralBusinessService {
                 Object.keys(bodyAddress).length > 0 &&
                 business.Contacts?.Address?.Id
             ) {
-                await this.addressService.update(
-                    business.Contacts.Address.Id,
-                    bodyAddress
-                );
+                await this.addressService.update(business.Contacts.Address.Id, {
+                    moderation: moderationObject,
+                    data: bodyAddress,
+                });
             }
         }
 
@@ -282,11 +319,11 @@ export class GeneralBusinessService {
 
             const contactsRes = await this.contactsService.updateOrCreate(
                 business.Contacts?.Id || null,
-                { source: bodyContacts }
+                { moderation: moderationObject, data: { source: bodyContacts } }
             );
 
             if (contactsRes) {
-                bodyToBusinessUpdate.source.Contacts = contactsRes.id;
+                bodyToBusinessUpdate.source.Contacts = contactsRes.entityId;
             }
         }
 
@@ -339,17 +376,20 @@ export class GeneralBusinessService {
                 }
                 const createdVerification =
                     await this.verificationService.create({
-                        source: {
-                            Business: business.Id,
-                        },
-                        content: {
-                            details: [
-                                {
-                                    lang: "ru",
-                                    value: "documentBusinessIndividual",
-                                },
-                            ],
-                            media: { gallery: uploadFiles },
+                        moderation: moderationObject,
+                        data: {
+                            source: {
+                                Business: business.Id,
+                            },
+                            content: {
+                                details: [
+                                    {
+                                        lang: "ru",
+                                        value: "documentBusinessIndividual",
+                                    },
+                                ],
+                                media: { gallery: uploadFiles },
+                            },
                         },
                     });
 
@@ -364,7 +404,7 @@ export class GeneralBusinessService {
 
         // --- Финальный update бизнеса ---
         if (Object.keys(bodyToBusinessUpdate.source).length > 0) {
-            await this.businessService.updateBusiness(
+            await this.businessService.update(
                 business.Id,
                 bodyToBusinessUpdate
             );

@@ -1,6 +1,7 @@
+import { TLocale } from "@/lib/models/types";
 import { IContentEntity, IRoleOwnerWithContentEntity } from "../../entities";
-
-export interface IBusinessRequest {
+import { IBaseModerationRequest } from "../base/base-with-moderation.request";
+interface BusinessReqData {
     source: {
         OfficialName: string | null;
         RegistrationNumber: string | null;
@@ -11,12 +12,26 @@ export interface IBusinessRequest {
 
     content?: IContentEntity;
 }
-export interface IBusinessAssignmentRequest {
-    Person?: string;
-    Business?: string;
-    BusinessPosition?: string;
-    IsOwnerVerified?: boolean;
+export interface IBusinessRequest
+    extends IBaseModerationRequest<BusinessReqData> {}
+export interface IBusinessGetAllQueryRequest {
+    lang?: TLocale;
+    Ids?: string;
+    EstablishmentId?: string;
+    // LegalTypeIds?:string[]
+    OfficialName?: string;
+    RegistrationNumber?: string;
 }
+interface BusinessAssignmentDataReq {
+    source: {
+        PersonId?: string;
+        BusinessId?: string;
+        BusinessPositionId?: string;
+        IsOwnerVerified?: boolean;
+    };
+}
+export interface IBusinessAssignmentRequest
+    extends IBaseModerationRequest<BusinessAssignmentDataReq> {}
 export interface IBusinessAssignmentGetQueryRequest {
     personId?: string;
     businessId?: string;

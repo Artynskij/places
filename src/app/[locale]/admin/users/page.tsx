@@ -1,4 +1,5 @@
 import { IBasePageProps } from "@/lib/models/common/IType";
+import { UserAdminScreen } from "@/screens/(Admin)/Users/UsersAdmin.screen";
 
 export async function generateMetadata() {
     return {
@@ -13,7 +14,7 @@ interface IProps extends IBasePageProps {
 export default function UsersAdminPage({ params, searchParams }: IProps) {
     return (
         <>
-            <div>users</div>
+            <UserAdminScreen></UserAdminScreen>
             {/* <DataManagerScreen /> */}
         </>
     );

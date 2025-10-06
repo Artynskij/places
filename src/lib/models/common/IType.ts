@@ -1,8 +1,10 @@
+import { TLocale } from "../types";
+
 export interface IBasePageProps<
   TParams extends object = {},
   TSearchParams extends object = {}
 > {
-  params: { locale: string } & TParams;
+  params: { locale: TLocale } & TParams;
   searchParams?: { [K in keyof TSearchParams]?: string };
 }
 

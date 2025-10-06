@@ -1,10 +1,10 @@
 import {
-    IScheduleCreateRequest,
     IScheduleCreateResponse,
     IScheduleEntity,
-    IScheduleUpdateRequest,
+    IScheduleRequest,
 } from "@/lib/models";
-import apiClient from "../../ApiClient";
+import apiClient from "../../base/ApiClient";
+import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
 
 export class ScheduleApi {
     constructor() {}
@@ -23,8 +23,8 @@ export class ScheduleApi {
         }
     }
     async createScheduleDay(
-        body: IScheduleCreateRequest
-    ): Promise<IScheduleCreateResponse | null> {
+        body: IScheduleRequest
+    ): Promise<IBaseModerationResponse | null> {
         try {
             const response = await apiClient.post(`/schedule`, body);
             return response.data;
@@ -35,13 +35,13 @@ export class ScheduleApi {
     }
     async updateScheduleDay(
         id: string,
-        body: IScheduleUpdateRequest
-    ): Promise<IScheduleCreateResponse | null> {
+        body: IScheduleRequest
+    ): Promise<IBaseModerationResponse | null> {
         try {
             const response = await apiClient.patch(`/schedule/${id}`, body);
             return response.data;
         } catch (error) {
-            console.error(`Ошибка при создании расписания `);
+            console.error(`Ошибка при обновлении расписания `);
             return null;
         }
     }

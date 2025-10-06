@@ -3,7 +3,8 @@ import { unstable_setRequestLocale } from "next-intl/server";
 import ArticlesCategoryScreen from "@/screens/(Article)/ArticleCategoryScreen/ArticleCategoryScreen";
 import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
 import { notFound } from "next/navigation";
-import { ArticleService } from "@/lib/Api/article/article.service";
+import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
+
 // для SSG
 // export async function generateStaticParams() {
 //     return Object.keys(newsCategoriesData).map((category) => ({

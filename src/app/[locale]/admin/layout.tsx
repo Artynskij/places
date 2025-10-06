@@ -3,10 +3,19 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Layout, Menu, theme, Button } from "antd";
 import {
-    DatabaseOutlined,
+    UserOutlined,
+    ShopOutlined,
+    BuildOutlined,
+    EnvironmentOutlined,
+    TagOutlined,
     FileTextOutlined,
+    DatabaseOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
+    TeamOutlined,
+    ApartmentOutlined,
+    GlobalOutlined,
+    ToolOutlined,
 } from "@ant-design/icons";
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./admin.module.scss";
@@ -21,22 +30,27 @@ interface AdminLayoutProps {
 const menuItems = [
     {
         key: ROUTES.ADMIN.USERS,
-        icon: <DatabaseOutlined />,
+        icon: <UserOutlined />,
         label: "Пользователи",
     },
     {
+        key: ROUTES.ADMIN.BUSINESS,
+        icon: <ShopOutlined />,
+        label: "Бизнесы",
+    },
+    {
         key: ROUTES.ADMIN.ESTABLISHMENTS,
-        icon: <DatabaseOutlined />,
+        icon: <BuildOutlined />,
         label: "Объекты",
     },
     {
         key: ROUTES.ADMIN.LOCATIONS,
-        icon: <DatabaseOutlined />,
+        icon: <EnvironmentOutlined />,
         label: "Локации",
     },
     {
         key: ROUTES.ADMIN.ATTRIBUTES,
-        icon: <DatabaseOutlined />,
+        icon: <TagOutlined />,
         label: "Атрибуты",
     },
     {
@@ -51,10 +65,53 @@ const menuItems = [
     },
 ];
 
+// Альтернативный вариант с более специфичными иконками:
+const menuItemsAlternative = [
+    {
+        key: ROUTES.ADMIN.USERS,
+        icon: <TeamOutlined />,
+        label: "Пользователи",
+    },
+    {
+        key: ROUTES.ADMIN.BUSINESS,
+        icon: <ShopOutlined />,
+        label: "Бизнесы",
+    },
+    {
+        key: ROUTES.ADMIN.ESTABLISHMENTS,
+        icon: <ApartmentOutlined />,
+        label: "Объекты",
+    },
+    {
+        key: ROUTES.ADMIN.LOCATIONS,
+        icon: <GlobalOutlined />,
+        label: "Локации",
+    },
+    {
+        key: ROUTES.ADMIN.ATTRIBUTES,
+        icon: <TagOutlined />,
+        label: "Атрибуты",
+    },
+    {
+        key: ROUTES.ADMIN.ARTICLES,
+        icon: <FileTextOutlined />,
+        label: "Контент",
+    },
+    {
+        key: ROUTES.ADMIN.DATA_MANAGER,
+        icon: <ToolOutlined />,
+        label: "Данные",
+    },
+];
+
 const pageTitles: Record<string, string> = {
-    [ROUTES.ADMIN.DATA_MANAGER]: "Управление данными",
-    [ROUTES.ADMIN.ARTICLES]: "Создание статей",
+    [ROUTES.ADMIN.USERS]: "Управление пользователями",
+    [ROUTES.ADMIN.BUSINESS]: "Управление бизнесами",
     [ROUTES.ADMIN.ESTABLISHMENTS]: "Управление объектами",
+    [ROUTES.ADMIN.LOCATIONS]: "Управление локациями",
+    [ROUTES.ADMIN.ATTRIBUTES]: "Управление атрибутами",
+    [ROUTES.ADMIN.ARTICLES]: "Управление контентом",
+    [ROUTES.ADMIN.DATA_MANAGER]: "Управление данными",
 };
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
@@ -93,7 +150,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 </h4>
                 <Menu
                     mode="inline"
-                    items={menuItems}
+                    items={menuItems} // Можно заменить на menuItemsAlternative для другого набора иконок
                     onClick={handleMenuClick}
                     selectedKeys={selectedKeyMenu}
                     style={{ fontSize: "15px", fontWeight: 500 }}
@@ -150,5 +207,3 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </Layout>
     );
 }
-
-// import RootLayout from "@/components/admin/RootLayout";

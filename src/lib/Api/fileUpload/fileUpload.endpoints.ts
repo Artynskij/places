@@ -2,8 +2,9 @@ import {
     IFilePrivateUploadBodyRequest,
     IFilePublicUploadBodyRequest,
 } from "@/lib/models/server/request/fileUpload/fileUpload.request";
-import apiClient from "../ApiClient";
+
 import { IFileUploadResponse } from "@/lib/models/server/response/fileUpload/fileUpload.response";
+import apiClient from "../base/ApiClient";
 
 export default class FileUploadApi {
     constructor() {}
@@ -48,7 +49,12 @@ export default class FileUploadApi {
         try {
             const response = await apiClient.post(
                 `/files/upload-private-verification`,
-                body
+                body,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
             );
             return response.data;
         } catch (error) {

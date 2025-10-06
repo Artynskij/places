@@ -1,6 +1,7 @@
 import { ICategoryAndEstablishmentConnectionRequest } from "@/lib/models/server/request/(Establishment)/category.request";
-import apiClient from "../../ApiClient";
+
 import { ICategoryAndEstablishmentConnectionResponse } from "@/lib/models/server/response/(Establishment)/category.response";
+import apiClient from "../../base/ApiClient";
 
 export class CategoryOfEstablishmentApi {
     async createCategoryEstablishmentConnect(

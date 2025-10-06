@@ -8,7 +8,7 @@ import {
 import {
     ContactsEstablishmentMapper,
     ContactsEstablishmentService,
-} from "../contactsEstablishment/contactsEstablishment.api";
+} from "../contactsEstablishment.api";
 interface ITransformToFront {
     establishment: IEstablishmentWithContentEntity;
     info: {
