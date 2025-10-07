@@ -72,7 +72,7 @@ export const FormNotificationTourist = () => {
         );
         if (!moderationObject) {
             notification.error({
-                message: "Серверная проблема, попробуйте позже",
+                message: "Серверная проблема, попробуйте позже. Нету модерации",
             });
             return;
         }
@@ -80,7 +80,7 @@ export const FormNotificationTourist = () => {
             user.personSettings?.id || null,
             {
                 moderation: moderationObject,
-                data: { source: dataForm },
+                data: dataForm,
             },
             user.id
         );

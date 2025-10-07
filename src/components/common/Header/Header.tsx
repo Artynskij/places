@@ -65,7 +65,6 @@ export const Header = async () => {
                             </Suspense> */}
                         </div>
                         <div className={style.right_auth}>
-                          
                             <Profile />
                         </div>
                     </div>
@@ -83,7 +82,7 @@ export const Header = async () => {
                         </Link>
                         <Link
                             className={style.header__second_link}
-                            href={ROUTES.PROFILE.OWNER('anastaTest')}
+                            href={ROUTES.PROFILE.OWNER("anastaTest")}
                         >
                             <li className={"hover-underline"}>Лк Владельца</li>
                         </Link>
@@ -113,8 +112,7 @@ export const Header = async () => {
                             className={style.header__second_link}
                             href={ROUTES.LOCATION.ESTABLISHMENT(
                                 "01JQW07G5Y3AQHM4EXC2M1NZ83",
-                                CONSTANT_TYPES_OF_ESTABLISHMENT.EATER
-                                    .key,
+                                CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.key,
                                 "01JPZDQ0A2WENCX080NTEC4JTJ"
                             )}
                         >

@@ -23,15 +23,16 @@ export interface IBusinessGetAllQueryRequest {
     RegistrationNumber?: string;
 }
 interface BusinessAssignmentDataReq {
-    source: {
-        PersonId?: string;
-        BusinessId?: string;
-        BusinessPositionId?: string;
-        IsOwnerVerified?: boolean;
-    };
+    Person?: string;
+    Business?: string;
+    BusinessPosition?: string;
+    IsOwnerVerified?: boolean;
 }
 export interface IBusinessAssignmentRequest
     extends IBaseModerationRequest<BusinessAssignmentDataReq> {}
+
+
+    
 export interface IBusinessAssignmentGetQueryRequest {
     personId?: string;
     businessId?: string;

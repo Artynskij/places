@@ -15,4 +15,5 @@ export interface ISocialContactsFront {
     YouTube: string | null;
     TikTok: string | null;
     Threads: string | null;
+    
 }

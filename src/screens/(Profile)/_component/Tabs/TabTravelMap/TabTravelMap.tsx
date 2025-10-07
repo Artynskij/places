@@ -79,7 +79,6 @@ const TabTravelMap = () => {
                     localLang: locale,
                 });
                 if (res) {
-                  
                     setSearchList(res.searchItems);
                 }
             } catch (err) {
@@ -202,7 +201,7 @@ const TabTravelMap = () => {
             if (res) {
                 setMarksMap((prev) =>
                     new Map(prev).set(searchItem.id, {
-                        id: res.id,
+                        id: res.Id,
                         location: {
                             id: searchItem.id,
                             title: searchItem.title,
@@ -218,7 +217,13 @@ const TabTravelMap = () => {
         }
     };
 
-    const handlerOpenModal = (type: TTravelMapAction) => {
+    const handlerOpenModal = (type: TTravelMapAction, listCount: number) => {
+        if (listCount === 0) {
+            notification.info({
+                message: "список пуст",
+            });
+            return;
+        }
         if (type === "loved") {
             setModalLovedActive(true);
         }
@@ -259,21 +264,36 @@ const TabTravelMap = () => {
                             />
                             <div className={style.marks_filter}>
                                 <div
-                                    onClick={() => handlerOpenModal("visited")}
+                                    onClick={() =>
+                                        handlerOpenModal(
+                                            "visited",
+                                            visitedList.length
+                                        )
+                                    }
                                     className={style.marks_filter_item}
                                 >
                                     <TravelMapIcon active type="visited" />{" "}
                                     <span>{`Был(а)  ${visitedList.length}`}</span>
                                 </div>
                                 <div
-                                    onClick={() => handlerOpenModal("loved")}
+                                    onClick={() =>
+                                        handlerOpenModal(
+                                            "loved",
+                                            lovedList.length
+                                        )
+                                    }
                                     className={style.marks_filter_item}
                                 >
                                     <TravelMapIcon active type="loved" />{" "}
                                     <span>{`Люблю  ${lovedList.length}`}</span>
                                 </div>
                                 <div
-                                    onClick={() => handlerOpenModal("wanted")}
+                                    onClick={() =>
+                                        handlerOpenModal(
+                                            "wanted",
+                                            wantedList.length
+                                        )
+                                    }
                                     className={style.marks_filter_item}
                                 >
                                     <TravelMapIcon active type="wanted" />{" "}
@@ -375,7 +395,10 @@ const TabTravelMap = () => {
             >
                 <ul className={style.list}>
                     {visitedList.map((mark) => (
-                        <li className={style.list_item} key={mark.id}>
+                        <li
+                            className={style.list_item}
+                            key={`visited-${mark.id}`}
+                        >
                             <CardTravelList
                                 current={mark}
                                 handlerClickEye={handlerClickEye}
@@ -393,7 +416,10 @@ const TabTravelMap = () => {
             >
                 <ul className={style.list}>
                     {lovedList.map((mark) => (
-                        <li className={style.list_item} key={mark.id}>
+                        <li
+                            className={style.list_item}
+                            key={`loved-${mark.id}`}
+                        >
                             <CardTravelList
                                 current={mark}
                                 handlerClickEye={handlerClickEye}
@@ -411,7 +437,10 @@ const TabTravelMap = () => {
             >
                 <ul className={style.list}>
                     {wantedList.map((mark) => (
-                        <li className={style.list_item} key={mark.id}>
+                        <li
+                            className={style.list_item}
+                            key={`wanted-${mark.id}`}
+                        >
                             <CardTravelList
                                 current={mark}
                                 handlerClickEye={handlerClickEye}

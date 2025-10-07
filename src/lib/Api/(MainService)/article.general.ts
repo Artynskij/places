@@ -141,6 +141,9 @@ export class GeneralArticleService {
             createArticle.Id,
             bodyArticleCreate
         );
+        if (!updatedArticle) {
+            return false;
+        }
 
         return true;
     }

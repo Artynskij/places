@@ -1,7 +1,7 @@
 export * from "./TAgreementKey";
 export * from "./TCategoriesNews";
 export * from "./TCategoriesTags";
-export * from "./TCategoryClassTag";
+
 export * from "./TKeySeo";
 export * from "./TLocale";
 export * from "./TRoleOwner";

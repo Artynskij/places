@@ -68,11 +68,9 @@ export class BusinessService {
         const businessAssignResponse = await this.BusinessAssignmentApi.create({
             moderation: body.moderation,
             data: {
-                source: {
-                    BusinessId: businessResponse.entityId,
-                    PersonId: personId,
-                    // BusinessPositionId: "01K0Z1V1C2N000000000000005",
-                },
+                Business: businessResponse.entityId,
+                Person: personId,
+                // BusinessPositionId: "01K0Z1V1C2N000000000000005",
             },
         });
         if (!businessAssignResponse) {

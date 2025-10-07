@@ -38,7 +38,7 @@ import TagBlockForm from "../_components/TagBlock/TagBlockForm";
 import CategoryBlockForm from "../_components/CategoryBlock/CategoryBlockForm";
 import { ScheduleBlockForm } from "../_components/ScheduleBlock/ScheduleBlock";
 import { SocialContactsBlockForm } from "../_components/SocialContacts/SocialContacts";
-import { ScheduleService } from "@/lib/Api/(Establishment)/schedule/schedule.service";
+// import { ScheduleService } from "@/lib/Api/(Establishment)/schedule/schedule.service";
 
 import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
 import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
@@ -55,6 +55,8 @@ import PhotoBlockForm from "../_components/PhotoBlock/PhotoBlock";
 
 import { SpinnerAnt } from "../../Spinner/SpinnerAnt";
 import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
+import { ScheduleService } from "@/lib/Api/(Establishment)/schedule.api";
+import { SocialNetworksService } from "@/lib/Api/socialNetworks.api";
 interface IFormCreateEstablishment {
     establishmentId: string;
     closeModal?: (value: false) => void;
@@ -75,6 +77,7 @@ const FormUpdateEstablishmentBase = ({
 
     const generalEstablishmentService = new GeneralEstablishmentService();
     const establishmentService = new EstablishmentService();
+    const socialNetworksService = new SocialNetworksService();
 
     const scheduleService = new ScheduleService();
 
@@ -115,7 +118,11 @@ const FormUpdateEstablishmentBase = ({
                 establishmentIds: [establishment.id],
             });
 
-            const socialEntity = establishment.contacts?.socialNetworks || null;
+            const socialEntity = establishment.contacts?.socialNetworksId
+                ? await socialNetworksService.getById(
+                      establishment.contacts?.socialNetworksId
+                  )
+                : null;
             const socialNetworks =
                 socialEntity &&
                 CONSTANT_SOCIAL_NETWORKS_ARRAY.map((type) => {
@@ -138,7 +145,7 @@ const FormUpdateEstablishmentBase = ({
 
                 images:
                     establishment.media.gallery?.map((media, idx) => ({
-                        uid: String(idx),
+                        uid: `existing_${idx}`,
                         name: media.title || `file-${idx}`,
                         status: "done",
                         url: media.src,

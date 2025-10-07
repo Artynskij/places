@@ -13,7 +13,6 @@ import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import Youtube from "@tiptap/extension-youtube";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 
-
 import SliderNode from "../extensions/slider/SliderNode";
 import { lowlight } from "../utils/lowright";
 import TipTapHydrator from "./TipTapHydrator";
@@ -51,7 +50,11 @@ export const TipTapViewer = ({ json, reHydrate, mediaCollection }: Props) => {
         TableRow,
         TableHeader,
         TableCell,
-        Youtube,
+        Youtube.configure({
+            controls: true,
+            modestBranding: true,
+            HTMLAttributes: { class: "youtube-video" },
+        }),
         CodeBlockLowlight.configure({ lowlight }),
         SliderNode,
         MediaStateExtension,
