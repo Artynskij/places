@@ -145,6 +145,9 @@ header .ant-checkbox-wrapper:hover .ant-checkbox-inner {
 .custom-switch-antd.ant-switch-checked {
     background: $color-main-blue !important;
 }
+.checkbox--error .ant-checkbox-inner {
+    border-color: red !important;
+}
 .swiper-wrapper {
     align-items: stretch;
 }

@@ -23,20 +23,24 @@ export const BlockAgreements = ({
     );
     return (
         <div className={style.blockAgreements}>
-            <Checkbox.Group value={value} onChange={onChange}>
+            <Checkbox.Group  value={value} onChange={onChange}>
                 <ul className={style.blockAgreements_list}>
                     {filteredAgreements.map((agreementItem) => {
+                        const isRequiredAndUnselected = !!error && agreementItem.required && !value?.includes(agreementItem.value);
                         return (
                             <li
                                 className={style.blockAgreements_list_item}
                                 key={agreementItem.value}
+                                
                             >
                                 <CheckBoxCustom
-                                    name={`${
-                                        agreementItem.required ? "*" : ""
-                                    }${agreementItem.title}`}
+                                    name={`${agreementItem.required ? "*" : ""
+                                        }${agreementItem.title}`}
                                     value={agreementItem.value}
+                                    error={isRequiredAndUnselected}
                                 />
+
+                                {/* {isRequiredAndUnselected && <SpanErrorForm text={'заполни'} />} */}
                             </li>
                         );
                     })}

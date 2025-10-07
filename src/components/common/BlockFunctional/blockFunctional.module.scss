@@ -113,14 +113,17 @@
         flex-direction: column;
         gap: $gap-small;
 
-        // &_item {
-        //     &:first-child {
-        //         border-top: 1px solid $color-main-grey;
-        //     }
-        //     border-bottom: 1px solid $color-main-grey;
-        //     &:last-child {
-        //     }
-        // }
+        &_item {
+            position: relative;
+          
+            
+            // &:first-child {
+            //     border-top: 1px solid $color-main-grey;
+            // }
+            // border-bottom: 1px solid $color-main-grey;
+            // &:last-child {
+            // }
+        }
     }
     &_error {
         @extend %Text14;
@@ -132,7 +135,7 @@
 .extraInfo {
    @extend %Text12;
     padding: 8px 12px;
-    border-radius: 8px;
+    border-radius: $border-radius-10;
     width: 100%;
    
     &--info {

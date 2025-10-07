@@ -26,6 +26,8 @@ const baseBusinessSchema = {
         town: Yup.string().required("Город обязателен"),
         addressLine: Yup.string().required("Адрес обязателен"),
         postalCode: Yup.string(),
+
+        
     }),
 };
 

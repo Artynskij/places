@@ -143,8 +143,8 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
             <InputForm
                 error={errors.numberOrganization?.message}
                 register={register("numberOrganization")}
-                placeholder="Индивидуальный регистрационный номер"
-                titleSpan="Индивидуальный регистрационный номер*"
+                placeholder="Индивидуальный регистрационный номер (ИНН, УНП, VAT ID и иное)"
+                titleSpan="Индивидуальный регистрационный номер (ИНН, УНП, VAT ID и иное)*"
                 type="text"
             />
             <Controller
@@ -182,7 +182,7 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
 
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
-                    Основное местонахождение владельца бизнеса
+                    Адрес регистрации владельца бизнеса
                 </div>
 
                 <InputForm

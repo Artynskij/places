@@ -137,8 +137,8 @@ export const FormLegalEntity = ({ business, mode,closeModal }: IProp) => {
             <InputForm
                 error={errors.numberOrganization?.message}
                 register={register("numberOrganization")}
-                placeholder="Индивидуальный регистрационный номер юридического лица"
-                titleSpan="Индивидуальный регистрационный номер*"
+                placeholder="Индивидуальный регистрационный номер юридического лица (ИНН, УНП, VAT ID и иное)"
+                titleSpan="Индивидуальный регистрационный номер (ИНН, УНП, VAT ID и иное)*"
                 type="text"
             />
 
