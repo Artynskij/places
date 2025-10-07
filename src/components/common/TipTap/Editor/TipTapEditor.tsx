@@ -79,8 +79,6 @@ export default function TipTapEditor({ setEditorData, onEditorInit }: IProp) {
             Youtube.configure({
                 controls: true,
                 modestBranding: true,
-                width: 640,
-                height: 360,
                 HTMLAttributes: { class: "youtube-video" },
             }),
             CodeBlockLowlight.configure({ lowlight }),

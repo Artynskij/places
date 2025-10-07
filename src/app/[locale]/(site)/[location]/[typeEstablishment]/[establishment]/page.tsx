@@ -10,7 +10,8 @@ import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag"
 import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import { MapService } from "@/lib/Api/map/map.service";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
-import { ScheduleService } from "@/lib/Api/(Establishment)/schedule/schedule.service";
+import { ScheduleService } from "@/lib/Api/(Establishment)/schedule.api";
+// import { ScheduleService } from "@/lib/Api/(Establishment)/schedule/schedule.service";
 
 interface IProps
     extends IBasePageProps<{
@@ -26,7 +27,7 @@ export async function generateMetadata({
     const getSeoDescription = "";
     return {
         title: `${process.env.BASE_NAME} | ${params.establishment} только на плэйсис.`,
-        description: getSeoDescription || "гомики тоже люди",
+        description: getSeoDescription || "default description",
     };
 }
 export default async function EstablishmentPage({
@@ -44,7 +45,6 @@ export default async function EstablishmentPage({
     );
     if (!dataEstablishment) {
         console.log("not found dataEst");
-
         notFound();
     }
 

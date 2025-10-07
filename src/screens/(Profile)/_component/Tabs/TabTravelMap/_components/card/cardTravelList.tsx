@@ -12,6 +12,7 @@ import { TTravelMapAction } from "@/lib/models/types";
 import TravelMapIcon from "../icon/TravelIcon";
 
 interface IProp {
+    current: IPersonTravelMarkFront | null;
     searchItem?: ISearchItemFront;
     handlerClickEye: (searchItemString: string) => void;
     handlerToggleIcon: ({
@@ -23,7 +24,6 @@ interface IProp {
         searchItem?: ISearchItemFront;
         travelMark: IPersonTravelMarkFront | null;
     }) => void;
-    current: IPersonTravelMarkFront | null;
 }
 const CardTravelList = ({
     current,
@@ -31,17 +31,23 @@ const CardTravelList = ({
     handlerClickEye,
     handlerToggleIcon,
 }: IProp) => {
+    const countryName = searchItem?.location.country?.title;
     return (
         <>
             <div className={style.left}>
-                <span>{current?.location.title || searchItem?.title || "Отсутсвует имя"}</span>
+                <span>
+                    {searchItem?.title ||
+                        current?.location.title ||
+                        "Отсутсвует имя"}
+                    {countryName ? `, ${countryName}` : ""}
+                </span>
 
                 <TravelMapIcon
                     onClick={() => {
-                        if (searchItem  ) {
+                        if (searchItem) {
                             handlerClickEye(searchItem.title);
                         }
-                        if ( current ) {
+                        if (current) {
                             handlerClickEye(current.location.title);
                         }
                     }}

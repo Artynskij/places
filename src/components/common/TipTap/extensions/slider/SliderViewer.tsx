@@ -4,7 +4,7 @@ import style from "./sliderView.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
-import { Navigation } from "swiper/modules";
+import { Navigation, Controller } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -94,7 +94,7 @@ export const SliderViewer = ({ node, mediaCollection }: Props) => {
     return (
         <div className={style.slider_ctn}>
             <Swiper
-                modules={[Navigation]}
+                modules={[Navigation, Controller]}
                 slidesPerView={1}
                 spaceBetween={10}
                 onSwiper={handleSwiper}

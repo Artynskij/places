@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.scss";
 import { ReactNode, Suspense } from "react";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { ConfigProvider } from "antd";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import { ReduxProvider } from "@/store/provider";
@@ -30,16 +31,20 @@ export default async function RootLayout({
             <body className={inter.className}>
                 <ReduxProvider>
                     <AntdRegistry>
-                        <NextIntlClientProvider messages={messages}>
-                            <AllContextProvider>
-                                <ClientOnly />
-                                <Suspense fallback={<Loading />}>
-                                    <Header />
-                                    {children}
-                                    <Footer />
-                                </Suspense>
-                            </AllContextProvider>
-                        </NextIntlClientProvider>
+                        <ConfigProvider
+                            theme={{ token: { colorPrimary: "#005ba1" } }}
+                        >
+                            <NextIntlClientProvider messages={messages}>
+                                <AllContextProvider>
+                                    <ClientOnly />
+                                    <Suspense fallback={<Loading />}>
+                                        <Header />
+                                        {children}
+                                        <Footer />
+                                    </Suspense>
+                                </AllContextProvider>
+                            </NextIntlClientProvider>
+                        </ConfigProvider>
                     </AntdRegistry>
                 </ReduxProvider>
             </body>

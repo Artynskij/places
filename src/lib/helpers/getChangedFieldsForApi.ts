@@ -112,75 +112,113 @@ export const getSimpleObjectDiff = <T extends object>(
     return diff;
 };
 
-interface ArrayDiff<T extends object> {
+interface ArrayDiff<T> {
     added?: T[];
     removed?: T[];
     updated?: T[];
 }
 
-type DiffResult<T extends object> = {
-    [K in keyof T]?: T[K] extends (infer U)[]
-        ? U extends object
-            ? ArrayDiff<U> | null
-            : null
+type DiffResult<T> = {
+    [K in keyof T]?: T[K] extends Array<infer U>
+        ? ArrayDiff<U> | null
         : T[K] extends object
         ? DiffResult<T[K]> | null
         : T[K] | null;
 };
 
-export const getHardObjectDiff = <T extends object>(
+export const getHardObjectDiff = <T extends Record<string, any>>(
     initial: Partial<T>,
     current: Partial<T>
 ): DiffResult<T> => {
     const diff: DiffResult<T> = {};
 
-    const safeKeys = (obj: any): string[] =>
-        obj && typeof obj === "object" && !Array.isArray(obj)
-            ? Object.keys(obj)
-            : [];
-
-    const allKeys = new Set<keyof T>([
-        ...(safeKeys(initial) as (keyof T)[]),
-        ...(safeKeys(current) as (keyof T)[]),
-    ]);
+    const allKeys = new Set([
+        ...Object.keys(initial),
+        ...Object.keys(current),
+    ]) as Set<keyof T>;
 
     const formatDate = (date: Date | string) =>
         dayjs(date).format("YYYY-MM-DD");
 
     const isPlainObject = (v: any): v is Record<string, any> =>
-        v !== null &&
-        typeof v === "object" &&
-        !Array.isArray(v) &&
-        Object.getPrototypeOf(v) === Object.prototype;
+        v !== null && typeof v === "object" && !Array.isArray(v);
 
-    const idKeyOf = (it: any) => {
-        if (!it) return "null";
-        if (it instanceof File) {
-            return `${it.name}_${it.size}_${it.lastModified}`;
+    // Универсальная функция для получения ID элемента
+    const getItemId = (item: any, index?: number): string => {
+        if (!item) return "null";
+
+        if (item.day) return `schedule_${item.id || ""}_${item.day}`;
+        if (item instanceof File)
+            return `file_${item.name}_${item.size}_${item.lastModified}`;
+        if (item.url) return `image_url_${item.url}`;
+        if (item.id) return `id_${item.id}`;
+        if (item.uid) return `uid_${item.uid}`;
+
+        return `index_${index}_${JSON.stringify(item)}`;
+    };
+
+    const deepEqual = (a: any, b: any): boolean => {
+        if (a === b) return true;
+        if (a instanceof Date && b instanceof Date)
+            return a.getTime() === b.getTime();
+        if (
+            typeof a !== "object" ||
+            typeof b !== "object" ||
+            a === null ||
+            b === null
+        )
+            return false;
+
+        if (Array.isArray(a) && Array.isArray(b)) {
+            if (a.length !== b.length) return false;
+            return a.every((item, index) => deepEqual(item, b[index]));
         }
-        return it?.id ?? it?.uid ?? it?.url ?? JSON.stringify(it);
+
+        if (isPlainObject(a) && isPlainObject(b)) {
+            const keysA = Object.keys(a);
+            const keysB = Object.keys(b);
+            if (keysA.length !== keysB.length) return false;
+            return keysA.every((key) => deepEqual(a[key], b[key]));
+        }
+
+        return false;
     };
 
     for (const key of allKeys) {
-        const initialValue = initial?.[key];
-        const currentValue = current?.[key];
+        const initialValue = initial[key];
+        const currentValue = current[key];
 
+        // Если ключа нет в current или значение пустое
         if (
-            !current ||
-            !(typeof current === "object" && key in current) ||
-            currentValue === ""
+            currentValue === "" ||
+            currentValue === null ||
+            currentValue === undefined
         ) {
-            diff[key] = null as any;
+            if (initialValue !== undefined && initialValue !== currentValue) {
+                (diff as any)[key] = null;
+            }
             continue;
         }
 
-        // ✅ массив объектов
+        // Если ключа нет в initial - это новое значение
+        if (initialValue === undefined) {
+            (diff as any)[key] = currentValue;
+            continue;
+        }
+
+        // ✅ массивы
         if (Array.isArray(initialValue) && Array.isArray(currentValue)) {
             const mapInit = new Map(
-                (initialValue as any[]).map((it) => [idKeyOf(it), it])
+                initialValue.map((it: any, index: number) => [
+                    getItemId(it, index),
+                    it,
+                ])
             );
             const mapCurr = new Map(
-                (currentValue as any[]).map((it) => [idKeyOf(it), it])
+                currentValue.map((it: any, index: number) => [
+                    getItemId(it, index),
+                    it,
+                ])
             );
 
             const added: any[] = [];
@@ -192,15 +230,8 @@ export const getHardObjectDiff = <T extends object>(
                     added.push(currObj);
                 } else {
                     const oldObj = mapInit.get(id);
-                    if (isPlainObject(oldObj) && isPlainObject(currObj)) {
-                        const nested = getHardObjectDiff(oldObj, currObj);
-                        if (Object.keys(nested).length > 0) {
-                            updated.push(currObj); // ✅ кладём весь Entity, а не diff
-                        }
-                    } else if (
-                        JSON.stringify(oldObj) !== JSON.stringify(currObj)
-                    ) {
-                        updated.push(currObj); // ✅ тоже весь объект
+                    if (!deepEqual(oldObj, currObj)) {
+                        updated.push(currObj);
                     }
                 }
             }
@@ -217,38 +248,37 @@ export const getHardObjectDiff = <T extends object>(
             if (updated.length) arrayDiff.updated = updated;
 
             if (Object.keys(arrayDiff).length > 0) {
-                diff[key] = arrayDiff as any;
+                (diff as any)[key] = arrayDiff;
             }
-
             continue;
         }
 
-        // ✅ дата
-        if (
-            (initialValue instanceof Date ||
-                typeof initialValue === "string") &&
-            (currentValue instanceof Date || typeof currentValue === "string")
-        ) {
-            const formattedInit = formatDate(initialValue);
-            const formattedCurr = formatDate(currentValue);
+        // ✅ даты
+        const isInitialDate =
+            typeof initialValue === "string" && dayjs(initialValue).isValid();
+        const isCurrentDate =
+            typeof currentValue === "string" && dayjs(currentValue).isValid();
+
+        if (isInitialDate && isCurrentDate) {
+            const formattedInit = formatDate(initialValue as string);
+            const formattedCurr = formatDate(currentValue as string);
             if (formattedInit !== formattedCurr) {
-                diff[key] = formattedCurr as any;
+                (diff as any)[key] = formattedCurr;
             }
             continue;
         }
-
-        // ✅ plain object
+        // ✅ объекты
         if (isPlainObject(initialValue) && isPlainObject(currentValue)) {
             const nested = getHardObjectDiff(initialValue, currentValue);
             if (Object.keys(nested).length > 0) {
-                diff[key] = nested as any;
+                (diff as any)[key] = nested;
             }
             continue;
         }
 
         // ✅ примитивы
-        if (initialValue !== currentValue) {
-            diff[key] = currentValue as any;
+        if (!deepEqual(initialValue, currentValue)) {
+            (diff as any)[key] = currentValue;
         }
     }
 

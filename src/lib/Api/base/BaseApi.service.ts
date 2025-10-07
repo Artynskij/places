@@ -6,7 +6,7 @@ export abstract class BaseApiService<
     EntityWithContentType = EntityType,
     FrontType = EntityType,
     RequestType = Partial<EntityType>,
-    ResponseCreateUpdate = FrontType
+    ResponseCreateUpdate = EntityType
 > {
     protected abstract baseUrl: string;
     protected mapper = {
@@ -60,7 +60,6 @@ export abstract class BaseApiService<
         }
     }
     async create(body: RequestType): Promise<ResponseCreateUpdate | null> {
-        
         try {
             const res = await apiClient.post<ResponseCreateUpdate>(
                 this.baseUrl,
@@ -78,7 +77,6 @@ export abstract class BaseApiService<
         id: string,
         body: RequestType
     ): Promise<ResponseCreateUpdate | null> {
-        
         try {
             const res = await apiClient.patch<ResponseCreateUpdate>(
                 `${this.baseUrl}/${id}`,
@@ -102,9 +100,11 @@ export abstract class BaseApiService<
         }
     }
     async updateOrCreate(
-        id: string | null,
+        id: string | null | number,
         body: RequestType
     ): Promise<ResponseCreateUpdate | null> {
-        return id ? this.update(id, body) : this.create(body);
+        return id && typeof id === "string"
+            ? this.update(id, body)
+            : this.create(body);
     }
 }

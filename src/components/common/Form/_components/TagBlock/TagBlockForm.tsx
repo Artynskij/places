@@ -33,6 +33,25 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
         });
     }, []);
 
+    // Автоматически определяем выбранные группы на основе selectedTags
+    useEffect(() => {
+        if (tagsGrouped.length > 0 && selectedTags.length > 0) {
+            const groupsWithSelectedTags = tagsGrouped
+                .filter(group => 
+                    group.tags.some(tag => 
+                        selectedTags.includes(String(tag.id))
+                    )
+                )
+                .map(group => group.groupKey.key);
+            
+            setSelectedGroups(prev => {
+                // Убираем дубликаты и сохраняем только уникальные группы
+                const uniqueGroups = [...new Set([...prev, ...groupsWithSelectedTags])];
+                return uniqueGroups;
+            });
+        }
+    }, [tagsGrouped, selectedTags]);
+
     const handleGroupSelect = (groupKey: string) => {
         if (!selectedGroups.includes(groupKey)) {
             setSelectedGroups((prev) => [...prev, groupKey]);
@@ -51,6 +70,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
 
         onChange?.(newValue);
     };
+
     const handleDeleteGroupSelect = (groupKey: string) => {
         const group = tagsGrouped.find((g) => g.groupKey.key === groupKey);
         if (!group) return;
@@ -69,6 +89,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
             prev.filter((prevItem) => prevItem !== groupKey)
         );
     };
+
     const getSelectedTagsForGroup = (groupKey: string): string[] => {
         const group = tagsGrouped.find((g) => g.groupKey.key === groupKey);
         if (!group) return [];

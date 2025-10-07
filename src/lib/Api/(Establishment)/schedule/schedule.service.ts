@@ -2,7 +2,6 @@ import { ScheduleMapper } from "./schedule.mapper";
 import { IScheduleFront } from "@/lib/models/frontend/(establishment)/schedule.front";
 import { ScheduleApi } from "./schedule.endpoint";
 import { IScheduleRequest } from "@/lib/models/server/request/(Establishment)/schedule.request";
-import { IScheduleCreateResponse } from "@/lib/models/server/response/(Establishment)/schedule.response";
 import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
 
 export class ScheduleService {
@@ -23,32 +22,30 @@ export class ScheduleService {
             : null;
         return mappingData;
     }
-    async createScheduleDay(
+    async create(
         body: IScheduleRequest
     ): Promise<IBaseModerationResponse | null> {
         const response = await this.scheduleApi.createScheduleDay(body);
         return response;
     }
-    async updateScheduleDay(
+    async update(
         id: string,
         body: IScheduleRequest
     ): Promise<IBaseModerationResponse | null> {
         const response = await this.scheduleApi.updateScheduleDay(id, body);
         return response;
     }
+
     async updateAllScheduleOfEstablishment(
-        schedule: { id: string; body: IScheduleRequest }[]
+        schedule: { id: string | null; body: IScheduleRequest }[]
     ): Promise<IBaseModerationResponse[]> {
         const promisesSchedule = schedule.map((item) => {
-            const responseEl = this.scheduleApi.updateScheduleDay(
-                item.id,
-                item.body
-            );
+            const responseEl = item.id
+                ? this.scheduleApi.updateScheduleDay(item.id, item.body)
+                : this.scheduleApi.createScheduleDay(item.body);
             return responseEl;
         });
         const response = (await Promise.all(promisesSchedule)).filter(Boolean);
         return response as IBaseModerationResponse[];
-        // const response = await this.scheduleApi.updateScheduleDay(id, body);
-        // return response;
     }
 }

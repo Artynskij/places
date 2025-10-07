@@ -21,7 +21,7 @@ import { EstablishmentService } from "../(Establishment)/establishment/establish
 import { EstablishmentPersonAssignmentApi } from "../(Establishment)/establishment/establishmentAssignment.api";
 
 import { FileUploadService } from "../fileUpload/fileUploads.service";
-import { ScheduleService } from "../(Establishment)/schedule/schedule.service";
+// import { ScheduleService } from "../(Establishment)/schedule/schedule.service";
 import { TagsService } from "../(Establishment)/tags/tag.service";
 import type { UploadFile } from "antd/es/upload/interface";
 import {
@@ -30,6 +30,7 @@ import {
 } from "@/lib/helpers/getChangedFieldsForApi";
 import { ModerationService } from "../moderation/moderation.service";
 import { SocialNetworksService } from "../socialNetworks.api";
+import { ScheduleService } from "../(Establishment)/schedule.api";
 
 const validationSchemaRegisterTourist =
     getSchemaEstablishmentByTypeUser("tourist");
@@ -248,7 +249,7 @@ export class GeneralEstablishmentService {
         if (formData.schedule) {
             await Promise.all(
                 formData.schedule.map((schItem) =>
-                    this.scheduleService.createScheduleDay({
+                    this.scheduleService.create({
                         moderation: moderationObject,
                         data: {
                             Establishment: createdEstablishment.entityId,
@@ -328,6 +329,7 @@ export class GeneralEstablishmentService {
                       { moderation: moderationObject, data: bodySocialNetworks }
                   )
                 : null;
+            console.log("socialRes", socialRes);
         }
         // 📌2. Обновление контактов
         let contactRes = null;
@@ -338,7 +340,7 @@ export class GeneralEstablishmentService {
             socialRes
         ) {
             contactRes = await this.contactEstablishmentService.updateOrCreate(
-                establishment.id,
+                establishment.contacts?.id || null,
                 {
                     moderation: moderationObject,
                     data: {
@@ -356,8 +358,8 @@ export class GeneralEstablishmentService {
                                 establishment.contacts?.phone ||
                                 null,
                             SocialContactsId:
-                                socialRes?.entityId ||
                                 establishment.contacts?.socialNetworksId ||
+                                socialRes?.entityId ||
                                 null,
                             Web: null,
                         },
@@ -383,14 +385,15 @@ export class GeneralEstablishmentService {
             ];
 
             const arrayScheduleBodies: {
-                id: string;
+                id: string | null;
                 body: IScheduleRequest;
             }[] = splitArrayScheduleForm.map((item) => {
                 return {
-                    id: item.id,
+                    id: !!item.id ? item.id : null,
                     body: {
                         moderation: moderationObject,
                         data: {
+                            Establishment: establishment.id,
                             Day: item.day,
                             CloseTime: item.closeTime,
                             Is24Hours: item.is24Hours,
@@ -400,29 +403,56 @@ export class GeneralEstablishmentService {
                     },
                 };
             });
-            console.log(arrayScheduleBodies);
+
             await this.scheduleService.updateAllScheduleOfEstablishment(
                 arrayScheduleBodies
             );
         }
         // TODO
-        // 📌4. Обновление тегов
-        // if ("tags" in changes) {
-        //     await this.tagsService.resetTags(establishmentId, formData.tags);
-        // }
-
+        // 📌4. Обновление тегов (добавленные только)
+        if ("tags" in changesHard && changesHard.tags?.added) {
+            await Promise.all(
+                changesHard.tags.added
+                    .filter((item) => !!item)
+                    .map((tag) => {
+                        if (!tag) return;
+                        return this.tagsService.createTagEstablishmentConnect({
+                            moderation: moderationObject,
+                            data: { Establishment: establishment.id, Tag: tag },
+                        });
+                    })
+            );
+        }
+        // await Promise.all(
+        //     formData.tags
+        //         .filter((item) => !!item)
+        //         .map((tag) =>
+        //             this.tagsService.createTagEstablishmentConnect({
+        //                 moderation: moderationObject,
+        //                 data: {
+        //                     Establishment: createdEstablishment.entityId,
+        //                     Tag: tag as string,
+        //                 },
+        //             })
+        //         )
+        // );
         // 📌5. Обновление картинок
         let imagesNewArray = null;
         if ("images" in changesHard) {
-            const filesWithoutDeleted: IImageEntity[] =
-                establishment.content?.media?.gallery?.filter(
-                    (formFile, indexFormFile) => {
-                        return !changesHard.images?.removed?.find(
-                            (removedFile) => +removedFile.uid === indexFormFile
-                        );
-                    }
-                ) || [];
+            const filesRemoved = changesHard.images?.removed;
+            const filesWithoutDeleted: IImageEntity[] = filesRemoved
+                ? establishment.content?.media?.gallery?.filter(
+                      (formFile, index) => {
+                          return !filesRemoved?.some((removedFile) => {
+                              const existingFileUid = `existing_${index}`;
+                              return removedFile?.uid === existingFileUid;
+                          });
+                      }
+                  ) || []
+                : establishment.content?.media?.gallery || [];
+
             const filesAdded = changesHard.images?.added;
+
             const filesUploaded = filesAdded
                 ? await this.fileUploadService.uploadPublicFileOfAntdFiles({
                       vendorId: establishment.id,
@@ -436,10 +466,8 @@ export class GeneralEstablishmentService {
             ];
             if (filesToBody.length) {
                 imagesNewArray = filesToBody.length > 0 ? filesToBody : null;
-                console.log(imagesNewArray);
+                console.log("imagesNewArray", imagesNewArray);
             }
-
-            // тут можно сразу дернуть update establishment и положить в media.gallery
         }
         // 📌6. Обновление конетента
         let contentBody = null;
