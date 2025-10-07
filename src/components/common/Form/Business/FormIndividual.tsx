@@ -27,6 +27,7 @@ import { CONSTANT_TABS } from "@/asset/constants/switcherTabsPage";
 import { validationBusinessIndividualSchema } from "@/lib/validationSchemas/business/businessValid.schema";
 import { TTypeOwnerBusiness } from "@/lib/models/types";
 import { IBusinessFront } from "@/lib/models";
+import { BlockExtraInfo } from "../../BlockFunctional/BlockExtraInfo";
 
 type TTypeForm = Yup.InferType<typeof validationBusinessIndividualSchema>;
 
@@ -122,10 +123,12 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
     };
 
     return (
+        
         <form
             className={style.form}
             onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
         >
+            <BlockExtraInfo text="*Физическое лицо, которое самостоятельно владеет и управляет бизнесом без образования юридического лица"/>
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>ФИО</div>
                 <div className={style.selectionBlock_content}>

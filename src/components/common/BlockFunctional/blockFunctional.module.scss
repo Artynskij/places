@@ -113,14 +113,17 @@
         flex-direction: column;
         gap: $gap-small;
 
-        // &_item {
-        //     &:first-child {
-        //         border-top: 1px solid $color-main-grey;
-        //     }
-        //     border-bottom: 1px solid $color-main-grey;
-        //     &:last-child {
-        //     }
-        // }
+        &_item {
+            position: relative;
+          
+            
+            // &:first-child {
+            //     border-top: 1px solid $color-main-grey;
+            // }
+            // border-bottom: 1px solid $color-main-grey;
+            // &:last-child {
+            // }
+        }
     }
     &_error {
         @extend %Text14;
@@ -128,6 +131,22 @@
         top: 100%;
         color: red;
     }
+}
+.extraInfo {
+   @extend %Text12;
+    padding: 8px 12px;
+    border-radius: $border-radius-10;
+    width: 100%;
+   
+    &--info {
+    background-color: $color-info-bg;
+    border: 1px solid $color-info-border;
+  }
+  
+   &--success {
+    background-color: $color-success-bg;
+    border: 1px solid $color-success-border;
+  }
 }
 @include mediaTablet {
     .blockReaction {
@@ -142,3 +161,4 @@
         }
     }
 }
+

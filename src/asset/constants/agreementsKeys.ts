@@ -6,6 +6,7 @@ export const agreementKeysBusinessIndividual: TAgreementKey[] = [
     "AcceptedTerms",
     "AgreedMarketing",
     "AgreedReviewsNotification",
+    
 ];
 export const agreementKeysBusinessSoleProprietor: TAgreementKey[] = [
     "ConfirmedLegalPerson",

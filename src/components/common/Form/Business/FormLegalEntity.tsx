@@ -25,6 +25,7 @@ import { CONSTANT_TABS } from "@/asset/constants/switcherTabsPage";
 import { validationBusinessLegalEntitySchema } from "@/lib/validationSchemas/business/businessValid.schema";
 import { IBusinessFront } from "@/lib/models";
 import { TTypeOwnerBusiness } from "@/lib/models/types";
+import { BlockExtraInfo } from "../../BlockFunctional/BlockExtraInfo";
 
 type TTypeForm = Yup.InferType<typeof validationBusinessLegalEntitySchema>;
 
@@ -124,6 +125,7 @@ export const FormLegalEntity = ({ business, mode,closeModal }: IProp) => {
             className={style.form}
             onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
         >
+            <BlockExtraInfo text="*Юридическое лицо может иметь разные формы – общество, товарищество, публичная или частная корпорация, некоммерческая организация и иное"/>
             <InputForm
                 error={errors.officialName?.message}
                 register={register("officialName")}
@@ -135,8 +137,8 @@ export const FormLegalEntity = ({ business, mode,closeModal }: IProp) => {
             <InputForm
                 error={errors.numberOrganization?.message}
                 register={register("numberOrganization")}
-                placeholder="Индивидуальный регистрационный номер юридического лица"
-                titleSpan="Индивидуальный регистрационный номер*"
+                placeholder="Индивидуальный регистрационный номер юридического лица (ИНН, УНП, VAT ID и иное)"
+                titleSpan="Индивидуальный регистрационный номер (ИНН, УНП, VAT ID и иное)*"
                 type="text"
             />
 
