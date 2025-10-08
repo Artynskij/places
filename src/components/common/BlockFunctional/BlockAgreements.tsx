@@ -46,7 +46,6 @@ export const BlockAgreements = ({
                     })}
                 </ul>
             </Checkbox.Group>
-
             {error && <SpanErrorForm text={error} />}
         </div>
     );

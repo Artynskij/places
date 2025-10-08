@@ -11,16 +11,11 @@ interface ICheckBox {
 }
 
 export const CheckBox: FC<ICheckBox> = ({ value, name, error }) => {
-
-  
+                     
   return (
     <>
-      <Checkbox
-      // className={style.checkBox_notRoot}
-         rootClassName={`${style.checkBox_root} ${error ? "checkbox--error" : ""}`}
-        // className={style.checkBox}
+      <Checkbox rootClassName={`${style.checkBox_root} ${error ? "checkbox--error" : ""}`}
         value={value}
-        
       >
         {name}
       </Checkbox>

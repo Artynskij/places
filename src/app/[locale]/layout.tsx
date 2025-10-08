@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.scss";
 import { ReactNode, Suspense } from "react";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ConfigProvider } from "antd";
+import { Checkbox, ConfigProvider, Select } from "antd";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import { ReduxProvider } from "@/store/provider";
@@ -19,6 +19,22 @@ const inter = Inter({ subsets: ["latin"] });
 interface IRootLayoutProps extends IBasePageProps {
     children: React.ReactNode;
 }
+
+const theme = {
+ token: {
+    colorPrimary: '#005ba1', 
+    colorPrimaryHover: '#237fc6',
+   }, 
+   components: {
+    Select: {
+        activeBorderColor: '#bea97c',
+        hoverBorderColor: '#bea97c',
+        controlOutline: 'transparent',
+        borderRadius: 100,
+    }
+  },
+};
+
 export default async function RootLayout({
     children,
     params: { locale },
@@ -31,9 +47,7 @@ export default async function RootLayout({
             <body className={inter.className}>
                 <ReduxProvider>
                     <AntdRegistry>
-                        <ConfigProvider
-                            theme={{ token: { colorPrimary: "#005ba1" } }}
-                        >
+                        <ConfigProvider theme={theme}>
                             <NextIntlClientProvider messages={messages}>
                                 <AllContextProvider>
                                     <ClientOnly />

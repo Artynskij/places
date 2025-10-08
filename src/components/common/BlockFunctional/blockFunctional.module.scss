@@ -113,17 +113,14 @@
         flex-direction: column;
         gap: $gap-small;
 
-        &_item {
-            position: relative;
-          
-            
-            // &:first-child {
-            //     border-top: 1px solid $color-main-grey;
-            // }
-            // border-bottom: 1px solid $color-main-grey;
-            // &:last-child {
-            // }
-        }
+        // &_item {  
+        //     // &:first-child {
+        //     //     border-top: 1px solid $color-main-grey;
+        //     // }
+        //     // border-bottom: 1px solid $color-main-grey;
+        //     // &:last-child {
+        //     // }
+        // }
     }
     &_error {
         @extend %Text14;

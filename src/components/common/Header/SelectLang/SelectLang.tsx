@@ -1,8 +1,8 @@
 "use client";
-import Select from "antd/lib/select";
+import { Select } from "antd";
 
 import style from "./selectLang.module.scss";
-import {  useTransition } from "react";
+import { useTransition } from "react";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import { locales } from "@/config";
@@ -26,29 +26,22 @@ export const SelectLang = () => {
     };
 
     return (
-        <div className={style.select_ctn}>
-            <div className={style.icon_ctn}>
-                <IconGlobe className={style.icon_ctn_icon} />
-            </div>
-
-            <Select
-                defaultValue={defaultLocale}
-                onChange={handleChange}
-                style={{ height: "100%" }}
-                className={style.select}
-                options={
-                    locales.map((cur) => {
-                        return { value: cur, label: cur };
-                    })
-                    //   [
-                    //   { value: "ru", label: "Ru" },
-                    //   { value: "en", label: "En" },
-
-                    //   { value: "de", label: "De" },
-                    //   { value: "ch", label: "Ch", disabled: true },
-                    // ]
-                }
-            />
-        </div>
+        <Select
+            defaultValue={defaultLocale}
+            onChange={handleChange}
+            className={style.select}
+            style={{ height: '54px', width: '80px' }}
+            labelRender={(label) => (
+                <span className={style.label_with_icon}>
+                    <IconGlobe className={style.icon_globe} />
+                    {label.label}
+                </span>
+            )}
+            options={
+                locales.map((cur) => {
+                    return { value: cur, label: cur };
+                })
+            }
+        />
     );
 };
