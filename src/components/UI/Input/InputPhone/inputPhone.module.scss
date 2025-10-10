@@ -5,13 +5,13 @@
     position: relative;
     margin-bottom: 20px;
 }
+
 .inputPhone {
     width: fit-content;
-    border: 1px solid $color-main-grey;
-    border-radius: $border-radius-5;
-    padding: 12px 16px;
+    padding: 4px 10px;
     @extend %InputStandard;
     @extend %Text14;
+
     &_error {
         &:focus,
         &:focus-visible,
@@ -29,19 +29,12 @@
     }
     & input {
         border: none;
+        margin-left: 5px;
     }
-    & > div {
-        position: relative;
-        padding-right: 5px;
-        &::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: -1px;
-            bottom: 0;
-            height: 100%;
-            width: 1px;
-            background-color: $color-main-grey;
-        }
+    & button {
+        border: none;
+        border-right: 1px solid $color-blur-black;
+        
     }
+   
 }

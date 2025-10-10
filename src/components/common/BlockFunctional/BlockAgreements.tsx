@@ -39,14 +39,12 @@ export const BlockAgreements = ({
                                     value={agreementItem.value}
                                     error={isRequiredAndUnselected}
                                 />
-
-                                {/* {isRequiredAndUnselected && <SpanErrorForm text={'заполни'} />} */}
+                                
                             </li>
                         );
                     })}
                 </ul>
             </Checkbox.Group>
-
             {error && <SpanErrorForm text={error} />}
         </div>
     );

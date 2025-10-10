@@ -304,7 +304,7 @@ export const FormSettingsTourist = () => {
                             <InputPhoneNumber
                                 field={field}
                                 error={fieldState.error || null}
-                                titleSpam="Телефон"
+                                titleSpan="Телефон"
                             />
                         )}
                     />

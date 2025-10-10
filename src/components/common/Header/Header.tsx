@@ -60,9 +60,9 @@ export const Header = async () => {
 
                     <div className={style.right}>
                         <div className={style.right_lang}>
-                            {/* <Suspense fallback={<div>select lang</div>}>
+                            <Suspense fallback={<div>select lang</div>}>
                                 <SelectLang />
-                            </Suspense> */}
+                            </Suspense>
                         </div>
                         <div className={style.right_auth}>
                             <Profile />
