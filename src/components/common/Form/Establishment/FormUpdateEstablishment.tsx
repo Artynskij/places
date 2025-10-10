@@ -56,7 +56,7 @@ import PhotoBlockForm from "../_components/PhotoBlock/PhotoBlock";
 import { SpinnerAnt } from "../../Spinner/SpinnerAnt";
 import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
 import { ScheduleService } from "@/lib/Api/(Establishment)/schedule.api";
-import { SocialNetworksService } from "@/lib/Api/socialNetworks.api";
+import { SocialNetworksService } from "@/lib/Api/social-networks.api";
 interface IFormCreateEstablishment {
     establishmentId: string;
     closeModal?: (value: false) => void;

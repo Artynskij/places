@@ -5,12 +5,12 @@ import { Breadcrumb } from "../../BreadCrumb/Breadcrumb";
 
 import { BlockWatchCount } from "../../BlockFunctional/BlockWhatchCount";
 import { TipTapViewer } from "../../TipTap/Viewer/TipTapViewer";
-import { IArticleNewFront } from "@/lib/models";
+import { IArticleFront } from "@/lib/models";
 import { BlockReadTime } from "../../BlockFunctional/BlockReadTime";
 import Link from "next/link";
 import clsx from "clsx";
 interface IProp {
-    article: IArticleNewFront;
+    article: IArticleFront;
     reHydrate: number;
 }
 export const ArticlePreview = ({ article, reHydrate }: IProp) => {
@@ -56,15 +56,17 @@ export const ArticlePreview = ({ article, reHydrate }: IProp) => {
                     <div className={style.description}>
                         {article.description}
                     </div>
-                    <div className={style.mainImage}>
-                        <Image
-                            width={article.titleImage.width}
-                            height={article.titleImage.height}
-                            alt={article.titleImage.alt}
-                            src={article.titleImage.src}
-                        />
-                        <span>{article.titleImage.title}</span>
-                    </div>
+                    {article.titleImage && (
+                        <div className={style.mainImage}>
+                            <Image
+                                width={article.titleImage.width}
+                                height={article.titleImage.height}
+                                alt={article.titleImage.alt}
+                                src={article.titleImage.src}
+                            />
+                            <span>{article.titleImage.title}</span>
+                        </div>
+                    )}
 
                     <TipTapViewer
                         mediaCollection={article.media}

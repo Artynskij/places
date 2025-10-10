@@ -102,7 +102,7 @@ export const FormRate = ({
             return;
         }
         establishmentService
-            .createRate({
+            .createRateReview({
                 moderation: moderationObject,
                 data: {
                     Person: user.id,

@@ -1,7 +1,8 @@
 .slider_ctn {
+    margin: 20px 0;
+    margin-bottom: 40px;
     position: relative;
     max-height: 100%;
-    margin-bottom: 1rem;
 }
 .slide_ctn {
     display: flex;
@@ -55,6 +56,19 @@
     right: -10px;
 }
 
+.pagination {
+    // background-color: red;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    position: absolute;
+    // top: calc(100% + 20px);
+    bottom: -20px !important;
+    &_bullet {
+        width: 10px;
+        height: 10px;
+    }
+}
 .disable_arrow {
     display: none;
     color: $color-main-grey;

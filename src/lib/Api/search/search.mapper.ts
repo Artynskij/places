@@ -12,7 +12,7 @@ import {
 } from "@/lib/models/types/TTypesGlobal";
 
 import TagsMapper from "../(Establishment)/tags/tag.mapper";
-import { ISearchQueryRequest } from "@/lib/models/server/request/search/search.request";
+import { ISearchQueryRequest } from "@/lib/models/server/request/search.request";
 
 export class SearchMapper {
     private tagsMapper: TagsMapper;

@@ -16,14 +16,16 @@ export async function generateMetadata({ params }: IProps) {
 export default async function AuthorPage({ params, searchParams }: IProps) {
     const apiArticles = new ArticleService();
     const mainNews =
-        (await apiArticles.getByPagination({
+        (await apiArticles.getWithFilter({
             lang: params.locale,
-            pagination: { page: 1, pageSize: 8 },
+            page: 1,
+            pageSize: 8,
         })) || [];
     const popularNews =
-        (await apiArticles.getByPagination({
+        (await apiArticles.getWithFilter({
             lang: params.locale,
-            pagination: { page: 1, pageSize: 8 },
+            page: 1,
+            pageSize: 8,
         })) || [];
     return (
         <ArticleAuthorScreen

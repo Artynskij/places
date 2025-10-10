@@ -12,6 +12,7 @@ export * from "./TTravelMapAction";
 export * from "./TTypeFile";
 export * from "./TTypesEstablishment";
 export * from "./TTypesGlobal";
+export * from "./TTypesRateEstablishment";
 export * from "./TTypesSort";
 export * from "./TTypeUser";
 

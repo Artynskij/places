@@ -21,6 +21,7 @@ import {
     DeleteOutlined,
     UserOutlined,
     SearchOutlined,
+    ReloadOutlined,
 } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
@@ -59,7 +60,7 @@ export const UserAdminScreen = () => {
         setLoading(true);
         // await delay(600);
         const personsServer = await personService.getAll({ lang: "ru" });
-        console.log(personsServer);
+
         if (personsServer) {
             setPersons(personsServer);
         } else {
@@ -300,11 +301,7 @@ export const UserAdminScreen = () => {
     return (
         <Card
             title="Управление туристами"
-            extra={
-                <Button icon={<SearchOutlined />} onClick={fetchPersons}>
-                    Обновить
-                </Button>
-            }
+            extra={<Button icon={<ReloadOutlined />} onClick={fetchPersons} />}
         >
             {/* Поиск */}
             <Space style={{ marginBottom: 16 }} wrap>

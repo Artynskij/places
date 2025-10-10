@@ -6,6 +6,7 @@ import { BlockReadTime } from "../../BlockFunctional/BlockReadTime";
 import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
 import { IArticleFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 interface ICardNewsProp {
     article: IArticleFront;
     descriptionShow?: boolean;
@@ -35,7 +36,10 @@ export const CardNews = ({
                         // width={600}
                         // height={320}
                         alt="Карточка"
-                        src={article.titleImage}
+                        src={
+                            article.titleImage?.src ||
+                            CONSTANT_DEFAULT_IMAGE_URL
+                        }
                         fill
                         sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 95vw,(max-width: ${CONSTANTS_SCREENS.SCREEN_TABLET}px) 50vw, 40vw`}
                     />
@@ -43,7 +47,10 @@ export const CardNews = ({
                     <Image
                         className={style.image_image}
                         alt="Карточка"
-                        src={article.titleImage}
+                        src={
+                            article.titleImage?.src ||
+                            CONSTANT_DEFAULT_IMAGE_URL
+                        }
                         fill
                         sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 90vw,(max-width: ${CONSTANTS_SCREENS.SCREEN_TABLET}px) 40vw, 10vw`}
                     />
@@ -53,7 +60,10 @@ export const CardNews = ({
                         // width={600}
                         // height={320}
                         alt="Карточка"
-                        src={article.titleImage}
+                        src={
+                            article.titleImage?.src ||
+                            CONSTANT_DEFAULT_IMAGE_URL
+                        }
                         fill
                         sizes={`(max-width: ${CONSTANTS_SCREENS.SCREEN_PHONE}px) 90vw,(max-width: ${CONSTANTS_SCREENS.SCREEN_NETBOOK}px) 40vw, 10vw`}
                     />
@@ -68,7 +78,7 @@ export const CardNews = ({
                 )}
                 {typeNew === "main" && (
                     <div className={style.content_additional}>
-                        <BlockReadTime text={article.markdown} />
+                        <BlockReadTime text={article.content} />
 
                         <div>{article.author}</div>
                     </div>

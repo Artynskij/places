@@ -1,10 +1,12 @@
+import { IEstablishmentFront, IPersonFront } from "@/lib/models/frontend";
 import { IBaseEntity } from "../base/base.entity";
+import { IEstablishmentWithContentEntity } from "./establishment.entity";
+import { IPersonEntity } from "../(person)/person.entity";
 
 export interface IEstablishmentRateEntity extends IBaseEntity {
-    // Id: string;
-    PersonsVisitDate: Date;
-    Person: string;
-    Establishment: string;
+    PersonsVisitDate: string;
+    Person: IPersonEntity;
+    Establishment: IEstablishmentWithContentEntity;
     Rooms: number | null;
     PriceQuality: number | null;
     Clean: number | null;
@@ -18,7 +20,4 @@ export interface IEstablishmentRateEntity extends IBaseEntity {
     Accessibility: number | null;
     Quality: number | null;
     Safety: number | null;
-    // CreatedDate: string;
-    // LastModifiedDate: string;
-    // DeletedDate: null;
 }

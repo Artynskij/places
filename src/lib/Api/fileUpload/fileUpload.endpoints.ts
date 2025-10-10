@@ -1,7 +1,7 @@
 import {
     IFilePrivateUploadBodyRequest,
     IFilePublicUploadBodyRequest,
-} from "@/lib/models/server/request/fileUpload/fileUpload.request";
+} from "@/lib/models/server/request/fileUpload.request";
 
 import { IFileUploadResponse } from "@/lib/models/server/response/fileUpload/fileUpload.response";
 import apiClient from "../base/ApiClient";

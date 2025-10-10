@@ -8,7 +8,7 @@ import {
     ITypeEstablishmentWithContentEntity,
 } from "@/lib/models";
 
-import { ILocationTypeWithContentEntity } from "@/lib/models/server/entities/locationType.entity";
+import { ILocationTypeWithContentEntity } from "@/lib/models/server/entities/location-type.entity";
 import apiClient from "../base/ApiClient";
 
 export default class DataLoadManagementApi {
@@ -112,12 +112,8 @@ export default class DataLoadManagementApi {
             const response = await apiClient.get(`/favorite-item-types`);
             return response.data;
         } catch (error) {
-            console.error(
-                `Ошибка при запросе по получению FavoriteTypes.`
-            );
+            console.error(`Ошибка при запросе по получению FavoriteTypes.`);
             return null;
         }
     }
-    
-    
 }

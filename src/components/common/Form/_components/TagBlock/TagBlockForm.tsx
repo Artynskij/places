@@ -188,6 +188,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
                 <Button
                     onClick={() => setActivePopup(false)}
                     text="Подтвердить"
+                    className={style.button_accept}
                 />
             </ModalCustom>
 

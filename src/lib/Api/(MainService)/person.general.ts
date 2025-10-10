@@ -20,7 +20,7 @@ import { FileUploadService } from "../fileUpload/fileUploads.service";
 import { ModerationService } from "../moderation/moderation.service";
 import { PersonNameService } from "../(Person)/personName.api";
 import { AddressService } from "../(Person)/address.api";
-import { SocialNetworksService } from "../socialNetworks.api";
+import { SocialNetworksService } from "../social-networks.api";
 import { VerificationService } from "../verification.api";
 type TTypeFormTourist = Yup.InferType<typeof validationPersonTourist>;
 type TTypeFormOwner = Yup.InferType<typeof validationPersonOwner>;

@@ -1,7 +1,7 @@
 import { IMapItemsSortedResponse } from "../../models/server/response/map/map.response";
 import MapApi from "./map.endpoint";
 
-import { IMapQueryRequest } from "@/lib/models/server/request/map/map.request";
+import { IMapQueryRequest } from "@/lib/models/server/request/map.request";
 import { MapMapper } from "./map.mapper";
 import { ISearchItemFront } from "@/lib/models";
 import { DataLoadManagementService } from "../dataLoadManagement/dataLoadManagement.service";

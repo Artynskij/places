@@ -13,7 +13,7 @@ import { DataLoadManagementMapper } from "./dataLoadManagement.mapper";
 
 import { GenderMapper } from "../(Person)/gender.api";
 import { IRoleOwnerFront } from "@/lib/models/frontend/(person)/roleOwner.front";
-import { ILocationTypeWithContentEntity } from "@/lib/models/server/entities/locationType.entity";
+import { ILocationTypeWithContentEntity } from "@/lib/models/server/entities/location-type.entity";
 
 export class DataLoadManagementService {
     // DataLoadManagementMapper
@@ -111,5 +111,4 @@ export class DataLoadManagementService {
 
         return response;
     }
-    
 }

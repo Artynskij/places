@@ -1,19 +1,20 @@
-import style from './blockFunctional.module.scss'
+import style from "./blockFunctional.module.scss";
+import clsx from "clsx";
 
 interface BlockExtraInfoProps {
-  text: string;
-  variant?: 'info' | 'success';
+    text: string;
+    variant?: "info" | "success" | "error";
+    fontSize?: "12" | "14" | "16";
 }
 
-export const BlockExtraInfo = ({ 
-  text, 
-  variant = 'info' 
+export const BlockExtraInfo = ({
+    text,
+    variant = "info",
+    fontSize = '12'
 }: BlockExtraInfoProps) => {
-  return (
-    <p className={`${style.extraInfo} ${style[`extraInfo--${variant}`]}`}>
-      {text}
-    </p>
-  );
+    return (
+        <p className={clsx(style.extraInfo, style[`extraInfo--${variant}`],style[`extraInfo--${fontSize}`])}>
+            {text}
+        </p>
+    );
 };
-
-

@@ -1,0 +1,16 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-small;
+    max-width: 400px;
+    & .button {
+        border-radius: $border-radius-10;
+        width: 100%;
+    }
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: $gap-medium;
+}

@@ -1,4 +1,4 @@
-import { IContactsRequest } from "@/lib/models/server/request/contacts/contacts.request";
+
 import { BaseApiService } from "../base/BaseApi.service";
 import {
     IGenderEntity,
@@ -6,7 +6,7 @@ import {
 } from "@/lib/models/server/entities/(person)/gender.entity";
 import { IGenderFront } from "@/lib/models/frontend/(person)/gender.front";
 
-import { IPaginationRequest } from "@/lib/models/server/request/IPagination.request";
+import { IPaginationBaseRequest } from "@/lib/models/server/request/base/pagination-base.request";
 import apiClient from "../base/ApiClient";
 export class GenderMapper {
     toFront(data: IGenderWithContentEntity | IGenderEntity): IGenderFront {
@@ -27,7 +27,7 @@ export class GenderService extends BaseApiService<
 > {
     protected baseUrl = "/gender";
     protected mapper = new GenderMapper();
-    async getAll(body: IPaginationRequest): Promise<IGenderFront[]> {
+    async getAll(body: IPaginationBaseRequest): Promise<IGenderFront[]> {
         try {
             const res = await apiClient.post<IGenderWithContentEntity[]>(
                 `${this.baseUrl}/get-all`,

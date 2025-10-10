@@ -14,6 +14,7 @@ import { IArticleFront, IBasePageProps } from "@/lib/models";
 import { getTranslations } from "next-intl/server";
 import { ROUTES } from "@/lib/config/Routes";
 import FinderMainPage from "@/components/common/Finder/FinderMainPage/FinderMainPage";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 
 interface IProps extends IBasePageProps {
     params: IBasePageProps["params"] & {};
@@ -78,7 +79,10 @@ export const MainScreen = async ({
                                             width={300}
                                             height={150}
                                             sizes="30vw"
-                                            src={item.titleImage}
+                                            src={
+                                                item.titleImage?.src ||
+                                                CONSTANT_DEFAULT_IMAGE_URL
+                                            }
                                             alt="photo"
                                         />
                                     </div>
@@ -108,7 +112,7 @@ export const MainScreen = async ({
                                                 }
                                             >
                                                 <BlockReadTime
-                                                    text={item.markdown}
+                                                    text={item.content}
                                                 />
                                             </span>
                                         </div>
@@ -148,7 +152,10 @@ export const MainScreen = async ({
                                             width={300}
                                             height={150}
                                             sizes="30vw"
-                                            src={recItem.titleImage}
+                                            src={
+                                                recItem.titleImage?.src ||
+                                                CONSTANT_DEFAULT_IMAGE_URL
+                                            }
                                             alt="photo"
                                         />
                                     </div>
@@ -180,7 +187,7 @@ export const MainScreen = async ({
                                                 }
                                             >
                                                 <BlockReadTime
-                                                    text={recItem.markdown}
+                                                    text={recItem.content}
                                                 />
                                             </span>
                                         </div>
@@ -223,7 +230,10 @@ export const MainScreen = async ({
                                             width={300}
                                             height={150}
                                             sizes="30vw"
-                                            src={recItem.titleImage}
+                                            src={
+                                                recItem.titleImage?.src ||
+                                                CONSTANT_DEFAULT_IMAGE_URL
+                                            }
                                             alt="photo"
                                         />
                                     </div>
@@ -255,7 +265,7 @@ export const MainScreen = async ({
                                                 }
                                             >
                                                 <BlockReadTime
-                                                    text={recItem.markdown}
+                                                    text={recItem.content}
                                                 />
                                             </span>
                                         </div>

@@ -1,9 +1,10 @@
-import { IContactsPersonEntity } from "@/lib/models/server/entities/(person)/contactsPerson.entity";
-import { IContactsPersonFront } from "@/lib/models/frontend/(person)/contactsPerson.front";
-import { IContactsRequest } from "@/lib/models/server/request/contacts/contacts.request";
-
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
 import { BaseApiService } from "../base/BaseApi.service";
+import {
+    IBaseModerationResponse,
+    IContactsPersonEntity,
+    IContactsPersonFront,
+    IContactsRequest,
+} from "@/lib/models";
 class ContactsPersonMapper {
     constructor() {}
     toFront(dataServer: IContactsPersonEntity): IContactsPersonFront {

@@ -4,6 +4,7 @@ import {
     IBusinessPersonAssignEntity,
 } from "@/lib/models";
 import apiClient from "../base/ApiClient";
+import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
 
 export class BusinessAssignmentApi {
     constructor() {}
@@ -15,17 +16,14 @@ export class BusinessAssignmentApi {
         IBusinessPersonAssignEntity[] | null
     > {
         try {
-            const query = [
-                personId ? `personId=${personId}` : null,
-                businessId ? `businessId=${businessId}` : null,
-                establishmentId ? `establishmentId=${establishmentId}` : null,
-            ].filter((item) => !!item);
+            const query = getQueryParamsForApi({
+                personId,
+                businessId,
+                establishmentId,
+            });
 
             const response = await apiClient.get(
-                `/person-business-assignments${
-                    query.length > 0 ? "?" + query.join("&") : ""
-                }
-                `
+                `/person-business-assignments${query ? `?${query}` : ""}`
             );
             return response.data;
         } catch (error) {

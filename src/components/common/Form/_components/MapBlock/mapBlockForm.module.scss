@@ -4,7 +4,7 @@
     gap: $gap-small;
     position: relative;
     margin-bottom: 20px;
-    &_button {
+    & &_button {
         border-radius: $border-radius-5;
     }
 }

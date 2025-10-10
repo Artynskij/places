@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
 import Skeleton from "./SkeletonTabPublication";
 import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 
 // interface ITabPublication {
 //   publications: IArticleFront[];
@@ -23,9 +24,10 @@ const TabPublication = () => {
     useEffect(() => {
         const articleService = new ArticleService();
         articleService
-            .getByPagination({
+            .getWithFilter({
                 lang: locale,
-                pagination: { page: 1, pageSize: 10 },
+                page: 1,
+                pageSize: 10,
             })
             .then((res) => {
                 setPublication(res);
@@ -49,7 +51,10 @@ const TabPublication = () => {
                                     width={300}
                                     height={150}
                                     sizes="30vw"
-                                    src={article.titleImage}
+                                    src={
+                                        article.titleImage?.src ||
+                                        CONSTANT_DEFAULT_IMAGE_URL
+                                    }
                                     alt="photo"
                                 />
                             </div>
@@ -76,9 +81,7 @@ const TabPublication = () => {
                                             style.cardArticle_content_time
                                         }
                                     >
-                                        <BlockReadTime
-                                            text={article.markdown}
-                                        />
+                                        <BlockReadTime text={article.content} />
                                     </span>
                                 </div>
                             </div>

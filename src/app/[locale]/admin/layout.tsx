@@ -56,13 +56,13 @@ const menuItems = [
     {
         key: ROUTES.ADMIN.ARTICLES,
         icon: <FileTextOutlined />,
-        label: "Контент",
+        label: "Статьи",
     },
-    {
-        key: ROUTES.ADMIN.DATA_MANAGER,
-        icon: <DatabaseOutlined />,
-        label: "Данные",
-    },
+    // {
+    //     key: ROUTES.ADMIN.DATA_MANAGER,
+    //     icon: <DatabaseOutlined />,
+    //     label: "Данные",
+    // },
 ];
 
 // Альтернативный вариант с более специфичными иконками:
