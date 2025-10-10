@@ -169,7 +169,7 @@ export const FormLegalEntity = ({ business, mode,closeModal }: IProp) => {
                     <InputPhoneNumber<"phone">
                         field={field}
                         error={fieldState.error || null}
-                        titleSpam="Номер телефона организации"
+                        titleSpan="Номер телефона организации"
                     />
                 )}
             />

@@ -275,7 +275,7 @@ const FormCreateEstablishmentBase = ({
                             <InputPhoneNumber
                                 field={field}
                                 error={fieldState.error || null}
-                                titleSpam="Номер телефона*"
+                                titleSpan="Номер телефона*"
                             />
                         )}
                     />

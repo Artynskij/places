@@ -39,8 +39,7 @@ export const BlockAgreements = ({
                                     value={agreementItem.value}
                                     error={isRequiredAndUnselected}
                                 />
-
-                                {/* {isRequiredAndUnselected && <SpanErrorForm text={'заполни'} />} */}
+                                
                             </li>
                         );
                     })}

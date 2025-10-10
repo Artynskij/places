@@ -255,7 +255,7 @@ export const FormSettingsOwner = () => {
                             <InputPhoneNumber
                                 field={field}
                                 error={fieldState.error || null}
-                                titleSpam="Телефон"
+                                titleSpan="Телефон"
                             />
                         )}
                     />

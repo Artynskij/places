@@ -160,7 +160,7 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
                             <InputPhoneNumber<"phone">
                                 field={field}
                                 error={fieldState.error || null}
-                                titleSpam="Номер телефона*"
+                                titleSpan="Номер телефона*"
                             />
                         )}
                     />
