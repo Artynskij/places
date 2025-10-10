@@ -29,7 +29,7 @@ import {
     getSimpleObjectDiff,
 } from "@/lib/helpers/getChangedFieldsForApi";
 import { ModerationService } from "../moderation/moderation.service";
-import { SocialNetworksService } from "../socialNetworks.api";
+import { SocialNetworksService } from "../social-networks.api";
 import { ScheduleService } from "../(Establishment)/schedule.api";
 
 const validationSchemaRegisterTourist =

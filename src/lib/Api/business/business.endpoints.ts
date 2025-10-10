@@ -3,12 +3,10 @@ import {
     IBusinessWithContentEntity,
 } from "@/lib/models/server/entities/business.entity";
 
-import {
-    IBusinessGetAllQueryRequest,
-    IBusinessRequest,
-} from "@/lib/models/server/request/business/business.request";
 import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
 import apiClient from "../base/ApiClient";
+import { IBusinessGetAllQueryRequest, IBusinessRequest } from "@/lib/models";
+import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
 
 export default class BusinessApi {
     constructor() {}
@@ -17,17 +15,8 @@ export default class BusinessApi {
         query: IBusinessGetAllQueryRequest
     ): Promise<IBusinessWithContentEntity[] | null> {
         try {
-            const params = new URLSearchParams();
-            Object.keys(query)
-                .map((key) => ({
-                    key,
-                    value: query[key as keyof IBusinessGetAllQueryRequest],
-                }))
-                .forEach((item) => {
-                    if (!item.value) return;
-                    params.append(item.key, item.value?.toString());
-                });
-            const queryString = params.toString();
+            
+            const queryString = getQueryParamsForApi(query);
             const url = queryString
                 ? `/businesses?${queryString}`
                 : "/businesses";
@@ -53,7 +42,9 @@ export default class BusinessApi {
         }
     }
 
-    async create(body: IBusinessRequest): Promise<IBaseModerationResponse | null> {
+    async create(
+        body: IBusinessRequest
+    ): Promise<IBaseModerationResponse | null> {
         try {
             const response = await apiClient.post(`/businesses`, body);
             return response.data;

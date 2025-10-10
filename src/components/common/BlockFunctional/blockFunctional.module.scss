@@ -115,8 +115,7 @@
 
         &_item {
             position: relative;
-          
-            
+
             // &:first-child {
             //     border-top: 1px solid $color-main-grey;
             // }
@@ -133,20 +132,37 @@
     }
 }
 .extraInfo {
-   @extend %Text12;
+    // @extend %Text12;
     padding: 8px 12px;
     border-radius: $border-radius-10;
     width: 100%;
-   
+
     &--info {
-    background-color: $color-info-bg;
-    border: 1px solid $color-info-border;
-  }
-  
-   &--success {
-    background-color: $color-success-bg;
-    border: 1px solid $color-success-border;
-  }
+        background-color: $color-info-bg;
+        border: 1px solid $color-info-border;
+    }
+
+    &--success {
+        background-color: $color-success-bg;
+        border: 1px solid $color-success-border;
+    }
+    &--error {
+        background-color: $color-error-bg;
+        border: 1px solid $color-error-border;
+    }
+    &--12 {
+        @extend %Text12;
+    }
+    &--14 {
+        @extend %Text14;
+    }
+    &--16 {
+        @extend %Text16;
+    }
+}
+.extraInfo_font12 {
+}
+.extraInfo_font14 {
 }
 @include mediaTablet {
     .blockReaction {
@@ -161,4 +177,3 @@
         }
     }
 }
-

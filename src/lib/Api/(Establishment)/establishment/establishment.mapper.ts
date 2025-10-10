@@ -1,16 +1,17 @@
 import {
-    IEstablishmentEntity,
-    IEstablishmentWithContentEntity,
+    IEstablishmentWithContentPareEntity,
     IEstablishmentFront,
     IMediaFront,
     IRateEntity,
+    IEstablishmentRateEntity,
+    IEstablishmentRateFront,
 } from "@/lib/models";
-import {
-    ContactsEstablishmentMapper,
-    ContactsEstablishmentService,
-} from "../contactsEstablishment.api";
+import { ContactsEstablishmentMapper } from "../contactsEstablishment.api";
+import { PersonMapper } from "../../(Person)/person/person.mapper";
+import { CONSTANT_RATES_ESTABLISHMENT_ARRAY } from "@/asset/constants/ratesEstablishment";
+
 interface ITransformToFront {
-    establishment: IEstablishmentWithContentEntity;
+    establishment: IEstablishmentWithContentPareEntity;
     info: {
         cdnHost: string;
         totalEstablishment?: number;
@@ -18,8 +19,10 @@ interface ITransformToFront {
 }
 export default class EstablishmentMapper {
     private contactsEstablishmentMapper: ContactsEstablishmentMapper;
+    private personMapper: PersonMapper;
     constructor() {
         this.contactsEstablishmentMapper = new ContactsEstablishmentMapper();
+        this.personMapper = new PersonMapper();
     }
     private transformRate(rates?: IRateEntity) {
         const additionalKeys = [
@@ -113,8 +116,8 @@ export default class EstablishmentMapper {
             establishment.content?.media.gallery?.map((image) => {
                 return {
                     id: image.id,
-                    title: image.details[0]?.value.title || "default title",
-                    alt: image.details[0]?.value.alt || "default alt",
+                    title: image.details[0]?.value.title || "",
+                    alt: image.details[0]?.value.alt || "",
                     blobPath: image.blobPath,
                     fileName: image.fileName,
                     height: image.height,
@@ -123,19 +126,20 @@ export default class EstablishmentMapper {
                     src: `${info.cdnHost}/${image.blobPath}`,
                 };
             }) || null;
-        const categories = establishment.establishment.Categories.map((cat) => {
-            return {
-                id: cat?.Id || "",
-                key: cat?.Id || "",
-                value: cat?.content?.details[0]?.value || "default title",
-            };
-        });
+        const categories =
+            establishment.establishment.Categories?.map((cat) => {
+                return {
+                    id: cat?.Id || "",
+                    key: cat?.Id || "",
+                    value: cat?.content?.details[0]?.value || "",
+                };
+            }) || null;
         return {
             id: establishment.establishment.Id,
             title: title,
             description: description,
-            typeEstablishment: establishment.establishment.Type.Name,
-            category: categories[0],
+            typeEstablishment: establishment.establishment.Type?.Name || null,
+            category: categories?.[0] || null,
             categoriesAll: categories,
 
             rates: this.transformRate(establishment.establishment.Rates),
@@ -158,7 +162,7 @@ export default class EstablishmentMapper {
                     id: establishment.establishment.Locations?.Id || "",
                     title:
                         establishment.establishment.Locations?.content
-                            ?.details[0]?.value || "default title location",
+                            ?.details[0]?.value || "",
                 },
                 street: establishment.content.value[0].value.location.street1,
                 latitude: +establishment.establishment.Latitude,
@@ -182,5 +186,49 @@ export default class EstablishmentMapper {
                 null,
             content: establishment.content,
         };
+    }
+    toFrontRateReview(
+        establishmentRateEntity: IEstablishmentRateEntity,
+        cdnHost: string
+    ): IEstablishmentRateFront {
+        const rates = CONSTANT_RATES_ESTABLISHMENT_ARRAY.map((key) => {
+            if (!establishmentRateEntity[key]) return null;
+            return {
+                key,
+                value: establishmentRateEntity[key], // number | null
+            };
+        }).filter(Boolean) as IEstablishmentRateFront["rates"];
+
+        const mappedObject: IEstablishmentRateFront = {
+            person: this.personMapper.toFront(
+                { person: establishmentRateEntity.Person, content: null },
+                null,
+                cdnHost
+            ),
+            establishment: this.transformToFront({
+                establishment: {
+                    establishment: establishmentRateEntity.Establishment,
+                    content: establishmentRateEntity.Establishment.content,
+                },
+                info: { cdnHost: cdnHost },
+            }),
+            PersonsVisitDate: establishmentRateEntity.PersonsVisitDate,
+            CreatedDate: establishmentRateEntity.CreatedDate,
+            rates: rates,
+            // Accessibility: establishmentRateEntity.Accessibility,
+            // Atmosphere: establishmentRateEntity.Atmosphere,
+            // Clean: establishmentRateEntity.Clean,
+            // Comfort: establishmentRateEntity.Comfort,
+            // Food: establishmentRateEntity.Food,
+            // Location: establishmentRateEntity.Location,
+            // PriceQuality: establishmentRateEntity.PriceQuality,
+            // Quality: establishmentRateEntity.Quality,
+            // Rate: establishmentRateEntity.Rate,
+            // Rooms: establishmentRateEntity.Rooms,
+            // Safety: establishmentRateEntity.Safety,
+            // Service: establishmentRateEntity.Service,
+            // Value: establishmentRateEntity.Value,
+        };
+        return mappedObject;
     }
 }

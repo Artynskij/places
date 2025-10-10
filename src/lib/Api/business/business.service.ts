@@ -1,19 +1,18 @@
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { BusinessAssignmentApi } from "@/lib/Api/business/businessAssignment.endpoints";
-import { IBusinessFront } from "@/lib/models/frontend/business.front";
+
 import BusinessApi from "./business.endpoints";
+
 import {
+    IBaseModerationResponse,
     IBusinessAssignmentGetQueryRequest,
-    IBusinessAssignmentRequest,
+    IBusinessFront,
     IBusinessGetAllQueryRequest,
-    IBusinessRequest,
-} from "@/lib/models/server/request/business/business.request";
-import {
     IBusinessPersonAssignEntity,
+    IBusinessRequest,
     IBusinessWithContentEntity,
 } from "@/lib/models";
 import { InvitesService } from "../invites/invites.service";
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
 
 export class BusinessService {
     private BusinessApi: BusinessApi;

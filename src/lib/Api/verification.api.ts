@@ -1,13 +1,14 @@
 import {
+    IBaseModerationResponse,
     IMediaFront,
     IVerificationEntity,
     IVerificationFront,
+    IVerificationRequest,
     IVerificationWithContentEntity,
 } from "@/lib/models";
 
-import { IVerificationRequest } from "@/lib/models/server/request/verification/verification.request";
 import { DataLoadManagementService } from "./dataLoadManagement/dataLoadManagement.service";
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
+
 import { BaseApiService } from "./base/BaseApi.service";
 
 export class VerificationMapper {
@@ -23,7 +24,7 @@ export class VerificationMapper {
                 ? dataServer.content
                 : dataServer.Content || null;
         const privateMedia: IMediaFront[] | null =
-            content?.media.gallery.map((privateFile) => {
+            content?.media?.gallery.map((privateFile) => {
                 return {
                     id: privateFile.id,
                     blobPath: privateFile.blobPath,

@@ -155,7 +155,19 @@ header .ant-checkbox-wrapper:hover .ant-checkbox-inner {
     height: auto !important;
     display: flex !important;
 }
-
+.swiper-button-disabled {
+    color: $color-main-grey;
+    border-color: $color-main-grey;
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+    &:hover {
+        border-color: $color-main-grey !important;
+    }
+    &:active {
+        border-color: $color-main-grey !important;
+    }
+}
 .hover-underline {
     position: relative;
     &::before {

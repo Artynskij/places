@@ -29,9 +29,10 @@ export default async function NewsCategoryPage({
     const apiArticles = new ArticleService();
     const article = await apiArticles.getById(params.news, params.locale);
     const popularNews =
-        (await apiArticles.getByPagination({
+        (await apiArticles.getWithFilter({
             lang: params.locale,
-            pagination: { page: 1, pageSize: 8 },
+            page: 1,
+            pageSize: 8,
         })) || [];
     return (
         <>

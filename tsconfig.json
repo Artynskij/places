@@ -31,6 +31,6 @@
         "src/middleware.ts",
         "src/i18Config.ts",
         "dist/types/**/*.ts"
-    ],
+, "src/components/common/Tabs/admin/location/LocationTypesTabAdmin.tsч"    ],
     "exclude": ["node_modules"]
 }

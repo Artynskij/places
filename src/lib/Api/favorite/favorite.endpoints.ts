@@ -1,10 +1,10 @@
 import {
     IFavoriteCreateRequest,
+    IFavoriteEntity,
     IFavoriteGetQueryRequest,
-} from "@/lib/models/server/request/(Person)/favorite.request";
-
-import { IFavoriteEntity } from "@/lib/models";
+} from "@/lib/models";
 import apiClient from "../base/ApiClient";
+import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
 
 export default class FavoriteApi {
     constructor() {}
@@ -24,9 +24,7 @@ export default class FavoriteApi {
         query: IFavoriteGetQueryRequest
     ): Promise<IFavoriteEntity[] | null> {
         try {
-            const queryParams = Object.entries(query)
-                .map(([key, value]) => `${key}=${value}`)
-                .join("&");
+            const queryParams = getQueryParamsForApi(query);
             const response = await apiClient.get(
                 `/favorites${queryParams ? `?${queryParams}` : ""}`
             );

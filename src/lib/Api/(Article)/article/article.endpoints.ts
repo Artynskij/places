@@ -1,9 +1,12 @@
-
 import { IArticleEntity, IArticleEntityWithContent } from "@/lib/models";
 
-import { IArticleRequest, IPaginationArticleRequest } from "@/lib/models/server/request/(article)/article.request";
+import {
+    IArticleRequest,
+    IArticleWithFilterRequest,
+    IPaginationArticleRequest,
+} from "@/lib/models/server/request/(article)/article.request";
 import apiClient from "../../base/ApiClient";
-
+import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
 
 export default class ArticleApi {
     constructor() {}
@@ -22,11 +25,15 @@ export default class ArticleApi {
         }
     }
 
-    async getByPagination(
-        body: IPaginationArticleRequest
+    async getWithFilter(
+        query: IArticleWithFilterRequest
     ): Promise<IArticleEntityWithContent[] | null> {
         try {
-            const response = await apiClient.post(`/articles/getAll`, body);
+            const queryParams = getQueryParamsForApi(query);
+
+            const response = await apiClient.get(
+                `/articles${queryParams ? `?${queryParams}` : ""}`
+            );
             return response.data;
         } catch (error) {
             console.error("Ошибка при получении статей с пагинацией:");

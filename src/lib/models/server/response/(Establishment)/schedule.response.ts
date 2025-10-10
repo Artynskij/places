@@ -1,7 +1,7 @@
-import { IEstablishmentWithContentEntity } from "../../entities/(establishment)/establishment.entity";
+import { IEstablishmentWithContentPareEntity } from "../../entities/(establishment)/establishment.entity";
 import { IScheduleEntity } from "../../entities/(establishment)/schedule.entity";
 
 export interface IScheduleCreateResponse extends IScheduleEntity {
     Id: string;
-    Establishment: IEstablishmentWithContentEntity;
+    Establishment: IEstablishmentWithContentPareEntity;
 }

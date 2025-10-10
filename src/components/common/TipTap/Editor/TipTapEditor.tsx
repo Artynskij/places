@@ -50,9 +50,10 @@ interface IProp {
         mediaStorage: IMediaFrontWithFile[];
     }) => void;
     onEditorInit?: (editor: any) => void; // ✅ Новый пропс
+    initialContent?: any;
 }
 
-export default function TipTapEditor({ setEditorData, onEditorInit }: IProp) {
+export default function TipTapEditor({ setEditorData, onEditorInit,initialContent }: IProp) {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -85,7 +86,7 @@ export default function TipTapEditor({ setEditorData, onEditorInit }: IProp) {
             SliderNode,
             MediaStateExtension,
         ],
-        // content: "<p>Добро пожаловать в редактор статей 🚀</p>",
+        content: initialContent ,
         immediatelyRender: false,
         onUpdate: ({ editor }) => {
             const content = editor.getJSON();

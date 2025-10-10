@@ -1,13 +1,11 @@
 import { IBaseModerationResponse } from "../../models/server/response/base/base-moderation.response";
-import { IContactsPersonEntity } from "@/lib/models/server/entities/(person)/contactsPerson.entity";
-import { IContactsPersonFront } from "@/lib/models/frontend/(person)/contactsPerson.front";
-import { IContactsRequest } from "@/lib/models/server/request/contacts/contacts.request";
 
 import {
+    IContactEstablishmentRequest,
     IContactsEstablishmentEntity,
     IContactsEstablishmentFront,
 } from "@/lib/models";
-import { IContactEstablishmentRequest } from "@/lib/models/server/request/(Establishment)/contactsEstablishment.request";
+
 import { BaseApiService } from "../base/BaseApi.service";
 
 export class ContactsEstablishmentMapper {

@@ -1,8 +1,4 @@
-import {
-    IContentEntity,
-    IContentEstablishment,
-    IEstablishmentPersonAssignWithContentEntity,
-} from "../../server/entities";
+import { IContentEstablishment } from "../../server/entities";
 import { TTypesOfEstablishment } from "../../types/TTypesEstablishment";
 import { ICategoryFront } from "./category.front";
 

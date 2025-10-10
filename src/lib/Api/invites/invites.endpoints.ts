@@ -1,7 +1,8 @@
 import { IInvitesByQueryItemResponse } from "../../models/server/response/invites/invites.response";
 import { IInvitesEntity } from "@/lib/models/server/entities/invites.entity";
-import { IInvitesRequest } from "@/lib/models/server/request/invites/invites.request";
+import { IInvitesRequest } from "@/lib/models/server/request/invites.request";
 import apiClient from "../base/ApiClient";
+import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
 
 export default class InvitesApi {
     constructor() {}
@@ -24,12 +25,12 @@ export default class InvitesApi {
         lang: string;
     }): Promise<IInvitesByQueryItemResponse[] | null> {
         try {
-            const query = [
-                personId ? `personId=${personId}` : null,
-                businessId ? `businessId=${businessId}` : null,
-                `lang=${lang}`,
-            ].filter((item) => !!item);
-            const response = await apiClient.get(`/invites?${query.join("&")}`);
+            const query = getQueryParamsForApi({
+                personId,
+                businessId,
+                lang,
+            });
+            const response = await apiClient.get(`/invites?${query}`);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при GET приглашения`);

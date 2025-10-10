@@ -1,7 +1,7 @@
 import { IBaseModerationRequest } from "../base/base-with-moderation.request";
-import { IPaginationRequest } from "../IPagination.request";
+import { IPaginationBaseRequest } from "../base/pagination-base.request";
 
-export interface ITagsOfEstablishmentRequest extends IPaginationRequest {
+export interface ITagsOfEstablishmentRequest extends IPaginationBaseRequest {
     establishmentIds?: number[] | string[];
     establishmentTypeId?: string;
     locationId?: string;

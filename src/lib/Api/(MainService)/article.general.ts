@@ -1,5 +1,5 @@
 import {
-    IArticleNewFront,
+    IArticleFront,
     IArticleRequest,
     IMediaFront,
     IUser,
@@ -26,7 +26,7 @@ interface ArticleFormValues {
 }
 interface IPropCreate {
     formData: ArticleFormValues;
-    articleState: IArticleNewFront;
+    articleState: IArticleFront;
     user: IUser;
 }
 export class GeneralArticleService {
@@ -64,22 +64,18 @@ export class GeneralArticleService {
                 value: [
                     {
                         lang: formData.lang,
-                        value: {
-                            details: {
-                                title: formData.title,
-                                description: formData.description,
+                        details: {
+                            title: formData.title,
+                            description: formData.description,
+                            seo: {
+                                title: formData.titleSeo,
+                                description: formData.descriptionSeo,
                             },
-                            seo: [
-                                { key: "title", value: formData.titleSeo },
-                                {
-                                    key: "description",
-                                    value: formData.descriptionSeo,
-                                },
-                            ],
+                            markdown: articleState.content,
                         },
                     },
                 ],
-                media: [],
+                media: { gallery: [] },
                 // media: {
                 //     main: mainImageUploaded,
                 //     gallery: mediaUploaded,
@@ -102,8 +98,8 @@ export class GeneralArticleService {
                 files: [fileMainImage],
                 seo: [
                     {
-                        title: articleState.titleImage.title,
-                        alt: articleState.titleImage.alt,
+                        title: articleState.titleImage?.title || "",
+                        alt: articleState.titleImage?.alt || "",
                     },
                 ],
                 main: true,
@@ -134,7 +130,12 @@ export class GeneralArticleService {
                 files: filesInMedia,
                 seo: seoInMedia,
             });
-        bodyArticleCreate.content.media = [mainImageUploaded, ...mediaUploaded];
+        if (bodyArticleCreate.content?.media?.gallery) {
+            bodyArticleCreate.content.media.gallery = [
+                mainImageUploaded,
+                ...mediaUploaded,
+            ];
+        }
 
         console.log("bodyArticleCreate", bodyArticleCreate);
         const updatedArticle = await this.articleService.update(

@@ -1,5 +1,5 @@
 import { IBasePageProps } from "@/lib/models/common/IType";
-import LocationsAdminScreen from "@/screens/(Admin)/Locations/LocationsAdmin.screen";
+import LocationsAdminScreen from "@/screens/(Admin)/Locations";
 
 export async function generateMetadata() {
     return {

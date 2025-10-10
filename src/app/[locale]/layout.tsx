@@ -32,7 +32,15 @@ export default async function RootLayout({
                 <ReduxProvider>
                     <AntdRegistry>
                         <ConfigProvider
-                            theme={{ token: { colorPrimary: "#005ba1" } }}
+                            theme={{
+                                token: {
+                                    colorPrimary: "#005ba1",
+                                    colorError: "#ee8208",
+                                },
+                                // components: {
+                                //     Checkbox: {},
+                                // },
+                            }}
                         >
                             <NextIntlClientProvider messages={messages}>
                                 <AllContextProvider>

@@ -4,10 +4,12 @@
     gap: $gap-medium;
     position: relative;
     margin-bottom: 20px;
-    &_button {
+    & &_button,
+    & .button_accept {
         border-radius: $border-radius-5;
     }
 }
+
 .selectGroup {
     margin-bottom: 16px;
     &_title {

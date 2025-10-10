@@ -1,6 +1,6 @@
 // import { IRoleOwnerEntity } from "@/lib/models/api/entities/FileUpload/roleOwner.entity";
 
-import { IInvitesRequest } from "@/lib/models/server/request/invites/invites.request";
+import { IInvitesRequest } from "@/lib/models/server/request/invites.request";
 import InvitesApi from "./invites.endpoints";
 import { IInvitesFront } from "@/lib/models/frontend/invites.front";
 import { IInvitesByQueryItemResponse } from "@/lib/models";

@@ -2,12 +2,13 @@ import EstablishmentApi from "./establishment.endpoints";
 
 import {
     IEstablishmentEntity,
-    IEstablishmentWithContentEntity,
+    IEstablishmentWithContentPareEntity,
     IEstablishmentFront,
     IEstablishmentRateRequest,
     IEstablishmentRateEntity,
     IEstablishmentRateGetAllRequest,
     IEstablishmentRateAllResponse,
+    IEstablishmentRateFront,
 } from "@/lib/models";
 import EstablishmentMapper from "./establishment.mapper";
 import {
@@ -97,19 +98,32 @@ export class EstablishmentService {
         body: IEstablishmentCreateRequest
     ): Promise<IBaseModerationResponse | null> {
         const response = this.establishmentApi.update(id, body);
-       
+
         return response;
     }
-    async createRate(
+    async createRateReview(
         body: IEstablishmentRateRequest
     ): Promise<IBaseModerationResponse | null> {
         const response = this.establishmentRateApi.create(body);
         return response;
     }
-    getAllRates(
-        body: IEstablishmentRateGetAllRequest
-    ): Promise<IEstablishmentRateAllResponse | null> {
-        const response = this.establishmentRateApi.getAll(body);
-        return response;
+    async getAllRatesReview(body: IEstablishmentRateGetAllRequest): Promise<{
+        info: { limit: number; page: number; total: number };
+        rates: IEstablishmentRateFront[];
+    } | null> {
+        const response = await this.establishmentRateApi.getAll(body);
+        const cdnHost = await this.dataLoadManagementService.getBlobProxy();
+        if (!response || !cdnHost) return null;
+        const mappedRates = response.data.map((item) =>
+            this.establishmentMapper.toFrontRateReview(item, cdnHost.url)
+        );
+        return {
+            rates: mappedRates,
+            info: {
+                limit: response.limit,
+                page: response.page,
+                total: response.total,
+            },
+        };
     }
 }

@@ -16,7 +16,7 @@ import Link from "next/link";
 import { ROUTES } from "@/lib/config/Routes";
 import { Button } from "@/components/UI/Button/Button";
 import { IconEdit } from "@/components/common/Icons";
-import { getFormatDate } from "@/lib/helpers/getFormatDate";
+
 import { Loader } from "@/components/common/Loader/Loader";
 import { useNotification } from "@/lib/context";
 import Image from "next/image";

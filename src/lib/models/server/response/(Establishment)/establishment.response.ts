@@ -1,11 +1,11 @@
-import { IEstablishmentWithContentEntity } from "../../entities/(establishment)/establishment.entity";
+import { IEstablishmentWithContentPareEntity } from "../../entities/(establishment)/establishment.entity";
 
 export interface IEstablishmentResponse {
-    establishment: IEstablishmentWithContentEntity;
+    establishment: IEstablishmentWithContentPareEntity;
     cdnHost: string;
 }
 export interface IEstablishmentItemsResponse {
-    establishmentItems: IEstablishmentWithContentEntity[];
+    establishmentItems: IEstablishmentWithContentPareEntity[];
     cdnHost: string;
     total: number;
     page: number;

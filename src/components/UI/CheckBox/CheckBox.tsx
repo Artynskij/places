@@ -20,7 +20,6 @@ export const CheckBox: FC<ICheckBox> = ({ value, name, error }) => {
          rootClassName={`${style.checkBox_root} ${error ? "checkbox--error" : ""}`}
         // className={style.checkBox}
         value={value}
-        
       >
         {name}
       </Checkbox>

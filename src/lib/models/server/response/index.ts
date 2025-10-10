@@ -8,3 +8,6 @@ export * from "./fileUpload/fileUpload.response";
 export * from "./invites/invites.response";
 export * from "./map/map.response";
 export * from "./search/search.response";
+
+
+export * from './base/base-moderation.response'

@@ -1,26 +1,25 @@
+import { extend } from "lodash";
 import { IPersonEntity } from "../(person)/person.entity";
 import { IBaseEntity } from "../base/base.entity";
 import { ICategoryEstablishmentPart } from "./parts/categoryEstablishmentPart.entity";
 import { IContactsEstablishmentEntity } from "./parts/contactEstablishment.entity";
-import { IContentEntity, IContentEstablishment } from "./parts/content.entity";
-import { IImageEntity } from "./parts/image.entity";
+import { IContentMultilingualEntity, IContentEstablishment, IContentEntityWithMedia } from "./parts/content.entity";
+
 import { IRateEntity } from "./parts/rate.entity";
 import { ITypeEstablishmentEntity } from "./typeEstablishment.entity";
 interface ILocationsInEstablishment {
     Id: string;
     ParentId: string;
     Path: string;
-    content: IContentEntity;
+    content: IContentEntityWithMedia;
 }
 
 export interface IEstablishmentEntity extends IBaseEntity {
     AvgRate: number | null;
     CountOfRates: number | null;
-
     Latitude: string;
     Longitude: string;
     PostalCode: string;
-
     Moderate: null | boolean;
     Type: ITypeEstablishmentEntity;
     Categories: ICategoryEstablishmentPart[];
@@ -28,7 +27,10 @@ export interface IEstablishmentEntity extends IBaseEntity {
     Locations: ILocationsInEstablishment | null;
     Rates: IRateEntity;
 }
-export interface IEstablishmentWithContentEntity {
+export interface IEstablishmentWithContentEntity extends IEstablishmentEntity {
+    content: IContentEstablishment;
+}
+export interface IEstablishmentWithContentPareEntity {
     establishment: IEstablishmentEntity;
     content: IContentEstablishment;
 }
@@ -41,10 +43,10 @@ export interface IEstablishmentPersonAssignEntity extends IBaseEntity {
     Source: "Manual" | "AutoParser" | "AdminPanel" | "Search" | "Cabinet";
     Note: string | null;
 
-    Content?: IContentEntity | null;
+    Content?: IContentMultilingualEntity | null;
 }
 export interface IEstablishmentPersonAssignWithContentEntity {
     id: string;
     entity: IEstablishmentPersonAssignEntity;
-    content: IContentEntity | null;
+    content: IContentMultilingualEntity | null;
 }

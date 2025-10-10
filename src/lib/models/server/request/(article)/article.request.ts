@@ -1,14 +1,28 @@
 import { TKeySeo, TLocale } from "@/lib/models/types";
 import { IImageEntity } from "../../entities";
-import { IPaginationRequest } from "../IPagination.request";
+import { IPaginationBaseRequest } from "../base/pagination-base.request";
+import { IContentMultilingualRequest } from "../base/multilingual-content.request";
 
-export interface IPaginationArticleRequest extends IPaginationRequest {
+export interface IPaginationArticleRequest extends IPaginationBaseRequest {
     pagination: {
         page: number;
         pageSize: number;
     };
 }
-
+export interface IArticleWithFilterRequest {
+    // ids?: string[];
+    lang?: TLocale;
+    page?: number;
+    pageSize?: number;
+    personId?: string;
+}
+interface ContentPartArticle {
+    markdown: string;
+    tags?: string[];
+    reactions?: number[];
+}
+interface ContentArticle
+    extends IContentMultilingualRequest<ContentPartArticle> {}
 export interface IArticleRequest {
     source: {
         PersonId: string;
@@ -16,17 +30,5 @@ export interface IArticleRequest {
         ArticlesStatusId: string;
         ReadingTimeMinutes: number;
     };
-    content: {
-        value: {
-            lang: TLocale;
-            value: {
-                seo: { key: TKeySeo; value: string }[];
-                details: {
-                    title: string;
-                    description: string | null;
-                };
-            };
-        }[];
-        media?: IImageEntity[];
-    };
+    content: ContentArticle;
 }

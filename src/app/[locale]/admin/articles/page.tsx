@@ -1,4 +1,4 @@
-import { ArticleAdminScreen } from "@/screens/(Admin)/Article/ArticleAdmin.screen";
+import ArticleAdminScreen from "@/screens/(Admin)/Article";
 
 export async function generateMetadata() {
     return {
@@ -6,7 +6,7 @@ export async function generateMetadata() {
     };
 }
 
-const ArticleCreationPage = () => {
+const ArticleAdminPage = () => {
     return (
         <>
             <ArticleAdminScreen />
@@ -14,4 +14,4 @@ const ArticleCreationPage = () => {
     );
 };
 
-export default ArticleCreationPage;
+export default ArticleAdminPage;

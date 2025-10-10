@@ -20,6 +20,7 @@ import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { Markdown } from "@/components/common/MarkDown/MarkDown";
 import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
 
 interface IBlockArticles {
     article: IArticleFront | null;
@@ -82,7 +83,7 @@ export default function BlockArticles({
                         </Link>
                     </div>
 
-                    <BlockReadTime text={article.markdown} />
+                    <BlockReadTime text={article.content} />
                     <BlockWatchCount count={1000} />
                 </div>
                 <div className={style.underTitle_right}>
@@ -98,12 +99,12 @@ export default function BlockArticles({
                     width={600}
                     height={300}
                     alt="img"
-                    src={article.titleImage}
+                    src={article.titleImage?.src || CONSTANT_DEFAULT_IMAGE_URL}
                 />
                 <span>Подпись фото</span>
             </div>
             <div className={style.markdownContent}>
-                <Markdown>{article.markdown}</Markdown>
+                {/* <Markdown>{article.content}</Markdown> */}
             </div>
             <div className={style.share}>
                 <BlockShare

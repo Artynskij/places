@@ -9,35 +9,27 @@ import { mockReviews } from "@/asset/mockData/mockReviews";
 import { IconLocation, IconThumbDown, IconThumbUp } from "../../Icons";
 import { useState } from "react";
 import { BlockLikeDislike } from "../../BlockFunctional/BlockLikeDislike";
-import { IEstablishmentFront } from "@/lib/models";
+import { IEstablishmentFront, IEstablishmentRateFront } from "@/lib/models";
 import { useTranslations } from "next-intl";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import {
+    CONSTANT_DEFAULT_AVATAR_URL,
+    CONSTANT_DEFAULT_IMAGE_URL,
+} from "@/asset/constants/DefaultConstant";
+import { getFormatDate } from "@/lib/helpers/getFormatDate";
 
 interface ICardReview {
-    review: (typeof mockReviews)[0];
-    establishmentReview?: IEstablishmentFront | null;
+    review: IEstablishmentRateFront;
+    // establishmentReview?: IEstablishmentFront | null;
     // tRate: (value: string) => string;
 }
 export const CardReview = ({
     review,
-    establishmentReview,
 }: // tRate,
 ICardReview) => {
-    const [reactionLike, setReactionLike] = useState<"like" | "dislike" | null>(
-        null
-    );
     const tRate = useTranslations("Rates");
-    const handleLike = () => {
-        reactionLike === "like"
-            ? setReactionLike(null)
-            : setReactionLike("like");
-    };
-
-    const handleDisLike = () => {
-        reactionLike === "dislike"
-            ? setReactionLike(null)
-            : setReactionLike("dislike");
-    };
+    const mainRate = review.rates.find((item) => item.key === "Rate");
+    const additionalRates = review.rates.filter((item) => item.key !== "Rate");
+    const establishmentReview = review.establishment;
     const gallery = establishmentReview?.media.gallery || null;
     return (
         <div className={style.cardReview}>
@@ -48,78 +40,49 @@ ICardReview) => {
                             width={50}
                             height={50}
                             alt="avatar"
-                            src={review.user.avatar}
+                            src={
+                                review.person.avatar.touristImageSrc ||
+                                CONSTANT_DEFAULT_AVATAR_URL
+                            }
                         />
                     </div>
                     <div className={style.user_info}>
                         <div className={style.user_name}>
-                            <span>{review.user.name}</span> {"написал(a) отзыв"}
+                            <span>{review.person.personName?.fullName}</span>{" "}
+                            {"написал(a) отзыв"}
                         </div>
-                        <div className={style.user_status}>
-                            {review.user.status.value}
-                        </div>
+
                         <div className={style.user_dateReview}>
-                            {review.review.dateReview}
+                            {getFormatDate(review.CreatedDate)}
                         </div>
                     </div>
                 </div>
-                <div className={style.user_right}>
-                    <BlockLikeDislike />
-                    {/* <div className={`${reactionLike === "like" && style.reaction_like}`}>
-            <IconThumbUp onClick={handleLike} className={style.reaction_icon} />
-          </div>
-          <div
-            onClick={handleDisLike}
-            className={`${reactionLike === "dislike" && style.reaction_dislike}`}
-          >
-            <IconThumbDown className={style.reaction_icon} />
-          </div> */}
-                </div>
             </div>
-            {review.review.album && (
-                <div className={style.album}>
-                    {review.review.album.map((image, index) => (
-                        <div className={style.album_image} key={index}>
-                            <Image
-                                width={200}
-                                height={200}
-                                src={image}
-                                alt="album Item"
-                            />
-                        </div>
-                    ))}
-                </div>
-            )}
 
             <div className={style.reviewBody}>
                 <div className={style.reviewBody_mainRate}>
-                    <RateMain
-                        disabled
-                        defaultValue={review.review.rating.rate}
-                    />
+                    <RateMain disabled defaultValue={mainRate?.value || 0} />
                 </div>
 
                 <div className={style.reviewBody_title}>
-                    {review.review.title}
+                    {/* {review.review.title} */}
                 </div>
                 <div className={style.reviewBody_description}>
-                    {review.review.description}
+                    {/* {review.review.description} */}
                 </div>
                 <div className={style.reviewBody_dateVisit}>
-                    Дата посещения: {review.review.dateVisit}
+                    Дата посещения: {getFormatDate(review.PersonsVisitDate)}
                 </div>
                 <div className={style.reviewBody_additionalRate}>
-                    {Object.entries(review.review.rating.additional).map(
-                        ([key, value]) => (
-                            <div
-                                className={style.reviewBody_additionalRate_rate}
-                                key={key}
-                            >
-                                <RateMain disabled defaultValue={value} />
-                                <label>{tRate(key)}</label>
-                            </div>
-                        )
-                    )}
+                    {additionalRates.map((rate) => (
+                        <div
+                            className={style.reviewBody_additionalRate_rate}
+                            key={rate.key}
+                        >
+                            <RateMain disabled defaultValue={rate.value} />
+                            <label>{tRate(rate.key)}</label>
+                        </div>
+                    ))}
                 </div>
             </div>
             {establishmentReview && (
@@ -152,7 +115,7 @@ ICardReview) => {
                         </div>
                         <div className={style.establishment_location}>
                             <IconLocation />
-                            <span>{establishmentReview.location.street}</span>
+                            <span>{establishmentReview.location.street} {establishmentReview.location.town.title} {establishmentReview.location.country.title}</span>
                         </div>
                     </div>
                 </div>

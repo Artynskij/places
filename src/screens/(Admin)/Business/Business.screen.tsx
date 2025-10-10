@@ -24,6 +24,7 @@ import {
     EyeOutlined,
     ShopOutlined,
     SearchOutlined,
+    ReloadOutlined,
 } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
@@ -544,9 +545,7 @@ export const BusinessAdminScreen = () => {
         <Card
             title="Управление бизнесами"
             extra={
-                <Button icon={<SearchOutlined />} onClick={fetchBusinesses}>
-                    Обновить
-                </Button>
+                <Button icon={<ReloadOutlined />} onClick={fetchBusinesses} />
             }
         >
             {/* Поиск */}

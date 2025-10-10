@@ -5,6 +5,7 @@ import style from "./selectCustom.module.scss";
 import { IconArrowDown } from "../../common/Icons";
 import { ISelectOption } from "@/lib/models/common/IType";
 import { SpanErrorForm } from "../Span/SpanErrorForm";
+import clsx from "clsx";
 
 interface ISelectProps {
     options: ISelectOption[];
@@ -53,13 +54,11 @@ export const SelectCustom: FC<ISelectProps> = ({
     return (
         <div
             ref={rootRef}
-            className={`${style.select}  ${
-                isOpen ? style.active : ""
-            } ${classNameCtn}`}
+            className={clsx(classNameCtn, style.select, isOpen && style.active)}
         >
             <div
                 onClick={toggleSelect}
-                className={`${style.select_value} ${classNameValue}`}
+                className={clsx(classNameValue, style.select_value)}
             >
                 <span>
                     {nameSelectImportant ||
@@ -81,11 +80,11 @@ export const SelectCustom: FC<ISelectProps> = ({
                             <div
                                 onClick={() => handleChange(item)}
                                 key={item.value}
-                                className={`${style.select_options_item} ${
-                                    activeItem
-                                        ? style.select_options_item_active
-                                        : ""
-                                }`}
+                                className={clsx(
+                                    style.select_options_item,
+                                    activeItem &&
+                                        style.select_options_item_active
+                                )}
                             >
                                 {item.name}
                             </div>

@@ -11,7 +11,6 @@ import { PopularArticles } from "../_component/_PopularNews/_PopularNews";
 
 import { IArticleFront } from "@/lib/models/frontend/article.front";
 
-
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
 import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";
 import BlockArticles from "../ArticleScreen/_components/BlockArticle/BlockArticles";
@@ -34,8 +33,9 @@ export default function NewsScreen({
     const [countAnotherArticle, setCountAnotherArticle] = useState<number>(1);
 
     async function updateAnotherNews() {
-        const newArticle = await api.getByPagination({
-            pagination: { page: countAnotherArticle, pageSize: 1 },
+        const newArticle = await api.getWithFilter({
+            page: countAnotherArticle,
+            pageSize: 1,
             lang: params.locale,
         });
 

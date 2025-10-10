@@ -2,7 +2,7 @@
 import {
     IFilePrivateUploadBodyRequest,
     IFilePublicUploadBodyRequest,
-} from "@/lib/models/server/request/fileUpload/fileUpload.request";
+} from "@/lib/models/server/request/fileUpload.request";
 import FileUploadApi from "./fileUpload.endpoints";
 import { IFileUploadResponse } from "@/lib/models/server/response/fileUpload/fileUpload.response";
 import type { UploadFile } from "antd/es/upload/interface";
@@ -13,7 +13,7 @@ interface IPropUploadPublicFileOfAntdFiles {
     vendorId: string;
     files: UploadFile[] | [];
     seo?: { title: string; alt: string }[];
-    main?:boolean;
+    main?: boolean;
 }
 export class FileUploadService {
     private FileUploadApi: FileUploadApi;

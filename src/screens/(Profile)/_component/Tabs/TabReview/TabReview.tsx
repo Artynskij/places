@@ -6,7 +6,7 @@ import { mockReviews } from "@/asset/mockData/mockReviews";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
-import { IEstablishmentFront } from "@/lib/models";
+import { IEstablishmentFront, IEstablishmentRateFront } from "@/lib/models";
 
 import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
@@ -20,17 +20,23 @@ const TabReview = ({}: ITabReview) => {
     const { user, loadingUser } = useUser();
     const tRate = useTranslations("Rates");
     const establishmentService = new EstablishmentService();
-    const [establishmentReview, setEstablishmentReview] =
-        useState<IEstablishmentFront | null>(null);
+    const [reviewsData, setReviewsData] = useState<
+        IEstablishmentRateFront[] | null
+    >(null);
     useEffect(() => {
         if (!user) return;
         establishmentService
-            .getAllRates({
+            .getAllRatesReview({
                 page: 1,
                 limit: 100,
                 personIds: [user.id],
             })
-            .then((res) => console.log(res));
+            .then((res) => {
+                if (res) {
+                    console.log(res.rates);
+                    setReviewsData(res.rates);
+                }
+            });
 
         // establishmentService
         //     .getById("01JJ221DJARES4ATVV9G6Y2GNT", "ru")
@@ -40,15 +46,15 @@ const TabReview = ({}: ITabReview) => {
     }, [loadingUser]);
     return (
         <div className={style.review_content}>
-            {/* {reviewsData.map((review, index) => {
+            {reviewsData && reviewsData.map((review, index) => {
                 return (
                     <CardReview
                         key={index}
-                        establishmentReview={establishmentReview}
+                        // establishmentReview={review}
                         review={review}
                     />
                 );
-            })} */}
+            })}
         </div>
     );
 };
