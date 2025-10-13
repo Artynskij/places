@@ -17,16 +17,8 @@ import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstabl
 import { FinderHeader } from "../Finder/FinderHeader/FinderHeader";
 import { ScrollToTopButton } from "./ScrollToTopButton/ScrollToTopButton";
 
-// { locale }: { locale: string }
 export const Header = async () => {
     const tHeader = await getTranslations("Header");
-
-    // const SelectLang = dynamic(
-    //     () => import("./SelectLang/SelectLang").then((mod) => mod.SelectLang),
-    //     {
-    //         ssr: false,
-    //     }
-    // );
 
     return (
         <>
@@ -60,9 +52,9 @@ export const Header = async () => {
 
                     <div className={style.right}>
                         <div className={style.right_lang}>
-                            <Suspense fallback={<div>select lang</div>}>
+                            {/* <Suspense fallback={<div>select lang</div>}>
                                 <SelectLang />
-                            </Suspense>
+                            </Suspense> */}
                         </div>
                         <div className={style.right_auth}>
                             <Profile />

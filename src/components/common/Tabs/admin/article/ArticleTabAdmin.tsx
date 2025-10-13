@@ -4,7 +4,7 @@ import { Table, Button, Space, Modal, Tag, Image, message } from "antd";
 import { EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { IArticleFront } from "@/lib/models";
 import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 
 interface ArticleListTabProps {
     articles: IArticleFront[];
@@ -32,7 +32,6 @@ const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
                 setArticles(res);
             }
         });
-        // setArticles
     }, []);
     const handleEdit = (article: IArticleFront) => {
         onArticleEdit(article);

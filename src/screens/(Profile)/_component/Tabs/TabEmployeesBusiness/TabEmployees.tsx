@@ -5,7 +5,7 @@ import { Button } from "@/components/UI/Button/Button";
 import { IBusinessFront, IInvitesByQueryItemResponse } from "@/lib/models";
 import { useEffect, useState } from "react";
 import { InvitesService } from "@/lib/Api/invites/invites.service";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 interface IProp {
     business: IBusinessFront;
@@ -67,7 +67,13 @@ const TabEmployees = ({ business }: IProp) => {
                                     <span>
                                         {invite.role.content.details[0].value}
                                     </span>
-                                    <span className={invite.activated ? style.status_active : style.status_disActive}>
+                                    <span
+                                        className={
+                                            invite.activated
+                                                ? style.status_active
+                                                : style.status_disActive
+                                        }
+                                    >
                                         {invite.activated
                                             ? "Активен"
                                             : "Приглашение отправлено"}

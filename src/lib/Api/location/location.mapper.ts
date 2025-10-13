@@ -26,7 +26,7 @@ export default class LocationMapper {
             }) || null;
         const mappingData: ILocationFront = {
             id: location.location.Id,
-            title: location?.content?.details[0].value || "",
+            title: location?.content?.details[0]?.value || "",
             locationType: location.location.LocationType
                 ? {
                       id: location.location.LocationType.Id,

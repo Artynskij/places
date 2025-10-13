@@ -92,7 +92,7 @@ export default class EstablishmentMapper {
             establishment.content.value[0]?.value.seo?.find(
                 (item) => item.key == "MAIN_H1"
             )?.value ||
-            "default title";
+            "Not Title";
         const description =
             establishment.content.value[0]?.value.details?.description ||
             establishment.content.value[0]?.value.seoTrip?.find(
@@ -101,7 +101,7 @@ export default class EstablishmentMapper {
             establishment.content.value[0]?.value.seo?.find(
                 (item) => item.key == "META_DESCRIPTION"
             )?.value ||
-            "default description";
+            "Not description";
         const additionalRates = establishment.establishment.Rates
             ? Object.entries(establishment.establishment.Rates)
                   .map(([key, value]) => {
@@ -164,7 +164,9 @@ export default class EstablishmentMapper {
                         establishment.establishment.Locations?.content
                             ?.details[0]?.value || "",
                 },
-                street: establishment.content.value[0].value.location.street1,
+                street:
+                    establishment.content.value[0]?.value.location.street1 ||
+                    "",
                 latitude: +establishment.establishment.Latitude,
                 longitude: +establishment.establishment.Longitude,
                 postalCode: establishment.establishment.PostalCode,
@@ -181,8 +183,8 @@ export default class EstablishmentMapper {
                 gallery: galleryImages,
             },
             seo:
-                establishment.content.value[0].value.seoTrip ||
-                establishment.content.value[0].value.seo ||
+                establishment.content.value[0]?.value.seoTrip ||
+                establishment.content.value[0]?.value.seo ||
                 null,
             content: establishment.content,
         };

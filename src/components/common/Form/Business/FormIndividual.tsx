@@ -16,7 +16,7 @@ import { useNotification } from "@/lib/context";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { useEffect } from "react";
 
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { GeneralBusinessService } from "@/lib/Api/(MainService)/business.general";
 // import { validationBusinessIndividualSchema } from "@/lib/validationSchemas/business/individual.schema";
 import { agreementKeysBusinessIndividual } from "@/asset/constants/agreementsKeys";
@@ -123,12 +123,11 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
     };
 
     return (
-        
         <form
             className={style.form}
             onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
         >
-            <BlockExtraInfo text="*Физическое лицо, которое самостоятельно владеет и управляет бизнесом без образования юридического лица"/>
+            <BlockExtraInfo text="*Физическое лицо, которое самостоятельно владеет и управляет бизнесом без образования юридического лица" />
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>ФИО</div>
                 <div className={style.selectionBlock_content}>

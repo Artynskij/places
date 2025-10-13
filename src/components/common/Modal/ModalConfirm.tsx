@@ -4,6 +4,7 @@ import style from "./modalConfirm.module.scss";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { useState } from "react";
 import { BlockExtraInfo } from "../BlockFunctional/BlockExtraInfo";
+import { message } from "antd";
 
 interface IProp {
     children: React.ReactNode | React.ReactNode[];
@@ -22,7 +23,8 @@ export const ModalConfirm = ({
     };
 
     const handleConfirm = () => {
-        handlerAction();
+          message.success("Пока удаление невозможно");
+        // handlerAction();
         closeModal();
     };
     return (

@@ -17,7 +17,7 @@ import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
 import { agreementKeysBusinessLegalEntity } from "@/asset/constants/agreementsKeys";
 
 import { useUser } from "@/lib/context/UserContext/UserContext";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { GeneralBusinessService } from "@/lib/Api/(MainService)/business.general";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
@@ -34,7 +34,7 @@ interface IProp {
     mode: "create" | "update";
     closeModal?: (value: false) => void;
 }
-export const FormLegalEntity = ({ business, mode,closeModal }: IProp) => {
+export const FormLegalEntity = ({ business, mode, closeModal }: IProp) => {
     const notification = useNotification();
     const activeTab: TTypeOwnerBusiness = "legal_entity";
     const { user } = useUser();
@@ -103,7 +103,7 @@ export const FormLegalEntity = ({ business, mode,closeModal }: IProp) => {
 
         if (success) {
             notification.success({ message: "Бизнес отправлен на модерацию" });
-             closeModal && closeModal(false);
+            closeModal && closeModal(false);
             // router.push(
             //     ROUTES.PROFILE.OWNER(user.id, CONSTANT_TABS.owner.business)
             // );
@@ -125,7 +125,7 @@ export const FormLegalEntity = ({ business, mode,closeModal }: IProp) => {
             className={style.form}
             onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
         >
-            <BlockExtraInfo text="*Юридическое лицо может иметь разные формы – общество, товарищество, публичная или частная корпорация, некоммерческая организация и иное"/>
+            <BlockExtraInfo text="*Юридическое лицо может иметь разные формы – общество, товарищество, публичная или частная корпорация, некоммерческая организация и иное" />
             <InputForm
                 error={errors.officialName?.message}
                 register={register("officialName")}
@@ -238,7 +238,12 @@ export const FormLegalEntity = ({ business, mode,closeModal }: IProp) => {
                 />
             )}
 
-            <Button typeLogic="submit"  text={mode === 'create' ? "Зарегистрировать" : 'Отправить форму'} />
+            <Button
+                typeLogic="submit"
+                text={
+                    mode === "create" ? "Зарегистрировать" : "Отправить форму"
+                }
+            />
         </form>
     );
 };

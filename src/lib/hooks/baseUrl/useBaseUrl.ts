@@ -1,4 +1,4 @@
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { useEffect, useState } from "react";
 
 export const useBaseUrl = () => {

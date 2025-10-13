@@ -1,4 +1,4 @@
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { useCallback } from "react";
 import { IMapboxGeocodeResponse } from "../models/mapbox/mapbox";
 
@@ -8,7 +8,10 @@ export const useMapboxGeocode = () => {
 
     // Обратное геокодирование: координаты → адрес
     const byCoordinates = useCallback(
-        async (lat: number, lon: number): Promise<IMapboxGeocodeResponse | null> => {
+        async (
+            lat: number,
+            lon: number
+        ): Promise<IMapboxGeocodeResponse | null> => {
             try {
                 const response = await fetch(
                     `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${token}&language=${locale}`
