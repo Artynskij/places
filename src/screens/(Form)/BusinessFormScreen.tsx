@@ -21,6 +21,7 @@ export const BusinessFormScreen = ({ params, searchParams }: IProps) => {
         <AuthGuard roles={["owner"]}>
             <div className={style.container}>
                 <h3>Создание бизнеса</h3>
+               
                 <SwitcherTabs data={switcherBusiness} />
                 {activeTab === "individual" && <FormIndividual mode="create" />}
                 {activeTab === "sole_proprietor" && (

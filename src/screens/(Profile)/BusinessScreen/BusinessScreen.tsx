@@ -26,9 +26,7 @@ interface IProps extends IBasePageProps<{ business: string }> {}
 function BusinessScreenBase({ params, searchParams }: IProps) {
     const t = useTranslations("ProfilePage.header");
     const { user } = useUser();
-    const locale = useLocale();
     const notification = useNotification();
-    const personService = new PersonService();
     const businessService = new BusinessService();
 
     const [businessData, setBusinessData] = useState<IBusinessFront>();
@@ -39,6 +37,7 @@ function BusinessScreenBase({ params, searchParams }: IProps) {
         }
         businessService.getById(params.business).then((res) => {
             if (res) {
+                console.log(res)
                 setBusinessData(res);
             } else {
                 notification.error({ message: "нету бизнеса" });

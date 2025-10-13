@@ -31,7 +31,8 @@ const theme = {
         hoverBorderColor: '#bea97c',
         controlOutline: 'transparent',
         borderRadius: 100,
-    }
+    },
+    
   },
 };
 

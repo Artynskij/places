@@ -20,19 +20,18 @@ const TabBusinessOwner = () => {
     const businessService = new BusinessService();
     const { user } = useUser();
     const [businessData, setBusinessData] = useState<IBusinessFront[]>();
-    console.log('businessData в компоненте:', businessData)
+
     useEffect(() => {
         if (user) {
             businessService.getAssignment({ personId: user.id }).then((res) => {
-                if (res && res) {
+                if (res) {
                     const businessData = res
                         .map((item) => item.Business)
                         .filter((item) => !!item);
-
+                    console.log(res)
                     setBusinessData(businessData as IBusinessFront[]);
                 }
             });
-
         }
     }, []);
     return (
@@ -53,26 +52,15 @@ const TabBusinessOwner = () => {
                 {businessData && businessData.length > 0 ? (
                     businessData.map((business) => {
                         return (
-                            <Link
-                                href={ROUTES.PROFILE.BUSINESS(business.Id)}
+                            <Card
                                 key={business.Id}
-                            >
-                                {/* <li className={style.list_item}>
-                                    <div className={style.flex_container}>
-                                        <span className={style.name}>{business.OfficialName}</span>
-                                        <span className={style.createdDate}>
-                                            Добавлен: {new Date(business.CreatedDate).toLocaleDateString('ru-RU')}
-                                        </span>
-                                    </div>
-                                </li> */}
-
-                                <Card  type="inner" title={business.OfficialName} extra={<a href="#">Посмотреть</a>}>
-                                    <p><span className={style.description}>Дата добавления на сайт:</span> {getFormatDate(business.CreatedDate)}</p>
-
-                                </Card>
-
-
-                            </Link>
+                                type="inner"
+                                title={business.OfficialName}
+                                extra={<Link href={ROUTES.PROFILE.BUSINESS(business.Id)} className={style.link}>Перейти</Link>}>
+                                    <p><span className={style.description}>Дата добавления на сайт:</span>{getFormatDate(business.CreatedDate)}</p>
+                                    <p><span className={style.description}>Регистрационный номер:</span>{business.RegistrationNumber || 'Не указано'}</p>
+                                    <p><span className={style.description}>ID:</span>{business.Id}</p>
+                            </Card>
                         );
                     })
                 ) : (

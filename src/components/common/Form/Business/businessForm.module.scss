@@ -1,15 +1,26 @@
+%titleCommon {
+  @extend %Text22;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+//   text-decoration-color: $color-main-gold;
+//   color:$color-main-gold;
+}
+
 .container {
     display: flex;
     flex-direction: column;
     gap: $gap-big;
     max-width: 800px;
     margin: 0 auto;
+    &_title {
+        @extend %titleCommon;
+    }
 }
 .tabList {
     display: flex;
     gap: $gap-medium;
     align-items: center;
-    margin: 0 auto;
+    // margin: 0 auto;
     @extend %Text16;
     &_item {
         color: $color-main-black;
@@ -53,8 +64,7 @@
     width: 100%;
 
     &_title {
-        @extend %Text22;
-        text-decoration: underline;
+         @extend %titleCommon;
     }
     &_content {
         display: flex;

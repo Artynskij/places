@@ -9,8 +9,7 @@
         width: 100%;
         gap: $gap;
         margin: 41px 0;
-        &_text {
-        }
+    
         &_button {
             @extend %Text14;
             &_icon {
@@ -24,24 +23,18 @@
     }
 }
 
-.list {
-    display: flex;
-    flex-direction: column;
-    gap: $gap-medium;
-    &_item {
-        padding: 10px 7px;
-        border: 1px solid $color-main-blue;
-        border-radius: $border-radius-5;
-        transition: $transition;
-
-        &:hover {
-            border-color: $color-main-blue_hover;
-            box-shadow: $box-shadow-default;
-        }
+.list { 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: $gap;
+    
+    .description {
+        color: $color-main-grey;
+        margin-right: $gap;
     }
 
-    &_description {
-        color: red;
+    .link {
+        color: $color-main-blue;
     }
 }
 
