@@ -32,7 +32,6 @@ const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
                 setArticles(res);
             }
         });
-        // setArticles
     }, []);
     const handleEdit = (article: IArticleFront) => {
         onArticleEdit(article);

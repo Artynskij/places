@@ -31,7 +31,7 @@ import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoad
 import { ModerationService } from "@/lib/Api/moderation/moderation.service";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { useLocale } from "next-intl";
-import {  TLocale } from "@/lib/models/types";
+import { TLocale } from "@/lib/models/types";
 import { locales } from "@/config";
 import type { UploadFile } from "antd/es/upload/interface";
 
@@ -47,7 +47,7 @@ const LocationsTabAdmin: React.FC = () => {
     const { user } = useUser();
     const locale = useLocale();
     const langs = locales;
-    
+
     const [locations, setLocations] = useState<ILocationFront[]>([]);
     const [loading, setLoading] = useState(false);
     const [searchLoading, setSearchLoading] = useState(false);
@@ -55,11 +55,19 @@ const LocationsTabAdmin: React.FC = () => {
         { label: string; value: string }[]
     >([]);
     const [modalActive, setModalActive] = useState(false);
-    const [editLocation, setEditLocation] = useState<ILocationFront | null>(null);
-    const [selectedLanguages, setSelectedLanguages] = useState<TLocale[]>(["ru", "en"]);
+    const [editLocation, setEditLocation] = useState<ILocationFront | null>(
+        null
+    );
+    const [selectedLanguages, setSelectedLanguages] = useState<TLocale[]>([
+        "ru",
+        "en",
+    ]);
     const [typesLocationsData, setTypesLocationsData] = useState<
         { label: string; value: string }[]
     >([]);
+    const [selectedTypeLocation, setSelectedLocation] = useState<string | null>(
+        null
+    );
     const [form] = Form.useForm<LocationFormValues>();
     const [modalLoading, setModalLoading] = useState(false);
 
@@ -89,10 +97,11 @@ const LocationsTabAdmin: React.FC = () => {
             ) || ["ru", "en"];
             setSelectedLanguages(existingLanguages);
 
-            const titles = editLocation.content?.details?.reduce((acc, detail) => {
-                acc[detail.lang] = detail.value;
-                return acc;
-            }, {} as { [key: string]: string }) || {};
+            const titles =
+                editLocation.content?.details?.reduce((acc, detail) => {
+                    acc[detail.lang] = detail.value;
+                    return acc;
+                }, {} as { [key: string]: string }) || {};
 
             form.setFieldsValue({
                 titles: titles,
@@ -110,13 +119,20 @@ const LocationsTabAdmin: React.FC = () => {
         }
     }, [editLocation, modalActive, form]);
 
-    const fetchAll = async () => {
+    const fetchAll = async (idType?: string) => {
         setLoading(true);
         try {
             const data = await locationService.getAll({
                 pagination: { page: 1, pageSize: 1000 },
             });
-            setLocations(data || []);
+            if (!data) {
+                setLocations([]);
+                return;
+            }
+            const filteredData = idType
+                ? data.filter((item) => item.locationType?.id === idType)
+                : data;
+            setLocations(filteredData);
         } catch {
             message.error("Ошибка загрузки локаций");
         } finally {
@@ -148,8 +164,18 @@ const LocationsTabAdmin: React.FC = () => {
             setSearchLoading(false);
         }
     };
-
-    const fetchByTitle = async (title: string) => {
+    // const filterLocationByType = (id?: string) => {
+    //     if (id) {
+    //         // setLocations((prev) =>
+    //         //     prev.filter((item) => item.locationType?.id === id)
+    //         // );
+    //         setSelectedLocation(id);
+    //         fetchAll();
+    //     } else {
+    //         fetchAll();
+    //     }
+    // };
+    const findSearchLocationByTitle = async (title: string) => {
         setSearchLoading(true);
         try {
             const responseSearch = await searchService.querySearch({
@@ -209,7 +235,9 @@ const LocationsTabAdmin: React.FC = () => {
                 return;
             }
 
-            const moderationObject = await moderationService.getModerationData(user.id);
+            const moderationObject = await moderationService.getModerationData(
+                user.id
+            );
             if (!moderationObject) {
                 message.error("Ошибка с получением токенов модерации");
                 return;
@@ -230,18 +258,21 @@ const LocationsTabAdmin: React.FC = () => {
                 }));
 
             if (editLocation) {
-                const updatedLocation = await locationService.update(editLocation.id, {
-                    moderation: moderationObject,
-                    data: {
-                        source: {
-                            LocationType: values.locationType,
+                const updatedLocation = await locationService.update(
+                    editLocation.id,
+                    {
+                        moderation: moderationObject,
+                        data: {
+                            source: {
+                                LocationType: values.locationType,
+                            },
+                            content: {
+                                details: details,
+                                media: { gallery: files },
+                            },
                         },
-                        content: {
-                            details: details,
-                            media: { gallery: files },
-                        },
-                    },
-                });
+                    }
+                );
 
                 if (updatedLocation) {
                     message.success("Локация обновлена");
@@ -271,7 +302,9 @@ const LocationsTabAdmin: React.FC = () => {
 
     const removeLanguage = (langCode: string) => {
         if (selectedLanguages.length > 1) {
-            setSelectedLanguages(selectedLanguages.filter((lang) => lang !== langCode));
+            setSelectedLanguages(
+                selectedLanguages.filter((lang) => lang !== langCode)
+            );
             const currentTitles = form.getFieldValue("titles") || {};
             delete currentTitles[langCode];
             form.setFieldsValue({ titles: currentTitles });
@@ -334,8 +367,8 @@ const LocationsTabAdmin: React.FC = () => {
             <Card
                 extra={
                     <Space>
-                        <Button 
-                            type="primary" 
+                        <Button
+                            type="primary"
                             icon={<PlusOutlined />}
                             onClick={() => setModalActive(true)}
                         >
@@ -343,10 +376,8 @@ const LocationsTabAdmin: React.FC = () => {
                         </Button>
                         <Button
                             icon={<ReloadOutlined />}
-                            onClick={fetchAll}
-                        >
-                            Обновить
-                        </Button>
+                            onClick={() => fetchAll()}
+                        />
                     </Space>
                 }
                 title="Управление локациями"
@@ -365,7 +396,7 @@ const LocationsTabAdmin: React.FC = () => {
                     <Select
                         showSearch
                         placeholder="Поиск по названию"
-                        onSearch={fetchByTitle}
+                        onSearch={findSearchLocationByTitle}
                         onSelect={(id) => fetchById(id)}
                         filterOption={false}
                         notFoundContent={
@@ -373,6 +404,20 @@ const LocationsTabAdmin: React.FC = () => {
                         }
                         style={{ width: 300 }}
                         options={searchOptions}
+                    />
+                    <Select
+                        showSearch
+                        placeholder="Фильтрация по типу"
+                        onSelect={(id) => fetchAll(id)}
+                        filterOption={(input, option) =>
+                            (option?.label ?? "")
+                                .toLowerCase()
+                                .includes(input.toLowerCase())
+                        }
+                        style={{ width: 200 }}
+                        options={typesLocationsData}
+                        allowClear
+                        onClear={() => fetchAll()} // Очистка фильтра
                     />
                 </Space>
 
@@ -386,7 +431,9 @@ const LocationsTabAdmin: React.FC = () => {
             </Card>
 
             <Modal
-                title={editLocation ? "Редактировать локацию" : "Создать локацию"}
+                title={
+                    editLocation ? "Редактировать локацию" : "Создать локацию"
+                }
                 open={modalActive}
                 onOk={handleModalOk}
                 onCancel={handleModalClose}
@@ -439,31 +486,47 @@ const LocationsTabAdmin: React.FC = () => {
                             rules={[
                                 {
                                     validator: (_, value) => {
-                                        if (selectedLanguages.includes(langCode) && !value?.trim()) {
-                                            return Promise.reject(new Error("Обязательное поле"));
+                                        if (
+                                            selectedLanguages.includes(
+                                                langCode
+                                            ) &&
+                                            !value?.trim()
+                                        ) {
+                                            return Promise.reject(
+                                                new Error("Обязательное поле")
+                                            );
                                         }
                                         return Promise.resolve();
                                     },
                                 },
                             ]}
                         >
-                            <Input placeholder={`Введите название на ${langCode}`} />
+                            <Input
+                                placeholder={`Введите название на ${langCode}`}
+                            />
                         </Form.Item>
                     ))}
 
                     <Form.Item
                         name="locationType"
                         label="Тип локации"
-                        rules={[{ required: true, message: "Выберите тип локации" }]}
+                        rules={[
+                            { required: true, message: "Выберите тип локации" },
+                        ]}
                     >
-                        <Select placeholder="Выберите тип" options={typesLocationsData} />
+                        <Select
+                            placeholder="Выберите тип"
+                            options={typesLocationsData}
+                        />
                     </Form.Item>
 
                     <Form.Item
                         name="media"
                         label="Медиа (изображения или видео)"
                         valuePropName="fileList"
-                        getValueFromEvent={(e) => Array.isArray(e) ? e : e?.fileList}
+                        getValueFromEvent={(e) =>
+                            Array.isArray(e) ? e : e?.fileList
+                        }
                     >
                         <Upload
                             name="file"

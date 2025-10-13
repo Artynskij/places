@@ -11,6 +11,7 @@ import type { ColumnsType } from "antd/es/table";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { ILocationTypeEntity } from "@/lib/models";
 import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
+import { LocationTypesService } from "@/lib/Api/location-types.api";
 
 const LocationTypesTabAdmin: React.FC = () => {
     const [locationTypes, setLocationTypes] = useState<ILocationTypeEntity[]>(
@@ -23,7 +24,7 @@ const LocationTypesTabAdmin: React.FC = () => {
     const [modalLoading, setModalLoading] = useState(false);
 
     const dataLoadManagerService = new DataLoadManagementService();
-
+    const locationTypesService = new LocationTypesService();
     useEffect(() => {
         fetchLocationTypes();
     }, []);
@@ -53,8 +54,10 @@ const LocationTypesTabAdmin: React.FC = () => {
 
     const handleDelete = async (id: string) => {
         try {
-            // TODO: Реализовать удаление типа локации
+          
+            await locationTypesService.delete(id);
             message.success("Тип локации удален");
+
             fetchLocationTypes();
         } catch {
             message.error("Ошибка при удалении типа локации");
@@ -71,12 +74,19 @@ const LocationTypesTabAdmin: React.FC = () => {
         try {
             const values = await form.validateFields();
             setModalLoading(true);
-
+            console.log(values);
+            const bodyTypeLocation = {
+                source: { Name: values.Name },
+                content: null,
+            };
             if (editType) {
-                // TODO: Реализовать обновление типа локации
+                await locationTypesService.update(
+                    editType.Id,
+                    bodyTypeLocation
+                );
                 message.success("Тип локации обновлен");
             } else {
-                // TODO: Реализовать создание типа локации
+                await locationTypesService.create(bodyTypeLocation);
                 message.success("Тип локации создан");
             }
 
@@ -144,9 +154,7 @@ const LocationTypesTabAdmin: React.FC = () => {
                         <Button
                             icon={<ReloadOutlined />}
                             onClick={fetchLocationTypes}
-                        >
-                            Обновить
-                        </Button>
+                        />
                     </Space>
                 }
                 title="Управление типами локаций"
