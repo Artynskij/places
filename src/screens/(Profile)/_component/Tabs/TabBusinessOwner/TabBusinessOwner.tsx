@@ -11,11 +11,16 @@ import { useUser } from "@/lib/context/UserContext/UserContext";
 import { IBusinessFront } from "@/lib/models";
 import { BusinessFormScreen } from "@/screens/(Form)/BusinessFormScreen";
 import { BusinessForm } from "@/components/common/Form/Business/BusinessForm";
+import { log } from "console";
+
+import { Card } from 'antd';
+import { getFormatDate } from "@/lib/helpers/getFormatDate";
 
 const TabBusinessOwner = () => {
     const businessService = new BusinessService();
     const { user } = useUser();
     const [businessData, setBusinessData] = useState<IBusinessFront[]>();
+    console.log('businessData в компоненте:', businessData)
     useEffect(() => {
         if (user) {
             businessService.getAssignment({ personId: user.id }).then((res) => {
@@ -27,6 +32,7 @@ const TabBusinessOwner = () => {
                     setBusinessData(businessData as IBusinessFront[]);
                 }
             });
+
         }
     }, []);
     return (
@@ -51,9 +57,21 @@ const TabBusinessOwner = () => {
                                 href={ROUTES.PROFILE.BUSINESS(business.Id)}
                                 key={business.Id}
                             >
-                                <li className={style.list_item}>
-                                    {business.OfficialName}
-                                </li>
+                                {/* <li className={style.list_item}>
+                                    <div className={style.flex_container}>
+                                        <span className={style.name}>{business.OfficialName}</span>
+                                        <span className={style.createdDate}>
+                                            Добавлен: {new Date(business.CreatedDate).toLocaleDateString('ru-RU')}
+                                        </span>
+                                    </div>
+                                </li> */}
+
+                                <Card  type="inner" title={business.OfficialName} extra={<a href="#">Посмотреть</a>}>
+                                    <p><span className={style.description}>Дата добавления на сайт:</span> {getFormatDate(business.CreatedDate)}</p>
+
+                                </Card>
+
+
                             </Link>
                         );
                     })

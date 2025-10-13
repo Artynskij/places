@@ -1,7 +1,7 @@
 .tab {
-    display: flex;
-    flex-direction: column;
-    gap: $gap-big;
+    // display: flex;
+    // flex-direction: column;
+    // gap: $gap-big;
     &_title {
         display: flex;
         justify-content: space-between;
@@ -23,9 +23,10 @@
         }
     }
 }
+
 .list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: $gap-medium;
     &_item {
         padding: 10px 7px;
@@ -38,4 +39,9 @@
             box-shadow: $box-shadow-default;
         }
     }
+
+    &_description {
+        color: red;
+    }
 }
+
