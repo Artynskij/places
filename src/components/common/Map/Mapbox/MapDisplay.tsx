@@ -10,7 +10,7 @@ import { MarkersLayer } from "./_common/MarkersLayer";
 
 import { useUserLocation } from "@/lib/hooks/useUserLocation";
 import { IMapItemFront } from "@/lib/models";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 
 interface MapDisplayProps {
     establishmentList?: IMapItemFront[] | null;

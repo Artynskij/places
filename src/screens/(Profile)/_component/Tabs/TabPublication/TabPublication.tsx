@@ -7,7 +7,7 @@ import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 import { useEffect, useState } from "react";
 
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import Skeleton from "./SkeletonTabPublication";
 import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
 import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";

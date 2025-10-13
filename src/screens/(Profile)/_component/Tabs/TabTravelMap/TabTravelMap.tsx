@@ -22,7 +22,7 @@ import {
     IPersonTravelMarkFront,
     ISearchItemFront,
 } from "@/lib/models";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { useNotification } from "@/lib/context";
 import { PersonTravelMarkService } from "@/lib/Api/(Person)/personTravelMark.api";
 import { useUser } from "@/lib/context/UserContext/UserContext";

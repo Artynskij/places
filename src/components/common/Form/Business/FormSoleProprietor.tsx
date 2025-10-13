@@ -18,7 +18,7 @@ import { agreementKeysBusinessSoleProprietor } from "@/asset/constants/agreement
 
 import { GeneralBusinessService } from "@/lib/Api/(MainService)/business.general";
 import { useUser } from "@/lib/context/UserContext/UserContext";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
 import { CONSTANT_TABS } from "@/asset/constants/switcherTabsPage";
@@ -131,7 +131,7 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
             className={style.form}
             onSubmit={handleSubmit(onSubmit, onSubmitInvalid)}
         >
-            <BlockExtraInfo text="*Индивидуальный предприниматель, который самостоятельно владеет и управляет бизнесом без образования юридического лица"/>
+            <BlockExtraInfo text="*Индивидуальный предприниматель, который самостоятельно владеет и управляет бизнесом без образования юридического лица" />
             <InputForm
                 error={errors.officialName?.message}
                 register={register("officialName")}

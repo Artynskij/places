@@ -6,7 +6,7 @@ import { IGenderFront } from "@/lib/models/frontend/(person)/gender.front";
 import { TLocale } from "@/lib/models/types/TLocale";
 import { Skeleton } from "antd";
 
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { useEffect, useState } from "react";
 import { FieldError } from "react-hook-form";
 interface Props {

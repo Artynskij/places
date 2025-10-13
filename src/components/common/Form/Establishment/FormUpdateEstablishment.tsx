@@ -3,7 +3,7 @@ import style from "./establishmentForm.module.scss";
 import * as Yup from "yup";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import {
     Controller,
     FieldError,

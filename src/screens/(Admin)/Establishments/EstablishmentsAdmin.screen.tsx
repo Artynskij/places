@@ -34,7 +34,8 @@ import { FormUpdateEstablishment } from "@/components/common/Form/Establishment/
 
 import { SearchService } from "@/lib/Api/search/search.service";
 
-import { useLocale, useTranslations } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
+
 import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { sortSelectFilter } from "@/asset/constants/selectData";

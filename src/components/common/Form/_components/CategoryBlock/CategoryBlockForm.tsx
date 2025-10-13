@@ -5,7 +5,7 @@ import { Select } from "antd";
 import { useEffect, useState } from "react";
 
 import { ICategoryFront } from "@/lib/models";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { FieldError } from "react-hook-form";
 
 import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";

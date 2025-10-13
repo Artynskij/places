@@ -54,7 +54,6 @@ const LocationTypesTabAdmin: React.FC = () => {
 
     const handleDelete = async (id: string) => {
         try {
-          
             await locationTypesService.delete(id);
             message.success("Тип локации удален");
 

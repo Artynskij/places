@@ -3,7 +3,7 @@ import style from "./establishmentForm.module.scss";
 import * as Yup from "yup";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import {
     Controller,
     FieldError,
@@ -407,7 +407,11 @@ export const FormCreateEstablishment = ({ children }: IProp) => {
                 }}
             >
                 <div className="container">
-                    {modalCreateActive && <FormCreateEstablishmentBase closeModal={setModalCreateActive}/>}
+                    {modalCreateActive && (
+                        <FormCreateEstablishmentBase
+                            closeModal={setModalCreateActive}
+                        />
+                    )}
                 </div>
             </ModalCustom>
             {/* </AuthGuard> */}

@@ -26,7 +26,7 @@ import {
 } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { LocationService } from "@/lib/Api/location/location.service";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 
 import { SearchService } from "@/lib/Api/search/search.service";
 import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";

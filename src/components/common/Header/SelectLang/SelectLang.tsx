@@ -3,7 +3,7 @@ import { Select } from "antd";
 
 import style from "./selectLang.module.scss";
 import { useTransition } from "react";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { usePathname, useRouter } from "next/navigation";
 import { locales } from "@/config";
 import { IconGlobe } from "@/components/common/Icons";
@@ -30,18 +30,16 @@ export const SelectLang = () => {
             defaultValue={defaultLocale}
             onChange={handleChange}
             className={style.select}
-            style={{ height: '54px', width: '80px' }}
+            style={{ height: "54px", width: "80px" }}
             labelRender={(label) => (
                 <span className={style.label_with_icon}>
                     <IconGlobe className={style.icon_globe} />
                     {label.label}
                 </span>
             )}
-            options={
-                locales.map((cur) => {
-                    return { value: cur, label: cur };
-                })
-            }
+            options={locales.map((cur) => {
+                return { value: cur, label: cur };
+            })}
         />
     );
 };

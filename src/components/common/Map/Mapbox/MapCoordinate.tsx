@@ -8,7 +8,7 @@ import { useUserLocation } from "@/lib/hooks/useUserLocation";
 import { CONSTANT_TYPE_LOCATION_MAPBOX } from "@/asset/constants/typeLocation";
 import { DefaultMarker } from "./_common/Markers/DefaultMarker";
 import { IMapboxCoordPropToForm } from "@/lib/models/mapbox/mapbox";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { LocationService } from "@/lib/Api/location/location.service";
 
 interface MapCoordinatePickerProps {

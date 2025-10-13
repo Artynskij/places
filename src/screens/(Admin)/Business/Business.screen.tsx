@@ -35,7 +35,7 @@ import {
     IInvitesByQueryItemResponse,
 } from "@/lib/models";
 import { BusinessService } from "@/lib/Api/business/business.service";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { TLegalTypeOfBusiness } from "@/lib/models/types/TLegalTypeOfBusiness";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { InvitesService } from "@/lib/Api/invites/invites.service";

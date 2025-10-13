@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { createRoot } from "react-dom/client";
 import { Loader } from "@googlemaps/js-api-loader";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import style from "./mapGoogle.module.scss";
 import { mockObjectsAll } from "@/asset/mockData/mockObject";
 import Image from "next/image";

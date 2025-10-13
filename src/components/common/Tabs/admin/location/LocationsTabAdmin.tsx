@@ -30,7 +30,7 @@ import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { ModerationService } from "@/lib/Api/moderation/moderation.service";
 import { useUser } from "@/lib/context/UserContext/UserContext";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 import { TLocale } from "@/lib/models/types";
 import { locales } from "@/config";
 import type { UploadFile } from "antd/es/upload/interface";

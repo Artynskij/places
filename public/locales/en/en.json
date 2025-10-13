@@ -38,6 +38,7 @@
         "Location": "Location",
         "Service": "Service",
         "Sleep": "Sleep Quality",
+
         "Atmosphere": "Atmosphere",
         "Food": "Food Quality",
         "Value": "Value"
@@ -52,6 +53,20 @@
         "sun": "Sunday",
         "noSchedule": "no schedule",
         "title": "Working Hours"
+    },
+    "Tags": {
+        "roomTypes": "Room Types",
+        "establishmentTypes": "Establishment Types",
+        "diningOptions": "Dining Options",
+        "diets": "Diets",
+        "cuisines": "Cuisines",
+        "languagesSpoken": "Languages Spoken",
+        "mealTypes": "Meal Types",
+        "priceTypes": "Price Categories",
+        "roomFeatures": "Room Features",
+        "starRating": "Star Rating",
+        "propertyAmenities": "Property Amenities",
+        "styleRankings": "Styles and Categories"
     },
     "Locations": {
         "WORLD": "world",
@@ -73,9 +88,11 @@
         "NATURE": "unknown type - nature",
         "RETAIL": "unknown type - retail",
         "LANDSCAPE": "unknown type - landscape",
+
         "RELIGION": "unknown type - religious",
         "UNKNOWN": "unknown type - unknown",
         "TRANSPORT": "unknown type - transport",
+
         "WATER": "unknown type - water"
     },
     "LocationPage": {
@@ -128,14 +145,18 @@
             "photos": "photos",
             "videos": "videos",
             "reviews": "reviews / ratings",
+
             "object": "my properties",
             "marketing": "promotion",
             "history": "order history",
             "stat": "statistics",
             "wallet": "wallet",
+            "employees": "employees",
+
             "personal": "personal data",
             "business": "businesses",
             "notification": "notifications",
+
             "individual": "individual",
             "sole_proprietor": "sole proprietor",
             "legal_entity": "legal entity"
@@ -210,10 +231,11 @@
             }
         }
     },
-     "Role": {
+    "Role": {
         "OWNER": "owner",
         "ADMIN_MAIN": "main admin",
         "ADMIN": "admin",
-        "MARKETER": "marketer"
+        "MARKETER": "marketer",
+        "EDITOR": "edtitor"
     }
 }

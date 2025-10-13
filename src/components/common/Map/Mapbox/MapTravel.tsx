@@ -11,7 +11,7 @@ import {
     IMapboxCoordProp,
     IMapboxCoordPropToForm,
 } from "@/lib/models/mapbox/mapbox";
-import { useLocale } from "next-intl";
+import useLocale from "@/lib/hooks/useLocale";
 
 interface MapTravelProps {
     // setPosition: (value: IMapboxCoordPropToForm) => void;
