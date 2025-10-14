@@ -17,6 +17,7 @@ export const InputPhoneNumber = <TFieldName extends string>({
     titleSpan,
 }: IInputPhoneNumber<TFieldName>) => {
 
+
     return (
         <div className={style.blockPhoneNumber}>
             <label htmlFor={`input-phoneNumber`}>{titleSpan}</label>
@@ -26,7 +27,7 @@ export const InputPhoneNumber = <TFieldName extends string>({
                     !!error && style.inputPhone_error
                 )}
                 {...field}
-                defaultCountry="by"
+                defaultCountry='by'
                 inputProps={{
                     id: `input-phoneNumber`,
                     className: style.phoneInput

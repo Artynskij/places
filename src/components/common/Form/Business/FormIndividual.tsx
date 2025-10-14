@@ -51,6 +51,7 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
               address: {
                   addressLine: business.Contacts.Address?.Street || "",
                   country: business.Contacts.Address?.Country || "",
+                  district: business.Contacts.Address?.District || "",
                   town: business.Contacts.Address?.Town || "",
                   postalCode: business.Contacts.Address?.PostalCode || "",
               },
@@ -60,6 +61,7 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
                       : undefined,
           }
         : null;
+        
     const {
         register,
         handleSubmit,
@@ -173,6 +175,12 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
                         error={errors.address?.country?.message}
                         register={register("address.country")}
                         titleSpan="Страна*"
+                        type="text"
+                    />
+                     <InputForm
+                        error={errors.address?.district?.message}
+                        register={register("address.district")}
+                        titleSpan="Регион, область, штат*"
                         type="text"
                     />
                     <InputForm

@@ -23,6 +23,7 @@ const baseBusinessSchema = {
         .max(10, "Не более 10 документов"),
     address: Yup.object({
         country: Yup.string().required("Страна обязательна"),
+        district: Yup.string().required("Регион, область, штат обязателен"),
         town: Yup.string().required("Город обязателен"),
         addressLine: Yup.string().required("Адрес обязателен"),
         postalCode: Yup.string(),

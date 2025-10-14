@@ -49,6 +49,7 @@ function BusinessScreenBase({ params, searchParams }: IProps) {
         }
         businessService.getById(params.business).then((res) => {
             if (res) {
+                console.log(res)
                 setBusinessData(res);
             } else {
                 notification.error({ message: "нету бизнеса" });

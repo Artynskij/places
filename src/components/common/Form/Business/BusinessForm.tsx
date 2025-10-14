@@ -10,6 +10,7 @@ import { FormLegalEntity } from "@/components/common/Form/Business/FormLegalEnti
 
 import { useState } from "react";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
+import { RiH1 } from "react-icons/ri";
 interface IProps {
     children: React.ReactNode | React.ReactNode[] | null;
 }
@@ -30,11 +31,13 @@ export const BusinessForm = ({ children }: IProps) => {
                 view="big"
             >
                 <div className={style.container}>
-                    {/* <h3>Создание бизнеса</h3> */}
-                    {/* <SwitcherTabs  data={switcherBusiness} /> */}
+                   
+                    <div className={style.container_title}>Вы являетесь «Владельцем бизнеса», как :</div>
                     <div className={style.tabList}>
+                        
                         {switcherBusiness.map((tab) => {
                             return (
+                                
                                 <div
                                     onClick={() =>
                                         setActiveTab(
@@ -53,7 +56,8 @@ export const BusinessForm = ({ children }: IProps) => {
                             );
                         })}
                     </div>
-                    {}
+
+                   
                     {activeTab === "individual" && activeModal && (
                         <FormIndividual mode="create" closeModal={closeModal} />
                     )}
