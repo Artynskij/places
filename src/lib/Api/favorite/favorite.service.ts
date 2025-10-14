@@ -27,7 +27,7 @@ export class FavoriteService {
 
         return response;
     }
-    async delete(id: string): Promise<IFavoriteEntity | null> {
+    async delete(id: string): Promise<boolean | null> {
         const response = await this.FavoriteApi.delete(id);
 
         return response;

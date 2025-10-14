@@ -24,7 +24,6 @@ import {
     CONSTANT_TABS,
     switcherTabBusinessData,
 } from "@/asset/constants/switcherTabsPage";
-import { TabEstablishmentCreated } from "@/components/common/Tabs/profile/TabEstablishment/TabEstablishmentCreated";
 import { TabMarketingOwner } from "@/components/common/Tabs/profile/TabMarketingOwner/TabMarketingOwner";
 import { TabHistoryOwner } from "@/components/common/Tabs/profile/TabHistoryOwner/TabHistoryOwner";
 import { TabStatOwner } from "@/components/common/Tabs/profile/TabStatOwner/TabStatOwner";

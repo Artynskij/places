@@ -10,14 +10,14 @@ export const AllContextProvider = ({
     children: React.ReactNode;
 }) => {
     return (
-        <UserProvider>
-            <FavoritesProvider>
-                <AlertMessageProvider>
-                    <NotificationProvider>
+        <AlertMessageProvider>
+            <NotificationProvider>
+                <UserProvider>
+                    <FavoritesProvider>
                         <ViewTypeProvider>{children}</ViewTypeProvider>
-                    </NotificationProvider>
-                </AlertMessageProvider>
-            </FavoritesProvider>
-        </UserProvider>
+                    </FavoritesProvider>
+                </UserProvider>
+            </NotificationProvider>
+        </AlertMessageProvider>
     );
 };

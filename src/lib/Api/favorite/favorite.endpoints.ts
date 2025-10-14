@@ -34,10 +34,10 @@ export default class FavoriteApi {
             return null;
         }
     }
-    async delete(id: string): Promise<IFavoriteEntity | null> {
+    async delete(id: string): Promise<boolean | null> {
         try {
             const response = await apiClient.delete(`/favorites/${id}`);
-            return response.data;
+            return response.data || response.status === 200 ? true : false;
         } catch (error) {
             console.error(`Ошибка при удалении favorite`);
             return null;
