@@ -1,10 +1,12 @@
 import { ControllerRenderProps, FieldError } from "react-hook-form";
 import "react-phone-number-input/style.css";
 import style from "./inputPhone.module.scss";
+
 import clsx from "clsx";
 import { SpanErrorForm } from "../../Span/SpanErrorForm";
-import { PhoneInput, defaultCountries, parseCountry } from 'react-international-phone';
+import { PhoneInput, defaultCountries, parseCountry, buildCountryData } from 'react-international-phone';
 import "react-international-phone/style.css";
+
 
 interface IInputPhoneNumber<TFieldName extends string> {
     field: ControllerRenderProps<any, TFieldName>;
@@ -17,7 +19,18 @@ export const InputPhoneNumber = <TFieldName extends string>({
     titleSpan,
 }: IInputPhoneNumber<TFieldName>) => {
 
+const unknownCountry = buildCountryData({
+    name: '',
+    iso2: 'xx',
+    dialCode: '',
+    format: '',
+    priority: 0,
+    areaCodes: undefined
+});
 
+// Добавляем в начало списка стран
+const countries = [ ...defaultCountries,unknownCountry];
+console.log(defaultCountries)
     return (
         <div className={style.blockPhoneNumber}>
             <label htmlFor={`input-phoneNumber`}>{titleSpan}</label>
@@ -27,7 +40,8 @@ export const InputPhoneNumber = <TFieldName extends string>({
                     !!error && style.inputPhone_error
                 )}
                 {...field}
-                defaultCountry='by'
+                defaultCountry="xx"  // используем нашу кастомную страну
+                countries={countries}
                 inputProps={{
                     id: `input-phoneNumber`,
                     className: style.phoneInput

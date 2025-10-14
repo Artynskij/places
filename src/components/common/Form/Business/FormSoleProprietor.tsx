@@ -216,7 +216,7 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
             </div>
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
-                    Документы подтверждающие владение бизнесом
+                    Документы, подтверждающие владение бизнесом, а также Лицензия на ведение деятельности (если ваша деятельность подразумевает обязательное наличие Лицензии)
                 </div>
                 <div className={style.selectionBlock_content}>
                     <Controller
