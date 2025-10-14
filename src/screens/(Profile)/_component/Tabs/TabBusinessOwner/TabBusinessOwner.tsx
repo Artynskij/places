@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { BusinessService } from "@/lib/Api/business/business.service";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { IBusinessFront } from "@/lib/models";
-import { BusinessFormScreen } from "@/screens/(Form)/BusinessFormScreen";
+
 import { BusinessForm } from "@/components/common/Form/Business/BusinessForm";
 import { log } from "console";
 
@@ -20,7 +20,7 @@ const TabBusinessOwner = () => {
     const businessService = new BusinessService();
     const { user } = useUser();
     const [businessData, setBusinessData] = useState<IBusinessFront[]>();
-    console.log('businessData в компоненте:', businessData)
+    console.log('businessData в компоненте.', businessData)
     useEffect(() => {
         if (user) {
             businessService.getAssignment({ personId: user.id }).then((res) => {

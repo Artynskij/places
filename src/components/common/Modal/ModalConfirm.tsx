@@ -23,8 +23,8 @@ export const ModalConfirm = ({
     };
 
     const handleConfirm = () => {
-          message.success("Пока удаление невозможно");
-        // handlerAction();
+        message.success("Пока удаление невозможно");
+        handlerAction();
         closeModal();
     };
     return (

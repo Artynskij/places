@@ -82,7 +82,7 @@ export class GeneralArticleService {
                 // },
             },
         };
-
+        console.log("bodyArticleCreate", bodyArticleCreate);
         const createArticle = await this.articleService.create(
             bodyArticleCreate
         );

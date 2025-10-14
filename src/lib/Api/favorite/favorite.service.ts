@@ -7,6 +7,7 @@ import { IFavoriteEntity } from "@/lib/models";
 
 export class FavoriteService {
     private FavoriteApi: FavoriteApi;
+    
 
     constructor() {
         this.FavoriteApi = new FavoriteApi();

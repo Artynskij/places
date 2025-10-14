@@ -1,10 +1,13 @@
-// FavoritesContext.tsx
+"use client";
+import { FavoriteService } from "@/lib/Api/favorite/favorite.service";
 import { createContext, useContext, useState, useEffect } from "react";
+import { useUser } from "../UserContext/UserContext";
+import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 type IFavoriteContext = {
     favoriteIds: string[];
-    // error: (text: string) => void;
-    // info: (text: string) => void;
-    // warning: (text: string) => void;
+    addFavorite: (id: string) => any;
+    removeFavorite: (id: string) => any;
+    toggleFavorite: (id: string) => any;
 };
 const FavoritesContext = createContext<IFavoriteContext | null>(null);
 
@@ -14,35 +17,57 @@ export const FavoritesProvider = ({
     children: React.ReactNode;
 }) => {
     const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
-
+    const { user } = useUser();
+    const favoriteService = new FavoriteService();
+    const dataLoadManager = new DataLoadManagementService();
     useEffect(() => {
+        console.log("FavoritesContext", user?.id);
+        if (user) {
+            favoriteService
+                .getByQuery({ personId: user.id })
+
+                .then((data) => {
+                    if (data) {
+                        setFavoriteIds(data.map((itemFav) => itemFav.ItemId));
+                    }
+                });
+        }
         // Загружаем избранное при старте
-        fetch("/api/favorites")
-            .then((res) => res.json())
-            .then((data) =>
-                setFavoriteIds(data.map((f: any) => f.establishmentId))
-            );
-    }, []);
+    }, [user]);
 
     const addFavorite = async (id: string) => {
-        setFavoriteIds((prev) => [...prev, id]); // оптимистично
-        try {
-            await fetch("/api/favorites", {
-                method: "POST",
-                body: JSON.stringify({ establishmentId: id }),
+        const favoriteTypes = await dataLoadManager.getFavoriteTypes();
+        const establishmentFavoriteType = favoriteTypes?.find(
+            (item) => item.Name === "Establishment"
+        );
+        if (!user || !establishmentFavoriteType)
+            return new Promise(() => false);
+
+        const res = await favoriteService
+            .create({
+                Person: user?.id,
+                ItemId: id,
+                ItemType: establishmentFavoriteType.Id,
+            })
+            .then((res) => {
+                if (res) {
+                    setFavoriteIds((prev) => [...prev, id]);
+                }
+                return res;
             });
-        } catch {
-            setFavoriteIds((prev) => prev.filter((f) => f !== id)); // откат если ошибка
-        }
+
+        res ? true : false;
     };
 
     const removeFavorite = async (id: string) => {
         setFavoriteIds((prev) => prev.filter((f) => f !== id));
-        try {
-            await fetch(`/api/favorites/${id}`, { method: "DELETE" });
-        } catch {
-            setFavoriteIds((prev) => [...prev, id]); // откат
+
+        const res = await favoriteService.delete(id);
+        if (res) {
+            return true;
         }
+
+        return res ? true : false;
     };
 
     const toggleFavorite = (id: string) => {
@@ -55,11 +80,18 @@ export const FavoritesProvider = ({
 
     return (
         <FavoritesContext.Provider
-            value={{ favoriteIds}} //, addFavorite, removeFavorite, toggleFavorite 
+            value={{ favoriteIds, addFavorite, removeFavorite, toggleFavorite }} //, addFavorite, removeFavorite, toggleFavorite
         >
             {children}
         </FavoritesContext.Provider>
     );
 };
 
-export const useFavorites = () => useContext(FavoritesContext);
+// export const useFavorites = () => useContext(FavoritesContext);
+export const useFavorites = () => {
+    const context = useContext(FavoritesContext);
+    if (!context) {
+        throw new Error("useUserContext must be used within a UserProvider");
+    }
+    return context;
+};
