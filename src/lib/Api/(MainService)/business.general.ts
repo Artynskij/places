@@ -82,6 +82,7 @@ export class GeneralBusinessService {
                 Town: formData.address.town,
                 Street: formData.address.addressLine,
                 PostalCode: formData.address.postalCode || null,
+                District: formData.address.district
             },
         });
 
@@ -148,9 +149,9 @@ export class GeneralBusinessService {
         const defaultConsents: IConsentsPatchRequest | null =
             formData.agreements
                 ? formData.agreements.reduce((acc, key) => {
-                      acc[key as keyof IConsentsPatchRequest] = true;
-                      return acc;
-                  }, {} as IConsentsPatchRequest)
+                    acc[key as keyof IConsentsPatchRequest] = true;
+                    return acc;
+                }, {} as IConsentsPatchRequest)
                 : null;
         const createdConsents = await this.consentsService.createConsents({
             ...defaultConsents,
@@ -292,7 +293,8 @@ export class GeneralBusinessService {
                 bodyAddress.Street = addr.addressLine;
             if (addr.postalCode !== undefined)
                 bodyAddress.PostalCode = addr.postalCode;
-
+            if (addr.district !== undefined)
+                bodyAddress.District = addr.district;
             if (
                 Object.keys(bodyAddress).length > 0 &&
                 business.Contacts?.Address?.Id

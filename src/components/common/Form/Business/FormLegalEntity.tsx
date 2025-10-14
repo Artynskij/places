@@ -44,22 +44,23 @@ export const FormLegalEntity = ({ business, mode, closeModal }: IProp) => {
     const generalBusinessService = new GeneralBusinessService();
     const initialFormData: TTypeForm | null = business
         ? {
-              officialName: business.OfficialName,
-              dateRegister: business.RegistrationDate || new Date(),
-              numberOrganization: business.RegistrationNumber || "",
-              phone: business.Contacts.Phone || "",
-              email: business.Contacts.Email || "",
-              address: {
-                  addressLine: business.Contacts.Address?.Street || "",
-                  country: business.Contacts.Address?.Country || "",
-                  town: business.Contacts.Address?.Town || "",
-                  postalCode: business.Contacts.Address?.PostalCode || "",
-              },
-              agreements:
-                  mode === "update"
-                      ? agreementKeysBusinessLegalEntity
-                      : undefined,
-          }
+            officialName: business.OfficialName,
+            dateRegister: business.RegistrationDate || new Date(),
+            numberOrganization: business.RegistrationNumber || "",
+            phone: business.Contacts.Phone || "",
+            email: business.Contacts.Email || "",
+            address: {
+                addressLine: business.Contacts.Address?.Street || "",
+                country: business.Contacts.Address?.Country || "",
+                district: business.Contacts.Address?.District || "",
+                town: business.Contacts.Address?.Town || "",
+                postalCode: business.Contacts.Address?.PostalCode || "",
+            },
+            agreements:
+                mode === "update"
+                    ? agreementKeysBusinessLegalEntity
+                    : undefined,
+        }
         : null;
     const {
         register,
@@ -185,7 +186,12 @@ export const FormLegalEntity = ({ business, mode, closeModal }: IProp) => {
                     titleSpan="Страна*"
                     type="text"
                 />
-
+                 <InputForm
+                    error={errors.address?.district?.message}
+                    register={register("address.district")}
+                    titleSpan="Регион, область, штат*"
+                    type="text"
+                />
                 <InputForm
                     error={errors.address?.town?.message}
                     register={register("address.town")}

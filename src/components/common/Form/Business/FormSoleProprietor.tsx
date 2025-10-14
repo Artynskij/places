@@ -47,22 +47,23 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
 
     const initialFormData: TTypeForm | null = business
         ? {
-              officialName: business.OfficialName,
-              dateRegister: business.RegistrationDate || new Date(),
-              numberOrganization: business.RegistrationNumber || "",
-              phone: business.Contacts.Phone || "",
-              email: business.Contacts.Email || "",
-              address: {
-                  addressLine: business.Contacts.Address?.Street || "",
-                  country: business.Contacts.Address?.Country || "",
-                  town: business.Contacts.Address?.Town || "",
-                  postalCode: business.Contacts.Address?.PostalCode || "",
-              },
-              agreements:
-                  mode === "update"
-                      ? agreementKeysBusinessSoleProprietor
-                      : undefined,
-          }
+            officialName: business.OfficialName,
+            dateRegister: business.RegistrationDate || new Date(),
+            numberOrganization: business.RegistrationNumber || "",
+            phone: business.Contacts.Phone || "",
+            email: business.Contacts.Email || "",
+            address: {
+                addressLine: business.Contacts.Address?.Street || "",
+                country: business.Contacts.Address?.Country || "",
+                district: business.Contacts.Address?.District || "",
+                town: business.Contacts.Address?.Town || "",
+                postalCode: business.Contacts.Address?.PostalCode || "",
+            },
+            agreements:
+                mode === "update"
+                    ? agreementKeysBusinessSoleProprietor
+                    : undefined,
+        }
         : null;
     const {
         register,
@@ -191,12 +192,12 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
                     titleSpan="Страна*"
                     type="text"
                 />
-                {/* <InputForm
+                <InputForm
                     error={errors.address?.district?.message}
                     register={register("address.district")}
-                    titleSpan="Область*"
+                    titleSpan="Регион, область, штат*"
                     type="text"
-                /> */}
+                />
                 <InputForm
                     error={errors.address?.town?.message}
                     register={register("address.town")}
