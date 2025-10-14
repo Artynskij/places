@@ -9,6 +9,7 @@ export * from "./TSocialNetworks";
 export * from "./TSortType";
 export * from "./TTilesContent";
 export * from "./TTravelMapAction";
+export * from "./TTypeFavorite";
 export * from "./TTypeFile";
 export * from "./TTypesEstablishment";
 export * from "./TTypesGlobal";

@@ -77,13 +77,11 @@ export default class EstablishmentMapper {
         };
         // }
     }
-    transformToFront({
-        establishment,
-        info,
-    }: ITransformToFront): IEstablishmentFront {
+    toFront({ establishment, info }: ITransformToFront): IEstablishmentFront {
         if (!establishment?.content) {
             throw new Error("Invalid establishment content structure");
         }
+
         const title =
             establishment.content.value[0]?.value.details?.title ||
             establishment.content.value[0]?.value.seoTrip?.find(
@@ -102,15 +100,6 @@ export default class EstablishmentMapper {
                 (item) => item.key == "META_DESCRIPTION"
             )?.value ||
             "Not description";
-        const additionalRates = establishment.establishment.Rates
-            ? Object.entries(establishment.establishment.Rates)
-                  .map(([key, value]) => {
-                      if (key === "Count" || key === "Rate" || !Number(value))
-                          return null;
-                      return { key: key, value: value };
-                  })
-                  .filter((item) => item)
-            : [];
 
         const galleryImages: IMediaFront[] | null =
             establishment.content?.media.gallery?.map((image) => {
@@ -143,11 +132,7 @@ export default class EstablishmentMapper {
             categoriesAll: categories,
 
             rates: this.transformRate(establishment.establishment.Rates),
-            // rates: {
-            //     main: establishment.establishment.Rates?.AverageRate || 0,
-            //     count: establishment.establishment.Rates?.CountRate || 0,
-            //     additional: additionalRates,
-            // },
+
             location: {
                 country: {
                     id:
@@ -207,7 +192,7 @@ export default class EstablishmentMapper {
                 null,
                 cdnHost
             ),
-            establishment: this.transformToFront({
+            establishment: this.toFront({
                 establishment: {
                     establishment: establishmentRateEntity.Establishment,
                     content: establishmentRateEntity.Establishment.content,

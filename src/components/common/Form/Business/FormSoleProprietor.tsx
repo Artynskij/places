@@ -20,11 +20,9 @@ import { GeneralBusinessService } from "@/lib/Api/(MainService)/business.general
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import useLocale from "@/lib/hooks/useLocale";
 import { useRouter } from "next/navigation";
-import { ROUTES } from "@/lib/config/Routes";
-import { CONSTANT_TABS } from "@/asset/constants/switcherTabsPage";
+
 import { validationBusinessSoleProprietorSchema } from "@/lib/validationSchemas/business/businessValid.schema";
-import { useEffect, useState } from "react";
-import { BusinessService } from "@/lib/Api/business/business.service";
+
 import { TTypeOwnerBusiness } from "@/lib/models/types";
 import { IBusinessFront } from "@/lib/models";
 import { BlockExtraInfo } from "../../BlockFunctional/BlockExtraInfo";
@@ -41,7 +39,6 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
     const activeTab: TTypeOwnerBusiness = "sole_proprietor";
     const { user } = useUser();
     const locale = useLocale();
-    const router = useRouter();
 
     const generalBusinessService = new GeneralBusinessService();
 

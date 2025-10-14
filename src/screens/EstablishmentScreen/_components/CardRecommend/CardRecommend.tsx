@@ -36,8 +36,7 @@ const CardRecommend: FC<ICardRecommend> = ({
 }) => {
     //    const baseUrls= getBaseUrlServer()
     if (!dataEstablishment.typeEstablishment) return null;
-   
-    
+
     return (
         <div className={style.card}>
             <div className={style.image}>
@@ -75,6 +74,7 @@ const CardRecommend: FC<ICardRecommend> = ({
                     )}
 
                     <LikeButton
+                        idEstablishment={dataEstablishment.id}
                         liked={false}
                         classNameButton={style.imageButton}
                         classNameIcon={style.imageButton_icon}

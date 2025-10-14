@@ -45,6 +45,7 @@ export const CardSearch = async ({ dataCard, baseUrl }: ICardSearchDefault) => {
                         classNameButtonActive={`${style.imageButton_active}`}
                     />
                     <LikeButton
+                        idEstablishment={dataCard.id}
                         liked={false}
                         classNameButton={style.imageButton}
                         classNameIcon={style.imageButton_icon}

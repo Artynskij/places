@@ -1,11 +1,16 @@
 export const CONSTANT_TABS = {
     owner: {
-        object: "object",
+        establishments: "establishments",
         business: "business",
     },
     tourist: {
-        object: "object",
+        establishments: "establishments",
+        favorites: "favorites",
         travelMap: "travelMap",
+        reviews: "reviews",
+        publication: "publication",
+        photos: "photos",
+        videos: "videos",
     },
     business: {
         marketing: "marketing",
@@ -19,9 +24,21 @@ export const CONSTANT_TABS = {
         sole_proprietor: "sole_proprietor",
         legal_entity: "legal_entity",
     },
+    settings: {
+        personal: "personal",
+        notification: "notification",
+    },
+    finder: {
+        all: "all",
+        TO_READ: "TO_READ",
+        TO_GO: "TO_GO",
+        TO_VISIT: "TO_VISIT",
+        TO_SLEEP: "TO_SLEEP",
+        TO_EAT: "TO_EAT",
+    },
 };
 export const switcherTabOwnerData = [
-    { id: 1, name: "мои обьекты", value: CONSTANT_TABS.owner.object },
+    { id: 1, name: "мои обьекты", value: CONSTANT_TABS.owner.establishments },
     // { id: 2, name: "продвижение", value: "marketing" },
     // { id: 3, name: "история заказов", value: "history" },
     // { id: 4, name: "статистика", value: "stat" },
@@ -29,19 +46,24 @@ export const switcherTabOwnerData = [
     { id: 6, name: "бизнесы", value: CONSTANT_TABS.owner.business },
 ];
 
-export const switcherTabUserData = [
-    { id: 1, name: "мои поездки", value: "trip" },
-    { id: 2, name: "мои оценки", value: "review" },
-    { id: 3, name: "мои интересы", value: "interest" },
-    { id: 4, name: "карта путешествий", value: "travelMap" },
-];
+// export const switcherTabUserData = [
+//     { id: 1, name: "мои поездки", value: "trip" },
+//     { id: 2, name: "мои оценки", value: "review" },
+//     { id: 3, name: "мои интересы", value: "interest" },
+//     { id: 4, name: "карта путешествий", value: "travelMap" },
+// ];
 
 export const switcherTabTouristData = [
     // { id: 1, name: "Публикации", value: "publications" },
     // { id: 2, name: "Фото", value: "photos" },
     // { id: 3, name: "Видео", value: "videos" },
-    { id: 4, name: "Отзывы / оценки", value: "reviews" },
-    { id: 5, name: "Добавленные объекты", value: CONSTANT_TABS.tourist.object },
+    { id: 4, name: "избранное", value: CONSTANT_TABS.tourist.favorites },
+    { id: 4, name: "Отзывы / оценки", value: CONSTANT_TABS.tourist.reviews },
+    {
+        id: 5,
+        name: "Добавленные объекты",
+        value: CONSTANT_TABS.tourist.establishments,
+    },
     {
         id: 6,
         name: "Карта путешествий",
@@ -58,47 +80,59 @@ export const switcherTabBusinessData = [
 export const switcherFinderMainPage = [
     {
         title: "Искать всё",
-        value: "all",
+        value: CONSTANT_TABS.finder.all,
         active: true,
         placeHolder: "Что вы ищите",
     },
     {
         title: "Где поесть",
-        value: "TO_EAT",
+        value: CONSTANT_TABS.finder.TO_EAT,
         active: false,
         placeHolder: "Название ресторана",
     },
     {
         title: "Где поспать",
-        value: "TO_SLEEP",
+        value: CONSTANT_TABS.finder.TO_SLEEP,
         active: false,
         placeHolder: "Название отеля",
     },
     {
         title: "Что посмотреть",
-        value: "TO_VISIT",
+        value: CONSTANT_TABS.finder.TO_VISIT,
         active: false,
         placeHolder: "Название достопримечательности",
     },
     {
         title: "Куда поехать",
-        value: "TO_GO",
+        value: CONSTANT_TABS.finder.TO_GO,
         active: false,
         placeHolder: "Название страны, города, области, штата или провинции",
     },
     {
         title: "Что почитать",
-        value: "TO_READ",
+        value: CONSTANT_TABS.finder.TO_READ,
         active: false,
         placeHolder: "Название статьи или что-то из нее",
     },
 ];
 export const switcherSettingsOwner = [
-    { id: 1, name: "Персональные данные", value: "personal" },
+    {
+        id: 1,
+        name: "Персональные данные",
+        value: CONSTANT_TABS.settings.personal,
+    },
 ];
 export const switcherSettingsTourist = [
-    { id: 1, name: "Персональные данные", value: "personal" },
-    { id: 2, name: "Уведомления и отбражение", value: "notification" },
+    {
+        id: 1,
+        name: "Персональные данные",
+        value: CONSTANT_TABS.settings.personal,
+    },
+    {
+        id: 2,
+        name: "Уведомления и отбражение",
+        value: CONSTANT_TABS.settings.notification,
+    },
 ];
 export const switcherBusiness = [
     {

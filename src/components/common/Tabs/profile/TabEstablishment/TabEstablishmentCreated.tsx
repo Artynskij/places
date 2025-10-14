@@ -2,8 +2,7 @@
 import { Button } from "@/components/UI/Button/Button";
 import style from "./tabEstablishment.module.scss";
 import { IconPlus } from "@/components/common/Icons";
-import Link from "next/link";
-import { ROUTES } from "@/lib/config/Routes";
+
 import { useTranslations } from "next-intl";
 import useLocale from "@/lib/hooks/useLocale";
 import { useUser } from "@/lib/context/UserContext/UserContext";
@@ -12,10 +11,11 @@ import { IEstablishmentFront } from "@/lib/models";
 import { EstablishmentPersonAssignmentApi } from "@/lib/Api/(Establishment)/establishment/establishmentAssignment.api";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 import CardEstablishmentTab from "./CardEstablishmentTab/CardEstablishmentTab";
-import SkeletonTabEstablishment from "./SkeletonTabEstablishment";
-import { FormCreateEstablishment } from "@/components/common/Form/Establishment/FormCreateEstablishment";
 
-const TabEstablishmentCreated = () => {
+import { FormCreateEstablishment } from "@/components/common/Form/Establishment/FormCreateEstablishment";
+import { SkeletonSlider } from "@/components/common/Skeleton/SkeletonSlider";
+
+export const TabEstablishmentCreated = () => {
     const locale = useLocale();
     const t = useTranslations("ProfilePage");
     const { user } = useUser();
@@ -67,7 +67,7 @@ const TabEstablishmentCreated = () => {
                 </FormCreateEstablishment>
             </div>
             {!establishmentsData ? (
-                <SkeletonTabEstablishment />
+                <SkeletonSlider />
             ) : (
                 <div className={style.list}>
                     {establishmentsData?.length === 0 ? (
@@ -88,4 +88,3 @@ const TabEstablishmentCreated = () => {
         </div>
     );
 };
-export default TabEstablishmentCreated;

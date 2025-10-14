@@ -41,7 +41,7 @@ export class EstablishmentService {
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();
         return response && cdnHost
             ? response.establishmentItems.map((establishment) => {
-                  return this.establishmentMapper.transformToFront({
+                  return this.establishmentMapper.toFront({
                       establishment: establishment,
                       info: {
                           cdnHost: cdnHost.url,
@@ -59,7 +59,7 @@ export class EstablishmentService {
         const response = await this.establishmentApi.getById(id, lang);
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();
         return response && cdnHost
-            ? this.establishmentMapper.transformToFront({
+            ? this.establishmentMapper.toFront({
                   establishment: response.establishment,
                   info: { cdnHost: cdnHost?.url },
               })
@@ -71,20 +71,21 @@ export class EstablishmentService {
     ): Promise<IEstablishmentFront[] | null> {
         const response = await this.establishmentApi.getByPagination(body);
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();
-
-        return response && cdnHost
-            ? response.establishmentItems
-                  .filter((establishment) => establishment.content)
-                  .map((establishment) => {
-                      return this.establishmentMapper.transformToFront({
-                          establishment: establishment,
-                          info: {
-                              cdnHost: cdnHost.url,
-                              totalEstablishment: response.total,
-                          },
-                      });
-                  })
-            : null;
+        const mappedData =
+            response && cdnHost
+                ? response.establishmentItems
+                      .filter((establishment) => establishment.content)
+                      .map((establishment) => {
+                          return this.establishmentMapper.toFront({
+                              establishment: establishment,
+                              info: {
+                                  cdnHost: cdnHost.url,
+                                  totalEstablishment: response.total,
+                              },
+                          });
+                      })
+                : null;
+        return mappedData;
     }
     async create(
         body: IEstablishmentCreateRequest

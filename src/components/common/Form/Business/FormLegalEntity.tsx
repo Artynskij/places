@@ -20,8 +20,7 @@ import { useUser } from "@/lib/context/UserContext/UserContext";
 import useLocale from "@/lib/hooks/useLocale";
 import { GeneralBusinessService } from "@/lib/Api/(MainService)/business.general";
 import { useRouter } from "next/navigation";
-import { ROUTES } from "@/lib/config/Routes";
-import { CONSTANT_TABS } from "@/asset/constants/switcherTabsPage";
+
 import { validationBusinessLegalEntitySchema } from "@/lib/validationSchemas/business/businessValid.schema";
 import { IBusinessFront } from "@/lib/models";
 import { TTypeOwnerBusiness } from "@/lib/models/types";
@@ -39,7 +38,6 @@ export const FormLegalEntity = ({ business, mode, closeModal }: IProp) => {
     const activeTab: TTypeOwnerBusiness = "legal_entity";
     const { user } = useUser();
     const locale = useLocale();
-    const router = useRouter();
 
     const generalBusinessService = new GeneralBusinessService();
     const initialFormData: TTypeForm | null = business

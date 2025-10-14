@@ -13,7 +13,8 @@ import "swiper/css/navigation";
 
 import { IconArrowRight } from "@/components/common/Icons/IconArrowRight/ArrowRightIcon";
 import { IconArrowLeft } from "@/components/common/Icons/IconArrowLeft/ArrowLeftIcon";
-import { SkeletonSlider } from "./SkeletonSlider";
+import { SkeletonSlider } from "@/components/common/Skeleton/SkeletonSlider";
+
 
 interface ISlider {
   id: number;

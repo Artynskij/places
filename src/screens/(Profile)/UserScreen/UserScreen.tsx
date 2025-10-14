@@ -1,22 +1,22 @@
-import style from "./userScreen.module.scss";
-import { UserComponent } from "./_components/UserComponent/UserComponent";
-import { ContentComponent } from "./_components/ContentComponent/ContentComponent";
-import { IBasePageProps } from "@/lib/models";
+// import style from "./userScreen.module.scss";
+// import { UserComponent } from "./_components/UserComponent/UserComponent";
+// import { ContentComponent } from "./_components/ContentComponent/ContentComponent";
+// import { IBasePageProps } from "@/lib/models";
 
-interface IProps
-    extends IBasePageProps<{
-        username: string;
-    }> {}
+// interface IProps
+//     extends IBasePageProps<{
+//         username: string;
+//     }> {}
 
-export default function UsersScreen({ params, searchParams }: IProps) {
-    return (
-        <>
-            <section className={style.user}>
-                <UserComponent />
-            </section>
-            <section className={style.content}>
-                <ContentComponent />
-            </section>
-        </>
-    );
-}
+// export default function UsersScreen({ params, searchParams }: IProps) {
+//     return (
+//         <>
+//             <section className={style.user}>
+//                 <UserComponent />
+//             </section>
+//             <section className={style.content}>
+//                 <ContentComponent />
+//             </section>
+//         </>
+//     );
+// }

@@ -1,5 +1,3 @@
-import { TTypeLocationDb } from "@/lib/models/types/TTypeLocation";
-
 export const CONSTANT_TYPE_LOCATION_MAPBOX = {
     mapbox: {
         country: "country",
@@ -23,6 +21,3 @@ export const CONSTANT_TYPE_LOCATION_DB = {
     VILLAGE: "VILLAGE",
     ISLAND: "ISLAND",
 };
-export const CONSTANT_TYPE_LOCATION_ARRAY = Object.values(
-    CONSTANT_TYPE_LOCATION_DB
-);

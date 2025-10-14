@@ -1,6 +1,3 @@
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
-// import { BaseApiService } from "../../BaseApi.service";
-
 import { BaseApiService } from "./base/BaseApi.service";
 
 import {

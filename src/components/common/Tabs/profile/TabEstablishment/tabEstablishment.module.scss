@@ -29,30 +29,9 @@
     grid-template-columns: repeat(2, 1fr);
     gap: $gap;
 }
-.skeleton {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    &_block {
-        min-height: 320px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-    &_input {
-        min-height: 360px;
-    }
-    &_photo {
-        height: 100%;
-        width: 100%;
-    }
-}
+
 @include mediaTablet {
     .list {
-        grid-template-columns: 1fr;
-    }
-    .skeleton {
         grid-template-columns: 1fr;
     }
 }

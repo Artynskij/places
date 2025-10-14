@@ -3,7 +3,7 @@ import Image from "next/image";
 import style from "./gallery.module.scss";
 
 import { FC, useEffect, useState } from "react";
-import { SkeletonGallery } from "./SkeletonGallery";
+
 import { Slider } from "../Slider/Slider";
 import { AlbumPhoto } from "./AlbumPhoto/AlbumPhoto";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
@@ -13,6 +13,7 @@ import { RootState } from "@/store/store";
 
 import { IMediaFront } from "@/lib/models";
 import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { SkeletonGallery } from "../Skeleton/SkeletonGallery";
 
 interface IGallery {
     images: IMediaFront[] | null;
@@ -171,7 +172,6 @@ export const Gallery: FC<IGallery> = ({
                             activePhotoIndex={activePhotoIndex}
                             setActivePhotoIndex={setActivePhotoIndex}
                             images={images}
-                           
                             setTypeView={setTypeView}
                             typeView={typeView}
                         />

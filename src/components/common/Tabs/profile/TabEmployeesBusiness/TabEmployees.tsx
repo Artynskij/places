@@ -10,7 +10,7 @@ import { useUser } from "@/lib/context/UserContext/UserContext";
 interface IProp {
     business: IBusinessFront;
 }
-const TabEmployees = ({ business }: IProp) => {
+export const TabEmployees = ({ business }: IProp) => {
     const invitesService = new InvitesService();
     const locale = useLocale();
     const { user } = useUser();
@@ -89,4 +89,3 @@ const TabEmployees = ({ business }: IProp) => {
         </div>
     );
 };
-export default TabEmployees;

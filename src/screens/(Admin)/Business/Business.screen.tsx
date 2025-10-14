@@ -56,167 +56,6 @@ interface BusinessFormValues {
     establishmentDescription: string;
 }
 
-// Моковые данные бизнесов
-// const mockBusinesses: IBusinessEntity[] = [
-//     {
-//         Id: "business-001",
-//         OfficialName: 'ООО "Вкусные Путешествия"',
-//         RegistrationNumber: "1234567890",
-//         RegistrationDate: new Date("2023-05-15"),
-//         ContentId: "content-001",
-//         LastModifiedDate: "2024-12-24T10:30:00Z",
-//         Contacts: {
-//             Id: "contact-001",
-//             Email: "info@vkusnye-puteshestviya.ru",
-//             Phone: "+7 (495) 123-45-67",
-//             Website: "https://vkusnye-puteshestviya.ru",
-//         },
-//         CreatedDate: "2023-05-15T00:00:00Z",
-//         DeletedDate: null,
-//         Establishment: {
-//             Id: "est-001",
-//             Name: "Главный офис",
-//             Description: "Туроператор по гастрономическим турам",
-//         },
-//         LegalType: {
-//             Id: "legal-001",
-//             Code: "LEGAL_ENTITY",
-//             content: {
-//                 Id: "content-legal-001",
-//                 details: [
-//                     { lang: "ru", value: "Юридическое лицо" },
-//                     { lang: "en", value: "Legal Entity" },
-//                 ],
-//             },
-//         },
-//     },
-//     {
-//         Id: "business-002",
-//         OfficialName: "ИП Сидоров Михаил Петрович",
-//         RegistrationNumber: "0987654321",
-//         RegistrationDate: new Date("2024-01-20"),
-//         ContentId: "content-002",
-//         LastModifiedDate: "2024-12-23T14:20:00Z",
-//         Contacts: {
-//             Id: "contact-002",
-//             Email: "sidorov.m@example.com",
-//             Phone: "+7 (912) 345-67-89",
-//             Website: "https://sidorov-tours.ru",
-//         },
-//         CreatedDate: "2024-01-20T00:00:00Z",
-//         DeletedDate: null,
-//         Establishment: {
-//             Id: "est-002",
-//             Name: "Агентство приключений",
-//             Description: "Организация экстремальных туров",
-//         },
-//         LegalType: {
-//             Id: "legal-002",
-//             Code: "SOLE_PROPRIETOR",
-//             content: {
-//                 Id: "content-legal-002",
-//                 details: [
-//                     { lang: "ru", value: "Индивидуальный предприниматель" },
-//                     { lang: "en", value: "Sole Proprietor" },
-//                 ],
-//             },
-//         },
-//     },
-//     {
-//         Id: "business-003",
-//         OfficialName: "Алексей Козлов",
-//         RegistrationNumber: null,
-//         RegistrationDate: null,
-//         ContentId: "content-003",
-//         LastModifiedDate: "2024-12-22T09:15:00Z",
-//         Contacts: {
-//             Id: "contact-003",
-//             Email: "kozlov.a@example.com",
-//             Phone: "+7 (923) 456-78-90",
-//         },
-//         CreatedDate: "2024-06-10T00:00:00Z",
-//         DeletedDate: null,
-//         Establishment: {
-//             Id: "est-003",
-//             Name: "Частный гид",
-//         },
-//         LegalType: {
-//             Id: "legal-003",
-//             Code: "INDIVIDUAL",
-//             content: {
-//                 Id: "content-legal-003",
-//                 details: [
-//                     { lang: "ru", value: "Физическое лицо" },
-//                     { lang: "en", value: "Individual" },
-//                 ],
-//             },
-//         },
-//     },
-//     {
-//         Id: "business-004",
-//         OfficialName: 'ООО "Горные Маршруты"',
-//         RegistrationNumber: "1122334455",
-//         RegistrationDate: new Date("2022-11-30"),
-//         ContentId: "content-004",
-//         LastModifiedDate: "2024-12-24T16:45:00Z",
-//         Contacts: {
-//             Id: "contact-004",
-//             Email: "info@gornye-marshruty.ru",
-//             Phone: "+7 (495) 987-65-43",
-//             Website: "https://gornye-marshruty.ru",
-//         },
-//         CreatedDate: "2022-11-30T00:00:00Z",
-//         DeletedDate: null,
-//         Establishment: {
-//             Id: "est-004",
-//             Name: "Туристический комплекс",
-//             Description: "Организация горных походов и восхождений",
-//         },
-//         LegalType: {
-//             Id: "legal-004",
-//             Code: "LEGAL_ENTITY",
-//             content: {
-//                 Id: "content-legal-004",
-//                 details: [
-//                     { lang: "ru", value: "Юридическое лицо" },
-//                     { lang: "en", value: "Legal Entity" },
-//                 ],
-//             },
-//         },
-//     },
-//     {
-//         Id: "business-005",
-//         OfficialName: "ИП Иванова Анна Сергеевна",
-//         RegistrationNumber: "5566778899",
-//         RegistrationDate: new Date("2024-03-08"),
-//         ContentId: "content-005",
-//         LastModifiedDate: "2024-12-21T11:20:00Z",
-//         Contacts: {
-//             Id: "contact-005",
-//             Email: "ivanova.anna@example.com",
-//             Phone: "+7 (915) 123-45-67",
-//         },
-//         CreatedDate: "2024-03-08T00:00:00Z",
-//         DeletedDate: null,
-//         Establishment: {
-//             Id: "est-005",
-//             Name: "Семейный отдых",
-//             Description: "Организация семейных туров и экскурсий",
-//         },
-//         LegalType: {
-//             Id: "legal-005",
-//             Code: "SOLE_PROPRIETOR",
-//             content: {
-//                 Id: "content-legal-005",
-//                 details: [
-//                     { lang: "ru", value: "Индивидуальный предприниматель" },
-//                     { lang: "en", value: "Sole Proprietor" },
-//                 ],
-//             },
-//         },
-//     },
-// ];
-
 // Имитация API задержки
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -261,7 +100,7 @@ export const BusinessAdminScreen = () => {
     // Поиск по ID
     const fetchById = async (id: string) => {
         setSearchLoading(true);
-        await delay(300);
+        // await delay(300);
 
         try {
             if (!id) {
@@ -317,7 +156,6 @@ export const BusinessAdminScreen = () => {
             .getBusinessLegalTypes(locale)
             .then((res) => {
                 if (res) {
-                    // console.log(res);
                     setLegalTypeOptions(res);
                 }
             });

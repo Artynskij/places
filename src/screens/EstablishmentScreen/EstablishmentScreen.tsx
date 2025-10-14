@@ -128,6 +128,7 @@ export const EstablishmentScreen = async ({
                         classNameIcon={style.underHeader_groupButtons_icon}
                         textButton="Мне нравится"
                         liked={false}
+                        idEstablishment={dataEstablishment.id}
                     />
                     <ShareButton
                         classNameButton={style.underHeader_groupButtons_button}

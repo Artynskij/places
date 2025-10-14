@@ -1,6 +1,6 @@
 .user {
 }
-.breadcrumb{
+.breadcrumb {
     margin: 10px 0;
 }
 .content {
@@ -70,7 +70,7 @@
         margin-bottom: 4px;
     }
 }
-@media screen and (max-width: $media-phone) {
+@include mediaPhone {
     .middle_edit_button span {
         display: none;
     }

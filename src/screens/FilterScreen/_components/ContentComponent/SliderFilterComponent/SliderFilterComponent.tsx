@@ -13,8 +13,9 @@ import { IDataCardSliderFilter } from "@/lib/models/common/ICards";
 import { IconArrowRight, IconArrowLeft } from "@/components/common/Icons";
 
 import { Loader } from "@/components/common/Loader/Loader";
-import { SkeletonSliderFilter } from "./SkeletonSliderFilter";
+
 import { CardSliderFilter } from "@/components/common/Cards";
+import { SkeletonSlider } from "@/components/common/Skeleton/SkeletonSlider";
 
 interface ISlider {
     data: IDataCardSliderFilter[];
@@ -93,7 +94,7 @@ export const SliderFilterComponent: FC<ISlider> = ({
                             })}
                         </>
                     ) : (
-                        <SkeletonSliderFilter />
+                        <SkeletonSlider />
                     )}
                 </Swiper>
             </div>

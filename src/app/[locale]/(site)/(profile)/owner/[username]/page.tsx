@@ -7,15 +7,13 @@ export async function generateMetadata() {
     };
 }
 
-interface IProps extends IBasePageProps<{ username: string }> {
-    
-}
+interface IProps extends IBasePageProps<{ username: string }> {}
 
 export default function OwnerPage({ params, searchParams }: IProps) {
     unstable_setRequestLocale(params.locale);
     return (
         <div className="container">
-            <OwnerScreen params={params} />
+            <OwnerScreen params={params} searchParams={searchParams} />
         </div>
     );
 }
