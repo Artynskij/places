@@ -16,10 +16,13 @@ export async function generateMetadata({
 }
 
 interface IProps
-    extends IBasePageProps<{
-        username: string;
-    }> {}
+    extends IBasePageProps<
+        {
+            username: string;
+        },
+        { tab: string }
+    > {}
 
 export default function TouristPage({ params, searchParams }: IProps) {
-    return <TouristScreen params={params} />;
+    return <TouristScreen params={params} searchParams={searchParams} />;
 }

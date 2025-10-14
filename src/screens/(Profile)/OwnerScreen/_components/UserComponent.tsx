@@ -6,21 +6,17 @@ import Image from "next/image";
 
 import Link from "next/link";
 import { ROUTES } from "@/lib/config/Routes";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
-import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { useEffect } from "react";
-import { useNotification } from "@/lib/context";
+
 import { Loader } from "@/components/common/Loader/Loader";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
 import { getFormatDate } from "@/lib/helpers/getFormatDate";
 
 const UserComponent = () => {
     const t = useTranslations("ProfilePage.header");
-    const locale = useLocale();
-    const notification = useNotification();
-    const personService = new PersonService();
 
     const { user } = useUser();
     useEffect(() => {}, []);

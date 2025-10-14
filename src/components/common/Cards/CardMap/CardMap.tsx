@@ -43,6 +43,7 @@ export const CardMap = ({ establishment, handlerClosePopup }: ICardMap) => {
                     )}
 
                     <LikeButton
+                        idEstablishment={establishment.id}
                         liked={false}
                         classNameButton={style.imageButton}
                         classNameIcon={style.imageButton_icon}

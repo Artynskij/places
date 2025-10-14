@@ -67,6 +67,7 @@ export const CardList: FC<ICardHotelList> = ({
                         classNameButtonActive={`${style.imageButton_active}`}
                     />
                     <LikeButton
+                        idEstablishment={dataEstablishment.id}
                         liked={false}
                         classNameButton={style.imageButton}
                         classNameIcon={style.imageButton_icon}

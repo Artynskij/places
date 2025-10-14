@@ -1,8 +1,16 @@
-.user{
-
+.user {
 }
-.content{
+.content {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.switcher {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    &_content {
+        width: 100%;
+    }
 }

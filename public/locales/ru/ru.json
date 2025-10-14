@@ -145,8 +145,9 @@
             "photos": "фото",
             "videos": "видео",
             "reviews": "отзывы / оценки",
+            "favorites": "избранное",
 
-            "object": "добавленные объекты",
+            "establishments": "добавленные объекты",
             "marketing": "продвижение",
             "history": "история заказов",
             "stat": "статистика",
@@ -201,6 +202,9 @@
             "myWallet": "Мой кошелёк",
             "replenish": "Пополнить",
             "historyPayment": "Историй платежей"
+        },
+        "favoritesTab":{
+            "myFavorite":"Мои избранные объекты"
         }
     },
     "CategoryNews": {

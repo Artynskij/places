@@ -14,16 +14,14 @@ import { BlockAgreements } from "../../BlockFunctional/BlockAgreements";
 import { useNotification } from "@/lib/context";
 
 import { useUser } from "@/lib/context/UserContext/UserContext";
-import { useEffect } from "react";
 
 import useLocale from "@/lib/hooks/useLocale";
 import { GeneralBusinessService } from "@/lib/Api/(MainService)/business.general";
-// import { validationBusinessIndividualSchema } from "@/lib/validationSchemas/business/individual.schema";
+
 import { agreementKeysBusinessIndividual } from "@/asset/constants/agreementsKeys";
 
-import { ROUTES } from "@/lib/config/Routes";
 import { useRouter } from "next/navigation";
-import { CONSTANT_TABS } from "@/asset/constants/switcherTabsPage";
+
 import { validationBusinessIndividualSchema } from "@/lib/validationSchemas/business/businessValid.schema";
 import { TTypeOwnerBusiness } from "@/lib/models/types";
 import { IBusinessFront } from "@/lib/models";
@@ -41,7 +39,7 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
     const activeTab: TTypeOwnerBusiness = "individual";
     const { user } = useUser();
     const locale = useLocale();
-    const router = useRouter();
+
     const generalBusinessService = new GeneralBusinessService();
     const initialFormData: TTypeForm | null = business
         ? {

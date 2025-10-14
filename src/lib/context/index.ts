@@ -1,12 +1,32 @@
 import {
-    ViewTypeProvider,
-    useViewTypeList,
-} from "./ViewTypeListContext/ViewTypeListContext";
-import {
     AlertMessageProvider,
     useAlertMessage,
 } from "./AlertMessageContext/AlertMessageContext";
-import { NotificationProvider, useNotification } from "./NotificationContext/NotificationContext";
+import {
+    FavoritesProvider,
+    useFavorites,
+} from "./FavoriteContext/FavoriteContext";
+import {
+    NotificationProvider,
+    useNotification,
+} from "./NotificationContext/NotificationContext";
+import { UserProvider, useUser } from "./UserContext/UserContext";
+import {
+    ViewTypeProvider,
+    useViewTypeList,
+} from "./ViewTypeListContext/ViewTypeListContext";
 
-export { ViewTypeProvider, AlertMessageProvider,NotificationProvider };
-export { useViewTypeList, useAlertMessage,useNotification };
+export {
+    AlertMessageProvider,
+    FavoritesProvider,
+    NotificationProvider,
+    UserProvider,
+    ViewTypeProvider,
+};
+export {
+    useAlertMessage,
+    useFavorites,
+    useNotification,
+    useUser,
+    useViewTypeList,
+};

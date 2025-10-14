@@ -18,17 +18,17 @@ export const LikeButton: FC<ILikeButton> = ({
     classNameButton,
     classNameButtonActive,
     textButton,
-    liked,
+
     idEstablishment,
-    // callback,
 }) => {
     // const favoriteService = new FavoriteService();
-    const { favoriteIds } = useFavorites();
+    const { favorites, toggleFavorite } = useFavorites();
     const [activeLike, setActiveLike] = useState<boolean>(false);
     useEffect(() => {
-        setActiveLike(!!favoriteIds.find((item) => item === idEstablishment));
-        console.log(favoriteIds);
-    }, [favoriteIds]);
+        setActiveLike(
+            !!favorites.find((item) => item.ItemId === idEstablishment)
+        );
+    }, [favorites]);
     const clickLike = async (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
 

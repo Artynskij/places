@@ -1,13 +1,11 @@
 "use client";
 import { AuthGuard } from "@/components/common/Auth/guards/AuthGuard";
-import ContentComponent from "./ContentComponent";
-import UserComponent from "./UserComponent";
+
 import style from "./businessScreen.module.scss";
 
 import { IBusinessFront, IBasePageProps } from "@/lib/models";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
-import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 import { BusinessService } from "@/lib/Api/business/business.service";
 import { useEffect, useState } from "react";
 import { useUser } from "@/lib/context/UserContext/UserContext";
@@ -21,14 +19,26 @@ import { Loader } from "@/components/common/Loader/Loader";
 import { useNotification } from "@/lib/context";
 import Image from "next/image";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
-interface IProps extends IBasePageProps<{ business: string }> {}
+import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
+import {
+    CONSTANT_TABS,
+    switcherTabBusinessData,
+} from "@/asset/constants/switcherTabsPage";
+import { TabEstablishmentCreated } from "@/components/common/Tabs/profile/TabEstablishment/TabEstablishmentCreated";
+import { TabMarketingOwner } from "@/components/common/Tabs/profile/TabMarketingOwner/TabMarketingOwner";
+import { TabHistoryOwner } from "@/components/common/Tabs/profile/TabHistoryOwner/TabHistoryOwner";
+import { TabStatOwner } from "@/components/common/Tabs/profile/TabStatOwner/TabStatOwner";
+import { TabEmployees } from "@/components/common/Tabs/profile/TabEmployeesBusiness/TabEmployees";
+import { TabWalletOwner } from "@/components/common/Tabs/profile/TabWalletOwner/TabWalletOwner";
+interface IProps
+    extends IBasePageProps<{ business: string }, { tab: string }> {}
 
 function BusinessScreenBase({ params, searchParams }: IProps) {
     const t = useTranslations("ProfilePage.header");
     const { user } = useUser();
-    const locale = useLocale();
+    const activeTab = searchParams?.tab;
     const notification = useNotification();
-    const personService = new PersonService();
+
     const businessService = new BusinessService();
 
     const [businessData, setBusinessData] = useState<IBusinessFront>();
@@ -125,7 +135,23 @@ function BusinessScreenBase({ params, searchParams }: IProps) {
                 </>
             </div>
             <div className={style.content}>
-                <ContentComponent business={businessData} />
+                <div className={style.switcher}>
+                    <SwitcherTabs data={switcherTabBusinessData} />
+                </div>
+
+                <div className={style.switcher_content}>
+                    {activeTab === CONSTANT_TABS.business.marketing ? (
+                        <TabMarketingOwner />
+                    ) : activeTab === CONSTANT_TABS.business.history ? (
+                        <TabHistoryOwner />
+                    ) : activeTab === CONSTANT_TABS.business.stat ? (
+                        <TabStatOwner />
+                    ) : activeTab === CONSTANT_TABS.business.employees ? (
+                        <TabEmployees business={businessData} />
+                    ) : (
+                        <TabWalletOwner />
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -3,11 +3,12 @@ import { FavoriteService } from "@/lib/Api/favorite/favorite.service";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useUser } from "../UserContext/UserContext";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
+import { IFavoriteEntity } from "@/lib/models";
 type IFavoriteContext = {
-    favoriteIds: string[];
-    addFavorite: (id: string) => any;
-    removeFavorite: (id: string) => any;
-    toggleFavorite: (id: string) => any;
+    favorites: IFavoriteEntity[];
+    addFavorite: (id: string) => Promise<boolean>;
+    removeFavorite: (id: string) => Promise<boolean>;
+    toggleFavorite: (id: string) => Promise<boolean>;
 };
 const FavoritesContext = createContext<IFavoriteContext | null>(null);
 
@@ -16,7 +17,7 @@ export const FavoritesProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
-    const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+    const [favorites, setFavorites] = useState<IFavoriteEntity[]>([]);
     const { user } = useUser();
     const favoriteService = new FavoriteService();
     const dataLoadManager = new DataLoadManagementService();
@@ -28,39 +29,38 @@ export const FavoritesProvider = ({
 
                 .then((data) => {
                     if (data) {
-                        setFavoriteIds(data.map((itemFav) => itemFav.ItemId));
+                        setFavorites(data.map((itemFav) => itemFav));
                     }
                 });
         }
         // Загружаем избранное при старте
     }, [user]);
 
-    const addFavorite = async (id: string) => {
+    const addFavorite = async (id: string): Promise<boolean> => {
         const favoriteTypes = await dataLoadManager.getFavoriteTypes();
         const establishmentFavoriteType = favoriteTypes?.find(
             (item) => item.Name === "Establishment"
         );
-        if (!user || !establishmentFavoriteType)
-            return new Promise(() => false);
+        if (!user || !establishmentFavoriteType) return false;
 
         const res = await favoriteService
             .create({
-                Person: user?.id,
+                Person: user.id,
                 ItemId: id,
                 ItemType: establishmentFavoriteType.Id,
             })
             .then((res) => {
                 if (res) {
-                    setFavoriteIds((prev) => [...prev, id]);
+                    setFavorites((prev) => [...prev, res]);
                 }
                 return res;
             });
 
-        res ? true : false;
+        return !!res;
     };
 
-    const removeFavorite = async (id: string) => {
-        setFavoriteIds((prev) => prev.filter((f) => f !== id));
+    const removeFavorite = async (id: string): Promise<boolean> => {
+        setFavorites((prev) => prev.filter((f) => f.ItemId !== id));
 
         const res = await favoriteService.delete(id);
         if (res) {
@@ -70,17 +70,19 @@ export const FavoritesProvider = ({
         return res ? true : false;
     };
 
-    const toggleFavorite = (id: string) => {
-        if (favoriteIds.includes(id)) {
-            removeFavorite(id);
+    const toggleFavorite = async (id: string): Promise<boolean> => {
+        let res;
+        if (favorites.some((item) => item.ItemId === id)) {
+            res = await removeFavorite(id);
         } else {
-            addFavorite(id);
+            res = await addFavorite(id);
         }
+        return res ? true : false;
     };
 
     return (
         <FavoritesContext.Provider
-            value={{ favoriteIds, addFavorite, removeFavorite, toggleFavorite }} //, addFavorite, removeFavorite, toggleFavorite
+            value={{ favorites, addFavorite, removeFavorite, toggleFavorite }} //, addFavorite, removeFavorite, toggleFavorite
         >
             {children}
         </FavoritesContext.Provider>

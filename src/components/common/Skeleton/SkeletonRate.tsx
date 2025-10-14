@@ -1,5 +1,5 @@
 import { Skeleton } from "antd";
-import style from "./rate.module.scss";
+import style from './skeleton.module.scss'
 
 export default function SkeletonRate ()  {
   const inlineStyle = {
@@ -7,10 +7,10 @@ export default function SkeletonRate ()  {
     height: "100%",
   };
   return (
-    <div className={style.skeleton}>
-      <div className={style.skeleton_block}>
+    <div className={style.skeleton_rate}>
+      <div className={style.skeleton_rate_block}>
         <Skeleton.Button
-          rootClassName={style.skeleton_button}
+          rootClassName={style.skeleton_rate_button}
           style={inlineStyle}
           active={true}
         />

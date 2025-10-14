@@ -7,7 +7,7 @@ import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { Flex } from "antd";
 
 import dynamic from "next/dynamic";
-import SkeletonRate from "./SkeletonRate";
+import SkeletonRate from "../Skeleton/SkeletonRate";
 
 // const customIcons: Record<number, React.ReactNode> = {
 //   1: <FrownOutlined />,

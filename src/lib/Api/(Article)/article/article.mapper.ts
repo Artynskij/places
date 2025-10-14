@@ -10,7 +10,6 @@ export default class ArticleMapper {
         article: IArticleEntityWithContent,
         cdnHost: string
     ): IArticleFront | null {
-        console.log(article);
         if (!article.content) {
             return null;
         }

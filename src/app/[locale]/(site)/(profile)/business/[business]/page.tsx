@@ -8,9 +8,8 @@ export async function generateMetadata() {
     };
 }
 
-interface IProps extends IBasePageProps<{business: string;}> {
-   
-}
+interface IProps
+    extends IBasePageProps<{ business: string }, { tab: string }> {}
 
 export default function BusinessPage({ params, searchParams }: IProps) {
     unstable_setRequestLocale(params.locale);

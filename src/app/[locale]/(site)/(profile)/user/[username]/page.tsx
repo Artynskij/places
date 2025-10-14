@@ -1,5 +1,5 @@
 import { IBasePageProps } from "@/lib/models";
-import UsersScreen from "@/screens/(Profile)/UserScreen/UserScreen";
+// import UsersScreen from "@/screens/(Profile)/UserScreen/UserScreen";
 export async function generateMetadata({
     params,
 }: {
@@ -18,7 +18,7 @@ interface IProps
 export default function UserPage({ params, searchParams }: IProps) {
     return (
         <div className="container">
-            <UsersScreen params={params} />
+            {/* <UsersScreen params={params} /> */}
         </div>
     );
 }

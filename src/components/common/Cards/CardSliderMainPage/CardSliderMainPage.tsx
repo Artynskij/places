@@ -27,7 +27,7 @@ interface ICardSliderMainPage {
 }
 export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
     dataEstablishment,
-    langUI,
+  
     locationId,
     baseUrl,
     classCount,
@@ -67,6 +67,7 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                         classNameButtonActive={`${style.imageButton_active}`}
                     />
                     <LikeButton
+                        idEstablishment={dataEstablishment.id}
                         liked={false}
                         classNameButton={style.imageButton}
                         classNameIcon={style.imageButton_icon}
