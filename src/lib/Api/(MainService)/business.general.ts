@@ -102,6 +102,7 @@ export class GeneralBusinessService {
                 },
             },
         });
+        
 
         if (!createdContacts) {
             console.error("ERROR сущности контактов");
