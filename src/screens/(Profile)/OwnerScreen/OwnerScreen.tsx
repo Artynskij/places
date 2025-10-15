@@ -9,7 +9,7 @@ import {
     switcherTabOwnerData,
 } from "@/asset/constants/switcherTabsPage";
 
-import TabEstablishmentCreated from "@/components/common/Tabs/profile/TabEstablishment/TabEstablishmentCreated";
+import {TabEstablishmentCreated} from "@/components/common/Tabs/profile/TabEstablishment/TabEstablishmentCreated";
 import { IBasePageProps } from "@/lib/models";
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 import { TabMarketingOwner } from "@/components/common/Tabs/profile/TabMarketingOwner/TabMarketingOwner";

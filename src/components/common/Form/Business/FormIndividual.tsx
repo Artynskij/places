@@ -213,6 +213,7 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
                         control={control}
                         defaultValue={[]}
                         render={({ field, fieldState }) => (
+                            <div>
                             <UploadButton
                                 titleSpan="Прикрепление подтверждающих документов*"
                                 accept="image"
@@ -222,6 +223,7 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
                                 onChange={field.onChange}
                                 error={fieldState.error || null}
                             />
+                            </div>
                         )}
                     />
                 </div>

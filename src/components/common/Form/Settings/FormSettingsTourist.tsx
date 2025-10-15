@@ -341,9 +341,7 @@ export const FormSettingsTourist = () => {
                 <div className={style.selectionBlock_title}>
                     Социальные сети
                 </div>
-                <div
-                    className={`${style.selectionBlock_content} ${style.social}`}
-                >
+                <div className={`${style.selectionBlock_content} ${style.social}`}>
                     <Controller
                         name="socialContacts"
                         control={control}
