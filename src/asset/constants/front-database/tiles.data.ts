@@ -34,42 +34,42 @@ import bringGold from "@/asset/img/bring-gold.png";
 import phrasebook from "@/asset/img/phrasebook.png";
 import phrasebookGold from "@/asset/img/phrasebook-gold.png";
 
-export const informationCards = [
-  {
-    id: 1,
-    title: "generalInfo",
-    value: "info",
-    iconDefault: knowledge,
-    iconActive: knowledgeGold,
-    body: `<p>Казахстан&nbsp;— большое государство в&nbsp;Центральной Азии. Он&nbsp;занимает девятое место в&nbsp;мире по&nbsp;величине территории и&nbsp;является крупнейшей 
+export const CONSTANT_TILES = [
+    {
+        id: 1,
+        title: "generalInfo",
+        value: "info",
+        iconDefault: knowledge,
+        iconActive: knowledgeGold,
+        body: `<p>Казахстан&nbsp;— большое государство в&nbsp;Центральной Азии. Он&nbsp;занимает девятое место в&nbsp;мире по&nbsp;величине территории и&nbsp;является крупнейшей 
     страной в&nbsp;мире, не&nbsp;имеющей выхода к&nbsp;океану. Государство раскинулось в&nbsp;центре Евразийского континента между Каспийским морем и&nbsp;Алтаем, на&nbsp;западе 
     и&nbsp;севере оно граничит с&nbsp;Россией, а&nbsp;на&nbsp;востоке&nbsp;— с&nbsp;Китаем. Столицей Казахстана является Астана, а&nbsp;самым большим городом&nbsp;— Алматы.</p> 
     <div ><img src=${"https://img.tourister.ru/files/3/4/4/2/0/9/6/7/clones/350_237_fixedwidth.jpg"} data-fullsize="" border="0" width="350" height="237" alt=""></a><div><div >
     </div></div></div>`,
-  },
-  {
-    id: 2,
-    title: "towns",
-    value: "towns",
-    iconDefault: town,
-    iconActive: townGold,
-    body: "Тут карточки городов",
-  },
-  {
-    id: 3,
-    title: "regions",
-    value: "regions",
-    iconDefault: region,
-    iconActive: regionGold,
-    body: "Тут карточки ругионов",
-  },
-  {
-    id: 4,
-    title: "traditions",
-    value: "tradition",
-    iconDefault: traditions,
-    iconActive: traditionsGold,
-    body: `<p>Культура Казахстана является отражением истории этого народа, она представляет собой огромный пласт различных видов искусства, традиций и&nbsp;быта, 
+    },
+    {
+        id: 2,
+        title: "towns",
+        value: "towns",
+        iconDefault: town,
+        iconActive: townGold,
+        body: "Тут карточки городов",
+    },
+    {
+        id: 3,
+        title: "regions",
+        value: "regions",
+        iconDefault: region,
+        iconActive: regionGold,
+        body: "Тут карточки ругионов",
+    },
+    {
+        id: 4,
+        title: "traditions",
+        value: "tradition",
+        iconDefault: traditions,
+        iconActive: traditionsGold,
+        body: `<p>Культура Казахстана является отражением истории этого народа, она представляет собой огромный пласт различных видов искусства, традиций и&nbsp;быта, 
     пропитанный духом кочевого прошлого. В&nbsp;ней есть место щедро накрытому дастархану, традиционным жилищам-юртам, красивым и&nbsp;функциональным изделиям из&nbsp;войлока 
     и&nbsp;одежде с&nbsp;искусными узорами, конным играм и&nbsp;состязаниям акынов.</p>
     <div class="img_right" ><img class="" src=${"https://img.tourister.ru/files/3/4/4/2/1/0/8/1/clones/350_233_fixedwidth.jpg"}  
@@ -151,14 +151,14 @@ export const informationCards = [
     изделия казахских мастеров, например, серебряные.</p>
     
     `,
-  },
-  {
-    id: 5,
-    title: "visa",
-    value: "visa",
-    iconDefault: visa,
-    iconActive: visaGold,
-    body: `<article>
+    },
+    {
+        id: 5,
+        title: "visa",
+        value: "visa",
+        iconDefault: visa,
+        iconActive: visaGold,
+        body: `<article>
         <h1>Эйфелева башня — символ Парижа</h1>
         <figure>
             <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Eiffel_Tower%2C_Paris_2_May_2014.jpg" alt="Эйфелева башня в Париже" width="600">
@@ -191,72 +191,68 @@ export const informationCards = [
             Под Эйфелевой башней раскинулось <strong>Марсово поле</strong> — огромный парк, который изначально был военным плацем, а позже преобразован в живописное место для прогулок. Во времена Французской империи и Великой революции здесь проводились массовые народные праздники и митинги. Сегодня Марсово поле привлекает туристов и местных жителей для отдыха и наслаждения видами башни.
         </p>
     </article>`,
-  },
-  {
-    id: 6,
-    title: "safety",
-    value: "safety",
-    iconDefault: safety,
-    iconActive: safetyGold,
-    body: "lorem ipsum",
-  },
-  {
-    id: 7,
-    title: "transport",
-    value: "transport",
-    iconDefault: transport,
-    iconActive: transportGold,
-    body: "lorem ipsum",
-  },
-  {
-    id: 8,
-    title: "connection",
-    value: "connection",
-    iconDefault: connection,
-    iconActive: connectionGold,
-    body: "lorem ipsum",
-  },
-  {
-    id: 9,
-    title: "kitchen",
-    value: "kitchen",
-    iconDefault: kitchen,
-    iconActive: kitchenGold,
-    body: "lorem ipsum",
-  },
-  {
-    id: 10,
-    title: "figures",
-    value: "humans",
-    iconDefault: human,
-    iconActive: humanGold,
-    body: "lorem ipsum",
-  },
-  {
-    id: 11,
-    title: "souvenirs",
-    value: "bring",
-    iconDefault: bring,
-    iconActive: bringGold,
-    body: "lorem ipsum",
-  },
-  {
-    id: 12,
-    title: "phrasebook",
-    value: "phrasebook",
-    iconDefault: phrasebook,
-    iconActive: phrasebookGold,
-    body: "lorem ipsum",
-  },
+    },
+    {
+        id: 6,
+        title: "safety",
+        value: "safety",
+        iconDefault: safety,
+        iconActive: safetyGold,
+        body: "lorem ipsum",
+    },
+    {
+        id: 7,
+        title: "transport",
+        value: "transport",
+        iconDefault: transport,
+        iconActive: transportGold,
+        body: "lorem ipsum",
+    },
+    {
+        id: 8,
+        title: "connection",
+        value: "connection",
+        iconDefault: connection,
+        iconActive: connectionGold,
+        body: "lorem ipsum",
+    },
+    {
+        id: 9,
+        title: "kitchen",
+        value: "kitchen",
+        iconDefault: kitchen,
+        iconActive: kitchenGold,
+        body: "lorem ipsum",
+    },
+    {
+        id: 10,
+        title: "figures",
+        value: "humans",
+        iconDefault: human,
+        iconActive: humanGold,
+        body: "lorem ipsum",
+    },
+    {
+        id: 11,
+        title: "souvenirs",
+        value: "bring",
+        iconDefault: bring,
+        iconActive: bringGold,
+        body: "lorem ipsum",
+    },
+    {
+        id: 12,
+        title: "phrasebook",
+        value: "phrasebook",
+        iconDefault: phrasebook,
+        iconActive: phrasebookGold,
+        body: "lorem ipsum",
+    },
 ];
 
-
-
-
-
 export const CONSTANT_CATEGORIES_NEWS = {
-  news: "news",
-  recommend: "recommend",
-  overview: "overview",
-  blog: "blog",
+    news: "news",
+    recommend: "recommend",
+    overview: "overview",
+    blog: "blog",
 } as const;

@@ -1,12 +1,12 @@
 "use client";
 
-import { switcherFinderMainPage } from "@/asset/constants/switcherTabsPage";
+import { SWITCHER_FINER_MAIN_PAGE } from "@/asset/constants/front-database/switcher-tabs-page.data";
 import { Switcher } from "@/components/common/Switcher/Switcher";
 import style from "./switcherSearchPage.module.scss";
 import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 import { useState } from "react";
 const SwitcherSearchPage = () => {
     const router = useRouter();
@@ -27,7 +27,7 @@ const SwitcherSearchPage = () => {
             );
         }
     };
-    const switcherDataStart = switcherFinderMainPage;
+    const switcherDataStart = SWITCHER_FINER_MAIN_PAGE;
     return (
         <Switcher
             callBack={({ value }) =>

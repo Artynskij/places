@@ -6,7 +6,7 @@ import Image from "next/image";
 
 import Link from "next/link";
 import { IconLike, IconLocation } from "@/components/common/Icons";
-import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
+import { CONSTANTS_SCREENS } from "@/asset/constants/screens.const";
 
 export const CardSliderLocation: FC<IDataCardSliderLocation> = ({
     img,

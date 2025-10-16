@@ -14,7 +14,7 @@ import { BlockAgreements } from "../../BlockFunctional/BlockAgreements";
 import { useNotification } from "@/lib/context";
 import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
 
-import { agreementKeysBusinessSoleProprietor } from "@/asset/constants/agreementsKeys";
+import { AGREEMENT_KEYS_BUS_SOLE_PROPRIETOR } from "@/asset/constants/front-database/agreements-keys.data";
 
 import { GeneralBusinessService } from "@/lib/Api/(MainService)/business.general";
 import { useUser } from "@/lib/context/UserContext/UserContext";
@@ -44,23 +44,23 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
 
     const initialFormData: TTypeForm | null = business
         ? {
-            officialName: business.OfficialName,
-            dateRegister: business.RegistrationDate || new Date(),
-            numberOrganization: business.RegistrationNumber || "",
-            phone: business.Contacts.Phone || "",
-            email: business.Contacts.Email || "",
-            address: {
-                addressLine: business.Contacts.Address?.Street || "",
-                country: business.Contacts.Address?.Country || "",
-                district: business.Contacts.Address?.District || "",
-                town: business.Contacts.Address?.Town || "",
-                postalCode: business.Contacts.Address?.PostalCode || "",
-            },
-            agreements:
-                mode === "update"
-                    ? agreementKeysBusinessSoleProprietor
-                    : undefined,
-        }
+              officialName: business.OfficialName,
+              dateRegister: business.RegistrationDate || new Date(),
+              numberOrganization: business.RegistrationNumber || "",
+              phone: business.Contacts.Phone || "",
+              email: business.Contacts.Email || "",
+              address: {
+                  addressLine: business.Contacts.Address?.Street || "",
+                  country: business.Contacts.Address?.Country || "",
+                  district: business.Contacts.Address?.District || "",
+                  town: business.Contacts.Address?.Town || "",
+                  postalCode: business.Contacts.Address?.PostalCode || "",
+              },
+              agreements:
+                  mode === "update"
+                      ? AGREEMENT_KEYS_BUS_SOLE_PROPRIETOR
+                      : undefined,
+          }
         : null;
     const {
         register,
@@ -216,7 +216,9 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
             </div>
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
-                    Документы, подтверждающие владение бизнесом, а также Лицензия на ведение деятельности (если ваша деятельность подразумевает обязательное наличие Лицензии)
+                    Документы, подтверждающие владение бизнесом, а также
+                    Лицензия на ведение деятельности (если ваша деятельность
+                    подразумевает обязательное наличие Лицензии)
                 </div>
                 <div className={style.selectionBlock_content}>
                     <Controller
@@ -239,7 +241,7 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
             </div>
             {mode === "create" && (
                 <BlockAgreements
-                    agreementKeys={agreementKeysBusinessSoleProprietor}
+                    agreementKeys={AGREEMENT_KEYS_BUS_SOLE_PROPRIETOR}
                     value={watch("agreements") as string[]}
                     onChange={(vals) => setValue("agreements", vals)}
                     error={errors.agreements?.message}

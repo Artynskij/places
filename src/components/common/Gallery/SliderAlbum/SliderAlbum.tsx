@@ -16,7 +16,7 @@ import "swiper/css/free-mode";
 import { IconArrowRight } from "@/components/common/Icons/IconArrowRight/ArrowRightIcon";
 import { IconArrowLeft } from "@/components/common/Icons/IconArrowLeft/ArrowLeftIcon";
 // import { SkeletonSlider } from "./SkeletonSlider";
-import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
+import { CONSTANTS_SCREENS } from "@/asset/constants/screens.const";
 import Image from "next/image";
 import { IconGallery } from "../../Icons";
 import { IMediaFront } from "@/lib/models";

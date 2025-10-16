@@ -1,5 +1,5 @@
 import { TDayOfWeek } from "@/lib/models/types/schedule/TDayOfWeek";
-import { IBaseEntity } from "../base/base.entity";
+import { IBaseEntity } from "../../base/base.entity";
 
 export interface IScheduleEntity extends IBaseEntity {
     Day: TDayOfWeek;

@@ -7,7 +7,7 @@ import {
 } from "next/navigation";
 import style from "./settings.module.scss";
 
-import { switcherSettingsTourist } from "@/asset/constants/switcherTabsPage";
+import { SWITCHER_SETTINGS_TOURIST } from "@/asset/constants/front-database/switcher-tabs-page.data";
 
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";

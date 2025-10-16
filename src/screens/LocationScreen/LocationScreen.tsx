@@ -10,11 +10,11 @@ import { InfoSection } from "./_components/InfoSection/InfoSection";
 import { getTranslations } from "next-intl/server";
 
 import { ROUTES } from "@/lib/config/Routes";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 
 import { getBaseUrlServer } from "@/lib/helpers/getBaseUrl";
 
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 import {
     IEstablishmentFront,
     ILocationFront,
@@ -106,7 +106,7 @@ export default async function LocationScreen({
                     <Link
                         href={ROUTES.FILTER(
                             params.location,
-                            CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION.key
+                            CONSTANT_TYPES_OF_ESTABLISHMENT_DB.ACCOMMODATION.key
                         )}
                         className={style.slider_block_title_button}
                     >
@@ -143,7 +143,7 @@ export default async function LocationScreen({
                     <Link
                         href={ROUTES.FILTER(
                             params.location,
-                            CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.key
+                            CONSTANT_TYPES_OF_ESTABLISHMENT_DB.EATER.key
                         )}
                         className={style.slider_block_title_button}
                     >
@@ -177,7 +177,7 @@ export default async function LocationScreen({
                     <Link
                         href={ROUTES.FILTER(
                             params.location,
-                            CONSTANT_TYPES_OF_ESTABLISHMENT.ATTRACTION.key
+                            CONSTANT_TYPES_OF_ESTABLISHMENT_DB.ATTRACTION.key
                         )}
                         className={style.slider_block_title_button}
                     >

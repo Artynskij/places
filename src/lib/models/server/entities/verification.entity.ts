@@ -1,7 +1,7 @@
 import { IEstablishmentWithContentPareEntity } from "./(establishment)/establishment.entity";
-import { IContentEntityWithMedia } from "./(establishment)/parts/content.entity";
+import { IContentMultilingualEntity } from "../base/content.entity";
 import { IPersonEntity } from "./(person)/person.entity";
-import { IBaseEntity } from "./base/base.entity";
+import { IBaseEntity } from "../base/base.entity";
 import { IBusinessEntity } from "./business.entity";
 
 export interface IVerificationEntity extends IBaseEntity {
@@ -10,10 +10,10 @@ export interface IVerificationEntity extends IBaseEntity {
     Establishment: IEstablishmentWithContentPareEntity | null | string;
     IsVerified: boolean;
 
-    Content?: IContentEntityWithMedia;
+    Content?: IContentMultilingualEntity;
 }
 export interface IVerificationWithContentEntity {
     verification: IVerificationEntity;
 
-    content: IContentEntityWithMedia | null;
+    content: IContentMultilingualEntity | null;
 }

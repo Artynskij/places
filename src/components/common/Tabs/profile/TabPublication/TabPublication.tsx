@@ -3,19 +3,19 @@ import { IArticleFront } from "@/lib/models";
 import style from "./tabPublication.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
+import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/front-database/tiles.data";
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 import { useEffect, useState } from "react";
 
 import useLocale from "@/lib/hooks/useLocale";
 import Skeleton from "./SkeletonTabPublication";
 import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 
 // interface ITabPublication {
 //   publications: IArticleFront[];
 // }
-const TabPublication = () => {
+export const TabPublication = () => {
     const [publications, setPublication] = useState<IArticleFront[] | null>(
         null
     );
@@ -81,7 +81,9 @@ const TabPublication = () => {
                                             style.cardArticle_content_time
                                         }
                                     >
-                                        <BlockReadTime text={article.content} />
+                                        <BlockReadTime
+                                            text={article.markdown}
+                                        />
                                     </span>
                                 </div>
                             </div>
@@ -92,5 +94,3 @@ const TabPublication = () => {
         </>
     );
 };
-
-export default TabPublication;

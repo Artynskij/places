@@ -6,7 +6,7 @@ import SliderCommercial from "./_components/SliderCommercial/SliderCommercial";
 
 import { mockTowns } from "@/asset/mockData/mockCountry";
 import { mockCommercialMainPage } from "@/asset/mockData/mockCommercialMainPage";
-import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
+import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/front-database/tiles.data";
 
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 
@@ -14,7 +14,7 @@ import { IArticleFront, IBasePageProps } from "@/lib/models";
 import { getTranslations } from "next-intl/server";
 import { ROUTES } from "@/lib/config/Routes";
 import FinderMainPage from "@/components/common/Finder/FinderMainPage/FinderMainPage";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 
 interface IProps extends IBasePageProps {
     params: IBasePageProps["params"] & {};
@@ -26,7 +26,7 @@ export const MainScreen = async ({
     articlesData,
 }: IProps) => {
     const newsCategoryData = articlesData.slice(0, 6);
-    const recommendCategoryData = articlesData.slice(1, 4);
+    const recommendCategoryData = articlesData.slice(0, 4);
     const directionData = mockTowns.slice(0, 5);
     const t = await getTranslations("CategoryNews");
     // const api = new ApiEstablishment();
@@ -112,7 +112,7 @@ export const MainScreen = async ({
                                                 }
                                             >
                                                 <BlockReadTime
-                                                    text={item.content}
+                                                    text={item.markdown}
                                                 />
                                             </span>
                                         </div>
@@ -187,7 +187,7 @@ export const MainScreen = async ({
                                                 }
                                             >
                                                 <BlockReadTime
-                                                    text={recItem.content}
+                                                    text={recItem.markdown}
                                                 />
                                             </span>
                                         </div>
@@ -265,7 +265,7 @@ export const MainScreen = async ({
                                                 }
                                             >
                                                 <BlockReadTime
-                                                    text={recItem.content}
+                                                    text={recItem.markdown}
                                                 />
                                             </span>
                                         </div>

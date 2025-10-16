@@ -1,6 +1,6 @@
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { TCategoriesNews } from "../models/types/TCategoriesNews";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 import { TTypeOwnerBusiness } from "../models/types/auth/TTypeOwnerBusiness";
 import { TTypeUser } from "../models/types";
 // TODO DEFAULT ROUTES DATA
@@ -99,7 +99,7 @@ export const ROUTES_FINDER = {
     establishment: (establishment: string) =>
         ROUTES.LOCATION.ESTABLISHMENT(
             "01JQW07E3T1TYF1S25MFZHR9G6",
-            CONSTANT_TYPES_OF_ESTABLISHMENT["ACCOMMODATION"].key,
+            CONSTANT_TYPES_OF_ESTABLISHMENT_DB["ACCOMMODATION"].key,
             establishment
         ),
 };

@@ -1,11 +1,11 @@
 import { TRoleOwner } from "@/lib/models/types/TRoleOwner";
-import { IContentEntity } from "../(establishment)/parts/content.entity";
-import { IBaseEntity } from "../base/base.entity";
+import { IContentSimpleEntity } from "../../base/content.entity";
+import { IBaseEntity } from "../../base/base.entity";
 
 export interface IRoleOwnerWithContentEntity {
     id: string;
     entity: IRoleOwnerEntity;
-    content: IContentEntity | null;
+    content: IContentSimpleEntity | null;
 }
 export interface IRoleOwnerEntity extends IBaseEntity {
     Id: string;

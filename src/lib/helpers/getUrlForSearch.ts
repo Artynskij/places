@@ -1,4 +1,4 @@
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { ROUTES, ROUTES_FINDER } from "../config/Routes";
 import { ISearchItemFront } from "../models";
 import { TGlobalTypes } from "../models/types/TTypesGlobal";
@@ -13,7 +13,7 @@ export const getUrlForUrl = (
             searchItem.location?.country?.id ||
             "not_found";
         const typeEst =
-            CONSTANT_TYPES_OF_ESTABLISHMENT[
+            CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                 searchItem.typeEstablishment?.key || "ACCOMMODATION"
             ];
 

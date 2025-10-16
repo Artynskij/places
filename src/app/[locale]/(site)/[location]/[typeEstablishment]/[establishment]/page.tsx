@@ -3,10 +3,10 @@ import { IBasePageProps } from "@/lib/models/common/IType";
 import { notFound } from "next/navigation";
 
 import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 
-import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag";
+import { CONSTANT_CATEGORY_CLASS_TAG_DB } from "@/asset/constants/database/category-class-tag.const";
 import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
 import { MapService } from "@/lib/Api/map/map.service";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
@@ -105,8 +105,8 @@ export default async function EstablishmentPage({
     // TODO: mapper tag
     const classTag = tagsEstablishment.find(
         (tag) =>
-            tag.groupKey.key === CONSTANT_CATEGORY_CLASS_TAG.star ||
-            tag.groupKey.key === CONSTANT_CATEGORY_CLASS_TAG.price
+            tag.groupKey.key === CONSTANT_CATEGORY_CLASS_TAG_DB.star ||
+            tag.groupKey.key === CONSTANT_CATEGORY_CLASS_TAG_DB.price
     );
     const breadcrumbData = await apiLocation.getBreadcrumbData({
         ids: locationData?.pathBreadcrumb || "",

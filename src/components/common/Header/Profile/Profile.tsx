@@ -17,7 +17,7 @@ import { ROUTES } from "@/lib/config/Routes";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/UI/Button/Button";
 import { useUser } from "@/lib/context/UserContext/UserContext";
-import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/default.const";
 
 export default function Profile() {
     const [popupActive, setPopupActive] = useState<boolean>(false);

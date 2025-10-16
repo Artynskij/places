@@ -5,6 +5,8 @@ import { EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { IArticleFront } from "@/lib/models";
 import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
 import useLocale from "@/lib/hooks/useLocale";
+import { CONSTANT_ARTICLE_STATUS_DB } from "@/asset/constants/database/article-status.const";
+import { useTranslations } from "next-intl";
 
 interface ArticleListTabProps {
     articles: IArticleFront[];
@@ -18,6 +20,7 @@ const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
     onArticleDelete,
 }) => {
     const locale = useLocale();
+    const tStatusArticle = useTranslations("StatusArticle");
 
     const [previewArticle, setPreviewArticle] = useState<IArticleFront | null>(
         null
@@ -95,7 +98,9 @@ const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
         {
             title: "Статус",
             key: "status",
-            render: () => <Tag color="green">Опубликовано</Tag>,
+            render: (_: any, record: IArticleFront) => (
+                <Tag color="green">{tStatusArticle(record.status.code)}</Tag>
+            ),
         },
         {
             title: "Действия",

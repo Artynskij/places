@@ -1,7 +1,7 @@
 "use client";
 import style from "./businessForm.module.scss";
 import clsx from "clsx";
-import { switcherBusiness } from "@/asset/constants/switcherTabsPage";
+import { SWITCHER_BUSINESS_TYPE } from "@/asset/constants/front-database/switcher-tabs-page.data";
 import { FormIndividual } from "@/components/common/Form/Business/FormIndividual";
 
 import { TTypeOwnerBusiness } from "@/lib/models/types/auth/TTypeOwnerBusiness";
@@ -31,13 +31,12 @@ export const BusinessForm = ({ children }: IProps) => {
                 view="big"
             >
                 <div className={style.container}>
-                   
-                    <div className={style.container_title}>Вы являетесь «Владельцем бизнеса», как :</div>
+                    <div className={style.container_title}>
+                        Вы являетесь «Владельцем бизнеса», как :
+                    </div>
                     <div className={style.tabList}>
-                        
-                        {switcherBusiness.map((tab) => {
+                        {SWITCHER_BUSINESS_TYPE.map((tab) => {
                             return (
-                                
                                 <div
                                     onClick={() =>
                                         setActiveTab(
@@ -57,7 +56,6 @@ export const BusinessForm = ({ children }: IProps) => {
                         })}
                     </div>
 
-                   
                     {activeTab === "individual" && activeModal && (
                         <FormIndividual mode="create" closeModal={closeModal} />
                     )}

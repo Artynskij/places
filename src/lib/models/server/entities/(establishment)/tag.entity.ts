@@ -1,4 +1,4 @@
-import { IContentEntity } from "./parts/content.entity";
+import { IContentSimpleEntity } from "../../base/content.entity";
 import { ITagCategoryEntity } from "./parts/tagCategory.entity";
 
 export interface ITagEntity {
@@ -6,11 +6,11 @@ export interface ITagEntity {
         Id: string;
         TagCategory: ITagCategoryEntity;
     };
-    content: IContentEntity;
+    content: IContentSimpleEntity;
 }
 export interface ITagWithCategoryEntity {
     TagCategory: ITagCategoryEntity;
     Id: string;
 
-    content: IContentEntity;
+    content: IContentSimpleEntity;
 }

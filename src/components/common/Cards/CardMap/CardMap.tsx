@@ -4,8 +4,8 @@ import style from "./cardMap.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 
-import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANTS_SCREENS } from "@/asset/constants/screens.const";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 import { ROUTES } from "@/lib/config/Routes";
 
 import { LikeButton } from "@/components/common/ButtonFunctional/LikeButton";
@@ -14,7 +14,7 @@ import { RateCafe } from "@/components/common/RateCustom/RateCafe";
 import { RateHotel } from "@/components/common/RateCustom/RateHotel";
 import { IconCancel, IconLocation } from "@/components/common/Icons";
 import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { ISearchItemFront } from "@/lib/models";
 
 interface ICardMap {
@@ -25,7 +25,7 @@ interface ICardMap {
 export const CardMap = ({ establishment, handlerClosePopup }: ICardMap) => {
     const linkEstablishment = ROUTES.LOCATION.ESTABLISHMENT(
         establishment.location.town?.id || "",
-        CONSTANT_TYPES_OF_ESTABLISHMENT[
+        CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
             establishment.typeEstablishment?.key || "EATER"
         ].key,
         establishment.id

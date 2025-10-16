@@ -10,13 +10,13 @@ import { LikeButton } from "@/components/common/ButtonFunctional/LikeButton";
 import { RateMain } from "../../RateCustom/RateMain";
 import { RateHotel } from "../../RateCustom/RateHotel";
 import { RateCafe } from "../../RateCustom/RateCafe";
-import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
+import { CONSTANTS_SCREENS } from "@/asset/constants/screens.const";
 import { IEstablishmentFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { headers } from "next/headers";
 import { getBaseUrlServer } from "@/lib/helpers/getBaseUrl";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 
 interface ICardSliderMainPage {
     dataEstablishment: IEstablishmentFront;
@@ -27,7 +27,7 @@ interface ICardSliderMainPage {
 }
 export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
     dataEstablishment,
-  
+
     locationId,
     baseUrl,
     classCount,
@@ -41,7 +41,7 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                     <Link
                         href={ROUTES.FILTER_WITH_QUERY(
                             locationId,
-                            CONSTANT_TYPES_OF_ESTABLISHMENT[
+                            CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                 dataEstablishment.typeEstablishment
                             ].key,
                             `${dataEstablishment.category.id}`,
@@ -57,7 +57,7 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                         baseUrl={baseUrl}
                         linkPage={ROUTES.LOCATION.ESTABLISHMENT(
                             dataEstablishment.location.town.id,
-                            CONSTANT_TYPES_OF_ESTABLISHMENT[
+                            CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                 dataEstablishment.typeEstablishment
                             ].key,
                             dataEstablishment.id
@@ -77,7 +77,7 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                     className={style.image_link}
                     href={ROUTES.LOCATION.ESTABLISHMENT(
                         locationId,
-                        CONSTANT_TYPES_OF_ESTABLISHMENT[
+                        CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                             dataEstablishment.typeEstablishment
                         ].key,
                         `${dataEstablishment.id}`
@@ -117,7 +117,7 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                         <Link
                             href={ROUTES.LOCATION.ESTABLISHMENT(
                                 locationId,
-                                CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                     dataEstablishment.typeEstablishment
                                 ].key,
                                 `${dataEstablishment.id}`

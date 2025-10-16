@@ -1,3 +1,4 @@
+import { TArticleStatus } from "../types/TArticleStatus";
 import {
     IMediaFront,
     IMediaFrontWithFile,
@@ -17,15 +18,18 @@ export interface IArticleFront {
     id: string;
     title: string;
     description: string;
-    author: string;
-
-    date: string;
+    markdown: any;
     titleImage: IMediaFrontWithFile | null;
-    reactions: number[];
+    media: IMediaFrontWithFile[];
 
     category: string;
+    reactions: number[];
+    status: {
+        id: string;
+        code: TArticleStatus;
+    };
 
     // contentString: string;
-    media: IMediaFrontWithFile[];
-    content: any;
+    date: string;
+    author: string;
 }

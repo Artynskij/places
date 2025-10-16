@@ -36,9 +36,9 @@ import { SearchService } from "@/lib/Api/search/search.service";
 
 import useLocale from "@/lib/hooks/useLocale";
 
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
-import { sortSelectFilter } from "@/asset/constants/selectData";
+import { SELECT_FILTER_SORT } from "@/asset/constants/front-database/select-sort.data";
 import { TTypeSortEstablishmentServer } from "@/lib/models/types";
 import { LocationService } from "@/lib/Api/location/location.service";
 
@@ -89,13 +89,13 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
     const [categoryEstablishment, setCategoryEstablishment] =
         useState<string[]>();
     const typeOptions: TypeOptionSelect[] = Object.values(
-        CONSTANT_TYPES_OF_ESTABLISHMENT
+        CONSTANT_TYPES_OF_ESTABLISHMENT_DB
     ).map((item) => ({
         label: item.title,
         value: item.id,
     }));
 
-    const sortOptions: TypeOptionSelect[] = sortSelectFilter.map((item) => ({
+    const sortOptions: TypeOptionSelect[] = SELECT_FILTER_SORT.map((item) => ({
         label: item.name,
         value: item.value,
     }));
@@ -230,8 +230,8 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
             title: "Тип",
             dataIndex: "typeEstablishment",
             key: "typeEstablishment",
-            render: (type: keyof typeof CONSTANT_TYPES_OF_ESTABLISHMENT) =>
-                CONSTANT_TYPES_OF_ESTABLISHMENT[type]?.title || type,
+            render: (type: keyof typeof CONSTANT_TYPES_OF_ESTABLISHMENT_DB) =>
+                CONSTANT_TYPES_OF_ESTABLISHMENT_DB[type]?.title || type,
         },
         {
             title: "id",

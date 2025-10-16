@@ -1,4 +1,4 @@
-import { IBaseEntity } from "../base/base.entity";
+import { IBaseEntity } from "../../base/base.entity";
 
 export interface IPersonNameEntity extends IBaseEntity {
     FirstName: string | null;

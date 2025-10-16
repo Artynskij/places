@@ -7,7 +7,7 @@ import { FC, useEffect, useState } from "react";
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 import { ISelectOption } from "@/lib/models/common/IType";
 import { useTranslations } from "next-intl";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 // import { getTranslations } from "next-intl/server";
 
 interface ISwitcherTabsProps {

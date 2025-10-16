@@ -1,6 +1,6 @@
 "use client";
 import style from "./avatarBlock.module.scss";
-import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/default.const";
 import { DeleteButton } from "@/components/common/ButtonFunctional/DeleteButton";
 import { UploadButton } from "@/components/common/ButtonFunctional/UploadButton";
 import { IconDelete, IconEdit } from "@/components/common/Icons";

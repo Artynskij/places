@@ -7,7 +7,7 @@ import style from "./buttonFunctional.module.scss";
 import { mockObjectForObjectPage } from "@/asset/mockData/mockObject";
 
 import { Popup } from "../Popup/Popup";
-import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
+import { CONSTANTS_SCREENS } from "@/asset/constants/screens.const";
 import { IScheduleFront } from "@/lib/models/frontend/(establishment)/schedule.front";
 import { useTranslations } from "next-intl";
 

@@ -5,7 +5,7 @@ import { Map as MapMapboxGL } from "react-map-gl/mapbox";
 
 import { useMapboxGeocode } from "@/lib/hooks/useMapboxGeocode";
 import { useUserLocation } from "@/lib/hooks/useUserLocation";
-import { CONSTANT_TYPE_LOCATION_MAPBOX } from "@/asset/constants/typeLocation";
+import { CONSTANT_TYPE_LOCATION_MAPBOX } from "@/asset/constants/database/type-location";
 import { DefaultMarker } from "./_common/Markers/DefaultMarker";
 import { IMapboxCoordPropToForm } from "@/lib/models/mapbox/mapbox";
 import useLocale from "@/lib/hooks/useLocale";

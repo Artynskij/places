@@ -39,7 +39,7 @@ import { ROUTES } from "@/lib/config/Routes";
 import { Loader } from "../../Loader/Loader";
 
 import { AvatarBlockForm } from "../_components/AvatarBlock/AvatarBlock";
-import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/default.const";
 import { VerificationService } from "@/lib/Api/verification.api";
 import { IImageEntity } from "@/lib/models";
 import { useUser } from "@/lib/context/UserContext/UserContext";

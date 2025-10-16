@@ -1,5 +1,5 @@
-import { IContentEntityWithMedia } from "./(establishment)/parts/content.entity";
-import { IBaseEntity } from "./base/base.entity";
+import { IContentSimpleEntityWithMedia } from "../base/content.entity";
+import { IBaseEntity } from "../base/base.entity";
 
 export interface ILocationsEntity extends IBaseEntity {
     ParentId: string;
@@ -10,11 +10,11 @@ export interface ILocationsEntity extends IBaseEntity {
         Id: string;
         Name: string;
     };
-    content?: IContentEntityWithMedia;
+    content?: IContentSimpleEntityWithMedia;
 }
 
 export interface ILocationsWithContentEntity {
     location: ILocationsEntity;
 
-    content: IContentEntityWithMedia;
+    content: IContentSimpleEntityWithMedia;
 }

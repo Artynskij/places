@@ -16,7 +16,7 @@ import {
 import { TTypeUser } from "@/lib/models/types";
 
 import { ContactsEstablishmentService } from "../(Establishment)/contactsEstablishment.api";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { EstablishmentService } from "../(Establishment)/establishment/establishment.service";
 import { EstablishmentPersonAssignmentApi } from "../(Establishment)/establishment/establishmentAssignment.api";
 
@@ -139,7 +139,7 @@ export class GeneralEstablishmentService {
                     Latitude: formData.coord.lat,
                     Longitude: formData.coord.lon,
                     Locations: formData.locationId,
-                    Type: CONSTANT_TYPES_OF_ESTABLISHMENT[
+                    Type: CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                         formData.typeEstablishment
                     ].id,
                 },

@@ -1,5 +1,5 @@
 import style from "./blockFunctional.module.scss";
-import { CONSTANT_AGREEMENTS_DATA } from "@/asset/constants/AgreementsData";
+import { CONSTANT_AGREEMENTS_DATA } from "@/asset/constants/front-database/agreements.data";
 import { CheckBox as CheckBoxCustom } from "@/components/UI/CheckBox/CheckBox";
 import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
 import { TAgreementKey } from "@/lib/models/types/TAgreementKey";
@@ -23,23 +23,25 @@ export const BlockAgreements = ({
     );
     return (
         <div className={style.blockAgreements}>
-            <Checkbox.Group  value={value} onChange={onChange}>
+            <Checkbox.Group value={value} onChange={onChange}>
                 <ul className={style.blockAgreements_list}>
                     {filteredAgreements.map((agreementItem) => {
-                        const isRequiredAndUnselected = !!error && agreementItem.required && !value?.includes(agreementItem.value);
+                        const isRequiredAndUnselected =
+                            !!error &&
+                            agreementItem.required &&
+                            !value?.includes(agreementItem.value);
                         return (
                             <li
                                 className={style.blockAgreements_list_item}
                                 key={agreementItem.value}
-                                
                             >
                                 <CheckBoxCustom
-                                    name={`${agreementItem.required ? "*" : ""
-                                        }${agreementItem.title}`}
+                                    name={`${
+                                        agreementItem.required ? "*" : ""
+                                    }${agreementItem.title}`}
                                     value={agreementItem.value}
                                     error={isRequiredAndUnselected}
                                 />
-                                
                             </li>
                         );
                     })}

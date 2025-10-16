@@ -4,7 +4,7 @@ import { FC } from "react";
 import { ISearchItemFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
 import Link from "next/link";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 
 interface ICardSearchItem {
     dataCard: ISearchItemFront;

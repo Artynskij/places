@@ -37,7 +37,7 @@ export const CONSTANT_TABS = {
         TO_EAT: "TO_EAT",
     },
 };
-export const switcherTabOwnerData = [
+export const SWITCHER_OWNER = [
     { id: 1, name: "мои обьекты", value: CONSTANT_TABS.owner.establishments },
     // { id: 2, name: "продвижение", value: "marketing" },
     // { id: 3, name: "история заказов", value: "history" },
@@ -53,7 +53,7 @@ export const switcherTabOwnerData = [
 //     { id: 4, name: "карта путешествий", value: "travelMap" },
 // ];
 
-export const switcherTabTouristData = [
+export const SWITCHER_TOURIST = [
     // { id: 1, name: "Публикации", value: "publications" },
     // { id: 2, name: "Фото", value: "photos" },
     // { id: 3, name: "Видео", value: "videos" },
@@ -70,14 +70,14 @@ export const switcherTabTouristData = [
         value: CONSTANT_TABS.tourist.travelMap,
     },
 ];
-export const switcherTabBusinessData = [
+export const SWITCHER_BUSINESS = [
     { id: 2, name: "продвижение", value: CONSTANT_TABS.business.marketing },
     { id: 3, name: "история заказов", value: CONSTANT_TABS.business.history },
     { id: 4, name: "статистика", value: CONSTANT_TABS.business.stat },
     { id: 5, name: "кошелёк", value: CONSTANT_TABS.business.wallet },
     { id: 6, name: "сотрудники", value: CONSTANT_TABS.business.employees },
 ];
-export const switcherFinderMainPage = [
+export const SWITCHER_FINER_MAIN_PAGE = [
     {
         title: "Искать всё",
         value: CONSTANT_TABS.finder.all,
@@ -115,14 +115,14 @@ export const switcherFinderMainPage = [
         placeHolder: "Название статьи или что-то из нее",
     },
 ];
-export const switcherSettingsOwner = [
+export const SWITCHER_SETTINGS_OWNER = [
     {
         id: 1,
         name: "Персональные данные",
         value: CONSTANT_TABS.settings.personal,
     },
 ];
-export const switcherSettingsTourist = [
+export const SWITCHER_SETTINGS_TOURIST = [
     {
         id: 1,
         name: "Персональные данные",
@@ -134,7 +134,7 @@ export const switcherSettingsTourist = [
         value: CONSTANT_TABS.settings.notification,
     },
 ];
-export const switcherBusiness = [
+export const SWITCHER_BUSINESS_TYPE = [
     {
         id: 1,
         name: "Физическое лицо",

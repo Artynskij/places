@@ -20,7 +20,7 @@ import { TTypeUser } from "@/lib/models/types";
 import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 import { Button } from "@/components/UI/Button/Button";
 import { IconGoogle } from "@/components/common/Icons/IconGoogle/IconGoogle";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 
 type TTypeForm = Yup.InferType<typeof validationSchemaSignIn>;
 const validationSchemaSignIn = Yup.object().shape({

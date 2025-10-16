@@ -13,7 +13,7 @@ import { SearchService } from "@/lib/Api/search/search.service";
 
 import { ROUTES, ROUTES_FINDER } from "@/lib/config/Routes";
 import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 import { ISearchQueryResponseFront } from "@/lib/models";
 import useLocale from "@/lib/hooks/useLocale";
 

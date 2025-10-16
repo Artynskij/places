@@ -1,22 +1,35 @@
 import { TKeySeo, TLocale } from "@/lib/models/types";
-import { IImageEntity } from "../../entities";
+import { IContentBase, IImageEntity } from "../../entities";
 
-export interface IContentMultilingualRequest<TDetails = {}> {
-    value: {
-        lang: TLocale;
-        details: {
-            seo?: { title: string; description: string };
-            title: string;
-            description: string | null;
-            slug?: string;
-        } & TDetails;
-    }[];
-    media?: { gallery: IImageEntity[] };
+// export interface IContentMultilingualRequest<TDetails = {}> {
+//     details: {
+//         lang: TLocale;
+//         value: string;
+//     }[] &
+//         TDetails;
+//     media?: { gallery: IImageEntity[] };
+// }
+interface IContentValueBase {
+    title?: string;
+    description?: string;
+    alt?: string;
+    caption?: string;
+    name?: string;
+    text?: string;
 }
-export interface IContentRequest<TDetails = {}> {
-    details: {
-        lang: TLocale;
-        value?:string
-    }[] & TDetails[];
-    media?: { gallery: IImageEntity[] };
+export interface IContentMultilingualRequest<TContentValue = {}>
+    extends IContentBase<TContentValue> {
+    // details: {
+    //     lang: TLocale;
+    //     contentValue?: IContentValueBase & TContentValue;
+    //     value?: string;
+    //     secondaryValue?: string | null;
+    //     cName?: string | null;
+    //     cIcon?: string | null;
+    // }[];
+    // media?: {
+    //     gallery?: IImageEntity[];
+    //     documents?: IImageEntity[];
+    //     photoPaths?: string[];
+    // };
 }

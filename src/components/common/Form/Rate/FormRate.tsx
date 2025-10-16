@@ -21,7 +21,7 @@ import { IEstablishmentFront } from "@/lib/models";
 import { usePathname, useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
 import { validDateSchema } from "@/lib/validationSchemas";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 import { ModerationService } from "@/lib/Api/moderation/moderation.service";
 interface IProp {
     children: React.ReactNode | React.ReactNode[];

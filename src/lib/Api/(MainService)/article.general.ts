@@ -12,6 +12,7 @@ import { FileUploadService } from "../fileUpload/fileUploads.service";
 import { ArticleService } from "../(Article)/article/article.service";
 import { ArticleStatusService } from "../(Article)/article-status.api";
 import { getReadTimeForArticle } from "@/lib/helpers/getReadTimeForArticle";
+import { CONSTANT_ARTICLE_STATUS_DB } from "@/asset/constants/database/article-status.const";
 
 interface ArticleFormValues {
     lang: TLocale;
@@ -45,7 +46,7 @@ export class GeneralArticleService {
     }: IPropCreate): Promise<Boolean> {
         const fileMainImage = formData.mainImage[0];
         const statusPendingRev = (await this.articleStatusService.get())?.find(
-            (item) => item.Code === "PENDING_REVIEW"
+            (item) => item.Code === CONSTANT_ARTICLE_STATUS_DB.PENDING_REVIEW
         );
         if (!statusPendingRev) {
             console.log("problem with get status");
@@ -61,17 +62,17 @@ export class GeneralArticleService {
                 PersonId: user.id,
             },
             content: {
-                value: [
+                details: [
                     {
                         lang: formData.lang,
-                        details: {
+                        contentValue: {
                             title: formData.title,
                             description: formData.description,
                             seo: {
                                 title: formData.titleSeo,
                                 description: formData.descriptionSeo,
                             },
-                            markdown: articleState.content,
+                            markdown: articleState.markdown,
                         },
                     },
                 ],

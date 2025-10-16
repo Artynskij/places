@@ -10,10 +10,10 @@ import LocationScreen from "@/screens/LocationScreen/LocationScreen";
 import { Loader } from "@/components/common/Loader/Loader";
 import { notFound } from "next/navigation";
 
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
-import { countriesData } from "@/asset/constants/countries";
+import { CONSTANT_COUNTRIES_DB } from "@/asset/constants/database/countries.const";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 
 export async function generateMetadata({
@@ -26,9 +26,7 @@ export async function generateMetadata({
     };
 }
 
-interface IProps extends IBasePageProps<{location: string;}> {
-   
-}
+interface IProps extends IBasePageProps<{ location: string }> {}
 
 export default async function CountryPage({ params, searchParams }: IProps) {
     const apiEstablishment = new EstablishmentService();
@@ -38,7 +36,7 @@ export default async function CountryPage({ params, searchParams }: IProps) {
     const eaterEstablishment = await apiEstablishment.getByPagination({
         pagination: { page: 1, pageSize: 10 },
         filter: {
-            typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.id],
+            typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT_DB.EATER.id],
             locationId: params.location,
         },
 
@@ -47,7 +45,7 @@ export default async function CountryPage({ params, searchParams }: IProps) {
     const accommodationEstablishment = await apiEstablishment.getByPagination({
         pagination: { page: 1, pageSize: 10 },
         filter: {
-            typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION.id],
+            typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT_DB.ACCOMMODATION.id],
             locationId: params.location,
         },
 
@@ -56,7 +54,7 @@ export default async function CountryPage({ params, searchParams }: IProps) {
     const attractionEstablishment = await apiEstablishment.getByPagination({
         pagination: { page: 1, pageSize: 10 },
         filter: {
-            typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT.ATTRACTION.id],
+            typeIds: [CONSTANT_TYPES_OF_ESTABLISHMENT_DB.ATTRACTION.id],
             locationId: params.location,
         },
         lang: params.locale,

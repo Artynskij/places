@@ -1,4 +1,4 @@
-import { IBaseEntity } from "../base/base.entity";
+import { IBaseEntity } from "../../base/base.entity";
 
 export interface IPersonSettingsEntity extends IBaseEntity {
     ShowTravelMap: boolean;

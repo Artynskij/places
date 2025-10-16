@@ -16,9 +16,12 @@ import { ButtonClose } from "@/components/UI/Button/ButtonClose";
 import { IconFilter } from "@/components/common/Icons/IconFilter/IconFilter";
 import { Overlay } from "@/components/common/Overlay/Overlay";
 
-
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
-import { IEstablishmentFront, ITagBlockFront, ITagWithEstablishmentFront } from "@/lib/models";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
+import {
+    IEstablishmentFront,
+    ITagBlockFront,
+    ITagWithEstablishmentFront,
+} from "@/lib/models";
 
 import BlockMapFilterS from "./BlockMap/BlockMapFilterS";
 
@@ -46,7 +49,9 @@ const FiltersComponent = ({
 
     useEffect(() => {
         const filterValues =
-            searchParams.get(CONSTANT_SEARCH_PARAMS.FILTER)?.split(CONSTANT_SEARCH_PARAMS.ampersand) || [];
+            searchParams
+                .get(CONSTANT_SEARCH_PARAMS.FILTER)
+                ?.split(CONSTANT_SEARCH_PARAMS.ampersand) || [];
         setCheckedValues(filterValues);
     }, [searchParams]);
 
@@ -59,7 +64,10 @@ const FiltersComponent = ({
         if (checkedValues.length === 0) {
             params.delete(CONSTANT_SEARCH_PARAMS.FILTER);
         } else {
-            params.set(CONSTANT_SEARCH_PARAMS.FILTER, checkedValues.join(CONSTANT_SEARCH_PARAMS.ampersand));
+            params.set(
+                CONSTANT_SEARCH_PARAMS.FILTER,
+                checkedValues.join(CONSTANT_SEARCH_PARAMS.ampersand)
+            );
         }
         params.delete(CONSTANT_SEARCH_PARAMS.PAGE);
         router.replace(`${pathname}?${params.toString()}`, { scroll: false });

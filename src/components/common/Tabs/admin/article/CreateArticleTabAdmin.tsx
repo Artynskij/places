@@ -16,6 +16,7 @@ import { TLocale } from "@/lib/models/types";
 import { GeneralArticleService } from "@/lib/Api/(MainService)/article.general";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import PreviewEditor from "@/components/common/TipTap/Viewer/previewEditor";
+import { CONSTANT_ARTICLE_STATUS_DB } from "@/asset/constants/database/article-status.const";
 
 interface ArticleFormValues {
     lang: TLocale;
@@ -85,12 +86,17 @@ const CreateArticleTabAdmin: React.FC<ArticleCreateTabProps> = ({
                 title: values.title,
                 category: values.category,
                 author: user.personName?.fullName || "Автор",
-                content: editorData.content,
+                markdown: editorData.content,
                 date: new Date().toLocaleDateString("ru-RU"),
                 description: values.description,
                 reactions: [1, 2, 3, 4],
                 media: editorData?.mediaStorage,
+                status: {
+                    id: "",
+                    code: CONSTANT_ARTICLE_STATUS_DB.PENDING_REVIEW,
+                },
                 titleImage: {
+                    isMain: true,
                     title: articleData?.titleImage?.title || fileMainImage.name,
                     alt: articleData?.titleImage?.alt || fileMainImage.name,
                     src: fileMainImage.originFileObj
@@ -106,7 +112,6 @@ const CreateArticleTabAdmin: React.FC<ArticleCreateTabProps> = ({
                 },
             };
 
-            // Имитация API запроса
             const response = await articleGeneralService.create({
                 articleState: newArticle,
                 formData: { ...values, ...editorData },
@@ -161,11 +166,16 @@ const CreateArticleTabAdmin: React.FC<ArticleCreateTabProps> = ({
             title: values.title,
             category: values.category,
             author: "Автор",
-            content: editorData.content,
+            markdown: editorData.content,
             date: new Date().toLocaleDateString("ru-RU"),
             description: values.description,
             reactions: [],
+            status: {
+                id: "",
+                code: CONSTANT_ARTICLE_STATUS_DB.PENDING_REVIEW,
+            },
             titleImage: {
+                isMain: true,
                 title: articleData?.titleImage?.title || fileMainImage.name,
                 alt: articleData?.titleImage?.alt || fileMainImage.name,
                 src: urlMainImage,
@@ -328,7 +338,7 @@ const CreateArticleTabAdmin: React.FC<ArticleCreateTabProps> = ({
                     <TipTapEditor
                         onEditorInit={setEditorInstance}
                         setEditorData={setEditorData}
-                        initialContent={initialData?.content}
+                        initialContent={initialData?.markdown}
                     />
                 </Form.Item>
                 {articleData?.titleImage && (

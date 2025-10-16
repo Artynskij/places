@@ -1,4 +1,4 @@
-import { IBaseEntity } from "../base/base.entity";
+import { IBaseEntity } from "../../base/base.entity";
 import { ISocialContactsEntity } from "../socialContacts.entity";
 import { IAddressEntity } from "./address.entity";
 

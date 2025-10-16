@@ -1,4 +1,4 @@
-import { IBaseEntity } from "../base/base.entity";
+import { IBaseEntity } from "../../base/base.entity";
 
 export interface IAddressEntity extends IBaseEntity {
     Street: string | null;

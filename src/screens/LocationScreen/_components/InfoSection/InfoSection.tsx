@@ -1,5 +1,5 @@
 "use client";
-import { informationCards } from "@/asset/constants/data";
+import { CONSTANT_TILES } from "@/asset/constants/front-database/tiles.data";
 
 import style from "./infoSection.module.scss";
 import { Button } from "@/components/UI/Button/Button";
@@ -38,7 +38,7 @@ export const InfoSection: FC<IInfoSection> = ({
 
     return (
         <section className={style.info_block}>
-            {informationCards.map((infoCard, index) => {
+            {CONSTANT_TILES.map((infoCard, index) => {
                 const activeParam = searchParams["popup"] === infoCard.value;
                 if (index > 5 && !showMoreTiles) {
                     return;

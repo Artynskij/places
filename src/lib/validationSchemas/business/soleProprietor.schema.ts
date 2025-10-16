@@ -3,10 +3,10 @@ import { validPhoneSchema } from "../phoneSchema";
 import { validImageFileSchema } from "../file/imageArraySchema";
 
 import { getAgreementsValidation } from "@/components/common/BlockFunctional/BlockAgreements";
-import { agreementKeysBusinessIndividual } from "@/asset/constants/agreementsKeys";
+import { AGREEMENT_KEYS_BUS_INDIVIDUAL } from "@/asset/constants/front-database/agreements-keys.data";
 import { validDateSchema } from "../dateSchema";
 
- const validationBusinessSoleProprietorSchema = Yup.object().shape({
+const validationBusinessSoleProprietorSchema = Yup.object().shape({
     officialName: Yup.string().required(
         "Название Индивидуального предпринимателя обязатиельно"
     ),
@@ -31,5 +31,5 @@ import { validDateSchema } from "../dateSchema";
         postalCode: Yup.string(),
     }),
 
-    agreements: getAgreementsValidation(agreementKeysBusinessIndividual),
+    agreements: getAgreementsValidation(AGREEMENT_KEYS_BUS_INDIVIDUAL),
 });

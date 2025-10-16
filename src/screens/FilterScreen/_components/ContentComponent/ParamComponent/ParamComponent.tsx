@@ -7,7 +7,7 @@ import { IconCancel } from "@/components/common/Icons/IconCancel/IconCancel";
 
 import { Button } from "@/components/UI/Button/Button";
 import { ITagFront, ITagBlockFront } from "@/lib/models";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 
 interface IParamComponentProp {
     dataTags?: ITagBlockFront[];
@@ -54,7 +54,9 @@ const ParamComponent = ({ dataTags, setIsLoading }: IParamComponentProp) => {
         if (filterValue?.length !== 0) {
             params.set(
                 CONSTANT_SEARCH_PARAMS.FILTER,
-                filterValue?.map((item) => item.key)?.join(CONSTANT_SEARCH_PARAMS.ampersand) || "123"
+                filterValue
+                    ?.map((item) => item.key)
+                    ?.join(CONSTANT_SEARCH_PARAMS.ampersand) || "123"
             );
         } else {
             params.delete(CONSTANT_SEARCH_PARAMS.FILTER);

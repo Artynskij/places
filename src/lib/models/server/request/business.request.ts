@@ -1,5 +1,5 @@
 import { TLocale } from "@/lib/models/types";
-import { IContentMultilingualEntity, IRoleOwnerWithContentEntity } from "./../entities";
+import { IRoleOwnerWithContentEntity } from "./../entities";
 import { IBaseModerationRequest } from "./base/base-with-moderation.request";
 interface BusinessReqData {
     source: {
@@ -10,7 +10,7 @@ interface BusinessReqData {
         LegalType: string;
     };
 
-    content?: IContentMultilingualEntity;
+    content?: null;
 }
 export interface IBusinessRequest
     extends IBaseModerationRequest<BusinessReqData> {}

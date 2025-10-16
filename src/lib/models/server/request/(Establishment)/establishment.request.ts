@@ -27,12 +27,12 @@ export interface IContentEstablishmentCreateRequest {
         lang: string;
         value: {
             details: {
-                title: string;
-                description: string | null;
+                title?: string;
+                description?: string | null;
             };
             seo?: { key: string; value: string }[] | null;
             location: {
-                street1: string | null;
+                street1?: string | null;
                 street2?: string | null;
             };
             seoTrip?: { key: string; value: string }[] | null;

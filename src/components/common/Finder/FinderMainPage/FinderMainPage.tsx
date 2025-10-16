@@ -9,14 +9,14 @@ import {
 } from "@/components/common/Icons";
 import { Overlay } from "@/components/common/Overlay/Overlay";
 import { Button } from "@/components/UI/Button/Button";
-import { switcherFinderMainPage } from "@/asset/constants/switcherTabsPage";
+import { SWITCHER_FINER_MAIN_PAGE } from "@/asset/constants/front-database/switcher-tabs-page.data";
 
 import DropdownListFinder from "../_common/DropdownListFinder/DropdownListFinder";
 import { useEffect } from "react";
 import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
 
 const FinderMainPage = () => {
-    const switcherDataStart = switcherFinderMainPage;
+    const switcherDataStart = SWITCHER_FINER_MAIN_PAGE;
     const {
         refInput,
         refUl,

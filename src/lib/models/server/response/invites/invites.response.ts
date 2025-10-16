@@ -1,4 +1,4 @@
-import { IContentEntity, IPersonNameEntity } from "../../entities";
+import { IContentMultilingualEntity, IPersonNameEntity } from "../../entities";
 
 export interface IInvitesByQueryItemResponse {
     id: string;
@@ -6,7 +6,7 @@ export interface IInvitesByQueryItemResponse {
     role: {
         id: string;
         code: string;
-        content: IContentEntity;
+        content: IContentMultilingualEntity;
     };
     person: {
         id: string;

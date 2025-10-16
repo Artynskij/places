@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 
 import { IMediaFront } from "@/lib/models";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 import { SkeletonGallery } from "../Skeleton/SkeletonGallery";
 
 interface IGallery {

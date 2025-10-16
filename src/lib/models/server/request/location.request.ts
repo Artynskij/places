@@ -1,6 +1,6 @@
 import { TLocale } from "@/lib/models/types";
 import { IImageEntity } from "./../entities";
-import { IContentRequest } from "./base/multilingual-content.request";
+import { IContentMultilingualRequest } from "./base/multilingual-content.request";
 import { IBaseModerationRequest } from "./base/base-with-moderation.request";
 
 export interface ILocationInsidePaginationRequest {
@@ -20,7 +20,7 @@ interface locationData {
         LocationType?: string;
         Country?: string;
     };
-    content: IContentRequest;
+    content: IContentMultilingualRequest;
 }
 export interface ILocationUpdateRequest
     extends IBaseModerationRequest<locationData> {}

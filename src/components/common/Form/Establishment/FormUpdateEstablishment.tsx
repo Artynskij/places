@@ -18,7 +18,7 @@ import {
     ISocialContactsRequest,
 } from "@/lib/models/server/request";
 
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 
 import { useNotification } from "@/lib/context";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
@@ -54,7 +54,7 @@ import { FormLanguagesBlock } from "../_components/ContentBlock/ContentBlock";
 import PhotoBlockForm from "../_components/PhotoBlock/PhotoBlock";
 
 import { SpinnerAnt } from "../../Spinner/SpinnerAnt";
-import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
+import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-networks.const";
 import { ScheduleService } from "@/lib/Api/(Establishment)/schedule.api";
 import { SocialNetworksService } from "@/lib/Api/social-networks.api";
 interface IFormCreateEstablishment {
@@ -166,6 +166,12 @@ const FormUpdateEstablishmentBase = ({
                                 content.value.seoTrip ??
                                 null,
                             seoTrip: content.value.seoTrip ?? null,
+                            // location:content.value.location,
+                            details: {
+                                title: content.value.details.title || "",
+                                description:
+                                    content.value.details.description || "",
+                            },
                         },
                     })) ?? [],
                 socialContacts: socialNetworks as TTypeForm["socialContacts"],
@@ -227,7 +233,7 @@ const FormUpdateEstablishmentBase = ({
 
     const optionsTypesOfEstablishment: ISelectOption[] = [
         { name: "Выбрать тип объекта", value: "" },
-        ...Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT).map(
+        ...Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT_DB).map(
             ({ key, title }) => ({
                 value: key,
                 name: title,
@@ -290,7 +296,7 @@ const FormUpdateEstablishmentBase = ({
                                     <label>Категория объекта*</label>
                                     <CategoryBlockForm
                                         typeEstablishmentId={
-                                            CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                            CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                                 typeEstablishment
                                             ].id
                                         }

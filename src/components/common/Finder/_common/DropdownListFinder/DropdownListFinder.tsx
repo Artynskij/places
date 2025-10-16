@@ -12,7 +12,7 @@ import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
 import { IconEnter, IconPlus, IconSearch } from "@/components/common/Icons";
 
 import { getUrlForUrl } from "@/lib/helpers/getUrlForSearch";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import CardSearchItem from "../CardSearchItem/CardSearchItem";
@@ -58,7 +58,7 @@ const DropdownListFinder = ({
                 searchItem.globalTypeEntity === "location"
             ) {
                 for (const [_, element] of Object.entries(
-                    CONSTANT_TYPES_OF_ESTABLISHMENT
+                    CONSTANT_TYPES_OF_ESTABLISHMENT_DB
                 )) {
                     listItemsData.push({
                         type: "additional_search_result",

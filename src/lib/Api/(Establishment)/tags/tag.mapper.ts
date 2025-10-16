@@ -1,5 +1,5 @@
-import { CONSTANT_CATEGORY_CLASS_TAG } from "@/asset/constants/categoryClassTag";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_CATEGORY_CLASS_TAG_DB } from "@/asset/constants/database/category-class-tag.const";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 import { ITagBlockFront, ITagWithEstablishmentFront } from "@/lib/models";
 
 import {
@@ -27,7 +27,7 @@ export default class TagsMapper {
                           tags: groupTag.Tags.map((tag) => {
                               const countPrice =
                                   groupTag.TagCategory.Name ===
-                                      CONSTANT_CATEGORY_CLASS_TAG.price &&
+                                      CONSTANT_CATEGORY_CLASS_TAG_DB.price &&
                                   tag.content.details[0]?.secondaryValue
                                       ? this.createClassCount(
                                             tag.content.details[0]
@@ -37,16 +37,19 @@ export default class TagsMapper {
                                       : null;
                               const countStar =
                                   groupTag.TagCategory.Name ===
-                                  CONSTANT_CATEGORY_CLASS_TAG.star
+                                  CONSTANT_CATEGORY_CLASS_TAG_DB.star
                                       ? this.createClassCount(
-                                            tag.content.details[0]?.value,
+                                            tag.content.details[0]?.value ||
+                                                "undefined",
                                             "star"
                                         )
                                       : null;
                               return {
                                   id: tag.Id,
                                   key: `${CONSTANT_SEARCH_PARAMS.filterParam.tag}${tag.Id}`,
-                                  value: tag.content.details[0]?.value,
+                                  value:
+                                      tag.content.details[0]?.value ||
+                                      "UNDEFINED",
                                   secondaryValue:
                                       tag.content.details[0]?.secondaryValue ||
                                       null,
@@ -68,6 +71,10 @@ export default class TagsMapper {
                                   }
 
                                   // Если оба выбранные или невыбранные - сортируем по алфавиту
+                                  if (!a.value || !b.value) {
+                                      return 0;
+                                  }
+
                                   return a.value.localeCompare(b.value);
                               }),
                       };
@@ -91,7 +98,8 @@ export default class TagsMapper {
                               key: `${CONSTANT_SEARCH_PARAMS.filterParam.category}${cat.Id}`,
                               value: cat.content.details[0]?.value,
                               secondaryValue:
-                                  cat.content.details[0]?.secondaryValue || null,
+                                  cat.content.details[0]?.secondaryValue ||
+                                  null,
                               iconName: cat.content.details[0]?.cIcon || null,
                           };
                       })
@@ -105,7 +113,9 @@ export default class TagsMapper {
                           if (aChecked !== bChecked) {
                               return aChecked ? -1 : 1;
                           }
-
+                          if (!a.value || !b.value) {
+                              return 0;
+                          }
                           // Если оба выбранные или невыбранные - сортируем по алфавиту
                           return a.value?.localeCompare(b.value);
                       }),
@@ -122,10 +132,9 @@ export default class TagsMapper {
     ): ITagWithEstablishmentFront[] | null {
         const mappingData: ITagWithEstablishmentFront[] | null =
             tags?.map((tag) => {
-                // if(tag.Tag.TagCategory.Name === CATEGORY_CLASS_TAG.star) re
                 const countPrice =
                     tag.Tag.TagCategory.Name ===
-                        CONSTANT_CATEGORY_CLASS_TAG.price &&
+                        CONSTANT_CATEGORY_CLASS_TAG_DB.price &&
                     tag.Tag.content.details[0]?.secondaryValue
                         ? this.createClassCount(
                               tag.Tag.content.details[0].secondaryValue,
@@ -134,9 +143,9 @@ export default class TagsMapper {
                         : null;
                 const countStar =
                     tag.Tag.TagCategory.Name ===
-                    CONSTANT_CATEGORY_CLASS_TAG.star
+                    CONSTANT_CATEGORY_CLASS_TAG_DB.star
                         ? this.createClassCount(
-                              tag.Tag.content.details[0].value,
+                              tag.Tag.content.details[0].value || "UNDEFINED",
                               "star"
                           )
                         : null;

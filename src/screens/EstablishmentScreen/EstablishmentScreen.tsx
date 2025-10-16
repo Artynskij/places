@@ -31,7 +31,7 @@ import {
     ITagBlockFront,
 } from "@/lib/models";
 
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { ROUTES } from "@/lib/config/Routes";
 import {
     IconDone,
@@ -104,12 +104,12 @@ export const EstablishmentScreen = async ({
                                     };
                                 }),
                                 {
-                                    title: CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                    title: CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                         params.typeEstablishment
                                     ].secondValue,
                                     href: ROUTES.FILTER(
                                         dataEstablishment.location.town.id,
-                                        CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                        CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                             params.typeEstablishment
                                         ].key
                                     ),
@@ -140,7 +140,7 @@ export const EstablishmentScreen = async ({
                         baseUrl={baseUrl}
                         linkPage={ROUTES.LOCATION.ESTABLISHMENT(
                             dataEstablishment.location.town.id,
-                            CONSTANT_TYPES_OF_ESTABLISHMENT[
+                            CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                 dataEstablishment.typeEstablishment
                             ].key,
                             dataEstablishment.id
@@ -434,7 +434,7 @@ export const EstablishmentScreen = async ({
                         <Link
                             href={ROUTES.FILTER(
                                 params.location,
-                                CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.key
+                                CONSTANT_TYPES_OF_ESTABLISHMENT_DB.EATER.key
                             )}
                             className={style.slider_block_title_button}
                         >
@@ -468,7 +468,7 @@ export const EstablishmentScreen = async ({
                         <Link
                             href={ROUTES.FILTER(
                                 params.location,
-                                CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION
+                                CONSTANT_TYPES_OF_ESTABLISHMENT_DB.ACCOMMODATION
                                     .key
                             )}
                             className={style.slider_block_title_button}
@@ -503,7 +503,8 @@ export const EstablishmentScreen = async ({
                         <Link
                             href={ROUTES.FILTER(
                                 params.location,
-                                CONSTANT_TYPES_OF_ESTABLISHMENT.ATTRACTION.key
+                                CONSTANT_TYPES_OF_ESTABLISHMENT_DB.ATTRACTION
+                                    .key
                             )}
                             className={style.slider_block_title_button}
                         >

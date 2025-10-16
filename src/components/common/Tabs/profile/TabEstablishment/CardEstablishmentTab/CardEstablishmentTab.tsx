@@ -5,10 +5,10 @@ import { FC } from "react";
 import { Button } from "@/components/UI/Button/Button";
 import Image from "next/image";
 import { IEstablishmentFront } from "@/lib/models";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 import Link from "next/link";
 import { ROUTES } from "@/lib/config/Routes";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 
 interface ICardEstablishmentTab {
     establishment: IEstablishmentFront;
@@ -38,7 +38,7 @@ const CardEstablishmentTab: FC<ICardEstablishmentTab> = ({
                         target="_blank"
                         href={ROUTES.LOCATION.ESTABLISHMENT(
                             establishment.location.town.id,
-                            CONSTANT_TYPES_OF_ESTABLISHMENT[
+                            CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                 establishment.typeEstablishment
                             ].key,
                             establishment.id

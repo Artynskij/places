@@ -20,7 +20,7 @@ import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { Markdown } from "@/components/common/MarkDown/MarkDown";
 import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 
 interface IBlockArticles {
     article: IArticleFront | null;
@@ -83,7 +83,7 @@ export default function BlockArticles({
                         </Link>
                     </div>
 
-                    <BlockReadTime text={article.content} />
+                    <BlockReadTime text={article.markdown} />
                     <BlockWatchCount count={1000} />
                 </div>
                 <div className={style.underTitle_right}>

@@ -1,5 +1,5 @@
 import { IEstablishmentFront, IPersonFront } from "@/lib/models/frontend";
-import { IBaseEntity } from "../base/base.entity";
+import { IBaseEntity } from "../../base/base.entity";
 import { IEstablishmentWithContentEntity } from "./establishment.entity";
 import { IPersonEntity } from "../(person)/person.entity";
 

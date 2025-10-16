@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 import {
     CONSTANT_DEFAULT_AVATAR_URL,
     CONSTANT_DEFAULT_IMAGE_URL,
-} from "@/asset/constants/DefaultConstant";
+} from "@/asset/constants/default.const";
 import { getFormatDate } from "@/lib/helpers/getFormatDate";
 
 interface ICardReview {
@@ -115,7 +115,11 @@ ICardReview) => {
                         </div>
                         <div className={style.establishment_location}>
                             <IconLocation />
-                            <span>{establishmentReview.location.street} {establishmentReview.location.town.title} {establishmentReview.location.country.title}</span>
+                            <span>
+                                {establishmentReview.location.street}{" "}
+                                {establishmentReview.location.town.title}{" "}
+                                {establishmentReview.location.country.title}
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-export const CONSTANT_TYPES_OF_ESTABLISHMENT = {
+export const CONSTANT_TYPES_OF_ESTABLISHMENT_DB = {
     ATTRACTION: {
         key: "ATTRACTION",
         title: "Развлечение",

@@ -10,6 +10,7 @@ export interface IMediaFront {
     blobPath: string;
     alt: string;
     src: string;
+    isMain: boolean;
 }
 export interface IMediaFrontWithFile extends IMediaFront {
     file?: UploadFile;

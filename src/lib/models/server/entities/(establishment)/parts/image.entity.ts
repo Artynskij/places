@@ -1,11 +1,18 @@
 import { TLocale, TTypeFile } from "@/lib/models/types";
 
 export interface IImageEntity {
+    isMain?: boolean;
+
     id: string;
     type: TTypeFile;
-    blobPath: string;
     fileName: string;
-    main?: boolean;
+    blobPath: string;
+    fsPath?: string;
+    width: number;
+    height: number;
+    fileSize?: number;
+    mimeType?: string;
+    originalFileName?: string;
     details: {
         lang: TLocale;
         value: {
@@ -13,8 +20,6 @@ export interface IImageEntity {
             alt?: string;
         };
     }[];
-    width: number;
-    height: number;
 }
 export interface IImagePrivateEntity {
     id: string;

@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Loader } from "../../Loader/Loader";
 import { ROUTES } from "@/lib/config/Routes";
 import { useNotification } from "@/lib/context";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 
 interface AuthGuardProps {
     children: ReactNode;

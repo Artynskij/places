@@ -16,7 +16,7 @@ import { log } from "console";
 import { Card } from 'antd';
 import { getFormatDate } from "@/lib/helpers/getFormatDate";
 
-const TabBusinessOwner = () => {
+export const TabBusinessOwner = () => {
     const businessService = new BusinessService();
     const { user } = useUser();
     const [businessData, setBusinessData] = useState<IBusinessFront[]>();
@@ -70,4 +70,4 @@ const TabBusinessOwner = () => {
         </div>
     );
 };
-export default TabBusinessOwner;
+

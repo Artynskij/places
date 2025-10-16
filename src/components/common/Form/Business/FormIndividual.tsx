@@ -18,7 +18,7 @@ import { useUser } from "@/lib/context/UserContext/UserContext";
 import useLocale from "@/lib/hooks/useLocale";
 import { GeneralBusinessService } from "@/lib/Api/(MainService)/business.general";
 
-import { agreementKeysBusinessIndividual } from "@/asset/constants/agreementsKeys";
+import { AGREEMENT_KEYS_BUS_INDIVIDUAL } from "@/asset/constants/front-database/agreements-keys.data";
 
 import { useRouter } from "next/navigation";
 
@@ -56,12 +56,10 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
                   postalCode: business.Contacts.Address?.PostalCode || "",
               },
               agreements:
-                  mode === "update"
-                      ? agreementKeysBusinessIndividual
-                      : undefined,
+                  mode === "update" ? AGREEMENT_KEYS_BUS_INDIVIDUAL : undefined,
           }
         : null;
-        
+
     const {
         register,
         handleSubmit,
@@ -177,7 +175,7 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
                         titleSpan="Страна*"
                         type="text"
                     />
-                     <InputForm
+                    <InputForm
                         error={errors.address?.district?.message}
                         register={register("address.district")}
                         titleSpan="Регион, область, штат*"
@@ -230,7 +228,7 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
             </div>
             {mode === "create" && (
                 <BlockAgreements
-                    agreementKeys={agreementKeysBusinessIndividual}
+                    agreementKeys={AGREEMENT_KEYS_BUS_INDIVIDUAL}
                     value={watch("agreements") as string[]}
                     onChange={(vals) => setValue("agreements", vals)}
                     error={errors.agreements?.message}

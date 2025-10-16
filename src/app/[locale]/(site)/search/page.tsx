@@ -1,5 +1,5 @@
-import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/default.const";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 import { SearchService } from "@/lib/Api/search/search.service";
 import { IBasePageProps } from "@/lib/models";
 import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";

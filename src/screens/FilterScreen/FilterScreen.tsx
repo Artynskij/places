@@ -19,9 +19,9 @@ import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 import FiltersComponent from "./_components/FilterComponent/FilterComponent";
 import ParamComponent from "./_components/ContentComponent/ParamComponent/ParamComponent";
 
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
-import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
-import { sortSelectFilter } from "@/asset/constants/selectData";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
+import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/default.const";
+import { SELECT_FILTER_SORT } from "@/asset/constants/front-database/select-sort.data";
 import {
     IEstablishmentFront,
     ILocationFront,
@@ -31,7 +31,7 @@ import {
     ITagWithEstablishmentFront,
 } from "@/lib/models";
 import { TTypesOfEstablishment } from "@/lib/models/types";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 import { TSortType } from "@/lib/models/types/TSortType";
 
 interface IProps
@@ -63,7 +63,7 @@ export default function FilterScreen({
     const [isLoading, setIsLoading] = useState(false); // Добавляем состояние загрузки
     useEffect(() => {
         setSortActiveItem(
-            searchParams ? searchParams.sort : sortSelectFilter[0].value
+            searchParams ? searchParams.sort : SELECT_FILTER_SORT[0].value
         );
         setIsLoading(false); // Скрываем лоадер при изменении URL
     }, [pathname, searchParamsClient]);
@@ -95,7 +95,7 @@ export default function FilterScreen({
                                 };
                             }),
                             {
-                                title: CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                title: CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                     params.typeEstablishment
                                 ].secondValue,
                             },
@@ -108,7 +108,7 @@ export default function FilterScreen({
                     <div className={style.titleBLock_left}>
                         <h1>
                             {`${
-                                CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                     params.typeEstablishment
                                 ]?.secondValue
                             } в ${locationData?.title}`}
@@ -151,7 +151,7 @@ export default function FilterScreen({
 
                         <SelectCustom
                             classNameCtn={style.sort_select}
-                            options={sortSelectFilter}
+                            options={SELECT_FILTER_SORT}
                             activeOption={sortActiveItem}
                             onChange={(item) => {
                                 handleSelectSort(item);
