@@ -13,10 +13,10 @@ import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { RiH1 } from "react-icons/ri";
 interface IProps {
     children: React.ReactNode | React.ReactNode[] | null;
+    isUserVerified?: boolean;
 }
 export const BusinessForm = ({ children }: IProps) => {
-    const [activeTab, setActiveTab] =
-        useState<TTypeOwnerBusiness>("individual");
+    const [activeTab, setActiveTab] = useState<TTypeOwnerBusiness>("individual");
     const [activeModal, setModalActive] = useState(false);
     const closeModal = () => {
         setModalActive(false);

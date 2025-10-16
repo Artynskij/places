@@ -210,30 +210,30 @@ export const FormSettingsOwner = () => {
             </div>
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
-                    Данные владельца
+                    Данные законного представителя 
                 </div>
                 <div className={style.selectionBlock_content}>
                     <InputForm
                         error={errors.fullName?.name?.message}
                         register={register("fullName.name")}
-                        placeholder="Имя"
-                        titleSpan="Имя"
+                        placeholder="Имя согласно удостоверению личности*"
+                        titleSpan="Имя согласно удостоверению личности*"
                         type="text"
                     />
 
                     <InputForm
                         error={errors.fullName?.secondName?.message}
                         register={register("fullName.secondName")}
-                        placeholder="Отчество"
-                        titleSpan="Отчество"
+                        placeholder="Второе имя (отчество) согласно удостоверению личности"
+                        titleSpan="Второе имя (отчество) согласно удостоверению личности"
                         type="text"
                     />
 
                     <InputForm
                         error={errors.fullName?.surname?.message}
                         register={register("fullName.surname")}
-                        placeholder="Фамилия"
-                        titleSpan="Фамилия"
+                        placeholder="Фамилия согласно удостоверению личности*"
+                        titleSpan="Фамилия согласно удостоверению личности*"
                         type="text"
                     />
                 </div>
@@ -244,8 +244,8 @@ export const FormSettingsOwner = () => {
                     <InputForm
                         error={errors.email?.message}
                         register={register("email")}
-                        placeholder="Email"
-                        titleSpan="Электронная почта"
+                        placeholder="Адрес электронной почты*"
+                        titleSpan="Адрес электронной почты*"
                         type="email"
                     />
                     <Controller
@@ -255,7 +255,7 @@ export const FormSettingsOwner = () => {
                             <InputPhoneNumber
                                 field={field}
                                 error={fieldState.error || null}
-                                titleSpan="Телефон"
+                                titleSpan="Номер телефона "
                             />
                         )}
                     />
@@ -263,7 +263,7 @@ export const FormSettingsOwner = () => {
             </div>
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
-                    Загрузка документов
+                    Прикрепление подтверждающих документов* 
                 </div>
                 <div className={style.selectionBlock_content}>
                     <Controller

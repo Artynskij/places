@@ -150,7 +150,7 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
                 control={control}
                 render={({ field, fieldState }) => (
                     <InputDate
-                        titleSpan="Дата регистрации: ДД.ММ.ГГГГ*"
+                        titleSpan="Дата регистрации Индивидуального предпринимателя: ДД.ММ.ГГГГ*"
                         value={field.value || null}
                         onChange={field.onChange}
                         error={fieldState.error?.message}

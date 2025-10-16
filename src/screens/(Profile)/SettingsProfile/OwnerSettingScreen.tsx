@@ -33,7 +33,7 @@ export const OwnerSettingsScreen = () => {
                         { title: "Настройки" },
                     ]}
                 />
-                <h2>Настройки профиля владельца</h2>
+                <h2>Данные профиля законного представителя</h2>
 
                 <FormSettingsOwner />
             </div>
