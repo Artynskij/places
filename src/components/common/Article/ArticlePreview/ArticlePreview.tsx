@@ -46,7 +46,9 @@ export const ArticlePreview = ({ article, reHydrate }: IProp) => {
                             </Link>
                         </div>
 
-                        <BlockReadTime text={JSON.stringify(article.content)} />
+                        <BlockReadTime
+                            text={JSON.stringify(article.markdown)}
+                        />
                         <BlockWatchCount count={1000} />
 
                         <div className={style.underTitle_publicDate}>
@@ -71,7 +73,7 @@ export const ArticlePreview = ({ article, reHydrate }: IProp) => {
                     <TipTapViewer
                         mediaCollection={article.media}
                         reHydrate={reHydrate}
-                        json={article.content}
+                        json={article.markdown}
                     />
                 </div>
                 <div className={style.popular}></div>

@@ -99,7 +99,7 @@ const LocationsTabAdmin: React.FC = () => {
 
             const titles =
                 editLocation.content?.details?.reduce((acc, detail) => {
-                    acc[detail.lang] = detail.value;
+                    acc[detail.lang] = detail.value || "UNDEFINED";
                     return acc;
                 }, {} as { [key: string]: string }) || {};
 

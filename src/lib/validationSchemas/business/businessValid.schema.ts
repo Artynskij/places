@@ -4,9 +4,9 @@ import { validImageFileSchema } from "../file/imageArraySchema";
 
 import { getAgreementsValidation } from "@/components/common/BlockFunctional/BlockAgreements";
 import {
-    agreementKeysBusinessIndividual,
-    agreementKeysBusinessLegalEntity,
-} from "@/asset/constants/agreementsKeys";
+    AGREEMENT_KEYS_BUS_INDIVIDUAL,
+    AGREEMENT_KEYS_BUS_LEGAL_ENTITY,
+} from "@/asset/constants/front-database/agreements-keys.data";
 import { validDateSchema } from "../dateSchema";
 
 const baseBusinessSchema = {
@@ -27,8 +27,6 @@ const baseBusinessSchema = {
         town: Yup.string().required("Город обязателен"),
         addressLine: Yup.string().required("Адрес обязателен"),
         postalCode: Yup.string(),
-
-        
     }),
 };
 
@@ -37,7 +35,7 @@ export const validationBusinessSoleProprietorSchema = Yup.object({
     officialName: Yup.string().required("Название ИП обязательно"), // 👈 переопределяем текст
     numberOrganization: Yup.string().required("ИНН обязателен"),
     dateRegister: validDateSchema.required("Дата регистрации обязательна"),
-    agreements: getAgreementsValidation(agreementKeysBusinessIndividual),
+    agreements: getAgreementsValidation(AGREEMENT_KEYS_BUS_INDIVIDUAL),
 });
 
 export const validationBusinessLegalEntitySchema = Yup.object({
@@ -45,11 +43,11 @@ export const validationBusinessLegalEntitySchema = Yup.object({
     officialName: Yup.string().required("Название юр. лица обязательно"), // 👈 другой текст
     numberOrganization: Yup.string().required("ИНН юр. лица обязателен"),
     dateRegister: validDateSchema.required("Дата регистрации обязательно"),
-    agreements: getAgreementsValidation(agreementKeysBusinessLegalEntity),
+    agreements: getAgreementsValidation(AGREEMENT_KEYS_BUS_LEGAL_ENTITY),
 });
 
 export const validationBusinessIndividualSchema = Yup.object({
     ...baseBusinessSchema,
     officialName: Yup.string().required("ФИО обязательно"), // 👈 ещё один вариант текста
-    agreements: getAgreementsValidation(agreementKeysBusinessIndividual),
+    agreements: getAgreementsValidation(AGREEMENT_KEYS_BUS_INDIVIDUAL),
 });

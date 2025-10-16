@@ -22,8 +22,8 @@ import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 import {
     CONSTANT_TABS,
-    switcherTabBusinessData,
-} from "@/asset/constants/switcherTabsPage";
+    SWITCHER_BUSINESS,
+} from "@/asset/constants/front-database/switcher-tabs-page.data";
 import { TabMarketingOwner } from "@/components/common/Tabs/profile/TabMarketingOwner/TabMarketingOwner";
 import { TabHistoryOwner } from "@/components/common/Tabs/profile/TabHistoryOwner/TabHistoryOwner";
 import { TabStatOwner } from "@/components/common/Tabs/profile/TabStatOwner/TabStatOwner";
@@ -48,7 +48,7 @@ function BusinessScreenBase({ params, searchParams }: IProps) {
         }
         businessService.getById(params.business).then((res) => {
             if (res) {
-                console.log(res)
+                console.log(res);
                 setBusinessData(res);
             } else {
                 notification.error({ message: "нету бизнеса" });
@@ -136,7 +136,7 @@ function BusinessScreenBase({ params, searchParams }: IProps) {
             </div>
             <div className={style.content}>
                 <div className={style.switcher}>
-                    <SwitcherTabs data={switcherTabBusinessData} />
+                    <SwitcherTabs data={SWITCHER_BUSINESS} />
                 </div>
 
                 <div className={style.switcher_content}>

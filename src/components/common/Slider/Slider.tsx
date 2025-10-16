@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 import { IconArrowRight } from "@/components/common/Icons/IconArrowRight/ArrowRightIcon";
 import { IconArrowLeft } from "@/components/common/Icons/IconArrowLeft/ArrowLeftIcon";
 import { SkeletonSlider } from "../Skeleton/SkeletonSlider";
-import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
+import { CONSTANTS_SCREENS } from "@/asset/constants/screens.const";
 
 interface ISlider {
     // data?: IDataCardSlider[];

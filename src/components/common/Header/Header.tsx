@@ -13,7 +13,7 @@ import { Button } from "@/components/UI/Button/Button";
 import { ROUTES } from "@/lib/config/Routes";
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { FinderHeader } from "../Finder/FinderHeader/FinderHeader";
 import { ScrollToTopButton } from "./ScrollToTopButton/ScrollToTopButton";
 
@@ -104,7 +104,7 @@ export const Header = async () => {
                             className={style.header__second_link}
                             href={ROUTES.LOCATION.ESTABLISHMENT(
                                 "01JQW07G5Y3AQHM4EXC2M1NZ83",
-                                CONSTANT_TYPES_OF_ESTABLISHMENT.EATER.key,
+                                CONSTANT_TYPES_OF_ESTABLISHMENT_DB.EATER.key,
                                 "01JPZDQ0A2WENCX080NTEC4JTJ"
                             )}
                         >
@@ -114,7 +114,7 @@ export const Header = async () => {
                             className={style.header__second_link}
                             href={ROUTES.FILTER(
                                 "01HMY6V2B4YK8M9V4R6JQ3W5XT",
-                                CONSTANT_TYPES_OF_ESTABLISHMENT.ACCOMMODATION
+                                CONSTANT_TYPES_OF_ESTABLISHMENT_DB.ACCOMMODATION
                                     .key
                             )}
                         >

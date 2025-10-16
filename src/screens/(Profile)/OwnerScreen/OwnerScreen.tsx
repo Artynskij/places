@@ -6,17 +6,15 @@ import style from "./ownerScreen.module.scss";
 
 import {
     CONSTANT_TABS,
-    switcherTabOwnerData,
-} from "@/asset/constants/switcherTabsPage";
+    SWITCHER_OWNER,
+} from "@/asset/constants/front-database/switcher-tabs-page.data";
 
-import TabEstablishmentCreated from "@/components/common/Tabs/profile/TabEstablishment/TabEstablishmentCreated";
+import { TabEstablishmentCreated } from "@/components/common/Tabs/profile/TabEstablishment/TabEstablishmentCreated";
 import { IBasePageProps } from "@/lib/models";
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
-import { TabMarketingOwner } from "@/components/common/Tabs/profile/TabMarketingOwner/TabMarketingOwner";
-import { TabHistoryOwner } from "@/components/common/Tabs/profile/TabHistoryOwner/TabHistoryOwner";
-import { TabStatOwner } from "@/components/common/Tabs/profile/TabStatOwner/TabStatOwner";
-import TabBusinessOwner from "@/components/common/Tabs/profile/TabBusinessOwner/TabBusinessOwner";
-import { TabWalletOwner } from "@/components/common/Tabs/profile/TabWalletOwner/TabWalletOwner";
+
+import { TabBusinessOwner } from "@/components/common/Tabs/profile/TabBusinessOwner/TabBusinessOwner";
+
 interface IProps
     extends IBasePageProps<
         {
@@ -35,13 +33,13 @@ export default function OwnerScreen({ params, searchParams }: IProps) {
                 </div>
                 <div className={style.content}>
                     <div className={style.switcher}>
-                        <SwitcherTabs data={switcherTabOwnerData} />
+                        <SwitcherTabs data={SWITCHER_OWNER} />
                     </div>
 
                     <div className={style.switcher_content}>
                         {tab === CONSTANT_TABS.owner.establishments ? (
                             <TabEstablishmentCreated></TabEstablishmentCreated>
-                        )  : tab === CONSTANT_TABS.owner.business ? (
+                        ) : tab === CONSTANT_TABS.owner.business ? (
                             <TabBusinessOwner></TabBusinessOwner>
                         ) : (
                             <div>этого не могло произойти</div>

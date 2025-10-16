@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Pagination } from "antd";
 import { PaginationProps } from "antd/lib";
 import { FC, useEffect, useState } from "react";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 interface IPaginationAntProp {
     totalCount: number;
     defaultPage: number;

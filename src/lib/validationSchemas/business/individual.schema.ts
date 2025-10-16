@@ -3,12 +3,10 @@ import { validPhoneSchema } from "../phoneSchema";
 import { validImageFileSchema } from "../file/imageArraySchema";
 
 import { getAgreementsValidation } from "@/components/common/BlockFunctional/BlockAgreements";
-import { agreementKeysBusinessIndividual } from "@/asset/constants/agreementsKeys";
+import { AGREEMENT_KEYS_BUS_INDIVIDUAL } from "@/asset/constants/front-database/agreements-keys.data";
 
- const validationBusinessIndividualSchema = Yup.object().shape({
-    officialName: Yup.string().required(
-        "Название организации обязательно"
-    ),
+const validationBusinessIndividualSchema = Yup.object().shape({
+    officialName: Yup.string().required("Название организации обязательно"),
 
     email: Yup.string()
         .email("Неккоректный адрес электронной почты")
@@ -26,5 +24,5 @@ import { agreementKeysBusinessIndividual } from "@/asset/constants/agreementsKey
         postalCode: Yup.string(),
     }),
 
-    agreements: getAgreementsValidation(agreementKeysBusinessIndividual),
+    agreements: getAgreementsValidation(AGREEMENT_KEYS_BUS_INDIVIDUAL),
 });

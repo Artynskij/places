@@ -1,12 +1,12 @@
-import { IContentEntity } from "./content.entity";
+import { IContentSimpleEntity } from "../../../base/content.entity";
 
 export interface ICategoryEstablishmentPart {
     Id: string;
     Name: string;
     Path?: string | null;
-    content: IContentEntity;
+    content: IContentSimpleEntity;
 }
 export interface ICategoryEstablishmentEntity {
     category: ICategoryEstablishmentPart;
-    content: IContentEntity;
+    content: IContentSimpleEntity;
 }

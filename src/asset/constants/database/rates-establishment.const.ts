@@ -1,6 +1,4 @@
-import { TTypesRateEstablishment } from "@/lib/models/types";
-
-export const CONSTANT_RATES_ESTABLISHMENT_ARRAY = [
+export const CONSTANT_RATES_ESTABLISHMENT_ARRAY_DB = [
     "Rooms",
     "PriceQuality",
     "Clean",

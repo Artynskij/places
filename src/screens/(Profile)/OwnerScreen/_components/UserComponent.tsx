@@ -12,7 +12,7 @@ import { useUser } from "@/lib/context/UserContext/UserContext";
 import { useEffect } from "react";
 
 import { Loader } from "@/components/common/Loader/Loader";
-import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/default.const";
 import { getFormatDate } from "@/lib/helpers/getFormatDate";
 
 const UserComponent = () => {

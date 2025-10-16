@@ -10,8 +10,8 @@ export default class LocationMapper {
         location: ILocationsWithContentEntity,
         cdnHost: string
     ): ILocationFront {
-        const mediaFiles: IMediaFront[] =
-            location.content?.media?.gallery.map((mediaItem) => {
+        const mediaFiles: IMediaFront[] | null =
+            location.content?.media?.gallery?.map((mediaItem) => {
                 return {
                     id: mediaItem.id,
                     blobPath: mediaItem.blobPath,
@@ -22,6 +22,7 @@ export default class LocationMapper {
                     type: mediaItem.type,
                     src: `${cdnHost}${mediaItem.blobPath}`,
                     alt: mediaItem.details[0].value.alt || "",
+                    isMain: mediaItem.isMain || false,
                 };
             }) || null;
         const mappingData: ILocationFront = {

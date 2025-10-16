@@ -1,5 +1,5 @@
-import { TKeySeo, TLocale } from "@/lib/models/types";
-import { IImageEntity } from "../../entities";
+import { TLocale } from "@/lib/models/types";
+
 import { IPaginationBaseRequest } from "../base/pagination-base.request";
 import { IContentMultilingualRequest } from "../base/multilingual-content.request";
 
@@ -10,7 +10,6 @@ export interface IPaginationArticleRequest extends IPaginationBaseRequest {
     };
 }
 export interface IArticleWithFilterRequest {
-    // ids?: string[];
     lang?: TLocale;
     page?: number;
     pageSize?: number;
@@ -20,6 +19,8 @@ interface ContentPartArticle {
     markdown: string;
     tags?: string[];
     reactions?: number[];
+    title: string;
+    seo: { title: string; description: string };
 }
 interface ContentArticle
     extends IContentMultilingualRequest<ContentPartArticle> {}

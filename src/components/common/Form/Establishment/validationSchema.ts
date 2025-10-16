@@ -1,5 +1,5 @@
 import { IMediaFront } from "./../../../../lib/models/frontend/(establishment)/parts/media.front";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { TTypesOfEstablishment } from "@/lib/models/types";
 import { TTypeUser } from "@/lib/models/types/TTypeUser";
 import {
@@ -17,7 +17,7 @@ const validationSchemaBase = {
     title: Yup.string().required("Название заведения обязательно"),
     typeEstablishment: Yup.mixed<TTypesOfEstablishment>()
         .oneOf(
-            Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT).map(
+            Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT_DB).map(
                 (el) => el.key as TTypesOfEstablishment
             ),
             "Неверный тип объекта"
@@ -107,7 +107,7 @@ export const validationSchemaEstablishmentUpdate = Yup.object({
     // title: Yup.string().required("Название заведения обязательно"),
     typeEstablishment: Yup.mixed<TTypesOfEstablishment>()
         .oneOf(
-            Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT).map(
+            Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT_DB).map(
                 (el) => el.key as TTypesOfEstablishment
             ),
             "Неверный тип объекта"

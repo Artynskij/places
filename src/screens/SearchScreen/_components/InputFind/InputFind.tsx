@@ -5,7 +5,7 @@ import { Button } from "@/components/UI/Button/Button";
 import { InputCustom } from "@/components/UI/Input/InputCustom/InputCustom";
 
 import style from "./inputFind.module.scss";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 import { ROUTES } from "@/lib/config/Routes";
 import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
 

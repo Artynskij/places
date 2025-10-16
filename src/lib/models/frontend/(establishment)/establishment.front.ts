@@ -1,4 +1,4 @@
-import { IContentEstablishment } from "../../server/entities";
+import { IContentEstablishmentEntity } from "../../server/entities";
 import { TTypesOfEstablishment } from "../../types/TTypesEstablishment";
 import { ICategoryFront } from "./category.front";
 
@@ -47,7 +47,7 @@ export interface IEstablishmentFront {
         gallery: IMediaFront[] | null;
     };
     seo: { key: string; value: string }[] | null;
-    content?: IContentEstablishment;
+    content?: IContentEstablishmentEntity;
 }
 export interface IEstablishmentPersonAssignFront {
     Id: string;

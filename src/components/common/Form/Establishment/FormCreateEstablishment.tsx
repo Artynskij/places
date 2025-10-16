@@ -14,7 +14,7 @@ import {
 import { IImageEntity, ISelectOption } from "@/lib/models";
 import { TAgreementKey } from "@/lib/models/types";
 
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 
 import { useNotification } from "@/lib/context";
 import { useUser } from "@/lib/context/UserContext/UserContext";
@@ -119,7 +119,7 @@ const FormCreateEstablishmentBase = ({
 
     const optionsTypesOfEstablishment: ISelectOption[] = [
         { name: "Выбрать тип объекта", value: "" },
-        ...Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT).map(
+        ...Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT_DB).map(
             ({ key, title }) => ({
                 value: key,
                 name: title,
@@ -169,7 +169,7 @@ const FormCreateEstablishmentBase = ({
                                     <label>Категория объекта*</label>
                                     <CategoryBlockForm
                                         typeEstablishmentId={
-                                            CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                            CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                                 typeEstablishment
                                             ].id
                                         }

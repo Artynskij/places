@@ -1,6 +1,6 @@
-import { CONSTANT_DEFAULT_IMAGE_URL } from "./DefaultConstant";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "../default.const";
 
-export const continentsData = [
+export const CONSTANT_CONTINENT_DB = [
     {
         id: "01JQW070SRWCJNZQSADN4V7GTC",
         key: "europe",
@@ -47,7 +47,7 @@ export const continentsData = [
         countries: [],
     },
 ];
-export const countriesData = [
+export const CONSTANT_COUNTRIES_DB = [
     {
         id: "01H9ZAY3PNZ3TTN87P93F7QKGC",
         title: "Казахстан",

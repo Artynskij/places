@@ -1,4 +1,4 @@
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 import { InputCustom } from "@/components/UI/Input/InputCustom/InputCustom";
 import style from "./searchScreen.module.scss";
 import { IBasePageProps, ISearchQueryResponseFront } from "@/lib/models";
@@ -15,7 +15,7 @@ import { CardSearch } from "@/components/common/Cards";
 import SwitcherSearchPage from "./_components/SwitcherSearchPage/SwitcherSearchPage";
 import { TTypesOfSearchKey } from "@/lib/models/types/TTypesGlobal";
 import { PaginationAnt } from "@/components/common/Pagination/PaginationAnt";
-import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/default.const";
 
 interface ISearchProp
     extends IBasePageProps<
@@ -45,7 +45,7 @@ const SearchScreen = async ({
     //     : 0;
 
     const searchValue = searchParams
-        ? searchParams[CONSTANT_SEARCH_PARAMS.SEARCH] || ''
+        ? searchParams[CONSTANT_SEARCH_PARAMS.SEARCH] || ""
         : "";
     const baseUrl = await getBaseUrlServer();
 

@@ -6,8 +6,8 @@ import { getTranslations } from "next-intl/server";
 
 import { ISearchItemFront } from "@/lib/models";
 
-import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANTS_SCREENS } from "@/asset/constants/screens.const";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 import { ROUTES } from "@/lib/config/Routes";
 
 import { ShareButton } from "@/components/common/ButtonFunctional/ShareButton";

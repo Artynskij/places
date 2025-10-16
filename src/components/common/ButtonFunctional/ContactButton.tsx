@@ -14,7 +14,7 @@ import {
 } from "../Icons/Social";
 
 import { Popup } from "../Popup/Popup";
-import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
+import { CONSTANTS_SCREENS } from "@/asset/constants/screens.const";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import {

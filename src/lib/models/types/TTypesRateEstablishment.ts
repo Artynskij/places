@@ -1,4 +1,4 @@
-import { CONSTANT_RATES_ESTABLISHMENT_ARRAY } from "@/asset/constants/ratesEstablishment";
+import { CONSTANT_RATES_ESTABLISHMENT_ARRAY_DB } from "@/asset/constants/database/rates-establishment.const";
 
 // export type TTypesRateEstablishment =
 //     | "Rooms"
@@ -16,4 +16,4 @@ import { CONSTANT_RATES_ESTABLISHMENT_ARRAY } from "@/asset/constants/ratesEstab
 //     | "Safety";
 // type ConstantAgreement = ;
 export type TTypesRateEstablishment =
-    (typeof CONSTANT_RATES_ESTABLISHMENT_ARRAY)[number];
+    (typeof CONSTANT_RATES_ESTABLISHMENT_ARRAY_DB)[number];

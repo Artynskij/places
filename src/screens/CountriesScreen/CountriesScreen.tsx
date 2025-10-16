@@ -1,6 +1,9 @@
 import { IBasePageProps } from "@/lib/models/common/IType";
 import style from "./countriesScreen.module.scss";
-import { countriesData, continentsData } from "@/asset/constants/countries";
+import {
+    CONSTANT_COUNTRIES_DB,
+    CONSTANT_CONTINENT_DB,
+} from "@/asset/constants/database/countries.const";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,8 +13,8 @@ interface IProps extends IBasePageProps {
     params: IBasePageProps["params"];
 }
 export default function CountriesScreen({ params, searchParams }: IProps) {
-    const countries = countriesData;
-    const continents = continentsData;
+    const countries = CONSTANT_COUNTRIES_DB;
+    const continents = CONSTANT_CONTINENT_DB;
     return (
         <div className="container">
             <div className={style.breadcrumb}>

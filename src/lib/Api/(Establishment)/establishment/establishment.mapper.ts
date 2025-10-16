@@ -8,7 +8,7 @@ import {
 } from "@/lib/models";
 import { ContactsEstablishmentMapper } from "../contactsEstablishment.api";
 import { PersonMapper } from "../../(Person)/person/person.mapper";
-import { CONSTANT_RATES_ESTABLISHMENT_ARRAY } from "@/asset/constants/ratesEstablishment";
+import { CONSTANT_RATES_ESTABLISHMENT_ARRAY_DB } from "@/asset/constants/database/rates-establishment.const";
 
 interface ITransformToFront {
     establishment: IEstablishmentWithContentPareEntity;
@@ -113,6 +113,7 @@ export default class EstablishmentMapper {
                     width: image.width,
                     type: image.type,
                     src: `${info.cdnHost}/${image.blobPath}`,
+                    isMain: image.isMain || false,
                 };
             }) || null;
         const categories =
@@ -178,7 +179,7 @@ export default class EstablishmentMapper {
         establishmentRateEntity: IEstablishmentRateEntity,
         cdnHost: string
     ): IEstablishmentRateFront {
-        const rates = CONSTANT_RATES_ESTABLISHMENT_ARRAY.map((key) => {
+        const rates = CONSTANT_RATES_ESTABLISHMENT_ARRAY_DB.map((key) => {
             if (!establishmentRateEntity[key]) return null;
             return {
                 key,

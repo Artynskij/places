@@ -2,8 +2,8 @@ import { IContactsPersonEntity } from "./contactsPerson.entity";
 import { IGenderEntity, IGenderWithContentEntity } from "./gender.entity";
 import { IPersonNameEntity } from "./personName.entity";
 import { IPersonSettingsEntity } from "./personSettings.entity";
-import { IContentMultilingualEntity } from "../(establishment)/parts/content.entity";
-import { IBaseEntity } from "../base/base.entity";
+
+import { IBaseEntity } from "../../base/base.entity";
 export interface IPersonEntity extends IBaseEntity {
     TZ: null;
     IsVerified: boolean;
@@ -28,5 +28,5 @@ export interface IPersonEntity extends IBaseEntity {
 }
 export interface IPersonWithContentEntity {
     person: IPersonEntity;
-    content: IContentMultilingualEntity | null;
+    content: null;
 }

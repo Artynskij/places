@@ -38,6 +38,7 @@ const ImageModalEditor = ({ editor, children, type }: IProp) => {
                 id: id,
                 alt: file.name,
                 file: file,
+                isMain: false,
             };
             editor.commands.addMedia(mediaItem);
             editor.commands.setMediaImage({
@@ -70,6 +71,7 @@ const ImageModalEditor = ({ editor, children, type }: IProp) => {
                 id: id,
                 alt: file.name,
                 file: file,
+                isMain: false,
             };
 
             editor.commands.addMedia(mediaItem);

@@ -1,4 +1,4 @@
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import {
     IEstablishmentFront,
     ILocationFront,
@@ -58,11 +58,11 @@ export const mapEstablishmentToSearchItem = (
                 : null,
         typeEstablishment: {
             key: typeEstablishment,
-            id: CONSTANT_TYPES_OF_ESTABLISHMENT[typeEstablishment].id,
+            id: CONSTANT_TYPES_OF_ESTABLISHMENT_DB[typeEstablishment].id,
         },
         schedule: null,
         rate: establishment.rates.main,
-        typeId: CONSTANT_TYPES_OF_ESTABLISHMENT[typeEstablishment].id,
+        typeId: CONSTANT_TYPES_OF_ESTABLISHMENT_DB[typeEstablishment].id,
         typeName: typeEstablishment,
         priceCategory: priceCategory,
         starRating: starRating,

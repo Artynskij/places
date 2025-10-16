@@ -1,4 +1,4 @@
-import { IContentEntityWithMedia } from "../server/entities";
+import { IContentSimpleEntityWithMedia } from "../server/entities";
 import { IMediaFront } from "./(establishment)/parts/media.front";
 
 export interface ILocationFront {
@@ -7,5 +7,5 @@ export interface ILocationFront {
     locationType: { id: string; title: string } | null;
     pathBreadcrumb: string;
     media: IMediaFront[] | null;
-    content?: IContentEntityWithMedia;
+    content?: IContentSimpleEntityWithMedia;
 }

@@ -2,10 +2,13 @@ import { IContactsPersonEntity } from "./(person)/contactsPerson.entity";
 
 import { IPersonEntity } from "./(person)/person.entity";
 import { IEstablishmentEntity } from "./(establishment)/establishment.entity";
-import { IContentEntity } from "./(establishment)/parts/content.entity";
+import {
+    IContentMultilingualEntity,
+    IContentSimpleEntity,
+} from "../base/content.entity";
 import { IRoleOwnerWithContentEntity } from "./(person)/roleOwner.entity";
 import { TLegalTypeOfBusiness } from "../../types/TLegalTypeOfBusiness";
-import { IBaseEntity } from "./base/base.entity";
+import { IBaseEntity } from "../base/base.entity";
 
 export interface IBusinessEntity extends IBaseEntity {
     OfficialName: string;
@@ -19,7 +22,7 @@ export interface IBusinessEntity extends IBaseEntity {
 export interface IBusinessWithContentEntity {
     id: string;
     business: IBusinessEntity;
-    content: IContentEntity | null;
+    content: IContentMultilingualEntity | null;
 }
 
 export interface IBusinessPersonAssignEntity {
@@ -31,13 +34,13 @@ export interface IBusinessPersonAssignEntity {
 export interface IBusinessPositionEntity {
     Id: string;
     Code: string;
-    content: IContentEntity;
+    content: IContentSimpleEntity;
 }
 
 export interface IBusinessLegalTypesEntity {
     Id: string;
     Code: TLegalTypeOfBusiness;
-    content: IContentEntity;
+    content: IContentSimpleEntity;
 }
 export interface IBusinessPersonRoleEntity {
     Id: string;

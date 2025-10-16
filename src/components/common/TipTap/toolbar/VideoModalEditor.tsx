@@ -35,7 +35,8 @@ const VideoModalEditor = ({ editor, children }: IProp) => {
             height: params.height,
             id: id,
             alt: selectedVideo.name,
-            file:selectedVideo
+            file: selectedVideo,
+            isMain: false,
         };
         editor.commands.addMedia(mediaItem);
         editor.commands.setMediaVideo({ mediaId: id, src: url });

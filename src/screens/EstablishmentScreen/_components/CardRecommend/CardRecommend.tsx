@@ -8,16 +8,16 @@ import { ShareButton } from "@/components/common/ButtonFunctional/ShareButton";
 import Link from "next/link";
 import { LikeButton } from "@/components/common/ButtonFunctional/LikeButton";
 
-import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
+import { CONSTANTS_SCREENS } from "@/asset/constants/screens.const";
 
 import { ROUTES } from "@/lib/config/Routes";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 
 import { RateMain } from "@/components/common/RateCustom/RateMain";
 import { RateCafe } from "@/components/common/RateCustom/RateCafe";
 import { RateHotel } from "@/components/common/RateCustom/RateHotel";
 
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 import { IMapItemFront } from "@/lib/models";
 
 interface ICardRecommend {
@@ -45,7 +45,7 @@ const CardRecommend: FC<ICardRecommend> = ({
                         <Link
                             href={ROUTES.FILTER_WITH_QUERY(
                                 locationId,
-                                CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                     dataEstablishment.typeEstablishment?.key
                                 ].key,
                                 `${dataEstablishment.categories[0].key}`,
@@ -62,7 +62,7 @@ const CardRecommend: FC<ICardRecommend> = ({
                             baseUrl={baseUrl}
                             linkPage={ROUTES.LOCATION.ESTABLISHMENT(
                                 dataEstablishment.location.town?.id,
-                                CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                     dataEstablishment.typeEstablishment.key
                                 ].key,
                                 dataEstablishment.id
@@ -84,7 +84,7 @@ const CardRecommend: FC<ICardRecommend> = ({
                     className={style.image_link}
                     href={ROUTES.LOCATION.ESTABLISHMENT(
                         locationId,
-                        CONSTANT_TYPES_OF_ESTABLISHMENT[
+                        CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                             dataEstablishment.typeEstablishment.key
                         ].key,
                         `${dataEstablishment.id}`
@@ -120,7 +120,7 @@ const CardRecommend: FC<ICardRecommend> = ({
                         <Link
                             href={ROUTES.LOCATION.ESTABLISHMENT(
                                 locationId,
-                                CONSTANT_TYPES_OF_ESTABLISHMENT[
+                                CONSTANT_TYPES_OF_ESTABLISHMENT_DB[
                                     dataEstablishment.typeEstablishment.key
                                 ].key,
                                 `${dataEstablishment.id}`

@@ -10,17 +10,19 @@ import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import { useFavorites } from "@/lib/context/FavoriteContext/FavoriteContext";
 
 export const TabFavoritesTourist = () => {
-    const [establishments, setEstablishments] =
-        useState<IEstablishmentFront[]>();
+    const [establishments, setEstablishments] = useState<
+        IEstablishmentFront[] | null
+    >(null);
     const t = useTranslations("ProfilePage");
     const baseUrl = useBaseUrl();
     const { favorites } = useFavorites();
     useEffect(() => {
         console.log(favorites);
+        setTimeout(() => {
+            setEstablishments([]);
+        }, 2000);
     }, [favorites]);
-    if (!establishments) {
-        return <SkeletonSlider />;
-    }
+
     return (
         <>
             <div className={style.favorite}>
@@ -29,16 +31,24 @@ export const TabFavoritesTourist = () => {
                 </h3>
                 <div className={style.favorite_content}>
                     <ul className={style.favorite_content_list}>
-                        {establishments.map((establishment, index) => {
-                            return (
-                                <CardSliderMainPage
-                                    key={establishment.id}
-                                    baseUrl={baseUrl}
-                                    dataEstablishment={establishment}
-                                    locationId={establishment.location.town.id}
-                                />
-                            );
-                        })}
+                        {!establishments ? (
+                            <SkeletonSlider />
+                        ) : establishments.length > 0 ? (
+                            establishments.map((establishment, index) => {
+                                return (
+                                    <CardSliderMainPage
+                                        key={establishment.id}
+                                        baseUrl={baseUrl}
+                                        dataEstablishment={establishment}
+                                        locationId={
+                                            establishment.location.town.id
+                                        }
+                                    />
+                                );
+                            })
+                        ) : (
+                            <div>У вас нету отмеченных объектов</div>
+                        )}
                     </ul>
                 </div>
             </div>

@@ -16,7 +16,7 @@ export default async function Home({ params, searchParams }: IProps) {
     const articleService = new ArticleService();
     const articles = await articleService.getWithFilter({
         page: 1,
-        pageSize: 8,
+        pageSize: 6,
         lang: params.locale,
     });
     // if (!articles) notFound();

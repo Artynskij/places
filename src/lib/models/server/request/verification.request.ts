@@ -1,8 +1,6 @@
 import { IBaseModerationRequest } from "./base/base-with-moderation.request";
-import {
-    IContentMultilingualRequest,
-    IContentRequest,
-} from "./base/multilingual-content.request";
+import { IContentMultilingualRequest } from "./base/multilingual-content.request";
+
 interface verificationData {
     source: {
         Person?: string | null;
@@ -11,7 +9,7 @@ interface verificationData {
         IsVerified?: boolean;
     };
 
-    content: IContentRequest;
+    content: IContentMultilingualRequest;
 }
 export interface IVerificationRequest
     extends IBaseModerationRequest<verificationData> {}

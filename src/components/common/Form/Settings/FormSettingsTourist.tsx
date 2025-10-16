@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 
-import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
+import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-networks.const";
 
 import Image from "next/image";
 
@@ -31,7 +31,7 @@ import { GenderBlockForm } from "../_components/GenderBlock/GenderBlock";
 import { InputDate } from "@/components/UI/Input/InputDate/InputDate";
 
 import { AvatarBlockForm } from "../_components/AvatarBlock/AvatarBlock";
-import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/default.const";
 import { IPersonFront } from "@/lib/models";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { validationPersonTourist } from "@/lib/validationSchemas/person/personValid.schema";

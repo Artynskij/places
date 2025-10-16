@@ -1,4 +1,4 @@
-export const CONSTANT_TYPE_FAVORITE = {
+export const CONSTANT_TYPE_FAVORITE_DB = {
     Establishment: "Establishment",
     Article: "Article",
     Photo: "Photo",

@@ -1,10 +1,9 @@
 export * from "./(article)/article.entity";
 export * from "./(article)/article-status.entity";
 
-
 export * from "./(establishment)/parts/categoryEstablishmentPart.entity";
 export * from "./(establishment)/parts/contactEstablishment.entity";
-export * from "./(establishment)/parts/content.entity";
+
 export * from "./(establishment)/parts/image.entity";
 export * from "./(establishment)/parts/rate.entity";
 
@@ -27,7 +26,6 @@ export * from "./(person)/roleOwner.entity";
 export * from "./(person)/travelProgress.entity";
 export * from "./(person)/roleOwner.entity";
 
-
 export * from "./business.entity";
 export * from "./invites.entity";
 export * from "./location-type.entity";
@@ -37,3 +35,5 @@ export * from "./moderation.entity";
 export * from "./searchItem.entity";
 export * from "./socialContacts.entity";
 export * from "./verification.entity";
+
+export * from "../base/content.entity";

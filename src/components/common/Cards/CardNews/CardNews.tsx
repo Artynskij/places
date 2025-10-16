@@ -3,10 +3,10 @@ import style from "./cardNews.module.scss";
 import { mockNews } from "@/asset/mockData/mockNews";
 import Link from "next/link";
 import { BlockReadTime } from "../../BlockFunctional/BlockReadTime";
-import { CONSTANTS_SCREENS } from "@/asset/constants/ScreensConst";
+import { CONSTANTS_SCREENS } from "@/asset/constants/screens.const";
 import { IArticleFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
-import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 interface ICardNewsProp {
     article: IArticleFront;
     descriptionShow?: boolean;
@@ -78,7 +78,7 @@ export const CardNews = ({
                 )}
                 {typeNew === "main" && (
                     <div className={style.content_additional}>
-                        <BlockReadTime text={article.content} />
+                        <BlockReadTime text={article.markdown} />
 
                         <div>{article.author}</div>
                     </div>

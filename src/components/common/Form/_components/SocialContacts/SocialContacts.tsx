@@ -9,7 +9,7 @@ import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 import { DeleteButton } from "@/components/common/ButtonFunctional/DeleteButton";
 
 import style from "./socialContacts.module.scss";
-import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/socialNetworks";
+import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-networks.const";
 import { ISelectOption } from "@/lib/models";
 import { TSocialNetworks } from "@/lib/models/types/TSocialNetworks";
 

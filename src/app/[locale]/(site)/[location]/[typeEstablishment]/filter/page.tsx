@@ -3,13 +3,13 @@ import { IBasePageProps } from "@/lib/models/common/IType";
 import { notFound } from "next/navigation";
 
 import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT } from "@/asset/constants/TypesOfEstablishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 
 import { TTypesOfEstablishment } from "@/lib/models/types/TTypesEstablishment";
-import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_PAGE_SIZE } from "@/asset/constants/default.const";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
-import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/SearchParamsConst";
+import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 import { TSortType } from "@/lib/models/types/TSortType";
 import { TTypeSortEstablishmentServer } from "@/lib/models/types";
 
@@ -84,7 +84,7 @@ export default async function FilterPage({ params, searchParams }: IProps) {
                 tagsIds: tagsQuery || [],
                 categoryIds: categoriesQuery || [],
                 typeIds: [
-                    CONSTANT_TYPES_OF_ESTABLISHMENT[params.typeEstablishment]
+                    CONSTANT_TYPES_OF_ESTABLISHMENT_DB[params.typeEstablishment]
                         .id,
                 ],
                 locationId: params.location,
@@ -95,7 +95,7 @@ export default async function FilterPage({ params, searchParams }: IProps) {
                 lang: params.locale,
                 locationId: params.location,
                 establishmentTypeId:
-                    CONSTANT_TYPES_OF_ESTABLISHMENT[params.typeEstablishment]
+                    CONSTANT_TYPES_OF_ESTABLISHMENT_DB[params.typeEstablishment]
                         .id,
             },
             filterQuery || null

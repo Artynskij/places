@@ -8,12 +8,12 @@ import { AuthGuard } from "@/components/common/Auth/guards/AuthGuard";
 
 import {
     CONSTANT_TABS,
-    switcherTabTouristData,
-} from "@/asset/constants/switcherTabsPage";
-import TabReview from "@/components/common/Tabs/profile/TabReview/TabReview";
-import TabVideo from "@/components/common/Tabs/profile/TabVideo/TabVideo";
-import TabPhoto from "@/components/common/Tabs/profile/TabPhoto/TabPhoto";
-import TabPublication from "@/components/common/Tabs/profile/TabPublication/TabPublication";
+    SWITCHER_TOURIST,
+} from "@/asset/constants/front-database/switcher-tabs-page.data";
+import { TabReview } from "@/components/common/Tabs/profile/TabReview/TabReview";
+import { TabVideo } from "@/components/common/Tabs/profile/TabVideo/TabVideo";
+import { TabPhoto } from "@/components/common/Tabs/profile/TabPhoto/TabPhoto";
+import { TabPublication } from "@/components/common/Tabs/profile/TabPublication/TabPublication";
 
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 import { TabEstablishmentCreated } from "@/components/common/Tabs/profile/TabEstablishment/TabEstablishmentCreated";
@@ -43,7 +43,7 @@ export default function TouristScreen({ params, searchParams }: IProps) {
                         <SwitcherTabs
                             // activeTab={activeTab}
                             // setActiveTab={setActiveTab}
-                            data={switcherTabTouristData}
+                            data={SWITCHER_TOURIST}
                         />
                     </div>
                     <div className={style.switcher_content}>

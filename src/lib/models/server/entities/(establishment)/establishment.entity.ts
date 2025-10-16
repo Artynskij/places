@@ -1,9 +1,11 @@
-import { extend } from "lodash";
 import { IPersonEntity } from "../(person)/person.entity";
-import { IBaseEntity } from "../base/base.entity";
+import { IBaseEntity } from "../../base/base.entity";
 import { ICategoryEstablishmentPart } from "./parts/categoryEstablishmentPart.entity";
 import { IContactsEstablishmentEntity } from "./parts/contactEstablishment.entity";
-import { IContentMultilingualEntity, IContentEstablishment, IContentEntityWithMedia } from "./parts/content.entity";
+import {
+    IContentEstablishmentEntity,
+    IContentMultilingualEntity,
+} from "../../base/content.entity";
 
 import { IRateEntity } from "./parts/rate.entity";
 import { ITypeEstablishmentEntity } from "./typeEstablishment.entity";
@@ -11,7 +13,7 @@ interface ILocationsInEstablishment {
     Id: string;
     ParentId: string;
     Path: string;
-    content: IContentEntityWithMedia;
+    content: IContentMultilingualEntity;
 }
 
 export interface IEstablishmentEntity extends IBaseEntity {
@@ -28,11 +30,11 @@ export interface IEstablishmentEntity extends IBaseEntity {
     Rates: IRateEntity;
 }
 export interface IEstablishmentWithContentEntity extends IEstablishmentEntity {
-    content: IContentEstablishment;
+    content: IContentEstablishmentEntity;
 }
 export interface IEstablishmentWithContentPareEntity {
     establishment: IEstablishmentEntity;
-    content: IContentEstablishment;
+    content: IContentEstablishmentEntity;
 }
 export interface IEstablishmentPersonAssignEntity extends IBaseEntity {
     Person: IPersonEntity | null | string;
@@ -43,10 +45,10 @@ export interface IEstablishmentPersonAssignEntity extends IBaseEntity {
     Source: "Manual" | "AutoParser" | "AdminPanel" | "Search" | "Cabinet";
     Note: string | null;
 
-    Content?: IContentMultilingualEntity | null;
+    Content?: null;
 }
 export interface IEstablishmentPersonAssignWithContentEntity {
     id: string;
     entity: IEstablishmentPersonAssignEntity;
-    content: IContentMultilingualEntity | null;
+    content: null;
 }

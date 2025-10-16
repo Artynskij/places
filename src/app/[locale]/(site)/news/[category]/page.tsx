@@ -1,7 +1,7 @@
 import { IBasePageProps } from "@/lib/models/common/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
 import ArticlesCategoryScreen from "@/screens/(Article)/ArticleCategoryScreen/ArticleCategoryScreen";
-import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/data";
+import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/front-database/tiles.data";
 import { notFound } from "next/navigation";
 import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
 

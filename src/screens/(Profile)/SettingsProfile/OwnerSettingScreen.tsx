@@ -2,7 +2,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import style from "./settings.module.scss";
 
-import { switcherSettingsOwner } from "@/asset/constants/switcherTabsPage";
+import { SWITCHER_SETTINGS_OWNER } from "@/asset/constants/front-database/switcher-tabs-page.data";
 
 import { SwitcherTabs } from "@/components/common/Switcher/SwitcherTabs/SwitcherTabs";
 

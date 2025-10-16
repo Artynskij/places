@@ -1,14 +1,14 @@
-import { IContentEntity } from "../(establishment)/parts/content.entity";
-import { IBaseEntity } from "../base/base.entity";
+import { IContentSimpleEntity } from "../../base/content.entity";
+import { IBaseEntity } from "../../base/base.entity";
 
 export interface IGenderWithContentEntity {
     gender: IGenderEntity;
 
-    content: IContentEntity | null;
+    content: IContentSimpleEntity | null;
 }
 export interface IGenderEntity extends IBaseEntity {
     Code: string;
     Name: string;
 
-    Content?: IContentEntity | null;
+    Content?: IContentSimpleEntity | null;
 }

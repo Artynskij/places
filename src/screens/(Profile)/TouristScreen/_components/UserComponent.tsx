@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 import { useNotification } from "@/lib/context";
 import { useLocale, useTranslations } from "next-intl";
-import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/DefaultConstant";
+import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/default.const";
 import { Loader } from "@/components/common/Loader/Loader";
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import { IUser } from "@/lib/models/common/IUser";

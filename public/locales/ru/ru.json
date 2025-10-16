@@ -203,8 +203,11 @@
             "replenish": "Пополнить",
             "historyPayment": "Историй платежей"
         },
-        "favoritesTab":{
-            "myFavorite":"Мои избранные объекты"
+        "favoritesTab": {
+            "myFavorite": "Мои избранные объекты"
+        },
+        "reviewTab": {
+            "myReview": "Мои оценки"
         }
     },
     "CategoryNews": {
@@ -241,5 +244,14 @@
         "ADMIN": "администратор",
         "MARKETER": "маркетолог",
         "EDITOR": "редактор"
+    },
+    "StatusArticle": {
+        "ARCHIVED": "архивированно",
+        "DRAFT": "черновик",
+        "HIDDEN": "скрыто",
+        "PENDING_REVIEW": "на рассмотре",
+        "PUBLISHED": "опубликовано",
+        "REJECTED": "отклонено",
+        "SCHEDULED": "запланировано"
     }
 }

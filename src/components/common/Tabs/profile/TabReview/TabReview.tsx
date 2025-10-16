@@ -13,12 +13,12 @@ import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/es
 import { useUser } from "@/lib/context/UserContext/UserContext";
 
 interface ITabReview {}
-const TabReview = ({}: ITabReview) => {
+export const TabReview = ({}: ITabReview) => {
     // const reviewsData = mockReviews.filter(
     //     (item) => item.user.username === dataUser.username
     // );
     const { user, loadingUser } = useUser();
-    const tRate = useTranslations("Rates");
+    const t = useTranslations("ProfilePage");
     const establishmentService = new EstablishmentService();
     const [reviewsData, setReviewsData] = useState<
         IEstablishmentRateFront[] | null
@@ -37,26 +37,27 @@ const TabReview = ({}: ITabReview) => {
                     setReviewsData(res.rates);
                 }
             });
-
-        // establishmentService
-        //     .getById("01JJ221DJARES4ATVV9G6Y2GNT", "ru")
-        //     .then((res) => {
-        //         setEstablishmentReview(res);
-        //     });
     }, [loadingUser]);
     return (
-        <div className={style.review_content}>
-            {reviewsData && reviewsData.map((review, index) => {
-                return (
-                    <CardReview
-                        key={index}
-                        // establishmentReview={review}
-                        review={review}
-                    />
-                );
-            })}
+        <div className={style.review}>
+            <h3 className={style.review_title}>
+                {t("reviewTab.myReview")}
+            </h3>
+            <div className={style.review_content}>
+                {reviewsData && reviewsData?.length > 0 ? (
+                    reviewsData.map((review, index) => {
+                        return (
+                            <CardReview
+                                key={index}
+                                // establishmentReview={review}
+                                review={review}
+                            />
+                        );
+                    })
+                ) : (
+                    <div>У вас нету оценённых объектов</div>
+                )}
+            </div>
         </div>
     );
 };
-
-export default TabReview;
