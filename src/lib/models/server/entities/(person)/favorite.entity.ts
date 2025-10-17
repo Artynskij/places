@@ -1,9 +1,8 @@
 import { TTypeFavoriteDb } from "@/lib/models/types";
-import { IBaseEntity } from "../../base/base.entity";
+import { IBaseEntity, IBaseSimpleEntity } from "../../base/base.entity";
 import { IPersonEntity } from "./person.entity";
 
-export interface IFavoriteTypeEntity extends IBaseEntity {
-    Id: string;
+export interface IFavoriteTypeEntity extends Omit<IBaseSimpleEntity, "Code"> {
     Name: TTypeFavoriteDb;
 }
 export interface IFavoriteEntity extends IBaseEntity {

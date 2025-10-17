@@ -4,7 +4,7 @@ import {
     IScheduleFront,
     IScheduleRequest,
 } from "@/lib/models";
-import { IBaseModerationResponse } from "../../models/server/response/base/base-moderation.response";
+import { IBaseModerationResponse } from "../../models/server/base/base.response";
 
 import { BaseApiService } from "../base/BaseApi.service";
 import apiClient from "../base/ApiClient";

@@ -5,7 +5,7 @@ import {
     IPersonWithContentEntity,
 } from "@/lib/models/server/entities/(person)/person.entity";
 import { IPersonRequest } from "@/lib/models/server/request/(Person)/person.request";
-import { IPaginationBaseRequest } from "@/lib/models/server/request/base/pagination-base.request";
+import { IPaginationBaseRequest } from "@/lib/models/server/base/pagination-base.request";
 import apiClient from "../../base/ApiClient";
 
 export default class PersonApi {

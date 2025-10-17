@@ -264,7 +264,7 @@ export const BusinessAdminScreen = () => {
 
     const getLegalTypeLabel = (code: TLegalTypeOfBusiness) => {
         return (
-            legalTypeOptions?.find((opt) => opt.code === code)?.title || code
+            legalTypeOptions?.find((opt) => opt.code === code)?.value || code
         );
     };
 
@@ -309,7 +309,7 @@ export const BusinessAdminScreen = () => {
                 </Tag>
             ),
             filters: legalTypeOptions?.map((opt) => ({
-                text: opt.title,
+                text: opt.value,
                 value: opt.code,
             })),
             onFilter: (value, record) => record.LegalType.Code === value,
@@ -467,10 +467,10 @@ export const BusinessAdminScreen = () => {
                     >
                         <Select placeholder="Выберите тип">
                             {legalTypeOptions?.map((option) => (
-                                <Option key={option.code} value={option.title}>
+                                <Option key={option.code} value={option.value}>
                                     <Space>
                                         {/* {option.icon} */}
-                                        {option.title}
+                                        {option.value}
                                     </Space>
                                 </Option>
                             ))}

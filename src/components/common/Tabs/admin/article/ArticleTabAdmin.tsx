@@ -9,13 +9,13 @@ import { CONSTANT_ARTICLE_STATUS_DB } from "@/asset/constants/database/article-s
 import { useTranslations } from "next-intl";
 
 interface ArticleListTabProps {
-    articles: IArticleFront[];
+  
     onArticleEdit: (article: IArticleFront) => void;
     onArticleDelete: (articleId: string) => void;
 }
 
-const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
-    // articles,
+export const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
+  
     onArticleEdit,
     onArticleDelete,
 }) => {
@@ -205,4 +205,3 @@ const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
     );
 };
 
-export default ArticleTabAdmin;

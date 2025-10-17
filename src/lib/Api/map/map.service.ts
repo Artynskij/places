@@ -1,4 +1,4 @@
-import { IMapItemsSortedResponse } from "../../models/server/response/map/map.response";
+import { IMapItemsSortedResponse } from "../../models/server/response/map.response";
 import MapApi from "./map.endpoint";
 
 import { IMapQueryRequest } from "@/lib/models/server/request/map.request";

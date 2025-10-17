@@ -3,38 +3,26 @@ import { useState } from "react";
 import { Tabs, Card, message } from "antd";
 
 import { IArticleFront } from "@/lib/models";
-import CreateArticleTabAdmin from "@/components/common/Tabs/admin/article/CreateArticleTabAdmin";
-import ArticleTabAdmin from "@/components/common/Tabs/admin/article/ArticleTabAdmin";
-import CategoryArticleTabAdmin from "@/components/common/Tabs/admin/article/CategoryArticleTabAdmin";
+import { CreateArticleTabAdmin } from "@/components/common/Tabs/admin/article/CreateArticleTabAdmin";
+import { ArticleTabAdmin } from "@/components/common/Tabs/admin/article/ArticleTabAdmin";
+import { TypeArticleTabAdmin } from "@/components/common/Tabs/admin/article/TypeArticleTabAdmin";
+import { SubTypeArticleTabAdmin } from "@/components/common/Tabs/admin/article/SubTypeArticleTabAdmin";
 
 const ArticleAdminScreen: React.FC = () => {
     const [activeTab, setActiveTab] = useState("create");
-    const [articles, setArticles] = useState<IArticleFront[]>([]);
 
     const handleArticleCreated = (newArticle: IArticleFront) => {
-        setArticles((prev) => [
-            ...prev,
-            { ...newArticle, id: Date.now().toString() },
-        ]);
-        message.success("Статья успешно создана");
+        message.info("Пока не реализовано");
         setActiveTab("list");
     };
 
     const handleArticleUpdated = (updatedArticle: IArticleFront) => {
-        setArticles((prev) =>
-            prev.map((article) =>
-                article.id === updatedArticle.id ? updatedArticle : article
-            )
-        );
-        message.success("Статья успешно обновлена");
+        message.info("Пока не реализовано");
         setActiveTab("list");
     };
 
     const handleArticleDeleted = (articleId: string) => {
-        setArticles((prev) =>
-            prev.filter((article) => article.id !== articleId)
-        );
-        message.success("Статья успешно удалена");
+        message.info("Пока не реализовано");
     };
 
     const tabs = [
@@ -52,16 +40,20 @@ const ArticleAdminScreen: React.FC = () => {
             label: "Список статей",
             children: (
                 <ArticleTabAdmin
-                    articles={articles}
                     onArticleEdit={handleArticleUpdated}
                     onArticleDelete={handleArticleDeleted}
                 />
             ),
         },
         {
-            key: "categories",
-            label: "Управление категориями",
-            children: <CategoryArticleTabAdmin />,
+            key: "type",
+            label: "Управление рубриками",
+            children: <TypeArticleTabAdmin />,
+        },
+        {
+            key: "sybType",
+            label: "Управление Под-рубриками",
+            children: <SubTypeArticleTabAdmin />,
         },
     ];
 

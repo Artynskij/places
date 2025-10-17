@@ -8,7 +8,6 @@ import {
     IBusinessLegalTypesFront,
 } from "@/lib/models";
 import { IRoleOwnerFront } from "@/lib/models/frontend/(person)/roleOwner.front";
-import { useTranslations } from "next-intl";
 
 export class DataLoadManagementMapper {
     constructor() {}
@@ -103,7 +102,7 @@ export class DataLoadManagementMapper {
         return {
             id: legalTypesEntity.Id,
             code: legalTypesEntity.Code,
-            title:
+            value:
                 legalTypesEntity.content.details.find(
                     (item) => item.lang === lang
                 )?.value || legalTypesEntity.content.details[0].value,

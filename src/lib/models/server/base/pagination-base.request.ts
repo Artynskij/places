@@ -1,4 +1,4 @@
-import { TLocale } from "../../../types";
+import { TLocale } from "../../types";
 
 export interface IPaginationBaseRequest {
     lang?: TLocale;

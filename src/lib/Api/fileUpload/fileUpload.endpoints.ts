@@ -3,7 +3,7 @@ import {
     IFilePublicUploadBodyRequest,
 } from "@/lib/models/server/request/fileUpload.request";
 
-import { IFileUploadResponse } from "@/lib/models/server/response/fileUpload/fileUpload.response";
+import { IFileUploadResponse } from "@/lib/models/server/response/fileUpload.response";
 import apiClient from "../base/ApiClient";
 
 export default class FileUploadApi {

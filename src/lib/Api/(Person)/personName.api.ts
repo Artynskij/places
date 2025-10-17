@@ -4,7 +4,7 @@ import {
     IPersonNameRequest,
 } from "@/lib/models";
 import { BaseApiService } from "../base/BaseApi.service";
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
+import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 
 export class PersonNameMapper {
     constructor() {}

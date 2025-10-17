@@ -1,6 +1,6 @@
 import { TLocale } from "@/lib/models/types";
 import { IRoleOwnerWithContentEntity } from "./../entities";
-import { IBaseModerationRequest } from "./base/base-with-moderation.request";
+import { IBaseModerationRequest } from "../base/base.request";
 interface BusinessReqData {
     source: {
         OfficialName: string | null;

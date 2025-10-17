@@ -1,5 +1,9 @@
-export * from "./(article)/article.entity";
+export * from "./(article)/article-hash-tag.entity";
+export * from "./(article)/article-reaction.entity";
 export * from "./(article)/article-status.entity";
+export * from "./(article)/article-subType.entity";
+export * from "./(article)/article-type.entity";
+export * from "./(article)/article.entity";
 
 export * from "./(establishment)/parts/categoryEstablishmentPart.entity";
 export * from "./(establishment)/parts/contactEstablishment.entity";

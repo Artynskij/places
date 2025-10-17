@@ -18,7 +18,7 @@ import {
 import { DataLoadManagementService } from "../../dataLoadManagement/dataLoadManagement.service";
 import { EstablishmentPersonAssignmentApi } from "./establishmentAssignment.api";
 import EstablishmentRateApi from "./establishmentRate.endpoints";
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
+import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 
 export class EstablishmentService {
     private establishmentRateApi: EstablishmentRateApi;

@@ -1,4 +1,3 @@
-
 import {
     IEstablishmentItemsResponse,
     IEstablishmentResponse,
@@ -9,7 +8,7 @@ import {
 } from "@/lib/models/server/request/(Establishment)/establishment.request";
 import { IEstablishmentEntity } from "@/lib/models";
 import apiClient from "../../base/ApiClient";
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
+import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 
 export default class EstablishmentApi {
     constructor() {}

@@ -1,5 +1,5 @@
-import { IBaseModerationRequest } from "../base/base-with-moderation.request";
-import { IPaginationBaseRequest } from "../base/pagination-base.request";
+import { IBaseModerationRequest } from "../../base/base.request";
+import { IPaginationBaseRequest } from "../../base/pagination-base.request";
 
 export interface ITagsOfEstablishmentRequest extends IPaginationBaseRequest {
     establishmentIds?: number[] | string[];

@@ -1,7 +1,7 @@
 import { TLocale } from "@/lib/models/types";
 
-import { IPaginationBaseRequest } from "../base/pagination-base.request";
-import { IContentMultilingualRequest } from "../base/multilingual-content.request";
+import { IPaginationBaseRequest } from "../../base/pagination-base.request";
+import { IContentMultilingualRequest } from "../../base/multilingual-content.request";
 
 export interface IPaginationArticleRequest extends IPaginationBaseRequest {
     pagination: {
@@ -27,9 +27,15 @@ interface ContentArticle
 export interface IArticleRequest {
     source: {
         PersonId: string;
-        BusinessId?: string;
+        // BusinessId?: string;
         ArticlesStatusId: string;
         ReadingTimeMinutes: number;
     };
     content: ContentArticle;
+}
+
+// доп
+export interface IArticleUpdateStatusRequest {
+    articleIds: string[];
+    statusId: string;
 }

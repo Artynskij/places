@@ -8,7 +8,7 @@ import {
 } from "../base/content.entity";
 import { IRoleOwnerWithContentEntity } from "./(person)/roleOwner.entity";
 import { TLegalTypeOfBusiness } from "../../types/TLegalTypeOfBusiness";
-import { IBaseEntity } from "../base/base.entity";
+import { IBaseEntity, IBaseSimpleEntity } from "../base/base.entity";
 
 export interface IBusinessEntity extends IBaseEntity {
     OfficialName: string;
@@ -24,21 +24,19 @@ export interface IBusinessWithContentEntity {
     business: IBusinessEntity;
     content: IContentMultilingualEntity | null;
 }
-
+// отношение бизнеса к персоне
 export interface IBusinessPersonAssignEntity {
     Person: IPersonEntity | null;
     Business: IBusinessEntity | null;
     BusinessPosition: IBusinessPositionEntity | null;
     IsOwnerVerified: boolean;
 }
-export interface IBusinessPositionEntity {
-    Id: string;
-    Code: string;
+// бизнес журналы
+export interface IBusinessPositionEntity extends IBaseSimpleEntity {
     content: IContentSimpleEntity;
 }
 
-export interface IBusinessLegalTypesEntity {
-    Id: string;
+export interface IBusinessLegalTypesEntity extends IBaseSimpleEntity {
     Code: TLegalTypeOfBusiness;
     content: IContentSimpleEntity;
 }

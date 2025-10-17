@@ -1,7 +1,7 @@
 import { TLocale } from "@/lib/models/types";
 import { IImageEntity } from "./../entities";
-import { IContentMultilingualRequest } from "./base/multilingual-content.request";
-import { IBaseModerationRequest } from "./base/base-with-moderation.request";
+import { IContentMultilingualRequest } from "../base/multilingual-content.request";
+import { IBaseModerationRequest } from "../base/base.request";
 
 export interface ILocationInsidePaginationRequest {
     pagination: {

@@ -7,5 +7,5 @@ export interface IBusinessFront extends IBusinessEntity {}
 export interface IBusinessLegalTypesFront {
     id: string;
     code: TLegalTypeOfBusiness;
-    title: string;
+    value: string;
 }

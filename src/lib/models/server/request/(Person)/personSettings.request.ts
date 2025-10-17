@@ -1,4 +1,4 @@
-import { IBaseModerationRequest } from "../base/base-with-moderation.request";
+import { IBaseModerationRequest } from "../../base/base.request";
 
 interface PersonSettingsData {
     ShowTravelMap?: boolean;

@@ -1,4 +1,4 @@
-import { IBaseModerationResponse } from "../../models/server/response/base/base-moderation.response";
+import { IBaseModerationResponse } from "../../models/server/base/base.response";
 
 import {
     IContactEstablishmentRequest,

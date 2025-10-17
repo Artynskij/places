@@ -13,7 +13,7 @@ export default class ArticleMapper {
         if (!articleEntity.content) {
             return null;
         }
-        console.log(articleEntity);
+        
 
         const contentDetailsEntity = articleEntity.content.details[0];
         const galleryImages: IMediaFront[] | null =

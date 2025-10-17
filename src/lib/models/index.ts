@@ -1,3 +1,4 @@
+export * from "./server/base";
 export * from "./server/entities";
 export * from "./server/request";
 export * from "./server/response";

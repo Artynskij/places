@@ -3,7 +3,7 @@ import {
     IBusinessWithContentEntity,
 } from "@/lib/models/server/entities/business.entity";
 
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
+import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 import apiClient from "../base/ApiClient";
 import { IBusinessGetAllQueryRequest, IBusinessRequest } from "@/lib/models";
 import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
@@ -15,7 +15,6 @@ export default class BusinessApi {
         query: IBusinessGetAllQueryRequest
     ): Promise<IBusinessWithContentEntity[] | null> {
         try {
-            
             const queryString = getQueryParamsForApi(query);
             const url = queryString
                 ? `/businesses?${queryString}`
