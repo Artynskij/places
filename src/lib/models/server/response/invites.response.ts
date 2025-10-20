@@ -1,4 +1,5 @@
-import { IContentMultilingualEntity, IPersonNameEntity } from "../../entities";
+import { IContentMultilingualEntity, IPersonNameEntity } from "../entities";
+
 
 export interface IInvitesByQueryItemResponse {
     id: string;

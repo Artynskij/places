@@ -176,9 +176,10 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
                     </Button>
                     <Button
                         icon={<ReloadOutlined />}
-                        onClick={() =>{
-                             message.info('Обновлено')
-                            fetchAll()}}
+                        onClick={() => {
+                            message.info("Обновлено");
+                            // fetchAll();
+                        }}
                     />
                 </Space>
             </div>

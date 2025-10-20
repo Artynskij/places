@@ -11,9 +11,9 @@
             border-radius: 10px;
         }
         &_list {
-            display: flex;
-            flex-direction: column;
-
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: $gap-medium;
             &_item {
                 display: grid;
                 grid-template-columns: repeat(7, 1fr);
@@ -66,5 +66,15 @@
         &_price {
             @extend %Text14;
         }
+    }
+}
+@include mediaTablet {
+    .favorite_content_list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@include mediaPhone {
+    .favorite_content_list {
+        grid-template-columns: 1fr;
     }
 }

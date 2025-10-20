@@ -3,16 +3,15 @@ import {
     IScheduleFront,
     ISearchItemEntity,
     ISearchItemFront,
+    ISearchQueryResponse,
     ISearchQueryResponseFront,
 } from "@/lib/models";
-import { ISearchQueryResponse } from "@/lib/models/server/response/search/search.response";
-import {
-    TGlobalTypes,
-    TTypesOfSearchKey,
-} from "@/lib/models/types/TTypesGlobal";
+
+
 
 import TagsMapper from "../(Establishment)/tags/tag.mapper";
 import { ISearchQueryRequest } from "@/lib/models/server/request/search.request";
+import { TGlobalTypes } from "@/lib/models/types";
 
 export class SearchMapper {
     private tagsMapper: TagsMapper;
