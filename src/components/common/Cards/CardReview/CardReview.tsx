@@ -25,9 +25,10 @@ interface ICardReview {
 export const CardReview = ({
     review,
 }: // tRate,
-ICardReview) => {
+    ICardReview) => {
     const tRate = useTranslations("Rates");
     const mainRate = review.rates.find((item) => item.key === "Rate");
+    console.log(review)
     const additionalRates = review.rates.filter((item) => item.key !== "Rate");
     const establishmentReview = review.establishment;
     const gallery = establishmentReview?.media.gallery || null;
@@ -49,7 +50,7 @@ ICardReview) => {
                     <div className={style.user_info}>
                         <div className={style.user_name}>
                             <span>{review.person.personName?.fullName}</span>{" "}
-                            {"написал(a) отзыв"}
+                            {"оставил(a) оценку"}
                         </div>
 
                         <div className={style.user_dateReview}>
@@ -57,19 +58,23 @@ ICardReview) => {
                         </div>
                     </div>
                 </div>
+                <div className={style.user_info}>
+                    <label>Общая оценка:</label>
+                    <RateMain disabled defaultValue={mainRate?.value || 0} />
+                </div>
             </div>
 
             <div className={style.reviewBody}>
-                <div className={style.reviewBody_mainRate}>
-                    <RateMain disabled defaultValue={mainRate?.value || 0} />
-                </div>
 
-                <div className={style.reviewBody_title}>
-                    {/* {review.review.title} */}
+
+
+                {/* <div className={style.reviewBody_title}>
+                    {review.review.title}
                 </div>
                 <div className={style.reviewBody_description}>
-                    {/* {review.review.description} */}
-                </div>
+                    {review.review.description}
+                </div> */}
+
                 <div className={style.reviewBody_dateVisit}>
                     Дата посещения: {getFormatDate(review.PersonsVisitDate)}
                 </div>
@@ -79,8 +84,9 @@ ICardReview) => {
                             className={style.reviewBody_additionalRate_rate}
                             key={rate.key}
                         >
+                            <label>{tRate(rate.key)}:</label>
                             <RateMain disabled defaultValue={rate.value} />
-                            <label>{tRate(rate.key)}</label>
+
                         </div>
                     ))}
                 </div>
@@ -107,7 +113,7 @@ ICardReview) => {
                                     establishmentReview.rates.main
                                 )}
                             />
-                            <span>{`(${establishmentReview.rates.count} отзывов)`}</span>
+                            <span>{`(${establishmentReview.rates.count} оценок)`}</span>
                         </div>
 
                         <div className={style.establishment_title}>

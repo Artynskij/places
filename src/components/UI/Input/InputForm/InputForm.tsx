@@ -51,7 +51,7 @@ export const InputForm: FC<IIinputFormProps> = ({
             </div>
             <div className={style.ctn_input_input}>
                 <input
-                   
+
                     id={`input-${register?.name}`}
                     {...register}
                     value={value}

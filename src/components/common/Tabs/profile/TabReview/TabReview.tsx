@@ -12,8 +12,8 @@ import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 
-interface ITabReview {}
-export const TabReview = ({}: ITabReview) => {
+interface ITabReview { }
+export const TabReview = ({ }: ITabReview) => {
     // const reviewsData = mockReviews.filter(
     //     (item) => item.user.username === dataUser.username
     // );
@@ -47,11 +47,14 @@ export const TabReview = ({}: ITabReview) => {
                 {reviewsData && reviewsData?.length > 0 ? (
                     reviewsData.map((review, index) => {
                         return (
-                            <CardReview
-                                key={index}
-                                // establishmentReview={review}
-                                review={review}
-                            />
+                            <>
+                                <CardReview
+                                    key={index}
+                                    // establishmentReview={review}
+                                    review={review}
+                                />
+                                
+                            </>
                         );
                     })
                 ) : (

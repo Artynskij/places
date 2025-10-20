@@ -229,6 +229,32 @@ export const FormSettingsTourist = () => {
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>Данные туриста</div>
                 <div className={style.selectionBlock_content}>
+                     <Controller
+                        name="gender"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                            <div className={style.selectBlock}>
+                                <span>Выберите пол</span>
+                                <GenderBlockForm
+                                    selectedGender={field.value as string}
+                                    onChange={field.onChange}
+                                    error={fieldState.error || null}
+                                />
+                            </div>
+                        )}
+                    />
+                    <Controller
+                        name="dateOfBirth"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                            <InputDate
+                                titleSpan="Дата рождения ДД.ММ.ГГГГ*"
+                                value={field.value || null}
+                                onChange={field.onChange}
+                                error={fieldState.error?.message}
+                            />
+                        )}
+                    />
                     <InputForm
                         error={errors.fullName?.name?.message}
                         register={register("fullName.name")}
@@ -259,32 +285,7 @@ export const FormSettingsTourist = () => {
                         titleSpan="@Никнейм"
                         type="text"
                     />
-                    <Controller
-                        name="gender"
-                        control={control}
-                        render={({ field, fieldState }) => (
-                            <div className={style.selectBlock}>
-                                <span>Выберите пол</span>
-                                <GenderBlockForm
-                                    selectedGender={field.value as string}
-                                    onChange={field.onChange}
-                                    error={fieldState.error || null}
-                                />
-                            </div>
-                        )}
-                    />
-                    <Controller
-                        name="dateOfBirth"
-                        control={control}
-                        render={({ field, fieldState }) => (
-                            <InputDate
-                                titleSpan="Дата рождения ДД.ММ.ГГГГ*"
-                                value={field.value || null}
-                                onChange={field.onChange}
-                                error={fieldState.error?.message}
-                            />
-                        )}
-                    />
+                   
                 </div>
             </div>
             <div className={style.selectionBlock}>

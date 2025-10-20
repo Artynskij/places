@@ -42,23 +42,23 @@ export const FormLegalEntity = ({ business, mode, closeModal }: IProp) => {
     const generalBusinessService = new GeneralBusinessService();
     const initialFormData: TTypeForm | null = business
         ? {
-              officialName: business.OfficialName,
-              dateRegister: business.RegistrationDate || new Date(),
-              numberOrganization: business.RegistrationNumber || "",
-              phone: business.Contacts.Phone || "",
-              email: business.Contacts.Email || "",
-              address: {
-                  addressLine: business.Contacts.Address?.Street || "",
-                  country: business.Contacts.Address?.Country || "",
-                  district: business.Contacts.Address?.District || "",
-                  town: business.Contacts.Address?.Town || "",
-                  postalCode: business.Contacts.Address?.PostalCode || "",
-              },
-              agreements:
-                  mode === "update"
-                      ? AGREEMENT_KEYS_BUS_LEGAL_ENTITY
-                      : undefined,
-          }
+            officialName: business.OfficialName,
+            dateRegister: business.RegistrationDate || new Date(),
+            numberOrganization: business.RegistrationNumber || "",
+            phone: business.Contacts.Phone || "",
+            email: business.Contacts.Email || "",
+            address: {
+                addressLine: business.Contacts.Address?.Street || "",
+                country: business.Contacts.Address?.Country || "",
+                district: business.Contacts.Address?.District || "",
+                town: business.Contacts.Address?.Town || "",
+                postalCode: business.Contacts.Address?.PostalCode || "",
+            },
+            agreements:
+                mode === "update"
+                    ? AGREEMENT_KEYS_BUS_LEGAL_ENTITY
+                    : undefined,
+        }
         : null;
     const {
         register,
@@ -77,6 +77,7 @@ export const FormLegalEntity = ({ business, mode, closeModal }: IProp) => {
             return;
         }
         let success = false;
+
         if (!business) {
             success = !!(await generalBusinessService.create({
                 formData: formData,
@@ -113,8 +114,10 @@ export const FormLegalEntity = ({ business, mode, closeModal }: IProp) => {
             });
         }
     };
-    const onSubmitInvalid = () => {
+    const onSubmitInvalid = (form: any) => {
+        console.log(form)
         notification.error({
+
             message: "Пожалуйста, заполните обязательные поля",
         });
     };

@@ -15,7 +15,7 @@ export const AGREEMENT_KEYS_BUS_SOLE_PROPRIETOR: TAgreementKey[] = [
     "AgreedReviewsNotification",
 ];
 export const AGREEMENT_KEYS_BUS_LEGAL_ENTITY: TAgreementKey[] = [
-    "ConfirmedLegalPerson",
+    "ConfirmedLegalPersonLegalEntity",
     "ConfirmedLegalBusiness",
     "AcceptedTerms",
     "AgreedMarketing",

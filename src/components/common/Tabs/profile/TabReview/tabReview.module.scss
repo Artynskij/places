@@ -4,8 +4,16 @@
     }
     &_content {
         display: grid;
+        grid-template-columns: repeat(2, 1fr);
         flex-direction: column;
-
         gap: $gap-big;
     }
+}
+
+@include mediaPhone {
+    .review {
+    &_content {
+        grid-template-columns:  1fr;
+    }
+}
 }
