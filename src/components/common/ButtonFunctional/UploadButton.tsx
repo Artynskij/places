@@ -13,6 +13,8 @@ import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
 import { IMediaFront } from "@/lib/models";
 import Image from "next/image";
 
+import clsx from 'clsx'
+
 const { Dragger } = Upload;
 
 interface Props {
@@ -176,12 +178,13 @@ export const UploadButton: React.FC<Props> = ({
     };
 
     return (
-        <div className={`${style.uploadButton} ${className}`}>
-            <Dragger
-                style={error?.message ? inlineStyles.error : {}}
-                {...props}
-            >
-                {/* <div className={style.oldFiles_block}>
+        <div style={{width: '100%'}}>
+            <div className={clsx(style.uploadButton, !!className&&className)}>
+                <Dragger
+                    style={error?.message ? inlineStyles.error : {}}
+                    {...props}
+                >
+                    {/* <div className={style.oldFiles_block}>
                     {downloadedValue?.map((media) => {
                         return (
                             <Image
@@ -195,33 +198,34 @@ export const UploadButton: React.FC<Props> = ({
                     })}
                 </div> */}
 
-                {type === "box" && (
-                    <>
-                        <p className="ant-upload-drag-icon">
-                            <InboxOutlined />
-                        </p>
-                        <p className={style.uploadButton_text}>
-                            Кликните или перетащите файл для загрузки
-                        </p>
-                        <p className={style.uploadButton_text}>
-                            Допустимые форматы:{" "}
-                            {resolvedAccept?.replaceAll(".", " ")}.
-                        </p>
-                        <p className={style.uploadButton_text}>
-                            Размер каждого файла должен быть не более 47 Мб.
-                        </p>
-                        {maxCount && (
-                            <p className="ant-upload-hint">
-                                Поддерживается одиночная и массовая загрузка.
-                                Максимум {maxCount} файлов.
+                    {type === "box" && (
+                        <>
+                            <p className="ant-upload-drag-icon">
+                                <InboxOutlined />
                             </p>
-                        )}
-                    </>
-                )}
-                {type === "avatar" && <div>Avatar</div>}
-            </Dragger>
+                            <p className={style.uploadButton_text}>
+                                Кликните или перетащите файл для загрузки
+                            </p>
+                            <p className={style.uploadButton_text}>
+                                Допустимые форматы:{" "}
+                                {resolvedAccept?.replaceAll(".", " ")}.
+                            </p>
+                            <p className={style.uploadButton_text}>
+                                Размер каждого файла должен быть не более 47 Мб.
+                            </p>
+                            {maxCount && (
+                                <p className="ant-upload-hint">
+                                    Поддерживается одиночная и массовая загрузка.
+                                    Максимум {maxCount} файлов.
+                                </p>
+                            )}
+                        </>
+                    )}
+                    {type === "avatar" && <div>Avatar</div>}
+                </Dragger>
 
-            {error && <SpanErrorForm text={error.message} />}
+                {error && <SpanErrorForm text={error.message} />}
+            </div>
         </div>
     );
 };

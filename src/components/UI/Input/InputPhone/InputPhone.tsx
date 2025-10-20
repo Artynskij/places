@@ -27,7 +27,7 @@ export const InputPhoneNumber = <TFieldName extends string>({
     });
 
     const countries = [...defaultCountries, unknownCountry];
-    console.log(defaultCountries)
+    
     return (
         <div className={style.blockPhoneNumber}>
             <label htmlFor={`input-phoneNumber`}>{titleSpan}</label>

@@ -1,30 +1,31 @@
 .cardReview {
     display: flex;
     flex-direction: column;
-
-    gap: $gap-big;
+    justify-content: space-between;
     background: $color-additional-background;
-    padding: 30px;
+    padding: 20px;
     border-radius: $border-radius-20;
     @extend %Text14;
     overflow: hidden;
 }
+
 .user {
     display: flex;
     justify-content: space-between;
-    gap: $gap-big;
+    border-bottom: 1px solid $color-blur-black;
+    margin-bottom: 5px;
     &_left {
         display: flex;
-        gap: $gap-big;
+        gap: $gap;
     }
-    &_right {
-    }
+
     &_avatar {
         & img {
             border-radius: 50%;
             object-fit: cover;
         }
     }
+
     &_info {
         display: flex;
         flex-direction: column;
@@ -35,21 +36,26 @@
             font-weight: 700;
         }
     }
+
     &_dateReview {
         color: $color-main-grey;
         @extend %Text12;
     }
 }
+
 .album {
     display: flex;
     gap: $gap-small;
     overflow-x: auto;
+
     &::-webkit-scrollbar {
-        height: 8px; // Высота скроллбара
+        height: 8px;
     }
+
     &::-webkit-scrollbar-thumb {
         cursor: grab;
     }
+
     &_image {
         & img {
             width: auto;
@@ -58,61 +64,71 @@
         }
     }
 }
+
 .reviewBody {
     display: flex;
     flex-direction: column;
     gap: $gap-small;
-    padding-bottom: 20px;
-    border-bottom: 1px solid $color-main-grey;
-    &_title {
-        font-weight: 700;
-    }
+    padding-bottom: 10px;
+
     &_dateVisit {
         color: $color-main-grey;
         @extend %Text12;
     }
-    &_description {
-    }
-    &__mainRate {
-    }
+
     &_additionalRate {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        &_rate {
-            display: flex;
-            gap: $gap-small;
-        }
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    label {
+        color: $color-main-grey;
+        @extend %Text12;
     }
 }
+
 .establishment {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
     align-items: center;
-    gap: $gap-big;
+    gap: $gap;
     background: $color-main-background;
-    border-radius: $border-radius-5;
+    border-radius: $border-radius-20;
+
     &_image {
+        height: 100%;
+
         & img {
             object-fit: cover;
-            border-radius: $border-radius-5;
+            border-radius: $border-radius-20;
             aspect-ratio: 16 / 9;
             width: 100%;
             height: 100%;
             max-width: 300px;
+            
         }
     }
+
     &_right {
         display: flex;
         flex-direction: column;
-        gap: $gap-medium;
+        gap: $gap-small;
         padding: 10px;
     }
+
     &_rate {
         display: flex;
         align-items: center;
         gap: $gap-small;
     }
+
     &_title {
-        @extend %Text18;
+        @extend %Text16;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-clamp: 3;
     }
 
     &_location {
@@ -122,43 +138,12 @@
         @extend %Text14;
     }
 }
-// .reaction {
-//   &_icon {
-//     font-size: 24px;
-//     cursor: pointer;
-//     transition: $transition;
-//     &:hover {
-//       transform: scale(1.1);
-//     }
-//   }
-//   &_like {
-//     color: green;
-//   }
-//   &_dislike {
-//     color: red;
-//   }
-// }
+
+
 @include mediaPhone {
-    .user {
-        &_left {
-            flex-direction: column;
-        }
-        &_right {
-            //   align-items: center;
-        }
-    }
     .reviewBody {
         &_additionalRate {
-            grid-template-columns: 1fr;
-        }
-    }
-    .establishment {
-        flex-direction: column;
-        align-items: normal;
-        &_image {
-            & img {
-                max-width: none;
-            }
+            grid-template-columns: 1fr 1fr;
         }
     }
 }

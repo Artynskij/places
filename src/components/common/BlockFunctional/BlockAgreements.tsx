@@ -11,15 +11,17 @@ interface IBlockAgreements {
     value: string[]; // выбранные value
     onChange: (checkedValues: string[]) => void;
     error?: string;
+
 }
 export const BlockAgreements = ({
     agreementKeys,
     value,
     onChange,
-    error,
+    error
+
 }: IBlockAgreements) => {
     const filteredAgreements = CONSTANT_AGREEMENTS_DATA.filter((item) =>
-        agreementKeys.includes(item.value)
+        agreementKeys.includes(item.key)
     );
     return (
         <div className={style.blockAgreements}>
@@ -36,9 +38,8 @@ export const BlockAgreements = ({
                                 key={agreementItem.value}
                             >
                                 <CheckBoxCustom
-                                    name={`${
-                                        agreementItem.required ? "*" : ""
-                                    }${agreementItem.title}`}
+                                    name={`${agreementItem.required ? "*" : ""
+                                        }${agreementItem.title}`}
                                     value={agreementItem.value}
                                     error={isRequiredAndUnselected}
                                 />
