@@ -3,7 +3,7 @@ import { IAddressEntity } from "@/lib/models/server/entities/(person)/address.en
 import { IAddressFront } from "@/lib/models/frontend/(person)/address.front";
 import { IAddressRequest } from "@/lib/models/server/request/(Person)/address.request";
 
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
+import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 import { BaseApiService } from "../base/BaseApi.service";
 
 class AddressMapper {
@@ -27,7 +27,7 @@ export class AddressService extends BaseApiService<
     IAddressFront,
     IAddressRequest,
     IBaseModerationResponse
->{
+> {
     protected baseUrl = "/addresses";
     protected mapper = new AddressMapper();
 }

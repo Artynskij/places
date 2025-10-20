@@ -9,7 +9,7 @@ import {
 } from "@/lib/models/server/entities/(person)/person.entity";
 import { GenderService } from "../gender.api";
 import { ITravelProgressFront } from "@/lib/models";
-import { IPaginationBaseRequest } from "@/lib/models/server/request/base/pagination-base.request";
+import { IPaginationBaseRequest } from "@/lib/models/server/base/pagination-base.request";
 
 export class PersonService {
     private personApi: PersonApi;

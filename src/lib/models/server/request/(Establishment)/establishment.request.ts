@@ -1,10 +1,10 @@
 import { locales } from "@/config";
-import { IPaginationBaseRequest } from "../base/pagination-base.request";
+import { IPaginationBaseRequest } from "../../base/pagination-base.request";
 import { TLocale } from "@/lib/models/types/TLocale";
 import { TTypeFile } from "@/lib/models/types/TTypeFile";
 import { IImageEntity } from "../../entities";
 import { TTypeSortEstablishmentServer } from "@/lib/models/types";
-import { IBaseModerationRequest } from "../base/base-with-moderation.request";
+import { IBaseModerationRequest } from "../../base/base.request";
 
 export interface IPaginationEstablishmentRequest
     extends IPaginationBaseRequest {

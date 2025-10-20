@@ -8,7 +8,7 @@ import { useState } from "react";
 
 import { PopularArticles } from "../_component/_PopularNews/_PopularNews";
 
-import { IArticleFront } from "@/lib/models/frontend/article.front";
+import { IArticleFront } from "@/lib/models/frontend/(article)/article.front";
 
 import BlockArticles from "./_components/BlockArticle/BlockArticles";
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";

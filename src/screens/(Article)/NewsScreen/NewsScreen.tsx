@@ -9,7 +9,7 @@ import { useState } from "react";
 
 import { PopularArticles } from "../_component/_PopularNews/_PopularNews";
 
-import { IArticleFront } from "@/lib/models/frontend/article.front";
+import { IArticleFront } from "@/lib/models/frontend/(article)/article.front";
 
 import { SpinnerAnt } from "@/components/common/Spinner/SpinnerAnt";
 import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";

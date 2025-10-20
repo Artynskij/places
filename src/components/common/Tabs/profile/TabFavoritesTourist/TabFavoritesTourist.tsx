@@ -3,24 +3,21 @@
 import { useEffect, useState } from "react";
 import style from "./favoritesTourist.module.scss";
 import { useTranslations } from "next-intl";
-import { IEstablishmentFront } from "@/lib/models";
+import { IFavoriteFront } from "@/lib/models";
 import { SkeletonSlider } from "@/components/common/Skeleton/SkeletonSlider";
 import { CardSliderMainPage } from "@/components/common/Cards";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import { useFavorites } from "@/lib/context/FavoriteContext/FavoriteContext";
 
 export const TabFavoritesTourist = () => {
-    const [establishments, setEstablishments] = useState<
-        IEstablishmentFront[] | null
-    >(null);
+    const [favoritesData, setFavoritesData] = useState<IFavoriteFront[] | null>(
+        []
+    );
     const t = useTranslations("ProfilePage");
     const baseUrl = useBaseUrl();
     const { favorites } = useFavorites();
     useEffect(() => {
-        console.log(favorites);
-        setTimeout(() => {
-            setEstablishments([]);
-        }, 2000);
+        setFavoritesData(favorites);
     }, [favorites]);
 
     return (
@@ -31,23 +28,26 @@ export const TabFavoritesTourist = () => {
                 </h3>
                 <div className={style.favorite_content}>
                     <ul className={style.favorite_content_list}>
-                        {!establishments ? (
-                            <SkeletonSlider />
-                        ) : establishments.length > 0 ? (
-                            establishments.map((establishment, index) => {
-                                return (
+                        {!favoritesData ? (
+                            <div>У вас нету отмеченных объектов</div>
+                            
+                        ) : favoritesData.length > 0 ? (
+                            favoritesData.map((fav, index) => {
+                                return fav.establishment ? (
                                     <CardSliderMainPage
-                                        key={establishment.id}
+                                        key={fav.id}
                                         baseUrl={baseUrl}
-                                        dataEstablishment={establishment}
+                                        dataEstablishment={fav.establishment}
                                         locationId={
-                                            establishment.location.town.id
+                                            fav.establishment.location.town.id
                                         }
                                     />
+                                ) : (
+                                    <div>тут не объекты</div>
                                 );
                             })
                         ) : (
-                            <div>У вас нету отмеченных объектов</div>
+                            <SkeletonSlider />
                         )}
                     </ul>
                 </div>

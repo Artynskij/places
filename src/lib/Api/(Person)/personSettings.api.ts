@@ -4,7 +4,7 @@ import {
     IPersonSettingsRequest,
 } from "@/lib/models";
 import { BaseApiService } from "../base/BaseApi.service";
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
+import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 import apiClient from "../base/ApiClient";
 import { PersonService } from "./person/person.service";
 
@@ -67,7 +67,6 @@ export class PersonSettingsService extends BaseApiService<
         body: IPersonSettingsRequest,
         idPerson?: string
     ): Promise<IBaseModerationResponse | null> {
-       
         if (id) {
             return this.update(id, body);
         } else if (idPerson) {

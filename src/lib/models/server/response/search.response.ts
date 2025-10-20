@@ -1,11 +1,13 @@
-import { ISearchItemEntity } from "../../entities/searchItem.entity";
+import { ISearchItemEntity } from "../entities";
 
 export interface ISearchQueryResponse {
-    hits: {
-        locations: ISearchItemEntity[];
-        establishments: ISearchItemEntity[];
-        articles: ISearchItemEntity[];
-    } | ISearchItemEntity[];
+    hits:
+        | {
+              locations: ISearchItemEntity[];
+              establishments: ISearchItemEntity[];
+              articles: ISearchItemEntity[];
+          }
+        | ISearchItemEntity[];
     total: number;
     _meta: {
         term: string;

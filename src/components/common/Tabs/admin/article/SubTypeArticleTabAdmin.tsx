@@ -1,7 +1,12 @@
 "use client";
 import { useState } from "react";
 import { Table, Button, Space, Input, Form, Modal, message, Tag } from "antd";
-import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+    EditOutlined,
+    DeleteOutlined,
+    PlusOutlined,
+    ReloadOutlined,
+} from "@ant-design/icons";
 
 interface Category {
     id: number;
@@ -10,7 +15,7 @@ interface Category {
     createdAt: string;
 }
 
-const CategoryArticleTabAdmin: React.FC = () => {
+export const SubTypeArticleTabAdmin: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([
         {
             id: 1,
@@ -161,13 +166,22 @@ const CategoryArticleTabAdmin: React.FC = () => {
                 }}
             >
                 <h3>Управление категориями</h3>
-                <Button
-                    type="primary"
-                    icon={<PlusOutlined />}
-                    onClick={handleAdd}
-                >
-                    Добавить категорию
-                </Button>
+                <Space>
+                    <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={handleAdd}
+                    >
+                        Добавить категорию
+                    </Button>
+                    <Button
+                        icon={<ReloadOutlined />}
+                        onClick={() => {
+                            message.info("Обновлено");
+                            // fetchAll();
+                        }}
+                    />
+                </Space>
             </div>
 
             <Table
@@ -229,4 +243,3 @@ const CategoryArticleTabAdmin: React.FC = () => {
         </div>
     );
 };
-export default CategoryArticleTabAdmin;

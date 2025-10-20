@@ -10,7 +10,7 @@ import {
     IEstablishmentRateAllResponse,
     IEstablishmentRateFront,
 } from "@/lib/models";
-import EstablishmentMapper from "./establishment.mapper";
+import {EstablishmentMapper} from "./establishment.mapper";
 import {
     IEstablishmentCreateRequest,
     IPaginationEstablishmentRequest,
@@ -18,7 +18,7 @@ import {
 import { DataLoadManagementService } from "../../dataLoadManagement/dataLoadManagement.service";
 import { EstablishmentPersonAssignmentApi } from "./establishmentAssignment.api";
 import EstablishmentRateApi from "./establishmentRate.endpoints";
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
+import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 
 export class EstablishmentService {
     private establishmentRateApi: EstablishmentRateApi;
@@ -42,7 +42,7 @@ export class EstablishmentService {
         return response && cdnHost
             ? response.establishmentItems.map((establishment) => {
                   return this.establishmentMapper.toFront({
-                      establishment: establishment,
+                      establishmentEntity: establishment,
                       info: {
                           cdnHost: cdnHost.url,
                           totalEstablishment: response.total,
@@ -60,7 +60,7 @@ export class EstablishmentService {
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();
         return response && cdnHost
             ? this.establishmentMapper.toFront({
-                  establishment: response.establishment,
+                  establishmentEntity: response.establishment,
                   info: { cdnHost: cdnHost?.url },
               })
             : null;
@@ -77,7 +77,7 @@ export class EstablishmentService {
                       .filter((establishment) => establishment.content)
                       .map((establishment) => {
                           return this.establishmentMapper.toFront({
-                              establishment: establishment,
+                              establishmentEntity: establishment,
                               info: {
                                   cdnHost: cdnHost.url,
                                   totalEstablishment: response.total,
@@ -115,6 +115,7 @@ export class EstablishmentService {
         const response = await this.establishmentRateApi.getAll(body);
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();
         if (!response || !cdnHost) return null;
+        console.log(response);
         const mappedRates = response.data.map((item) =>
             this.establishmentMapper.toFrontRateReview(item, cdnHost.url)
         );

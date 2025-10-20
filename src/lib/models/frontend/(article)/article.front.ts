@@ -1,8 +1,8 @@
-import { TArticleStatus } from "../types/TArticleStatus";
+import { TArticleStatus } from "../../types/TArticleStatus";
 import {
     IMediaFront,
     IMediaFrontWithFile,
-} from "./(establishment)/parts/media.front";
+} from "../(establishment)/parts/media.front";
 
 // export interface IArticleFront {
 //     id: string;

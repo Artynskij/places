@@ -129,32 +129,6 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                 </div>
 
                 <div className={style.description_bottom}>
-                    {/* {(additional || costClass || hotelClass) && (
-            <div className={style.description_subtitle}>
-              {costClass && (
-                <>
-                  <span>Средний чек : </span>
-                  <span className={style.rateHotel}>
-                    <RateCafe
-                      disabled
-                      classNameIcon={style.rateCafe}
-                      defaultValue={costClass}
-                    />
-                  </span>
-                </>
-              )}
-              {hotelClass && (
-                <>
-                  <span>Класс отеля : </span>
-                  <span className={style.rateHotel}>
-                    {Array.from({ length: hotelClass }).map((_, index) => (
-                      <IconStar key={index} className={style.rateHotel_icon} />
-                    ))}
-                  </span>
-                </>
-              )}
-            </div>
-          )} */}
                     <div className={style.description_subtitle}>
                         {dataEstablishment.typeEstablishment === "EATER" && (
                             <>
@@ -181,17 +155,27 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                             </>
                         )}
                     </div>
-                    <Link
-                        href={ROUTES.LOCATION.LOCATION(
-                            dataEstablishment.location.town.id
-                        )}
-                        className={style.description_location}
-                    >
+                    <div className={style.description_location}>
                         <IconLocation
                             className={style.description_location_icon}
                         />
-                        {dataEstablishment.location.town.title}
-                    </Link>
+                        <Link
+                            href={ROUTES.LOCATION.LOCATION(
+                                dataEstablishment.location.town.id
+                            )}
+                            className={style.description_location_link}
+                        >
+                            {dataEstablishment.location.town.title}
+                        </Link>
+                        <Link
+                            href={ROUTES.LOCATION.LOCATION(
+                                dataEstablishment.location.country.id
+                            )}
+                            className={style.description_location_link}
+                        >
+                            {dataEstablishment.location.country.title}
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

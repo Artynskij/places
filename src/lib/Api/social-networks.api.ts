@@ -1,4 +1,4 @@
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
+import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 // import { BaseApiService } from "../../BaseApi.service";
 import {
     ISocialContactsFront,

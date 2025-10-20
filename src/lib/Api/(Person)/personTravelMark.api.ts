@@ -1,4 +1,3 @@
-
 import { BaseApiService } from "../base/BaseApi.service";
 
 import {
@@ -10,7 +9,7 @@ import {
 } from "@/lib/models";
 import { LocationService } from "../location/location.service";
 import apiClient from "../base/ApiClient";
-import { IBaseModerationResponse } from "@/lib/models/server/response/base/base-moderation.response";
+import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 export class PersonTravelMarkMapper {
     toFront(data: IPersonTravelMarkEntity): IPersonTravelMarkFront {
         return {

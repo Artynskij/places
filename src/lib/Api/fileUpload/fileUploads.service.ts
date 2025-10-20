@@ -4,7 +4,7 @@ import {
     IFilePublicUploadBodyRequest,
 } from "@/lib/models/server/request/fileUpload.request";
 import FileUploadApi from "./fileUpload.endpoints";
-import { IFileUploadResponse } from "@/lib/models/server/response/fileUpload/fileUpload.response";
+import { IFileUploadResponse } from "@/lib/models/server/response/fileUpload.response";
 import type { UploadFile } from "antd/es/upload/interface";
 import { getTypeOfFile } from "@/lib/helpers/getTypeForFile";
 import { getImageDimensions } from "@/lib/helpers/getImageDimensions";

@@ -14,7 +14,7 @@ export class PersonMapper {
     toFront(
         personDataServer: IPersonWithContentEntity,
         genderFront: IGenderFront | null,
-        cdnHost: string | null
+        cdnHost?: string | null
     ): IPersonFront {
         const touristImage =
             cdnHost && personDataServer.person.AvatarPhotoPath

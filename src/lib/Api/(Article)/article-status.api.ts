@@ -1,7 +1,5 @@
+import { IArticleStatusEntity, IArticleStatusRequest } from "@/lib/models";
 
-
-import { IArticleStatusEntity } from "@/lib/models";
-import { IArticleStatusRequest } from "@/lib/models/server/request/(article)/article-status.request";
 import { BaseApiService } from "../base/BaseApi.service";
 
 export class ArticleStatusService extends BaseApiService<
@@ -11,5 +9,4 @@ export class ArticleStatusService extends BaseApiService<
     IArticleStatusRequest
 > {
     protected baseUrl = "/articles-status";
-    // protected mapper = new Mapper();
 }

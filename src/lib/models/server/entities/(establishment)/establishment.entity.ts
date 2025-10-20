@@ -2,18 +2,13 @@ import { IPersonEntity } from "../(person)/person.entity";
 import { IBaseEntity } from "../../base/base.entity";
 import { ICategoryEstablishmentPart } from "./parts/categoryEstablishmentPart.entity";
 import { IContactsEstablishmentEntity } from "./parts/contactEstablishment.entity";
-import {
-    IContentEstablishmentEntity,
-    IContentMultilingualEntity,
-} from "../../base/content.entity";
+import { IContentEstablishmentEntity } from "../../base/content.entity";
 
 import { IRateEntity } from "./parts/rate.entity";
 import { ITypeEstablishmentEntity } from "./typeEstablishment.entity";
-interface ILocationsInEstablishment {
-    Id: string;
-    ParentId: string;
-    Path: string;
-    content: IContentMultilingualEntity;
+import { ILocationsEntity } from "../locations.entity";
+interface ILocationsInEstablishment extends ILocationsEntity {
+    Country: ILocationsEntity;
 }
 
 export interface IEstablishmentEntity extends IBaseEntity {

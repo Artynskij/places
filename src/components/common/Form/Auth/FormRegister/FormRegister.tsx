@@ -18,6 +18,7 @@ import { ContactsPersonService } from "@/lib/Api/(Person)/contactPerson.api";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/config/Routes";
+import { ValidationPersonServerService } from "@/lib/Api/validation.api";
 type TTypeForm = Yup.InferType<typeof validationSchemaRegister>;
 
 const validationSchemaRegister = Yup.object().shape({
@@ -48,6 +49,7 @@ export const FormRegister = () => {
     const t = useTranslations("AuthPage.text");
     const personService = new PersonService();
     const contactsPersonService = new ContactsPersonService();
+    const validationPersonServerService = new ValidationPersonServerService();
     useEffect(() => {
         const header = document.querySelector("header");
         const footer = document.querySelector("footer");
@@ -65,8 +67,24 @@ export const FormRegister = () => {
     }, []);
 
     const onSubmit: SubmitHandler<TTypeForm> = async (dataForm) => {
-        console.log("Form Data:", dataForm);
-        const batchId = "";
+        const validEmail = await validationPersonServerService.email(
+            dataForm.email
+        );
+        const validNickname = await validationPersonServerService.nickname(
+            dataForm.nickname
+        );
+        if (!validEmail) {
+            notification.error({
+                message: "Такой email у нас уже зарегистрирована",
+            });
+            return;
+        }
+        if (!validNickname) {
+            notification.error({
+                message: "Такой никнейм у нас уже зарегистрирована",
+            });
+            return;
+        }
         const createdContact = await contactsPersonService.create({
             moderation: {},
             data: {
@@ -75,7 +93,7 @@ export const FormRegister = () => {
         });
         if (!createdContact) {
             notification.error({
-                message: "Такая почта у нас уже зарегистрирована",
+                message: "Что-то пошло не так при создании пользователям.",
             });
             return;
         }

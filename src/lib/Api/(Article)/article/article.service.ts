@@ -1,22 +1,27 @@
 import { DataLoadManagementService } from "./../../dataLoadManagement/dataLoadManagement.service";
-import { IArticleEntity, IArticleFront } from "@/lib/models";
+import { IArticleEntity, IArticleFront, IArticleTypeFront } from "@/lib/models";
 
 import ArticleApi from "./article.endpoints";
 import {
     IArticleRequest,
+    IArticleUpdateStatusRequest,
     IArticleWithFilterRequest,
     IPaginationArticleRequest,
 } from "@/lib/models/server/request/(article)/article.request";
 import ArticleMapper from "./article.mapper";
+import { ArticleTypeMapper } from "../article-type.api";
+import { boolean } from "yup";
 
 export class ArticleService {
     private articleApi: ArticleApi;
     private articleMapper: ArticleMapper;
     private dataLoadManagementService: DataLoadManagementService;
+    private articleTypeMapper: ArticleTypeMapper;
     constructor() {
         this.articleApi = new ArticleApi();
         this.articleMapper = new ArticleMapper();
         this.dataLoadManagementService = new DataLoadManagementService();
+        this.articleTypeMapper = new ArticleTypeMapper();
     }
     async getWithFilter(
         query: IArticleWithFilterRequest
@@ -49,6 +54,58 @@ export class ArticleService {
         body: IArticleRequest
     ): Promise<IArticleEntity | null> {
         const response = await this.articleApi.update(id, body);
+        return response;
+    }
+    async getPopular(limit: number): Promise<IArticleFront[] | null> {
+        const response = await this.articleApi.getPopular(limit);
+        const cdnHost = await this.dataLoadManagementService.getBlobProxy();
+        if (!response) return null;
+        const mappedData =
+            (response
+                .map((resItem) =>
+                    this.articleMapper.toFront(resItem, cdnHost?.url || "")
+                )
+                .filter(boolean) as IArticleFront[]) || [];
+        return mappedData;
+    }
+    async getByStatus(
+        id: string,
+        lang: string
+    ): Promise<IArticleFront[] | null> {
+        const response = await this.articleApi.getByStatus(id);
+        const cdnHost = await this.dataLoadManagementService.getBlobProxy();
+        if (!response) return null;
+        const mappedData =
+            (response
+                .map((resItem) =>
+                    this.articleMapper.toFront(resItem, cdnHost?.url || "")
+                )
+                .filter(boolean) as IArticleFront[]) || [];
+        return mappedData;
+    }
+    async updateStatus(body: IArticleUpdateStatusRequest): Promise<boolean> {
+        const response = await this.articleApi.updateStatus(body);
+        // const cdnHost = await this.dataLoadManagementService.getBlobProxy();
+
+        return !!response;
+    }
+    // работа с категориями
+    async getAllCategory(
+        articleId: string
+    ): Promise<IArticleTypeFront[] | null> {
+        const response = await this.articleApi.getAllCategory(articleId);
+        if (!response) {
+            return null;
+        }
+        const mappedData = response.map((item) =>
+            this.articleTypeMapper.toFront(item)
+        );
+        return mappedData;
+    }
+    async deleteAllCategoryFromArticle(body: {
+        articleId: string;
+    }): Promise<any | null> {
+        const response = this.articleApi.deleteAllCategory(body);
         return response;
     }
 }

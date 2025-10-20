@@ -156,15 +156,25 @@ export const CardList: FC<ICardHotelList> = ({
                         )}
                     </div>
                 }
-                <Link
-                    href={ROUTES.LOCATION.LOCATION(
-                        dataEstablishment.location.town.id
-                    )}
-                    className={style.info_location}
-                >
+                <div className={style.info_location}>
                     <IconLocation className={style.info_location_icon} />
-                    {dataEstablishment.location.town.title}
-                </Link>
+                    <Link
+                        href={ROUTES.LOCATION.LOCATION(
+                            dataEstablishment.location.town.id
+                        )}
+                        className={style.info_location_link}
+                    >
+                        {dataEstablishment.location.town.title}
+                    </Link>
+                    <Link
+                        href={ROUTES.LOCATION.LOCATION(
+                            dataEstablishment.location.country.id
+                        )}
+                        className={style.info_location_link}
+                    >
+                        {dataEstablishment.location.country.title}
+                    </Link>
+                </div>
 
                 <div className={style.info_description}>
                     {dataEstablishment.description}

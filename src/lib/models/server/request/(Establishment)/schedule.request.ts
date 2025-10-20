@@ -1,5 +1,5 @@
 import { TDayOfWeek } from "@/lib/models/types/schedule/TDayOfWeek";
-import { IBaseModerationRequest } from "../base/base-with-moderation.request";
+import { IBaseModerationRequest } from "../../base/base.request";
 interface ScheduleData {
     Establishment?: string;
     Day: TDayOfWeek;

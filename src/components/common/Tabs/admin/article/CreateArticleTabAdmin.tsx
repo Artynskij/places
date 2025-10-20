@@ -34,7 +34,7 @@ interface ArticleCreateTabProps {
     isEdit?: boolean;
 }
 
-const CreateArticleTabAdmin: React.FC<ArticleCreateTabProps> = ({
+export const CreateArticleTabAdmin: React.FC<ArticleCreateTabProps> = ({
     onArticleCreated,
     initialData,
     isEdit = false,
@@ -409,4 +409,4 @@ const CreateArticleTabAdmin: React.FC<ArticleCreateTabProps> = ({
     );
 };
 
-export default CreateArticleTabAdmin;
+

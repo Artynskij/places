@@ -1,5 +1,5 @@
-import { IBaseModerationRequest } from "./base/base-with-moderation.request";
-import { IContentMultilingualRequest } from "./base/multilingual-content.request";
+import { IBaseModerationRequest } from "../base/base.request";
+import { IContentMultilingualRequest } from "../base/multilingual-content.request";
 
 interface verificationData {
     source: {

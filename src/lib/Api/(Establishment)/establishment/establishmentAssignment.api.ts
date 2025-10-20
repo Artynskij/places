@@ -1,4 +1,4 @@
-import { IBaseModerationResponse } from '@/lib/models/server/response/base/base-moderation.response';
+import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 import { IEstablishmentPersonAssignWithContentEntity } from "../../../models/server/entities/(establishment)/establishment.entity";
 
 import {
@@ -9,7 +9,6 @@ import {
 } from "@/lib/models";
 import { BaseApiService } from "../../base/BaseApi.service";
 import apiClient from "../../base/ApiClient";
-
 
 export class EstablishmentPersonAssignmentMapper {
     constructor() {}
