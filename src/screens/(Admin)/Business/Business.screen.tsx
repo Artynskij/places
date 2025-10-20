@@ -383,7 +383,13 @@ export const BusinessAdminScreen = () => {
         <Card
             title="Управление бизнесами"
             extra={
-                <Button icon={<ReloadOutlined />} onClick={fetchBusinesses} />
+                <Button
+                    icon={<ReloadOutlined />}
+                    onClick={() => {
+                        message.info("обновлено");
+                        fetchBusinesses();
+                    }}
+                />
             }
         >
             {/* Поиск */}

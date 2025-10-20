@@ -314,11 +314,14 @@ export const TypeArticleTabAdmin: React.FC = () => {
                             icon={<PlusOutlined />}
                             onClick={handleAdd}
                         >
-                            Добавить тип
+                            Добавить рубрику
                         </Button>
                         <Button
                             icon={<ReloadOutlined />}
-                            onClick={fetchAll}
+                            onClick={() => {
+                                message.info('Обновлено')
+                                fetchAll();
+                            }}
                             loading={isLoading}
                         />
                     </Space>

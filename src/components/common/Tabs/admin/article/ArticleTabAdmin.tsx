@@ -1,7 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Table, Button, Space, Modal, Tag, Image, message } from "antd";
-import { EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { Table, Button, Space, Modal, Tag, Image, message, Card } from "antd";
+import {
+    EditOutlined,
+    DeleteOutlined,
+    EyeOutlined,
+    ReloadOutlined,
+} from "@ant-design/icons";
 import { IArticleFront } from "@/lib/models";
 import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
 import useLocale from "@/lib/hooks/useLocale";
@@ -9,19 +14,18 @@ import { CONSTANT_ARTICLE_STATUS_DB } from "@/asset/constants/database/article-s
 import { useTranslations } from "next-intl";
 
 interface ArticleListTabProps {
-  
     onArticleEdit: (article: IArticleFront) => void;
     onArticleDelete: (articleId: string) => void;
 }
 
 export const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
-  
     onArticleEdit,
     onArticleDelete,
 }) => {
     const locale = useLocale();
     const tStatusArticle = useTranslations("StatusArticle");
 
+    const [isLoading, setIsLoading] = useState(false);
     const [previewArticle, setPreviewArticle] = useState<IArticleFront | null>(
         null
     );
@@ -29,13 +33,20 @@ export const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
     const [articles, setArticles] = useState<IArticleFront[]>([]);
     const articleService = new ArticleService();
     useEffect(() => {
-        articleService.getWithFilter({ page: 1, pageSize: 10 }).then((res) => {
-            if (res) {
-                console.log(res);
-                setArticles(res);
-            }
-        });
+        fetchAll();
     }, []);
+    const fetchAll = async () => {
+        setIsLoading(true);
+        await articleService
+            .getWithFilter({ page: 1, pageSize: 10 })
+            .then((res) => {
+                if (res) {
+                    console.log(res);
+                    setArticles(res);
+                }
+            });
+        setIsLoading(false);
+    };
     const handleEdit = (article: IArticleFront) => {
         onArticleEdit(article);
     };
@@ -136,17 +147,29 @@ export const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
     ];
 
     return (
-        <div>
-            <div style={{ marginBottom: 16 }}>
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                    }}
-                >
-                    <h3>Список статей ({articles.length})</h3>
-                </div>
+        <Card
+            title={`Список статей ${articles.length}`}
+            extra={
+                <Space>
+                    <Button
+                        icon={<ReloadOutlined />}
+                        onClick={() => {
+                            message.info("Обновлено");
+                            fetchAll();
+                        }}
+                        loading={isLoading}
+                    />
+                </Space>
+            }
+        >
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                }}
+            >
+                <h3></h3>
             </div>
 
             <Table
@@ -201,7 +224,6 @@ export const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
                     </div>
                 )}
             </Modal>
-        </div>
+        </Card>
     );
 };
-

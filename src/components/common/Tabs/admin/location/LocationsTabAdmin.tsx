@@ -363,11 +363,14 @@ const LocationsTabAdmin: React.FC = () => {
                             icon={<PlusOutlined />}
                             onClick={() => setIsModalActive(true)}
                         >
-                            Добавить
+                            Добавить локацию
                         </Button>
                         <Button
                             icon={<ReloadOutlined />}
-                            onClick={() => fetchAll()}
+                            onClick={() => {
+                                message.info("обновлено");
+                                fetchAll();
+                            }}
                             loading={isLoading}
                         />
                     </Space>

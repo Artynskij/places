@@ -21,6 +21,7 @@ interface ContentPartArticle {
     reactions?: number[];
     title: string;
     seo: { title: string; description: string };
+    value:string
 }
 interface ContentArticle
     extends IContentMultilingualRequest<ContentPartArticle> {}

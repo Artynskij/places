@@ -66,6 +66,7 @@ export class GeneralArticleService {
                     {
                         lang: formData.lang,
                         contentValue: {
+                            value: "",
                             title: formData.title,
                             description: formData.description,
                             seo: {

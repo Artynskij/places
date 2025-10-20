@@ -86,16 +86,22 @@
         color: $color-main-grey;
     }
     &_location {
+        display: flex;
+        gap: $gap-small;
+        align-items: center;
         @extend %Text14;
         color: $color-main-grey;
-        transition: $transition;
-        cursor: pointer;
-        &:hover {
-            color: $color-main-blue;
+
+        &_link {
+            transition: $transition;
+            cursor: pointer;
+            &:hover {
+                color: $color-main-blue;
+            }
         }
         &_icon {
             font-size: 12px;
-            margin-right: 4px;
+
         }
     }
 }

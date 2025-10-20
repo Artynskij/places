@@ -148,11 +148,14 @@ const LocationTypesTabAdmin: React.FC = () => {
                             icon={<PlusOutlined />}
                             onClick={() => setModalActive(true)}
                         >
-                            Добавить
+                            Добавить тип
                         </Button>
                         <Button
                             icon={<ReloadOutlined />}
-                            onClick={fetchLocationTypes}
+                            onClick={() => {
+                                message.info("обновлено");
+                                fetchLocationTypes();
+                            }}
                         />
                     </Space>
                 }

@@ -298,10 +298,16 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
                 <Space>
                     <FormCreateEstablishment>
                         <Button type="primary" icon={<PlusOutlined />}>
-                            Добавить
+                            Добавить заведение
                         </Button>
                     </FormCreateEstablishment>
-                    <Button icon={<ReloadOutlined />} onClick={fetchAll} />
+                    <Button
+                        icon={<ReloadOutlined />}
+                        onClick={() => {
+                            message.info("обновлено");
+                            fetchAll();
+                        }}
+                    />
                 </Space>
             }
         >

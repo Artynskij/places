@@ -10,11 +10,11 @@ import {
 } from "react";
 import { useUser } from "../UserContext/UserContext";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
-import { IFavoriteEntity } from "@/lib/models";
+import { IFavoriteFront } from "@/lib/models";
 import { useNotification } from "../NotificationContext/NotificationContext";
 
 type IFavoriteContext = {
-    favorites: IFavoriteEntity[];
+    favorites: IFavoriteFront[] | null;
     addFavorite: (idEstablishment: string) => Promise<boolean>;
     removeFavorite: (idEstablishment: string) => Promise<boolean>;
     toggleFavorite: (idEstablishment: string) => Promise<boolean>;
@@ -27,7 +27,7 @@ export const FavoritesProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
-    const [favorites, setFavorites] = useState<IFavoriteEntity[]>([]);
+    const [favorites, setFavorites] = useState<IFavoriteFront[] | null>([]);
     const { user } = useUser();
     const notification = useNotification();
 
@@ -38,7 +38,7 @@ export const FavoritesProvider = ({
         if (user) {
             favoriteService.getByQuery({ personId: user.id }).then((data) => {
                 if (data) {
-                    setFavorites(data);
+                    setFavorites(data.length > 0 ? data : null);
                 }
             });
         }
@@ -63,7 +63,9 @@ export const FavoritesProvider = ({
             });
 
             if (res) {
-                setFavorites((prev) => [...prev, res]);
+                setFavorites((prev) => {
+                    return prev ? [...prev, res] : [res];
+                });
                 notification.success({
                     message: "объект добавлен из избранного",
                 });
@@ -82,26 +84,35 @@ export const FavoritesProvider = ({
             }
             const res = await favoriteService.delete(idFavorite);
             if (res) {
-                setFavorites((prev) => prev.filter((f) => f.Id !== idFavorite));
+                setFavorites((prev) => {
+                    const newFavorites = prev
+                        ? prev.filter((f) => f.id !== idFavorite)
+                        : null;
+                    return !!newFavorites?.length ? newFavorites : null;
+                });
                 notification.info({
                     message: "объект удален из избранного",
                 });
                 return true;
+            } else {
+                notification.error({
+                    message: "ошибка при удалении избранного",
+                });
+                return false;
             }
-            return false;
         },
         [favoriteService, user, notification]
     );
 
     const toggleFavorite = useCallback(
         async (idEstablishment: string): Promise<boolean> => {
-            const isFavorite = favorites.find(
-                (item) => item.ItemId === idEstablishment
-            );
+            const isFavorite = favorites
+                ? favorites.find((item) => item.itemId === idEstablishment)
+                : false;
             let res;
 
             if (isFavorite) {
-                res = await removeFavorite(isFavorite.Id);
+                res = await removeFavorite(isFavorite.id);
             } else {
                 res = await addFavorite(idEstablishment);
             }

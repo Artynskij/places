@@ -26,7 +26,10 @@ export const LikeButton = React.memo<ILikeButton>(
         const { toggleFavorite, favorites } = useFavorites();
 
         const activeLike = useMemo(
-            () => favorites.some((item) => item.ItemId === idEstablishment),
+            () =>
+                favorites
+                    ? favorites.some((item) => item.itemId === idEstablishment)
+                    : false,
             [favorites, idEstablishment]
         );
 

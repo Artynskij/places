@@ -301,7 +301,15 @@ export const UserAdminScreen = () => {
     return (
         <Card
             title="Управление туристами"
-            extra={<Button icon={<ReloadOutlined />} onClick={fetchPersons} />}
+            extra={
+                <Button
+                    icon={<ReloadOutlined />}
+                    onClick={() => {
+                        message.info("обновлено");
+                        fetchPersons();
+                    }}
+                />
+            }
         >
             {/* Поиск */}
             <Space style={{ marginBottom: 16 }} wrap>

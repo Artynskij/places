@@ -11,13 +11,13 @@ import { PersonMapper } from "../../(Person)/person/person.mapper";
 import { CONSTANT_RATES_ESTABLISHMENT_ARRAY_DB } from "@/asset/constants/database/rates-establishment.const";
 
 interface ITransformToFront {
-    establishment: IEstablishmentWithContentPareEntity;
+    establishmentEntity: IEstablishmentWithContentPareEntity;
     info: {
         cdnHost: string;
         totalEstablishment?: number;
     };
 }
-export default class EstablishmentMapper {
+export class EstablishmentMapper {
     private contactsEstablishmentMapper: ContactsEstablishmentMapper;
     private personMapper: PersonMapper;
     constructor() {
@@ -77,32 +77,36 @@ export default class EstablishmentMapper {
         };
         // }
     }
-    toFront({ establishment, info }: ITransformToFront): IEstablishmentFront {
-        if (!establishment?.content) {
+    toFront({
+        establishmentEntity,
+        info,
+    }: ITransformToFront): IEstablishmentFront {
+        if (!establishmentEntity?.content) {
             throw new Error("Invalid establishment content structure");
         }
-
+        const entityContentEstablishment = establishmentEntity.content;
+        const entitySourceEstablishment = establishmentEntity.establishment;
         const title =
-            establishment.content.value[0]?.value.details?.title ||
-            establishment.content.value[0]?.value.seoTrip?.find(
+            entityContentEstablishment.value[0]?.value.details?.title ||
+            entityContentEstablishment.value[0]?.value.seoTrip?.find(
                 (item) => item.key == "MAIN_H1"
             )?.value ||
-            establishment.content.value[0]?.value.seo?.find(
+            entityContentEstablishment.value[0]?.value.seo?.find(
                 (item) => item.key == "MAIN_H1"
             )?.value ||
             "Not Title";
         const description =
-            establishment.content.value[0]?.value.details?.description ||
-            establishment.content.value[0]?.value.seoTrip?.find(
+            entityContentEstablishment.value[0]?.value.details?.description ||
+            entityContentEstablishment.value[0]?.value.seoTrip?.find(
                 (item) => item.key == "META_DESCRIPTION"
             )?.value ||
-            establishment.content.value[0]?.value.seo?.find(
+            entityContentEstablishment.value[0]?.value.seo?.find(
                 (item) => item.key == "META_DESCRIPTION"
             )?.value ||
             "Not description";
 
         const galleryImages: IMediaFront[] | null =
-            establishment.content?.media.gallery?.map((image) => {
+            entityContentEstablishment?.media.gallery?.map((image) => {
                 return {
                     id: image.id,
                     title: image.details[0]?.value.title || "",
@@ -117,7 +121,7 @@ export default class EstablishmentMapper {
                 };
             }) || null;
         const categories =
-            establishment.establishment.Categories?.map((cat) => {
+            entitySourceEstablishment.Categories?.map((cat) => {
                 return {
                     id: cat?.Id || "",
                     key: cat?.Id || "",
@@ -125,54 +129,57 @@ export default class EstablishmentMapper {
                 };
             }) || null;
         return {
-            id: establishment.establishment.Id,
+            id: entitySourceEstablishment.Id,
             title: title,
             description: description,
-            typeEstablishment: establishment.establishment.Type?.Name || null,
+            typeEstablishment: entitySourceEstablishment.Type?.Name || null,
             category: categories?.[0] || null,
             categoriesAll: categories,
 
-            rates: this.transformRate(establishment.establishment.Rates),
+            rates: this.transformRate(entitySourceEstablishment.Rates),
 
             location: {
                 country: {
                     id:
-                        establishment.establishment.Locations?.Path.split(
+                        entitySourceEstablishment.Locations?.Country.Id ||
+                        entitySourceEstablishment.Locations?.Path.split(
                             "."
-                        )[1] || "",
-                    title: "",
-                },
-                pathBreadcrumb:
-                    establishment.establishment.Locations?.Path || "",
-                town: {
-                    id: establishment.establishment.Locations?.Id || "",
+                        )[1] ||
+                        "",
                     title:
-                        establishment.establishment.Locations?.content
-                            ?.details[0]?.value || "",
+                        entitySourceEstablishment.Locations?.Country.content
+                            ?.details[0].value || "",
+                },
+                pathBreadcrumb: entitySourceEstablishment.Locations?.Path || "",
+                town: {
+                    id: entitySourceEstablishment.Locations?.Id || "",
+                    title:
+                        entitySourceEstablishment.Locations?.content?.details[0]
+                            ?.value || "",
                 },
                 street:
-                    establishment.content.value[0]?.value.location.street1 ||
-                    "",
-                latitude: +establishment.establishment.Latitude,
-                longitude: +establishment.establishment.Longitude,
-                postalCode: establishment.establishment.PostalCode,
+                    entityContentEstablishment.value[0]?.value.location
+                        .street1 || "",
+                latitude: +entitySourceEstablishment.Latitude,
+                longitude: +entitySourceEstablishment.Longitude,
+                postalCode: entitySourceEstablishment.PostalCode,
                 info: {
                     totalEstablishment: info?.totalEstablishment || null,
                 },
             },
-            contacts: establishment.establishment.Contacts
+            contacts: entitySourceEstablishment.Contacts
                 ? this.contactsEstablishmentMapper.toFront(
-                      establishment.establishment.Contacts
+                      entitySourceEstablishment.Contacts
                   )
                 : null,
             media: {
                 gallery: galleryImages,
             },
             seo:
-                establishment.content.value[0]?.value.seoTrip ||
-                establishment.content.value[0]?.value.seo ||
+                entityContentEstablishment.value[0]?.value.seoTrip ||
+                entityContentEstablishment.value[0]?.value.seo ||
                 null,
-            content: establishment.content,
+            content: entityContentEstablishment,
         };
     }
     toFrontRateReview(
@@ -194,7 +201,7 @@ export default class EstablishmentMapper {
                 cdnHost
             ),
             establishment: this.toFront({
-                establishment: {
+                establishmentEntity: {
                     establishment: establishmentRateEntity.Establishment,
                     content: establishmentRateEntity.Establishment.content,
                 },
