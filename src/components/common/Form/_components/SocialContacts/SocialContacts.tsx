@@ -10,7 +10,7 @@ import { DeleteButton } from "@/components/common/ButtonFunctional/DeleteButton"
 
 import style from "./socialContacts.module.scss";
 import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-networks.const";
-import { ISelectOption } from "@/lib/models";
+import { IOption } from "@/lib/models";
 import { TSocialNetworks } from "@/lib/models/types/TSocialNetworks";
 
 // Если не импортируешь — просто временно вставь:
@@ -43,12 +43,12 @@ export const SocialContactsBlockForm: FC<Props> = ({
         [usedTypes]
     );
 
-    const socialOptions: ISelectOption[] = availableTypes.map((type) => ({
-        name: type.charAt(0).toUpperCase() + type.slice(1),
+    const socialOptions: IOption[] = availableTypes.map((type) => ({
+        label: type.charAt(0).toUpperCase() + type.slice(1),
         value: type,
     }));
 
-    const handleSelect = (item: ISelectOption) => {
+    const handleSelect = (item: IOption) => {
         if (!usedTypes.includes(item.value as TSocialNetworks)) {
             const newList = [
                 ...value,

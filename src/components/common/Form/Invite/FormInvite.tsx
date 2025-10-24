@@ -12,7 +12,7 @@ import style from "./formInvite.module.scss";
 import { useEffect, useState } from "react";
 import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
-import { IBusinessFront, ISelectOption } from "@/lib/models";
+import { IBusinessFront, IOption } from "@/lib/models";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -42,7 +42,7 @@ export const FormInvite = ({ children, business }: IProp) => {
     const personService = new PersonService();
     const inviteService = new InvitesService();
 
-    const [optionsRoles, setOptionsRoles] = useState<ISelectOption[]>();
+    const [optionsRoles, setOptionsRoles] = useState<IOption[]>();
     const [modalActive, setModalActive] = useState(false);
     const {
         register,
@@ -56,9 +56,9 @@ export const FormInvite = ({ children, business }: IProp) => {
     useEffect(() => {
         dataLoadManagementService.getRolesOwner().then((res) => {
             if (res) {
-                const options: ISelectOption[] = res.map((role) => {
+                const options: IOption[] = res.map((role) => {
                     return {
-                        name: tRole(role.code),
+                        label: tRole(role.code),
                         value: role.id,
                         id: role.id,
                     };

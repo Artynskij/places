@@ -8,7 +8,7 @@ import { ArticleTabAdmin } from "@/components/common/Tabs/admin/article/ArticleT
 import { TypeArticleTabAdmin } from "@/components/common/Tabs/admin/article/TypeArticleTabAdmin";
 import { SubTypeArticleTabAdmin } from "@/components/common/Tabs/admin/article/SubTypeArticleTabAdmin";
 
-const ArticleAdminScreen: React.FC = () => {
+export const ArticleAdminScreen: React.FC = () => {
     const [activeTab, setActiveTab] = useState("create");
 
     const handleArticleCreated = (newArticle: IArticleFront) => {
@@ -19,10 +19,6 @@ const ArticleAdminScreen: React.FC = () => {
     const handleArticleUpdated = (updatedArticle: IArticleFront) => {
         message.info("Пока не реализовано");
         setActiveTab("list");
-    };
-
-    const handleArticleDeleted = (articleId: string) => {
-        message.info("Пока не реализовано");
     };
 
     const tabs = [
@@ -41,7 +37,7 @@ const ArticleAdminScreen: React.FC = () => {
             children: (
                 <ArticleTabAdmin
                     onArticleEdit={handleArticleUpdated}
-                    onArticleDelete={handleArticleDeleted}
+                    // onArticleDelete={handleArticleDeleted}
                 />
             ),
         },
@@ -68,4 +64,3 @@ const ArticleAdminScreen: React.FC = () => {
         </div>
     );
 };
-export default ArticleAdminScreen;

@@ -1,15 +1,15 @@
 import { IContentSimpleEntity } from "../../base/content.entity";
-import { ITagCategoryEntity } from "./parts/tagCategory.entity";
+import { ITagCategoryWithContentEntity } from "./parts/tagCategory.entity";
 
-export interface ITagEntity {
+export interface ITagWithContentPareEntity {
     tag: {
         Id: string;
-        TagCategory: ITagCategoryEntity;
+        TagCategory: ITagCategoryWithContentEntity;
     };
     content: IContentSimpleEntity;
 }
 export interface ITagWithCategoryEntity {
-    TagCategory: ITagCategoryEntity;
+    TagCategory: ITagCategoryWithContentEntity;
     Id: string;
 
     content: IContentSimpleEntity;

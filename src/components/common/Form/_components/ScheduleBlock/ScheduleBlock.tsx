@@ -159,12 +159,12 @@ export const ScheduleBlockForm = ({
                             classNameCtn={style.select_ctn}
                             options={[
                                 {
-                                    name: "Выбрать расписание",
+                                    label: "Выбрать расписание",
                                     value: "default",
                                 },
-                                { name: "Время", value: "custom" },
-                                { name: "Выходной", value: "isHoliday" },
-                                { name: "Круглосуточно", value: "is24Hours" },
+                                { label: "Время", value: "custom" },
+                                { label: "Выходной", value: "isHoliday" },
+                                { label: "Круглосуточно", value: "is24Hours" },
                             ]}
                             activeOption={current.type}
                             onChange={(option) =>

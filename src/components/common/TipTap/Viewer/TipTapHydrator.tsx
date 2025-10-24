@@ -1,7 +1,7 @@
 "use client";
 import style from "./tiptapViewer.module.scss";
 import { useEffect, useRef } from "react";
-import { createRoot } from "react-dom/client";
+import { createRoot, Root } from "react-dom/client";
 import { SliderViewer } from "../extensions/slider/SliderViewer";
 import clsx from "clsx";
 import { IMediaFront } from "@/lib/models";
@@ -18,6 +18,7 @@ export default function TipTapHydrator({
     mediaCollection,
 }: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const rootsRef = useRef<Map<Element, Root>>(new Map());
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -26,17 +27,25 @@ export default function TipTapHydrator({
         const sliders = containerRef.current.querySelectorAll(
             '[data-type="slider"]'
         );
-
+        console.log("sliders", sliders);
         sliders.forEach((el) => {
             const json = el.getAttribute("data-node");
+
             if (!json) return;
 
-            // Парсим содержимое слайдера - ВСЕ ДАННЫЕ УЖЕ ЗДЕСЬ!
+            // Парсим содержимое слайдера
             const nodeData = JSON.parse(json);
-            // console.log("Slider node data:", nodeData);
-
+            console.log("nodeData", nodeData);
+            // Очищаем содержимое
             el.innerHTML = "";
-            const root = createRoot(el);
+
+            // Используем существующий root или создаем новый
+            let root = rootsRef.current.get(el);
+            if (!root) {
+                root = createRoot(el);
+                rootsRef.current.set(el, root);
+            }
+
             root.render(
                 <SliderViewer
                     node={nodeData}
@@ -44,6 +53,16 @@ export default function TipTapHydrator({
                 />
             );
         });
+
+        // Очистка: отмонтируем корни для удаленных элементов
+        return () => {
+            rootsRef.current.forEach((root, element) => {
+                if (!containerRef.current?.contains(element)) {
+                    root.unmount();
+                    rootsRef.current.delete(element);
+                }
+            });
+        };
     }, [html, reHydrate, mediaCollection]);
 
     return (

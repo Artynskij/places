@@ -60,12 +60,12 @@ export default async function CountryPage({ params, searchParams }: IProps) {
         lang: params.locale,
     });
     const locationData = await apiLocation.getById(params.location);
-    const townsData = await apiLocation.getAll({
+    const townsResponse = await apiLocation.getAll({
         lang: params.locale,
         locationId: params.location,
         pagination: {
             page: 1,
-            pageSize: 1000,
+            pageSize: 10,
         },
     });
 
@@ -92,11 +92,12 @@ export default async function CountryPage({ params, searchParams }: IProps) {
                     attraction: attractionEstablishment || [],
                     eater: eaterEstablishment || [],
                 }}
-                locationData={locationData}
-                townsData={townsData}
-                tagsClassEstablishment={tagsClassEstablishment}
-                dataTileContent={townsData}
                 breadcrumbData={breadcrumbData}
+                locationData={locationData}
+                tagsClassEstablishment={tagsClassEstablishment}
+                townsData={townsResponse?.locations || null}
+                dataTileContent={townsResponse?.locations || null}
+                totalLocations={townsResponse?.info.total || 0}
             />
         </>
     );

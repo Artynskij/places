@@ -2,7 +2,7 @@ import { getTypeOfFile } from "./../../helpers/getTypeForFile";
 import {
     IImageEntity,
     ILocationFront,
-    ILocationInsidePaginationRequest,
+    ILocationPaginationRequest,
     ILocationUpdateRequest,
 } from "@/lib/models";
 import LocationApi from "./location.endpoint";
@@ -31,21 +31,22 @@ export class LocationService {
                 : null;
         return mappingData;
     }
-    async getAll(
-        body: ILocationInsidePaginationRequest
-    ): Promise<ILocationFront[] | null> {
+    async getAll(body: ILocationPaginationRequest): Promise<{
+        info: { total: number };
+        locations: ILocationFront[];
+    } | null> {
         const response = await this.locationApi.getAll(body);
         const cdnHost = await this.dataLoadManagerService.getBlobProxy();
-        return response && cdnHost
-            ? response
-                  .map((location) =>
-                      this.locationMapper.transformToFront(
-                          location,
-                          cdnHost.url
-                      )
-                  )
-                  .sort((a, b) => a.title.localeCompare(b.title))
-            : null;
+        if (!response || !cdnHost) {
+            return null;
+        }
+        const mappedLocations = response.data.map((location) =>
+            this.locationMapper.transformToFront(location, cdnHost.url)
+        );
+        return {
+            locations: mappedLocations,
+            info: { total: response.total },
+        };
     }
     async getBreadcrumbData(body: {
         ids: string;

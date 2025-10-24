@@ -6,7 +6,7 @@ import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 import { DeleteButton } from "@/components/common/ButtonFunctional/DeleteButton";
 
 import style from "./contentBlock.module.scss";
-import { ISelectOption } from "@/lib/models";
+import { IOption } from "@/lib/models";
 import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
 import type { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 // если у тебя есть список языков — подставь свой
@@ -56,12 +56,12 @@ export const FormLanguagesBlock: FC<Props> = ({
         [usedLangs]
     );
 
-    const langOptions: ISelectOption[] = availableLangs.map((lang) => ({
-        name: lang.toUpperCase(),
+    const langOptions: IOption[] = availableLangs.map((lang) => ({
+        label: lang.toUpperCase(),
         value: lang,
     }));
 
-    const handleSelect = (item: ISelectOption) => {
+    const handleSelect = (item: IOption) => {
         if (!usedLangs.includes(item.value)) {
             const newList = [
                 ...value,

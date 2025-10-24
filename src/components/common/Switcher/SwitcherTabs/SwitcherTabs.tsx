@@ -5,13 +5,13 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FC, useEffect, useState } from "react";
 
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
-import { ISelectOption } from "@/lib/models/common/IType";
+import { IOption } from "@/lib/models/common/IType";
 import { useTranslations } from "next-intl";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
 // import { getTranslations } from "next-intl/server";
 
 interface ISwitcherTabsProps {
-    data: ISelectOption[];
+    data: IOption[];
 }
 
 export const SwitcherTabs: FC<ISwitcherTabsProps> = ({ data }) => {
@@ -38,7 +38,7 @@ export const SwitcherTabs: FC<ISwitcherTabsProps> = ({ data }) => {
             setActiveTab(defaultTab);
         }
     }, [searchParams, data, pathname, router]);
-    const handleChangeSwitch = (option: ISelectOption) => {
+    const handleChangeSwitch = (option: IOption) => {
         const params = new URLSearchParams(searchParams.toString());
 
         params.set(CONSTANT_SEARCH_PARAMS.TAB, option.value);

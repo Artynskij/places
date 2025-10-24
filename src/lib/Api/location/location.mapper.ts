@@ -1,13 +1,13 @@
 import {
     ILocationFront,
-    ILocationsWithContentEntity,
+    ILocationWithContentPareEntity,
     IMediaFront,
 } from "@/lib/models";
 
 export default class LocationMapper {
     constructor() {}
     transformToFront(
-        location: ILocationsWithContentEntity,
+        location: ILocationWithContentPareEntity,
         cdnHost: string
     ): ILocationFront {
         const mediaFiles: IMediaFront[] | null =

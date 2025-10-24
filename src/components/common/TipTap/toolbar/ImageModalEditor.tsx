@@ -106,27 +106,9 @@ const ImageModalEditor = ({ editor, children, type }: IProp) => {
                 onOk={handleOk}
                 onCancel={() => setIsImageModalOpen(false)}
             >
-                <Tabs
-                    defaultActiveKey="upload"
-                    items={[
-                        {
-                            key: "library",
-                            label: "Библиотека",
-                            children: <Button>Вставить котика 🐱</Button>,
-                        },
-                        {
-                            key: "upload",
-                            label: "Загрузить",
-                            children: (
-                                <UploadSortable
-                                    fileList={selectedImages}
-                                    onChange={({ fileList }) =>
-                                        setSelectedImages(fileList)
-                                    }
-                                />
-                            ),
-                        },
-                    ]}
+                <UploadSortable
+                    fileList={selectedImages}
+                    onChange={({ fileList }) => setSelectedImages(fileList)}
                 />
             </Modal>
         </>

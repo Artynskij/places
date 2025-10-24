@@ -44,6 +44,7 @@ import { useEffect, useState } from "react";
 import { LinkModalEditor } from "../toolbar/LinkModalEditor";
 import MediaStateExtension from "../extensions/state/mediaStateEditor";
 import { IMediaFrontWithFile } from "@/lib/models";
+import { getHtmlFormJsonEditor } from "@/lib/helpers/getHtmlFormJsonEditor";
 interface IProp {
     setEditorData: (data: {
         content: any;
@@ -53,7 +54,11 @@ interface IProp {
     initialContent?: any;
 }
 
-export default function TipTapEditor({ setEditorData, onEditorInit,initialContent }: IProp) {
+export default function TipTapEditor({
+    setEditorData,
+    onEditorInit,
+    initialContent,
+}: IProp) {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -66,9 +71,6 @@ export default function TipTapEditor({ setEditorData, onEditorInit,initialConten
             }),
             Underline,
             Link.configure({ openOnClick: false }),
-            ImageMediaNode,
-            Image,
-            VideoMediaNode,
             Blockquote,
             HorizontalRule,
             Heading.configure({ levels: [1, 2, 3] }),
@@ -83,17 +85,22 @@ export default function TipTapEditor({ setEditorData, onEditorInit,initialConten
                 HTMLAttributes: { class: "youtube-video" },
             }),
             CodeBlockLowlight.configure({ lowlight }),
+            Image,
+            ImageMediaNode,
+            VideoMediaNode,
             SliderNode,
             MediaStateExtension,
         ],
-        content: initialContent ,
+        content: initialContent,
+
         immediatelyRender: false,
         onUpdate: ({ editor }) => {
-            const content = editor.getJSON();
             const mediaStorage = editor.storage.mediaStore.items;
+            const contentJson = editor.getJSON();
 
+            console.log(mediaStorage);
             setEditorData({
-                content: content,
+                content: contentJson,
                 mediaStorage: mediaStorage, // ✅ Сохраняем медиа вместе с контентом
             });
         },

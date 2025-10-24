@@ -11,9 +11,14 @@ interface Props {
 
 export const SliderViewer = ({ node, mediaCollection }: Props) => {
     // Вычисляем слайды напрямую, без хука
-    const slideMediaIds = node?.content?.map((slide: any) => slide.attrs?.mediaId) || [];
+    const slideMediaIds =
+        node?.content?.map((slide: any) => slide.attrs?.mediaId) || [];
+    console.log("SliderViewer slideMediaIds", slideMediaIds);
+    console.log("SliderViewer mediaCollection", mediaCollection);
     const slides = slideMediaIds
-        .map((mediaId: string) => mediaCollection.find(item => item.id === mediaId))
+        .map((mediaId: string) =>
+            mediaCollection.find((item) => item.id === mediaId)
+        )
         .filter(Boolean);
 
     return <SliderBase slides={slides} showSkeleton={false} />;

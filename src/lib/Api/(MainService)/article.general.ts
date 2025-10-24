@@ -13,6 +13,9 @@ import { ArticleService } from "../(Article)/article/article.service";
 import { ArticleStatusService } from "../(Article)/article-status.api";
 import { getReadTimeForArticle } from "@/lib/helpers/getReadTimeForArticle";
 import { CONSTANT_ARTICLE_STATUS_DB } from "@/asset/constants/database/article-status.const";
+import { ArticleTypeService } from "../(Article)/article-type.api";
+import { ArticleSubTypeService } from "../(Article)/article-subType.api";
+import { DataLoadManagementService } from "../dataLoadManagement/dataLoadManagement.service";
 
 interface ArticleFormValues {
     lang: TLocale;
@@ -21,7 +24,8 @@ interface ArticleFormValues {
     title: string;
     description: string;
     mainImage: UploadFile[];
-    category: string;
+    typeIds: string[];
+    subTypeIds: string[];
     content: any;
     mediaStorage: IMediaFront[];
 }
@@ -32,11 +36,17 @@ interface IPropCreate {
 }
 export class GeneralArticleService {
     private articleService: ArticleService;
-    private articleStatusService: ArticleStatusService;
+    private dataLoadManagementService: DataLoadManagementService;
+    private articleTypeService: ArticleTypeService;
+    private articleSubTypeService: ArticleSubTypeService;
+
     private fileUploadService: FileUploadService;
     constructor() {
         this.articleService = new ArticleService();
-        this.articleStatusService = new ArticleStatusService();
+        this.dataLoadManagementService = new DataLoadManagementService();
+        this.articleTypeService = new ArticleTypeService();
+        this.articleSubTypeService = new ArticleSubTypeService();
+
         this.fileUploadService = new FileUploadService();
     }
     async create({
@@ -44,8 +54,11 @@ export class GeneralArticleService {
         articleState,
         user,
     }: IPropCreate): Promise<Boolean> {
+        // 0. получение и формирование статичных данных
         const fileMainImage = formData.mainImage[0];
-        const statusPendingRev = (await this.articleStatusService.get())?.find(
+        const statusPendingRev = (
+            await this.dataLoadManagementService.getArticleStatus()
+        )?.find(
             (item) => item.Code === CONSTANT_ARTICLE_STATUS_DB.PENDING_REVIEW
         );
         if (!statusPendingRev) {
@@ -53,9 +66,9 @@ export class GeneralArticleService {
             return false;
         }
         const readingTime = getReadTimeForArticle(
-            JSON.stringify(formData.content)
+            JSON.stringify(articleState.markdown)
         );
-        const bodyArticleCreate: IArticleRequest = {
+        const bodyArticleFromUI: IArticleRequest = {
             source: {
                 ArticlesStatusId: statusPendingRev?.Id,
                 ReadingTimeMinutes: readingTime,
@@ -66,34 +79,28 @@ export class GeneralArticleService {
                     {
                         lang: formData.lang,
                         contentValue: {
-                            value: "",
                             title: formData.title,
                             description: formData.description,
-                            seo: {
-                                title: formData.titleSeo,
-                                description: formData.descriptionSeo,
-                            },
+
                             markdown: articleState.markdown,
                         },
                     },
                 ],
                 media: { gallery: [] },
-                // media: {
-                //     main: mainImageUploaded,
-                //     gallery: mediaUploaded,
-                // },
             },
         };
-        console.log("bodyArticleCreate", bodyArticleCreate);
+        console.log("bodyArticleCreate", bodyArticleFromUI);
+        // 1. создание статьи без медиа!
         const createArticle = await this.articleService.create(
-            bodyArticleCreate
+            bodyArticleFromUI
         );
-        console.log("createArticle", createArticle);
+
         const vendorId = createArticle?.Id;
         if (!vendorId) {
             console.log("dont have createArticle");
             return false;
         }
+        // 2. загрузка главной фотографии
         const mainImageUploaded = (
             await this.fileUploadService.uploadPublicFileOfAntdFiles({
                 vendorId: vendorId,
@@ -107,6 +114,8 @@ export class GeneralArticleService {
                 main: true,
             })
         )[0];
+
+        // 3. загрузка всех остальных фотографий
         const filesInMedia = articleState.media
             .map((item) => {
                 if (item.file) {
@@ -132,17 +141,35 @@ export class GeneralArticleService {
                 files: filesInMedia,
                 seo: seoInMedia,
             });
-        if (bodyArticleCreate.content?.media?.gallery) {
-            bodyArticleCreate.content.media.gallery = [
+        if (bodyArticleFromUI.content?.media?.gallery) {
+            bodyArticleFromUI.content.media.gallery = [
                 mainImageUploaded,
                 ...mediaUploaded,
             ];
         }
-
-        console.log("bodyArticleCreate", bodyArticleCreate);
+        // 4. добавление категории статье
+        const responseAttachType =
+            await this.articleTypeService.addBulkConnectionToArticle({
+                articleId: createArticle.Id,
+                articleTypeIds: formData.typeIds,
+            });
+        if (!responseAttachType) {
+            console.log("тип не прикрепился к статье");
+        }
+        // 5. добавление категории статье
+        const responseAttachSubType =
+            await this.articleSubTypeService.addBulkConnectionToArticle({
+                articleId: createArticle.Id,
+                articleSubTypeIds: formData.subTypeIds,
+            });
+        if (!responseAttachSubType) {
+            console.log("подтип не прикрепился к статье");
+        }
+        // 6. обновление статьи для прикрепрления фото
+        console.log("bodyArticleUpdate", bodyArticleFromUI);
         const updatedArticle = await this.articleService.update(
             createArticle.Id,
-            bodyArticleCreate
+            bodyArticleFromUI
         );
         if (!updatedArticle) {
             return false;

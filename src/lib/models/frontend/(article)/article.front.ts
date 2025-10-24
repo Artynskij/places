@@ -3,17 +3,8 @@ import {
     IMediaFront,
     IMediaFrontWithFile,
 } from "../(establishment)/parts/media.front";
+import { IContentArticle, IPersonEntity } from "../../server/entities";
 
-// export interface IArticleFront {
-//     id: string;
-//     title: string;
-//     description: string;
-//     author: string;
-//     markdown: string;
-//     date: string;
-//     titleImage: string;
-//     reactions: number[];
-// }
 export interface IArticleFront {
     id: string;
     title: string;
@@ -22,14 +13,17 @@ export interface IArticleFront {
     titleImage: IMediaFrontWithFile | null;
     media: IMediaFrontWithFile[];
 
-    category: string;
+    type: { id: string; code: string; value: string }[];
+    subType: { id: string; code: string; value: string }[];
     reactions: number[];
     status: {
         id: string;
         code: TArticleStatus;
     };
+    author?: IPersonEntity;
 
-    // contentString: string;
+    readingTime: number;
     date: string;
-    author: string;
+
+    contentEntity: IContentArticle | null;
 }

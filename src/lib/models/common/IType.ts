@@ -1,26 +1,29 @@
 import { TLocale } from "../types";
 
 export interface IBasePageProps<
-  TParams extends object = {},
-  TSearchParams extends object = {}
+    TParams extends object = {},
+    TSearchParams extends object = {}
 > {
-  params: { locale: TLocale } & TParams;
-  searchParams?: { [K in keyof TSearchParams]?: string };
+    params: { locale: TLocale } & TParams;
+    searchParams?: { [K in keyof TSearchParams]?: string };
 }
-
-export interface ISelectOption {
+export interface IDetailLang {
+    lang: TLocale;
+    value: string;
+}
+export interface IOption {
     id?: number | string;
-    name: string;
+    label: string;
     value: string;
 }
 
 export interface IDataAdvertisingItem {
     type: "country" | "district" | "town";
-    country: { name: string; value: string };
-    language: { name: string; value: string };
-    facility: { name: string; value: string };
-    district?: { name: string; value: string };
-    town?: { name: string; value: string };
+    country: { label: string; value: string };
+    language: { label: string; value: string };
+    facility: { label: string; value: string };
+    district?: { label: string; value: string };
+    town?: { label: string; value: string };
     calendar: [Date, Date] | string[];
     price: { allPrice: number; priceOne: number };
 }
@@ -32,7 +35,7 @@ export interface IDataAdvertisingCookie {
 
 export interface IDataCurrency {
     id: number;
-    currency: { name: string; value: string };
+    currency: { label: string; value: string };
     count: number;
 }
 export interface IDataWalletHistory {
@@ -40,7 +43,7 @@ export interface IDataWalletHistory {
     title: string;
     count: number;
     date: string;
-    status: { value: string; name: string };
+    status: { value: string; label: string };
 }
 
 // After Api

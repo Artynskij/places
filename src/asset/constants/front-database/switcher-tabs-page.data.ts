@@ -38,12 +38,12 @@ export const CONSTANT_TABS = {
     },
 };
 export const SWITCHER_OWNER = [
-    { id: 1, name: "мои обьекты", value: CONSTANT_TABS.owner.establishments },
+    { id: 1, label: "мои обьекты", value: CONSTANT_TABS.owner.establishments },
     // { id: 2, name: "продвижение", value: "marketing" },
     // { id: 3, name: "история заказов", value: "history" },
     // { id: 4, name: "статистика", value: "stat" },
     // { id: 5, name: "кошелёк", value: "wallet" },
-    { id: 6, name: "бизнесы", value: CONSTANT_TABS.owner.business },
+    { id: 6, label: "бизнесы", value: CONSTANT_TABS.owner.business },
 ];
 
 // export const switcherTabUserData = [
@@ -57,25 +57,25 @@ export const SWITCHER_TOURIST = [
     // { id: 1, name: "Публикации", value: "publications" },
     // { id: 2, name: "Фото", value: "photos" },
     // { id: 3, name: "Видео", value: "videos" },
-    { id: 4, name: "избранное", value: CONSTANT_TABS.tourist.favorites },
-    { id: 4, name: "Отзывы / оценки", value: CONSTANT_TABS.tourist.reviews },
+    { id: 4, label: "избранное", value: CONSTANT_TABS.tourist.favorites },
+    { id: 4, label: "Отзывы / оценки", value: CONSTANT_TABS.tourist.reviews },
     {
         id: 5,
-        name: "Добавленные объекты",
+        label: "Добавленные объекты",
         value: CONSTANT_TABS.tourist.establishments,
     },
     {
         id: 6,
-        name: "Карта путешествий",
+        label: "Карта путешествий",
         value: CONSTANT_TABS.tourist.travelMap,
     },
 ];
 export const SWITCHER_BUSINESS = [
-    { id: 2, name: "продвижение", value: CONSTANT_TABS.business.marketing },
-    { id: 3, name: "история заказов", value: CONSTANT_TABS.business.history },
-    { id: 4, name: "статистика", value: CONSTANT_TABS.business.stat },
-    { id: 5, name: "кошелёк", value: CONSTANT_TABS.business.wallet },
-    { id: 6, name: "сотрудники", value: CONSTANT_TABS.business.employees },
+    { id: 2, label: "продвижение", value: CONSTANT_TABS.business.marketing },
+    { id: 3, label: "история заказов", value: CONSTANT_TABS.business.history },
+    { id: 4, label: "статистика", value: CONSTANT_TABS.business.stat },
+    { id: 5, label: "кошелёк", value: CONSTANT_TABS.business.wallet },
+    { id: 6, label: "сотрудники", value: CONSTANT_TABS.business.employees },
 ];
 export const SWITCHER_FINER_MAIN_PAGE = [
     {

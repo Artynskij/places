@@ -1,34 +1,46 @@
 import {
-    IArticleSubTypeEntity,
+    IArticleSubTypeWithContentPareEntity,
     IArticleSubTypeFront,
     IArticleSubTypeRequest,
 } from "@/lib/models";
 import { BaseApiService } from "../base/BaseApi.service";
 import { BaseMapper } from "../base/BaseMapper";
 import apiClient from "../base/ApiClient";
+import { ArticleTypeMapper } from "./article-type.api";
 interface IConnectionSubTypeArticle {
     articleId: string;
-    subCategoryId: string;
+    articleSubTypeId: string;
+}
+interface IConnectionBulkSubTypeArticle {
+    articleId: string;
+    articleSubTypeIds: string[];
 }
 
 export class ArticleSubTypeMapper {
-    toFront(entity: IArticleSubTypeEntity): IArticleSubTypeFront {
+    constructor() {}
+    toFront(
+        entity: IArticleSubTypeWithContentPareEntity
+    ): IArticleSubTypeFront {
+        const title =
+            entity.content?.details.find((item) => item.lang === "ru")?.value ||
+            entity.content?.details[0].value;
         return {
-            id: entity.Id,
-            code: entity.Code,
-            description: entity.Description,
-            isActive: entity.IsActive,
-            name: entity.Name,
-            sortOrder: entity.SortOrder,
-            value: entity.content.details[0].value,
+            id: entity.articleSubType.Id,
+            code: entity.articleSubType.Code,
+            description: entity.articleSubType.Description,
+            isActive: entity.articleSubType.IsActive,
+            name: entity.articleSubType.Name,
+            sortOrder: entity.articleSubType.SortOrder,
+            value: title,
             content: entity.content,
-            articleTypeId: entity.ArticleTypeId,
+            articleTypeId: entity.articleSubType.ArticleTypeId,
+            articleType: entity.articleSubType.ArticleType,
         };
     }
 }
 export class ArticleSubTypeService extends BaseApiService<
-    IArticleSubTypeEntity,
-    IArticleSubTypeEntity,
+    IArticleSubTypeWithContentPareEntity,
+    IArticleSubTypeWithContentPareEntity,
     IArticleSubTypeFront,
     IArticleSubTypeRequest
 > {
@@ -39,14 +51,32 @@ export class ArticleSubTypeService extends BaseApiService<
     ): Promise<any | null> {
         try {
             const res = await apiClient.post(
-                `/article-categories/add-subcategory`,
+                `/article-categories/subcategories`,
                 body
             );
 
             return res || null;
         } catch (error) {
             console.error(
-                `error [post /article-categories/add-subcategory`,
+                `error [post /article-categories/subcategories`,
+                error
+            );
+            return null;
+        }
+    }
+    async addBulkConnectionToArticle(
+        body: IConnectionBulkSubTypeArticle
+    ): Promise<any | null> {
+        try {
+            const res = await apiClient.post(
+                `/article-categories/subcategories/bulk`,
+                body
+            );
+
+            return res || null;
+        } catch (error) {
+            console.error(
+                `error [post /article-categories/subcategories/bulk`,
                 error
             );
             return null;
@@ -57,14 +87,14 @@ export class ArticleSubTypeService extends BaseApiService<
     ): Promise<any | null> {
         try {
             const res = await apiClient.delete(
-                `article-categories/remove-subcategory`,
+                `article-categories/subcategories`,
                 { data: body }
             );
 
             return res || null;
         } catch (error) {
             console.error(
-                `error [post /article-categories/remove-subcategory`,
+                `error [delete /article-categories/subcategories`,
                 error
             );
             return null;

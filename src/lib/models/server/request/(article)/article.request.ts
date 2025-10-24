@@ -20,17 +20,16 @@ interface ContentPartArticle {
     tags?: string[];
     reactions?: number[];
     title: string;
-    seo: { title: string; description: string };
-    value:string
+   
 }
 interface ContentArticle
     extends IContentMultilingualRequest<ContentPartArticle> {}
 export interface IArticleRequest {
     source: {
-        PersonId: string;
-        // BusinessId?: string;
-        ArticlesStatusId: string;
-        ReadingTimeMinutes: number;
+        PersonId?: string;
+        
+        ArticlesStatusId?: string;
+        ReadingTimeMinutes?: number;
     };
     content: ContentArticle;
 }

@@ -13,7 +13,10 @@ $marginNews: 40px;
         min-width: 0;
     }
 }
-
+.popular {
+    background-color: $color-additional-background;
+    border-radius: $border-radius-10;
+}
 .breadcrumb {
     margin-bottom: 20px;
 }
@@ -97,10 +100,7 @@ $marginNews: 40px;
 }
 .reaction {
 }
-.popular {
-    background-color: $color-additional-background;
-    border-radius: $border-radius-10;
-}
+
 @include mediaTablet {
     .container_news {
         padding: 15px;

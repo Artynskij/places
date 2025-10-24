@@ -1,10 +1,11 @@
 import {
+    IArticleStatusEntity,
     IBusinessLegalTypesEntity,
     ICategoryEstablishmentEntity,
     IFavoriteTypeEntity,
     IGenderWithContentEntity,
     IRoleOwnerWithContentEntity,
-    ITagEntity,
+    ITagWithContentPareEntity,
     ITypeEstablishmentWithContentEntity,
 } from "@/lib/models";
 
@@ -13,6 +14,17 @@ import apiClient from "../base/ApiClient";
 
 export default class DataLoadManagementApi {
     constructor() {}
+    async getBlobProxy(): Promise<{ url: string } | null> {
+        try {
+            const response = await apiClient.get(`/blob-proxy/resolve`);
+            return response.data;
+        } catch (error) {
+            console.error(
+                `Ошибка при запросе по получению blob-proxy для картинок.`
+            );
+            return null;
+        }
+    }
     async getRolesOwner(): Promise<IRoleOwnerWithContentEntity[] | null> {
         try {
             const response = await apiClient.get(`/roles`);
@@ -59,7 +71,7 @@ export default class DataLoadManagementApi {
     }
     async getTagsBlockOfEstablishments(
         locale: string
-    ): Promise<ITagEntity[] | null> {
+    ): Promise<ITagWithContentPareEntity[] | null> {
         try {
             const response = await apiClient.get(`/tags?${locale}`);
 
@@ -84,17 +96,6 @@ export default class DataLoadManagementApi {
             return null;
         }
     }
-    async getBlobProxy(): Promise<{ url: string } | null> {
-        try {
-            const response = await apiClient.get(`/blob-proxy/resolve`);
-            return response.data;
-        } catch (error) {
-            console.error(
-                `Ошибка при запросе по получению blob-proxy для картинок.`
-            );
-            return null;
-        }
-    }
 
     async getBusinessLegalTypes(): Promise<IBusinessLegalTypesEntity[] | null> {
         try {
@@ -113,6 +114,15 @@ export default class DataLoadManagementApi {
             return response.data;
         } catch (error) {
             console.error(`Ошибка при запросе по получению FavoriteTypes.`);
+            return null;
+        }
+    }
+    async getArticleStatus(): Promise<IArticleStatusEntity[] | null> {
+        try {
+            const response = await apiClient.get(`/articles-status`);
+            return response.data;
+        } catch (error) {
+            console.error(`Ошибка при получении ArticleStatus.`);
             return null;
         }
     }

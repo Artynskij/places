@@ -1,6 +1,3 @@
-import Image from "next/image";
-import styles from "./page.module.scss";
-import { notFound, redirect } from "next/navigation";
 import { MainScreen } from "@/screens/MainScreen/MainScreen";
 import { IBasePageProps } from "@/lib/models/common/IType";
 import { ArticleService } from "@/lib/Api/(Article)/article/article.service";

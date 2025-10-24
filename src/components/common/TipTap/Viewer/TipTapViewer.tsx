@@ -22,50 +22,54 @@ import { ImageMediaNodeViewer } from "../extensions/image/ImageMediaNodeViewer";
 import { VideoMediaNodeViewer } from "../extensions/video/VideoMediaNodeViewer";
 
 interface Props {
-    json: any;
+    contentEditor: any;
     reHydrate: number;
     mediaCollection: IMediaFront[];
 }
 
-export const TipTapViewer = ({ json, reHydrate, mediaCollection }: Props) => {
+export const TipTapViewer = ({
+    contentEditor,
+    reHydrate,
+    mediaCollection,
+}: Props) => {
     const ImageNode = ImageMediaNodeViewer(mediaCollection);
     const VideoNode = VideoMediaNodeViewer(mediaCollection);
 
-    const html = generateHTML(json, [
-        StarterKit.configure({
-            blockquote: false,
-            horizontalRule: false,
-            link: false,
-            underline: false,
-            codeBlock: false,
-        }),
-        Underline,
-        Link,
-        ImageNode,
-        Image,
-        VideoNode,
-        Blockquote,
-        HorizontalRule,
-        Table,
-        TableRow,
-        TableHeader,
-        TableCell,
-        Youtube.configure({
-            controls: true,
-            modestBranding: true,
-            HTMLAttributes: { class: "youtube-video" },
-        }),
-        CodeBlockLowlight.configure({ lowlight }),
-        SliderNode,
-        MediaStateExtension,
-    ]);
+    // const html = generateHTML(json, [
+    //     StarterKit.configure({
+    //         blockquote: false,
+    //         horizontalRule: false,
+    //         link: false,
+    //         underline: false,
+    //         codeBlock: false,
+    //     }),
+    //     Underline,
+    //     Link,
+    //     ImageNode,
+    //     Image,
+    //     VideoNode,
+    //     Blockquote,
+    //     HorizontalRule,
+    //     Table,
+    //     TableRow,
+    //     TableHeader,
+    //     TableCell,
+    //     Youtube.configure({
+    //         controls: true,
+    //         modestBranding: true,
+    //         HTMLAttributes: { class: "youtube-video" },
+    //     }),
+    //     CodeBlockLowlight.configure({ lowlight }),
+    //     SliderNode,
+    //     MediaStateExtension,
+    // ]);
 
     return (
         // <div className={style.articleViewer}>
         <TipTapHydrator
             mediaCollection={mediaCollection}
             reHydrate={reHydrate}
-            html={html}
+            html={contentEditor}
         />
         // </div>
     );

@@ -5,5 +5,5 @@ export interface IBaseSimpleFront {
     code: string;
     name: string;
     value: string;
-    content: IContentSimpleEntity;
+    content: IContentSimpleEntity | null;
 }

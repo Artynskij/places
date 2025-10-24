@@ -15,6 +15,7 @@ import { getTranslations } from "next-intl/server";
 import { ROUTES } from "@/lib/config/Routes";
 import FinderMainPage from "@/components/common/Finder/FinderMainPage/FinderMainPage";
 import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
+import { CardArticleMainPage } from "@/components/common/Cards/(article)/CardArticleMainPage/CardArticleMainPage";
 
 interface IProps extends IBasePageProps {
     params: IBasePageProps["params"] & {};
@@ -26,7 +27,7 @@ export const MainScreen = async ({
     articlesData,
 }: IProps) => {
     const newsCategoryData = articlesData.slice(0, 6);
-    const recommendCategoryData = articlesData.slice(0, 4);
+    const recommendCategoryData = articlesData.slice(0, 3);
     const directionData = mockTowns.slice(0, 5);
     const t = await getTranslations("CategoryNews");
     // const api = new ApiEstablishment();
@@ -68,56 +69,14 @@ export const MainScreen = async ({
                     <div className={style.news_content}>
                         {newsCategoryData.map((item, index) => {
                             return (
-                                <Link
-                                    href={`/news/${CONSTANT_CATEGORIES_NEWS.news}/${item.id}`}
-                                    key={`news-${index}`}
-                                    className={style.cardNews}
-                                >
-                                    <div className={style.cardNews_image}>
-                                        <Image
-                                            className={style.cardNews_image_img}
-                                            width={300}
-                                            height={150}
-                                            sizes="30vw"
-                                            src={
-                                                item.titleImage?.src ||
-                                                CONSTANT_DEFAULT_IMAGE_URL
-                                            }
-                                            alt="photo"
-                                        />
-                                    </div>
-                                    <div className={style.cardNews_content}>
-                                        <span
-                                            className={
-                                                style.cardNews_content_title
-                                            }
-                                        >
-                                            {item.title}
-                                        </span>
-                                        <div
-                                            className={
-                                                style.cardNews_content_additional
-                                            }
-                                        >
-                                            <span
-                                                className={
-                                                    style.cardNews_content_date
-                                                }
-                                            >
-                                                {item.date}
-                                            </span>
-                                            <span
-                                                className={
-                                                    style.cardNews_content_date
-                                                }
-                                            >
-                                                <BlockReadTime
-                                                    text={item.markdown}
-                                                />
-                                            </span>
-                                        </div>
-                                    </div>
-                                </Link>
+                                <CardArticleMainPage
+                                    key={`${CONSTANT_CATEGORIES_NEWS.news}-${item.id}`}
+                                    article={item}
+                                    category={CONSTANT_CATEGORIES_NEWS.news}
+                                    cardClass={style.cardNews}
+                                    contentClass={style.cardNews_content}
+                                    imgClass={style.cardNews_img}
+                                />
                             );
                         })}
                     </div>
@@ -137,62 +96,15 @@ export const MainScreen = async ({
                         </Link>
                     </h2>
                     <div className={style.recommend_content}>
-                        {recommendCategoryData.map((recItem, index) => {
+                        {recommendCategoryData.map((recItem) => {
                             return (
-                                <Link
-                                    href={`/news/${CONSTANT_CATEGORIES_NEWS.recommend}/${recItem.id}`}
-                                    key={`recommend-${index}`}
-                                    className={style.cardRecommend}
-                                >
-                                    <div className={style.cardRecommend_image}>
-                                        <Image
-                                            className={
-                                                style.cardRecommend_image_img
-                                            }
-                                            width={300}
-                                            height={150}
-                                            sizes="30vw"
-                                            src={
-                                                recItem.titleImage?.src ||
-                                                CONSTANT_DEFAULT_IMAGE_URL
-                                            }
-                                            alt="photo"
-                                        />
-                                    </div>
-                                    <div
-                                        className={style.cardRecommend_content}
-                                    >
-                                        <span
-                                            className={
-                                                style.cardRecommend_content_title
-                                            }
-                                        >
-                                            {recItem.title}
-                                        </span>
-                                        <div
-                                            className={
-                                                style.cardRecommend_content_additional
-                                            }
-                                        >
-                                            <span
-                                                className={
-                                                    style.cardRecommend_content_date
-                                                }
-                                            >
-                                                {recItem.date}
-                                            </span>
-                                            <span
-                                                className={
-                                                    style.cardRecommend_content_time
-                                                }
-                                            >
-                                                <BlockReadTime
-                                                    text={recItem.markdown}
-                                                />
-                                            </span>
-                                        </div>
-                                    </div>
-                                </Link>
+                                <CardArticleMainPage
+                                    key={`${CONSTANT_CATEGORIES_NEWS.recommend}-${recItem.id}`}
+                                    category={
+                                        CONSTANT_CATEGORIES_NEWS.recommend
+                                    }
+                                    article={recItem}
+                                />
                             );
                         })}
                     </div>
@@ -212,65 +124,13 @@ export const MainScreen = async ({
                         </Link>
                     </h2>
                     <div className={style.recommend_content}>
-                        {recommendCategoryData.map((recItem, index) => {
+                        {recommendCategoryData.map((recItem) => {
                             return (
-                                <Link
-                                    href={ROUTES.NEWS.NEWS(
-                                        CONSTANT_CATEGORIES_NEWS.overview,
-                                        recItem.id
-                                    )}
-                                    key={`overview-${index}`}
-                                    className={style.cardRecommend}
-                                >
-                                    <div className={style.cardRecommend_image}>
-                                        <Image
-                                            className={
-                                                style.cardRecommend_image_img
-                                            }
-                                            width={300}
-                                            height={150}
-                                            sizes="30vw"
-                                            src={
-                                                recItem.titleImage?.src ||
-                                                CONSTANT_DEFAULT_IMAGE_URL
-                                            }
-                                            alt="photo"
-                                        />
-                                    </div>
-                                    <div
-                                        className={style.cardRecommend_content}
-                                    >
-                                        <span
-                                            className={
-                                                style.cardRecommend_content_title
-                                            }
-                                        >
-                                            {recItem.title}
-                                        </span>
-                                        <div
-                                            className={
-                                                style.cardRecommend_content_additional
-                                            }
-                                        >
-                                            <span
-                                                className={
-                                                    style.cardRecommend_content_date
-                                                }
-                                            >
-                                                {recItem.date}
-                                            </span>
-                                            <span
-                                                className={
-                                                    style.cardRecommend_content_time
-                                                }
-                                            >
-                                                <BlockReadTime
-                                                    text={recItem.markdown}
-                                                />
-                                            </span>
-                                        </div>
-                                    </div>
-                                </Link>
+                                <CardArticleMainPage
+                                    key={`${CONSTANT_CATEGORIES_NEWS.overview}-${recItem.id}`}
+                                    category={CONSTANT_CATEGORIES_NEWS.overview}
+                                    article={recItem}
+                                />
                             );
                         })}
                     </div>
@@ -278,7 +138,7 @@ export const MainScreen = async ({
             )}
 
             {/* blog block */}
-            {/* <section>
+            <section>
                 <h2 className={style.title_second}>
                     <Link
                         href={ROUTES.NEWS.CATEGORY(
@@ -289,61 +149,17 @@ export const MainScreen = async ({
                     </Link>
                 </h2>
                 <div className={style.recommend_content}>
-                    {recommendData.map((recItem, index) => {
+                    {recommendCategoryData.map((recItem, index) => {
                         return (
-                            <Link
-                                href={`/news/${CONSTANT_CATEGORIES_NEWS.blog}/${recItem.id}`}
-                                key={`blog-${index}`}
-                                className={style.cardRecommend}
-                            >
-                                <div className={style.cardRecommend_image}>
-                                    <Image
-                                        className={
-                                            style.cardRecommend_image_img
-                                        }
-                                        width={300}
-                                        height={150}
-                                        sizes="30vw"
-                                        src={recItem.titleImage}
-                                        alt="photo"
-                                    />
-                                </div>
-                                <div className={style.cardRecommend_content}>
-                                    <span
-                                        className={
-                                            style.cardRecommend_content_title
-                                        }
-                                    >
-                                        {recItem.title}
-                                    </span>
-                                    <div
-                                        className={
-                                            style.cardRecommend_content_additional
-                                        }
-                                    >
-                                        <span
-                                            className={
-                                                style.cardRecommend_content_date
-                                            }
-                                        >
-                                            {recItem.date}
-                                        </span>
-                                        <span
-                                            className={
-                                                style.cardRecommend_content_time
-                                            }
-                                        >
-                                            <BlockReadTime
-                                                text={recItem.markdown}
-                                            />
-                                        </span>
-                                    </div>
-                                </div>
-                            </Link>
+                            <CardArticleMainPage
+                                key={`${CONSTANT_CATEGORIES_NEWS.blog}-${recItem.id}`}
+                                category={CONSTANT_CATEGORIES_NEWS.blog}
+                                article={recItem}
+                            />
                         );
                     })}
                 </div>
-            </section> */}
+            </section>
             <section>
                 <h2 className={style.title_second}>{t("bestDestination")}</h2>
                 <div className={style.direction_content}>

@@ -1,9 +1,14 @@
 import { TCategoriesTags } from "@/lib/models/types/TCategoriesTags";
 import { IContentSimpleEntity } from "../../../base/content.entity";
+import { IBaseEntity, IBaseSimpleEntity } from "../../../base";
+export interface ITagCategoryEntity extends IBaseEntity {
+    Name: string;
+}
+export interface ITagCategoryWithContentPareEntity {
+    tagCategory: ITagCategoryEntity;
 
-export interface ITagCategoryEntity {
-    Id: string;
-    Name: TCategoriesTags;
-    Path: string | null;
+    content: IContentSimpleEntity;
+}
+export interface ITagCategoryWithContentEntity extends ITagCategoryEntity {
     content: IContentSimpleEntity;
 }

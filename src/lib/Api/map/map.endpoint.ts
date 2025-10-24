@@ -1,4 +1,4 @@
-import { ILocationsWithContentEntity } from "@/lib/models/server/entities/locations.entity";
+import { ILocationWithContentPareEntity } from "@/lib/models/server/entities/locations.entity";
 
 import { IMapQueryRequest } from "@/lib/models/server/request/map.request";
 import { ISearchItemEntity } from "@/lib/models";

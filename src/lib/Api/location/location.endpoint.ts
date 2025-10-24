@@ -1,10 +1,9 @@
-
-
 import apiClient from "../base/ApiClient";
 import {
-    ILocationInsidePaginationRequest,
-    ILocationsWithContentEntity,
+    ILocationPaginationRequest,
+    ILocationWithContentPareEntity,
     ILocationUpdateRequest,
+    ILocationPaginationResponse,
 } from "@/lib/models";
 
 export default class LocationApi {
@@ -12,7 +11,7 @@ export default class LocationApi {
     async getById(
         id: string,
         lang?: string
-    ): Promise<ILocationsWithContentEntity | null> {
+    ): Promise<ILocationWithContentPareEntity | null> {
         try {
             const response = await apiClient.get(
                 lang ? `/locations/${id}?lang=${lang}` : `/locations/${id}`
@@ -24,8 +23,8 @@ export default class LocationApi {
         }
     }
     async getAll(
-        body: ILocationInsidePaginationRequest
-    ): Promise<ILocationsWithContentEntity[] | null> {
+        body: ILocationPaginationRequest
+    ): Promise<ILocationPaginationResponse | null> {
         try {
             const response = await apiClient.post(`/locations/get-all`, body);
             return response.data;
@@ -39,7 +38,7 @@ export default class LocationApi {
     async getBreadcrumbData(body: {
         ids: string;
         lang: string;
-    }): Promise<ILocationsWithContentEntity[] | null> {
+    }): Promise<ILocationWithContentPareEntity[] | null> {
         try {
             const response = await apiClient.post(
                 `/locations/get-all-breadcrumbs`,
@@ -54,7 +53,7 @@ export default class LocationApi {
     async update(
         id: string,
         body: ILocationUpdateRequest
-    ): Promise<ILocationsWithContentEntity | null> {
+    ): Promise<ILocationWithContentPareEntity | null> {
         try {
             const response = await apiClient.patch(`/locations/${id}`, body);
             return response.data;

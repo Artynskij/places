@@ -48,6 +48,7 @@ export class FileUploadService {
         vendorId,
         files,
         seo,
+        main = false,
     }: IPropUploadPublicFileOfAntdFiles): Promise<IImageEntity[] | []> {
         const mediaFiles: File[] = files
             ?.map((file) => {
@@ -84,7 +85,7 @@ export class FileUploadService {
             ? uploadedFiles.map((file, index) => {
                   return {
                       id: files[index].uid,
-
+                      isMain: main,
                       blobPath: file?.blobPath || "",
                       fileName: files[index].name || "",
                       width: imageDimensions[index].width || 0,

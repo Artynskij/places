@@ -91,7 +91,7 @@ const LocationsTabAdmin: React.FC = () => {
                     setTypesLocationsData(transformData);
                 }
 
-                setLocations(locationsData || []);
+                setLocations(locationsData?.locations || []);
             } catch {
                 message.error("Ошибка загрузки данных");
             } finally {
@@ -140,8 +140,10 @@ const LocationsTabAdmin: React.FC = () => {
             }
 
             const filteredData = idType
-                ? data.filter((item) => item.locationType?.id === idType)
-                : data;
+                ? data.locations.filter(
+                      (item) => item.locationType?.id === idType
+                  )
+                : data.locations;
             setLocations(filteredData);
         } catch {
             message.error("Ошибка загрузки локаций");
@@ -165,7 +167,7 @@ const LocationsTabAdmin: React.FC = () => {
                 throw Error("Локация не найдена");
             }
 
-            const locationsInsideFiltered = (locationsInside || []).filter(
+            const locationsInsideFiltered = (locationsInside?.locations || []).filter(
                 (item) => item.id !== locationById.id
             );
             setLocations([locationById, ...locationsInsideFiltered]);

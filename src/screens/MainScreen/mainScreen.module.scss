@@ -25,55 +25,55 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: $gap-big;
-    .cardNews {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
-        gap: $gap-big;
-        background-color: $color-additional-background;
-        border-radius: $border-radius-10;
-        overflow: hidden;
+    // .cardNews {
+    //     display: grid;
+    //     grid-template-columns: 1fr;
+    //     grid-template-rows: auto 1fr;
+    //     gap: $gap-big;
+    //     background-color: $color-additional-background;
+    //     border-radius: $border-radius-10;
+    //     overflow: hidden;
 
-        &_image {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            &_img {
-                aspect-ratio: 16 / 9;
-                width: 100%;
-                height: auto;
-                object-fit: cover;
-                transition: $transition;
-            }
-        }
-        &:hover .cardNews_image_img {
-            transform: scale(1.02);
-        }
-        &_content {
-            height: 100%;
-            padding: 24px 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: $gap-medium;
+    //     &_image {
+    //         width: 100%;
+    //         height: 100%;
+    //         position: relative;
+    //         overflow: hidden;
+    //         &_img {
+    //             aspect-ratio: 16 / 9;
+    //             width: 100%;
+    //             height: auto;
+    //             object-fit: cover;
+    //             transition: $transition;
+    //         }
+    //     }
+    //     &:hover .cardNews_image_img {
+    //         transform: scale(1.02);
+    //     }
+    //     &_content {
+    //         height: 100%;
+    //         padding: 24px 16px;
+    //         display: flex;
+    //         flex-direction: column;
+    //         justify-content: space-between;
+    //         gap: $gap-medium;
 
-            &_title {
-                height: fit-content;
-                @extend %Text18;
-                @include textCut(3);
-            }
-            &_additional {
-                display: flex;
-                justify-content: space-between;
-                gap: $gap-small;
-                @extend %Text12;
-                color: $color-main-grey;
-            }
-            &_date {
-            }
-        }
-    }
+    //         &_title {
+    //             height: fit-content;
+    //             @extend %Text18;
+    //             @include textCut(3);
+    //         }
+    //         &_additional {
+    //             display: flex;
+    //             justify-content: space-between;
+    //             gap: $gap-small;
+    //             @extend %Text12;
+    //             color: $color-main-grey;
+    //         }
+    //         &_date {
+    //         }
+    //     }
+    // }
     .cardNews:first-child {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: 1fr;
@@ -82,7 +82,7 @@
             justify-content: center;
             gap: $gap-big;
         }
-        .cardNews_image_img {
+        .cardNews_img {
             height: 100%;
         }
     }
@@ -91,52 +91,52 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: $gap-big;
-    .cardRecommend {
-        display: grid;
-        grid-template-rows: auto 1fr;
-        gap: $gap-big;
-        background-color: $color-additional-background;
-        border-radius: $border-radius-10;
-        overflow: hidden;
-        &_image {
-            display: flex;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-            &_img {
-                aspect-ratio: 16 / 9;
-                width: 100%;
-                height: auto;
-                object-fit: cover;
-                transition: $transition;
-            }
-        }
-        &:hover .cardRecommend_image_img {
-            transform: scale(1.02);
-        }
-        &_content {
-            height: 100%;
-            padding: 24px 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: $gap-big;
-            &_title {
-                height: fit-content;
-                @extend %Text18;
-                @include textCut(3);
-            }
-            &_additional {
-                display: flex;
-                justify-content: space-between;
-                gap: $gap-small;
-                @extend %Text12;
-                color: $color-main-grey;
-            }
-            &_date {
-            }
-        }
-    }
+    // .cardRecommend {
+    //     display: grid;
+    //     grid-template-rows: auto 1fr;
+    //     gap: $gap-big;
+    //     background-color: $color-additional-background;
+    //     border-radius: $border-radius-10;
+    //     overflow: hidden;
+    //     &_image {
+    //         display: flex;
+    //         width: 100%;
+    //         position: relative;
+    //         overflow: hidden;
+    //         &_img {
+    //             aspect-ratio: 16 / 9;
+    //             width: 100%;
+    //             height: auto;
+    //             object-fit: cover;
+    //             transition: $transition;
+    //         }
+    //     }
+    //     &:hover .cardRecommend_image_img {
+    //         transform: scale(1.02);
+    //     }
+    //     &_content {
+    //         height: 100%;
+    //         padding: 24px 16px;
+    //         display: flex;
+    //         flex-direction: column;
+    //         justify-content: space-between;
+    //         gap: $gap-big;
+    //         &_title {
+    //             height: fit-content;
+    //             @extend %Text18;
+    //             @include textCut(3);
+    //         }
+    //         &_additional {
+    //             display: flex;
+    //             justify-content: space-between;
+    //             gap: $gap-small;
+    //             @extend %Text12;
+    //             color: $color-main-grey;
+    //         }
+    //         &_date {
+    //         }
+    //     }
+    // }
 }
 .direction_content {
     display: grid;
@@ -187,22 +187,22 @@
     .news_content {
         display: flex;
         flex-direction: column;
-        .cardNews {
-            height: 100%;
-            grid-template-columns: 1fr 2fr;
-            grid-template-rows: 1fr;
-            gap: $gap-small;
-            &_image_img {
-                height: 100%;
-            }
-            &_content {
-                padding: 7px 5px;
-                gap: $gap-small;
-                &_date,
-                &_title {
-                }
-            }
-        }
+        // .cardNews {
+        //     height: 100%;
+        //     grid-template-columns: 1fr 2fr;
+        //     grid-template-rows: 1fr;
+        //     gap: $gap-small;
+        //     &_image_img {
+        //         height: 100%;
+        //     }
+        //     &_content {
+        //         padding: 7px 5px;
+        //         gap: $gap-small;
+        //         &_date,
+        //         &_title {
+        //         }
+        //     }
+        // }
         .cardNews:first-child {
             grid-template-columns: 1fr;
             grid-template-rows: 1fr;
@@ -224,32 +224,32 @@
     .recommend_content {
         display: flex;
         flex-direction: column;
-        .cardRecommend {
-            grid-template-columns: 1fr 2fr;
-            grid-template-rows: 1fr;
-            gap: $gap-small;
-            &_content {
-                padding: 7px 5px;
-                gap: $gap-small;
-            }
-        }
-        .cardRecommend:first-child {
-            grid-template-columns: 1fr;
-            grid-template-rows: 1fr;
-            position: relative;
-            .cardRecommend_content {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: fit-content;
-                color: $color-main-white;
-                background-color: $color-blur-black;
-                &_additional {
-                    color: $color-main-white;
-                }
-            }
-        }
+        // .cardRecommend {
+        //     grid-template-columns: 1fr 2fr;
+        //     grid-template-rows: 1fr;
+        //     gap: $gap-small;
+        //     &_content {
+        //         padding: 7px 5px;
+        //         gap: $gap-small;
+        //     }
+        // }
+        // .cardRecommend:first-child {
+        //     grid-template-columns: 1fr;
+        //     grid-template-rows: 1fr;
+        //     position: relative;
+        //     .cardRecommend_content {
+        //         position: absolute;
+        //         bottom: 0;
+        //         left: 0;
+        //         right: 0;
+        //         height: fit-content;
+        //         color: $color-main-white;
+        //         background-color: $color-blur-black;
+        //         &_additional {
+        //             color: $color-main-white;
+        //         }
+        //     }
+        // }
     }
     .direction_content {
         grid-template-columns: repeat(2, 1fr);
@@ -284,15 +284,15 @@
             }
         }
     }
-    .recommend_content {
-        .cardRecommend {
-            &_content {
-                &_title,
-                &_date {
-                    font-size: 12px;
-                    line-height: 1.2em;
-                }
-            }
-        }
-    }
+    // .recommend_content {
+    //     // .cardRecommend {
+    //     //     &_content {
+    //     //         &_title,
+    //     //         &_date {
+    //     //             font-size: 12px;
+    //     //             line-height: 1.2em;
+    //     //         }
+    //     //     }
+    //     // }
+    // }
 }

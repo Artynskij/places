@@ -1,5 +1,6 @@
 import { IBasePageProps } from "@/lib/models/common/IType";
-import { AttributesAdminScreen } from "@/screens/(Admin)/Attributes/Attributes.screen";
+
+import { AttributesAdminScreen } from "@/screens/(Admin)/Attributes";
 
 export async function generateMetadata() {
     return {

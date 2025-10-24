@@ -1,5 +1,6 @@
+import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
 import {
-    IArticleEntityWithContent,
+    IArticleEntityWithPareContent,
     IArticleFront,
     IMediaFront,
 } from "@/lib/models";
@@ -7,13 +8,12 @@ import {
 export default class ArticleMapper {
     constructor() {}
     toFront(
-        articleEntity: IArticleEntityWithContent,
+        articleEntity: IArticleEntityWithPareContent,
         cdnHost: string
     ): IArticleFront | null {
         if (!articleEntity.content) {
             return null;
         }
-        
 
         const contentDetailsEntity = articleEntity.content.details[0];
         const galleryImages: IMediaFront[] | null =
@@ -32,6 +32,31 @@ export default class ArticleMapper {
                 };
             }) || null;
         const mainImage = galleryImages?.find((item) => item.isMain) || null;
+        const typesArticle = articleEntity.article.ArticleTypeRelations.map(
+            (typeConnectEntity) => {
+                const valueActually = getActuallyTitleServer(
+                    typeConnectEntity.ArticleTypeEntity.content.details
+                );
+                return {
+                    id: typeConnectEntity.ArticleTypeEntity.Id || "",
+                    code: typeConnectEntity.ArticleTypeEntity.Code || "",
+                    value: valueActually || "",
+                };
+            }
+        );
+        const subTypesArticle =
+            articleEntity.article.ArticleSubTypeRelations.map(
+                (typeConnectEntity) => {
+                    const valueActually = getActuallyTitleServer(
+                        typeConnectEntity.ArticleSubTypeEntity.content.details
+                    );
+                    return {
+                        id: typeConnectEntity.ArticleSubTypeEntity.Id || "",
+                        code: typeConnectEntity.ArticleSubTypeEntity.Code || "",
+                        value: valueActually || "",
+                    };
+                }
+            );
         return {
             id: articleEntity.article.Id,
             title: contentDetailsEntity.contentValue?.title || "",
@@ -44,11 +69,13 @@ export default class ArticleMapper {
                 code: articleEntity.article.ArticlesStatus.Code,
             },
 
-            category: "",
-
-            author: contentDetailsEntity.contentValue?.author || "",
+            type: typesArticle,
+            subType: subTypesArticle,
+            author: articleEntity.article.Person,
             reactions: contentDetailsEntity.contentValue?.reactions || [],
             date: contentDetailsEntity.contentValue?.date || "",
+            contentEntity: articleEntity.content,
+            readingTime: articleEntity.article.ReadingTimeMinutes,
         };
     }
 }

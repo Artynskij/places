@@ -1,4 +1,4 @@
-import ArticleAdminScreen from "@/screens/(Admin)/Article";
+import { ArticleAdminScreen } from "@/screens/(Admin)/Article";
 
 export async function generateMetadata() {
     return {
