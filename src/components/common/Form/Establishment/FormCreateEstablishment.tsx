@@ -15,7 +15,7 @@ import { IImageEntity, IOption } from "@/lib/models";
 import { TAgreementKey } from "@/lib/models/types";
 
 import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
-
+import { CONSTANT_MESSANGER_NETWORKS_ARRAY, CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-networks.const";
 import { useNotification } from "@/lib/context";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 
@@ -120,13 +120,14 @@ const FormCreateEstablishmentBase = ({
     const optionsTypesOfEstablishment: IOption[] = [
         { label: "Выбрать тип объекта", value: "" },
         ...Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT_DB).map(
-            ({ key, title }) => ({
+            ({ key, secondValue, info }) => ({
                 value: key,
-                label: title,
+                label: secondValue,
+                info: info,
             })
         ),
     ];
-
+    console.log(optionsTypesOfEstablishment)
     return (
         <form
             className={style.form}
@@ -150,6 +151,7 @@ const FormCreateEstablishmentBase = ({
                                 <label>Тип объекта*</label>
                                 <SelectCustom
                                     classNameCtn={style.selectBlock_select}
+                                    titleDefault='Выбрать тип объект'
                                     options={optionsTypesOfEstablishment}
                                     activeOption={field.value}
                                     onChange={(option) =>
@@ -157,6 +159,7 @@ const FormCreateEstablishmentBase = ({
                                     }
                                     error={fieldState.error?.message}
                                 />
+                                
                             </div>
                         )}
                     />
@@ -211,15 +214,15 @@ const FormCreateEstablishmentBase = ({
                                 value={
                                     field.value?.lat
                                         ? {
-                                              lat: field.value.lat,
-                                              lon: field.value.lon,
-                                              addressFullLine:
-                                                  field.value.addressFullLine ||
-                                                  null,
-                                              addressLine:
-                                                  field.value.addressLine ||
-                                                  null,
-                                          }
+                                            lat: field.value.lat,
+                                            lon: field.value.lon,
+                                            addressFullLine:
+                                                field.value.addressFullLine ||
+                                                null,
+                                            addressLine:
+                                                field.value.addressLine ||
+                                                null,
+                                        }
                                         : null
                                 }
                                 onChange={field.onChange}
@@ -288,21 +291,49 @@ const FormCreateEstablishmentBase = ({
                             type="text"
                         />
                     )}
+                    <InputForm
+                        error={errors.webContact?.message}
+                        register={register("webContact")}
+                        placeholder="Вставьте ссылку на ваш сайт"
+                        titleSpan="Вставьте ссылку на ваш сайт"
+                        type="text"
+                    />
                     <Controller
                         name="socialContacts"
                         control={control}
                         render={({ field }) => (
                             <SocialContactsBlockForm
+                                keysData={CONSTANT_SOCIAL_NETWORKS_ARRAY}
                                 value={field.value || []}
                                 onChange={field.onChange}
+                                nameSelectImportant="Добавить социальную сеть"
                                 errors={
                                     errors.socialContacts as {
                                         [index: number]: { url?: FieldError };
                                     }
                                 }
                             />
+
                         )}
                     />
+                    <Controller
+                        name="messangerContacts"
+                        control={control}
+                        render={({ field }) => (
+                            <SocialContactsBlockForm
+                                keysData={CONSTANT_MESSANGER_NETWORKS_ARRAY}
+                                value={field.value || []}
+                                onChange={field.onChange}
+                                nameSelectImportant="Добавить мессенджер"
+                                errors={
+                                    errors.messangerContacts as {
+                                        [index: number]: { url?: FieldError };
+                                    }
+                                }
+                            />
+                        )}
+                    />
+
                 </div>
             </div>
             <div className={style.selectionBlock}>

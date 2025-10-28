@@ -7,6 +7,7 @@ export * from "./file/videoArraySchema";
 export * from "./addressSchema";
 export * from "./dateSchema";
 export * from "./fullNameSchema";
+export * from "./messangersSchema";
 export * from "./phoneSchema";
 export * from "./scheduleSchema";
 export * from "./socialNetworksSchema";

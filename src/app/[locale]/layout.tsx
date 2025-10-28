@@ -52,11 +52,11 @@ export default async function RootLayout({
                             <NextIntlClientProvider messages={messages}>
                                 <AllContextProvider>
                                     <ClientOnly />
-                                    <Suspense fallback={<Loading />}>
+                                    {/* <Suspense fallback={<Loading />}> */}
                                         <Header />
                                         {children}
                                         <Footer />
-                                    </Suspense>
+                                    {/* </Suspense> */}
                                 </AllContextProvider>
                             </NextIntlClientProvider>
                         </ConfigProvider>

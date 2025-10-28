@@ -186,7 +186,7 @@
         },
         "objectTab": {
             "myObject": "Мои объекты",
-            "regObject": "Зарегистрировать объект",
+            "regObject": "Добавить объект",
             "editObject": "Редактировать объект"
         },
         "marketingTab": {

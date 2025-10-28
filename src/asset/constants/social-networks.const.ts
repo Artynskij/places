@@ -1,10 +1,7 @@
 import { TSocialNetworks } from "@/lib/models/types/TSocialNetworks";
 
 export const CONSTANT_SOCIAL_NETWORKS_ARRAY: TSocialNetworks[] = [
-    "Web",
-    "Telegram",
-    "WhatsApp",
-    "Viber",
+    // "Web",
     "VK",
     "LinkedIn",
     "Instagram",
@@ -14,5 +11,14 @@ export const CONSTANT_SOCIAL_NETWORKS_ARRAY: TSocialNetworks[] = [
     "YouTube",
     "TikTok",
     "Threads",
+    // "WhatsApp",
+    // "Telegram",
+    // "Viber",
+];
+export const CONSTANT_MESSANGER_NETWORKS_ARRAY: TSocialNetworks[] = [
+
+    "WhatsApp",
+    "Telegram",
+    "Viber",
 ];
 

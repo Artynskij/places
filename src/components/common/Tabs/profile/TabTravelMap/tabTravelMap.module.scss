@@ -1,31 +1,53 @@
 .tab {
     &_travel {
-        // min-height: 500px;
+        // min-height: 500px;г5
         height: 800px;
         width: 100%;
         position: relative;
+        overflow: hidden;
     }
 }
+
 .blockAbsolute {
     display: flex;
-    flex-direction: column;
-
     position: absolute;
     top: 0;
     left: 0;
-    // right: 80%;
-    bottom: 0;
-    width: 350px;
+
+    &_trigger {
+        transform: rotate(270deg);
+        margin-top: 200px;
+        align-self: flex-start;
+        transform-origin: left top;
+    }
+
+    &_content {
+        height: 100%;
+        background-color:$color-info-bg; 
+        max-width: 0;
+        transition: $transition;
+        pointer-events: none;
+        opacity: 0;
+    }
+
+
+    &_content__active {
+        max-width: 350px;
+        min-width: 350px;
+        pointer-events: all;
+        opacity: 1;
+    }
 }
 
 .marks {
     padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: $gap-medium;
-    height: 30%;
-    background-color: $color-additional-background;
-    border-bottom: 1px solid $color-main-blue;
+    gap: $gap-big;
+    // height: 30%;
+    // background-color: $color-additional-background;
+   
+
     &_filter {
         display: flex;
         flex-direction: column;
@@ -38,97 +60,102 @@
             padding: 5px;
             background-color: $color-main-white;
             border-radius: $border-radius-5;
-            border: 1px solid $color-main-blue;
+            border: 1px solid $color-info-border;
             cursor: pointer;
             transition: $transition;
+
             &:hover {
                 color: $color-main-gold;
                 border-color: $color-main-blue_hover;
             }
         }
     }
+
     &_legend {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: $gap-small;
-        margin-top: auto;
+
         &_item {
             display: flex;
             align-items: center;
             gap: $gap-small;
         }
     }
+
     &_buttonOpen {
         height: fit-content;
         width: fit-content;
-
         border-radius: $border-radius-5;
     }
 }
+
 .search {
-    &_active {
-        height: 70%;
-    }
+    // &_active {
+    //     height: 70%;
+    // }
+
     &_block {
         display: flex;
         flex-direction: column;
         gap: $gap-big;
         padding: 15px;
-        background-color: $color-additional-background;
+        // background-color: $color-additional-background;
         height: 100%;
         width: 100%;
         // border-bottom: 1px solid black;
+         border-bottom: 1px solid $color-blur-black;
     }
+
     &_input_ctn {
         margin-bottom: 0;
+        border: 1px solid $color-info-border;
     }
+
     &_open {
         border-radius: $border-radius-5;
         height: fit-content;
         width: fit-content;
         margin-top: 20px;
     }
-    &_close {
-        border-radius: $border-radius-5;
-        padding: 5px 7px;
-        cursor: pointer;
-        transition: $transition;
-        align-self: flex-end;
-        &:hover {
-            color: $color-main-gold;
-        }
-    }
-
+    
     &_input {
         &_ctn {
             background-color: $color-main-white;
             width: 100%;
         }
+
         width: 100%;
     }
 }
+
 .list {
     align-self: flex-start;
     display: flex;
     flex-direction: column;
     gap: $gap-small;
     width: 100%;
+
     &_item {
         display: grid;
-
         grid-template-columns: 1fr 65px;
         gap: $gap-big;
         background-color: $color-main-white;
         padding: 5px 7px;
         border-radius: $border-radius-5;
-        border: 1px solid $color-main-blue;
+        border: 1px solid $color-info-border;
         width: 100%;
+        &:hover {
+             border: 1px solid $color-main-blue;
+        }
+
         &_buttons {
             display: flex;
             align-items: center;
             gap: $gap-small;
         }
+
         &_left {
             gap: $gap-small;
             display: flex;

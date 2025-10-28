@@ -24,7 +24,7 @@ export const MapTravel = ({ position }: MapTravelProps) => {
     const { byName } = useMapboxGeocode();
     const { userLocation, errorUserLocation } = useUserLocation();
     const centerMoscow = { lat: 51.77041291260454, lon: 29.195896311674147 };
-    const zoom = 5;
+    const zoom = 2;
     const [isInitialized, setIsInitialized] = useState(false);
 
     const [viewState, setViewState] = useState({

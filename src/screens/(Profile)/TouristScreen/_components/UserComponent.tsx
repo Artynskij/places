@@ -6,7 +6,7 @@ import Image from "next/image";
 
 import Link from "next/link";
 
-import { IconEye, IconSettings } from "@/components/common/Icons";
+import { IconEdit, IconEye, IconSettings } from "@/components/common/Icons";
 import { ROUTES } from "@/lib/config/Routes";
 
 import { useUser } from "@/lib/context/UserContext/UserContext";
@@ -23,7 +23,7 @@ import { ITravelProgressFront } from "@/lib/models";
 interface IUserComponent {
     // dataUser: (typeof mockTourist)[0];
 }
-const UserComponent = ({}: IUserComponent) => {
+const UserComponent = ({ }: IUserComponent) => {
     const personService = new PersonService();
 
     const { user } = useUser();
@@ -62,15 +62,15 @@ const UserComponent = ({}: IUserComponent) => {
                         <div className={style.info_name}>
                             <span>
                                 {user.personName?.surname ||
-                                user.personName?.name ||
-                                user.personName?.secondName
+                                    user.personName?.name ||
+                                    user.personName?.secondName
                                     ? [
-                                          user.personName?.surname,
-                                          user.personName?.name,
-                                          user.personName?.secondName,
-                                      ]
-                                          .filter(Boolean)
-                                          .join(" ")
+                                        user.personName?.surname,
+                                        user.personName?.name,
+                                        user.personName?.secondName,
+                                    ]
+                                        .filter(Boolean)
+                                        .join(" ")
                                     : "(заполните имя)"}
                             </span>
                             {/* <SubscribeButton /> */}
@@ -81,15 +81,15 @@ const UserComponent = ({}: IUserComponent) => {
                         <div className={style.info_username}>
                             @{user.nickname}
                         </div>
-                        {travelProgress && (
+                        {/* {travelProgress && (
                             <div className={style.info_status}>
                                 Статус путшественника:{" "}
                                 {travelProgress.goalLevel}
                             </div>
-                        )}
+                        )} */}
 
                         {user.contacts?.address?.town ||
-                        user.contacts?.address?.country ? (
+                            user.contacts?.address?.country ? (
                             <div className={style.info_hometown}>
                                 Я из:{" "}
                                 {[
@@ -145,8 +145,8 @@ const UserComponent = ({}: IUserComponent) => {
                     >
                         <Button
                             className={style.manageProfile_button}
-                            icon={<IconSettings />}
-                            text="Настройки"
+                            icon={<IconEdit />}
+                            text="Профиль"
                         />
                     </Link>
                     <Link
@@ -157,8 +157,8 @@ const UserComponent = ({}: IUserComponent) => {
                     >
                         <Button
                             className={style.manageProfile_button}
-                            icon={<IconEye />}
-                            text="Уведомления"
+                            icon={<IconSettings />}
+                            text="Настройки"
                         />
                     </Link>
                     {/* <Button icon={<IconEdit/>} text="редактировать профиль"/>

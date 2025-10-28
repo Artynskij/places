@@ -3,6 +3,7 @@ import { validDateSchema } from "../dateSchema";
 import { validSocialNetworksSchema } from "../socialNetworksSchema";
 import { validPhoneSchema } from "../phoneSchema";
 import { validImageFileSchema } from "../file/imageArraySchema";
+import { validMessangerNetworksSchema } from "../messangersSchema";
 
 export const validationPersonTourist = Yup.object().shape({
     fullName: Yup.object().shape({
@@ -19,11 +20,14 @@ export const validationPersonTourist = Yup.object().shape({
         country: Yup.string(),
         town: Yup.string(),
     }),
+    webContact: Yup.string().url("Невалидный URL"),
+    messangerContacts: validMessangerNetworksSchema,
     socialContacts: validSocialNetworksSchema,
     avatar: Yup.array()
         .of(validImageFileSchema)
         .max(1, "Можно загрузить не более 1 фоток"),
     description: Yup.string(),
+    
 });
 export const validationPersonOwner = Yup.object().shape({
     fullName: Yup.object().shape({

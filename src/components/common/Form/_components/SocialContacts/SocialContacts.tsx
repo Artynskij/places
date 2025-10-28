@@ -13,19 +13,22 @@ import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-network
 import { IOption } from "@/lib/models";
 import { TSocialNetworks } from "@/lib/models/types/TSocialNetworks";
 
-// Если не импортируешь — просто временно вставь:
 
 interface SocialContact {
     type: TSocialNetworks;
     url: string;
 }
 interface Props {
-    value: SocialContact[] | []; // Просто массив объектов
+    nameSelectImportant:string
+    keysData:TSocialNetworks[];
+    value: SocialContact[] | []; 
     onChange: (value: SocialContact[]) => void;
-    errors?: Record<number, { url?: FieldError }>; // Можно упростить, если не используешь глубоко
+    errors?: Record<number, { url?: FieldError }>; 
 }
 
 export const SocialContactsBlockForm: FC<Props> = ({
+    nameSelectImportant,
+    keysData,
     value,
     onChange,
     errors,
@@ -36,7 +39,7 @@ export const SocialContactsBlockForm: FC<Props> = ({
 
     const availableTypes = useMemo(
         () => [
-            ...CONSTANT_SOCIAL_NETWORKS_ARRAY.filter(
+            ...keysData.filter(
                 (type) => !usedTypes.includes(type)
             ),
         ],
@@ -97,7 +100,7 @@ export const SocialContactsBlockForm: FC<Props> = ({
 
             {availableTypes.length > 0 && (
                 <SelectCustom
-                    nameSelectImportant={"Добавить соц сеть"}
+                    nameSelectImportant={nameSelectImportant}
                     options={[...socialOptions]}
                     activeOption={selectedSocial}
                     onChange={(item) => {

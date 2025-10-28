@@ -15,6 +15,7 @@ export interface IOption {
     id?: number | string;
     label: string;
     value: string;
+    info?: string;
 }
 
 export interface IDataAdvertisingItem {
