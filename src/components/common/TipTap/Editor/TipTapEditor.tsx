@@ -44,20 +44,23 @@ import { useEffect, useState } from "react";
 import { LinkModalEditor } from "../toolbar/LinkModalEditor";
 import MediaStateExtension from "../extensions/state/mediaStateEditor";
 import { IMediaFrontWithFile } from "@/lib/models";
-import { getHtmlFormJsonEditor } from "@/lib/helpers/getHtmlFormJsonEditor";
+import { getHtmlFormJsonEditor } from "@/lib/helpers/get-html-form-json-editor";
+import { TTipTapHTMLContent, TTipTapJSONContent } from "@/lib/models/types";
 interface IProp {
     setEditorData: (data: {
         content: any;
         mediaStorage: IMediaFrontWithFile[];
     }) => void;
     onEditorInit?: (editor: any) => void; // ✅ Новый пропс
-    initialContent?: any;
+    initialContent?: TTipTapHTMLContent | TTipTapJSONContent;
+    initialMediaStorage?: IMediaFrontWithFile[];
 }
 
 export default function TipTapEditor({
     setEditorData,
     onEditorInit,
     initialContent,
+    initialMediaStorage,
 }: IProp) {
     const editor = useEditor({
         extensions: [
@@ -94,20 +97,36 @@ export default function TipTapEditor({
         content: initialContent,
 
         immediatelyRender: false,
+        onCreate: ({ editor }) => {
+            if (initialContent || initialMediaStorage) {
+                const mediaStorage = editor.storage.mediaStore.items;
+                const contentJson = editor.getJSON();
+
+                setEditorData({
+                    content: contentJson,
+                    mediaStorage: mediaStorage,
+                });
+            }
+        },
         onUpdate: ({ editor }) => {
             const mediaStorage = editor.storage.mediaStore.items;
             const contentJson = editor.getJSON();
 
-            console.log(mediaStorage);
             setEditorData({
                 content: contentJson,
-                mediaStorage: mediaStorage, // ✅ Сохраняем медиа вместе с контентом
+                mediaStorage: mediaStorage,
             });
         },
     });
     const [, setRender] = useState(0);
+
     useEffect(() => {
         if (!editor) return;
+        // ✅ Восстанавливаем медиа storage при загрузке
+        if (initialMediaStorage && initialMediaStorage.length > 0) {
+            editor.commands.setMediaStorage(initialMediaStorage);
+        }
+
         if (onEditorInit) {
             onEditorInit(editor);
         }

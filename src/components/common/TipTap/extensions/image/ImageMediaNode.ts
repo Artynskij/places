@@ -2,7 +2,6 @@
 import { Node, mergeAttributes, CommandProps } from "@tiptap/core";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 import ImageEditor from "./ImageEditor";
-import { IMediaFrontWithFile } from "@/lib/models";
 
 declare module "@tiptap/core" {
     interface Commands<ReturnType> {
@@ -10,11 +9,7 @@ declare module "@tiptap/core" {
             /**
              * Вставить кастомную картинку с подписью
              */
-            setMediaImage: (options: {
-                mediaId: string;
-                src: string;
-                alt: string;
-            }) => ReturnType;
+            setMediaImage: (options: { mediaId: string }) => ReturnType;
         };
     }
 }
@@ -30,14 +25,30 @@ export const ImageMediaNode = Node.create({
 
     addAttributes() {
         return {
-            mediaId: { default: null },
-            src: { default: "" },
-            alt: { default: "" },
+            mediaId: {
+                default: null,
+                // ✅ Важно: сохранять только ID
+                parseHTML: (element) => element.getAttribute("data-media-id"),
+                renderHTML: (attributes) => {
+                    return {
+                        "data-media-id": attributes.mediaId,
+                    };
+                },
+            },
         };
     },
 
     parseHTML() {
-        return [{ tag: "figure[data-type='mediaImage']" }];
+        return [
+            {
+                tag: "figure[data-type='mediaImage']",
+                getAttrs: (dom) => {
+                    return {
+                        mediaId: dom.getAttribute("data-media-id"),
+                    };
+                },
+            },
+        ];
     },
 
     renderHTML({ HTMLAttributes }) {
@@ -45,10 +56,11 @@ export const ImageMediaNode = Node.create({
             "figure",
             mergeAttributes(HTMLAttributes, {
                 "data-type": "mediaImage",
+                "data-media-id": HTMLAttributes.mediaId, // ✅ Только ID
                 class: "media-image",
             }),
-            ["img", { src: HTMLAttributes.src, alt: HTMLAttributes.alt || "" }],
-            ["figcaption", {}, HTMLAttributes.caption || ""],
+            ["img"], // src и alt будут добавлены в NodeView
+            ["figcaption", {}, ""], // caption тоже из mediaStorage
         ];
     },
     addNodeView() {

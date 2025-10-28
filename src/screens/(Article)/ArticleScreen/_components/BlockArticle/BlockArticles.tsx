@@ -25,7 +25,7 @@ import { CardArticleFull } from "@/components/common/Cards/(article)/ArticleFull
 
 interface IBlockArticles {
     article: IArticleFront | null;
-    updateAnotherNews: () => void;
+    updateAnotherArticle: () => void;
     params: IBasePageProps["params"] & {
         category: TCategoriesNews;
         news: string;
@@ -33,7 +33,7 @@ interface IBlockArticles {
 }
 export default function BlockArticles({
     article,
-    updateAnotherNews,
+    updateAnotherArticle,
     params,
 }: IBlockArticles) {
     const pathname = usePathname();
@@ -50,7 +50,7 @@ export default function BlockArticles({
             pathnameArray[pathnameArray.length - 1] = article.id;
             const newUrl = pathnameArray.join("/");
             window.history.replaceState(null, "", newUrl);
-            updateAnotherNews();
+            updateAnotherArticle();
         }
     }, [observerUrl.inView]);
     const baseUrl = useBaseUrl();
@@ -62,57 +62,7 @@ export default function BlockArticles({
             id={article.id}
             className={style.container_news}
         >
-            <CardArticleFull reHydrate={1} article={article} />
-            {/* <div className={style.breadcrumb}>
-                <Breadcrumb
-                    links={[
-                        {
-                            title: tCategoryNews(params.category),
-                            href: ROUTES.NEWS.CATEGORY(params.category),
-                        },
-                        { title: article.title },
-                    ]}
-                />
-            </div>
-            <h2 className={style.title}>{article.title}</h2>
-            <div className={style.underTitle}>
-                <div className={style.underTitle_left}>
-                    <div className={style.underTitle_author}>
-                        {`Автор: `}
-                        <Link
-                            className={`${"hover-underline"}`}
-                            href={`/news/author/${article.author.Id}`}
-                        >
-                            {article.author.Id}
-                        </Link>
-                    </div>
-
-                    <BlockReadTime
-                        count={article.readingTime}
-                        text={JSON.stringify(article.markdown)}
-                    />
-                    <BlockWatchCount count={1000} />
-                </div>
-                <div className={style.underTitle_right}>
-                    <div className={style.underTitle_publicDate}>
-                        {article.date}
-                    </div>
-                </div>
-            </div>
-            <div className={style.description}>{article.description}</div>
-            <div className={style.block_mainImage}>
-                <Image
-                    className={style.mainImage}
-                    width={600}
-                    height={300}
-                    alt="img"
-                    src={article.titleImage?.src || CONSTANT_DEFAULT_IMAGE_URL}
-                />
-                <span>Подпись фото</span>
-            </div>
-            <div className={style.markdownContent}>
-                <Markdown>{article.content}</Markdown>
-            </div> */}
+            <CardArticleFull article={article} />
 
             <div className={style.share}>
                 <BlockShare

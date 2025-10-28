@@ -65,8 +65,8 @@ export const ImageUpdateSeo = ({ media, onUpdate }: IProp) => {
                     <Image
                         src={media.src}
                         alt={media.alt}
-                        width={200}
-                        height={150}
+                        width={220}
+                        height={160}
                         className={style.image}
                         // preview={false}
                     />

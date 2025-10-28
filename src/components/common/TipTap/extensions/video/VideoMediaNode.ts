@@ -6,18 +6,7 @@ import { IMediaFront } from "@/lib/models";
 declare module "@tiptap/core" {
     interface Commands<ReturnType> {
         mediaVideo: {
-            /**
-             * Вставить кастомное видео с подписью
-             */
-            setMediaVideo: (options: {
-                mediaId: string;
-                src: string;
-                // title?: string;
-                // caption?: string;
-                // width?: number | string;
-                // height?: number | string;
-                // controls?: boolean;
-            }) => ReturnType;
+            setMediaVideo: (options: { mediaId: string }) => ReturnType;
         };
     }
 }
@@ -29,13 +18,30 @@ export const VideoMediaNode = Node.create({
 
     addAttributes() {
         return {
-            mediaId: { default: null },
-            src: { default: null },
+            mediaId: {
+                default: null,
+                // ✅ Важно: правильно парсить и рендерить HTML
+                parseHTML: (element) => element.getAttribute("data-media-id"),
+                renderHTML: (attributes) => {
+                    return {
+                        "data-media-id": attributes.mediaId,
+                    };
+                },
+            },
         };
     },
 
     parseHTML() {
-        return [{ tag: "figure[data-type='mediaVideo']" }];
+        return [
+            {
+                tag: "figure[data-type='mediaVideo']",
+                getAttrs: (dom) => {
+                    return {
+                        mediaId: dom.getAttribute("data-media-id"),
+                    };
+                },
+            },
+        ];
     },
 
     renderHTML({ HTMLAttributes }) {
@@ -43,19 +49,11 @@ export const VideoMediaNode = Node.create({
             "figure",
             mergeAttributes(HTMLAttributes, {
                 "data-type": "mediaVideo",
+                "data-media-id": HTMLAttributes.mediaId,
                 class: "media-video",
             }),
-            [
-                "video",
-                {
-                    src: HTMLAttributes.src,
-                    title: HTMLAttributes.title || "",
-                    width: HTMLAttributes.width,
-                    height: HTMLAttributes.height,
-                    controls: HTMLAttributes.controls,
-                },
-            ],
-            ["figcaption", {}, HTMLAttributes.caption || ""],
+            ["video"],
+            ["figcaption", {}, ""],
         ];
     },
 
@@ -70,7 +68,9 @@ export const VideoMediaNode = Node.create({
                 ({ commands }: CommandProps) => {
                     return commands.insertContent({
                         type: this.name,
-                        attrs: options,
+                        attrs: {
+                            mediaId: options.mediaId, // ✅ Только mediaId
+                        },
                     });
                 },
         };

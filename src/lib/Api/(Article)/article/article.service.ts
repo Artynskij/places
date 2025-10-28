@@ -37,7 +37,7 @@ export class ArticleService {
             : null;
         return mappedData;
     }
-    async getById(id: string, lang: string): Promise<IArticleFront | null> {
+    async getById(id: string, lang?: string): Promise<IArticleFront | null> {
         const response = await this.articleApi.getById(id, lang);
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();
         return response

@@ -18,11 +18,11 @@ export default class ArticleApi {
     constructor() {}
     async getById(
         id: string,
-        lang: string
+        lang?: string
     ): Promise<IArticleEntityWithPareContent | null> {
         try {
             const response = await apiClient.get(
-                `/articles/${id}?lang=${lang}`
+                `/articles/${id}${lang ? `?lang=${lang}` : ""}`
             );
             return response.data;
         } catch (error) {

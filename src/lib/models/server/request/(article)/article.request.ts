@@ -16,7 +16,7 @@ export interface IArticleWithFilterRequest {
     personId?: string;
 }
 interface ContentPartArticle {
-    markdown: string;
+    markdown?: string;
     tags?: string[];
     reactions?: number[];
     title: string;

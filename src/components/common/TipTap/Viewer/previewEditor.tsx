@@ -31,8 +31,8 @@ export default function PreviewEditor({
             console.log("handlePreview good");
             return;
         }
-        if (!article) return;
-        if (article.author) {
+        // if (!article) return;
+        if (article?.author) {
             const personResponse = await personService.getById(
                 article.author.Id,
                 locale
@@ -62,13 +62,13 @@ export default function PreviewEditor({
                 footer={null}
                 width={1800}
             >
-                {article  && (
+                {article && (
                     <div className="container">
                         <section className={style.preview}>
                             <div className={style.preview_content}>
                                 <CardArticleFull
                                     author={author}
-                                    reHydrate={reHydrate}
+                                    // reHydrate={reHydrate}
                                     article={article}
                                 />
                             </div>

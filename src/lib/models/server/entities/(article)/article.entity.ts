@@ -4,11 +4,12 @@ import { IArticleStatusEntity } from "./article-status.entity";
 import { IPersonEntity } from "../(person)/person.entity";
 import { IArticleTypeRelation } from "./article-type.entity";
 import { IArticleSubTypeRelation } from "./article-subType.entity";
+import { TTipTapHTMLContent } from "@/lib/models/types";
 interface ContentArticlePart {
     image: string;
     author: string;
     date: string;
-    markdown: any;
+    markdown: TTipTapHTMLContent;
     tags: string[];
     reactions: number[];
     seo?: { title: string; description: string };

@@ -1,4 +1,3 @@
-// SliderEditor.tsx
 "use client";
 import { NodeViewWrapper } from "@tiptap/react";
 import type { NodeViewProps } from "@tiptap/react";
@@ -10,7 +9,11 @@ interface IProp extends Partial<NodeViewProps> {
 }
 
 export const SliderEditor = ({ node, editor }: IProp) => {
-    const { slides, isLoading } = useSliderData({ node, editor });
+    const { slides, isLoading } = useSliderData({
+        node: node,
+        editor: editor,
+    });
+
 
     return (
         <NodeViewWrapper>

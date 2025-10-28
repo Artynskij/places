@@ -11,6 +11,7 @@ declare module "@tiptap/core" {
             updateMediaInStorage: (
                 updatedMedia: IMediaFrontWithFile
             ) => ReturnType;
+            setMediaStorage: (mediaItems: IMediaFrontWithFile[]) => ReturnType;
         };
     }
 
@@ -64,6 +65,7 @@ const MediaStateExtension = Extension.create({
                         editor.storage.mediaStore.items.filter(
                             (item: IMediaFrontWithFile) => item.id !== mediaId
                         );
+
                     return true;
                 },
 
@@ -83,7 +85,6 @@ const MediaStateExtension = Extension.create({
                     );
 
                     if (index !== -1) {
-                        // Создаем новый массив (не мутируем старый)
                         editor.storage.mediaStore.items = [
                             ...editor.storage.mediaStore.items.slice(0, index),
                             updatedMedia,
@@ -92,108 +93,64 @@ const MediaStateExtension = Extension.create({
                     }
                     return true;
                 },
+            setMediaStorage:
+                (mediaItems: IMediaFrontWithFile[]) =>
+                ({ editor }: CommandProps) => {
+                    editor.storage.mediaStore.items = [...mediaItems];
+                    return true;
+                },
         };
     },
 
-    // ✅ Добавляем ProseMirror plugin для точного отслеживания удаления
+    // ✅ ВРЕМЕННО отключаем ВСЮ авто-очистку в ProseMirror plugin
     addProseMirrorPlugins() {
-        const { editor } = this;
-
         return [
             new Plugin({
                 key: new PluginKey("mediaStorePlugin"),
-
-                // ✅ Отслеживаем изменения в документе
-                appendTransaction: (transactions, oldState, newState) => {
-                    // Если нет изменений в документе, выходим
-                    if (!transactions.some((tr) => tr.docChanged)) {
-                        return null;
-                    }
-
-                    // Собираем ID медиа из старого документа
-                    const oldMediaIds = new Set<string>();
-                    oldState.doc.descendants((node) => {
-                        if (node.attrs?.mediaId) {
-                            oldMediaIds.add(node.attrs.mediaId);
-                        }
-                    });
-
-                    // Собираем ID медиа из нового документа
-                    const newMediaIds = new Set<string>();
-                    newState.doc.descendants((node) => {
-                        if (node.attrs?.mediaId) {
-                            newMediaIds.add(node.attrs.mediaId);
-                        }
-                    });
-
-                    // Находим удаленные ID (есть в старом документе, но нет в новом)
-                    const removedMediaIds = Array.from(oldMediaIds).filter(
-                        (id) => !newMediaIds.has(id)
-                    );
-
-                    // Если есть удаленные медиа, очищаем их из хранилища
-                    if (removedMediaIds.length > 0) {
-                        const tr = newState.tr;
-
-                        removedMediaIds.forEach((mediaId) => {
-                            editor.commands.removeMedia(mediaId);
-                        });
-
-                        // Можно добавить мета-информацию для отладки
-                        tr.setMeta("mediaStore", {
-                            removed: removedMediaIds,
-                            timestamp: Date.now(),
-                        });
-
-                        return tr;
-                    }
-
-                    return null;
-                },
-
-                // ✅ Дополнительно: отслеживаем конкретные операции удаления
-                filterTransaction: (transaction, state) => {
-                    // Логируем операции удаления для отладки
-                    if (transaction.getMeta("removeNode")) {
-                        const removedNode = transaction.getMeta("removeNode");
-                        if (removedNode?.attrs?.mediaId) {
-                            console.log(
-                                "Node removed with mediaId:",
-                                removedNode.attrs.mediaId
-                            );
-                        }
-                    }
-                    return true;
-                },
+                // ❌ ПУСТОЙ ПЛАГИН - НИКАКОЙ АВТО-ОЧИСТКИ
             }),
         ];
     },
 
-    // ✅ Сохраняем ваш существующий метод onUpdate как резервный
+    // ❌ ВРЕМЕННО ОТКЛЮЧАЕМ onUpdate очистку - ЗАКОММЕНТИРОВАТЬ ВСЮ ФУНКЦИЮ
     onUpdate() {
         if (!this.editor) return;
 
         const usedMediaIds = new Set<string>();
 
-        // Рекурсивно собираем все mediaId из документа
+        // Собираем все используемые mediaId из контента
         const collectMediaIds = (node: any) => {
             if (node.attrs?.mediaId) {
                 usedMediaIds.add(node.attrs.mediaId);
             }
-
+            if (node.attrs?.slides) {
+                node.attrs?.slides.forEach((item: any) => {
+                    usedMediaIds.add(item.mediaId);
+                });
+            }
             if (node.content) {
                 node.content.forEach(collectMediaIds);
             }
         };
-
-        // Собираем mediaId из всего документа
         collectMediaIds(this.editor.getJSON());
 
-        // Удаляем медиа, которые больше не используются в документе
-        this.editor.storage.mediaStore.items =
-            this.editor.storage.mediaStore.items.filter(
-                (item: IMediaFrontWithFile) => usedMediaIds.has(item.id)
-            );
+        // Фильтруем медиа, оставляя только используемые
+        const previousItems = this.editor.storage.mediaStore.items;
+        const newItems = previousItems.filter((item) =>
+            usedMediaIds.has(item.id)
+        );
+
+        // Обновляем storage только если есть изменения
+        if (newItems.length !== previousItems.length) {
+            this.editor.storage.mediaStore.items = newItems;
+
+            // Триггерим обновление родительского компонента
+            const mediaStorage = this.editor.storage.mediaStore.items;
+            const contentJson = this.editor.getJSON();
+
+            // Нужно как-то сообщить родительскому компоненту об изменении
+            // Это можно сделать через кастомное событие или колбэк
+        }
     },
 });
 

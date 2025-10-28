@@ -14,11 +14,11 @@ import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime
 import { useEffect, useState } from "react";
 interface IProp {
     article: IArticleFront;
-    reHydrate: number;
+    // reHydrate: number;
     author?: IPersonFront;
 }
 
-export const CardArticleFull = ({ article, reHydrate, author }: IProp) => {
+export const CardArticleFull = ({ article,  author }: IProp) => {
     const [isClient, setIsClient] = useState(false);
     useEffect(() => {
         setIsClient(true);
@@ -30,9 +30,6 @@ export const CardArticleFull = ({ article, reHydrate, author }: IProp) => {
                     links={[
                         {
                             title: article?.type[0]?.value,
-                            // href: ROUTES.NEWS.CATEGORY(
-                            //     params.category
-                            // ),
                         },
                         { title: article?.title },
                     ]}
@@ -81,7 +78,7 @@ export const CardArticleFull = ({ article, reHydrate, author }: IProp) => {
             {isClient ? (
                 <TipTapViewer
                     mediaCollection={article.media}
-                    reHydrate={reHydrate}
+                    // reHydrate={reHydrate}
                     contentEditor={article.markdown}
                 />
             ) : (

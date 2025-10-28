@@ -3,6 +3,9 @@
     grid-template-columns: 3fr 1fr;
     gap: 0 $gap-big;
     position: relative;
+    &_item {
+        min-width: 0;
+    }
     &_item:first-child {
         grid-column: 1/2;
     }

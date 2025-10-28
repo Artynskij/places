@@ -1,76 +1,45 @@
-import style from "./articleViewer.module.scss";
-import { generateHTML } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import Link from "@tiptap/extension-link";
-import Image from "@tiptap/extension-image";
-import Blockquote from "@tiptap/extension-blockquote";
-import { Table } from "@tiptap/extension-table";
-import TableRow from "@tiptap/extension-table-row";
-import TableCell from "@tiptap/extension-table-cell";
-import TableHeader from "@tiptap/extension-table-header";
-import HorizontalRule from "@tiptap/extension-horizontal-rule";
-import Youtube from "@tiptap/extension-youtube";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+"use client";
 
-import SliderNode from "../extensions/slider/SliderNode";
-import { lowlight } from "../utils/lowright";
-import TipTapHydrator from "./TipTapHydrator";
-import MediaStateExtension from "../extensions/state/mediaStateEditor";
+import parse from "html-react-parser";
+import clsx from "clsx";
+import style from "./tiptapViewer.module.scss";
+import { SliderViewer } from "./SliderViewer";
 import { IMediaFront } from "@/lib/models";
-import { ImageMediaNodeViewer } from "../extensions/image/ImageMediaNodeViewer";
-import { VideoMediaNodeViewer } from "../extensions/video/VideoMediaNodeViewer";
 
 interface Props {
-    contentEditor: any;
-    reHydrate: number;
+    contentEditor: string; // HTML из базы
     mediaCollection: IMediaFront[];
 }
 
-export const TipTapViewer = ({
-    contentEditor,
-    reHydrate,
-    mediaCollection,
-}: Props) => {
-    const ImageNode = ImageMediaNodeViewer(mediaCollection);
-    const VideoNode = VideoMediaNodeViewer(mediaCollection);
+export const TipTapViewer = ({ contentEditor, mediaCollection }: Props) => {
+    const content = parse(contentEditor, {
+        replace: (node: any) => {
+            if (node.attribs?.["data-type"] === "slider") {
+                try {
+                    const slides = JSON.parse(
+                        node.attribs["data-slides"] || "[]"
+                    );
 
-    // const html = generateHTML(json, [
-    //     StarterKit.configure({
-    //         blockquote: false,
-    //         horizontalRule: false,
-    //         link: false,
-    //         underline: false,
-    //         codeBlock: false,
-    //     }),
-    //     Underline,
-    //     Link,
-    //     ImageNode,
-    //     Image,
-    //     VideoNode,
-    //     Blockquote,
-    //     HorizontalRule,
-    //     Table,
-    //     TableRow,
-    //     TableHeader,
-    //     TableCell,
-    //     Youtube.configure({
-    //         controls: true,
-    //         modestBranding: true,
-    //         HTMLAttributes: { class: "youtube-video" },
-    //     }),
-    //     CodeBlockLowlight.configure({ lowlight }),
-    //     SliderNode,
-    //     MediaStateExtension,
-    // ]);
+                    return (
+                        <SliderViewer
+                            node={{ attrs: { slides } }}
+                            mediaCollection={mediaCollection}
+                        />
+                    );
+                } catch (err) {
+                    console.error("❌ Error parsing slider:", err);
+                    return null;
+                }
+            }
+
+            // можно добавить другие ноды:
+            // if (node.attribs?.["data-type"] === "video") return <VideoViewer ... />
+
+            return undefined; // вернуть оригинальную ноду, если это не наш тип
+        },
+    });
 
     return (
-        // <div className={style.articleViewer}>
-        <TipTapHydrator
-            mediaCollection={mediaCollection}
-            reHydrate={reHydrate}
-            html={contentEditor}
-        />
-        // </div>
+        <div className={clsx(style.articleViewer, "prose-base")}>{content}</div>
     );
 };

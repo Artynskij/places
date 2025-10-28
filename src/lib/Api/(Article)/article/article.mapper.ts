@@ -31,7 +31,8 @@ export default class ArticleMapper {
                     isMain: image.isMain || false,
                 };
             }) || null;
-        const mainImage = galleryImages?.find((item) => item.isMain) || null;
+        const mainImages = galleryImages?.filter((item) => item.isMain) || null;
+        const mainImage = mainImages?.[mainImages?.length - 1] || null;
         const typesArticle = articleEntity.article.ArticleTypeRelations.map(
             (typeConnectEntity) => {
                 const valueActually = getActuallyTitleServer(
@@ -61,9 +62,9 @@ export default class ArticleMapper {
             id: articleEntity.article.Id,
             title: contentDetailsEntity.contentValue?.title || "",
             description: contentDetailsEntity.contentValue?.description || "",
-            media: galleryImages || [],
+            media: galleryImages?.filter((item) => !item.isMain) || [],
             titleImage: mainImage,
-            markdown: contentDetailsEntity.contentValue?.markdown,
+            markdown: contentDetailsEntity.contentValue?.markdown || "",
             status: {
                 id: articleEntity.article.ArticlesStatus.Id,
                 code: articleEntity.article.ArticlesStatus.Code,

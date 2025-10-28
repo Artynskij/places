@@ -4,12 +4,13 @@ import {
     IMediaFrontWithFile,
 } from "../(establishment)/parts/media.front";
 import { IContentArticle, IPersonEntity } from "../../server/entities";
+import { TLocale, TTipTapHTMLContent } from "../../types";
 
 export interface IArticleFront {
     id: string;
     title: string;
     description: string;
-    markdown: any;
+    markdown: TTipTapHTMLContent;
     titleImage: IMediaFrontWithFile | null;
     media: IMediaFrontWithFile[];
 
@@ -24,6 +25,7 @@ export interface IArticleFront {
 
     readingTime: number;
     date: string;
+    // langsContent:TLocale[]
 
     contentEntity: IContentArticle | null;
 }

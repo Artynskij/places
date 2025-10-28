@@ -12,19 +12,21 @@ import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import Youtube from "@tiptap/extension-youtube";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { lowlight } from "@/components/common/TipTap/utils/lowright";
-import { ImageMediaNodeViewer } from "@/components/common/TipTap/extensions/image/ImageMediaNodeViewer";
-import { VideoMediaNodeViewer } from "@/components/common/TipTap/extensions/video/VideoMediaNodeViewer";
+import { ImageMediaNodeViewer as ImageMediaNodeForViewer } from "@/components/common/TipTap/extensions/image/ImageMediaNodeViewer";
+import { VideoMediaNodeViewer as VideoMediaNodeForViewer } from "@/components/common/TipTap/extensions/video/VideoMediaNodeViewer";
 import { IMediaFront } from "../models";
-import SliderNode from "@/components/common/TipTap/extensions/slider/SliderNode";
 import MediaStateExtension from "@/components/common/TipTap/extensions/state/mediaStateEditor";
+import { SliderNodeForViewer } from "@/components/common/TipTap/extensions/slider/SliderNodeViewer";
+import { TTipTapHTMLContent, TTipTapJSONContent } from "../models/types";
 
 export const getHtmlFormJsonEditor = (
-    json: any,
+    json: TTipTapJSONContent,
     mediaCollection: IMediaFront[]
-) => {
-    const ImageNode = ImageMediaNodeViewer(mediaCollection);
-    const VideoNode = VideoMediaNodeViewer(mediaCollection);
-    const html = generateHTML(json, [
+): TTipTapHTMLContent => {
+    const ImageNodeViewer = ImageMediaNodeForViewer(mediaCollection);
+    const VideoNodeViewer = VideoMediaNodeForViewer(mediaCollection);
+    const SliderNodeViewer = SliderNodeForViewer(mediaCollection);
+    const extensions = [
         StarterKit.configure({
             blockquote: false,
             horizontalRule: false,
@@ -34,9 +36,9 @@ export const getHtmlFormJsonEditor = (
         }),
         Underline,
         Link,
-        ImageNode,
+        ImageNodeViewer,
         Image,
-        VideoNode,
+        VideoNodeViewer,
         Blockquote,
         HorizontalRule,
         Table,
@@ -49,8 +51,10 @@ export const getHtmlFormJsonEditor = (
             HTMLAttributes: { class: "youtube-video" },
         }),
         CodeBlockLowlight.configure({ lowlight }),
-        SliderNode,
+        SliderNodeViewer,
         MediaStateExtension,
-    ]);
+    ];
+    const html = generateHTML(json, extensions);
+
     return html;
 };
