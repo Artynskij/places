@@ -80,21 +80,19 @@ export const SelectCustom: FC<ISelectProps> = ({
                             activeItem = true;
                         }
                         return (
-                            <div >
-                                <div
-                                    onClick={() => handleChange(item)}
-                                    key={item.value}
-                                    className={clsx(
-                                        style.select_options_item,
-                                        activeItem &&
-                                        style.select_options_item_active
-                                    )}
-                                >
-                                    {item.name}
-                                </div>
-                                
 
+                            <div
+                                onClick={() => handleChange(item)}
+                                key={item.value}
+                                className={clsx(
+                                    style.select_options_item,
+                                    activeItem &&
+                                    style.select_options_item_active
+                                )}
+                            >
+                                {item.name}
                             </div>
+
                         );
                     })
                 ) : (

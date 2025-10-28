@@ -12,7 +12,7 @@ export interface ISelectOption {
     id?: number | string;
     name: string;
     value: string;
-    info: string;
+    info?: string;
 }
 
 export interface IDataAdvertisingItem {

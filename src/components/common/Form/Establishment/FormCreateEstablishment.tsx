@@ -126,7 +126,7 @@ const FormCreateEstablishmentBase = ({
             ({ key, secondValue, info }) => ({
                 value: key,
                 name: secondValue,
-                info: info,
+                info: info
             })
         ),
     ];
