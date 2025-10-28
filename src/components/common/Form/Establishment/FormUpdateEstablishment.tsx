@@ -54,7 +54,7 @@ import { FormLanguagesBlock } from "../_components/ContentBlock/ContentBlock";
 import PhotoBlockForm from "../_components/PhotoBlock/PhotoBlock";
 
 import { SpinnerAnt } from "../../Spinner/SpinnerAnt";
-import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-networks.const";
+import { CONSTANT_MESSANGER_NETWORKS_ARRAY, CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-networks.const";
 import { ScheduleService } from "@/lib/Api/(Establishment)/schedule.api";
 import { SocialNetworksService } from "@/lib/Api/social-networks.api";
 interface IFormCreateEstablishment {
@@ -120,8 +120,8 @@ const FormUpdateEstablishmentBase = ({
 
             const socialEntity = establishment.contacts?.socialNetworksId
                 ? await socialNetworksService.getById(
-                      establishment.contacts?.socialNetworksId
-                  )
+                    establishment.contacts?.socialNetworksId
+                )
                 : null;
             const socialNetworks =
                 socialEntity &&
@@ -361,7 +361,7 @@ const FormUpdateEstablishmentBase = ({
                             error={fieldState.error || null}
                             onChange={field.onChange}
                             value={field.value?.filter((item) => !!item) || []}
-                            // downloadedValue={establishment.media.gallery}
+                        // downloadedValue={establishment.media.gallery}
                         />
                     </>
                 )}
@@ -400,15 +400,42 @@ const FormUpdateEstablishmentBase = ({
                             type="text"
                         />
                     )}
+                    <InputForm
+                        error={errors.webContact?.message}
+                        register={register("webContact")}
+                        placeholder="Вставьте ссылку на ваш сайт"
+                        titleSpan="Вставьте ссылку на ваш сайт"
+                        type="text"
+                    />
                     <Controller
                         name="socialContacts"
                         control={control}
                         render={({ field }) => (
                             <SocialContactsBlockForm
+                                keysData={CONSTANT_SOCIAL_NETWORKS_ARRAY}
                                 value={field.value || []}
                                 onChange={field.onChange}
+                                nameSelectImportant="Добавить социальную сеть"
                                 errors={
                                     errors.socialContacts as {
+                                        [index: number]: { url?: FieldError };
+                                    }
+                                }
+                            />
+
+                        )}
+                    />
+                    <Controller
+                        name="messangerContacts"
+                        control={control}
+                        render={({ field }) => (
+                            <SocialContactsBlockForm
+                                keysData={CONSTANT_MESSANGER_NETWORKS_ARRAY}
+                                value={field.value || []}
+                                onChange={field.onChange}
+                                nameSelectImportant="Добавить мессенджер"
+                                errors={
+                                    errors.messangerContacts as {
                                         [index: number]: { url?: FieldError };
                                     }
                                 }

@@ -21,6 +21,7 @@ import {
     IMapboxCoordProp,
     IPersonTravelMarkFront,
     ISearchItemFront,
+    ITravelProgressFront,
 } from "@/lib/models";
 import useLocale from "@/lib/hooks/useLocale";
 import { useNotification } from "@/lib/context";
@@ -31,16 +32,19 @@ import CardTravelList from "./_components/card/cardTravelList";
 import { TTravelMapAction } from "@/lib/models/types";
 import TravelMapIcon from "./_components/icon/TravelIcon";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
+import { Loader } from "@/components/common/Loader/Loader";
+import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 // interface ITravelList
 const TabTravelMap = () => {
     const locale = useLocale();
+
     const getLocation = useMapboxGeocode().byName;
     const notification = useNotification();
     const { user } = useUser();
 
     const [searchValue, setSearchValue] = useState("");
     const [activeSearch, setActiveSearch] = useState(true);
-    const [activeMarksList, setActiveMarksList] = useState(true);
+    const [activeMarksList, setActiveMarksList] = useState(false);
     const [modalWantedActive, setModalWantedActive] = useState(false);
     const [modalLovedActive, setModalLovedActive] = useState(false);
     const [modalVisitedActive, setModalVisitedActive] = useState(false);
@@ -94,7 +98,6 @@ const TabTravelMap = () => {
 
     const handlerClickEye = async (locationSearchString: string) => {
         const locationPath = await getLocation(locationSearchString);
-
         if (!locationPath) {
             notification.info({ message: "локация не найдена" });
             return;
@@ -111,11 +114,11 @@ const TabTravelMap = () => {
                 lat: +locationMapData.center[1],
                 bBox: locationMapData.bbox
                     ? {
-                          minLon: locationMapData.bbox[0],
-                          minLat: locationMapData.bbox[1],
-                          maxLon: locationMapData.bbox[2],
-                          maxLat: locationMapData.bbox[3],
-                      }
+                        minLon: locationMapData.bbox[0],
+                        minLat: locationMapData.bbox[1],
+                        maxLon: locationMapData.bbox[2],
+                        maxLat: locationMapData.bbox[3],
+                    }
                     : null,
             });
             notification.info({ message: "обновление центра" });
@@ -249,144 +252,163 @@ const TabTravelMap = () => {
     const visitedList = marksArray.filter((mark) => mark.isVisited);
     const wantedList = marksArray.filter((mark) => mark.isWanted);
     const lovedList = marksArray.filter((mark) => mark.isLoved);
+    const personService = new PersonService();
+
+    const [travelProgress, setTravelProgress] =
+        useState<ITravelProgressFront>();
+
+    useEffect(() => {
+        if (!user) {
+            return;
+        }
+        personService.getTravelProgress(user.id).then((res) => {
+            if (res) {
+                setTravelProgress(res);
+            }
+        });
+    }, []);
+
+    if (!user) return <Loader />;
     return (
         <>
             <div className={style.tab_travel}>
                 <MapTravel position={position} />
                 <div className={style.blockAbsolute}>
-                    {activeMarksList && (
-                        <div className={clsx(style.marks)}>
-                            <Button
-                                text="Закрыть"
-                                className={style.search_close}
-                                icon={<IconCancel />}
-                                onClick={() => setActiveMarksList(false)}
-                            />
-                            <div className={style.marks_filter}>
-                                <div
-                                    onClick={() =>
-                                        handlerOpenModal(
-                                            "visited",
-                                            visitedList.length
-                                        )
-                                    }
-                                    className={style.marks_filter_item}
-                                >
-                                    <TravelMapIcon active type="visited" />{" "}
-                                    <span>{`Был(а)  ${visitedList.length}`}</span>
+                    <div className={clsx(style.blockAbsolute_content, activeMarksList && style.blockAbsolute_content__active)}>
+                        <>
+
+                            <div className={clsx(style.search, activeSearch && style.search_active)}>
+                                <div className={style.search_block}>
+                                    <div className={style.marks_legend}>
+                                        <div className={style.marks_legend_item}>
+                                            <TravelMapIcon active type="visited" />{" "}
+                                            <span>- был</span>
+                                        </div>
+                                        <div className={style.marks_legend_item}>
+                                            <TravelMapIcon active type="loved" />{" "}
+                                            <span>- люблю</span>
+                                        </div>
+                                        <div className={style.marks_legend_item}>
+                                            <TravelMapIcon active type="wanted" />
+                                            <span>- хочу</span>
+                                        </div>
+                                    </div>
+                                    <InputCustom
+                                        classNameCtn={style.search_input_ctn}
+                                        classNameInput={style.search_input}
+                                        setValue={handleChange}
+                                        value={searchValue}
+                                        placeholder="Поиск локации"
+                                    />
+
+                                    <ul className={style.list}>
+                                        {searchList.length > 0 &&
+                                            searchList.map((searchItem) => {
+                                                const current = searchItem.id
+                                                    ? marksMap.get(searchItem.id)
+                                                    : null;
+
+                                                return (
+                                                    <li
+                                                        className={style.list_item}
+                                                        key={searchItem.id}
+                                                    >
+                                                        <CardTravelList
+                                                            current={
+                                                                current || null
+                                                            }
+                                                            searchItem={searchItem}
+                                                            handlerClickEye={
+                                                                handlerClickEye
+                                                            }
+                                                            handlerToggleIcon={
+                                                                handlerToggleIcon
+                                                            }
+                                                        />
+                                                    </li>
+                                                );
+                                            })}
+                                    </ul>
+                                    
                                 </div>
-                                <div
-                                    onClick={() =>
-                                        handlerOpenModal(
-                                            "loved",
-                                            lovedList.length
-                                        )
-                                    }
-                                    className={style.marks_filter_item}
-                                >
-                                    <TravelMapIcon active type="loved" />{" "}
-                                    <span>{`Люблю  ${lovedList.length}`}</span>
-                                </div>
-                                <div
-                                    onClick={() =>
-                                        handlerOpenModal(
-                                            "wanted",
-                                            wantedList.length
-                                        )
-                                    }
-                                    className={style.marks_filter_item}
-                                >
-                                    <TravelMapIcon active type="wanted" />{" "}
-                                    <span>{`Хочу ${wantedList.length}`}</span>
-                                </div>
+
                             </div>
-                            <div className={style.marks_legend}>
-                                <div className={style.marks_legend_item}>
-                                    <TravelMapIcon active type="visited" />{" "}
-                                    <span>- был</span>
-                                </div>
-                                <div className={style.marks_legend_item}>
-                                    <TravelMapIcon active type="loved" />{" "}
-                                    <span>- люблю</span>
-                                </div>
-                                <div className={style.marks_legend_item}>
-                                    <TravelMapIcon active type="wanted" />
-                                    <span>- хочу</span>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    {!activeMarksList && (
-                        <Button
-                            onClick={() => {
-                                setActiveMarksList(true);
-                            }}
-                            text="Посмотреть свои локации"
-                            className={style.marks_buttonOpen}
-                        />
-                    )}
-                    <div
-                        className={clsx(
-                            style.search,
-                            activeSearch && style.search_active
-                        )}
-                    >
-                        {!activeSearch ? (
-                            <Button
-                                className={style.search_open}
-                                text="Искать локацию"
-                                onClick={() => setActiveSearch(true)}
-                            />
-                        ) : (
-                            <div className={style.search_block}>
-                                <Button
-                                    text="Закрыть поиск"
+                            <div className={clsx(style.marks)}>
+                                {/* <Button
+                                    text="Закрыть"
                                     className={style.search_close}
                                     icon={<IconCancel />}
-                                    onClick={() => setActiveSearch(false)}
-                                />
-                                {/* <IconCancel className={style.search_close} onClick={() => setActiveSearch(false)} /> */}
-                                <InputCustom
-                                    classNameCtn={style.search_input_ctn}
-                                    classNameInput={style.search_input}
-                                    setValue={handleChange}
-                                    value={searchValue}
-                                    placeholder="поиск локации"
-                                />
-
-                                <ul className={style.list}>
-                                    {searchList.length > 0 &&
-                                        searchList.map((searchItem) => {
-                                            const current = searchItem.id
-                                                ? marksMap.get(searchItem.id)
-                                                : null;
-
-                                            return (
-                                                <li
-                                                    className={style.list_item}
-                                                    key={searchItem.id}
-                                                >
-                                                    <CardTravelList
-                                                        current={
-                                                            current || null
-                                                        }
-                                                        searchItem={searchItem}
-                                                        handlerClickEye={
-                                                            handlerClickEye
-                                                        }
-                                                        handlerToggleIcon={
-                                                            handlerToggleIcon
-                                                        }
-                                                    />
-                                                </li>
-                                            );
-                                        })}
-                                </ul>
+                                    onClick={() => setActiveMarksList(false)}
+                                /> */}
+                                <div className={style.marks_filter}>
+                                    <div
+                                        onClick={() =>
+                                            handlerOpenModal(
+                                                "visited",
+                                                visitedList.length
+                                            )
+                                        }
+                                        className={style.marks_filter_item}
+                                    >
+                                        <TravelMapIcon active type="visited" />{" "}
+                                        <span>{`Был(а)  ${visitedList.length}`}</span>
+                                    </div>
+                                    <div
+                                        onClick={() =>
+                                            handlerOpenModal(
+                                                "loved",
+                                                lovedList.length
+                                            )
+                                        }
+                                        className={style.marks_filter_item}
+                                    >
+                                        <TravelMapIcon active type="loved" />{" "}
+                                        <span>{`Люблю  ${lovedList.length}`}</span>
+                                    </div>
+                                    <div
+                                        onClick={() =>
+                                            handlerOpenModal(
+                                                "wanted",
+                                                wantedList.length
+                                            )
+                                        }
+                                        className={style.marks_filter_item}
+                                    >
+                                        <TravelMapIcon active type="wanted" />{" "}
+                                        <span>{`Хочу ${wantedList.length}`}</span>
+                                    </div>
+                                    
+                                </div>
+                                {travelProgress && (
+                                        <div className={style.info_travel_block}>
+                                            Посетил:{" "}
+                                            {`${travelProgress.visitedCount} города(ов)`}-
+                                            {`${travelProgress.percentage}% мира`}.
+                                        </div>
+                                    )}
                             </div>
-                        )}
+
+                        </>
                     </div>
+                    <div className={style.blockAbsolute_trigger}>
+                        <Button
+                            onClick={() => {
+                                setActiveMarksList((prev) => !prev);
+                            }}
+                            text={activeMarksList ? "Закрыть панель" : "Открыть панель"}
+                            className={style.marks_buttonOpen}
+                        />
+                    </div>
+
+
+
                 </div>
             </div>
+
+
+
+
+
             <ModalCustom
                 title="Был(а)"
                 view="fit"

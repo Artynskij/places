@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 
-import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-networks.const";
+import { CONSTANT_MESSANGER_NETWORKS_ARRAY, CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-networks.const";
 
 import Image from "next/image";
 
@@ -147,6 +147,7 @@ export const FormSettingsTourist = () => {
         if (!personData) return;
         const moderationObject = await moderationService.getModerationData(
             personData.id
+           
         );
         if (!moderationObject) return;
         personService
@@ -181,7 +182,6 @@ export const FormSettingsTourist = () => {
         >
             <h2>Данные профиля туриста</h2>
             <div className={style.selectionBlock}>
-                {/* <div className={style.selectionBlock_title}>Фото</div> */}
                 <div className={style.selectionBlock_content}>
                     <div className={style.avatar_ctn}>
                         <span>Фото</span>
@@ -210,7 +210,7 @@ export const FormSettingsTourist = () => {
                                         handlerDeleteAvatar={
                                             handlerDeleteAvatar
                                         }
-                                        // className={style.avatar_upload}
+                                       
                                     />
                                 )}
                             />
@@ -229,7 +229,7 @@ export const FormSettingsTourist = () => {
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>Данные туриста</div>
                 <div className={style.selectionBlock_content}>
-                     <Controller
+                    <Controller
                         name="gender"
                         control={control}
                         render={({ field, fieldState }) => (
@@ -262,14 +262,6 @@ export const FormSettingsTourist = () => {
                         titleSpan="Имя"
                         type="text"
                     />
-                    {/* 
-                    <InputForm
-                        error={errors.fullName?.secondName?.message}
-                        register={register("fullName.secondName")}
-                        placeholder="Отчество"
-                        titleSpan="Отчество"
-                        type="text"
-                    /> */}
 
                     <InputForm
                         error={errors.fullName?.surname?.message}
@@ -285,7 +277,7 @@ export const FormSettingsTourist = () => {
                         titleSpan="@Никнейм"
                         type="text"
                     />
-                   
+
                 </div>
             </div>
             <div className={style.selectionBlock}>
@@ -335,8 +327,22 @@ export const FormSettingsTourist = () => {
             </div>
 
             <div className={style.selectionBlock}>
-                {/* <div className={style.selectionBlock_title}>О Себе</div> */}
                 <div className={style.selectionBlock_content}></div>
+            </div>
+
+            <div className={style.selectionBlock}>
+                <div className={style.selectionBlock_title}>
+                    Сайт
+                </div>
+                <div className={`${style.selectionBlock_content} ${style.social}`}>
+                    <InputForm
+                        error={errors.webContact?.message}
+                        register={register("webContact")}
+                        placeholder="Вставьте ссылку на ваш сайт"
+                        titleSpan="Вставьте ссылку на ваш сайт"
+                        type="text"
+                    />
+                </div>
             </div>
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
@@ -348,10 +354,38 @@ export const FormSettingsTourist = () => {
                         control={control}
                         render={({ field }) => (
                             <SocialContactsBlockForm
+                                keysData={CONSTANT_SOCIAL_NETWORKS_ARRAY}
                                 value={field.value || []}
                                 onChange={field.onChange}
+                                nameSelectImportant="Добавить социальную сеть"
                                 errors={
                                     errors.socialContacts as {
+                                        [index: number]: { url?: FieldError };
+                                    }
+                                }
+                            />
+
+                        )}
+                    />
+
+                </div>
+            </div>
+            <div className={style.selectionBlock}>
+                <div className={style.selectionBlock_title}>
+                    Месенджеры
+                </div>
+                <div className={`${style.selectionBlock_content} ${style.social}`}>
+                    <Controller
+                        name="messangerContacts"
+                        control={control}
+                        render={({ field }) => (
+                            <SocialContactsBlockForm
+                                keysData={CONSTANT_MESSANGER_NETWORKS_ARRAY}
+                                value={field.value || []}
+                                onChange={field.onChange}
+                                nameSelectImportant="Добавить мессенджер"
+                                errors={
+                                    errors.messangerContacts as {
                                         [index: number]: { url?: FieldError };
                                     }
                                 }
@@ -360,6 +394,7 @@ export const FormSettingsTourist = () => {
                     />
                 </div>
             </div>
+
             <Button
                 className={style.buttonSubmit}
                 typeLogic="submit"

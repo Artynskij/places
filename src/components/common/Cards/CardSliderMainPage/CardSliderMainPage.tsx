@@ -145,34 +145,28 @@ export const CardSliderMainPage: FC<ICardSliderMainPage> = ({
                         )}
                         {dataEstablishment.typeEstablishment ===
                             "ACCOMMODATION" && (
-                            <>
-                                <span>Класс отеля :</span>
-                                <RateHotel
-                                    disabled
-                                    defaultValue={classCount || 0}
-                                    classNameIcon={style.titleBlock_class_icon}
-                                />
-                            </>
-                        )}
+                                <>
+                                    <span>Класс отеля :</span>
+                                    <RateHotel
+                                        disabled
+                                        defaultValue={classCount || 0}
+                                        classNameIcon={style.titleBlock_class_icon}
+                                    />
+                                </>
+                            )}
                     </div>
                     <div className={style.description_location}>
-                        <IconLocation
-                            className={style.description_location_icon}
-                        />
+
                         <Link
                             href={ROUTES.LOCATION.LOCATION(
                                 dataEstablishment.location.town.id
                             )}
                             className={style.description_location_link}
                         >
-                            {dataEstablishment.location.town.title}
-                        </Link>
-                        <Link
-                            href={ROUTES.LOCATION.LOCATION(
-                                dataEstablishment.location.country.id
-                            )}
-                            className={style.description_location_link}
-                        >
+                            <IconLocation
+                                className={style.description_location_icon}
+                            />
+                            {dataEstablishment.location.town.title},{" "}
                             {dataEstablishment.location.country.title}
                         </Link>
                     </div>

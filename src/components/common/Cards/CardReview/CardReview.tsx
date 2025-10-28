@@ -120,10 +120,11 @@ export const CardReview = ({
                             {establishmentReview.title}
                         </div>
                         <div className={style.establishment_location}>
-                            <IconLocation />
+                            <IconLocation
+                                className={style.description_location_icon}
+                            />
                             <span>
-                                {establishmentReview.location.street}{" "}
-                                {establishmentReview.location.town.title}{" "}
+                                {establishmentReview.location.town.title},{" "}
                                 {establishmentReview.location.country.title}
                             </span>
                         </div>

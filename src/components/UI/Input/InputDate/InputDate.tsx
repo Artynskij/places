@@ -72,7 +72,6 @@ export const InputDate = ({
             </label>
             <InputMask
                 mask="99.99.9999"
-                maskChar={null}
                 value={inputValue}
                 onChange={handleChange}
                 onBeforeInput={handleBeforeInput}

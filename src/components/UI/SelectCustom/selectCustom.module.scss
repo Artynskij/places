@@ -3,15 +3,15 @@
     position: relative;
     min-width: 150px;
     padding: 8px;
-    border: 1px solid $color-main-grey;
+    border: 1px solid  $color-blur-black;
     border-radius: $border-radius-small;
     transition: $transition;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     position: relative;
     &_value {
-        // width: 100%;
+        width: 100%;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         cursor: pointer;
         padding: 5px;

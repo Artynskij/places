@@ -135,29 +135,29 @@ const CardRecommend: FC<ICardRecommend> = ({
                     <div className={style.description_subtitle}>
                         {dataEstablishment.typeEstablishment.key ===
                             "EATER" && (
-                            <>
-                                {/* <span className={style.rateHotel}> */}
-                                <span>Средний чек :</span>
-                                <RateCafe
-                                    disabled
-                                    classNameIcon={style.rateCafe}
-                                    defaultValue={classCount || 0}
-                                />
+                                <>
+                                    {/* <span className={style.rateHotel}> */}
+                                    <span>Средний чек :</span>
+                                    <RateCafe
+                                        disabled
+                                        classNameIcon={style.rateCafe}
+                                        defaultValue={classCount || 0}
+                                    />
 
-                                {/* </span> */}
-                            </>
-                        )}
+                                    {/* </span> */}
+                                </>
+                            )}
                         {dataEstablishment.typeEstablishment.key ===
                             "ACCOMMODATION" && (
-                            <>
-                                <span>Класс отеля :</span>
-                                <RateHotel
-                                    disabled
-                                    defaultValue={classCount || 0}
-                                    classNameIcon={style.titleBlock_class_icon}
-                                />
-                            </>
-                        )}
+                                <>
+                                    <span>Класс отеля :</span>
+                                    <RateHotel
+                                        disabled
+                                        defaultValue={classCount || 0}
+                                        classNameIcon={style.titleBlock_class_icon}
+                                    />
+                                </>
+                            )}
                     </div>
                     {!!dataEstablishment.location.town && (
                         <Link
@@ -169,9 +169,10 @@ const CardRecommend: FC<ICardRecommend> = ({
                             <IconLocation
                                 className={style.description_location_icon}
                             />
-                            {!!dataEstablishment.location.country &&
-                                `${dataEstablishment.location.country.title}, `}
-                            {dataEstablishment.location.town.title}
+                            <span>
+                                {dataEstablishment.location.town.title}
+                                {dataEstablishment.location.country && `, ${dataEstablishment.location.country.title}`}
+                            </span>
                         </Link>
                     )}
                 </div>

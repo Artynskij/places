@@ -43,14 +43,7 @@ export const AvatarBlockForm = ({
             : { width: 250, height: 250 };
     return (
         <>
-            {/* <Image
-                className={style.avatar_img}
-                width={250}
-                height={250}
-                alt="avatar"
-                src={serverPhotoUrl || CONSTANT_DEFAULT_AVATAR_URL}
-            /> */}
-            {/* <div className={style.buttons}> */}
+          
             <IconEdit
                 className={style.buttons_edit}
                 onClick={handlerOpenModal}
@@ -59,9 +52,7 @@ export const AvatarBlockForm = ({
                 className={style.buttons_delete}
                 onClick={handlerDeleteAvatar}
             />
-            {/* <DeleteButton  /> */}
-            {/* </div> */}
-
+        
             <ModalCustom
                 closeModal={handlerCloseModal}
                 active={activeModal}

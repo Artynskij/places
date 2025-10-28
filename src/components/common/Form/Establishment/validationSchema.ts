@@ -4,6 +4,7 @@ import { TTypesOfEstablishment } from "@/lib/models/types";
 import { TTypeUser } from "@/lib/models/types/TTypeUser";
 import {
     validImageFileSchema,
+    validMessangerNetworksSchema,
     validPhoneSchema,
     validScheduleSchema,
     validSocialNetworksSchema,
@@ -35,6 +36,8 @@ const validationSchemaBase = {
         addressLine: Yup.string(),
     }),
     socialContacts: validSocialNetworksSchema,
+    webContact: Yup.string().url("Невалидный URL"),
+    messangerContacts: validMessangerNetworksSchema,
 };
 const validationSchemaOwner = {
     description: Yup.string().required("Описание обязательно"),
@@ -79,7 +82,7 @@ const validationSchemaTourist = {
         .min(1, "Необходимо загрузить хотя бы 1 фотографий"),
 
     schedule: validScheduleSchema,
-    // videoVerification: Yup.array().of(validVideoFileSchema),
+
 };
 
 export const getSchemaEstablishmentByTypeUser = (typeUser: TTypeUser) => {
@@ -104,7 +107,7 @@ export const getSchemaEstablishmentByTypeUser = (typeUser: TTypeUser) => {
     }
 };
 export const validationSchemaEstablishmentUpdate = Yup.object({
-    // title: Yup.string().required("Название заведения обязательно"),
+
     typeEstablishment: Yup.mixed<TTypesOfEstablishment>()
         .oneOf(
             Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT_DB).map(
@@ -124,8 +127,6 @@ export const validationSchemaEstablishmentUpdate = Yup.object({
         addressFullLine: Yup.string().nullable(),
         addressLine: Yup.string().nullable(),
     }),
-    socialContacts: validSocialNetworksSchema,
-    // description: Yup.string().required("Описание обязательно"),
     tags: Yup.array()
         .of(Yup.string())
         .min(1, "Выберите хотя бы одну характеристику")
@@ -149,12 +150,12 @@ export const validationSchemaEstablishmentUpdate = Yup.object({
     schedule: validScheduleSchema
         .required("Расписание обязательно")
         .length(7, "Должно быть 7 дней расписания"),
-    // typeUser: Yup.mixed<TTypeUser>()
-    //     .oneOf(["owner", "tourist", "admin"], "Неверный тип объекта")
-    //     .required("Тип объекта обязателен"),
     content: Yup.array()
         .of(validContentEstablishmentSchema)
         .min(1, "Добавьте хотя бы один язык")
         .nullable()
         .required("Необходимо заполнить языковые версии"),
+    socialContacts: validSocialNetworksSchema,
+    webContact: Yup.string().url("Невалидный URL"),
+    messangerContacts: validMessangerNetworksSchema,
 });

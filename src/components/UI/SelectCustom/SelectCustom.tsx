@@ -6,6 +6,8 @@ import { IconArrowDown } from "../../common/Icons";
 import { ISelectOption } from "@/lib/models/common/IType";
 import { SpanErrorForm } from "../Span/SpanErrorForm";
 import clsx from "clsx";
+import { string } from "yup";
+import { BlockExtraInfo } from "@/components/common/BlockFunctional/BlockExtraInfo";
 
 interface ISelectProps {
     options: ISelectOption[];
@@ -31,6 +33,7 @@ export const SelectCustom: FC<ISelectProps> = ({
     const [isOpen, setIsOpen] = useState<boolean>(false);
     // const [activeValue, setActiveValue] = useState(title || options[0].value);
     const rootRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         const handleClick = (event: MouseEvent) => {
             const { target } = event;
@@ -77,16 +80,20 @@ export const SelectCustom: FC<ISelectProps> = ({
                             activeItem = true;
                         }
                         return (
-                            <div
-                                onClick={() => handleChange(item)}
-                                key={item.value}
-                                className={clsx(
-                                    style.select_options_item,
-                                    activeItem &&
+                            <div >
+                                <div
+                                    onClick={() => handleChange(item)}
+                                    key={item.value}
+                                    className={clsx(
+                                        style.select_options_item,
+                                        activeItem &&
                                         style.select_options_item_active
-                                )}
-                            >
-                                {item.name}
+                                    )}
+                                >
+                                    {item.name}
+                                </div>
+                                
+
                             </div>
                         );
                     })
