@@ -11,7 +11,7 @@ import {
     useForm,
 } from "react-hook-form";
 
-import { IEstablishmentFront, ISelectOption } from "@/lib/models";
+import { IEstablishmentFront, IOption } from "@/lib/models";
 
 import {
     IEstablishmentCreateRequest,
@@ -231,12 +231,12 @@ const FormUpdateEstablishmentBase = ({
         });
     };
 
-    const optionsTypesOfEstablishment: ISelectOption[] = [
-        { name: "Выбрать тип объекта", value: "" },
+    const optionsTypesOfEstablishment: IOption[] = [
+        { label: "Выбрать тип объекта", value: "" },
         ...Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT_DB).map(
             ({ key, title }) => ({
                 value: key,
-                name: title,
+                label: title,
             })
         ),
     ];

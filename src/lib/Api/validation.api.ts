@@ -10,7 +10,7 @@ export class ValidationPersonServerService {
                 email: string;
             }>(`${this.baseUrl}/email-exists?email=${email}`);
 
-            return res.data.exists;
+            return !res.data.exists;
         } catch (error) {
             console.error(
                 `error [get ${this.baseUrl}/email-exists?email=${email}`,
@@ -26,7 +26,7 @@ export class ValidationPersonServerService {
                 nickname: string;
             }>(`${this.baseUrl}/nickname-exists?nickname=${nickname}`);
 
-            return res.data.exists;
+            return !res.data.exists;
         } catch (error) {
             console.error(
                 `error [get ${this.baseUrl}/nickname-exists?nickname=${nickname}`,
@@ -42,7 +42,7 @@ export class ValidationPersonServerService {
                 username: string;
             }>(`${this.baseUrl}/username-exists?username=${username}`);
 
-            return res.data.exists;
+            return !res.data.exists;
         } catch (error) {
             console.error(
                 `error [get ${this.baseUrl}/username-exists?username=${username}`,

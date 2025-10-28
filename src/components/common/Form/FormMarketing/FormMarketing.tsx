@@ -4,7 +4,7 @@ import style from "./formMarketing.module.scss";
 import {
     IDataAdvertisingCookie,
     IDataAdvertisingItem,
-    ISelectOption,
+    IOption,
 } from "@/lib/models/common/IType";
 
 import { mockSelectSquare } from "@/asset/mockData/mockMarketing";
@@ -20,7 +20,7 @@ type IValueCalendar = [IValuePieceCalendar, IValuePieceCalendar];
 
 interface IMarketing {
     id: number;
-    name: string;
+    label: string;
     description: string;
     price: number;
     type: string;
@@ -44,23 +44,23 @@ export const FormMarketing: FC<IFormMarketingProps> = ({
     const cookie = useCookie();
 
     const [valueSelectFacility, setValueSelectFacility] = useState<{
-        name: string;
+        label: string;
         value: string;
     } | null>(null);
     const [valueSelectLang, setValueSelectLang] = useState<{
-        name: string;
+        label: string;
         value: string;
     } | null>(null);
     const [valueSelectCountry, setValueSelectCountry] = useState<{
-        name: string;
+        label: string;
         value: string;
     } | null>(null);
     const [valueSelectDistrict, setValueSelectDistrict] = useState<{
-        name: string;
+        label: string;
         value: string;
     } | null>(null);
     const [valueSelectTown, setValueSelectTown] = useState<{
-        name: string;
+        label: string;
         value: string;
     } | null>(null);
     const [valueCalendar, setValueCalendar] = useState<IValueCalendar>([
@@ -100,9 +100,9 @@ export const FormMarketing: FC<IFormMarketingProps> = ({
     function handleSubmitForm() {
         let submitData: IDataAdvertisingItem = {
             type: "country",
-            country: { name: "", value: "" },
-            language: { name: "", value: "" },
-            facility: { name: "", value: "" },
+            country: { label: "", value: "" },
+            language: { label: "", value: "" },
+            facility: { label: "", value: "" },
             calendar: ["", ""],
             price: { allPrice: 0, priceOne: 0 },
         };
@@ -192,7 +192,7 @@ export const FormMarketing: FC<IFormMarketingProps> = ({
             <div className={style.form_content_buttons}>
                 <div className={style.form_select}>
                     <SelectCustom
-                        onChange={(item: ISelectOption) =>
+                        onChange={(item: IOption) =>
                             setValueSelectFacility(item)
                         }
                         titleDefault={"Выберите объект"}
@@ -202,9 +202,7 @@ export const FormMarketing: FC<IFormMarketingProps> = ({
                 </div>
                 <div className={style.form_select}>
                     <SelectCustom
-                        onChange={(item: ISelectOption) =>
-                            setValueSelectLang(item)
-                        }
+                        onChange={(item: IOption) => setValueSelectLang(item)}
                         titleDefault={"Выберите язык"}
                         activeOption={valueSelectLang?.value}
                         options={mockSelectSquare.mockLanguageForSelect}
@@ -212,7 +210,7 @@ export const FormMarketing: FC<IFormMarketingProps> = ({
                 </div>
                 <div className={style.form_select}>
                     <SelectCustom
-                        onChange={(item: ISelectOption) =>
+                        onChange={(item: IOption) =>
                             setValueSelectCountry(item)
                         }
                         titleDefault={"Выберите страну"}
@@ -223,7 +221,7 @@ export const FormMarketing: FC<IFormMarketingProps> = ({
                 {(data.type === "district" || data.type === "town") && (
                     <div className={style.form_select}>
                         <SelectCustom
-                            onChange={(item: ISelectOption) =>
+                            onChange={(item: IOption) =>
                                 setValueSelectDistrict(item)
                             }
                             titleDefault={"Выберите область"}
@@ -235,7 +233,7 @@ export const FormMarketing: FC<IFormMarketingProps> = ({
                 {data.type === "town" && (
                     <div className={style.form_select}>
                         <SelectCustom
-                            onChange={(item: ISelectOption) =>
+                            onChange={(item: IOption) =>
                                 setValueSelectTown(item)
                             }
                             titleDefault={"Выберите город"}

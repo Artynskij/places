@@ -39,6 +39,7 @@ interface IProps
     tagsClassEstablishment: ITagWithEstablishmentFront[] | null;
     dataTileContent: ILocationFront[] | null;
     breadcrumbData: ILocationFront[] | null;
+    totalLocations: number;
 }
 
 export default async function LocationScreen({

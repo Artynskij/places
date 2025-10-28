@@ -1,5 +1,5 @@
 import {
-    IArticleEntityWithContent,
+    IArticleEntityWithPareContent,
     IEstablishmentWithContentPareEntity,
     IFavoriteEntity,
     IFavoriteFront,
@@ -30,7 +30,7 @@ export class FavoriteMapper {
         const mappedArticle =
             favoriteEntity.ItemType.Name === "Article"
                 ? this.articleMapper.toFront(
-                      favoriteEntity.ResolvedItem as IArticleEntityWithContent,
+                      favoriteEntity.ResolvedItem as IArticleEntityWithPareContent,
                       cdnHost
                   )
                 : null;

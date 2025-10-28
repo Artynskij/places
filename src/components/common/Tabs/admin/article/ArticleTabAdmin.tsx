@@ -1,75 +1,172 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Table, Button, Space, Modal, Tag, Image, message, Card } from "antd";
+import { Table, Button, Space, Tag, Image, Card, Select } from "antd";
 import {
     EditOutlined,
     DeleteOutlined,
     EyeOutlined,
     ReloadOutlined,
+    PlusOutlined,
 } from "@ant-design/icons";
-import { IArticleFront } from "@/lib/models";
+import { IArticleFront, IOption } from "@/lib/models";
 import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
-import useLocale from "@/lib/hooks/useLocale";
-import { CONSTANT_ARTICLE_STATUS_DB } from "@/asset/constants/database/article-status.const";
 import { useTranslations } from "next-intl";
+import PreviewEditor from "@/components/common/TipTap/Viewer/previewEditor";
+import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
+import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
+import { useAlertMessage } from "@/lib/context";
+import { FormCreateArticle } from "@/components/common/Form/article/FormCreateArticle";
 
-interface ArticleListTabProps {
-    onArticleEdit: (article: IArticleFront) => void;
-    onArticleDelete: (articleId: string) => void;
-}
+const { Option } = Select;
 
-export const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
-    onArticleEdit,
-    onArticleDelete,
-}) => {
-    const locale = useLocale();
+export const ArticleTabAdmin: React.FC = () => {
+    const message = useAlertMessage();
     const tStatusArticle = useTranslations("StatusArticle");
 
     const [isLoading, setIsLoading] = useState(false);
-    const [previewArticle, setPreviewArticle] = useState<IArticleFront | null>(
-        null
-    );
-    const [isPreviewVisible, setIsPreviewVisible] = useState(false);
+    const [isModalActive, setIsModalActive] = useState(false);
+    const [editArticle, setEditArticle] = useState<IArticleFront | null>(null);
     const [articles, setArticles] = useState<IArticleFront[]>([]);
+    const [statusOptions, setStatusOptions] = useState<IOption[]>([]);
+
     const articleService = new ArticleService();
+    const dataLoadManagementService = new DataLoadManagementService();
+
+    // Загрузка данных
     useEffect(() => {
-        fetchAll();
+        loadInitialData();
     }, []);
-    const fetchAll = async () => {
+
+    const loadInitialData = async () => {
         setIsLoading(true);
-        await articleService
-            .getWithFilter({ page: 1, pageSize: 10 })
-            .then((res) => {
-                if (res) {
-                    console.log(res);
-                    setArticles(res);
-                }
-            });
-        setIsLoading(false);
-    };
-    const handleEdit = (article: IArticleFront) => {
-        onArticleEdit(article);
+        try {
+            await Promise.all([fetchArticles(), fetchStatusOptions()]);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const handleDelete = (article: IArticleFront) => {
-        Modal.confirm({
-            title: "Удаление статьи",
-            content: `Вы уверены, что хотите удалить статью "${article.title}"?`,
-            okText: "Удалить",
-            cancelText: "Отмена",
-            okType: "danger",
-            onOk: () => {
-                onArticleDelete(article.id);
-            },
+    const fetchArticles = async () => {
+        const res = await articleService.getWithFilter({
+            page: 1,
+            pageSize: 10,
         });
+        if (res) {
+            setArticles(res);
+        }
     };
 
-    const handlePreview = (article: IArticleFront) => {
-        setPreviewArticle(article);
-        setIsPreviewVisible(true);
+    const fetchStatusOptions = async () => {
+        const res = await dataLoadManagementService.getArticleStatus();
+        if (res) {
+            const options: IOption[] = res.map((item) => ({
+                id: item.Id,
+                label: tStatusArticle(item.Code),
+                value: item.Code,
+            }));
+            setStatusOptions(options);
+        }
     };
+
+    // Обработчики действий
+    const handleAdd = () => {
+        setEditArticle(null);
+        setIsModalActive(true);
+    };
+
+    const handleEdit = (article: IArticleFront) => {
+        setEditArticle(article);
+        setIsModalActive(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalActive(false);
+        fetchArticles();
+    };
+
+    const handleDelete = async (article: IArticleFront) => {
+        const responseDelete = await articleService.delete(article.id);
+        if (responseDelete) {
+            message.info("Статья удалена");
+            fetchArticles();
+        }
+    };
+
+    const handleStatusChange = async (
+        idArticle: string,
+        newStatus: IOption
+    ) => {
+        const res = await articleService.update(idArticle, {
+            source: { ArticlesStatusId: newStatus.id as string },
+        });
+        if (res) {
+            fetchArticles();
+        }
+    };
+
+    const handleRefresh = () => {
+        message.info("Обновлено");
+        fetchArticles();
+    };
+
+    // Вспомогательные компоненты
+    const TagsList = ({
+        items,
+    }: {
+        items: Array<{ id: string; value: string }>;
+    }) => (
+        <Space direction="vertical">
+            {items.map((item) => (
+                <Tag key={item.id} color="blue" style={{ cursor: "pointer" }}>
+                    {item.value}
+                </Tag>
+            ))}
+        </Space>
+    );
+
+    const ArticleActions = ({ record }: { record: IArticleFront }) => (
+        <Space>
+            {statusOptions.length > 0 && (
+                <Select
+                    size="small"
+                    style={{ width: 140 }}
+                    defaultValue={record.status.code}
+                    onChange={(selectedValue) => {
+                        const newStatus = statusOptions.find(
+                            (item) => item.value === selectedValue
+                        );
+                        if (newStatus) {
+                            handleStatusChange(record.id, newStatus);
+                        }
+                    }}
+                    placeholder="Изменить статус"
+                >
+                    {statusOptions.map((option) => (
+                        <Option key={option.id} value={option.value}>
+                            {option.label}
+                        </Option>
+                    ))}
+                </Select>
+            )}
+
+            <PreviewEditor article={record}>
+                <Button type="primary" icon={<EyeOutlined />} size="middle" />
+            </PreviewEditor>
+
+            <Button
+                icon={<EditOutlined />}
+                size="middle"
+                onClick={() => handleEdit(record)}
+            />
+
+            <ModalConfirm handlerAction={() => handleDelete(record)}>
+                <Button danger icon={<DeleteOutlined />} size="middle" />
+            </ModalConfirm>
+        </Space>
+    );
 
     const columns = [
+        { title: "ID", dataIndex: "id", key: "id" },
         {
             title: "Заголовок",
             dataIndex: "title",
@@ -91,20 +188,26 @@ export const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
             ),
         },
         {
-            title: "Категория",
-            dataIndex: "category",
-            key: "category",
-            render: (category: string) => <Tag color="blue">{category}</Tag>,
+            title: "Рубрика",
+            dataIndex: "type",
+            key: "type",
+            render: (types: IArticleFront["type"]) => (
+                <TagsList items={types} />
+            ),
+        },
+        {
+            title: "Под рубрика",
+            dataIndex: "subType",
+            key: "subType",
+            render: (subTypes: IArticleFront["subType"]) => (
+                <TagsList items={subTypes} />
+            ),
         },
         {
             title: "Автор",
             dataIndex: "author",
             key: "author",
-        },
-        {
-            title: "Дата",
-            dataIndex: "date",
-            key: "date",
+            render: (author: IArticleFront["author"]) => author?.Nickname,
         },
         {
             title: "Статус",
@@ -117,31 +220,7 @@ export const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
             title: "Действия",
             key: "actions",
             render: (_: any, record: IArticleFront) => (
-                <Space>
-                    <Button
-                        type="primary"
-                        icon={<EyeOutlined />}
-                        size="small"
-                        onClick={() => handlePreview(record)}
-                    >
-                        Просмотр
-                    </Button>
-                    <Button
-                        icon={<EditOutlined />}
-                        size="small"
-                        onClick={() => handleEdit(record)}
-                    >
-                        Редактировать
-                    </Button>
-                    <Button
-                        danger
-                        icon={<DeleteOutlined />}
-                        size="small"
-                        onClick={() => handleDelete(record)}
-                    >
-                        Удалить
-                    </Button>
-                </Space>
+                <ArticleActions record={record} />
             ),
         },
     ];
@@ -152,78 +231,34 @@ export const ArticleTabAdmin: React.FC<ArticleListTabProps> = ({
             extra={
                 <Space>
                     <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={handleAdd}
+                    >
+                        Создать статью
+                    </Button>
+                    <Button
                         icon={<ReloadOutlined />}
-                        onClick={() => {
-                            message.info("Обновлено");
-                            fetchAll();
-                        }}
+                        onClick={handleRefresh}
                         loading={isLoading}
                     />
                 </Space>
             }
         >
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                }}
-            >
-                <h3></h3>
-            </div>
-
             <Table
                 columns={columns}
                 dataSource={articles}
                 rowKey="id"
                 pagination={{ pageSize: 10 }}
                 scroll={{ x: 800 }}
+                loading={isLoading}
             />
 
-            <Modal
-                title={previewArticle?.title}
-                open={isPreviewVisible}
-                onCancel={() => setIsPreviewVisible(false)}
-                footer={[
-                    <Button
-                        key="close"
-                        onClick={() => setIsPreviewVisible(false)}
-                    >
-                        Закрыть
-                    </Button>,
-                ]}
-                width={800}
-            >
-                {previewArticle && (
-                    <div>
-                        <div style={{ marginBottom: 16 }}>
-                            {previewArticle.titleImage && (
-                                <Image
-                                    width="100%"
-                                    height={200}
-                                    src={previewArticle.titleImage.src}
-                                    alt={previewArticle.titleImage.alt}
-                                    style={{ objectFit: "cover" }}
-                                />
-                            )}
-                        </div>
-                        <p>
-                            <strong>Описание:</strong>{" "}
-                            {previewArticle.description}
-                        </p>
-                        <p>
-                            <strong>Категория:</strong>{" "}
-                            {previewArticle.category}
-                        </p>
-                        <p>
-                            <strong>Автор:</strong> {previewArticle.author}
-                        </p>
-                        <p>
-                            <strong>Дата:</strong> {previewArticle.date}
-                        </p>
-                    </div>
-                )}
-            </Modal>
+            <FormCreateArticle
+                handleCloseModal={handleCloseModal}
+                isModalActive={isModalActive}
+                initialData={editArticle}
+            />
         </Card>
     );
 };

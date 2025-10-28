@@ -96,7 +96,7 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
     }));
 
     const sortOptions: TypeOptionSelect[] = SELECT_FILTER_SORT.map((item) => ({
-        label: item.name,
+        label: item.label,
         value: item.value,
     }));
     const [sortEstablishment, setSortEstablishment] =

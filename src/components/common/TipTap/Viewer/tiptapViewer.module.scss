@@ -3,3 +3,21 @@
 .articleViewer {
     @extend .prose-base;
 }
+.preview {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 0 $gap-big;
+    position: relative;
+    &_content {
+        grid-column: 1/2;
+        background-color: $color-additional-background;
+        border-radius: $border-radius-10;
+        padding: 30px;
+        margin-bottom: 70px;
+        min-width: 0;
+    }
+}
+.popular {
+    background-color: $color-additional-background;
+    border-radius: $border-radius-10;
+}

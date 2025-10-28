@@ -1,110 +1,248 @@
 "use client";
-import { useState } from "react";
-import { Table, Button, Space, Input, Form, Modal, message, Tag } from "antd";
+import { useEffect, useState } from "react";
+import {
+    Table,
+    Button,
+    Space,
+    Input,
+    Form,
+    Modal,
+    message,
+    Tag,
+    Card,
+    Select,
+    Spin,
+} from "antd";
 import {
     EditOutlined,
     DeleteOutlined,
     PlusOutlined,
     ReloadOutlined,
 } from "@ant-design/icons";
+import {
+    IArticleSubTypeFront,
+    IArticleSubTypeRequest,
+    IArticleTypeEntity,
+    IArticleTypeFront,
+    IDetailLang,
+    IOption,
+} from "@/lib/models";
+import { ArticleSubTypeService } from "@/lib/Api/(Article)/article-subType.api";
+import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
+import { TLocale } from "@/lib/models/types";
+import { locales } from "@/config";
+import type { ColumnsType } from "antd/es/table";
+import { ArticleTypeService } from "@/lib/Api/(Article)/article-type.api";
 
-interface Category {
-    id: number;
+const { Search } = Input;
+
+interface ArticleSubTypeFormValues {
     name: string;
-    articleCount: number;
-    createdAt: string;
+    typeId: string;
 }
 
 export const SubTypeArticleTabAdmin: React.FC = () => {
-    const [categories, setCategories] = useState<Category[]>([
-        {
-            id: 1,
-            name: "Новости туризма",
-            articleCount: 15,
-            createdAt: "2024-01-15",
-        },
-        {
-            id: 2,
-            name: "Полезные советы, лайфхаки",
-            articleCount: 8,
-            createdAt: "2024-01-10",
-        },
-        { id: 3, name: "Обзоры", articleCount: 12, createdAt: "2024-01-05" },
-        {
-            id: 4,
-            name: "Путешествия по России",
-            articleCount: 20,
-            createdAt: "2024-01-20",
-        },
-        {
-            id: 5,
-            name: "Зарубежный туризм",
-            articleCount: 25,
-            createdAt: "2024-01-18",
-        },
-    ]);
+    const articleSubTypeService = new ArticleSubTypeService();
 
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [editingCategory, setEditingCategory] = useState<Category | null>(
+    const articleTypeService = new ArticleTypeService();
+    const langsDetailsDefault = locales.map((item) => ({
+        lang: item,
+        value: "",
+    }));
+
+    const [subTypesArticle, setSubTypesArticle] = useState<
+        IArticleSubTypeFront[]
+    >([]);
+    const [articleTypes, setArticleTypes] = useState<IArticleTypeFront[]>([]);
+    const [editSubType, setEditSubType] = useState<IArticleSubTypeFront | null>(
         null
     );
-    const [form] = Form.useForm();
+    const [searchOptions, setSearchOptions] = useState<IOption[]>([]);
 
-    const handleAdd = () => {
-        setEditingCategory(null);
-        form.resetFields();
-        setIsModalVisible(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isModalActive, setIsModalActive] = useState(false);
+    const [languageDetails, setLanguageDetails] =
+        useState<IDetailLang[]>(langsDetailsDefault);
+    const [isModalLoading, setIsModalLoading] = useState(false);
+    const [form] = Form.useForm<ArticleSubTypeFormValues>();
+
+    useEffect(() => {
+        fetchAll();
+        fetchArticleTypes();
+    }, []);
+
+    useEffect(() => {
+        if (editSubType && isModalActive) {
+            // Преобразуем данные подтипа статьи в languageDetails
+            const details =
+                editSubType.content?.details?.map((detail) => ({
+                    lang: detail.lang as TLocale,
+                    value: detail.value || "",
+                })) || langsDetailsDefault;
+
+            setLanguageDetails(details);
+
+            form.setFieldsValue({
+                name: editSubType.name,
+                typeId: editSubType.articleTypeId || "",
+            });
+        } else if (isModalActive) {
+            form.resetFields();
+            setLanguageDetails(langsDetailsDefault);
+        }
+    }, [editSubType, isModalActive, form]);
+
+    const fetchAll = async () => {
+        setIsLoading(true);
+        try {
+            const data = await articleSubTypeService.get();
+            setSubTypesArticle(data || []);
+        } catch {
+            message.error("Ошибка загрузки подрубрик статей");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const handleEdit = (category: Category) => {
-        setEditingCategory(category);
-        form.setFieldsValue({ name: category.name });
-        setIsModalVisible(true);
+    const fetchArticleTypes = async () => {
+        try {
+            const data = await articleTypeService.get();
+            setArticleTypes(data || []);
+        } catch {
+            message.error("Ошибка загрузки типов статей");
+        }
     };
 
-    const handleDelete = (category: Category) => {
+    const fetchById = async (id: string) => {
+        setIsLoading(true);
+        try {
+            const subTypeArticle = await articleSubTypeService.getById(id);
+            if (!subTypeArticle) {
+                throw Error("Подрубрика статьи не найдена");
+            }
+            setSubTypesArticle([subTypeArticle]);
+        } catch {
+            message.error("Подрубрика статьи не найдена");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleEdit = (record: IArticleSubTypeFront) => {
+        setEditSubType(record);
+
+        setIsModalActive(true);
+    };
+
+    const handleDelete = async (record: IArticleSubTypeFront) => {
         Modal.confirm({
-            title: "Удаление категории",
-            content: `Вы уверены, что хотите удалить категорию "${category.name}"?`,
+            title: "Удаление подрубрики статьи",
+            content: `Вы уверены, что хотите удалить подрубрику "${record.name}"?`,
             okText: "Удалить",
             cancelText: "Отмена",
             okType: "danger",
-            onOk: () => {
-                setCategories((prev) =>
-                    prev.filter((c) => c.id !== category.id)
-                );
-                message.success("Категория удалена");
+            onOk: async () => {
+                console.log(record);
+                try {
+                    await articleSubTypeService.delete(record.id);
+                    setSubTypesArticle((prev) =>
+                        prev.filter((c) => c.id !== record.id)
+                    );
+                    message.success("Подрубрика статьи удалена");
+                } catch {
+                    message.error("Ошибка при удалении подрубрики статьи");
+                }
             },
         });
     };
 
-    const handleSubmit = (values: { name: string }) => {
-        if (editingCategory) {
-            // Редактирование
-            setCategories((prev) =>
-                prev.map((c) =>
-                    c.id === editingCategory.id
-                        ? { ...c, name: values.name }
-                        : c
-                )
-            );
-            message.success("Категория обновлена");
-        } else {
-            // Добавление
-            const newCategory: Category = {
-                id: Date.now(),
-                name: values.name,
-                articleCount: 0,
-                createdAt: new Date().toISOString().split("T")[0],
-            };
-            setCategories((prev) => [...prev, newCategory]);
-            message.success("Категория добавлена");
-        }
-        setIsModalVisible(false);
+    const handleModalClose = () => {
+        setIsModalActive(false);
+        setEditSubType(null);
         form.resetFields();
+        setLanguageDetails(langsDetailsDefault);
     };
 
-    const columns = [
+    const handleLanguageDetailsChange = (details: IDetailLang[]) => {
+        setLanguageDetails(details);
+    };
+
+    const handleAdd = () => {
+        setEditSubType(null);
+        setIsModalActive(true);
+    };
+
+    const handleSubmit = async () => {
+        try {
+            // Валидируем languageDetails - проверяем что все выбранные языки заполнены
+            const hasEmptyFields = languageDetails.some(
+                (item) => !item.value.trim()
+            );
+
+            if (hasEmptyFields) {
+                message.error("Заполните все выбранные языки");
+                return;
+            }
+
+            // Валидируем остальные поля формы
+            const values = await form.validateFields();
+
+            if (!values.typeId) {
+                message.error("Выберите тип статьи");
+                return;
+            }
+
+            setIsModalLoading(true);
+
+            const filledDetails = languageDetails.filter((item) =>
+                item.value.trim()
+            );
+            const body: IArticleSubTypeRequest = {
+                source: {
+                    Name: values.name,
+                    Code: values.name.toLocaleUpperCase(),
+                    ArticleTypeId: values.typeId,
+                },
+                content: {
+                    details: filledDetails,
+                },
+            };
+
+            if (editSubType) {
+                // Редактирование существующего подтипа
+                const updatedSubType = await articleSubTypeService.update(
+                    editSubType.id,
+                    body
+                );
+
+                if (updatedSubType) {
+                    message.success("Подрубрика статьи обновлена");
+                    fetchAll();
+                    handleModalClose();
+                } else {
+                    message.error("Ошибка при обновлении подрубрики статьи");
+                }
+            } else {
+                // Создание нового подтипа
+                const newSubType = await articleSubTypeService.create(body);
+
+                if (newSubType) {
+                    message.success("Подрубрика статьи создана");
+                    fetchAll();
+                    handleModalClose();
+                } else {
+                    message.error("Ошибка при создании подрубрики статьи");
+                }
+            }
+        } catch (error) {
+            console.error("Ошибка:", error);
+            message.error("Произошла ошибка при сохранении");
+        } finally {
+            setIsModalLoading(false);
+        }
+    };
+
+    const columns: ColumnsType<IArticleSubTypeFront> = [
         {
             title: "ID",
             dataIndex: "id",
@@ -112,134 +250,195 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
             width: 80,
         },
         {
-            title: "Название категории",
+            title: "Название подрубрики",
+            dataIndex: "value",
+            key: "value",
+        },
+        {
+            title: "Ключе подрубрики",
             dataIndex: "name",
             key: "name",
         },
         {
-            title: "Кол-во статей",
-            dataIndex: "articleCount",
-            key: "articleCount",
-            render: (count: number) => (
-                <Tag color={count > 0 ? "blue" : "default"}>{count} статей</Tag>
+            title: "Ключ типа",
+            dataIndex: "articleType",
+            key: "articleType",
+            render: (articleType: IArticleTypeEntity) => (
+                <Tag color="purple">{articleType.Name}</Tag>
             ),
         },
         {
-            title: "Дата создания",
-            dataIndex: "createdAt",
-            key: "createdAt",
+            title: "Языки",
+            key: "languages",
+            render: (_, record) => (
+                <Space>
+                    {record.content?.details?.map((detail, index) => (
+                        <Tag key={index} color="blue">
+                            {detail.lang.toUpperCase()}
+                        </Tag>
+                    ))}
+                </Space>
+            ),
         },
+        // {
+        //     title: "Кол-во статей",
+        //     dataIndex: "articleCount",
+        //     key: "articleCount",
+        //     render: (count: number) => (
+        //         <Tag color={count > 0 ? "blue" : "default"}>{count} статей</Tag>
+        //     ),
+        // },
+        // {
+        //     title: "Дата создания",
+        //     dataIndex: "createdAt",
+        //     key: "createdAt",
+        //     render: (date: string) => new Date(date).toLocaleDateString(),
+        // },
         {
             title: "Действия",
             key: "actions",
-            render: (_: any, record: Category) => (
+            render: (_, record) => (
                 <Space>
                     <Button
                         icon={<EditOutlined />}
-                        size="small"
+                        size="middle"
                         onClick={() => handleEdit(record)}
-                    >
-                        Редактировать
-                    </Button>
+                    />
                     <Button
                         danger
                         icon={<DeleteOutlined />}
-                        size="small"
+                        size="middle"
                         onClick={() => handleDelete(record)}
-                        disabled={record.articleCount > 0}
-                    >
-                        Удалить
-                    </Button>
+                        // disabled={(record.articleCount || 0) > 0}
+                    />
                 </Space>
             ),
         },
     ];
 
     return (
-        <div>
-            <div
-                style={{
-                    marginBottom: 16,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                }}
+        <>
+            <Card
+                extra={
+                    <Space>
+                        <Button
+                            type="primary"
+                            icon={<PlusOutlined />}
+                            onClick={handleAdd}
+                        >
+                            Добавить подрубрику
+                        </Button>
+                        <Button
+                            icon={<ReloadOutlined />}
+                            onClick={() => {
+                                message.info("Обновлено");
+                                fetchAll();
+                            }}
+                            loading={isLoading}
+                        />
+                    </Space>
+                }
+                title="Управление подрубриками статей"
             >
-                <h3>Управление категориями</h3>
-                <Space>
-                    <Button
-                        type="primary"
-                        icon={<PlusOutlined />}
-                        onClick={handleAdd}
-                    >
-                        Добавить категорию
-                    </Button>
-                    <Button
-                        icon={<ReloadOutlined />}
-                        onClick={() => {
-                            message.info("Обновлено");
-                            // fetchAll();
+                <Space style={{ marginBottom: 16 }}>
+                    <Search
+                        placeholder="Поиск по ID"
+                        onSearch={(value) => {
+                            if (!value) return fetchAll();
+                            fetchById(value);
                         }}
+                        allowClear
+                        loading={isLoading}
+                        style={{ width: 200 }}
                     />
+                    {/* <Select
+                        showSearch
+                        placeholder="Поиск по названию"
+                        onSearch={findSearchByTitle}
+                        onSelect={(id) => fetchById(id)}
+                        filterOption={false}
+                        notFoundContent={null}
+                        style={{ width: 300 }}
+                        options={searchOptions}
+                    /> */}
                 </Space>
-            </div>
 
-            <Table
-                columns={columns}
-                dataSource={categories}
-                rowKey="id"
-                pagination={{ pageSize: 10 }}
-            />
+                <Table
+                    columns={columns}
+                    dataSource={subTypesArticle}
+                    rowKey="id"
+                    pagination={{ pageSize: 10 }}
+                    loading={isLoading}
+                />
+            </Card>
 
             <Modal
                 title={
-                    editingCategory
-                        ? "Редактировать категорию"
-                        : "Добавить категорию"
+                    editSubType
+                        ? "Редактировать подрубрику статьи"
+                        : "Добавить подрубрику статьи"
                 }
-                open={isModalVisible}
-                onCancel={() => {
-                    setIsModalVisible(false);
-                    form.resetFields();
-                }}
-                footer={null}
+                onOk={handleSubmit}
+                open={isModalActive}
+                onCancel={handleModalClose}
+                width={700}
+                okText={editSubType ? "Сохранить" : "Создать"}
+                cancelText="Отмена"
+                confirmLoading={isModalLoading}
             >
-                <Form form={form} layout="vertical" onFinish={handleSubmit}>
+                <Form form={form} layout="vertical">
+                    <LanguageManagerBlock
+                        value={languageDetails}
+                        onChange={handleLanguageDetailsChange}
+                        required={true}
+                    />
+
                     <Form.Item
-                        name="name"
-                        label="Название категории"
+                        name="typeId"
+                        label="Тип статьи"
                         rules={[
                             {
                                 required: true,
-                                message: "Введите название категории",
+                                message: "Выберите тип статьи",
+                            },
+                        ]}
+                    >
+                        <Select
+                            placeholder="Выберите тип статьи"
+                            loading={isLoading}
+                        >
+                            {articleTypes.map((type) => (
+                                <Select.Option key={type.id} value={type.id}>
+                                    {type.name}
+                                </Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name="name"
+                        label="Name подрубрики (английскими буквами)"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Введите код подрубрики",
+                            },
+                            {
+                                pattern: /^[a-zA-Z_]+$/,
+                                message:
+                                    "Только английские буквы и подчеркивания",
                             },
                             {
                                 min: 2,
                                 message:
-                                    "Название должно содержать минимум 2 символа",
+                                    "Код должен содержать минимум 2 символа",
                             },
                         ]}
                     >
-                        <Input placeholder="Введите название категории" />
-                    </Form.Item>
-
-                    <Form.Item>
-                        <Space>
-                            <Button type="primary" htmlType="submit">
-                                {editingCategory ? "Обновить" : "Добавить"}
-                            </Button>
-                            <Button
-                                onClick={() => {
-                                    setIsModalVisible(false);
-                                    form.resetFields();
-                                }}
-                            >
-                                Отмена
-                            </Button>
-                        </Space>
+                        <Input placeholder="News_politics, Article_science, Blog_travel, etc." />
                     </Form.Item>
                 </Form>
             </Modal>
-        </div>
+        </>
     );
 };

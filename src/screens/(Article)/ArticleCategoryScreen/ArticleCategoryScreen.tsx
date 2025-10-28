@@ -2,7 +2,7 @@ import { IBasePageProps } from "@/lib/models/common/IType";
 import style from "./articleCategoryScreen.module.scss";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { mockNews } from "@/asset/mockData/mockNews";
-import { CardNews } from "@/components/common/Cards/CardNews/CardNews";
+import { CardArticle } from "@/components/common/Cards/(article)/CardArticle/CardArticle";
 
 import { PopularArticles } from "../_component/_PopularNews/_PopularNews";
 import { getTranslations } from "next-intl/server";
@@ -40,7 +40,7 @@ export default async function ArticlesCategoryScreen({
                     <div className={style.content_item}>
                         {newsFirst.map((article, index) => {
                             return (
-                                <CardNews
+                                <CardArticle
                                     typeNew="main"
                                     descriptionShow
                                     key={index}
@@ -58,7 +58,7 @@ export default async function ArticlesCategoryScreen({
                     <div className={style.content_item}>
                         {newsSecond.map((article, index) => {
                             return (
-                                <CardNews
+                                <CardArticle
                                     typeNew="main"
                                     descriptionShow
                                     key={index}

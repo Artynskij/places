@@ -26,13 +26,13 @@ export const TabHistoryOwner = () => {
                 <li className={style.history_content_list_item} key={index}>
                   <span className={style.history_content_list_item_type}>{item.type}</span>
                   <span>
-                    {item.town?.name ||
-                      item.district?.name ||
-                      item.country.name}
+                    {item.town?.label ||
+                      item.district?.label ||
+                      item.country?.label}
                   </span>
 
-                  <span>{item.facility.name}</span>
-                  <span>{item.language.name}</span>
+                  <span>{item.facility?.label}</span>
+                  <span>{item.language?.label}</span>
                   <span>{item.calendar[0] + " - " + item.calendar[1]}</span>
                   {/* <Button
                     className={style.choice_list_item_button}
@@ -46,7 +46,7 @@ export const TabHistoryOwner = () => {
                     data-status={item.status.value}
                     className={style.history_content_list_item_status}
                   >
-                    {item.status.name}
+                    {item.status.label}
                   </span>
                 </li>
               );

@@ -38,8 +38,12 @@ const VideoModalEditor = ({ editor, children }: IProp) => {
             file: selectedVideo,
             isMain: false,
         };
+
         editor.commands.addMedia(mediaItem);
-        editor.commands.setMediaVideo({ mediaId: id, src: url });
+
+        editor.commands.setMediaVideo({
+            mediaId: id,
+        });
 
         setIsModalOpen(false);
         setSelectedVideo(null);

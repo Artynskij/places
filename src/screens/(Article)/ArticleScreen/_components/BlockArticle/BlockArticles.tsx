@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useTranslations } from "next-intl";
 
@@ -15,16 +15,17 @@ import Link from "next/link";
 import { BlockReaction } from "@/components/common/BlockFunctional/BlockReaction";
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 import { BlockShare } from "@/components/common/BlockFunctional/BlockShare";
-import { BlockWatchCount } from "@/components/common/BlockFunctional/BlockWhatchCount";
+import { BlockWatchCount } from "@/components/common/BlockFunctional/BlockWatchCount";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { Markdown } from "@/components/common/MarkDown/MarkDown";
 import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";
 import { useBaseUrl } from "@/lib/hooks/baseUrl/useBaseUrl";
 import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
+import { CardArticleFull } from "@/components/common/Cards/(article)/ArticleFull/ArticleFull";
 
 interface IBlockArticles {
     article: IArticleFront | null;
-    updateAnotherNews: () => void;
+    updateAnotherArticle: () => void;
     params: IBasePageProps["params"] & {
         category: TCategoriesNews;
         news: string;
@@ -32,7 +33,7 @@ interface IBlockArticles {
 }
 export default function BlockArticles({
     article,
-    updateAnotherNews,
+    updateAnotherArticle,
     params,
 }: IBlockArticles) {
     const pathname = usePathname();
@@ -40,18 +41,20 @@ export default function BlockArticles({
         threshold: 0,
         rootMargin: "-50% 0px -50% 0px",
     });
+
     const tCategoryNews = useTranslations("CategoryNews");
-    // TODO warning
+
     useEffect(() => {
         if (observerUrl.inView && article) {
             const pathnameArray = pathname.split("/");
             pathnameArray[pathnameArray.length - 1] = article.id;
             const newUrl = pathnameArray.join("/");
             window.history.replaceState(null, "", newUrl);
-            updateAnotherNews();
+            updateAnotherArticle();
         }
     }, [observerUrl.inView]);
     const baseUrl = useBaseUrl();
+
     if (!article) return <div>Данные по этой новости утеряны</div>;
     return (
         <div
@@ -59,53 +62,8 @@ export default function BlockArticles({
             id={article.id}
             className={style.container_news}
         >
-            <div className={style.breadcrumb}>
-                <Breadcrumb
-                    links={[
-                        {
-                            title: tCategoryNews(params.category),
-                            href: ROUTES.NEWS.CATEGORY(params.category),
-                        },
-                        { title: article.title },
-                    ]}
-                />
-            </div>
-            <h2 className={style.title}>{article.title}</h2>
-            <div className={style.underTitle}>
-                <div className={style.underTitle_left}>
-                    <div className={style.underTitle_author}>
-                        {`Автор: `}
-                        <Link
-                            className={`${"hover-underline"}`}
-                            href={`/news/author/${article.author}`}
-                        >
-                            {article.author}
-                        </Link>
-                    </div>
+            <CardArticleFull article={article} />
 
-                    <BlockReadTime text={article.markdown} />
-                    <BlockWatchCount count={1000} />
-                </div>
-                <div className={style.underTitle_right}>
-                    <div className={style.underTitle_publicDate}>
-                        {article.date}
-                    </div>
-                </div>
-            </div>
-            <div className={style.description}>{article.description}</div>
-            <div className={style.block_mainImage}>
-                <Image
-                    className={style.mainImage}
-                    width={600}
-                    height={300}
-                    alt="img"
-                    src={article.titleImage?.src || CONSTANT_DEFAULT_IMAGE_URL}
-                />
-                <span>Подпись фото</span>
-            </div>
-            <div className={style.markdownContent}>
-                {/* <Markdown>{article.content}</Markdown> */}
-            </div>
             <div className={style.share}>
                 <BlockShare
                     baseUrl={baseUrl}

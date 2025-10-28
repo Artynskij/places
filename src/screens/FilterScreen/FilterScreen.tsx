@@ -26,7 +26,7 @@ import {
     IEstablishmentFront,
     ILocationFront,
     IBasePageProps,
-    ISelectOption,
+    IOption,
     ITagBlockFront,
     ITagWithEstablishmentFront,
 } from "@/lib/models";
@@ -74,7 +74,7 @@ export default function FilterScreen({
     const baseUrl = useBaseUrl();
     const filteredBreadcrumb =
         breadcrumbData?.slice(1, breadcrumbData.length) || null;
-    const handleSelectSort = (item: ISelectOption) => {
+    const handleSelectSort = (item: IOption) => {
         setIsLoading(true);
         setSortActiveItem(item.value);
         const params = new URLSearchParams(searchParamsClient.toString());

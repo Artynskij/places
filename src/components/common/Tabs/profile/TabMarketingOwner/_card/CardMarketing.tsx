@@ -10,7 +10,7 @@ import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 
 interface IMarketing {
   id: number;
-  name: string;
+  label: string;
   description: string;
   price: number;
   type: string;
@@ -38,7 +38,7 @@ export const CardMarketing: FC<ICardMarketingProps> = ({
   return (
     <>
       <div className={style.card}>
-        <h4>{data.name}</h4>
+        <h4>{data.label}</h4>
 
         <div className={style.card_description}>{data.description}</div>
         <div className={style.card_price}>{data.price}р.</div>
@@ -46,7 +46,7 @@ export const CardMarketing: FC<ICardMarketingProps> = ({
       </div>
 
       <ModalCustom
-        title={data.name}
+        title={data.label}
         active={modalActive}
         closeModal={() => setModalActive(false)}
       >

@@ -37,7 +37,7 @@ export class ArticleService {
             : null;
         return mappedData;
     }
-    async getById(id: string, lang: string): Promise<IArticleFront | null> {
+    async getById(id: string, lang?: string): Promise<IArticleFront | null> {
         const response = await this.articleApi.getById(id, lang);
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();
         return response
@@ -51,11 +51,16 @@ export class ArticleService {
     }
     async update(
         id: string,
-        body: IArticleRequest
+        body: Partial<IArticleRequest>
     ): Promise<IArticleEntity | null> {
         const response = await this.articleApi.update(id, body);
         return response;
     }
+    async delete(id: string): Promise<Boolean> {
+        const response = await this.articleApi.delete(id);
+        return !!response;
+    }
+
     async getPopular(limit: number): Promise<IArticleFront[] | null> {
         const response = await this.articleApi.getPopular(limit);
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();
@@ -68,6 +73,7 @@ export class ArticleService {
                 .filter(boolean) as IArticleFront[]) || [];
         return mappedData;
     }
+    // работа с статусом
     async getByStatus(
         id: string,
         lang: string

@@ -1,6 +1,7 @@
 import DataLoadManagementApi from "./dataLoadManagement.endpoints";
 
 import {
+    IArticleStatusEntity,
     IBusinessLegalTypesFront,
     ICategoryFront,
     IFavoriteTypeEntity,
@@ -108,6 +109,11 @@ export class DataLoadManagementService {
     }
     async getFavoriteTypes(): Promise<IFavoriteTypeEntity[] | null> {
         const response = await this.DataLoadManagementApi.getFavoriteTypes();
+
+        return response;
+    }
+    async getArticleStatus(): Promise<IArticleStatusEntity[] | null> {
+        const response = await this.DataLoadManagementApi.getArticleStatus();
 
         return response;
     }

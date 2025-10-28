@@ -11,7 +11,7 @@ import {
     useForm,
 } from "react-hook-form";
 
-import { IImageEntity, ISelectOption } from "@/lib/models";
+import { IImageEntity, IOption } from "@/lib/models";
 import { TAgreementKey } from "@/lib/models/types";
 
 import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
@@ -117,16 +117,13 @@ const FormCreateEstablishmentBase = ({
         });
     };
 
-    const optionsTypesOfEstablishment: ISelectOption[] = [
-        // {
-        //     name: "Выбрать тип объекта", value: "",
-        //     info: ""
-        // },
+    const optionsTypesOfEstablishment: IOption[] = [
+        { label: "Выбрать тип объекта", value: "" },
         ...Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT_DB).map(
             ({ key, secondValue, info }) => ({
                 value: key,
-                name: secondValue,
-                info: info
+                label: secondValue,
+                info: info,
             })
         ),
     ];

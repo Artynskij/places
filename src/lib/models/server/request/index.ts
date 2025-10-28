@@ -6,11 +6,12 @@ export * from "./(article)/article-type.request";
 export * from "./(article)/article.request";
 
 export * from "./(Establishment)/category.request";
-export * from "./(Establishment)/contactsEstablishment.request";
+export * from "./(Establishment)/contacts-establishment.request";
+export * from "./(Establishment)/establishment-rate.request";
 export * from "./(Establishment)/establishment.request";
 export * from "./(Establishment)/schedule.request";
+export * from "./(Establishment)/tag-category.request";
 export * from "./(Establishment)/tag.request";
-export * from "./(Establishment)/establishmentRate.request";
 
 export * from "./(Person)/address.request";
 export * from "./(Person)/consents.request";

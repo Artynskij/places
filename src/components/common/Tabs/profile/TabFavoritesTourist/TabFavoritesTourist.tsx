@@ -17,6 +17,7 @@ export const TabFavoritesTourist = () => {
     const baseUrl = useBaseUrl();
     const { favorites } = useFavorites();
     useEffect(() => {
+        console.log(favorites);
         setFavoritesData(favorites);
     }, [favorites]);
 
@@ -30,7 +31,6 @@ export const TabFavoritesTourist = () => {
                     <ul className={style.favorite_content_list}>
                         {!favoritesData ? (
                             <div>У вас нету отмеченных объектов</div>
-                            
                         ) : favoritesData.length > 0 ? (
                             favoritesData.map((fav, index) => {
                                 return fav.establishment ? (

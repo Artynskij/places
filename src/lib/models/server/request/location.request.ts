@@ -2,15 +2,11 @@ import { TLocale } from "@/lib/models/types";
 import { IImageEntity } from "./../entities";
 import { IContentMultilingualRequest } from "../base/multilingual-content.request";
 import { IBaseModerationRequest } from "../base/base.request";
+import { IPaginationBaseRequest } from "../base";
 
-export interface ILocationInsidePaginationRequest {
-    pagination: {
-        page: number;
-        pageSize: number;
-    };
-    lang?: string;
+export interface ILocationPaginationRequest extends IPaginationBaseRequest {
     locationId?: string;
-    ids?: string[];
+    locationTypeIds?: string[];
 }
 interface locationData {
     source: {

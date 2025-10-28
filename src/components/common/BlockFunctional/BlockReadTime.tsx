@@ -2,16 +2,19 @@ import { IconClock } from "../Icons";
 import style from "./blockFunctional.module.scss";
 
 interface IBlockReadTime {
-    text: string;
+    text?: string;
+    count?: number;
 }
-export const BlockReadTime = ({ text }: IBlockReadTime) => {
-    const calcITypeEstablishmentEntityead = (
-        text.split(" ").length / 130
-    ).toFixed(0);
+export const BlockReadTime = ({ text, count = 0 }: IBlockReadTime) => {
+    const calcITypeEstablishmentEntity = count
+        ? count
+        : text
+        ? (text?.split(" ").length / 130).toFixed(0)
+        : "нету времени";
     return (
         <div className={style.readTime}>
             <IconClock className={style.readTime_icon} />
-            Чтение: {calcITypeEstablishmentEntityead} мин
+            Чтение: {calcITypeEstablishmentEntity} мин
         </div>
     );
 };

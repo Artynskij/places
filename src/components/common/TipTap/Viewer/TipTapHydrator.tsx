@@ -1,8 +1,8 @@
 "use client";
 import style from "./tiptapViewer.module.scss";
-import { useEffect, useRef } from "react";
-import { createRoot } from "react-dom/client";
-import { SliderViewer } from "../extensions/slider/SliderViewer";
+import { useLayoutEffect, useRef } from "react";
+import { createRoot, Root } from "react-dom/client";
+import { SliderViewer } from "./SliderViewer";
 import clsx from "clsx";
 import { IMediaFront } from "@/lib/models";
 
@@ -18,32 +18,61 @@ export default function TipTapHydrator({
     mediaCollection,
 }: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const rootsRef = useRef<Map<Element, Root>>(new Map());
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!containerRef.current) return;
 
-        // Обрабатываем слайдеры
+        console.log("🔄 TipTapHydrator: Searching for sliders...");
+        console.log("📦 Media collection:", mediaCollection);
+
         const sliders = containerRef.current.querySelectorAll(
             '[data-type="slider"]'
         );
 
-        sliders.forEach((el) => {
-            const json = el.getAttribute("data-node");
-            if (!json) return;
+        console.log(`🎠 Found ${sliders.length} sliders`);
 
-            // Парсим содержимое слайдера - ВСЕ ДАННЫЕ УЖЕ ЗДЕСЬ!
-            const nodeData = JSON.parse(json);
-            // console.log("Slider node data:", nodeData);
+        sliders.forEach((el, index) => {
+            const slidesData = el.getAttribute("data-slides");
+            console.log(`📋 Slider ${index + 1} data:`, slidesData);
 
-            el.innerHTML = "";
-            const root = createRoot(el);
-            root.render(
-                <SliderViewer
-                    node={nodeData}
-                    mediaCollection={mediaCollection}
-                />
-            );
+            if (!slidesData) {
+                console.warn("❌ No data-slides attribute found");
+                return;
+            }
+
+            try {
+                const slides = JSON.parse(slidesData);
+                console.log(`🖼️ Slider ${index + 1} parsed slides:`, slides);
+
+                el.replaceChildren();
+
+                let root = rootsRef.current.get(el);
+                if (!root) {
+                    root = createRoot(el);
+                    rootsRef.current.set(el, root);
+                }
+
+                root.render(
+                    <SliderViewer
+                        node={{ attrs: { slides } }}
+                        mediaCollection={mediaCollection}
+                    />
+                );
+
+                console.log(`✅ Slider ${index + 1} rendered successfully`);
+            } catch (error) {
+                console.error(`❌ Error parsing slider ${index + 1}:`, error);
+            }
         });
+
+        // Cleanup
+        return () => {
+            rootsRef.current.forEach((root, el) => {
+                root.unmount();
+            });
+            rootsRef.current.clear();
+        };
     }, [html, reHydrate, mediaCollection]);
 
     return (

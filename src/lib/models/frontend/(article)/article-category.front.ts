@@ -1,8 +1,9 @@
+import { IArticleSubTypeEntity } from "../../server/entities";
 import { IBaseSimpleFront } from "../base/base.front";
 
 export interface IArticleTypeFront extends IBaseSimpleFront {
-    isActive:boolean
+    isActive: boolean;
     description: string | null;
     sortOrder: number | null;
-    
+    subTypes: IArticleSubTypeEntity[];
 }

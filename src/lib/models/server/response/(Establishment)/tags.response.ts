@@ -1,7 +1,7 @@
 import { IEstablishmentWithContentPareEntity } from "../../entities/(establishment)/establishment.entity";
 import { ICategoryEstablishmentPart } from "../../entities/(establishment)/parts/categoryEstablishmentPart.entity";
 import {
-    ITagEntity,
+    ITagWithContentPareEntity,
     ITagWithCategoryEntity,
 } from "../../entities/(establishment)/tag.entity";
 
@@ -30,6 +30,6 @@ export interface ITagsOfEstablishmentFilterResponse {
 }
 export interface ITagAndEstablishmentConnectionResponse {
     Id: string;
-    Tag: ITagEntity;
+    Tag: ITagWithContentPareEntity;
     Establishment: IEstablishmentWithContentPareEntity;
 }

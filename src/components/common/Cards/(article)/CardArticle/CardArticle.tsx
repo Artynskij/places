@@ -1,8 +1,8 @@
 import Image from "next/image";
-import style from "./cardNews.module.scss";
-import { mockNews } from "@/asset/mockData/mockNews";
+import style from "./cardArticle.module.scss";
+
 import Link from "next/link";
-import { BlockReadTime } from "../../BlockFunctional/BlockReadTime";
+import { BlockReadTime } from "../../../BlockFunctional/BlockReadTime";
 import { CONSTANTS_SCREENS } from "@/asset/constants/screens.const";
 import { IArticleFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
@@ -13,13 +13,12 @@ interface ICardNewsProp {
     typeView?: "inline" | "column";
     typeNew: "main" | "popular" | "mainAdditional";
 }
-export const CardNews = ({
+export const CardArticle = ({
     typeNew,
     typeView = "column",
     article,
     descriptionShow = false,
 }: ICardNewsProp) => {
-    // const calcITypeEstablishmentEntityead = (item.markdown.split(' ').length / 130 * 60).toFixed(2)
     if (!article) return <span>нету новости</span>;
     return (
         <Link
@@ -78,9 +77,12 @@ export const CardNews = ({
                 )}
                 {typeNew === "main" && (
                     <div className={style.content_additional}>
-                        <BlockReadTime text={article.markdown} />
+                        <BlockReadTime
+                            count={article.readingTime}
+                            text={JSON.stringify(article.markdown)}
+                        />
 
-                        <div>{article.author}</div>
+                        <div>{article.author?.Id || ""}</div>
                     </div>
                 )}
             </div>

@@ -63,7 +63,7 @@ export const TabMarketingOwner = () => {
                 return (
                     <div className={style.group} key={index}>
                         <h2 className={style.group_title}>
-                            {t(`marketingTab.${item.name}`)}
+                            {t(`marketingTab.${item.label}`)}
                         </h2>
                         <div className={style.group_content}>
                             <div className={style.group_content_title}>
@@ -114,13 +114,13 @@ export const TabMarketingOwner = () => {
                                     >
                                         <span>{item.type}</span>
                                         <span>
-                                            {item.town?.name ||
-                                                item.district?.name ||
-                                                item.country.name}
+                                            {item.town?.label ||
+                                                item.district?.label ||
+                                                item.country.label}
                                         </span>
 
-                                        <span>{item.facility.name}</span>
-                                        <span>{item.language.name}</span>
+                                        <span>{item.facility.label}</span>
+                                        <span>{item.language.label}</span>
                                         <span>
                                             {item.calendar[0] +
                                                 " - " +

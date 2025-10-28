@@ -51,7 +51,7 @@ export default function ArticleScreen({
             <section className={style.content}>
                 <div className={style.content_item}>
                     <BlockArticles
-                        updateAnotherNews={updateAnotherArticles}
+                        updateAnotherArticle={updateAnotherArticles}
                         article={articleData}
                         params={params}
                     />
@@ -67,7 +67,7 @@ export default function ArticleScreen({
                         anotherArticles.map((item, index) => {
                             return (
                                 <BlockArticles
-                                    updateAnotherNews={updateAnotherArticles}
+                                    updateAnotherArticle={updateAnotherArticles}
                                     key={index}
                                     article={item}
                                     params={params}

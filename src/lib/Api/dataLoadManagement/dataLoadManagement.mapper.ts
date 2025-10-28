@@ -1,5 +1,5 @@
 import {
-    ITagEntity,
+    ITagWithContentPareEntity,
     ITagBlockFront,
     ICategoryFront,
     ICategoryEstablishmentEntity,
@@ -11,7 +11,7 @@ import { IRoleOwnerFront } from "@/lib/models/frontend/(person)/roleOwner.front"
 
 export class DataLoadManagementMapper {
     constructor() {}
-    tagsBlockMapper(tags: ITagEntity[]): ITagBlockFront[] {
+    tagsBlockMapper(tags: ITagWithContentPareEntity[]): ITagBlockFront[] {
         const grouped = tags.reduce<Record<string, ITagBlockFront>>(
             (acc, tag) => {
                 const detail = tag.content.details[0];

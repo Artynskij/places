@@ -64,7 +64,7 @@ export const TabWalletOwner = () => {
                                 <div
                                     className={style.account_content_item_count}
                                 >
-                                    {item.count} {item.currency.name}(
+                                    {item.count} {item.currency.label}(
                                     {item.currency.value})
                                 </div>
                                 {/* <div className={style.account_content_item_name}></div> */}
@@ -111,7 +111,7 @@ export const TabWalletOwner = () => {
                                             style.history_content_list_item_status
                                         }
                                     >
-                                        {item.status.name}
+                                        {item.status.label}
                                     </span>
                                 </li>
                             );

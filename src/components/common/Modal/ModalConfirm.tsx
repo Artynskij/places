@@ -4,20 +4,23 @@ import style from "./modalConfirm.module.scss";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { useState } from "react";
 import { BlockExtraInfo } from "../BlockFunctional/BlockExtraInfo";
-import { message } from "antd";
+import { useAlertMessage } from "@/lib/context";
 
 interface IProp {
     children: React.ReactNode | React.ReactNode[];
     handlerAction: () => void;
-    textSpan?: string;
+    title?: string;
+    content?: string;
 }
 
 export const ModalConfirm = ({
     children,
     handlerAction,
-    textSpan = "Вы действительно хотите удалить? Все данные будут утеряны или удалены",
+    title = "Внимание!",
+    content = "Вы действительно хотите удалить? Все данные будут утеряны или удалены",
 }: IProp) => {
     const [activeModal, setActiveModal] = useState(false);
+    const message = useAlertMessage();
     const closeModal = () => {
         setActiveModal(false);
     };
@@ -39,13 +42,13 @@ export const ModalConfirm = ({
             <ModalCustom
                 closeModal={closeModal}
                 active={activeModal}
-                title="Внимание!"
+                title={title}
                 view="fit"
             >
                 <div className={style.content}>
                     <BlockExtraInfo
                         variant="error"
-                        text={textSpan}
+                        text={content}
                         fontSize="16"
                     />
                     <span className={style.text}></span>

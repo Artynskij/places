@@ -19,7 +19,12 @@ import {
     PlusOutlined,
     ReloadOutlined,
 } from "@ant-design/icons";
-import { IArticleTypeFront } from "@/lib/models";
+import {
+    IArticleSubTypeFront,
+    IArticleTypeFront,
+    IDetailLang,
+    IOption,
+} from "@/lib/models";
 import { ArticleTypeService } from "@/lib/Api/(Article)/article-type.api";
 import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
 import { TLocale } from "@/lib/models/types";
@@ -27,9 +32,6 @@ import { locales } from "@/config";
 import type { ColumnsType } from "antd/es/table";
 
 const { Search } = Input;
-
-type TOption = { label: string; value: string };
-type TDetails = { lang: TLocale; value: string };
 
 interface ArticleTypeFormValues {
     code: string;
@@ -43,12 +45,12 @@ export const TypeArticleTabAdmin: React.FC = () => {
 
     const [typesArticle, setTypesArticle] = useState<IArticleTypeFront[]>([]);
     const [editType, setEditType] = useState<IArticleTypeFront | null>(null);
-    const [searchOptions, setSearchOptions] = useState<TOption[]>([]);
+    const [searchOptions, setSearchOptions] = useState<IOption[]>([]);
 
     const [isLoading, setIsLoading] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
     const [languageDetails, setLanguageDetails] =
-        useState<TDetails[]>(langsDetailsDefault);
+        useState<IDetailLang[]>(langsDetailsDefault);
     const [isModalLoading, setIsModalLoading] = useState(false);
     const [form] = Form.useForm<ArticleTypeFormValues>();
 
@@ -147,7 +149,7 @@ export const TypeArticleTabAdmin: React.FC = () => {
             onOk: async () => {
                 try {
                     // TODO: Реализовать удаление через API
-                    // await articleTypeService.delete(record.id);
+                    await articleTypeService.delete(record.id);
                     setTypesArticle((prev) =>
                         prev.filter((c) => c.id !== record.id)
                     );
@@ -166,7 +168,7 @@ export const TypeArticleTabAdmin: React.FC = () => {
         setLanguageDetails(langsDetailsDefault);
     };
 
-    const handleLanguageDetailsChange = (details: TDetails[]) => {
+    const handleLanguageDetailsChange = (details: IDetailLang[]) => {
         setLanguageDetails(details);
     };
 
@@ -204,7 +206,7 @@ export const TypeArticleTabAdmin: React.FC = () => {
                     details: filledDetails,
                 },
             };
-            console.log(body);
+
             if (editType) {
                 // Редактирование существующего типа
                 const updatedType = await articleTypeService.update(
@@ -247,13 +249,14 @@ export const TypeArticleTabAdmin: React.FC = () => {
             key: "id",
             width: 80,
         },
-        {
-            title: "Код типа",
-            dataIndex: "code",
-            key: "code",
-        },
+
         {
             title: "Название типа",
+            dataIndex: "value",
+            key: "value",
+        },
+        {
+            title: "Ключ типа",
             dataIndex: "name",
             key: "name",
         },
@@ -270,12 +273,22 @@ export const TypeArticleTabAdmin: React.FC = () => {
                 </Space>
             ),
         },
+        // {
+        //     title: "Кол-во статей",
+        //     dataIndex: "articleCount",
+        //     key: "articleCount",
+        //     render: (count: number) => (
+        //         <Tag color={count > 0 ? "blue" : "default"}>{count} статей</Tag>
+        //     ),
+        // },
         {
-            title: "Кол-во статей",
-            dataIndex: "articleCount",
-            key: "articleCount",
-            render: (count: number) => (
-                <Tag color={count > 0 ? "blue" : "default"}>{count} статей</Tag>
+            title: "Кол-во подрубрик",
+            dataIndex: "subTypes",
+            key: "subTypes",
+            render: (subTypes: IArticleSubTypeFront[]) => (
+                <Tag color={subTypes.length > 0 ? "blue" : "default"}>
+                    {subTypes.length}
+                </Tag>
             ),
         },
         {
@@ -285,20 +298,17 @@ export const TypeArticleTabAdmin: React.FC = () => {
                 <Space>
                     <Button
                         icon={<EditOutlined />}
-                        size="small"
+                        size="middle"
                         onClick={() => handleEdit(record)}
-                    >
-                        Редактировать
-                    </Button>
+                    />
+
                     <Button
                         danger
                         icon={<DeleteOutlined />}
-                        size="small"
+                        size="middle"
                         onClick={() => handleDelete(record)}
                         disabled={0 > 0}
-                    >
-                        Удалить
-                    </Button>
+                    />
                 </Space>
             ),
         },
@@ -319,7 +329,7 @@ export const TypeArticleTabAdmin: React.FC = () => {
                         <Button
                             icon={<ReloadOutlined />}
                             onClick={() => {
-                                message.info('Обновлено')
+                                message.info("Обновлено");
                                 fetchAll();
                             }}
                             loading={isLoading}
@@ -339,7 +349,7 @@ export const TypeArticleTabAdmin: React.FC = () => {
                         loading={isLoading}
                         style={{ width: 200 }}
                     />
-                    <Select
+                    {/* <Select
                         showSearch
                         placeholder="Поиск по названию"
                         onSearch={findSearchByTitle}
@@ -348,7 +358,7 @@ export const TypeArticleTabAdmin: React.FC = () => {
                         notFoundContent={null}
                         style={{ width: 300 }}
                         options={searchOptions}
-                    />
+                    /> */}
                 </Space>
 
                 <Table

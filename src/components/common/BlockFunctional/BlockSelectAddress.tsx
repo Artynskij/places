@@ -1,11 +1,11 @@
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 import style from "./blockFunctional.module.scss";
-import { ISelectOption } from "@/lib/models";
+import { IOption } from "@/lib/models";
 
 export const BlockSelectAddress = () => {
-    const selectOptions: ISelectOption[] = [
-        { id: 1, name: "1", value: "one" },
-        { id: 2, name: "2", value: "Two" },
+    const selectOptions: IOption[] = [
+        { id: 1, label: "1", value: "one" },
+        { id: 2, label: "2", value: "Two" },
     ];
     return (
         <div className={style.blockSelectAddress}>

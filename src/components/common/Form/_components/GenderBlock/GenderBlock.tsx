@@ -44,7 +44,7 @@ export const GenderBlockForm = ({ selectedGender, onChange, error }: Props) => {
                     onChange?.(String(value.id));
                 }}
                 options={genderData.map((item) => {
-                    return { name: item.value, value: item.key, id: item.id };
+                    return { label: item.value, value: item.key, id: item.id };
                 })}
                 titleDefault="Выбрать пол"
             />

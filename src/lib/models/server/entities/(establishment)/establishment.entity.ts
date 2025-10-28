@@ -6,9 +6,9 @@ import { IContentEstablishmentEntity } from "../../base/content.entity";
 
 import { IRateEntity } from "./parts/rate.entity";
 import { ITypeEstablishmentEntity } from "./typeEstablishment.entity";
-import { ILocationsEntity } from "../locations.entity";
-interface ILocationsInEstablishment extends ILocationsEntity {
-    Country: ILocationsEntity;
+import { ILocationWithContentEntity } from "../locations.entity";
+interface ILocationsInEstablishment extends ILocationWithContentEntity {
+    Country: ILocationWithContentEntity;
 }
 
 export interface IEstablishmentEntity extends IBaseEntity {

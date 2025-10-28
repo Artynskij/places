@@ -99,6 +99,7 @@ export const SliderBase = ({
     }
 
     return (
+        // <div className={style.sliderViewerWrapper}>
         <div className={style.slider_ctn}>
             <Swiper
                 modules={[Navigation, Pagination]}
@@ -137,5 +138,6 @@ export const SliderBase = ({
             </div>
             <div ref={paginationRef} className={style.pagination}></div>
         </div>
+        // </div>
     );
 };

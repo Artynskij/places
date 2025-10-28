@@ -40,29 +40,39 @@ const ImageModalEditor = ({ editor, children, type }: IProp) => {
                 file: file,
                 isMain: false,
             };
+
+            // ✅ 1. Добавляем в хранилище
             editor.commands.addMedia(mediaItem);
+
+            // ✅ 2. Вставляем в контент ТОЛЬКО mediaId
             editor.commands.setMediaImage({
                 mediaId: id,
-                src: url,
-                alt: file.name,
             });
         }
     };
 
     const createSlider = async (files: UploadFile[]) => {
-        if (!editor || files.length === 0) return;
+        if (!editor || files.length === 0) {
+            console.log("❌ No editor or files");
+            return;
+        }
 
-        const mediaIds: string[] = [];
+        const slides: Array<{ mediaId: string; caption?: string }> = [];
 
-        // Сначала создаем медиа элементы в storage
         for (const file of files) {
-            if (!file.originFileObj) continue;
+            if (!file.originFileObj) {
+                console.log("❌ No originFileObj for file:", file);
+                continue;
+            }
 
             const id = nanoid();
+
             const params = await getImageDimensions(file.originFileObj);
+            const url = URL.createObjectURL(file.originFileObj);
+
             const mediaItem: IMediaFrontWithFile = {
-                blobPath: URL.createObjectURL(file.originFileObj),
-                src: URL.createObjectURL(file.originFileObj),
+                blobPath: url,
+                src: url,
                 fileName: file.name,
                 title: file.name,
                 type: "image",
@@ -75,16 +85,20 @@ const ImageModalEditor = ({ editor, children, type }: IProp) => {
             };
 
             editor.commands.addMedia(mediaItem);
-            mediaIds.push(id);
+
+            slides.push({
+                mediaId: id,
+            });
         }
 
-        // Используем команду для вставки слайдера
+        // ✅ Даем время на обновление storage
+        // await new Promise((resolve) => setTimeout(resolve, 0));
+
         editor.commands.insertSlider({
-            mediaIds: mediaIds,
+            slides: slides,
             id: nanoid(),
         });
     };
-
     const handleOk = async () => {
         if (type === "media") {
             await createMedia(selectedImages);
@@ -106,27 +120,9 @@ const ImageModalEditor = ({ editor, children, type }: IProp) => {
                 onOk={handleOk}
                 onCancel={() => setIsImageModalOpen(false)}
             >
-                <Tabs
-                    defaultActiveKey="upload"
-                    items={[
-                        {
-                            key: "library",
-                            label: "Библиотека",
-                            children: <Button>Вставить котика 🐱</Button>,
-                        },
-                        {
-                            key: "upload",
-                            label: "Загрузить",
-                            children: (
-                                <UploadSortable
-                                    fileList={selectedImages}
-                                    onChange={({ fileList }) =>
-                                        setSelectedImages(fileList)
-                                    }
-                                />
-                            ),
-                        },
-                    ]}
+                <UploadSortable
+                    fileList={selectedImages}
+                    onChange={({ fileList }) => setSelectedImages(fileList)}
                 />
             </Modal>
         </>

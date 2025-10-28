@@ -1,7 +1,7 @@
 import { IContentSimpleEntityWithMedia } from "../base/content.entity";
 import { IBaseEntity } from "../base/base.entity";
 
-export interface ILocationsEntity extends IBaseEntity {
+export interface ILocationEntity extends IBaseEntity {
     ParentId: string;
     LocationTypeSecondary: string | null;
     Path: string;
@@ -11,11 +11,12 @@ export interface ILocationsEntity extends IBaseEntity {
         Id: string;
         Name: string;
     };
-    content?: IContentSimpleEntityWithMedia;
 }
-
-export interface ILocationsWithContentEntity {
-    location: ILocationsEntity;
+export interface ILocationWithContentEntity extends ILocationEntity {
+    content: IContentSimpleEntityWithMedia;
+}
+export interface ILocationWithContentPareEntity {
+    location: ILocationEntity;
 
     content: IContentSimpleEntityWithMedia;
 }

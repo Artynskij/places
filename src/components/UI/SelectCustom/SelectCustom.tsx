@@ -3,15 +3,15 @@
 import { FC, useEffect, useRef, useState } from "react";
 import style from "./selectCustom.module.scss";
 import { IconArrowDown } from "../../common/Icons";
-import { ISelectOption } from "@/lib/models/common/IType";
+import { IOption } from "@/lib/models/common/IType";
 import { SpanErrorForm } from "../Span/SpanErrorForm";
 import clsx from "clsx";
 import { string } from "yup";
 import { BlockExtraInfo } from "@/components/common/BlockFunctional/BlockExtraInfo";
 
 interface ISelectProps {
-    options: ISelectOption[];
-    onChange: (option: ISelectOption) => void;
+    options: IOption[];
+    onChange: (option: IOption) => void;
     activeOption: string | null | undefined;
     titleDefault?: string;
     classNameValue?: string;
@@ -50,7 +50,7 @@ export const SelectCustom: FC<ISelectProps> = ({
     function toggleSelect() {
         setIsOpen(!isOpen);
     }
-    function handleChange(item: ISelectOption) {
+    function handleChange(item: IOption) {
         onChange(item);
         setIsOpen(false);
     }
@@ -66,9 +66,9 @@ export const SelectCustom: FC<ISelectProps> = ({
                 <span>
                     {nameSelectImportant ||
                         options.find((item) => item.value === activeOption)
-                            ?.name ||
+                            ?.label ||
                         title ||
-                        options[0].name}
+                        options[0].label}
                 </span>
                 <IconArrowDown className={style.select_value_icon} />
             </div>
@@ -90,7 +90,7 @@ export const SelectCustom: FC<ISelectProps> = ({
                                     style.select_options_item_active
                                 )}
                             >
-                                {item.name}
+                                {item.label}
                             </div>
 
                         );

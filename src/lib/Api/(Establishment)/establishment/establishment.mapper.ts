@@ -5,6 +5,7 @@ import {
     IRateEntity,
     IEstablishmentRateEntity,
     IEstablishmentRateFront,
+    ICategoryFront,
 } from "@/lib/models";
 import { ContactsEstablishmentMapper } from "../contactsEstablishment.api";
 import { PersonMapper } from "../../(Person)/person/person.mapper";
@@ -120,12 +121,13 @@ export class EstablishmentMapper {
                     isMain: image.isMain || false,
                 };
             }) || null;
-        const categories =
+        const categories: ICategoryFront[] =
             entitySourceEstablishment.Categories?.map((cat) => {
                 return {
                     id: cat?.Id || "",
                     key: cat?.Id || "",
                     value: cat?.content?.details[0]?.value || "",
+                    content: cat.content,
                 };
             }) || null;
         return {

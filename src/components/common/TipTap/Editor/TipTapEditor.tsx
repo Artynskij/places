@@ -44,16 +44,24 @@ import { useEffect, useState } from "react";
 import { LinkModalEditor } from "../toolbar/LinkModalEditor";
 import MediaStateExtension from "../extensions/state/mediaStateEditor";
 import { IMediaFrontWithFile } from "@/lib/models";
+import { getHtmlFormJsonEditor } from "@/lib/helpers/get-html-form-json-editor";
+import { TTipTapHTMLContent, TTipTapJSONContent } from "@/lib/models/types";
 interface IProp {
     setEditorData: (data: {
         content: any;
         mediaStorage: IMediaFrontWithFile[];
     }) => void;
     onEditorInit?: (editor: any) => void; // ✅ Новый пропс
-    initialContent?: any;
+    initialContent?: TTipTapHTMLContent | TTipTapJSONContent;
+    initialMediaStorage?: IMediaFrontWithFile[];
 }
 
-export default function TipTapEditor({ setEditorData, onEditorInit,initialContent }: IProp) {
+export default function TipTapEditor({
+    setEditorData,
+    onEditorInit,
+    initialContent,
+    initialMediaStorage,
+}: IProp) {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -66,9 +74,6 @@ export default function TipTapEditor({ setEditorData, onEditorInit,initialConten
             }),
             Underline,
             Link.configure({ openOnClick: false }),
-            ImageMediaNode,
-            Image,
-            VideoMediaNode,
             Blockquote,
             HorizontalRule,
             Heading.configure({ levels: [1, 2, 3] }),
@@ -83,24 +88,45 @@ export default function TipTapEditor({ setEditorData, onEditorInit,initialConten
                 HTMLAttributes: { class: "youtube-video" },
             }),
             CodeBlockLowlight.configure({ lowlight }),
+            Image,
+            ImageMediaNode,
+            VideoMediaNode,
             SliderNode,
             MediaStateExtension,
         ],
-        content: initialContent ,
+        content: initialContent,
+
         immediatelyRender: false,
+        onCreate: ({ editor }) => {
+            if (initialContent || initialMediaStorage) {
+                const mediaStorage = editor.storage.mediaStore.items;
+                const contentJson = editor.getJSON();
+
+                setEditorData({
+                    content: contentJson,
+                    mediaStorage: mediaStorage,
+                });
+            }
+        },
         onUpdate: ({ editor }) => {
-            const content = editor.getJSON();
             const mediaStorage = editor.storage.mediaStore.items;
+            const contentJson = editor.getJSON();
 
             setEditorData({
-                content: content,
-                mediaStorage: mediaStorage, // ✅ Сохраняем медиа вместе с контентом
+                content: contentJson,
+                mediaStorage: mediaStorage,
             });
         },
     });
     const [, setRender] = useState(0);
+
     useEffect(() => {
         if (!editor) return;
+        // ✅ Восстанавливаем медиа storage при загрузке
+        if (initialMediaStorage && initialMediaStorage.length > 0) {
+            editor.commands.setMediaStorage(initialMediaStorage);
+        }
+
         if (onEditorInit) {
             onEditorInit(editor);
         }

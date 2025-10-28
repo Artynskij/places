@@ -4,7 +4,7 @@ import { CardSearch } from "./CardSearch/CardSearch";
 import { CardSliderFilter } from "./CardSliderFilter/CardSliderFilter";
 import { CardSliderLocation } from "./CardSliderLocation/CardSliderLocation";
 import { CardSliderMainPage } from "./CardSliderMainPage/CardSliderMainPage";
-import { CardNews } from "./CardNews/CardNews";
+import { CardArticle } from "./(article)/CardArticle/CardArticle";
 
 export {
     CardInfo,
@@ -13,5 +13,5 @@ export {
     CardSliderFilter,
     CardSliderLocation,
     CardSliderMainPage,
-    CardNews,
+    CardArticle as CardNews,
 };

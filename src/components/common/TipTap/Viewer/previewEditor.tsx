@@ -1,31 +1,51 @@
 "use client";
-import { ArticlePreview } from "@/components/common/Article/ArticlePreview/ArticlePreview";
-import { TipTapViewer } from "@/components/common/TipTap/Viewer/TipTapViewer";
-import { IArticleFront } from "@/lib/models";
-import { Editor } from "@tiptap/react";
-import { Input, message, Modal } from "antd";
-import { useEffect, useState } from "react";
+import style from "./tiptapViewer.module.scss";
+import { PersonService } from "@/lib/Api/(Person)/person/person.service";
+import { useAlertMessage } from "@/lib/context";
+import useLocale from "@/lib/hooks/useLocale";
+import { IArticleFront, IPersonFront } from "@/lib/models";
+import { Modal } from "antd";
+import { useState } from "react";
+import { CardArticleFull } from "../../Cards/(article)/ArticleFull/ArticleFull";
 
 interface IProp {
     children?: React.ReactNode | React.ReactNode[];
     article: IArticleFront | null;
-    handlePreview: () => Promise<boolean>; // исправлено
+    handlePreview?: () => Promise<boolean>; // исправлено
 }
 export default function PreviewEditor({
     children,
     article,
     handlePreview,
 }: IProp) {
+    const message = useAlertMessage();
+    const locale = useLocale();
+    const personService = new PersonService();
+
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [reHydrate, setReHydrate] = useState(0);
+    const [author, setAuthor] = useState<IPersonFront>();
     const handlerOpenModal = async () => {
-        const saved = await handlePreview();
+        const saved = handlePreview ? await handlePreview() : true;
         if (!saved) {
+            console.log("handlePreview good");
             return;
+        }
+        // if (!article) return;
+        if (article?.author) {
+            const personResponse = await personService.getById(
+                article.author.Id,
+                locale
+            );
+            if (!personResponse) {
+                return;
+            }
+            setAuthor(personResponse);
         }
 
         setIsPreviewOpen(true);
         setReHydrate(reHydrate + 1);
+
         message.success("Preview статьи");
     };
 
@@ -43,7 +63,18 @@ export default function PreviewEditor({
                 width={1800}
             >
                 {article && (
-                    <ArticlePreview reHydrate={reHydrate} article={article} />
+                    <div className="container">
+                        <section className={style.preview}>
+                            <div className={style.preview_content}>
+                                <CardArticleFull
+                                    author={author}
+                                    // reHydrate={reHydrate}
+                                    article={article}
+                                />
+                            </div>
+                            <div className={style.popular}></div>
+                        </section>
+                    </div>
                 )}
             </Modal>
         </>

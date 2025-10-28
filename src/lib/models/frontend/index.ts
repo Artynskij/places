@@ -1,14 +1,14 @@
 export * from "./(article)/article-hash-tag.front";
 export * from "./(article)/article-reaction.front";
 export * from "./(article)/article-subType.front";
-export * from "./(article)/article-type.front";
+export * from "./(article)/article-category.front";
 export * from "./(article)/article.front";
 
 export * from "./(establishment)/establishment.front";
 export * from "./(establishment)/establishmentRate.front";
 export * from "./(establishment)/schedule.front";
 export * from "./(establishment)/tag.front";
-export * from "./(establishment)/parts/category.front";
+export * from "./(establishment)/category.front";
 export * from "./(establishment)/parts/contactsEstablishment.front";
 export * from "./(establishment)/parts/media.front";
 

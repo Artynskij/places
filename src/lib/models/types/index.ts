@@ -26,4 +26,5 @@ export * from "./TTypesEstablishment";
 export * from "./TTypesGlobal";
 export * from "./TTypesRateEstablishment";
 export * from "./TTypesSort";
+export * from "./TTypeTipTapContent";
 export * from "./TTypeUser";

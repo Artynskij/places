@@ -1,10 +1,10 @@
 import { IBaseRequest, IBaseSourceRequest } from "../../base";
-interface ISourceArticleType extends IBaseSourceRequest {
+interface ISourceArticlesSubType extends IBaseSourceRequest {
     Description?: string;
     SortOrder?: number;
     IsActive?: boolean;
-    ArticleTypeId: string;
+    ArticleTypeId?: string;
 }
 export interface IArticleSubTypeRequest extends Omit<IBaseRequest, "source"> {
-    source: ISourceArticleType;
+    source: ISourceArticlesSubType;
 }

@@ -1,7 +1,7 @@
 import {
     IArticleEntity,
-    IArticleEntityWithContent,
-    IArticleTypeEntity,
+    IArticleEntityWithPareContent,
+    IArticleTypeWithContentPareEntity,
     IArticleTypeFront,
 } from "@/lib/models";
 
@@ -18,22 +18,22 @@ export default class ArticleApi {
     constructor() {}
     async getById(
         id: string,
-        lang: string
-    ): Promise<IArticleEntityWithContent | null> {
+        lang?: string
+    ): Promise<IArticleEntityWithPareContent | null> {
         try {
             const response = await apiClient.get(
-                `/articles/${id}?lang=${lang}`
+                `/articles/${id}${lang ? `?lang=${lang}` : ""}`
             );
             return response.data;
         } catch (error) {
-            console.error(`Ошибка при получении статьи с ID ${id}:`,error);
+            console.error(`Ошибка при получении статьи с ID ${id}:`, error);
             return null;
         }
     }
 
     async getWithFilter(
         query: IArticleWithFilterRequest
-    ): Promise<IArticleEntityWithContent[] | null> {
+    ): Promise<IArticleEntityWithPareContent[] | null> {
         try {
             const queryParams = getQueryParamsForApi(query);
 
@@ -42,7 +42,7 @@ export default class ArticleApi {
             );
             return response.data;
         } catch (error) {
-            console.error("Ошибка при получении статей по фильтрам",error);
+            console.error("Ошибка при получении статей по фильтрам", error);
             return null;
         }
     }
@@ -51,36 +51,50 @@ export default class ArticleApi {
             const response = await apiClient.post(`/articles`, body);
             return response.data;
         } catch (error) {
-            console.error("Ошибка при создании статьи",error);
+            console.error("Ошибка при создании статьи", error);
             return null;
         }
     }
     async update(
         id: string,
-        body: IArticleRequest
+        body: Partial<IArticleRequest>
     ): Promise<IArticleEntity | null> {
         try {
             const response = await apiClient.patch(`/articles/${id}`, body);
             return response.data;
         } catch (error) {
-            console.error("Ошибка при получении статей с пагинацией",error);
+            console.error("Ошибка при обновлении статьи", error);
             return null;
         }
     }
+
+    async delete(id: string): Promise<Boolean | null> {
+        try {
+            const response = await apiClient.delete(`/articles/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error("Ошибка при удалении статьи", error);
+            return null;
+        }
+    }
+
     async getPopular(
         limit: number
-    ): Promise<IArticleEntityWithContent[] | null> {
+    ): Promise<IArticleEntityWithPareContent[] | null> {
         try {
             const response = await apiClient.get(
                 `/articles/popular?limit=${limit}`
             );
             return response.data;
         } catch (error) {
-            console.error(`Ошибка при получении статьи по статус`,error);
+            console.error(`Ошибка при получении статьи по статус`, error);
             return null;
         }
     }
-    async getByStatus(id: string): Promise<IArticleEntityWithContent[] | null> {
+    // работа с статусом
+    async getByStatus(
+        id: string
+    ): Promise<IArticleEntityWithPareContent[] | null> {
         try {
             const response = await apiClient.get(`/articles/by-status/${id}`);
             return response.data;
@@ -101,11 +115,11 @@ export default class ArticleApi {
             return null;
         }
     }
-    
+
     // работа с категориями
     async getAllCategory(
         articleId: string
-    ): Promise<IArticleTypeEntity[] | null> {
+    ): Promise<IArticleTypeWithContentPareEntity[] | null> {
         try {
             const res = await apiClient.get(
                 `/article-categories/article/${articleId}`

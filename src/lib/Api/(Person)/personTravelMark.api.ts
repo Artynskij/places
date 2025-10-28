@@ -2,7 +2,7 @@ import { BaseApiService } from "../base/BaseApi.service";
 
 import {
     ILocationFront,
-    ILocationsWithContentEntity,
+    ILocationWithContentPareEntity,
     IPersonTravelMarkEntity,
     IPersonTravelMarkFront,
     IPersonTravelMarkRequest,

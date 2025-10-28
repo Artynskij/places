@@ -2,7 +2,7 @@ import { IBasePageProps } from "@/lib/models/common/IType";
 import style from "./articleAuthorScreen.module.scss";
 import { Breadcrumb } from "@/components/common/BreadCrumb/Breadcrumb";
 import { mockNews } from "@/asset/mockData/mockNews";
-import { CardNews } from "@/components/common/Cards/CardNews/CardNews";
+import { CardArticle } from "@/components/common/Cards/(article)/CardArticle/CardArticle";
 import { SliderPopularNews } from "../../../components/common/Slider/SliderPopularNews/SliderPopularNews";
 import { mockAuthor } from "@/asset/mockData/mockAuthor";
 import Image from "next/image";
@@ -58,7 +58,7 @@ export default function ArticleAuthorScreen({
                     <div className={style.content_item}>
                         {newsFirst.map((article, index) => {
                             return (
-                                <CardNews
+                                <CardArticle
                                     typeNew="main"
                                     descriptionShow
                                     key={index}
@@ -75,7 +75,7 @@ export default function ArticleAuthorScreen({
                     <div className={style.content_item}>
                         {newsSecond.map((article, index) => {
                             return (
-                                <CardNews
+                                <CardArticle
                                     typeNew="main"
                                     descriptionShow
                                     key={index}

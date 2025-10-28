@@ -7,6 +7,7 @@ export * from "./(Establishment)/tags.response";
 export * from "./consumption.response";
 export * from "./fileUpload.response";
 export * from "./invites.response";
+export * from "./location.response";
 export * from "./map.response";
 export * from "./search.response";
 
