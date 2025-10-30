@@ -1,9 +1,10 @@
 import { IContentEstablishmentEntity } from "../../server/entities";
 import { TTypesOfEstablishment } from "../../types/TTypesEstablishment";
-import { ICategoryFront } from "./category.front";
+import { ICategoryFront } from "../category.front";
 
-import { IContactsEstablishmentFront } from "./parts/contactsEstablishment.front";
-import { IMediaFront } from "./parts/media.front";
+
+import { IContactsEstablishmentFront } from "./contacts-establishment.front";
+import { IMediaFront } from "./media.front";
 
 export interface IEstablishmentFront {
     id: string;

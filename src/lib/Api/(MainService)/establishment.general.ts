@@ -15,14 +15,14 @@ import {
 } from "@/lib/models";
 import { TTypeUser } from "@/lib/models/types";
 
-import { ContactsEstablishmentService } from "../(Establishment)/contactsEstablishment.api";
+import { ContactsEstablishmentService } from "../(Establishment)/contacts-establishment.api";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { EstablishmentService } from "../(Establishment)/establishment/establishment.service";
-import { EstablishmentPersonAssignmentApi } from "../(Establishment)/establishment/establishmentAssignment.api";
+import { EstablishmentPersonAssignmentApi } from "../(Establishment)/establishment/establishment-assignment.api";
 
 import { FileUploadService } from "../fileUpload/fileUploads.service";
 // import { ScheduleService } from "../(Establishment)/schedule/schedule.service";
-import { TagsService } from "../(Establishment)/tags/tag.service";
+import { EstablishmentTagsService } from "../(Establishment)/establishment-tags/establishment-tags.service";
 import type { UploadFile } from "antd/es/upload/interface";
 import {
     getHardObjectDiff,
@@ -65,7 +65,7 @@ export class GeneralEstablishmentService {
     private establishmentAssignmentService: EstablishmentPersonAssignmentApi;
     private fileUploadService: FileUploadService;
     private scheduleService: ScheduleService;
-    private tagsService: TagsService;
+    private tagsService: EstablishmentTagsService;
     private moderationService: ModerationService;
 
     constructor() {
@@ -76,7 +76,7 @@ export class GeneralEstablishmentService {
             new EstablishmentPersonAssignmentApi();
         this.fileUploadService = new FileUploadService();
         this.scheduleService = new ScheduleService();
-        this.tagsService = new TagsService();
+        this.tagsService = new EstablishmentTagsService();
         this.moderationService = new ModerationService();
     }
     async create({ formData, userId, locale }: IPropCreate): Promise<Boolean> {

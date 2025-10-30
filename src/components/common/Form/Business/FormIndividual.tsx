@@ -26,6 +26,8 @@ import { validationBusinessIndividualSchema } from "@/lib/validationSchemas/busi
 import { TTypeOwnerBusiness } from "@/lib/models/types";
 import { IBusinessFront } from "@/lib/models";
 import { BlockExtraInfo } from "../../BlockFunctional/BlockExtraInfo";
+import { useMemo } from "react";
+import { ValidationPersonServerService } from "@/lib/Api/validation.api";
 
 type TTypeForm = Yup.InferType<typeof validationBusinessIndividualSchema>;
 
@@ -40,7 +42,14 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
     const { user } = useUser();
     const locale = useLocale();
 
-    const generalBusinessService = new GeneralBusinessService();
+    const services = useMemo(
+        () => ({
+            generalBusiness: new GeneralBusinessService(),
+            validationPersonServer: new ValidationPersonServerService(),
+        }),
+        []
+    );
+    // const generalBusinessService = new GeneralBusinessService();
     const initialFormData: TTypeForm | null = business
         ? {
               officialName: business.OfficialName,
@@ -77,9 +86,16 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
             notification.error({ message: "нету пользователя" });
             return;
         }
+        const validEmail = await services.validationPersonServer.email(
+            formData.email
+        );
+        if (!validEmail) {
+            notification.error({ message: "такой email уже зарегистрирован" });
+            return;
+        }
         let success = false;
         if (!business) {
-            success = !!(await generalBusinessService.create({
+            success = !!(await services.generalBusiness.create({
                 formData: formData,
                 activeTab: activeTab,
 
@@ -91,7 +107,7 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
                 notification.error({ message: "Нету изначальной формы" });
                 return;
             }
-            success = !!(await generalBusinessService.update({
+            success = !!(await services.generalBusiness.update({
                 formData: formData,
                 business: business,
                 initialForm: initialFormData,
@@ -104,9 +120,6 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
         if (success) {
             notification.success({ message: "Бизнес отправлен на модерацию" });
             closeModal && closeModal(false);
-            // router.push(
-            //     ROUTES.PROFILE.OWNER(user.id, CONSTANT_TABS.owner.business)
-            // );
         } else {
             notification.error({
                 message:

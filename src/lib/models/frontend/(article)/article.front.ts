@@ -2,7 +2,7 @@ import { TArticleStatus } from "../../types/TArticleStatus";
 import {
     IMediaFront,
     IMediaFrontWithFile,
-} from "../(establishment)/parts/media.front";
+} from "../(establishment)/media.front";
 import { IContentArticle, IPersonEntity } from "../../server/entities";
 import { TLocale, TTipTapHTMLContent } from "../../types";
 

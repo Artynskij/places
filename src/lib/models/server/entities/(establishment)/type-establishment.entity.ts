@@ -5,10 +5,11 @@ import { IBaseEntity } from "../../base/base.entity";
 export interface ITypeEstablishmentEntity extends IBaseEntity {
     Name: TTypesOfEstablishment;
     RefName: string;
-
-    Content?: IContentMultilingualEntity;
 }
-export interface ITypeEstablishmentWithContentEntity {
+export interface ITypeEstablishmentWithContentEntity extends ITypeEstablishmentEntity {
+    content: IContentMultilingualEntity;
+}
+export interface ITypeEstablishmentWithContentPareEntity {
     type: ITypeEstablishmentEntity;
     content: IContentMultilingualEntity;
 }

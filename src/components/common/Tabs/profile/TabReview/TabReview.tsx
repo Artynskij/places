@@ -6,14 +6,14 @@ import { mockReviews } from "@/asset/mockData/mockReviews";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
-import { IEstablishmentFront, IEstablishmentRateFront } from "@/lib/models";
+import { IEstablishmentFront, IRateEstablishmentFront } from "@/lib/models";
 
 import { CardReview } from "@/components/common/Cards/CardReview/CardReview";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 
-interface ITabReview { }
-export const TabReview = ({ }: ITabReview) => {
+interface ITabReview {}
+export const TabReview = ({}: ITabReview) => {
     // const reviewsData = mockReviews.filter(
     //     (item) => item.user.username === dataUser.username
     // );
@@ -21,7 +21,7 @@ export const TabReview = ({ }: ITabReview) => {
     const t = useTranslations("ProfilePage");
     const establishmentService = new EstablishmentService();
     const [reviewsData, setReviewsData] = useState<
-        IEstablishmentRateFront[] | null
+        IRateEstablishmentFront[] | null
     >(null);
     useEffect(() => {
         if (!user) return;
@@ -40,9 +40,7 @@ export const TabReview = ({ }: ITabReview) => {
     }, [loadingUser]);
     return (
         <div className={style.review}>
-            <h3 className={style.review_title}>
-                {t("reviewTab.myReview")}
-            </h3>
+            <h3 className={style.review_title}>{t("reviewTab.myReview")}</h3>
             <div className={style.review_content}>
                 {reviewsData && reviewsData?.length > 0 ? (
                     reviewsData.map((review, index) => {
@@ -53,7 +51,6 @@ export const TabReview = ({ }: ITabReview) => {
                                     // establishmentReview={review}
                                     review={review}
                                 />
-                                
                             </>
                         );
                     })

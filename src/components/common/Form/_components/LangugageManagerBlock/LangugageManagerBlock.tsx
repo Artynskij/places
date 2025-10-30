@@ -16,8 +16,6 @@ interface IProp {
     required?: boolean;
 }
 
-const defaultLocales: TLocale[] = ["ru", "en"];
-
 export const LanguageManagerBlock = ({
     value = [],
     onChange,

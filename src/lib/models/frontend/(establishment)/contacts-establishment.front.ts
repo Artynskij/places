@@ -1,4 +1,4 @@
-import { ISocialContactsFront } from "../../socialContacts.front";
+import { ISocialContactsFront } from "../socialContacts.front";
 
 export interface IContactsEstablishmentFront {
     id: string;

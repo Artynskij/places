@@ -1,8 +1,9 @@
+import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
 import {
     ITagWithContentPareEntity,
     ITagBlockFront,
     ICategoryFront,
-    ICategoryEstablishmentEntity,
+    ICategoryEstablishmentWithContentPareEntity,
     IRoleOwnerWithContentEntity,
     IBusinessLegalTypesEntity,
     IBusinessLegalTypesFront,
@@ -35,6 +36,14 @@ export class DataLoadManagementMapper {
                     value: detail.value || "",
                     secondaryValue: detail.secondaryValue || null,
                     iconName: detail.cIcon || null,
+                    tagCategory: {
+                        id: tag.tag.TagCategory.Id,
+                        key: tag.tag.TagCategory.Name,
+                        value: getActuallyTitleServer(
+                            tag.tag.TagCategory.content.details
+                        ),
+                        content: tag.tag.TagCategory.content,
+                    },
                 });
 
                 return acc;
@@ -74,7 +83,7 @@ export class DataLoadManagementMapper {
         );
     }
     categoriesOfEstablishment(
-        categories: ICategoryEstablishmentEntity[]
+        categories: ICategoryEstablishmentWithContentPareEntity[]
     ): ICategoryFront[] {
         const mappedData: ICategoryFront[] = categories
             .map((categoryServer) => {

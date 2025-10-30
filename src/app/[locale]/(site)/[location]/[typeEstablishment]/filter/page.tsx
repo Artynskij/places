@@ -2,7 +2,7 @@ import FilterScreen from "@/screens/FilterScreen/FilterScreen";
 import { IBasePageProps } from "@/lib/models/common/IType";
 import { notFound } from "next/navigation";
 
-import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
+import { EstablishmentTagsService } from "@/lib/Api/(Establishment)/establishment-tags/establishment-tags.service";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { LocationService } from "@/lib/Api/location/location.service";
 
@@ -65,7 +65,7 @@ export default async function FilterPage({ params, searchParams }: IProps) {
     const currentPageQuery = searchParams?.page?.toString();
 
     const apiEst = new EstablishmentService();
-    const apiTags = new TagsService();
+    const apiTags = new EstablishmentTagsService();
     const apiLocation = new LocationService();
 
     const [establishmentList, blockTags, locationData] = await Promise.all([

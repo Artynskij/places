@@ -4,20 +4,20 @@ import {
     IEstablishmentEntity,
     IEstablishmentWithContentPareEntity,
     IEstablishmentFront,
-    IEstablishmentRateRequest,
-    IEstablishmentRateEntity,
-    IEstablishmentRateGetAllRequest,
-    IEstablishmentRateAllResponse,
-    IEstablishmentRateFront,
+    IRateEstablishmentRequest,
+    IRateEstablishmentEntity,
+    IRateEstablishmentGetAllRequest,
+    IRateEstablishmentAllResponse,
+    IRateEstablishmentFront,
 } from "@/lib/models";
-import {EstablishmentMapper} from "./establishment.mapper";
+import { EstablishmentMapper } from "./establishment.mapper";
 import {
     IEstablishmentCreateRequest,
     IPaginationEstablishmentRequest,
 } from "@/lib/models/server/request/(Establishment)/establishment.request";
 import { DataLoadManagementService } from "../../dataLoadManagement/dataLoadManagement.service";
-import { EstablishmentPersonAssignmentApi } from "./establishmentAssignment.api";
-import EstablishmentRateApi from "./establishmentRate.endpoints";
+import { EstablishmentPersonAssignmentApi } from "./establishment-assignment.api";
+import EstablishmentRateApi from "./establishment-rate.endpoints";
 import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 
 export class EstablishmentService {
@@ -103,14 +103,14 @@ export class EstablishmentService {
         return response;
     }
     async createRateReview(
-        body: IEstablishmentRateRequest
+        body: IRateEstablishmentRequest
     ): Promise<IBaseModerationResponse | null> {
         const response = this.establishmentRateApi.create(body);
         return response;
     }
-    async getAllRatesReview(body: IEstablishmentRateGetAllRequest): Promise<{
+    async getAllRatesReview(body: IRateEstablishmentGetAllRequest): Promise<{
         info: { limit: number; page: number; total: number };
-        rates: IEstablishmentRateFront[];
+        rates: IRateEstablishmentFront[];
     } | null> {
         const response = await this.establishmentRateApi.getAll(body);
         const cdnHost = await this.dataLoadManagementService.getBlobProxy();

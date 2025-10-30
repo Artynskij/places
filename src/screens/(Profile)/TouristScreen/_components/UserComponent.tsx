@@ -10,7 +10,7 @@ import { IconEdit, IconEye, IconSettings } from "@/components/common/Icons";
 import { ROUTES } from "@/lib/config/Routes";
 
 import { useUser } from "@/lib/context/UserContext/UserContext";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 import { useNotification } from "@/lib/context";
 import { useLocale, useTranslations } from "next-intl";
@@ -23,8 +23,13 @@ import { ITravelProgressFront } from "@/lib/models";
 interface IUserComponent {
     // dataUser: (typeof mockTourist)[0];
 }
-const UserComponent = ({ }: IUserComponent) => {
-    const personService = new PersonService();
+const UserComponent = ({}: IUserComponent) => {
+    const services = useMemo(
+        () => ({
+            person: new PersonService(),
+        }),
+        []
+    );
 
     const { user } = useUser();
     const [travelProgress, setTravelProgress] =
@@ -35,12 +40,12 @@ const UserComponent = ({ }: IUserComponent) => {
             return;
         }
 
-        personService.getTravelProgress(user.id).then((res) => {
+        services.person.getTravelProgress(user.id).then((res) => {
             if (res) {
                 setTravelProgress(res);
             }
         });
-    }, []);
+    }, [services, user]);
 
     if (!user) return <Loader />;
     return (
@@ -62,15 +67,15 @@ const UserComponent = ({ }: IUserComponent) => {
                         <div className={style.info_name}>
                             <span>
                                 {user.personName?.surname ||
-                                    user.personName?.name ||
-                                    user.personName?.secondName
+                                user.personName?.name ||
+                                user.personName?.secondName
                                     ? [
-                                        user.personName?.surname,
-                                        user.personName?.name,
-                                        user.personName?.secondName,
-                                    ]
-                                        .filter(Boolean)
-                                        .join(" ")
+                                          user.personName?.surname,
+                                          user.personName?.name,
+                                          user.personName?.secondName,
+                                      ]
+                                          .filter(Boolean)
+                                          .join(" ")
                                     : "(заполните имя)"}
                             </span>
                             {/* <SubscribeButton /> */}
@@ -89,7 +94,7 @@ const UserComponent = ({ }: IUserComponent) => {
                         )} */}
 
                         {user.contacts?.address?.town ||
-                            user.contacts?.address?.country ? (
+                        user.contacts?.address?.country ? (
                             <div className={style.info_hometown}>
                                 Я из:{" "}
                                 {[

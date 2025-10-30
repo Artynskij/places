@@ -1,8 +1,8 @@
 import { IEstablishmentWithContentPareEntity } from "../../entities/(establishment)/establishment.entity";
-import { ICategoryEstablishmentPart } from "../../entities/(establishment)/parts/categoryEstablishmentPart.entity";
+import { ICategoryEstablishmentWithContentEntity } from "../../entities/(establishment)/category-establishment.entity";
 import {
     ITagWithContentPareEntity,
-    ITagWithCategoryEntity,
+    ITagWithContentEntity,
 } from "../../entities/(establishment)/tag.entity";
 
 export interface ITagsResponse {}
@@ -10,7 +10,7 @@ export interface ITagsOfEstablishmentResponse {
     Id: string;
     TagId: string;
     EstablishmentId: string;
-    Tag: ITagWithCategoryEntity;
+    Tag: ITagWithContentEntity;
     Establishment: {
         Id: string;
         RefId: string;
@@ -23,10 +23,10 @@ export interface ITagsOfEstablishmentResponse {
 [];
 export interface ITagsOfEstablishmentFilterResponse {
     tagsAndCategories: {
-        TagCategory: ICategoryEstablishmentPart;
-        Tags: ITagWithCategoryEntity[];
+        TagCategory: ICategoryEstablishmentWithContentEntity;
+        Tags: ITagWithContentEntity[];
     }[];
-    categories: ICategoryEstablishmentPart[];
+    categories: ICategoryEstablishmentWithContentEntity[];
 }
 export interface ITagAndEstablishmentConnectionResponse {
     Id: string;

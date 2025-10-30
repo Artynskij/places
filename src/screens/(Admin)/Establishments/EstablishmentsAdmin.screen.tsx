@@ -5,6 +5,7 @@ import {
     IEstablishmentFront,
     ILocationFront,
     IMediaFront,
+    IOption,
     IPaginationEstablishmentRequest,
     ISearchItemFront,
 } from "@/lib/models";
@@ -52,10 +53,7 @@ interface LocationFormValues {
     category: string;
     media?: UploadFile[];
 }
-interface TypeOptionSelect {
-    label: string;
-    value: string;
-}
+
 interface Props {
     // openModal: (type: "establishment", item?: IEstablishmentFront) => void;
 }
@@ -77,25 +75,21 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
     const [loading, setLoading] = useState(false);
     const [searchLoading, setSearchLoading] = useState(false);
 
-    const [locationsOptions, setLocationsOptions] = useState<
-        TypeOptionSelect[]
-    >([]);
+    const [locationsOptions, setLocationsOptions] = useState<IOption[]>([]);
     const [searchLocationId, setSearchLocationId] = useState<string>();
 
     const [typeEstablishment, setTypeEstablishment] = useState<string>();
-    const [categoryOptions, setCategoryOption] = useState<TypeOptionSelect[]>(
-        []
-    );
+    const [categoryOptions, setCategoryOption] = useState<IOption[]>([]);
     const [categoryEstablishment, setCategoryEstablishment] =
         useState<string[]>();
-    const typeOptions: TypeOptionSelect[] = Object.values(
+    const typeOptions: IOption[] = Object.values(
         CONSTANT_TYPES_OF_ESTABLISHMENT_DB
     ).map((item) => ({
         label: item.title,
         value: item.id,
     }));
 
-    const sortOptions: TypeOptionSelect[] = SELECT_FILTER_SORT.map((item) => ({
+    const sortOptions: IOption[] = SELECT_FILTER_SORT.map((item) => ({
         label: item.label,
         value: item.value,
     }));

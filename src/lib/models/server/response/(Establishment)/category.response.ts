@@ -1,8 +1,8 @@
 import { IEstablishmentWithContentPareEntity } from "../../entities/(establishment)/establishment.entity";
-import { ICategoryEstablishmentEntity } from "../../entities/(establishment)/parts/categoryEstablishmentPart.entity";
+import { ICategoryEstablishmentWithContentPareEntity } from "../../entities/(establishment)/category-establishment.entity";
 
 export interface ICategoryAndEstablishmentConnectionResponse {
     Id: string;
-    Category: ICategoryEstablishmentEntity;
+    Category: ICategoryEstablishmentWithContentPareEntity;
     Establishment: IEstablishmentWithContentPareEntity;
 }

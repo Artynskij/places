@@ -3,7 +3,7 @@ import { IBaseEntity } from "../../base/base.entity";
 import { IEstablishmentWithContentEntity } from "./establishment.entity";
 import { IPersonEntity } from "../(person)/person.entity";
 
-export interface IEstablishmentRateEntity extends IBaseEntity {
+export interface IRateEstablishmentEntity extends IBaseEntity {
     PersonsVisitDate: string;
     Person: IPersonEntity;
     Establishment: IEstablishmentWithContentEntity;

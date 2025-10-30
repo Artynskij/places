@@ -1,8 +1,9 @@
 import { TTypesOfEstablishment } from "../types/TTypesEstablishment";
 import { TGlobalTypes } from "../types/TTypesGlobal";
-import { ICategoryFront } from "./(establishment)/category.front";
+
 
 import { IScheduleFront } from "./(establishment)/schedule.front";
+import { ICategoryFront } from "./category.front";
 
 export interface ISearchItemFront {
     id: string;

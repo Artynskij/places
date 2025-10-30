@@ -6,15 +6,15 @@ import {
     IScheduleFront,
 } from "@/lib/models";
 
-import TagsMapper from "../(Establishment)/tags/tag.mapper";
+import EstablishmentTagsMapper from "../(Establishment)/establishment-tags/establishment-tags.mapper";
 import { ScheduleMapper } from "../(Establishment)/schedule.api";
 // import { ScheduleMapper } from "../(Establishment)/schedule/schedule.mapper";
 
 export class MapMapper {
-    private tagsMapper: TagsMapper;
+    private tagsMapper: EstablishmentTagsMapper;
     private scheduleMapper: ScheduleMapper;
     constructor() {
-        this.tagsMapper = new TagsMapper();
+        this.tagsMapper = new EstablishmentTagsMapper();
         this.scheduleMapper = new ScheduleMapper();
     }
 

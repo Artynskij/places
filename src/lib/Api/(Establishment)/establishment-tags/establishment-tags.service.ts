@@ -1,6 +1,6 @@
-import { TagsApi } from "./tag.endpoints";
+import { EstablishmentTagsApi } from "./establishment-tags.endpoints";
 
-import TagsMapper from "./tag.mapper";
+import EstablishmentTagsMapper from "./establishment-tags.mapper";
 import {
     ITagAndEstablishmentConnectionRequest,
     ITagBlockFront,
@@ -11,12 +11,12 @@ import {
 
 // import { ITagClassFront, ITagClassWithEstablishmentFront } from "@/lib/models";
 
-export class TagsService {
-    private tagsApi: TagsApi;
-    private tagsMapper: TagsMapper;
+export class EstablishmentTagsService {
+    private tagsApi: EstablishmentTagsApi;
+    private tagsMapper: EstablishmentTagsMapper;
     constructor() {
-        this.tagsApi = new TagsApi();
-        this.tagsMapper = new TagsMapper();
+        this.tagsApi = new EstablishmentTagsApi();
+        this.tagsMapper = new EstablishmentTagsMapper();
     }
     async getAllTagsOfEstablishmentFilter(
         body: ITagsOfEstablishmentRequest,

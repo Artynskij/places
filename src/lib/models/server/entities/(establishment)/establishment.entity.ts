@@ -1,11 +1,11 @@
 import { IPersonEntity } from "../(person)/person.entity";
 import { IBaseEntity } from "../../base/base.entity";
-import { ICategoryEstablishmentPart } from "./parts/categoryEstablishmentPart.entity";
-import { IContactsEstablishmentEntity } from "./parts/contactEstablishment.entity";
+import { ICategoryEstablishmentWithContentEntity } from "./category-establishment.entity";
+import { IContactsEstablishmentEntity } from "./contact-establishment.entity";
 import { IContentEstablishmentEntity } from "../../base/content.entity";
 
 import { IRateEntity } from "./parts/rate.entity";
-import { ITypeEstablishmentEntity } from "./typeEstablishment.entity";
+import { ITypeEstablishmentEntity } from "./type-establishment.entity";
 import { ILocationWithContentEntity } from "../locations.entity";
 interface ILocationsInEstablishment extends ILocationWithContentEntity {
     Country: ILocationWithContentEntity;
@@ -19,7 +19,7 @@ export interface IEstablishmentEntity extends IBaseEntity {
     PostalCode: string;
     Moderate: null | boolean;
     Type: ITypeEstablishmentEntity;
-    Categories: ICategoryEstablishmentPart[];
+    Categories: ICategoryEstablishmentWithContentEntity[];
     Contacts: IContactsEstablishmentEntity | null;
     Locations: ILocationsInEstablishment | null;
     Rates: IRateEntity;

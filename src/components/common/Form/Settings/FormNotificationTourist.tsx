@@ -8,7 +8,7 @@ import { useNotification } from "@/lib/context";
 // import { PersonSettingsService } from "@/lib/Api/(Person)/personSettings/personSettings.service";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { IPersonSettingsFront } from "@/lib/models/frontend/(person)/personSettings.front";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { Loader } from "../../Loader/Loader";
@@ -31,11 +31,15 @@ type TNotificationSettings = {
 export const FormNotificationTourist = () => {
     const notification = useNotification();
 
-    const personSettingsService = new PersonSettingsService();
-    const moderationService = new ModerationService();
+    const services = useMemo(
+        () => ({
+            personSettings: new PersonSettingsService(),
+            moderation: new ModerationService(),
+        }),
+        []
+    );
     const { user, loadingUser } = useUser();
-    // const [notificationData, setNotificationData] =
-    //     useState<IPersonSettingsFront>();
+
     const { control, handleSubmit, reset } = useForm<TNotificationSettings>();
 
     useEffect(() => {
@@ -64,10 +68,10 @@ export const FormNotificationTourist = () => {
         } else {
             // personSettingsApi.create(user.id);
         }
-    }, [reset, loadingUser]);
+    }, [reset, loadingUser, user]);
     const onSubmit = async (dataForm: TNotificationSettings) => {
         if (!user) return;
-        const moderationObject = await moderationService.getModerationData(
+        const moderationObject = await services.moderation.getModerationData(
             user.id
         );
         if (!moderationObject) {
@@ -76,7 +80,7 @@ export const FormNotificationTourist = () => {
             });
             return;
         }
-        const response = await personSettingsService.updateOrCreate(
+        const response = await services.personSettings.updateOrCreate(
             user.personSettings?.id || null,
             {
                 moderation: moderationObject,

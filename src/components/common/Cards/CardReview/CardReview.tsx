@@ -9,7 +9,7 @@ import { mockReviews } from "@/asset/mockData/mockReviews";
 import { IconLocation, IconThumbDown, IconThumbUp } from "../../Icons";
 import { useState } from "react";
 import { BlockLikeDislike } from "../../BlockFunctional/BlockLikeDislike";
-import { IEstablishmentFront, IEstablishmentRateFront } from "@/lib/models";
+import { IEstablishmentFront, IRateEstablishmentFront } from "@/lib/models";
 import { useTranslations } from "next-intl";
 import {
     CONSTANT_DEFAULT_AVATAR_URL,
@@ -18,17 +18,17 @@ import {
 import { getFormatDate } from "@/lib/helpers/getFormatDate";
 
 interface ICardReview {
-    review: IEstablishmentRateFront;
+    review: IRateEstablishmentFront;
     // establishmentReview?: IEstablishmentFront | null;
     // tRate: (value: string) => string;
 }
 export const CardReview = ({
     review,
 }: // tRate,
-    ICardReview) => {
+ICardReview) => {
     const tRate = useTranslations("Rates");
     const mainRate = review.rates.find((item) => item.key === "Rate");
-    console.log(review)
+
     const additionalRates = review.rates.filter((item) => item.key !== "Rate");
     const establishmentReview = review.establishment;
     const gallery = establishmentReview?.media.gallery || null;
@@ -65,9 +65,6 @@ export const CardReview = ({
             </div>
 
             <div className={style.reviewBody}>
-
-
-
                 {/* <div className={style.reviewBody_title}>
                     {review.review.title}
                 </div>
@@ -86,7 +83,6 @@ export const CardReview = ({
                         >
                             <label>{tRate(rate.key)}:</label>
                             <RateMain disabled defaultValue={rate.value} />
-
                         </div>
                     ))}
                 </div>

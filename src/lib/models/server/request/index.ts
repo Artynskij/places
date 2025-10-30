@@ -5,9 +5,10 @@ export * from "./(article)/article-subType.request";
 export * from "./(article)/article-type.request";
 export * from "./(article)/article.request";
 
-export * from "./(Establishment)/category.request";
+export * from "./(Establishment)/category-establishment.request";
+export * from "./(Establishment)/category-root-establishment.request";
 export * from "./(Establishment)/contacts-establishment.request";
-export * from "./(Establishment)/establishment-rate.request";
+export * from "./(Establishment)/rate-establishment.request";
 export * from "./(Establishment)/establishment.request";
 export * from "./(Establishment)/schedule.request";
 export * from "./(Establishment)/tag-category.request";

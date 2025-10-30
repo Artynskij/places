@@ -11,11 +11,14 @@ import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 import { InputPhoneNumber } from "@/components/UI/Input/InputPhone/InputPhone";
 import { Button } from "@/components/UI/Button/Button";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 
-import { CONSTANT_MESSANGER_NETWORKS_ARRAY, CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-networks.const";
+import {
+    CONSTANT_MESSENGER_NETWORKS_ARRAY,
+    CONSTANT_SOCIAL_NETWORKS_ARRAY,
+} from "@/asset/constants/social-networks.const";
 
 import Image from "next/image";
 
@@ -44,10 +47,15 @@ export const FormSettingsTourist = () => {
     const notification = useNotification();
     const { user } = useUser();
 
-    const personService = new PersonService();
-    const moderationService = new ModerationService();
+    const services = useMemo(
+        () => ({
+            person: new PersonService(),
+            moderation: new ModerationService(),
 
-    const generalPersonService = new GeneralPersonService();
+            generalPerson: new GeneralPersonService(),
+        }),
+        []
+    );
 
     const router = useRouter();
 
@@ -66,7 +74,7 @@ export const FormSettingsTourist = () => {
 
     useEffect(() => {
         if (!user) return;
-        personService.getById(user.id).then((person) => {
+        services.person.getById(user.id).then((person) => {
             if (person) {
                 setPersonData(person);
 
@@ -104,7 +112,7 @@ export const FormSettingsTourist = () => {
                 reset(formData);
             }
         });
-    }, [reset]);
+    }, [reset, services, user]);
 
     const onSubmit = async (formData: TTypeForm) => {
         if (!initialFormData) {
@@ -118,7 +126,7 @@ export const FormSettingsTourist = () => {
             notification.error({ message: "не найден пользователь" });
             return;
         }
-        const response = await generalPersonService.updateTourist({
+        const response = await services.generalPerson.updateTourist({
             formData: formData,
             initialForm: initialFormData,
             personData: personData,
@@ -145,12 +153,11 @@ export const FormSettingsTourist = () => {
     };
     const handlerDeleteAvatar = async () => {
         if (!personData) return;
-        const moderationObject = await moderationService.getModerationData(
+        const moderationObject = await services.moderation.getModerationData(
             personData.id
-           
         );
         if (!moderationObject) return;
-        personService
+        services.person
             .update(personData.id, {
                 moderation: moderationObject,
                 data: {
@@ -210,7 +217,6 @@ export const FormSettingsTourist = () => {
                                         handlerDeleteAvatar={
                                             handlerDeleteAvatar
                                         }
-                                       
                                     />
                                 )}
                             />
@@ -277,7 +283,6 @@ export const FormSettingsTourist = () => {
                         titleSpan="@Никнейм"
                         type="text"
                     />
-
                 </div>
             </div>
             <div className={style.selectionBlock}>
@@ -331,10 +336,10 @@ export const FormSettingsTourist = () => {
             </div>
 
             <div className={style.selectionBlock}>
-                <div className={style.selectionBlock_title}>
-                    Сайт
-                </div>
-                <div className={`${style.selectionBlock_content} ${style.social}`}>
+                <div className={style.selectionBlock_title}>Сайт</div>
+                <div
+                    className={`${style.selectionBlock_content} ${style.social}`}
+                >
                     <InputForm
                         error={errors.webContact?.message}
                         register={register("webContact")}
@@ -348,7 +353,9 @@ export const FormSettingsTourist = () => {
                 <div className={style.selectionBlock_title}>
                     Социальные сети
                 </div>
-                <div className={`${style.selectionBlock_content} ${style.social}`}>
+                <div
+                    className={`${style.selectionBlock_content} ${style.social}`}
+                >
                     <Controller
                         name="socialContacts"
                         control={control}
@@ -364,23 +371,21 @@ export const FormSettingsTourist = () => {
                                     }
                                 }
                             />
-
                         )}
                     />
-
                 </div>
             </div>
             <div className={style.selectionBlock}>
-                <div className={style.selectionBlock_title}>
-                    Месенджеры
-                </div>
-                <div className={`${style.selectionBlock_content} ${style.social}`}>
+                <div className={style.selectionBlock_title}>Месенджеры</div>
+                <div
+                    className={`${style.selectionBlock_content} ${style.social}`}
+                >
                     <Controller
                         name="messangerContacts"
                         control={control}
                         render={({ field }) => (
                             <SocialContactsBlockForm
-                                keysData={CONSTANT_MESSANGER_NETWORKS_ARRAY}
+                                keysData={CONSTANT_MESSENGER_NETWORKS_ARRAY}
                                 value={field.value || []}
                                 onChange={field.onChange}
                                 nameSelectImportant="Добавить мессенджер"

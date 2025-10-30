@@ -1,6 +1,6 @@
 import { IBaseModerationRequest } from "../../base/base.request";
 
-interface EstablishmentRateRequestData {
+interface RateEstablishmentRequestData {
     Rooms: number | null;
     PriceQuality: number | null;
     Clean: number | null;
@@ -19,9 +19,9 @@ interface EstablishmentRateRequestData {
     Person: string;
     Establishment: string;
 }
-export interface IEstablishmentRateRequest
-    extends IBaseModerationRequest<EstablishmentRateRequestData> {}
-export interface IEstablishmentRateGetAllRequest {
+export interface IRateEstablishmentRequest
+    extends IBaseModerationRequest<RateEstablishmentRequestData> {}
+export interface IRateEstablishmentGetAllRequest {
     establishmentIds?: string[];
     page: number;
     limit: number;

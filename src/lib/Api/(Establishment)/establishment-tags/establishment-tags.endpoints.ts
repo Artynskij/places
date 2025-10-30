@@ -1,11 +1,12 @@
-
-import { ITagAndEstablishmentConnectionRequest, ITagsOfEstablishmentFilterResponse, ITagsOfEstablishmentRequest, ITagsOfEstablishmentResponse } from "@/lib/models";
+import {
+    ITagAndEstablishmentConnectionRequest,
+    ITagsOfEstablishmentFilterResponse,
+    ITagsOfEstablishmentRequest,
+    ITagsOfEstablishmentResponse,
+} from "@/lib/models";
 import apiClient from "../../base/ApiClient";
 
-
-
-
-export class TagsApi {
+export class EstablishmentTagsApi {
     async getAllTagsOfEstablishments(
         body: ITagsOfEstablishmentRequest
     ): Promise<ITagsOfEstablishmentResponse[] | null> {

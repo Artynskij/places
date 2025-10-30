@@ -5,17 +5,19 @@ export * from "./(article)/article-subType.entity";
 export * from "./(article)/article-type.entity";
 export * from "./(article)/article.entity";
 
-export * from "./(establishment)/parts/categoryEstablishmentPart.entity";
-export * from "./(establishment)/parts/contactEstablishment.entity";
+export * from "./(establishment)/contact-establishment.entity";
 
 export * from "./(establishment)/parts/image.entity";
 export * from "./(establishment)/parts/rate.entity";
+export * from "./(establishment)/parts/tag-category.entity";
 
+export * from "./(establishment)/category-establishment.entity";
+export * from "./(establishment)/category-root-establishment.entity";
+export * from "./(establishment)/rate-establishment.entity";
 export * from "./(establishment)/establishment.entity";
-export * from "./(establishment)/establishmentRate.entity";
 export * from "./(establishment)/schedule.entity";
 export * from "./(establishment)/tag.entity";
-export * from "./(establishment)/typeEstablishment.entity";
+export * from "./(establishment)/type-establishment.entity";
 
 export * from "./(person)/address.entity";
 export * from "./(person)/consents.entity";

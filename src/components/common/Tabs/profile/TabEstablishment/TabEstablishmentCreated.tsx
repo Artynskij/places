@@ -8,7 +8,7 @@ import useLocale from "@/lib/hooks/useLocale";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { useEffect, useState } from "react";
 import { IEstablishmentFront } from "@/lib/models";
-import { EstablishmentPersonAssignmentApi } from "@/lib/Api/(Establishment)/establishment/establishmentAssignment.api";
+import { EstablishmentPersonAssignmentApi } from "@/lib/Api/(Establishment)/establishment/establishment-assignment.api";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 import CardEstablishmentTab from "./CardEstablishmentTab/CardEstablishmentTab";
 
