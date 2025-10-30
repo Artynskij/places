@@ -27,7 +27,7 @@ const BlockMapEstScr = ({
         classTag
             ? {
                   establishmentId: "",
-                  categoryTag: { id: "", key: "", value: "" },
+                  tagCategory: { id: "", key: "", value: "" },
                   tag: classTag?.tags[0],
               }
             : null,

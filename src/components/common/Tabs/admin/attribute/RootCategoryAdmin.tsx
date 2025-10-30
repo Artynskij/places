@@ -26,143 +26,137 @@ import { LanguageManagerBlock } from "@/components/common/Form/_components/Langu
 import { TLocale } from "@/lib/models/types";
 
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
-
-import { ICategoryFront, IOption, ITagFront, ITagRequest } from "@/lib/models";
-import { TagService } from "@/lib/Api/(Establishment)/tag.api";
-import { TagCategoryService } from "@/lib/Api/(Establishment)/tag-category.api";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
+import { CategoryRootEstablishmentService } from "@/lib/Api/(Establishment)/category-root-establishment.api";
+import {
+    ICategoryRootEstablishmentFront,
+    ICategoryRootEstablishmentRequest,
+} from "@/lib/models";
 
 const { Search } = Input;
 
-interface AttributeListTabProps {
-    // onAttributeEdit: (attribute: IAttribute) => void;
+interface RootCategoryListTabProps {
+    // onRootCategoryEdit: (rootCategory: IRootCategory) => void;
 }
 
 type TDetails = { lang: TLocale; value: string };
 
-interface AttributeFormValues {
+interface RootCategoryFormValues {
     name: string;
-    groupId: string;
 }
 
-export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
+export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
     const services = useMemo(
         () => ({
-            tag: new TagService(),
-            tagCategory: new TagCategoryService(),
+            rootCategory: new CategoryRootEstablishmentService(),
         }),
         []
     );
 
     const message = useAlertMessage();
     const [isLoading, setIsLoading] = useState(false);
-    const [tags, setTags] = useState<ITagFront[]>([]);
-    const [filteredTags, setFilteredTags] = useState<ITagFront[] | null>(null);
-    const [tagCategories, setTagCategories] = useState<ICategoryFront[]>([]);
-    const [filterTagCategoryId, setFilterTagCategoryId] = useState<
-        string | null
-    >();
+    const [rootCategories, setRootCategories] = useState<
+        ICategoryRootEstablishmentFront[]
+    >([]);
+    const [filteredRootCategories, setFilteredRootCategories] = useState<
+        ICategoryRootEstablishmentFront[] | null
+    >(null);
+
     const [searchText, setSearchText] = useState<string | null>(null);
     const [isModalActive, setIsModalActive] = useState(false);
     const [isModalLoading, setIsModalLoading] = useState(false);
-    const [editTag, setEditTag] = useState<ITagFront | null>(null);
-    const [form] = Form.useForm<AttributeFormValues>();
+    const [editRootCategory, setEditRootCategory] =
+        useState<ICategoryRootEstablishmentFront | null>(null);
+    const [form] = Form.useForm<RootCategoryFormValues>();
 
     const [languageDetails, setLanguageDetails] = useState<TDetails[]>(
         CONSTANT_LANGS_DETAILS
     );
+
     const fetchAll = useCallback(async () => {
         setIsLoading(true);
-        const response = await services.tag.get();
+        const response = await services.rootCategory.getAll({});
         if (!response) {
-            message.error("Ошибка при получении данных аттрибутов");
+            message.error("Ошибка при получении данных главных категорий");
             return;
         }
-        setTags(response);
+        setRootCategories(response);
         setIsLoading(false);
-        message.info("Данные атрибутов загружены");
+        message.info("Данные главных категорий загружены");
     }, [services, message]);
 
     const initialFetch = useCallback(async () => {
-        const response = await services.tagCategory.getAll();
-        if (response) {
-            setTagCategories(response);
-        } else {
-            message.error("Ошибка при получении данных группы аттрибутов");
-        }
-
         await fetchAll();
-    }, [fetchAll, services, message]);
+    }, [fetchAll]);
 
     useEffect(() => {
         initialFetch();
     }, [initialFetch]);
+
     // редактирование
     useEffect(() => {
-        if (editTag && isModalActive) {
-            // Преобразуем данные атрибута в languageDetails
-            const details = editTag.content?.details.map((value) => ({
-                lang: value.lang as TLocale,
-                value: value.value || "",
-            }));
-            if (!details) return;
+        if (editRootCategory && isModalActive) {
+            const details =
+                editRootCategory.content?.details.map((value) => ({
+                    lang: value.lang as TLocale,
+                    value: value.value || "",
+                })) || CONSTANT_LANGS_DETAILS;
+
             setLanguageDetails(details);
 
             form.setFieldsValue({
-                groupId: editTag.tagCategory.id,
+                name: editRootCategory.name,
             });
         } else if (isModalActive) {
             form.resetFields();
             setLanguageDetails(CONSTANT_LANGS_DETAILS);
         }
-    }, [editTag, isModalActive, form]);
+    }, [editRootCategory, isModalActive, form]);
+
     // фильтрация
     useEffect(() => {
-        if (!filterTagCategoryId && !searchText) {
-            setFilteredTags(null);
+        if (!searchText) {
+            setFilteredRootCategories(null);
             return;
         }
-        let filteredData = tags;
 
-        if (filterTagCategoryId) {
-            filteredData = filteredData.filter(
-                (tag) => tag.tagCategory.id === filterTagCategoryId
-            );
-        }
+        let filteredData = rootCategories;
 
         if (searchText) {
             filteredData = filteredData.filter((item) =>
-                item.value
+                (item.value || item.name)
                     .toLocaleLowerCase()
                     .includes(searchText.toLocaleLowerCase())
             );
         }
 
-        setFilteredTags(filteredData);
-    }, [tags, filterTagCategoryId, searchText]);
+        setFilteredRootCategories(filteredData);
+    }, [rootCategories, searchText]);
 
-    const handleEdit = (attribute: ITagFront) => {
-        setEditTag(attribute);
+    const handleEdit = (rootCategory: ICategoryRootEstablishmentFront) => {
+        console.log(rootCategory);
+        setEditRootCategory(rootCategory);
         setIsModalActive(true);
     };
-    const handleDelete = async (attribute: ITagFront) => {
-        // Имитация удаления
-        const response = await services.tag.delete(attribute.id);
+
+    const handleDelete = async (
+        rootCategory: ICategoryRootEstablishmentFront
+    ) => {
+        const response = await services.rootCategory.delete(rootCategory.id);
         if (!response) {
-            message.error("Ошибка при удалении атрибута");
+            message.error("Ошибка при удалении главной категории");
         }
         fetchAll();
-        message.info("Атрибут удален");
+        message.info("Главная категория удалена");
     };
 
     const handleCreate = () => {
-        setEditTag(null);
+        setEditRootCategory(null);
         setIsModalActive(true);
     };
 
     const handleModalClose = () => {
         setIsModalActive(false);
-        setEditTag(null);
+        setEditRootCategory(null);
         form.resetFields();
         setLanguageDetails(CONSTANT_LANGS_DETAILS);
     };
@@ -182,7 +176,6 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
                 return;
             }
 
-            // Валидируем остальные поля формы
             const values = await form.validateFields();
 
             if (!values) {
@@ -192,39 +185,37 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
 
             setIsModalLoading(true);
 
-            const selectedGroup = tagCategories.find(
-                (g) => g.id === values.groupId
-            );
-            if (!selectedGroup) {
-                message.error("Группа атрибутов не найдена");
-                return;
-            }
-
             const filledDetails = languageDetails.filter((item) =>
                 item.value.trim()
             );
 
-            const tagRequest: ITagRequest = {
-                source: { TagCategoryId: values.groupId },
+            const rootCategoryRequest: ICategoryRootEstablishmentRequest = {
+                source: {
+                    IsActive: true,
+                    Name: values.name,
+                    RefName: "places_team",
+                },
                 content: { details: filledDetails },
             };
 
-            if (editTag) {
-                // Редактирование существующего атрибута
-                const responseUpdate = await services.tag.update(
-                    editTag.id,
-                    tagRequest
+            if (editRootCategory) {
+                // Редактирование существующей главной категории
+                const responseUpdate = await services.rootCategory.update(
+                    editRootCategory.id,
+                    rootCategoryRequest
                 );
                 responseUpdate
-                    ? message.success("Атрибут обновлен")
-                    : message.error("Ошибка при обновлении атрибута");
+                    ? message.success("Главная категория обновлена")
+                    : message.error("Ошибка при обновлении главной категории");
                 fetchAll();
             } else {
-                // Создание нового атрибута
-                const responseCreate = await services.tag.create(tagRequest);
+                // Создание новой главной категории
+                const responseCreate = await services.rootCategory.create(
+                    rootCategoryRequest
+                );
                 responseCreate
-                    ? message.success("Атрибут создан")
-                    : message.error("Ошибка при создании атрибута");
+                    ? message.success("Главная категория создана")
+                    : message.error("Ошибка при создании главной категории");
                 fetchAll();
             }
 
@@ -236,15 +227,20 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
             setIsModalLoading(false);
         }
     };
- 
+
     const columns = [
         {
             title: "Название",
             dataIndex: "value",
             key: "value",
-            render: (value: string) => (
+            render: (
+                value: string,
+                record: ICategoryRootEstablishmentFront
+            ) => (
                 <div>
-                    <div style={{ fontWeight: 500 }}>{value}</div>
+                    <div style={{ fontWeight: 500 }}>
+                        {value || record.name}
+                    </div>
                 </div>
             ),
         },
@@ -254,20 +250,10 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
             key: "id",
         },
         {
-            title: "Группа атрибутов",
-            dataIndex: "tagCategory",
-            key: "tagCategory",
-            render: (group: ITagFront["tagCategory"]) => (
-                <Tag color="blue" style={{ cursor: "pointer" }}>
-                    {group.value}
-                </Tag>
-            ),
-        },
-        {
             title: "Значения по языкам",
             dataIndex: "content",
             key: "content",
-            render: (content: ITagFront["content"]) => (
+            render: (content: ICategoryRootEstablishmentFront["content"]) => (
                 <Space direction="horizontal" size="small">
                     {content?.details.map((value) => (
                         <Tooltip
@@ -276,18 +262,17 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
                                 value.value
                             }`}
                         >
-                            <Tag color="blue">{value.lang.toUpperCase()}</Tag>
+                            <Tag color="green">{value.lang.toUpperCase()}</Tag>
                         </Tooltip>
                     ))}
                 </Space>
             ),
         },
-
         {
             title: "Действия",
             key: "actions",
             width: 150,
-            render: (_: any, record: ITagFront) => (
+            render: (_: any, record: ICategoryRootEstablishmentFront) => (
                 <Space size="small">
                     <Button
                         icon={<EditOutlined />}
@@ -296,8 +281,8 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
                     />
                     <ModalConfirm
                         handlerAction={() => handleDelete(record)}
-                        title="Удаление атрибута"
-                        content="Вы уверены, что хотите удалить этот атрибут?"
+                        title="Удаление главной категории"
+                        content="Вы уверены, что хотите удалить эту главную категорию?"
                     >
                         <Button danger icon={<DeleteOutlined />} size="small" />
                     </ModalConfirm>
@@ -309,8 +294,10 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
     return (
         <>
             <Card
-                title={`Атрибуты товаров (${
-                    !!filteredTags ? filteredTags.length : tags.length
+                title={`Главные категории (${
+                    !!filteredRootCategories
+                        ? filteredRootCategories.length
+                        : rootCategories.length
                 })`}
                 extra={
                     <Space>
@@ -338,40 +325,22 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
                             setSearchText(value);
                         }}
                     />
-                    <Select
-                        style={{ width: 200 }}
-                        placeholder="Поиск по группам атрибутов"
-                        loading={isLoading}
-                        allowClear
-                        onChange={(value) => {
-                            setFilterTagCategoryId(value);
-                        }}
-                    >
-                        {tagCategories.map((group) => (
-                            <Select.Option key={group.id} value={group.id}>
-                                {group.value}
-                            </Select.Option>
-                        ))}
-                    </Select>
-                    {/* <Select
-                        placeholder="Выберите группу атрибутов"
-                        style={{ width: 200 }}
-                        allowClear
-                        options={tagCategories}
-                        // value={typeEstablishment}
-                    /> */}
                 </Space>
 
                 <Table
                     columns={columns}
-                    dataSource={!!filteredTags ? filteredTags : tags}
+                    dataSource={
+                        !!filteredRootCategories
+                            ? filteredRootCategories
+                            : rootCategories
+                    }
                     rowKey="id"
                     pagination={{
                         pageSize: 10,
                         showSizeChanger: false,
                         showQuickJumper: false,
                         showTotal: (total, range) =>
-                            `${range[0]}-${range[1]} из ${total} атрибутов`,
+                            `${range[0]}-${range[1]} из ${total} главных категорий`,
                     }}
                     scroll={{ x: 800 }}
                     loading={isLoading}
@@ -379,12 +348,16 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
             </Card>
 
             <Modal
-                title={editTag ? "Редактировать атрибут" : "Создать атрибут"}
+                title={
+                    editRootCategory
+                        ? "Редактировать главную категорию"
+                        : "Создать главную категорию"
+                }
                 onOk={handleSubmit}
                 open={isModalActive}
                 onCancel={handleModalClose}
                 width={700}
-                okText={editTag ? "Сохранить" : "Создать"}
+                okText={editRootCategory ? "Сохранить" : "Создать"}
                 cancelText="Отмена"
                 confirmLoading={isModalLoading}
             >
@@ -394,27 +367,22 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
                         onChange={handleLanguageDetailsChange}
                         required={true}
                     />
-
                     <Form.Item
-                        name="groupId"
-                        label="Группа атрибутов"
+                        name="name"
+                        label="Название группы"
                         rules={[
                             {
                                 required: true,
-                                message: "Выберите группу атрибутов",
+                                message: "Введите название группы",
+                            },
+                            {
+                                min: 2,
+                                message:
+                                    "Название должно содержать минимум 2 символа",
                             },
                         ]}
                     >
-                        <Select
-                            placeholder="Выберите группу атрибутов"
-                            loading={isLoading}
-                        >
-                            {tagCategories.map((group) => (
-                                <Select.Option key={group.id} value={group.id}>
-                                    {group.value}
-                                </Select.Option>
-                            ))}
-                        </Select>
+                        <Input placeholder="Цвет, Размер, Материал и т.д." />
                     </Form.Item>
                 </Form>
             </Modal>

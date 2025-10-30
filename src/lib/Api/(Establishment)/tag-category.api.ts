@@ -1,12 +1,10 @@
-import {
-    ITagCategoryWithContentEntity,
-    ITagCategoryWithContentPareEntity,
-} from "./../../models/server/entities/(establishment)/parts/tagCategory.entity";
-import { IBaseModerationResponse } from "../../models/server/base/base.response";
-
 import { BaseApiService } from "../base/BaseApi.service";
 import apiClient from "../base/ApiClient";
-import { ICategoryFront, ITagCategoryRequest } from "@/lib/models";
+import {
+    ICategoryFront,
+    ITagCategoryRequest,
+    ITagCategoryWithContentPareEntity,
+} from "@/lib/models";
 import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
 export class TagCategoryMapper {
     constructor() {}

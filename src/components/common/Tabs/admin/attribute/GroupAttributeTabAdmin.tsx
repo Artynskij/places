@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
     Table,
     Button,
@@ -23,56 +23,52 @@ import { useAlertMessage } from "@/lib/context";
 import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
 import { TLocale } from "@/lib/models/types";
 import { locales } from "@/config";
-import { TagCategoryService } from "@/lib/Api/(Establishment)/tagCategory.api";
+import { TagCategoryService } from "@/lib/Api/(Establishment)/tag-category.api";
 import { ICategoryFront, IDetailLang } from "@/lib/models";
+import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
 
 const { Option } = Select;
 const { Search } = Input;
-
-// Интерфейсы для групп атрибутов
-interface IAttributeGroupValue {
-    id: string;
-    value: string;
-    lang: string;
-}
-
-interface IAttributeGroup {
-    id: string;
-    name: string;
-    code: string;
-    description?: string;
-    values: IAttributeGroupValue[];
-    attributeCount?: number;
-}
 
 interface GroupAttributeFormValues {
     name: string;
 }
 
 export const GroupAttributeTabAdmin = () => {
-    const tagCategoryService = new TagCategoryService();
-
+    const services = useMemo(
+        () => ({ tagCategory: new TagCategoryService() }),
+        []
+    );
     const message = useAlertMessage();
 
     const [isLoading, setIsLoading] = useState(false);
     const [tagCategories, setTagCategories] = useState<ICategoryFront[]>([]);
-    const [searchText, setSearchText] = useState("");
+    const [filteredTagCategories, setFilteredTagCategories] = useState<
+        ICategoryFront[] | null
+    >(null);
     const [isModalActive, setIsModalActive] = useState(false);
     const [isModalLoading, setIsModalLoading] = useState(false);
     const [editTagCategory, setEditTagCategory] =
         useState<ICategoryFront | null>(null);
     const [form] = Form.useForm<GroupAttributeFormValues>();
 
-    const langsDetailsDefault = locales.map((item) => ({
-        lang: item,
-        value: "",
-    }));
-    const [languageDetails, setLanguageDetails] =
-        useState<IDetailLang[]>(langsDetailsDefault);
-
+    const [languageDetails, setLanguageDetails] = useState<IDetailLang[]>(
+        CONSTANT_LANGS_DETAILS
+    );
+    const fetchAll = useCallback(async () => {
+        setIsLoading(true);
+        const response = await services.tagCategory.getAll();
+        if (!response) {
+            message.error("не получилось обновить");
+        } else {
+            setIsLoading(false);
+            message.info("Обновлено");
+            setTagCategories(response);
+        }
+    }, [message, services]);
     useEffect(() => {
         fetchAll();
-    }, []);
+    }, [fetchAll]);
 
     useEffect(() => {
         if (editTagCategory && isModalActive) {
@@ -89,29 +85,28 @@ export const GroupAttributeTabAdmin = () => {
             });
         } else if (isModalActive) {
             form.resetFields();
-            setLanguageDetails(langsDetailsDefault);
+            setLanguageDetails(CONSTANT_LANGS_DETAILS);
         }
     }, [editTagCategory, isModalActive, form]);
-
-    const fetchAll = async () => {
-        setIsLoading(true);
-        const response = await tagCategoryService.getAll();
-        if (!response) {
-            message.error("не получилось обновить");
-        } else {
-            setIsLoading(false);
-            message.info("Обновлено");
-            setTagCategories(response);
+    const filterByTitle = (value: string) => {
+        if (!value) {
+            setFilteredTagCategories(null);
+            return;
         }
+        const filteredData = tagCategories.filter((item) =>
+            item.value.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+        );
+        setFilteredTagCategories(filteredData);
     };
-
     const handleEdit = (tagCategory: ICategoryFront) => {
         setEditTagCategory(tagCategory);
         setIsModalActive(true);
     };
 
     const handleDelete = async (tagCategory: ICategoryFront) => {
-        const responseDelete = await tagCategoryService.delete(tagCategory.id);
+        const responseDelete = await services.tagCategory.delete(
+            tagCategory.id
+        );
 
         if (responseDelete) {
             fetchAll();
@@ -130,7 +125,7 @@ export const GroupAttributeTabAdmin = () => {
         setIsModalActive(false);
         setEditTagCategory(null);
         form.resetFields();
-        setLanguageDetails(langsDetailsDefault);
+        setLanguageDetails(CONSTANT_LANGS_DETAILS);
     };
 
     const handleLanguageDetailsChange = (details: IDetailLang[]) => {
@@ -159,7 +154,7 @@ export const GroupAttributeTabAdmin = () => {
             );
 
             if (editTagCategory) {
-                const responseCreate = await tagCategoryService.update(
+                const responseCreate = await services.tagCategory.update(
                     editTagCategory.id,
                     {
                         source: { Name: values.name },
@@ -173,7 +168,7 @@ export const GroupAttributeTabAdmin = () => {
                     message.error("Ошибка при обновлении группы атрибутов");
                 }
             } else {
-                const responseCreate = await tagCategoryService.create({
+                const responseCreate = await services.tagCategory.create({
                     source: { Name: values.name },
                     content: { details: filledDetails },
                 });
@@ -222,36 +217,6 @@ export const GroupAttributeTabAdmin = () => {
                 </Space>
             ),
         },
-        // {
-        //     title: "Кол-во атрибутов",
-        //     dataIndex: "attributeCount",
-        //     key: "attributeCount",
-        //     render: (count: number) => (
-        //         <Tag color={count > 0 ? "green" : "default"}>
-        //             {count} атрибутов
-        //         </Tag>
-        //     ),
-        // },
-        // {
-        //     title: "Описание",
-        //     dataIndex: "description",
-        //     key: "description",
-        //     render: (description: string) => (
-        //         <Tooltip title={description}>
-        //             <span
-        //                 style={{
-        //                     display: "block",
-        //                     maxWidth: 200,
-        //                     overflow: "hidden",
-        //                     textOverflow: "ellipsis",
-        //                     whiteSpace: "nowrap",
-        //                 }}
-        //             >
-        //                 {description || "-"}
-        //             </span>
-        //         </Tooltip>
-        //     ),
-        // },
         {
             title: "Действия",
             key: "actions",
@@ -293,7 +258,11 @@ export const GroupAttributeTabAdmin = () => {
     return (
         <>
             <Card
-                title={`Группы атрибутов (${tagCategories.length})`}
+                title={`Группы атрибутов (${
+                    !!filteredTagCategories
+                        ? filteredTagCategories.length
+                        : tagCategories.length
+                })`}
                 extra={
                     <Space>
                         <Button
@@ -316,12 +285,20 @@ export const GroupAttributeTabAdmin = () => {
                         placeholder="Поиск по названию, коду или описанию"
                         allowClear
                         style={{ width: 300 }}
-                        onChange={(e) => setSearchText(e.target.value)}
+                        onSearch={(value) => {
+                            filterByTitle(value);
+                        }}
+                        loading={isLoading}
                     />
                 </Space>
+
                 <Table
                     columns={columns}
-                    dataSource={tagCategories}
+                    dataSource={
+                        !!filteredTagCategories
+                            ? filteredTagCategories
+                            : tagCategories
+                    }
                     rowKey="id"
                     pagination={{
                         pageSize: 10,

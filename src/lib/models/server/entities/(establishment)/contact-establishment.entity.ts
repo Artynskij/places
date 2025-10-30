@@ -1,4 +1,4 @@
-import { ISocialContactsEntity } from "../../socialContacts.entity";
+import { ISocialContactsEntity } from "../socialContacts.entity";
 
 export interface IContactsEstablishmentEntity {
     Id: string;
@@ -14,6 +14,4 @@ export interface IContactsEstablishmentEntity {
     ContentId: string | null;
 }
 
-export interface IContactsEstablishmentWithContentEntity {
-    
-}
+export interface IContactsEstablishmentWithContentEntity {}

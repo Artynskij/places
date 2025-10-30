@@ -1,12 +1,12 @@
 import {
     IArticleStatusEntity,
     IBusinessLegalTypesEntity,
-    ICategoryEstablishmentEntity,
+    ICategoryEstablishmentWithContentPareEntity,
     IFavoriteTypeEntity,
     IGenderWithContentEntity,
     IRoleOwnerWithContentEntity,
     ITagWithContentPareEntity,
-    ITypeEstablishmentWithContentEntity,
+    ITypeEstablishmentWithContentPareEntity,
 } from "@/lib/models";
 
 import { ILocationTypeWithContentEntity } from "@/lib/models/server/entities/location-type.entity";
@@ -48,7 +48,7 @@ export default class DataLoadManagementApi {
         }
     }
     async getTypesOfEstablishment(): Promise<
-        ITypeEstablishmentWithContentEntity[] | null
+        ITypeEstablishmentWithContentPareEntity[] | null
     > {
         try {
             const response = await apiClient.get(
@@ -84,7 +84,7 @@ export default class DataLoadManagementApi {
     async getCategoriesOfEstablishments(
         locale: string,
         typeEstablishmentId: string | null
-    ): Promise<ICategoryEstablishmentEntity[] | null> {
+    ): Promise<ICategoryEstablishmentWithContentPareEntity[] | null> {
         try {
             const response = await apiClient.post(
                 `/category-of-establishment/get-all`,

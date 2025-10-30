@@ -1,4 +1,4 @@
-import { IMediaFront } from "./(establishment)/parts/media.front";
+import { IMediaFront } from "./(establishment)/media.front";
 
 export interface IVerificationFront {
     id: string;

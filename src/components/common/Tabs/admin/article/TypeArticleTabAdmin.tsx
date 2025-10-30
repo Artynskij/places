@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
     Table,
     Button,
@@ -54,11 +54,28 @@ export const TypeArticleTabAdmin: React.FC = () => {
     const [isModalLoading, setIsModalLoading] = useState(false);
     const [form] = Form.useForm<ArticleTypeFormValues>();
 
-    const articleTypeService = new ArticleTypeService();
+    const services = useMemo(
+        () => ({
+            articleType: new ArticleTypeService(),
+        }),
+        []
+    );
+
+    const fetchAll = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const data = await services.articleType.get();
+            setTypesArticle(data || []);
+        } catch {
+            message.error("Ошибка загрузки типов статей");
+        } finally {
+            setIsLoading(false);
+        }
+    }, [services]);
 
     useEffect(() => {
         fetchAll();
-    }, []);
+    }, [fetchAll]);
 
     useEffect(() => {
         if (editType && isModalActive) {
@@ -78,24 +95,12 @@ export const TypeArticleTabAdmin: React.FC = () => {
             form.resetFields();
             setLanguageDetails(langsDetailsDefault);
         }
-    }, [editType, isModalActive, form]);
-
-    const fetchAll = async () => {
-        setIsLoading(true);
-        try {
-            const data = await articleTypeService.get();
-            setTypesArticle(data || []);
-        } catch {
-            message.error("Ошибка загрузки типов статей");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    }, [editType, isModalActive, form, langsDetailsDefault]);
 
     const fetchById = async (id: string) => {
         setIsLoading(true);
         try {
-            const typeArticle = await articleTypeService.getById(id);
+            const typeArticle = await services.articleType.getById(id);
             if (!typeArticle) {
                 throw Error("Тип статьи не найден");
             }
@@ -149,7 +154,7 @@ export const TypeArticleTabAdmin: React.FC = () => {
             onOk: async () => {
                 try {
                     // TODO: Реализовать удаление через API
-                    await articleTypeService.delete(record.id);
+                    await services.articleType.delete(record.id);
                     setTypesArticle((prev) =>
                         prev.filter((c) => c.id !== record.id)
                     );
@@ -209,7 +214,7 @@ export const TypeArticleTabAdmin: React.FC = () => {
 
             if (editType) {
                 // Редактирование существующего типа
-                const updatedType = await articleTypeService.update(
+                const updatedType = await services.articleType.update(
                     editType.id,
                     body
                 );
@@ -224,7 +229,7 @@ export const TypeArticleTabAdmin: React.FC = () => {
             } else {
                 // Создание нового типа
 
-                const newType = await articleTypeService.create(body);
+                const newType = await services.articleType.create(body);
 
                 if (newType) {
                     message.success("Тип статьи создан");

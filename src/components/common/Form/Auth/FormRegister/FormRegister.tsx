@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import style from "./formRegister.module.scss";
@@ -47,9 +47,17 @@ export const FormRegister = () => {
         resolver: yupResolver(validationSchemaRegister),
     });
     const t = useTranslations("AuthPage.text");
-    const personService = new PersonService();
-    const contactsPersonService = new ContactsPersonService();
-    const validationPersonServerService = new ValidationPersonServerService();
+    const services = useMemo(
+        () => ({
+            person: new PersonService(),
+            contactsPerson: new ContactsPersonService(),
+            validationPersonServer: new ValidationPersonServerService(),
+        }),
+        []
+    );
+    // const personService = new PersonService();
+    // const contactsPersonService = new ContactsPersonService();
+    // const validationPersonServerService = new ValidationPersonServerService();
     useEffect(() => {
         const header = document.querySelector("header");
         const footer = document.querySelector("footer");
@@ -67,10 +75,10 @@ export const FormRegister = () => {
     }, []);
 
     const onSubmit: SubmitHandler<TTypeForm> = async (dataForm) => {
-        const validEmail = await validationPersonServerService.email(
+        const validEmail = await services.validationPersonServer.email(
             dataForm.email
         );
-        const validNickname = await validationPersonServerService.nickname(
+        const validNickname = await services.validationPersonServer.nickname(
             dataForm.nickname
         );
         if (!validEmail) {
@@ -85,7 +93,7 @@ export const FormRegister = () => {
             });
             return;
         }
-        const createdContact = await contactsPersonService.create({
+        const createdContact = await services.contactsPerson.create({
             moderation: {},
             data: {
                 source: { Email: dataForm.email },
@@ -97,7 +105,7 @@ export const FormRegister = () => {
             });
             return;
         }
-        const createdPerson = await personService.create({
+        const createdPerson = await services.person.create({
             moderation: {},
             data: {
                 source: {

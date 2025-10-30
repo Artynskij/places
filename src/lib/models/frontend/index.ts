@@ -4,13 +4,14 @@ export * from "./(article)/article-subType.front";
 export * from "./(article)/article-category.front";
 export * from "./(article)/article.front";
 
+export * from "./(establishment)/category-establishment.front";
+export * from "./(establishment)/category-root-establishment.front";
+export * from "./(establishment)/contacts-establishment.front";
+export * from "./(establishment)/rate-establishment.front";
 export * from "./(establishment)/establishment.front";
-export * from "./(establishment)/establishmentRate.front";
+export * from "./(establishment)/media.front";
 export * from "./(establishment)/schedule.front";
 export * from "./(establishment)/tag.front";
-export * from "./(establishment)/category.front";
-export * from "./(establishment)/parts/contactsEstablishment.front";
-export * from "./(establishment)/parts/media.front";
 
 export * from "./(person)/address.front";
 export * from "./(person)/consents.front";
@@ -28,6 +29,7 @@ export * from "./(person)/travelProgress.front";
 export * from "./base/base.front";
 
 export * from "./business.front";
+export * from "./category.front";
 export * from "./location.front";
 export * from "./mapItem.front";
 export * from "./search.front";

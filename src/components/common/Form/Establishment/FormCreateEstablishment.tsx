@@ -15,7 +15,10 @@ import { IImageEntity, IOption } from "@/lib/models";
 import { TAgreementKey } from "@/lib/models/types";
 
 import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
-import { CONSTANT_MESSANGER_NETWORKS_ARRAY, CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-networks.const";
+import {
+    CONSTANT_MESSENGER_NETWORKS_ARRAY,
+    CONSTANT_SOCIAL_NETWORKS_ARRAY,
+} from "@/asset/constants/social-networks.const";
 import { useNotification } from "@/lib/context";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 
@@ -331,7 +334,6 @@ const FormCreateEstablishmentBase = ({
                                     }
                                 }
                             />
-
                         )}
                     />
                     <Controller
@@ -340,7 +342,7 @@ const FormCreateEstablishmentBase = ({
                         render={({ field }) => (
                             <SocialContactsBlockForm
                                 titleSpan=" Месенджеры"
-                                keysData={CONSTANT_MESSANGER_NETWORKS_ARRAY}
+                                keysData={CONSTANT_MESSENGER_NETWORKS_ARRAY}
                                 value={field.value || []}
                                 onChange={field.onChange}
                                 nameSelectImportant="Добавить мессенджер"
@@ -352,7 +354,6 @@ const FormCreateEstablishmentBase = ({
                             />
                         )}
                     />
-
                 </div>
             </div>
             <div className={style.selectionBlock}>

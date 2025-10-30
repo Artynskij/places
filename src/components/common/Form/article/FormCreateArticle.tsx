@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button, Input, Form, Upload, Select, Modal, Space } from "antd";
 import TipTapEditor from "@/components/common/TipTap/Editor/TipTapEditor";
 import TextArea from "antd/es/input/TextArea";
@@ -77,20 +77,7 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
         subType: new ArticleSubTypeService(),
     };
 
-    // Инициализация данных
-    useEffect(() => {
-        loadInitialData();
-    }, []);
-
-    useEffect(() => {
-        initializeFormData();
-    }, [initialData]);
-
-    useEffect(() => {
-        updateFilteredSubTypes();
-    }, [selectedTypes, articleSubTypes]);
-
-    const loadInitialData = async () => {
+    const loadInitialData = useCallback(async () => {
         try {
             const [types, subTypes] = await Promise.all([
                 services.type.get(),
@@ -101,9 +88,11 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
         } catch (error) {
             console.error("Ошибка загрузки данных:", error);
         }
-    };
-
-    const initializeFormData = () => {
+    }, [services.type, services.subType]);
+    useEffect(() => {
+        loadInitialData();
+    }, [loadInitialData]);
+    const initializeFormData = useCallback(() => {
         if (initialData) {
             const typeIds = initialData.type.map((item) => item.id);
             const subTypeIds = initialData.subType.map((item) => item.id);
@@ -124,16 +113,11 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
                               status: "done",
                               url: initialData.titleImage.src,
                               thumbUrl: initialData.titleImage.src,
-                              //   src: initialData.titleImage.src,
                           },
                       ]
                     : [],
             });
             setArticleData(initialData);
-            // setEditorData({
-            //     content: initialData.markdown,
-            //     mediaStorage: initialData.media,
-            // });
             setSelectedTypes(typeIds);
         } else {
             form.setFieldsValue({
@@ -150,20 +134,24 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
             setEditorData(null);
             setArticleData(null);
         }
-    };
-
-    const updateFilteredSubTypes = () => {
+    }, [initialData, form]);
+    useEffect(() => {
+        initializeFormData();
+    }, [initializeFormData]);
+    const updateFilteredSubTypes = useCallback(() => {
         if (selectedTypes.length > 0) {
             const filtered = articleSubTypes.filter((subType) =>
                 selectedTypes.includes(subType.articleTypeId)
             );
             setFilteredSubTypes(filtered);
-            // Сбрасываем выбранные подрубрики при смене категорий
             form.setFieldValue("subTypeIds", []);
         } else {
             setFilteredSubTypes([]);
         }
-    };
+    }, [selectedTypes, articleSubTypes, form]);
+    useEffect(() => {
+        updateFilteredSubTypes();
+    }, [updateFilteredSubTypes]);
 
     // Основные обработчики
     const handleSave = async (values: ArticleFormValues) => {

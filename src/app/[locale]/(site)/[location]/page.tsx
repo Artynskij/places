@@ -12,7 +12,7 @@ import { notFound } from "next/navigation";
 
 import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { LocationService } from "@/lib/Api/location/location.service";
-import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
+import { EstablishmentTagsService } from "@/lib/Api/(Establishment)/establishment-tags/establishment-tags.service";
 import { CONSTANT_COUNTRIES_DB } from "@/asset/constants/database/countries.const";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
 
@@ -31,7 +31,7 @@ interface IProps extends IBasePageProps<{ location: string }> {}
 export default async function CountryPage({ params, searchParams }: IProps) {
     const apiEstablishment = new EstablishmentService();
     const apiLocation = new LocationService();
-    const apiTags = new TagsService();
+    const apiTags = new EstablishmentTagsService();
 
     const eaterEstablishment = await apiEstablishment.getByPagination({
         pagination: { page: 1, pageSize: 10 },

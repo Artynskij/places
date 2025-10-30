@@ -2,7 +2,7 @@ import { IPersonFront } from "../(person)/person.front";
 import { TTypesRateEstablishment } from "../../types";
 import { IEstablishmentFront } from "./establishment.front";
 
-export interface IEstablishmentRateFront {
+export interface IRateEstablishmentFront {
     establishment: IEstablishmentFront;
     person: IPersonFront;
     PersonsVisitDate: string;

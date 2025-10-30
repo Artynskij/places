@@ -5,7 +5,7 @@ import style from "./tabBusinessOwner.module.scss";
 import { Button } from "@/components/UI/Button/Button";
 import { ROUTES } from "@/lib/config/Routes";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { BusinessService } from "@/lib/Api/business/business.service";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { IBusinessFront } from "@/lib/models";
@@ -13,27 +13,32 @@ import { IBusinessFront } from "@/lib/models";
 import { BusinessForm } from "@/components/common/Form/Business/BusinessForm";
 import { log } from "console";
 
-import { Card } from 'antd';
+import { Card } from "antd";
 import { getFormatDate } from "@/lib/helpers/getFormatDate";
 
 export const TabBusinessOwner = () => {
-    const businessService = new BusinessService();
+    const services = useMemo(() => ({ business: new BusinessService() }), []);
+
     const { user } = useUser();
     const [businessData, setBusinessData] = useState<IBusinessFront[]>();
-    console.log('businessData в компоненте.', businessData)
-    useEffect(() => {
+    const fetchData = useCallback(() => {
         if (user) {
-            businessService.getAssignment({ personId: user.id }).then((res) => {
-                if (res) {
-                    const businessData = res
-                        .map((item) => item.Business)
-                        .filter((item) => !!item);
-                    console.log(res)
-                    setBusinessData(businessData as IBusinessFront[]);
-                }
-            });
+            services.business
+                .getAssignment({ personId: user.id })
+                .then((res) => {
+                    if (res) {
+                        const businessData = res
+                            .map((item) => item.Business)
+                            .filter((item) => !!item);
+
+                        setBusinessData(businessData as IBusinessFront[]);
+                    }
+                });
         }
-    }, []);
+    }, [services, user]);
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
     return (
         <div className={style.tab}>
             <div className={style.tab_title}>
@@ -56,10 +61,36 @@ export const TabBusinessOwner = () => {
                                 key={business.Id}
                                 type="inner"
                                 title={business.OfficialName}
-                                extra={<Link href={ROUTES.PROFILE.BUSINESS(business.Id)} className={style.link}>Перейти</Link>}>
-                                    <p><span className={style.description}>Дата добавления на сайт:</span>{getFormatDate(business.CreatedDate)}</p>
-                                    <p><span className={style.description}>Регистрационный номер:</span>{business.RegistrationNumber || 'Не указано'}</p>
-                                    <p><span className={style.description}>ID:</span>{business.Id}</p>
+                                extra={
+                                    <Link
+                                        href={ROUTES.PROFILE.BUSINESS(
+                                            business.Id
+                                        )}
+                                        className={style.link}
+                                    >
+                                        Перейти
+                                    </Link>
+                                }
+                            >
+                                <p>
+                                    <span className={style.description}>
+                                        Дата добавления на сайт:
+                                    </span>
+                                    {getFormatDate(business.CreatedDate)}
+                                </p>
+                                <p>
+                                    <span className={style.description}>
+                                        Регистрационный номер:
+                                    </span>
+                                    {business.RegistrationNumber ||
+                                        "Не указано"}
+                                </p>
+                                <p>
+                                    <span className={style.description}>
+                                        ID:
+                                    </span>
+                                    {business.Id}
+                                </p>
                             </Card>
                         );
                     })
@@ -70,4 +101,3 @@ export const TabBusinessOwner = () => {
         </div>
     );
 };
-

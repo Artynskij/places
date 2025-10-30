@@ -7,17 +7,15 @@ import {
     ISearchQueryResponseFront,
 } from "@/lib/models";
 
-
-
-import TagsMapper from "../(Establishment)/tags/tag.mapper";
+import EstablishmentTagsMapper from "../(Establishment)/establishment-tags/establishment-tags.mapper";
 import { ISearchQueryRequest } from "@/lib/models/server/request/search.request";
 import { TGlobalTypes } from "@/lib/models/types";
 
 export class SearchMapper {
-    private tagsMapper: TagsMapper;
+    private tagsMapper: EstablishmentTagsMapper;
 
     constructor() {
-        this.tagsMapper = new TagsMapper();
+        this.tagsMapper = new EstablishmentTagsMapper();
     }
 
     mapSearchQuery(

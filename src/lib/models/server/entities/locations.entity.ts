@@ -7,6 +7,7 @@ export interface ILocationEntity extends IBaseEntity {
     Path: string;
     StaticMapPath: string | null;
     EstablishmentCount: number | null;
+    Country: ILocationWithContentEntity | null;
     LocationType?: {
         Id: string;
         Name: string;

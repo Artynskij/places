@@ -1,5 +1,6 @@
 import { CONSTANT_CATEGORY_CLASS_TAG_DB } from "@/asset/constants/database/category-class-tag.const";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
+import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
 import { ITagBlockFront, ITagWithEstablishmentFront } from "@/lib/models";
 
 import {
@@ -7,7 +8,7 @@ import {
     ITagsOfEstablishmentResponse,
 } from "@/lib/models/server/response";
 
-export default class TagsMapper {
+export default class EstablishmentTagsMapper {
     constructor() {}
     tagBlock(
         tags: ITagsOfEstablishmentFilterResponse | null,
@@ -53,6 +54,13 @@ export default class TagsMapper {
                                   secondaryValue:
                                       tag.content.details[0]?.secondaryValue ||
                                       null,
+                                  tagCategory: {
+                                      id: tag.TagCategory.Id,
+                                      key: tag.TagCategory.Name,
+                                      value: getActuallyTitleServer(
+                                          tag.TagCategory.content.details
+                                      ),
+                                  },
                                   iconName:
                                       tag.content.details[0]?.cIcon || null,
                                   count: countStar || countPrice || null,
@@ -97,6 +105,11 @@ export default class TagsMapper {
                               id: cat.Id,
                               key: `${CONSTANT_SEARCH_PARAMS.filterParam.category}${cat.Id}`,
                               value: cat.content.details[0]?.value,
+                              tagCategory: {
+                                  id: "1234",
+                                  key: "categories",
+                                  value: "категории",
+                              },
                               secondaryValue:
                                   cat.content.details[0]?.secondaryValue ||
                                   null,
@@ -155,16 +168,24 @@ export default class TagsMapper {
                         id: tag.Tag.Id,
                         key: tag.Tag.Id,
                         value: tag.Tag.content.details[0]?.value,
+                        tagCategory: {
+                            id: tag.Tag.TagCategory.Id,
+                            key: tag.Tag.TagCategory.Name,
+                            value: getActuallyTitleServer(
+                                tag.Tag.TagCategory.content.details
+                            ),
+                        },
                         secondaryValue:
                             tag.Tag.content.details[0]?.secondaryValue || null,
                         iconName: tag.Tag.content.details[0]?.cIcon || null,
                         count: countStar || countPrice || null,
                     },
-                    categoryTag: {
+                    tagCategory: {
                         id: tag.Tag.TagCategory.Id,
                         value:
-                            tag.Tag.TagCategory.content.details[0]?.value ||
-                            tag.Tag.TagCategory.Name,
+                            getActuallyTitleServer(
+                                tag.Tag.TagCategory.content.details
+                            ) || tag.Tag.TagCategory.Name,
                         key: tag.Tag.TagCategory.Name,
                     },
                 };
@@ -192,46 +213,4 @@ export default class TagsMapper {
             return 0;
         }
     }
-    // TODO: add priceRating with establishment EATER
-    // transformClassTags(
-    //     tags: ITagsOfEstablishmentResponse[] | null
-    // ): ITagWithEstablishmentFront[] | null {
-    //     const mappingData = this.tagWithEstablishment(tags)?.filter(
-    //         (tag) => tag.categoryTag.key === "starRating"
-    //     );
-    //     if (!mappingData) return null;
-
-    //     const mappingDataWithCount: ITagWithEstablishmentFront[] =
-    //         mappingData.map((tag) => {
-    //             const count = +(tag.tag.value
-    //                 .split(" ")[0]
-    //                 .replace(",", ".") as string);
-    //             return {
-    //                 categoryTag: tag.categoryTag,
-    //                 establishmentId: tag.establishmentId,
-    //                 tag: {
-    //                     ...tag.tag,
-    //                     count,
-    //                 },
-    //             };
-    //         });
-    //     return mappingDataWithCount;
-    // }
-    // separationClassTag(tags: ITagBlockFront[]): ITagBlockFront | null {
-    //     const _indexClassTag =
-    //         tags.indexOf(
-    //             tags.filter((item) => item.groupKey.key === "starRating")[0]
-    //         ) || -1;
-    //     const classTag =
-    //         _indexClassTag > 0 ? tags.splice(_indexClassTag, 1)[0] : null;
-    //     const modifyClassTag = classTag
-    //         ? {
-    //               ...classTag,
-    //               count: +classTag?.tags[0]?.value
-    //                   ?.split(" ")[0]
-    //                   .replace(",", "."),
-    //           }
-    //         : null;
-    //     return modifyClassTag;
-    // }
 }

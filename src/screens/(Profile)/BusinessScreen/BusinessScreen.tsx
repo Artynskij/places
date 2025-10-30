@@ -7,7 +7,7 @@ import { IBusinessFront, IBasePageProps } from "@/lib/models";
 import { useTranslations } from "next-intl";
 
 import { BusinessService } from "@/lib/Api/business/business.service";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 
 import Link from "next/link";
@@ -38,15 +38,14 @@ function BusinessScreenBase({ params, searchParams }: IProps) {
     const activeTab = searchParams?.tab;
     const notification = useNotification();
 
-    const businessService = new BusinessService();
-
+    const services = useMemo(() => ({ business: new BusinessService() }), []);
     const [businessData, setBusinessData] = useState<IBusinessFront>();
     useEffect(() => {
         if (!user) {
             notification.error({ message: "user нету?????" });
             return;
         }
-        businessService.getById(params.business).then((res) => {
+        services.business.getById(params.business).then((res) => {
             if (res) {
                 console.log(res);
                 setBusinessData(res);
@@ -54,7 +53,7 @@ function BusinessScreenBase({ params, searchParams }: IProps) {
                 notification.error({ message: "нету бизнеса" });
             }
         });
-    }, []);
+    }, [notification, services, user, params]);
 
     if (!user) return null;
     if (!businessData) return <Loader />;

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { ILocationFront, ISearchItemFront } from "@/lib/models";
 import {
     Button,
@@ -34,6 +34,8 @@ import { TLocale } from "@/lib/models/types";
 import type { UploadFile } from "antd/es/upload/interface";
 import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
 import { locales } from "@/config";
+import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
+import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
 
 const { Search } = Input;
 type TOption = { label: string; value: string };
@@ -47,11 +49,6 @@ const LocationsTabAdmin: React.FC = () => {
     const { user } = useUser();
     const locale = useLocale();
 
-    const langsDetailsDefault = locales.map((item) => ({
-        lang: item,
-        value: "",
-    }));
-
     const [locations, setLocations] = useState<ILocationFront[]>([]);
     const [editLocation, setEditLocation] = useState<ILocationFront | null>(
         null
@@ -61,46 +58,50 @@ const LocationsTabAdmin: React.FC = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
-    const [languageDetails, setLanguageDetails] =
-        useState<TDetails[]>(langsDetailsDefault);
+    const [languageDetails, setLanguageDetails] = useState<TDetails[]>(
+        CONSTANT_LANGS_DETAILS
+    );
     const [isModalLoading, setIsModalLoading] = useState(false);
     const [form] = Form.useForm<LocationFormValues>();
+    const services = useMemo(
+        () => ({
+            location: new LocationService(),
+            search: new SearchService(),
+            fileUpload: new FileUploadService(),
+            dataLoadManager: new DataLoadManagementService(),
+            moderation: new ModerationService(),
+        }),
+        []
+    );
 
-    const locationService = new LocationService();
-    const searchService = new SearchService();
-    const fileUploadService = new FileUploadService();
-    const dataLoadManagerService = new DataLoadManagementService();
-    const moderationService = new ModerationService();
+    const initializeData = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const [typesData, locationsData] = await Promise.all([
+                services.dataLoadManager.getTypesLocation(),
+                services.location.getAll({
+                    pagination: { page: 1, pageSize: 1000 },
+                }),
+            ]);
 
-    useEffect(() => {
-        const initializeData = async () => {
-            setIsLoading(true);
-            try {
-                const [typesData, locationsData] = await Promise.all([
-                    dataLoadManagerService.getTypesLocation(),
-                    locationService.getAll({
-                        pagination: { page: 1, pageSize: 1000 },
-                    }),
-                ]);
-
-                if (typesData) {
-                    const transformData = typesData.map((item) => ({
-                        label: item.type.Name,
-                        value: item.type.Id,
-                    }));
-                    setTypesLocationsData(transformData);
-                }
-
-                setLocations(locationsData?.locations || []);
-            } catch {
-                message.error("Ошибка загрузки данных");
-            } finally {
-                setIsLoading(false);
+            if (typesData) {
+                const transformData = typesData.map((item) => ({
+                    label: item.type.Name,
+                    value: item.type.Id,
+                }));
+                setTypesLocationsData(transformData);
             }
-        };
 
+            setLocations(locationsData?.locations || []);
+        } catch {
+            message.error("Ошибка загрузки данных");
+        } finally {
+            setIsLoading(false);
+        }
+    }, [services]);
+    useEffect(() => {
         initializeData();
-    }, []);
+    }, [initializeData]);
 
     useEffect(() => {
         if (editLocation && isModalActive) {
@@ -108,7 +109,7 @@ const LocationsTabAdmin: React.FC = () => {
                 editLocation.content?.details?.map((detail) => ({
                     lang: detail.lang as TLocale,
                     value: detail.value || "",
-                })) || langsDetailsDefault;
+                })) || CONSTANT_LANGS_DETAILS;
 
             setLanguageDetails(details);
 
@@ -123,14 +124,14 @@ const LocationsTabAdmin: React.FC = () => {
             });
         } else if (isModalActive) {
             form.resetFields();
-            setLanguageDetails(langsDetailsDefault);
+            setLanguageDetails(CONSTANT_LANGS_DETAILS);
         }
-    }, [editLocation, isModalActive, form]);
+    }, [editLocation, isModalActive, form, CONSTANT_LANGS_DETAILS]);
 
     const fetchAll = async (idType?: string) => {
         setIsLoading(true);
         try {
-            const data = await locationService.getAll({
+            const data = await services.location.getAll({
                 pagination: { page: 1, pageSize: 1000 },
             });
 
@@ -156,8 +157,8 @@ const LocationsTabAdmin: React.FC = () => {
         setIsLoading(true);
         try {
             const [locationById, locationsInside] = await Promise.all([
-                locationService.getById(id),
-                locationService.getAll({
+                services.location.getById(id),
+                services.location.getAll({
                     pagination: { page: 1, pageSize: 1000 },
                     locationId: id,
                 }),
@@ -167,9 +168,9 @@ const LocationsTabAdmin: React.FC = () => {
                 throw Error("Локация не найдена");
             }
 
-            const locationsInsideFiltered = (locationsInside?.locations || []).filter(
-                (item) => item.id !== locationById.id
-            );
+            const locationsInsideFiltered = (
+                locationsInside?.locations || []
+            ).filter((item) => item.id !== locationById.id);
             setLocations([locationById, ...locationsInsideFiltered]);
         } catch {
             message.error("Локация не найдена");
@@ -185,7 +186,7 @@ const LocationsTabAdmin: React.FC = () => {
         }
 
         try {
-            const responseSearch = await searchService.querySearch({
+            const responseSearch = await services.search.querySearch({
                 term: title,
                 indexKey: "TO_GO",
                 localLang: locale,
@@ -221,7 +222,7 @@ const LocationsTabAdmin: React.FC = () => {
         setIsModalActive(false);
         setEditLocation(null);
         form.resetFields();
-        setLanguageDetails(langsDetailsDefault);
+        setLanguageDetails(CONSTANT_LANGS_DETAILS);
     };
 
     const handleLanguageDetailsChange = (
@@ -254,9 +255,8 @@ const LocationsTabAdmin: React.FC = () => {
                 message.error("пока не создаем локацию");
                 return;
             }
-            const moderationObject = await moderationService.getModerationData(
-                user.id
-            );
+            const moderationObject =
+                await services.moderation.getModerationData(user.id);
 
             if (!moderationObject) {
                 message.error("Ошибка с получением токенов модерации");
@@ -264,14 +264,14 @@ const LocationsTabAdmin: React.FC = () => {
             }
 
             const files = values.media
-                ? await fileUploadService.uploadPublicFileOfAntdFiles({
+                ? await services.fileUpload.uploadPublicFileOfAntdFiles({
                       vendorId: editLocation?.id || "temp",
                       files: values.media,
                   })
                 : [];
 
             if (editLocation) {
-                const updatedLocation = await locationService.update(
+                const updatedLocation = await services.location.update(
                     editLocation.id,
                     {
                         moderation: moderationObject,
@@ -312,6 +312,20 @@ const LocationsTabAdmin: React.FC = () => {
 
     const locationColumns: ColumnsType<ILocationFront> = [
         { title: "Название", dataIndex: "title", key: "title" },
+        {
+            title: "Название",
+            dataIndex: "country",
+            key: "title",
+            render: (country: ILocationFront["country"]) => (
+                <Space>
+                    {country?.content?.details && (
+                        <Tag color="default">
+                            {getActuallyTitleServer(country?.content?.details)}
+                        </Tag>
+                    )}
+                </Space>
+            ),
+        },
         { title: "ID", dataIndex: "id", key: "id" },
         {
             title: "Тип локации",
@@ -332,9 +346,22 @@ const LocationsTabAdmin: React.FC = () => {
             ),
         },
         {
+            title: "Объектов",
+            key: "establishmentCount",
+            render: (_, record) => (
+                <Space>
+                    <Tag color="blue">{record.establishmentCount || 0}</Tag>
+                </Space>
+            ),
+        },
+        {
             title: "Медиа",
             key: "media",
-            render: (_, record) => <Space>{record.media?.length || 0}</Space>,
+            render: (media) => (
+                <Space>
+                    <Tag color="blue">{media?.length || 0}</Tag>
+                </Space>
+            ),
         },
         {
             title: "Действия",

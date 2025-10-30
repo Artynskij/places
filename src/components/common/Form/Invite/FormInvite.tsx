@@ -9,7 +9,7 @@ import {
 
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import style from "./formInvite.module.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 import { SelectCustom } from "@/components/UI/SelectCustom/SelectCustom";
 import { IBusinessFront, IOption } from "@/lib/models";
@@ -21,7 +21,7 @@ import { Loader } from "../../Loader/Loader";
 import { Button } from "@/components/UI/Button/Button";
 import { useTranslations } from "next-intl";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
-import { data } from "@maptiler/sdk";
+
 import { InvitesService } from "@/lib/Api/invites/invites.service";
 
 const validationSchemaInvite = Yup.object({
@@ -38,9 +38,14 @@ export const FormInvite = ({ children, business }: IProp) => {
     type TTypeForm = Yup.InferType<typeof validationSchemaInvite>;
     const notification = useNotification();
     const tRole = useTranslations("Role");
-    const dataLoadManagementService = new DataLoadManagementService();
-    const personService = new PersonService();
-    const inviteService = new InvitesService();
+    const services = useMemo(
+        () => ({
+            dataLoadManagement: new DataLoadManagementService(),
+            person: new PersonService(),
+            invite: new InvitesService(),
+        }),
+        []
+    );
 
     const [optionsRoles, setOptionsRoles] = useState<IOption[]>();
     const [modalActive, setModalActive] = useState(false);
@@ -49,12 +54,11 @@ export const FormInvite = ({ children, business }: IProp) => {
         handleSubmit,
         control,
         formState: { errors, isSubmitting },
-        watch,
     } = useForm({
         resolver: yupResolver(validationSchemaInvite),
     });
     useEffect(() => {
-        dataLoadManagementService.getRolesOwner().then((res) => {
+        services.dataLoadManagement.getRolesOwner().then((res) => {
             if (res) {
                 const options: IOption[] = res.map((role) => {
                     return {
@@ -66,13 +70,13 @@ export const FormInvite = ({ children, business }: IProp) => {
                 setOptionsRoles(options);
             }
         });
-    }, []);
+    }, [services, tRole]);
 
     const handlerCloseModal = () => {
         setModalActive(false);
     };
     const onSubmit: SubmitHandler<TTypeForm> = async (dataForm) => {
-        const personInviteId = await personService.getByEmail(dataForm.email);
+        const personInviteId = await services.person.getByEmail(dataForm.email);
         console.log(personInviteId);
         if (!personInviteId) {
             notification.error({
@@ -80,7 +84,7 @@ export const FormInvite = ({ children, business }: IProp) => {
             });
             return;
         }
-        const invitedData = await inviteService.create({
+        const invitedData = await services.invite.create({
             businessId: business.Id,
             roleId: dataForm.role,
             personId: personInviteId,

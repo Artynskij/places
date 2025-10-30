@@ -17,7 +17,7 @@ import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 import { InputPhoneNumber } from "@/components/UI/Input/InputPhone/InputPhone";
 import { Button } from "@/components/UI/Button/Button";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { UploadButton } from "@/components/common/ButtonFunctional/UploadButton";
 import { validImageFileSchema } from "@/lib/validationSchemas/file/imageArraySchema";
@@ -40,8 +40,7 @@ import { Loader } from "../../Loader/Loader";
 
 import { AvatarBlockForm } from "../_components/AvatarBlock/AvatarBlock";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/default.const";
-import { VerificationService } from "@/lib/Api/verification.api";
-import { IImageEntity } from "@/lib/models";
+
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { PersonNameService } from "@/lib/Api/(Person)/personName.api";
 import { validationPersonOwner } from "@/lib/validationSchemas/person/personValid.schema";
@@ -55,11 +54,14 @@ export const FormSettingsOwner = () => {
     const notification = useNotification();
     const { user } = useUser();
 
-    const personService = new PersonService();
-    const moderationService = new ModerationService();
-
-    const generalPersonService = new GeneralPersonService();
-
+    const services = useMemo(
+        () => ({
+            person: new PersonService(),
+            moderation: new ModerationService(),
+            generalPerson: new GeneralPersonService(),
+        }),
+        []
+    );
     const router = useRouter();
 
     const [personData, setPersonData] = useState<IPersonFront>();
@@ -76,7 +78,7 @@ export const FormSettingsOwner = () => {
 
     useEffect(() => {
         if (!user) return;
-        personService.getById(user.id).then(async (person) => {
+        services.person.getById(user.id).then(async (person) => {
             if (person) {
                 setPersonData(person);
 
@@ -96,7 +98,7 @@ export const FormSettingsOwner = () => {
                 reset(formData);
             }
         });
-    }, [reset]);
+    }, [reset, services, user]);
 
     const onSubmit = async (formData: TTypeForm) => {
         if (!initialFormData) {
@@ -109,7 +111,7 @@ export const FormSettingsOwner = () => {
             notification.error({ message: "не найден пользователь" });
             return;
         }
-        const response = await generalPersonService.updateOwner({
+        const response = await services.generalPerson.updateOwner({
             formData: formData,
             initialForm: initialFormData,
             personData: personData,
@@ -136,11 +138,11 @@ export const FormSettingsOwner = () => {
     };
     const handlerDeleteAvatar = async () => {
         if (!personData) return;
-        const moderationObject = await moderationService.getModerationData(
+        const moderationObject = await services.moderation.getModerationData(
             personData.id
         );
         if (!moderationObject) return;
-        personService
+        services.person
             .update(personData.id, {
                 moderation: moderationObject,
                 data: {
@@ -210,7 +212,7 @@ export const FormSettingsOwner = () => {
             </div>
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
-                    Данные законного представителя 
+                    Данные законного представителя
                 </div>
                 <div className={style.selectionBlock_content}>
                     <InputForm
@@ -263,7 +265,7 @@ export const FormSettingsOwner = () => {
             </div>
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
-                    Прикрепление подтверждающих документов* 
+                    Прикрепление подтверждающих документов*
                 </div>
                 <div className={style.selectionBlock_content}>
                     <Controller

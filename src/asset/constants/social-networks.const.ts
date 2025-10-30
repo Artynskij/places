@@ -15,10 +15,8 @@ export const CONSTANT_SOCIAL_NETWORKS_ARRAY: TSocialNetworks[] = [
     // "Telegram",
     // "Viber",
 ];
-export const CONSTANT_MESSANGER_NETWORKS_ARRAY: TSocialNetworks[] = [
-
+export const CONSTANT_MESSENGER_NETWORKS_ARRAY: TSocialNetworks[] = [
     "WhatsApp",
     "Telegram",
     "Viber",
 ];
-

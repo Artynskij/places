@@ -1,3 +1,4 @@
+import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
 import {
     ILocationFront,
     ILocationWithContentPareEntity,
@@ -10,6 +11,7 @@ export default class LocationMapper {
         location: ILocationWithContentPareEntity,
         cdnHost: string
     ): ILocationFront {
+        const title = getActuallyTitleServer(location?.content?.details)
         const mediaFiles: IMediaFront[] | null =
             location.content?.media?.gallery?.map((mediaItem) => {
                 return {
@@ -25,9 +27,10 @@ export default class LocationMapper {
                     isMain: mediaItem.isMain || false,
                 };
             }) || null;
+        // const country = location.location.
         const mappingData: ILocationFront = {
             id: location.location.Id,
-            title: location?.content?.details[0]?.value || "",
+            title: title || "",
             locationType: location.location.LocationType
                 ? {
                       id: location.location.LocationType.Id,
@@ -35,6 +38,8 @@ export default class LocationMapper {
                   }
                 : null,
             pathBreadcrumb: location.location.Path,
+            country: location.location.Country,
+            establishmentCount: location.location.EstablishmentCount,
             media: mediaFiles,
             content: location.content,
         };

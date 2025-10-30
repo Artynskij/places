@@ -13,11 +13,6 @@ import {
 
 import { IEstablishmentFront, IOption } from "@/lib/models";
 
-import {
-    IEstablishmentCreateRequest,
-    ISocialContactsRequest,
-} from "@/lib/models/server/request";
-
 import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 
 import { useNotification } from "@/lib/context";
@@ -40,13 +35,13 @@ import { ScheduleBlockForm } from "../_components/ScheduleBlock/ScheduleBlock";
 import { SocialContactsBlockForm } from "../_components/SocialContacts/SocialContacts";
 // import { ScheduleService } from "@/lib/Api/(Establishment)/schedule/schedule.service";
 
-import { TagsService } from "@/lib/Api/(Establishment)/tags/tag.service";
+import { EstablishmentTagsService } from "@/lib/Api/(Establishment)/establishment-tags/establishment-tags.service";
 import { FileUploadService } from "@/lib/Api/fileUpload/fileUploads.service";
 
 import { validationSchemaEstablishmentUpdate } from "./validationSchema";
 
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { GeneralEstablishmentService } from "@/lib/Api/(MainService)/establishment.general";
 import { FormLanguagesBlock } from "../_components/ContentBlock/ContentBlock";
@@ -54,7 +49,10 @@ import { FormLanguagesBlock } from "../_components/ContentBlock/ContentBlock";
 import PhotoBlockForm from "../_components/PhotoBlock/PhotoBlock";
 
 import { SpinnerAnt } from "../../Spinner/SpinnerAnt";
-import { CONSTANT_MESSANGER_NETWORKS_ARRAY, CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-networks.const";
+import {
+    CONSTANT_MESSENGER_NETWORKS_ARRAY,
+    CONSTANT_SOCIAL_NETWORKS_ARRAY,
+} from "@/asset/constants/social-networks.const";
 import { ScheduleService } from "@/lib/Api/(Establishment)/schedule.api";
 import { SocialNetworksService } from "@/lib/Api/social-networks.api";
 interface IFormCreateEstablishment {
@@ -74,14 +72,16 @@ const FormUpdateEstablishmentBase = ({
     const [initialFormData, setInitialFormData] = useState<TTypeForm>();
     const [establishment, setEstablishment] = useState<IEstablishmentFront>();
     const notification = useNotification();
-
-    const generalEstablishmentService = new GeneralEstablishmentService();
-    const establishmentService = new EstablishmentService();
-    const socialNetworksService = new SocialNetworksService();
-
-    const scheduleService = new ScheduleService();
-
-    const tagsService = new TagsService();
+    const services = useMemo(
+        () => ({
+            generalEstablishment: new GeneralEstablishmentService(),
+            establishment: new EstablishmentService(),
+            socialNetworks: new SocialNetworksService(),
+            schedule: new ScheduleService(),
+            tags: new EstablishmentTagsService(),
+        }),
+        []
+    );
 
     const locale = useLocale();
     const {
@@ -102,7 +102,7 @@ const FormUpdateEstablishmentBase = ({
 
     useEffect(() => {
         const getAllData = async () => {
-            const establishment = await establishmentService.getById(
+            const establishment = await services.establishment.getById(
                 establishmentId
             );
             if (!establishment) {
@@ -110,18 +110,18 @@ const FormUpdateEstablishmentBase = ({
             }
             setEstablishment(establishment);
             const scheduleRes =
-                await scheduleService.getScheduleByEstablishmentId(
+                await services.schedule.getScheduleByEstablishmentId(
                     establishment.id
                 );
-            const tagResponse = await tagsService.getAllTagsOfEstablishment({
+            const tagResponse = await services.tags.getAllTagsOfEstablishment({
                 lang: locale,
                 establishmentIds: [establishment.id],
             });
 
             const socialEntity = establishment.contacts?.socialNetworksId
-                ? await socialNetworksService.getById(
-                    establishment.contacts?.socialNetworksId
-                )
+                ? await services.socialNetworks.getById(
+                      establishment.contacts?.socialNetworksId
+                  )
                 : null;
             const socialNetworks =
                 socialEntity &&
@@ -183,7 +183,7 @@ const FormUpdateEstablishmentBase = ({
         };
 
         getAllData();
-    }, [establishmentId, reset]);
+    }, [establishmentId, reset, services, locale]);
     const onSubmit: SubmitHandler<TTypeForm> = async (formData) => {
         if (!user) {
             notification.error({ message: "Это невозможно. User нету" });
@@ -200,7 +200,7 @@ const FormUpdateEstablishmentBase = ({
             return;
         }
         try {
-            const success = await generalEstablishmentService.update({
+            const success = await services.generalEstablishment.update({
                 initialForm: initialFormData,
                 establishment: establishment,
                 formData: formData,
@@ -361,7 +361,7 @@ const FormUpdateEstablishmentBase = ({
                             error={fieldState.error || null}
                             onChange={field.onChange}
                             value={field.value?.filter((item) => !!item) || []}
-                        // downloadedValue={establishment.media.gallery}
+                            // downloadedValue={establishment.media.gallery}
                         />
                     </>
                 )}
@@ -423,7 +423,6 @@ const FormUpdateEstablishmentBase = ({
                                     }
                                 }
                             />
-
                         )}
                     />
                     <Controller
@@ -432,7 +431,7 @@ const FormUpdateEstablishmentBase = ({
                         render={({ field }) => (
                             <SocialContactsBlockForm
                                 titleSpan="Месенджеры"
-                                keysData={CONSTANT_MESSANGER_NETWORKS_ARRAY}
+                                keysData={CONSTANT_MESSENGER_NETWORKS_ARRAY}
                                 value={field.value || []}
                                 onChange={field.onChange}
                                 nameSelectImportant="Добавить мессенджер"

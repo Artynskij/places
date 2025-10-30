@@ -1,4 +1,4 @@
-import { IMediaFront } from "./../../../../lib/models/frontend/(establishment)/parts/media.front";
+import { IMediaFront } from "../../../../lib/models/frontend/(establishment)/media.front";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { TTypesOfEstablishment } from "@/lib/models/types";
 import { TTypeUser } from "@/lib/models/types/TTypeUser";
@@ -82,7 +82,6 @@ const validationSchemaTourist = {
         .min(1, "Необходимо загрузить хотя бы 1 фотографий"),
 
     schedule: validScheduleSchema,
-
 };
 
 export const getSchemaEstablishmentByTypeUser = (typeUser: TTypeUser) => {
@@ -107,7 +106,6 @@ export const getSchemaEstablishmentByTypeUser = (typeUser: TTypeUser) => {
     }
 };
 export const validationSchemaEstablishmentUpdate = Yup.object({
-
     typeEstablishment: Yup.mixed<TTypesOfEstablishment>()
         .oneOf(
             Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT_DB).map(

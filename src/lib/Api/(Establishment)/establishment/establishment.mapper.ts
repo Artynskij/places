@@ -3,11 +3,11 @@ import {
     IEstablishmentFront,
     IMediaFront,
     IRateEntity,
-    IEstablishmentRateEntity,
-    IEstablishmentRateFront,
+    IRateEstablishmentEntity,
+    IRateEstablishmentFront,
     ICategoryFront,
 } from "@/lib/models";
-import { ContactsEstablishmentMapper } from "../contactsEstablishment.api";
+import { ContactsEstablishmentMapper } from "../contacts-establishment.api";
 import { PersonMapper } from "../../(Person)/person/person.mapper";
 import { CONSTANT_RATES_ESTABLISHMENT_ARRAY_DB } from "@/asset/constants/database/rates-establishment.const";
 
@@ -185,18 +185,18 @@ export class EstablishmentMapper {
         };
     }
     toFrontRateReview(
-        establishmentRateEntity: IEstablishmentRateEntity,
+        establishmentRateEntity: IRateEstablishmentEntity,
         cdnHost: string
-    ): IEstablishmentRateFront {
+    ): IRateEstablishmentFront {
         const rates = CONSTANT_RATES_ESTABLISHMENT_ARRAY_DB.map((key) => {
             if (!establishmentRateEntity[key]) return null;
             return {
                 key,
                 value: establishmentRateEntity[key], // number | null
             };
-        }).filter(Boolean) as IEstablishmentRateFront["rates"];
+        }).filter(Boolean) as IRateEstablishmentFront["rates"];
 
-        const mappedObject: IEstablishmentRateFront = {
+        const mappedObject: IRateEstablishmentFront = {
             person: this.personMapper.toFront(
                 { person: establishmentRateEntity.Person, content: null },
                 null,

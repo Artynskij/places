@@ -1,4 +1,4 @@
-import { IContentSimpleEntity } from "../../server/entities";
+import { IContentSimpleEntity } from "../server/entities";
 
 export interface ICategoryFront {
     id: string;
