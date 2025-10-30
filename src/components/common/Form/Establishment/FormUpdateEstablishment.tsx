@@ -412,6 +412,7 @@ const FormUpdateEstablishmentBase = ({
                         control={control}
                         render={({ field }) => (
                             <SocialContactsBlockForm
+                                titleSpan="Социальные сети"
                                 keysData={CONSTANT_SOCIAL_NETWORKS_ARRAY}
                                 value={field.value || []}
                                 onChange={field.onChange}
@@ -430,6 +431,7 @@ const FormUpdateEstablishmentBase = ({
                         control={control}
                         render={({ field }) => (
                             <SocialContactsBlockForm
+                                titleSpan="Месенджеры"
                                 keysData={CONSTANT_MESSANGER_NETWORKS_ARRAY}
                                 value={field.value || []}
                                 onChange={field.onChange}

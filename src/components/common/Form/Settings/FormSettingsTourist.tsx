@@ -147,7 +147,7 @@ export const FormSettingsTourist = () => {
         if (!personData) return;
         const moderationObject = await moderationService.getModerationData(
             personData.id
-           
+
         );
         if (!moderationObject) return;
         personService
@@ -210,7 +210,7 @@ export const FormSettingsTourist = () => {
                                         handlerDeleteAvatar={
                                             handlerDeleteAvatar
                                         }
-                                       
+
                                     />
                                 )}
                             />
@@ -305,7 +305,7 @@ export const FormSettingsTourist = () => {
             </div>
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
-                    Место проживание
+                    Место проживания
                 </div>
                 <div className={style.selectionBlock_content}>
                     <InputForm
@@ -344,16 +344,15 @@ export const FormSettingsTourist = () => {
                     />
                 </div>
             </div>
-            <div className={style.selectionBlock}>
-                <div className={style.selectionBlock_title}>
-                    Социальные сети
-                </div>
+           
+                
                 <div className={`${style.selectionBlock_content} ${style.social}`}>
                     <Controller
                         name="socialContacts"
                         control={control}
                         render={({ field }) => (
                             <SocialContactsBlockForm
+                                titleSpan="Социальные сети"
                                 keysData={CONSTANT_SOCIAL_NETWORKS_ARRAY}
                                 value={field.value || []}
                                 onChange={field.onChange}
@@ -369,17 +368,16 @@ export const FormSettingsTourist = () => {
                     />
 
                 </div>
-            </div>
-            <div className={style.selectionBlock}>
-                <div className={style.selectionBlock_title}>
-                    Месенджеры
-                </div>
+            
+          
+                
                 <div className={`${style.selectionBlock_content} ${style.social}`}>
                     <Controller
                         name="messangerContacts"
                         control={control}
                         render={({ field }) => (
                             <SocialContactsBlockForm
+                                titleSpan="Месенджеры"
                                 keysData={CONSTANT_MESSANGER_NETWORKS_ARRAY}
                                 value={field.value || []}
                                 onChange={field.onChange}
@@ -393,7 +391,7 @@ export const FormSettingsTourist = () => {
                         )}
                     />
                 </div>
-            </div>
+            
 
             <Button
                 className={style.buttonSubmit}

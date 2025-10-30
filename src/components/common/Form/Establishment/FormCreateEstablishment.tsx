@@ -44,6 +44,8 @@ import PhotoBlockForm from "../_components/PhotoBlock/PhotoBlock";
 import { GeneralEstablishmentService } from "@/lib/Api/(MainService)/establishment.general";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { useState } from "react";
+import clx from 'clsx';
+import { BlockExtraInfo } from "../../BlockFunctional/BlockExtraInfo";
 
 const agreementKeys: TAgreementKey[] = [
     "ConfirmedLegalAccommodation",
@@ -118,7 +120,7 @@ const FormCreateEstablishmentBase = ({
     };
 
     const optionsTypesOfEstablishment: IOption[] = [
-        { label: "Выбрать тип объекта", value: "" },
+
         ...Object.values(CONSTANT_TYPES_OF_ESTABLISHMENT_DB).map(
             ({ key, secondValue, info }) => ({
                 value: key,
@@ -127,7 +129,6 @@ const FormCreateEstablishmentBase = ({
             })
         ),
     ];
-    console.log(optionsTypesOfEstablishment)
     return (
         <form
             className={style.form}
@@ -146,22 +147,37 @@ const FormCreateEstablishmentBase = ({
                     <Controller
                         control={control}
                         name="typeEstablishment"
-                        render={({ field, fieldState }) => (
-                            <div className={style.selectBlock}>
-                                <label>Тип объекта*</label>
-                                <SelectCustom
-                                    classNameCtn={style.selectBlock_select}
-                                    titleDefault='Выбрать тип объект'
-                                    options={optionsTypesOfEstablishment}
-                                    activeOption={field.value}
-                                    onChange={(option) =>
-                                        field.onChange(option.value)
-                                    }
-                                    error={fieldState.error?.message}
-                                />
-                                
-                            </div>
-                        )}
+                        render={({ field, fieldState }) => {
+                            const { value, onChange } = field;
+                            const selected = optionsTypesOfEstablishment.find(opt => opt.value === value);
+
+                            return (
+                                <div className={style.selectBlock}>
+                                    <label>Тип объекта*</label>
+
+                                    <div className={style.chooseType}>
+                                        {optionsTypesOfEstablishment.map(({ value: val, label }) => {
+                                            const active = value === val;
+                                            return (
+                                                <div
+                                                    key={val}
+                                                    className={clx(style.chooseType_item, active && style.chooseType_item_active)}
+                                                    onClick={() => onChange(val)}
+                                                >
+                                                    {label}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+
+                                    {selected?.info && <BlockExtraInfo text={selected.info} />}
+
+                                    {fieldState.error?.message && (
+                                        <span className={style.errorMessage}>{fieldState.error.message}</span>
+                                    )}
+                                </div>
+                            );
+                        }}
                     />
                     {typeEstablishment && (
                         <Controller
@@ -205,32 +221,32 @@ const FormCreateEstablishmentBase = ({
                             />
                         )}
                     />
-
-                    <Controller
-                        name="coord"
-                        control={control}
-                        render={({ field, fieldState }) => (
-                            <MapBlockForm
-                                value={
-                                    field.value?.lat
-                                        ? {
-                                            lat: field.value.lat,
-                                            lon: field.value.lon,
-                                            addressFullLine:
-                                                field.value.addressFullLine ||
-                                                null,
-                                            addressLine:
-                                                field.value.addressLine ||
-                                                null,
-                                        }
-                                        : null
-                                }
-                                onChange={field.onChange}
-                                error={fieldState.error || null}
-                                locationId={locationId}
-                            />
-                        )}
-                    />
+                    {locationId &&
+                        <Controller
+                            name="coord"
+                            control={control}
+                            render={({ field, fieldState }) => (
+                                <MapBlockForm
+                                    value={
+                                        field.value?.lat
+                                            ? {
+                                                lat: field.value.lat,
+                                                lon: field.value.lon,
+                                                addressFullLine:
+                                                    field.value.addressFullLine ||
+                                                    null,
+                                                addressLine:
+                                                    field.value.addressLine ||
+                                                    null,
+                                            }
+                                            : null
+                                    }
+                                    onChange={field.onChange}
+                                    error={fieldState.error || null}
+                                    locationId={locationId}
+                                />
+                            )}
+                        />}
                 </div>
             </div>
             <div className={style.selectionBlock}>
@@ -244,6 +260,7 @@ const FormCreateEstablishmentBase = ({
                         defaultValue={[]}
                         render={({ field, fieldState }) => (
                             <>
+                                <BlockExtraInfo text={typeUser === 'owner' ? "Необходимо загрузить хотя бы 5 фотографий" : 'Необходимо загрузить хотя бы 1 фотогрфию'} />
                                 <PhotoBlockForm
                                     error={fieldState.error || null}
                                     onChange={field.onChange}
@@ -260,7 +277,7 @@ const FormCreateEstablishmentBase = ({
 
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
-                    Контактные данные
+                    Контактные данные объекта
                 </div>
                 <div className={style.selectionBlock_content}>
                     <InputForm
@@ -286,7 +303,7 @@ const FormCreateEstablishmentBase = ({
                         <InputForm
                             error={errors.menu?.message}
                             register={register("menu")}
-                            placeholder="Ссылка на меню"
+                            placeholder="*Введите корректный URL (например: https://www.example.com)"
                             titleSpan="Ссылка на меню"
                             type="text"
                         />
@@ -304,6 +321,7 @@ const FormCreateEstablishmentBase = ({
                         render={({ field }) => (
                             <SocialContactsBlockForm
                                 keysData={CONSTANT_SOCIAL_NETWORKS_ARRAY}
+                                titleSpan="Социальные сети"
                                 value={field.value || []}
                                 onChange={field.onChange}
                                 nameSelectImportant="Добавить социальную сеть"
@@ -321,6 +339,7 @@ const FormCreateEstablishmentBase = ({
                         control={control}
                         render={({ field }) => (
                             <SocialContactsBlockForm
+                                titleSpan=" Месенджеры"
                                 keysData={CONSTANT_MESSANGER_NETWORKS_ARRAY}
                                 value={field.value || []}
                                 onChange={field.onChange}

@@ -3,7 +3,7 @@
     flex-direction: column;
     gap: $gap-small;
     position: relative;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
 }
 .input {
     @extend %InputStandard;

@@ -44,10 +44,10 @@ const CategoryBlockForm = ({
                 mode="multiple"
                 allowClear
                 showSearch
-                optionFilterProp="label" // 👈 включаем поиск по label
-                style={{ width: "100%" }}
+                optionFilterProp="label" 
+                style={{ width: "100%" }} 
                 placeholder="Выберите категории"
-                value={selectedCategories.map(String)} // 👈 убедись, что строки
+                value={selectedCategories.map(String)} 
                 onChange={(value) => {
                     onChange?.(value);
                 }}
