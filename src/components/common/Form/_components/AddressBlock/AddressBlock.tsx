@@ -120,7 +120,7 @@ const AddressBlockForm: React.FC<Props> = ({ locationId, onChange, error }) => {
                     </ul>
                 )}
             </div>
-            {breadcrumbLocations.length > 0 && (
+            {breadcrumbLocations.length > 0 && locationId && (
                 <div className={style.choice}>
                     <ul className={style.listChoice}>
                         {breadcrumbLocations.map((location) => {

@@ -6,8 +6,8 @@ import { IconArrowDown } from "../../common/Icons";
 import { IOption } from "@/lib/models/common/IType";
 import { SpanErrorForm } from "../Span/SpanErrorForm";
 import clsx from "clsx";
-import { string } from "yup";
-import { BlockExtraInfo } from "@/components/common/BlockFunctional/BlockExtraInfo";
+
+
 
 interface ISelectProps {
     options: IOption[];
@@ -18,6 +18,7 @@ interface ISelectProps {
     classNameCtn?: string;
     error?: string;
     nameSelectImportant?: string;
+    withInfo?:boolean
 }
 
 export const SelectCustom: FC<ISelectProps> = ({
@@ -29,6 +30,7 @@ export const SelectCustom: FC<ISelectProps> = ({
     classNameCtn,
     error,
     nameSelectImportant,
+    withInfo = false
 }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     // const [activeValue, setActiveValue] = useState(title || options[0].value);

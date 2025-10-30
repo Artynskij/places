@@ -21,19 +21,19 @@ interface IRootLayoutProps extends IBasePageProps {
 }
 
 const theme = {
- token: {
-    colorPrimary: '#005ba1', 
-    colorPrimaryHover: '#237fc6',
-   }, 
-   components: {
-    Select: {
-        activeBorderColor: '#bea97c',
-        hoverBorderColor: '#bea97c',
-        controlOutline: 'transparent',
-        borderRadius: 100,
+    token: {
+        colorPrimary: '#005ba1',
+        colorPrimaryHover: '#237fc6',
     },
-    
-  },
+    components: {
+        Select: {
+            activeBorderColor: 'red',
+            hoverBorderColor: '#bea97c',
+            controlOutline: 'transparent',
+            // borderRadius: 100,
+        },
+
+    },
 };
 
 export default async function RootLayout({
@@ -53,9 +53,9 @@ export default async function RootLayout({
                                 <AllContextProvider>
                                     <ClientOnly />
                                     {/* <Suspense fallback={<Loading />}> */}
-                                        <Header />
-                                        {children}
-                                        <Footer />
+                                    <Header />
+                                    {children}
+                                    <Footer />
                                     {/* </Suspense> */}
                                 </AllContextProvider>
                             </NextIntlClientProvider>

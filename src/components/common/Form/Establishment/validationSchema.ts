@@ -36,7 +36,7 @@ const validationSchemaBase = {
         addressLine: Yup.string(),
     }),
     socialContacts: validSocialNetworksSchema,
-    webContact: Yup.string().url("Невалидный URL"),
+    webContact: Yup.string().url("Невалидный URL (например: https://example.com)"),
     messangerContacts: validMessangerNetworksSchema,
 };
 const validationSchemaOwner = {
@@ -73,7 +73,7 @@ const validationSchemaTourist = {
     tags: Yup.array()
         .of(Yup.string())
         .min(1, "Выберите хотя бы одну характеристику"),
-    menu: Yup.string().url("Невалидный URL").notRequired(),
+    menu: Yup.string().url("Невалидный URL (например: https://example.com)").notRequired(),
     email: Yup.string().email("Неккоректный адрес электронной почты"),
 
     phone: validPhoneSchema,
@@ -154,6 +154,6 @@ export const validationSchemaEstablishmentUpdate = Yup.object({
         .nullable()
         .required("Необходимо заполнить языковые версии"),
     socialContacts: validSocialNetworksSchema,
-    webContact: Yup.string().url("Невалидный URL"),
+    webContact: Yup.string().url("Невалидный URL (например: https://example.com)"),
     messangerContacts: validMessangerNetworksSchema,
 });

@@ -19,15 +19,17 @@ interface SocialContact {
     url: string;
 }
 interface Props {
-    nameSelectImportant:string
-    keysData:TSocialNetworks[];
-    value: SocialContact[] | []; 
+    nameSelectImportant: string
+    keysData: TSocialNetworks[];
+    value: SocialContact[] | [];
     onChange: (value: SocialContact[]) => void;
-    errors?: Record<number, { url?: FieldError }>; 
+    errors?: Record<number, { url?: FieldError }>;
+    titleSpan: string;
 }
 
 export const SocialContactsBlockForm: FC<Props> = ({
     nameSelectImportant,
+    titleSpan,
     keysData,
     value,
     onChange,
@@ -79,8 +81,11 @@ export const SocialContactsBlockForm: FC<Props> = ({
 
     return (
         <>
+
             {value.map((field, index) => (
+
                 <div key={field.type} className={style.socialRow}>
+
                     <InputForm
                         value={field.url || ""}
                         onChange={(e) =>
@@ -99,16 +104,19 @@ export const SocialContactsBlockForm: FC<Props> = ({
             ))}
 
             {availableTypes.length > 0 && (
-                <SelectCustom
-                    nameSelectImportant={nameSelectImportant}
-                    options={[...socialOptions]}
-                    activeOption={selectedSocial}
-                    onChange={(item) => {
-                        setSelectedSocial(item.value);
-                        handleSelect(item);
-                    }}
-                    classNameCtn={style.selectSocial}
-                />
+                <div className={style.selectSocialCtn}>
+                    <div>{titleSpan}</div>
+                    <SelectCustom
+                        nameSelectImportant={nameSelectImportant}
+                        options={[...socialOptions]}
+                        activeOption={selectedSocial}
+                        onChange={(item) => {
+                            setSelectedSocial(item.value);
+                            handleSelect(item);
+                        }}
+                        classNameCtn={style.selectSocial}
+                    />
+                </div>
             )}
         </>
     );

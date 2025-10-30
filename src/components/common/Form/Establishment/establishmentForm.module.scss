@@ -25,19 +25,13 @@
     display: flex;
     flex-direction: column;
     gap: $gap-medium;
-
-    & label {
-    }
-    &_select {
-        border-radius: $border-radius-10;
-    }
 }
+
 .selectionBlock {
     display: flex;
     flex-direction: column;
     gap: $gap-medium;
     width: 100%;
-
     &_title {
         @extend %Text22;
         text-decoration: underline;
@@ -45,11 +39,34 @@
     &_content {
         display: flex;
         flex-direction: column;
-
         gap: $gap-medium;
     }
 }
+
 .socialRow {
     display: flex;
     align-items: center;
 }
+
+
+.chooseType {
+    display: flex;
+    gap: $gap-medium;
+    &_item {
+        color: $color-main-black;
+        background-color: $color-additional-background;
+        transition: $transition;
+        padding: 8px 10px;
+        cursor: pointer;
+        border-radius: $border-radius-10;
+        &_active {
+            color: $color-main-white;
+            background-color: $color-main-blue;
+        }
+        &:hover {
+            color: $color-main-white;
+            background-color: $color-main-blue_hover;
+        }
+    }
+}
+
