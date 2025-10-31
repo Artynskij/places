@@ -4,7 +4,7 @@ import {
     IBusinessPersonAssignEntity,
 } from "@/lib/models";
 import apiClient from "../base/ApiClient";
-import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
+import { buildQueryString } from "@/lib/helpers/build-query-params-for-api";
 
 export class BusinessAssignmentApi {
     constructor() {}
@@ -16,7 +16,7 @@ export class BusinessAssignmentApi {
         IBusinessPersonAssignEntity[] | null
     > {
         try {
-            const query = getQueryParamsForApi({
+            const query = buildQueryString({
                 personId,
                 businessId,
                 establishmentId,

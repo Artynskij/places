@@ -4,7 +4,7 @@ import {
     IFavoriteGetQueryRequest,
 } from "@/lib/models";
 import apiClient from "../base/ApiClient";
-import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
+import { buildQueryString } from "@/lib/helpers/build-query-params-for-api";
 
 export default class FavoriteApi {
     constructor() {}
@@ -24,7 +24,7 @@ export default class FavoriteApi {
         query: IFavoriteGetQueryRequest
     ): Promise<IFavoriteEntity[] | null> {
         try {
-            const queryParams = getQueryParamsForApi(query);
+            const queryParams = buildQueryString(query);
             const response = await apiClient.get(
                 `/favorites${queryParams ? `?${queryParams}` : ""}`
             );

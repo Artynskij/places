@@ -1,4 +1,4 @@
-import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
+import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 import {
     IArticleEntityWithPareContent,
     IArticleFront,
@@ -35,7 +35,7 @@ export default class ArticleMapper {
         const mainImage = mainImages?.[mainImages?.length - 1] || null;
         const typesArticle = articleEntity.article.ArticleTypeRelations.map(
             (typeConnectEntity) => {
-                const valueActually = getActuallyTitleServer(
+                const valueActually = extractActuallyTitleServer(
                     typeConnectEntity.ArticleTypeEntity.content.details
                 );
                 return {
@@ -48,7 +48,7 @@ export default class ArticleMapper {
         const subTypesArticle =
             articleEntity.article.ArticleSubTypeRelations.map(
                 (typeConnectEntity) => {
-                    const valueActually = getActuallyTitleServer(
+                    const valueActually = extractActuallyTitleServer(
                         typeConnectEntity.ArticleSubTypeEntity.content.details
                     );
                     return {

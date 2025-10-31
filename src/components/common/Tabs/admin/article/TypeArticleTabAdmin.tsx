@@ -10,8 +10,7 @@ import {
     message,
     Tag,
     Card,
-    Select,
-    Spin,
+    Tooltip,
 } from "antd";
 import {
     EditOutlined,
@@ -28,31 +27,25 @@ import {
 import { ArticleTypeService } from "@/lib/Api/(Article)/article-type.api";
 import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
 import { TLocale } from "@/lib/models/types";
-import { locales } from "@/config";
+
 import type { ColumnsType } from "antd/es/table";
+import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
+import { buildEntityField } from "@/lib/helpers/build-entity-field";
 
 const { Search } = Input;
 
-interface ArticleTypeFormValues {
-    code: string;
-}
-
 export const TypeArticleTabAdmin: React.FC = () => {
-    const langsDetailsDefault = locales.map((item) => ({
-        lang: item,
-        value: "",
-    }));
-
     const [typesArticle, setTypesArticle] = useState<IArticleTypeFront[]>([]);
     const [editType, setEditType] = useState<IArticleTypeFront | null>(null);
     const [searchOptions, setSearchOptions] = useState<IOption[]>([]);
 
     const [isLoading, setIsLoading] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
-    const [languageDetails, setLanguageDetails] =
-        useState<IDetailLang[]>(langsDetailsDefault);
+    const [languageDetails, setLanguageDetails] = useState<IDetailLang[]>(
+        CONSTANT_LANGS_DETAILS
+    );
     const [isModalLoading, setIsModalLoading] = useState(false);
-    const [form] = Form.useForm<ArticleTypeFormValues>();
+    const [form] = Form.useForm();
 
     const services = useMemo(
         () => ({
@@ -79,12 +72,11 @@ export const TypeArticleTabAdmin: React.FC = () => {
 
     useEffect(() => {
         if (editType && isModalActive) {
-            // Преобразуем данные типа статьи в languageDetails
             const details =
                 editType.content?.details?.map((detail) => ({
                     lang: detail.lang as TLocale,
                     value: detail.value || "",
-                })) || langsDetailsDefault;
+                })) || CONSTANT_LANGS_DETAILS;
 
             setLanguageDetails(details);
 
@@ -93,9 +85,9 @@ export const TypeArticleTabAdmin: React.FC = () => {
             });
         } else if (isModalActive) {
             form.resetFields();
-            setLanguageDetails(langsDetailsDefault);
+            setLanguageDetails(CONSTANT_LANGS_DETAILS);
         }
-    }, [editType, isModalActive, form, langsDetailsDefault]);
+    }, [editType, isModalActive, form]);
 
     const fetchById = async (id: string) => {
         setIsLoading(true);
@@ -153,11 +145,8 @@ export const TypeArticleTabAdmin: React.FC = () => {
             okType: "danger",
             onOk: async () => {
                 try {
-                    // TODO: Реализовать удаление через API
                     await services.articleType.delete(record.id);
-                    setTypesArticle((prev) =>
-                        prev.filter((c) => c.id !== record.id)
-                    );
+                    fetchAll();
                     message.success("Тип статьи удален");
                 } catch {
                     message.error("Ошибка при удалении типа статьи");
@@ -170,7 +159,7 @@ export const TypeArticleTabAdmin: React.FC = () => {
         setIsModalActive(false);
         setEditType(null);
         form.resetFields();
-        setLanguageDetails(langsDetailsDefault);
+        setLanguageDetails(CONSTANT_LANGS_DETAILS);
     };
 
     const handleLanguageDetailsChange = (details: IDetailLang[]) => {
@@ -188,23 +177,33 @@ export const TypeArticleTabAdmin: React.FC = () => {
             const hasEmptyFields = languageDetails.some(
                 (item) => !item.value.trim()
             );
-
+            const englishDetail = languageDetails.find(
+                (item) => item.lang === "en"
+            );
+            if (!englishDetail) {
+                message.error("Английский язык обязателен.");
+                return;
+            }
             if (hasEmptyFields) {
                 message.error("Заполните все выбранные языки");
                 return;
             }
 
             // Валидируем остальные поля формы
-            const values = await form.validateFields();
+
             setIsModalLoading(true);
 
+            const { name, code } = buildEntityField({
+                englishName: englishDetail.value,
+                entity: ["code", "name"],
+            });
             const filledDetails = languageDetails.filter((item) =>
                 item.value.trim()
             );
             const body = {
                 source: {
-                    Name: values.code,
-                    Code: values.code.toLocaleUpperCase(),
+                    Name: name,
+                    Code: code,
                 },
 
                 content: {
@@ -256,12 +255,12 @@ export const TypeArticleTabAdmin: React.FC = () => {
         },
 
         {
-            title: "Название типа",
+            title: "Название рубрики",
             dataIndex: "value",
             key: "value",
         },
         {
-            title: "Ключ типа",
+            title: "Ключ рубрики",
             dataIndex: "name",
             key: "name",
         },
@@ -271,9 +270,14 @@ export const TypeArticleTabAdmin: React.FC = () => {
             render: (_, record) => (
                 <Space>
                     {record.content?.details?.map((detail, index) => (
-                        <Tag key={index} color="blue">
-                            {detail.lang.toUpperCase()}
-                        </Tag>
+                        <Tooltip
+                            key={detail.lang}
+                            title={`${detail.lang.toUpperCase()}: ${
+                                detail.value
+                            }`}
+                        >
+                            <Tag color="blue">{detail.lang.toUpperCase()}</Tag>
+                        </Tooltip>
                     ))}
                 </Space>
             ),
@@ -378,8 +382,8 @@ export const TypeArticleTabAdmin: React.FC = () => {
             <Modal
                 title={
                     editType
-                        ? "Редактировать тип статьи"
-                        : "Добавить тип статьи"
+                        ? "Редактировать рубрики статьи"
+                        : "Добавить рубрики статьи"
                 }
                 open={isModalActive}
                 onOk={handleSubmit}
@@ -395,29 +399,6 @@ export const TypeArticleTabAdmin: React.FC = () => {
                         onChange={handleLanguageDetailsChange}
                         required={true}
                     />
-
-                    <Form.Item
-                        name="code"
-                        label="Код типа (английскими буквами)"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Введите код типа",
-                            },
-                            {
-                                pattern: /^[a-zA-Z_]+$/,
-                                message:
-                                    "Только английские буквы и подчеркивания",
-                            },
-                            {
-                                min: 2,
-                                message:
-                                    "Код должен содержать минимум 2 символа",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="news, article, blog, etc." />
-                    </Form.Item>
                 </Form>
             </Modal>
         </>

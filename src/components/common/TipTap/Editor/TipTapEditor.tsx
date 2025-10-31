@@ -44,7 +44,7 @@ import { useEffect, useState } from "react";
 import { LinkModalEditor } from "../toolbar/LinkModalEditor";
 import MediaStateExtension from "../extensions/state/mediaStateEditor";
 import { IMediaFrontWithFile } from "@/lib/models";
-import { getHtmlFormJsonEditor } from "@/lib/helpers/get-html-form-json-editor";
+import { convertEditorJsonToHtml } from "@/lib/helpers/convert-editor-json-hml";
 import { TTipTapHTMLContent, TTipTapJSONContent } from "@/lib/models/types";
 interface IProp {
     setEditorData: (data: {
@@ -76,7 +76,7 @@ export default function TipTapEditor({
             Link.configure({ openOnClick: false }),
             Blockquote,
             HorizontalRule,
-            Heading.configure({ levels: [1, 2, 3] }),
+            Heading.configure({ levels: [2, 3] }),
             Placeholder.configure({ placeholder: "Начните писать статью..." }),
             Table.configure({ resizable: true }),
             TableRow,
@@ -144,7 +144,7 @@ export default function TipTapEditor({
     if (!editor) return <SpinnerAnt />;
 
     return (
-        <div className="article-editor">
+        <div className="article-editor prose-base">
             {/* панель закреплена */}
             <Space wrap className="editor-toolbar">
                 {/* базовые стили */}
@@ -204,22 +204,6 @@ export default function TipTapEditor({
 
                 {/* заголовки */}
                 <>
-                    <Button
-                        type={
-                            editor.isActive("heading", { level: 1 })
-                                ? "primary"
-                                : "default"
-                        }
-                        onClick={() =>
-                            editor
-                                .chain()
-                                .focus()
-                                .toggleHeading({ level: 1 })
-                                .run()
-                        }
-                    >
-                        H1
-                    </Button>
                     <Button
                         type={
                             editor.isActive("heading", { level: 2 })

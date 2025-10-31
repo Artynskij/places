@@ -6,7 +6,7 @@ import {
 import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 import apiClient from "../base/ApiClient";
 import { IBusinessGetAllQueryRequest, IBusinessRequest } from "@/lib/models";
-import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
+import { buildQueryString } from "@/lib/helpers/build-query-params-for-api";
 
 export default class BusinessApi {
     constructor() {}
@@ -15,7 +15,7 @@ export default class BusinessApi {
         query: IBusinessGetAllQueryRequest
     ): Promise<IBusinessWithContentEntity[] | null> {
         try {
-            const queryString = getQueryParamsForApi(query);
+            const queryString = buildQueryString(query);
             const url = queryString
                 ? `/businesses?${queryString}`
                 : "/businesses";

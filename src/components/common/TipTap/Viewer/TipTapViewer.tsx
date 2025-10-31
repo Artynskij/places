@@ -39,7 +39,5 @@ export const TipTapViewer = ({ contentEditor, mediaCollection }: Props) => {
         },
     });
 
-    return (
-        <div className={clsx(style.articleViewer, "prose-base")}>{content}</div>
-    );
+    return <div className={clsx("prose-base")}>{content}</div>;
 };

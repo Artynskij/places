@@ -262,7 +262,7 @@ export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
                                 value.value
                             }`}
                         >
-                            <Tag color="green">{value.lang.toUpperCase()}</Tag>
+                            <Tag color="blue">{value.lang.toUpperCase()}</Tag>
                         </Tooltip>
                     ))}
                 </Space>

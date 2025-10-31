@@ -1,4 +1,4 @@
-import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
+import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 import {
     ITagWithContentPareEntity,
     ITagBlockFront,
@@ -39,7 +39,7 @@ export class DataLoadManagementMapper {
                     tagCategory: {
                         id: tag.tag.TagCategory.Id,
                         key: tag.tag.TagCategory.Name,
-                        value: getActuallyTitleServer(
+                        value: extractActuallyTitleServer(
                             tag.tag.TagCategory.content.details
                         ),
                         content: tag.tag.TagCategory.content,

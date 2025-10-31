@@ -14,7 +14,7 @@ import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime
 import { useEffect, useState } from "react";
 interface IProp {
     article: IArticleFront;
-    // reHydrate: number;
+
     author?: IPersonFront;
 }
 

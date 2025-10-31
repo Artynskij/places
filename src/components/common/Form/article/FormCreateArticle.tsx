@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Input, Form, Upload, Select, Modal, Space } from "antd";
 import TipTapEditor from "@/components/common/TipTap/Editor/TipTapEditor";
 import TextArea from "antd/es/input/TextArea";
@@ -25,7 +25,7 @@ import PreviewEditor from "@/components/common/TipTap/Viewer/previewEditor";
 import { CONSTANT_ARTICLE_STATUS_DB } from "@/asset/constants/database/article-status.const";
 import { ArticleTypeService } from "@/lib/Api/(Article)/article-type.api";
 import { ArticleSubTypeService } from "@/lib/Api/(Article)/article-subType.api";
-import { getHtmlFormJsonEditor } from "@/lib/helpers/get-html-form-json-editor";
+import { convertEditorJsonToHtml } from "@/lib/helpers/convert-editor-json-hml";
 import { useAlertMessage } from "@/lib/context";
 import type { UploadFile } from "antd/lib";
 interface ArticleFormValues {
@@ -58,7 +58,7 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
     const [editorData, setEditorData] = useState<{
         content: TTipTapJSONContent | null;
         mediaStorage: IMediaFront[];
-    } | null>();
+    } | null>(null);
     const [editorInstance, setEditorInstance] = useState<any>();
     const [articleData, setArticleData] = useState<IArticleFront | null>(null);
 
@@ -71,11 +71,14 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
     >([]);
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
-    const services = {
-        article: new GeneralArticleService(),
-        type: new ArticleTypeService(),
-        subType: new ArticleSubTypeService(),
-    };
+    const services = useMemo(
+        () => ({
+            article: new GeneralArticleService(),
+            type: new ArticleTypeService(),
+            subType: new ArticleSubTypeService(),
+        }),
+        []
+    );
 
     const loadInitialData = useCallback(async () => {
         try {
@@ -88,7 +91,7 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
         } catch (error) {
             console.error("Ошибка загрузки данных:", error);
         }
-    }, [services.type, services.subType]);
+    }, [services]);
     useEffect(() => {
         loadInitialData();
     }, [loadInitialData]);
@@ -131,10 +134,10 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
                 mainImage: [],
             });
             setSelectedTypes([]);
-            setEditorData(null);
+            // setEditorData(null);
             setArticleData(null);
         }
-    }, [initialData, form]);
+    }, [form, initialData]);
     useEffect(() => {
         initializeFormData();
     }, [initializeFormData]);
@@ -234,7 +237,7 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
             values.subTypeIds.includes(item.id)
         );
 
-        const generatedHTML = getHtmlFormJsonEditor(
+        const generatedHTML = convertEditorJsonToHtml(
             editorData!.content as TTipTapJSONContent,
             editorData!.mediaStorage
         );

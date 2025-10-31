@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
     Table,
     Button,
@@ -12,6 +12,7 @@ import {
     Card,
     Select,
     Spin,
+    Tooltip,
 } from "antd";
 import {
     EditOutlined,
@@ -33,6 +34,9 @@ import { TLocale } from "@/lib/models/types";
 import { locales } from "@/config";
 import type { ColumnsType } from "antd/es/table";
 import { ArticleTypeService } from "@/lib/Api/(Article)/article-type.api";
+import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
+import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
+import { buildEntityField } from "@/lib/helpers/build-entity-field";
 
 const { Search } = Input;
 
@@ -41,14 +45,14 @@ interface ArticleSubTypeFormValues {
     typeId: string;
 }
 
-export const SubTypeArticleTabAdmin: React.FC = () => {
-    const articleSubTypeService = new ArticleSubTypeService();
-
-    const articleTypeService = new ArticleTypeService();
-    const langsDetailsDefault = locales.map((item) => ({
-        lang: item,
-        value: "",
-    }));
+export const SubTypeArticleTabAdmin = () => {
+    const services = useMemo(
+        () => ({
+            articleSubType: new ArticleSubTypeService(),
+            articleType: new ArticleTypeService(),
+        }),
+        []
+    );
 
     const [subTypesArticle, setSubTypesArticle] = useState<
         IArticleSubTypeFront[]
@@ -57,19 +61,36 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
     const [editSubType, setEditSubType] = useState<IArticleSubTypeFront | null>(
         null
     );
-    const [searchOptions, setSearchOptions] = useState<IOption[]>([]);
 
     const [isLoading, setIsLoading] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
-    const [languageDetails, setLanguageDetails] =
-        useState<IDetailLang[]>(langsDetailsDefault);
+    const [languageDetails, setLanguageDetails] = useState<IDetailLang[]>(
+        CONSTANT_LANGS_DETAILS
+    );
     const [isModalLoading, setIsModalLoading] = useState(false);
     const [form] = Form.useForm<ArticleSubTypeFormValues>();
+    const fetchAll = useCallback(async () => {
+        setIsLoading(true);
+        const [typeResponse, subTypeResponse] = await Promise.all([
+            services.articleType.get(),
+            services.articleSubType.get(),
+        ]);
+        if (!subTypeResponse) {
+            message.error("Ошибка загрузки подрубрик статей");
+            return;
+        }
+        setSubTypesArticle(subTypeResponse || []);
+        if (typeResponse) {
+            setArticleTypes(typeResponse || []);
+        } else {
+            message.error("Ошибка загрузки рубрик статей");
+        }
 
+        setIsLoading(false);
+    }, [services]);
     useEffect(() => {
         fetchAll();
-        fetchArticleTypes();
-    }, []);
+    }, [fetchAll]);
 
     useEffect(() => {
         if (editSubType && isModalActive) {
@@ -78,7 +99,7 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
                 editSubType.content?.details?.map((detail) => ({
                     lang: detail.lang as TLocale,
                     value: detail.value || "",
-                })) || langsDetailsDefault;
+                })) || CONSTANT_LANGS_DETAILS;
 
             setLanguageDetails(details);
 
@@ -88,35 +109,14 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
             });
         } else if (isModalActive) {
             form.resetFields();
-            setLanguageDetails(langsDetailsDefault);
+            setLanguageDetails(CONSTANT_LANGS_DETAILS);
         }
     }, [editSubType, isModalActive, form]);
-
-    const fetchAll = async () => {
-        setIsLoading(true);
-        try {
-            const data = await articleSubTypeService.get();
-            setSubTypesArticle(data || []);
-        } catch {
-            message.error("Ошибка загрузки подрубрик статей");
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const fetchArticleTypes = async () => {
-        try {
-            const data = await articleTypeService.get();
-            setArticleTypes(data || []);
-        } catch {
-            message.error("Ошибка загрузки типов статей");
-        }
-    };
 
     const fetchById = async (id: string) => {
         setIsLoading(true);
         try {
-            const subTypeArticle = await articleSubTypeService.getById(id);
+            const subTypeArticle = await services.articleSubType.getById(id);
             if (!subTypeArticle) {
                 throw Error("Подрубрика статьи не найдена");
             }
@@ -144,7 +144,7 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
             onOk: async () => {
                 console.log(record);
                 try {
-                    await articleSubTypeService.delete(record.id);
+                    await services.articleSubType.delete(record.id);
                     setSubTypesArticle((prev) =>
                         prev.filter((c) => c.id !== record.id)
                     );
@@ -160,7 +160,7 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
         setIsModalActive(false);
         setEditSubType(null);
         form.resetFields();
-        setLanguageDetails(langsDetailsDefault);
+        setLanguageDetails(CONSTANT_LANGS_DETAILS);
     };
 
     const handleLanguageDetailsChange = (details: IDetailLang[]) => {
@@ -178,7 +178,13 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
             const hasEmptyFields = languageDetails.some(
                 (item) => !item.value.trim()
             );
-
+            const englishDetail = languageDetails.find(
+                (item) => item.lang === "en"
+            );
+            if (!englishDetail) {
+                message.error("Английский язык обязателен.");
+                return;
+            }
             if (hasEmptyFields) {
                 message.error("Заполните все выбранные языки");
                 return;
@@ -188,19 +194,22 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
             const values = await form.validateFields();
 
             if (!values.typeId) {
-                message.error("Выберите тип статьи");
+                message.error("Выберите рубрику статьи");
                 return;
             }
 
             setIsModalLoading(true);
-
+            const { name, code } = buildEntityField({
+                englishName: englishDetail.value,
+                entity: ["code", "name"],
+            });
             const filledDetails = languageDetails.filter((item) =>
                 item.value.trim()
             );
             const body: IArticleSubTypeRequest = {
                 source: {
-                    Name: values.name,
-                    Code: values.name.toLocaleUpperCase(),
+                    Name: name,
+                    Code: code,
                     ArticleTypeId: values.typeId,
                 },
                 content: {
@@ -210,7 +219,7 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
 
             if (editSubType) {
                 // Редактирование существующего подтипа
-                const updatedSubType = await articleSubTypeService.update(
+                const updatedSubType = await services.articleSubType.update(
                     editSubType.id,
                     body
                 );
@@ -224,7 +233,7 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
                 }
             } else {
                 // Создание нового подтипа
-                const newSubType = await articleSubTypeService.create(body);
+                const newSubType = await services.articleSubType.create(body);
 
                 if (newSubType) {
                     message.success("Подрубрика статьи создана");
@@ -254,18 +263,26 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
             dataIndex: "value",
             key: "value",
         },
+        // {
+        //     title: "Ключ подрубрики",
+        //     dataIndex: "name",
+        //     key: "name",
+        // },
         {
-            title: "Ключе подрубрики",
-            dataIndex: "name",
-            key: "name",
-        },
-        {
-            title: "Ключ типа",
+            title: "Рубрика",
             dataIndex: "articleType",
             key: "articleType",
-            render: (articleType: IArticleTypeEntity) => (
-                <Tag color="purple">{articleType.Name}</Tag>
-            ),
+            render: (articleType: IArticleSubTypeFront["articleType"]) => {
+                return (
+                    <Tag color="purple">
+                        {
+                            articleTypes.find(
+                                (item) => item.id === articleType.Id
+                            )?.value
+                        }
+                    </Tag>
+                );
+            },
         },
         {
             title: "Языки",
@@ -273,9 +290,14 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
             render: (_, record) => (
                 <Space>
                     {record.content?.details?.map((detail, index) => (
-                        <Tag key={index} color="blue">
-                            {detail.lang.toUpperCase()}
-                        </Tag>
+                        <Tooltip
+                            key={detail.lang}
+                            title={`${detail.lang.toUpperCase()}: ${
+                                detail.value
+                            }`}
+                        >
+                            <Tag color="blue">{detail.lang.toUpperCase()}</Tag>
+                        </Tooltip>
                     ))}
                 </Space>
             ),
@@ -395,47 +417,24 @@ export const SubTypeArticleTabAdmin: React.FC = () => {
 
                     <Form.Item
                         name="typeId"
-                        label="Тип статьи"
+                        label="Рубрика статьи"
                         rules={[
                             {
                                 required: true,
-                                message: "Выберите тип статьи",
+                                message: "Выберите рубрику статьи",
                             },
                         ]}
                     >
                         <Select
-                            placeholder="Выберите тип статьи"
+                            placeholder="Выберите рубрику статьи"
                             loading={isLoading}
                         >
                             {articleTypes.map((type) => (
                                 <Select.Option key={type.id} value={type.id}>
-                                    {type.name}
+                                    {type.value}
                                 </Select.Option>
                             ))}
                         </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                        name="name"
-                        label="Name подрубрики (английскими буквами)"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Введите код подрубрики",
-                            },
-                            {
-                                pattern: /^[a-zA-Z_]+$/,
-                                message:
-                                    "Только английские буквы и подчеркивания",
-                            },
-                            {
-                                min: 2,
-                                message:
-                                    "Код должен содержать минимум 2 символа",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="News_politics, Article_science, Blog_travel, etc." />
                     </Form.Item>
                 </Form>
             </Modal>

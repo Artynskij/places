@@ -1,7 +1,6 @@
-
 import { IInvitesRequest } from "@/lib/models/server/request/invites.request";
 import apiClient from "../base/ApiClient";
-import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
+import { buildQueryString } from "@/lib/helpers/build-query-params-for-api";
 import { IInvitesByQueryItemResponse } from "@/lib/models";
 
 export default class InvitesApi {
@@ -25,7 +24,7 @@ export default class InvitesApi {
         lang: string;
     }): Promise<IInvitesByQueryItemResponse[] | null> {
         try {
-            const query = getQueryParamsForApi({
+            const query = buildQueryString({
                 personId,
                 businessId,
                 lang,

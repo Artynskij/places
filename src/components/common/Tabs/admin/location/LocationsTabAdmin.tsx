@@ -34,7 +34,7 @@ import { TLocale } from "@/lib/models/types";
 import type { UploadFile } from "antd/es/upload/interface";
 import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
 import { locales } from "@/config";
-import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
+import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
 
 const { Search } = Input;
@@ -320,7 +320,9 @@ const LocationsTabAdmin: React.FC = () => {
                 <Space>
                     {country?.content?.details && (
                         <Tag color="default">
-                            {getActuallyTitleServer(country?.content?.details)}
+                            {extractActuallyTitleServer(
+                                country?.content?.details
+                            )}
                         </Tag>
                     )}
                 </Space>
