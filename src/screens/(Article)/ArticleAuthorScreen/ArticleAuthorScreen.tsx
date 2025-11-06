@@ -7,7 +7,8 @@ import { SliderPopularNews } from "../../../components/common/Slider/SliderPopul
 import { mockAuthor } from "@/asset/mockData/mockAuthor";
 import Image from "next/image";
 import { PopularArticles } from "../_component/_PopularNews/_PopularNews";
-import { IArticleFront } from "@/lib/models";
+import { IArticleFront, IPersonFront } from "@/lib/models";
+import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/default.const";
 
 interface IProps
     extends IBasePageProps<{
@@ -15,6 +16,7 @@ interface IProps
     }> {
     mainNews: IArticleFront[] | [];
     popularNews: IArticleFront[] | [];
+    authorData: IPersonFront | null;
 }
 
 export default function ArticleAuthorScreen({
@@ -22,6 +24,7 @@ export default function ArticleAuthorScreen({
     searchParams,
     mainNews,
     popularNews,
+    authorData,
 }: IProps) {
     const newsFirst = mainNews.filter((item, index) => {
         return index < 5 && item;
@@ -29,27 +32,41 @@ export default function ArticleAuthorScreen({
     const newsSecond = mainNews.filter((item, index) => {
         return index >= 5 && item;
     });
-    // const popularNews = mockNews;
-    const authorData = mockAuthor;
+
+    if (!authorData) return <div>not found person</div>;
     return (
         <div className="container">
             <div className={style.breadcrumb}>
-                <Breadcrumb links={[{ title: authorData.name }]} />
+                <Breadcrumb
+                    links={[
+                        {
+                            title:
+                                authorData.personName?.fullName ||
+                                "неизвестный автор",
+                        },
+                    ]}
+                />
             </div>
             <section>
                 <div className={style.author}>
                     <Image
                         className={style.author_image}
-                        alt={authorData.name}
+                        alt={"avatar author"}
                         height={200}
                         width={200}
-                        src={authorData.img}
+                        src={
+                            authorData.avatar.touristImageSrc ||
+                            CONSTANT_DEFAULT_AVATAR_URL
+                        }
                     />
 
                     <div className={style.author_description}>
-                        <h2 className={style.title}>{authorData.name}</h2>
+                        <h2 className={style.title}>
+                            {authorData.personName?.fullName ||
+                                "неизвестный автор"}
+                        </h2>
                         <div className={style.author_description_text}>
-                            {authorData.description}
+                            {authorData.aboutDescription}
                         </div>
                     </div>
                 </div>

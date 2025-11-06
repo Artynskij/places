@@ -29,8 +29,6 @@ export const ArticleTabAdmin: React.FC = () => {
     const [articles, setArticles] = useState<IArticleFront[]>([]);
     const [statusOptions, setStatusOptions] = useState<IOption[]>([]);
 
-    // const articleService = new ArticleService();
-    // const dataLoadManagementService = new DataLoadManagementService();
     const services = useMemo(
         () => ({
             article: new ArticleService(),
@@ -38,39 +36,37 @@ export const ArticleTabAdmin: React.FC = () => {
         }),
         []
     );
-    const fetchArticles = useCallback(async () => {
-        const res = await services.article.getWithFilter({
-            page: 1,
-            pageSize: 10,
-        });
-        if (res) {
-            setArticles(res);
+    const fetchAll = useCallback(async () => {
+        const [responseArticles, responseStatuses] = await Promise.all([
+            await services.article.getWithFilter({
+                page: 1,
+                pageSize: 10,
+            }),
+            await services.dataLoad.getArticleStatus(),
+        ]);
+        if (responseArticles) {
+            setArticles(responseArticles);
+        } else {
+            message.error("ошибка при получении  статей");
+            return;
         }
-    }, [services]);
-
-    const fetchStatusOptions = useCallback(async () => {
-        const res = await services.dataLoad.getArticleStatus();
-        if (res) {
-            const options: IOption[] = res.map((item) => ({
+        if (responseStatuses) {
+            const options: IOption[] = responseStatuses.map((item) => ({
                 id: item.Id,
                 label: tStatusArticle(item.Code),
                 value: item.Code,
             }));
             setStatusOptions(options);
+        } else {
+            message.error("ошибка при получении статусов статей");
         }
-    }, [services, tStatusArticle]);
-    const loadInitialData = useCallback(async () => {
-        setIsLoading(true);
-        try {
-            await Promise.all([fetchArticles(), fetchStatusOptions()]);
-        } finally {
-            setIsLoading(false);
-        }
-    }, [fetchArticles, fetchStatusOptions]);
+    }, [services, tStatusArticle, message]);
+
+ 
     // Загрузка данных
     useEffect(() => {
-        loadInitialData();
-    }, [loadInitialData]);
+        fetchAll();
+    }, [fetchAll]);
 
     // Обработчики действий
     const handleAdd = () => {
@@ -85,14 +81,14 @@ export const ArticleTabAdmin: React.FC = () => {
 
     const handleCloseModal = () => {
         setIsModalActive(false);
-        fetchArticles();
+        fetchAll();
     };
 
     const handleDelete = async (article: IArticleFront) => {
         const responseDelete = await services.article.delete(article.id);
         if (responseDelete) {
             message.info("Статья удалена");
-            fetchArticles();
+            fetchAll();
         }
     };
 
@@ -104,13 +100,13 @@ export const ArticleTabAdmin: React.FC = () => {
             source: { ArticlesStatusId: newStatus.id as string },
         });
         if (res) {
-            fetchArticles();
+            fetchAll();
         }
     };
 
     const handleRefresh = () => {
         message.info("Обновлено");
-        fetchArticles();
+        fetchAll();
     };
 
     // Вспомогательные компоненты
@@ -211,7 +207,7 @@ export const ArticleTabAdmin: React.FC = () => {
             title: "Автор",
             dataIndex: "author",
             key: "author",
-            render: (author: IArticleFront["author"]) => author?.Nickname,
+            render: (author: IArticleFront["author"]) => author?.nickname,
         },
         {
             title: "Статус",

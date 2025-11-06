@@ -11,11 +11,7 @@ export async function generateMetadata({ params }: IProps) {
 
 export default async function Home({ params, searchParams }: IProps) {
     const articleService = new ArticleService();
-    const articles = await articleService.getWithFilter({
-        page: 1,
-        pageSize: 6,
-        lang: params.locale,
-    });
+    const articles = await articleService.getToMainPage(params.locale);
     // if (!articles) notFound();
-    return <MainScreen articlesData={articles || []} params={params} />;
+    return <MainScreen typeWithArticles={articles || []} params={params} />;
 }

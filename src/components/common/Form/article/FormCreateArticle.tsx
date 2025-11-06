@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Input, Form, Upload, Select, Modal, Space } from "antd";
 import TipTapEditor from "@/components/common/TipTap/Editor/TipTapEditor";
 import TextArea from "antd/es/input/TextArea";
@@ -25,7 +25,7 @@ import PreviewEditor from "@/components/common/TipTap/Viewer/previewEditor";
 import { CONSTANT_ARTICLE_STATUS_DB } from "@/asset/constants/database/article-status.const";
 import { ArticleTypeService } from "@/lib/Api/(Article)/article-type.api";
 import { ArticleSubTypeService } from "@/lib/Api/(Article)/article-subType.api";
-import { getHtmlFormJsonEditor } from "@/lib/helpers/get-html-form-json-editor";
+import { convertEditorJsonToHtml } from "@/lib/helpers/convert-editor-json-hml";
 import { useAlertMessage } from "@/lib/context";
 import type { UploadFile } from "antd/lib";
 interface ArticleFormValues {
@@ -58,7 +58,7 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
     const [editorData, setEditorData] = useState<{
         content: TTipTapJSONContent | null;
         mediaStorage: IMediaFront[];
-    } | null>();
+    } | null>(null);
     const [editorInstance, setEditorInstance] = useState<any>();
     const [articleData, setArticleData] = useState<IArticleFront | null>(null);
 
@@ -70,12 +70,21 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
         IArticleSubTypeFront[]
     >([]);
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-
-    const services = {
-        article: new GeneralArticleService(),
-        type: new ArticleTypeService(),
-        subType: new ArticleSubTypeService(),
-    };
+    useEffect(() => {
+        try {
+            JSON.stringify(articleData);
+        } catch (e) {
+            console.warn("⚠️ articleData имеет циклические ссылки");
+        }
+    }, [articleData]);
+    const services = useMemo(
+        () => ({
+            article: new GeneralArticleService(),
+            type: new ArticleTypeService(),
+            subType: new ArticleSubTypeService(),
+        }),
+        []
+    );
 
     const loadInitialData = useCallback(async () => {
         try {
@@ -88,22 +97,23 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
         } catch (error) {
             console.error("Ошибка загрузки данных:", error);
         }
-    }, [services.type, services.subType]);
+    }, [services]);
     useEffect(() => {
         loadInitialData();
-    }, [loadInitialData]);
+    }, [loadInitialData, isModalActive]);
     const initializeFormData = useCallback(() => {
         if (initialData) {
             const typeIds = initialData.type.map((item) => item.id);
             const subTypeIds = initialData.subType.map((item) => item.id);
             const content = initialData.contentEntity?.details[0];
+
             form.setFieldsValue({
                 descriptionSeo: "mockSeo",
                 titleSeo: "mockSeo",
                 description: content?.contentValue?.description,
                 title: content?.contentValue?.title,
-                typeIds: typeIds,
-                subTypeIds: subTypeIds,
+                typeIds: typeIds || [],
+                subTypeIds: subTypeIds || [],
                 lang: content?.lang,
                 mainImage: initialData.titleImage
                     ? [
@@ -131,13 +141,14 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
                 mainImage: [],
             });
             setSelectedTypes([]);
-            setEditorData(null);
+            // setEditorData(null);
             setArticleData(null);
         }
-    }, [initialData, form]);
+    }, [form, initialData]);
     useEffect(() => {
+        if (!isModalActive) return;
         initializeFormData();
-    }, [initializeFormData]);
+    }, [initializeFormData, isModalActive]);
     const updateFilteredSubTypes = useCallback(() => {
         if (selectedTypes.length > 0) {
             const filtered = articleSubTypes.filter((subType) =>
@@ -231,10 +242,10 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
         );
 
         const selectedArticleSubTypes = articleSubTypes.filter((item) =>
-            values.subTypeIds.includes(item.id)
+            values.subTypeIds?.includes(item.id)
         );
 
-        const generatedHTML = getHtmlFormJsonEditor(
+        const generatedHTML = convertEditorJsonToHtml(
             editorData!.content as TTipTapJSONContent,
             editorData!.mediaStorage
         );
@@ -242,8 +253,8 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
         return {
             id: initialData?.id || Date.now().toString(),
             title: values.title,
-            subType: selectedArticleSubTypes,
-            type: selectedArticleTypes,
+            subType: selectedArticleSubTypes || [],
+            type: selectedArticleTypes || [],
             readingTime: 0,
             markdown: generatedHTML,
             date: new Date().toLocaleDateString("ru-RU"),

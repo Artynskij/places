@@ -26,7 +26,7 @@ export const TabMarketingOwner = () => {
             ? (cookie.get("advertisingNotPay") as IDataAdvertisingCookie)
             : null;
         setAdvertising(getAdvertising);
-    }, []);
+    }, [cookie]);
     useEffect(() => {
         if (refreshCookie) {
             const advertisingCookie = cookie.get("advertisingNotPay");

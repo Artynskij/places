@@ -6,7 +6,7 @@ import {
     ICategoryRootEstablishmentFront,
     ICategoryRootEstablishmentGetAllRequest,
 } from "@/lib/models";
-import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
+import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 import apiClient from "../base/ApiClient";
 
 export class CategoryRootEstablishmentMapper {
@@ -14,11 +14,13 @@ export class CategoryRootEstablishmentMapper {
     toFront(
         entity: ICategoryRootEstablishmentWithContentPareEntity
     ): ICategoryRootEstablishmentFront {
-        const valueActually = entity.content ? getActuallyTitleServer(entity.content.details) : "";
+        const valueActually = entity.content
+            ? extractActuallyTitleServer(entity.content.details)
+            : "";
         return {
             id: entity.rootCategory.Id,
             name: entity.rootCategory.Name,
-            value: valueActually ,
+            value: valueActually,
             isActive: entity.rootCategory.IsActive,
             content: entity.content,
         };

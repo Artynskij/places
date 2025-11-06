@@ -5,9 +5,9 @@ import {
     ITagRequest,
     ITagWithContentPareEntity,
 } from "@/lib/models";
-import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
+import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 import apiClient from "../base/ApiClient";
-import { getUrlWithQueryParams } from "@/lib/helpers/get-query-params-for-api";
+import { buildUrlWithParams } from "@/lib/helpers/build-query-params-for-api";
 interface ITagGetRequest {
     tagCategoryId?: string;
     lang?: string;
@@ -15,14 +15,16 @@ interface ITagGetRequest {
 export class TagMapper {
     constructor() {}
     toFront(entity: ITagWithContentPareEntity): ITagFront {
-        const valueActually = getActuallyTitleServer(entity.content.details);
+        const valueActually = extractActuallyTitleServer(
+            entity.content.details
+        );
         return {
             id: entity.tag.Id,
             key: "",
             tagCategory: {
                 id: entity.tag.TagCategory.Id,
                 key: entity.tag.TagCategory.Name,
-                value: getActuallyTitleServer(
+                value: extractActuallyTitleServer(
                     entity.tag.TagCategory.content.details
                 ),
             },
@@ -42,7 +44,7 @@ export class TagService extends BaseApiService<
     protected baseUrl = "/tags";
     protected mapper = new TagMapper();
     async getWithFilter(params: ITagGetRequest): Promise<ITagFront[] | null> {
-        const url = getUrlWithQueryParams(`${this.baseUrl}`, params);
+        const url = buildUrlWithParams(`${this.baseUrl}`, params);
         try {
             const res = await apiClient.get<ITagWithContentPareEntity[]>(url);
             if (!res) return null;

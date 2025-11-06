@@ -5,11 +5,13 @@ import {
     ITagCategoryRequest,
     ITagCategoryWithContentPareEntity,
 } from "@/lib/models";
-import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
+import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 export class TagCategoryMapper {
     constructor() {}
     toFront(entity: ITagCategoryWithContentPareEntity): ICategoryFront {
-        const valueActually = getActuallyTitleServer(entity.content.details);
+        const valueActually = extractActuallyTitleServer(
+            entity.content.details
+        );
         return {
             id: entity.tagCategory.Id,
             key: entity.tagCategory.Name,

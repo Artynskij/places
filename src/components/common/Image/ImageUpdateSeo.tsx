@@ -49,11 +49,7 @@ export const ImageUpdateSeo = ({ media, onUpdate }: IProp) => {
 
     return (
         <>
-            <div
-                className={style.container}
-                // onMouseEnter={() => setIsHovered(true)}
-                // onMouseLeave={() => setIsHovered(false)}
-            >
+            <div className={style.container}>
                 {media.type === "video" ? (
                     <video
                         src={media.src}
@@ -126,7 +122,7 @@ export const ImageUpdateSeo = ({ media, onUpdate }: IProp) => {
 
                 <Form form={form} layout="vertical">
                     <Form.Item
-                        label="Заголовок (Title)"
+                        label="Подпись картинки"
                         name="title"
                         rules={[
                             {

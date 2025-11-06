@@ -1,6 +1,4 @@
-import { getTypeOfFile } from "./../../helpers/getTypeForFile";
 import {
-    IImageEntity,
     ILocationFront,
     ILocationPaginationRequest,
     ILocationUpdateRequest,
@@ -9,18 +7,17 @@ import LocationApi from "./location.endpoint";
 import LocationMapper from "./location.mapper";
 import { DataLoadManagementService } from "../dataLoadManagement/dataLoadManagement.service";
 
-import { FileUploadService } from "../fileUpload/fileUploads.service";
-import { getImageDimensions } from "@/lib/helpers/getImageDimensions";
+
+
 export class LocationService {
     private locationApi: LocationApi;
     private locationMapper: LocationMapper;
     private dataLoadManagerService: DataLoadManagementService;
-    private fileUploadService: FileUploadService;
+
     constructor() {
         this.locationApi = new LocationApi();
         this.locationMapper = new LocationMapper();
         this.dataLoadManagerService = new DataLoadManagementService();
-        this.fileUploadService = new FileUploadService();
     }
     async getById(id: string, lang?: string): Promise<ILocationFront | null> {
         const cdnHost = await this.dataLoadManagerService.getBlobProxy();

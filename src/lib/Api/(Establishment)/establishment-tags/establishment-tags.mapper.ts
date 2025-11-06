@@ -1,6 +1,6 @@
 import { CONSTANT_CATEGORY_CLASS_TAG_DB } from "@/asset/constants/database/category-class-tag.const";
 import { CONSTANT_SEARCH_PARAMS } from "@/asset/constants/search-params.const";
-import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
+import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 import { ITagBlockFront, ITagWithEstablishmentFront } from "@/lib/models";
 
 import {
@@ -57,7 +57,7 @@ export default class EstablishmentTagsMapper {
                                   tagCategory: {
                                       id: tag.TagCategory.Id,
                                       key: tag.TagCategory.Name,
-                                      value: getActuallyTitleServer(
+                                      value: extractActuallyTitleServer(
                                           tag.TagCategory.content.details
                                       ),
                                   },
@@ -171,7 +171,7 @@ export default class EstablishmentTagsMapper {
                         tagCategory: {
                             id: tag.Tag.TagCategory.Id,
                             key: tag.Tag.TagCategory.Name,
-                            value: getActuallyTitleServer(
+                            value: extractActuallyTitleServer(
                                 tag.Tag.TagCategory.content.details
                             ),
                         },
@@ -183,7 +183,7 @@ export default class EstablishmentTagsMapper {
                     tagCategory: {
                         id: tag.Tag.TagCategory.Id,
                         value:
-                            getActuallyTitleServer(
+                            extractActuallyTitleServer(
                                 tag.Tag.TagCategory.content.details
                             ) || tag.Tag.TagCategory.Name,
                         key: tag.Tag.TagCategory.Name,

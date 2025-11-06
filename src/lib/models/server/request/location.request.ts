@@ -6,7 +6,7 @@ import { IPaginationBaseRequest } from "../base";
 
 export interface ILocationPaginationRequest extends IPaginationBaseRequest {
     locationId?: string;
-    locationTypeIds?: string[];
+    locationTypeIds?: string[] | null;
 }
 interface locationData {
     source: {

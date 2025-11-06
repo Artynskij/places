@@ -22,7 +22,7 @@ import {
 } from "@ant-design/icons";
 import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
 import { useAlertMessage } from "@/lib/context";
-import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
+import { LanguageManagerBlock } from "@/components/common/Form/_components/LanguageManagerBlock/LanguageManagerBlock";
 import { TLocale } from "@/lib/models/types";
 
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
@@ -110,10 +110,6 @@ export const CategoryTabAdmin = ({}: CategoryListTabProps) => {
         setIsLoading(false);
         message.info("Данные категорий загружены");
     }, [services, message]);
-
-    // const initialFetch = useCallback(async () => {
-    //     await fetchAll();
-    // }, [fetchAll]);
 
     useEffect(() => {
         fetchAll();
@@ -278,6 +274,11 @@ export const CategoryTabAdmin = ({}: CategoryListTabProps) => {
     }));
     const columns = [
         {
+            title: "ID",
+            dataIndex: "id",
+            key: "id",
+        },
+        {
             title: "Название",
             dataIndex: "value",
             key: "value",
@@ -287,10 +288,20 @@ export const CategoryTabAdmin = ({}: CategoryListTabProps) => {
                 </div>
             ),
         },
+
         {
-            title: "ID",
-            dataIndex: "id",
-            key: "id",
+            title: "Тип заведения",
+            dataIndex: "type",
+            key: "type",
+            render: (cat: ICategoryEstablishmentFront["type"]) =>
+                CONSTANT_TYPES_OF_ESTABLISHMENT_DB[cat.Name].title,
+        },
+        {
+            title: "Главная категория",
+            dataIndex: "rootCategory",
+            key: "rootCategory",
+            render: (cat: ICategoryEstablishmentFront["rootCategory"]) =>
+                cat?.name,
         },
         {
             title: "Значения по языкам",
@@ -310,20 +321,6 @@ export const CategoryTabAdmin = ({}: CategoryListTabProps) => {
                     ))}
                 </Space>
             ),
-        },
-        {
-            title: "Тип заведения",
-            dataIndex: "type",
-            key: "type",
-            render: (cat: ICategoryEstablishmentFront["type"]) =>
-                CONSTANT_TYPES_OF_ESTABLISHMENT_DB[cat.Name].title,
-        },
-        {
-            title: "Главная категория",
-            dataIndex: "rootCategory",
-            key: "rootCategory",
-            render: (cat: ICategoryEstablishmentFront["rootCategory"]) =>
-                cat?.name,
         },
         {
             title: "Действия",

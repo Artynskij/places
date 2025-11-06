@@ -20,7 +20,7 @@ import {
 } from "@ant-design/icons";
 import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
 import { useAlertMessage } from "@/lib/context";
-import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
+import { LanguageManagerBlock } from "@/components/common/Form/_components/LanguageManagerBlock/LanguageManagerBlock";
 import { TLocale } from "@/lib/models/types";
 import { locales } from "@/config";
 import { TagCategoryService } from "@/lib/Api/(Establishment)/tag-category.api";
@@ -191,6 +191,11 @@ export const GroupAttributeTabAdmin = () => {
 
     const columns = [
         {
+            title: "ID",
+            dataIndex: "id",
+            key: "id",
+        },
+        {
             title: "Название",
             dataIndex: "value",
             key: "value",
@@ -199,20 +204,23 @@ export const GroupAttributeTabAdmin = () => {
             ),
         },
         {
-            title: "ID",
-            dataIndex: "id",
-            key: "id",
-        },
-        {
             title: "Названия по языкам",
             dataIndex: "content",
             key: "content",
             render: (values: ICategoryFront["content"]) => (
                 <Space direction="horizontal" size="small">
                     {values?.details.map((value) => (
-                        <Tag key={value.lang} color="blue">
-                            {value.lang.toUpperCase()}
-                        </Tag>
+                        // <Tag key={value.lang} color="blue">
+                        //     {value.lang.toUpperCase()}
+                        // </Tag>
+                        <Tooltip
+                            key={value.lang}
+                            title={`${value.lang.toUpperCase()}: ${
+                                value.value
+                            }`}
+                        >
+                            <Tag color="blue">{value.lang.toUpperCase()}</Tag>
+                        </Tooltip>
                     ))}
                 </Space>
             ),
@@ -231,13 +239,6 @@ export const GroupAttributeTabAdmin = () => {
                     <ModalConfirm
                         handlerAction={() => handleDelete(record)}
                         title="Удаление группы атрибутов"
-                        // content={`Вы уверены, что хотите удалить группу "${
-                        //     record.value
-                        // }"? ${
-                        //     record.attributeCount
-                        //         ? "Группа содержит атрибуты и не может быть удалена."
-                        //         : ""
-                        // }`}
                         content={`Вы уверены, что хотите удалить группу "${record.value}`}
                     >
                         <Button

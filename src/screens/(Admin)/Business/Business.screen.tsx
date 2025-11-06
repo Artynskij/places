@@ -1,6 +1,6 @@
 "use client";
 import styles from "../admin.module.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import {
     Button,
     Card,
@@ -13,16 +13,12 @@ import {
     Input,
     Select,
     Tag,
-    Avatar,
-    DatePicker,
     Descriptions,
-    Tooltip,
 } from "antd";
 import {
     EditOutlined,
     DeleteOutlined,
     EyeOutlined,
-    ShopOutlined,
     SearchOutlined,
     ReloadOutlined,
 } from "@ant-design/icons";
@@ -43,7 +39,6 @@ import { CopyStringButton } from "@/components/common/ButtonFunctional/CopyStrin
 
 const { Search } = Input;
 const { Option } = Select;
-const { TextArea } = Input;
 
 interface BusinessFormValues {
     officialName: string;
@@ -77,15 +72,20 @@ export const BusinessAdminScreen = () => {
     const [legalTypeOptions, setLegalTypeOptions] =
         useState<IBusinessLegalTypesFront[]>();
     const [form] = Form.useForm<BusinessFormValues>();
-    const businessService = new BusinessService();
-    const dataLoadManagerService = new DataLoadManagementService();
-    const invitesService = new InvitesService();
+    const services = useMemo(
+        () => ({
+            business: new BusinessService(),
+            dataLoadManager: new DataLoadManagementService(),
+            invites: new InvitesService(),
+        }),
+        []
+    );
 
     // Загрузка данных
-    const fetchBusinesses = async () => {
+    const fetchBusinesses = useCallback(async () => {
         setLoading(true);
 
-        businessService.getAll({ lang: locale }).then((res) => {
+        services.business.getAll({ lang: locale }).then((res) => {
             if (res) {
                 const business = res.map((item) => item.business);
 
@@ -95,8 +95,22 @@ export const BusinessAdminScreen = () => {
             }
             setLoading(false);
         });
-    };
-
+    }, [locale, services]);
+    const loadPage = useCallback(async () => {
+        setLoading(true);
+        await services.dataLoadManager
+            .getBusinessLegalTypes(locale)
+            .then((res) => {
+                if (res) {
+                    setLegalTypeOptions(res);
+                }
+            });
+        fetchBusinesses();
+        setLoading(false);
+    }, [fetchBusinesses, locale, services]);
+    useEffect(() => {
+        loadPage();
+    }, [loadPage]);
     // Поиск по ID
     const fetchById = async (id: string) => {
         setSearchLoading(true);
@@ -108,7 +122,7 @@ export const BusinessAdminScreen = () => {
                 return;
             }
 
-            businessService.getById(id, locale).then((res) => {
+            services.business.getById(id, locale).then((res) => {
                 if (res) {
                     setBusinesses([res]);
                 } else {
@@ -132,7 +146,7 @@ export const BusinessAdminScreen = () => {
                 fetchBusinesses();
                 return;
             }
-            await businessService
+            await services.business
                 .getAll({ lang: locale, OfficialName: name })
                 .then((res) => {
                     if (res) {
@@ -150,21 +164,6 @@ export const BusinessAdminScreen = () => {
             setLoading(false);
         }
     };
-    const loadPage = async () => {
-        setLoading(true);
-        await dataLoadManagerService
-            .getBusinessLegalTypes(locale)
-            .then((res) => {
-                if (res) {
-                    setLegalTypeOptions(res);
-                }
-            });
-        fetchBusinesses();
-        setLoading(false);
-    };
-    useEffect(() => {
-        loadPage();
-    }, []);
 
     const handleCancel = () => {
         setModalActive(false);
@@ -238,7 +237,7 @@ export const BusinessAdminScreen = () => {
     };
 
     const handleViewDetails = async (record: IBusinessEntity) => {
-        const resInvites = await invitesService.getByQuery({
+        const resInvites = await services.invites.getByQuery({
             lang: locale,
             businessId: record.Id,
         });

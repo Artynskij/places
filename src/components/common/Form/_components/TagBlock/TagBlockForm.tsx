@@ -5,8 +5,8 @@ import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { ITagBlockFront } from "@/lib/models";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
-import { Tag } from "antd";
+import { useEffect, useMemo, useState } from "react";
+import { Select, Tag } from "antd";
 import { FieldError } from "react-hook-form";
 import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
 
@@ -18,17 +18,23 @@ interface Props {
 
 const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
     const tTags = useTranslations("Tags");
-    const tagService = new DataLoadManagementService();
+    const services = useMemo(
+        () => ({
+            tag: new DataLoadManagementService(),
+        }),
+        []
+    );
+
     const locale = useLocale();
     const [activePopup, setActivePopup] = useState(false);
     const [tagsGrouped, setTagsGrouped] = useState<ITagBlockFront[]>([]);
     const [expandedGroups, setExpandedGroups] = useState<{ [key: string]: boolean }>({});
 
     useEffect(() => {
-        tagService.getBlockTags(locale).then((res) => {
+        services.tag.getBlockTags(locale).then((res) => {
             if (res) setTagsGrouped(res);
         });
-    }, []);
+    }, [services, locale]);
 
     const handleTagToggle = (tagId: string) => {
         const stringTagId = String(tagId);

@@ -22,7 +22,7 @@ import {
 } from "@ant-design/icons";
 import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
 import { useAlertMessage } from "@/lib/context";
-import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
+import { LanguageManagerBlock } from "@/components/common/Form/_components/LanguageManagerBlock/LanguageManagerBlock";
 import { TLocale } from "@/lib/models/types";
 
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
@@ -262,7 +262,7 @@ export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
                                 value.value
                             }`}
                         >
-                            <Tag color="green">{value.lang.toUpperCase()}</Tag>
+                            <Tag color="blue">{value.lang.toUpperCase()}</Tag>
                         </Tooltip>
                     ))}
                 </Space>

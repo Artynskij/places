@@ -1,27 +1,54 @@
 import { DataLoadManagementService } from "./../../dataLoadManagement/dataLoadManagement.service";
-import { IArticleEntity, IArticleFront, IArticleTypeFront } from "@/lib/models";
-
-import ArticleApi from "./article.endpoints";
 import {
+    IArticleEntity,
+    IArticleFront,
     IArticleRequest,
+    IArticleTypeFront,
+    IArticleTypeWithArticles,
     IArticleUpdateStatusRequest,
     IArticleWithFilterRequest,
-    IPaginationArticleRequest,
-} from "@/lib/models/server/request/(article)/article.request";
+} from "@/lib/models";
+
+import ArticleApi from "./article.endpoints";
+
 import ArticleMapper from "./article.mapper";
-import { ArticleTypeMapper } from "../article-type.api";
+import { ArticleTypeMapper, ArticleTypeService } from "../article-type.api";
 import { boolean } from "yup";
+import { TLocale } from "@/lib/models/types";
 
 export class ArticleService {
     private articleApi: ArticleApi;
     private articleMapper: ArticleMapper;
     private dataLoadManagementService: DataLoadManagementService;
     private articleTypeMapper: ArticleTypeMapper;
+    private articleTypeService: ArticleTypeService;
     constructor() {
         this.articleApi = new ArticleApi();
         this.articleMapper = new ArticleMapper();
         this.dataLoadManagementService = new DataLoadManagementService();
         this.articleTypeMapper = new ArticleTypeMapper();
+        this.articleTypeService = new ArticleTypeService();
+    }
+    async getToMainPage(
+        lang: TLocale
+    ): Promise<IArticleTypeWithArticles[] | null> {
+        const typesArticle = await this.articleTypeService.get();
+        if (!typesArticle) return null;
+        const responseMain: IArticleTypeWithArticles[] = [];
+        for (let index = 0; index < typesArticle.length; index++) {
+            const typeFront = typesArticle[index];
+            const articlesByType = await this.getWithFilter({
+                articleType: typeFront.id,
+                lang: lang,
+            });
+            if (articlesByType && typeFront) {
+                responseMain.push({
+                    type: typeFront,
+                    articles: articlesByType,
+                });
+            }
+        }
+        return responseMain;
     }
     async getWithFilter(
         query: IArticleWithFilterRequest

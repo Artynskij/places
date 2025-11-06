@@ -25,11 +25,18 @@ export interface IBusinessWithContentEntity {
     content: IContentMultilingualEntity | null;
 }
 // отношение бизнеса к персоне
-export interface IBusinessPersonAssignEntity {
+export interface IBusinessPersonAssignEntity extends IBaseEntity {
     Person: IPersonEntity | null;
     Business: IBusinessEntity | null;
     BusinessPosition: IBusinessPositionEntity | null;
     IsOwnerVerified: boolean;
+}
+// отношение бизнеса к заведению
+export interface IBusinessEstablishmentAssignEntity extends IBaseEntity {
+    Establishment: IEstablishmentEntity | null;
+    Business: IBusinessEntity | null;
+    SortOrder: IBusinessPositionEntity | null;
+    IsPrimary: boolean;
 }
 // бизнес журналы
 export interface IBusinessPositionEntity extends IBaseSimpleEntity {

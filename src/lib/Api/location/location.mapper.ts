@@ -1,4 +1,4 @@
-import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
+import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 import {
     ILocationFront,
     ILocationWithContentPareEntity,
@@ -11,7 +11,7 @@ export default class LocationMapper {
         location: ILocationWithContentPareEntity,
         cdnHost: string
     ): ILocationFront {
-        const title = getActuallyTitleServer(location?.content?.details)
+        const title = extractActuallyTitleServer(location?.content?.details);
         const mediaFiles: IMediaFront[] | null =
             location.content?.media?.gallery?.map((mediaItem) => {
                 return {

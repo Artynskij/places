@@ -19,7 +19,7 @@ import MediaStateExtension from "@/components/common/TipTap/extensions/state/med
 import { SliderNodeForViewer } from "@/components/common/TipTap/extensions/slider/SliderNodeViewer";
 import { TTipTapHTMLContent, TTipTapJSONContent } from "../models/types";
 
-export const getHtmlFormJsonEditor = (
+export const convertEditorJsonToHtml = (
     json: TTipTapJSONContent,
     mediaCollection: IMediaFront[]
 ): TTipTapHTMLContent => {

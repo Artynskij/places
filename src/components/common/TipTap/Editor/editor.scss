@@ -1,7 +1,8 @@
-@import "../prose-base";
-
 .ProseMirror {
-    @extend .prose-base;
+    @extend %Text16;
+    min-height: 300px;
+    outline: none;
+    font-family: $main-font;
 }
 
 .article-editor {

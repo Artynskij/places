@@ -1,7 +1,10 @@
 import { IConsumptionRequest, IConsumptionResponse } from "@/lib/models";
 import apiClient from "../base/ApiClient";
-import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
-import { IConsumptionTypeContentEntity, IConsumptionTypeEntity } from "@/lib/models/server/entities/consumption.entity";
+import { buildQueryString } from "@/lib/helpers/build-query-params-for-api";
+import {
+    IConsumptionTypeContentEntity,
+    IConsumptionTypeEntity,
+} from "@/lib/models/server/entities/consumption.entity";
 
 export class ConsumptionApi {
     private baseUrl: string;
@@ -19,7 +22,7 @@ export class ConsumptionApi {
     }
     async get(query: IConsumptionResponse) {
         try {
-            const queryParams = getQueryParamsForApi(query);
+            const queryParams = buildQueryString(query);
             const response = await apiClient.get(
                 `/content-consumption${queryParams ? `?${queryParams}` : ""}`
             );
@@ -30,7 +33,7 @@ export class ConsumptionApi {
         }
     }
 
-    async getTypesContent(): Promise<IConsumptionTypeContentEntity|null> {
+    async getTypesContent(): Promise<IConsumptionTypeContentEntity | null> {
         try {
             const response = await apiClient.get(`/content-types`);
             return response.data;

@@ -14,6 +14,7 @@ export interface IArticleWithFilterRequest {
     page?: number;
     pageSize?: number;
     personId?: string;
+    articleType?:string
 }
 interface ContentPartArticle {
     markdown?: string;

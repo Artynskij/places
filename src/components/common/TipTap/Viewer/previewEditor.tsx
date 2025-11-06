@@ -34,7 +34,7 @@ export default function PreviewEditor({
         // if (!article) return;
         if (article?.author) {
             const personResponse = await personService.getById(
-                article.author.Id,
+                article.author.id,
                 locale
             );
             if (!personResponse) {

@@ -1,25 +1,13 @@
 "use client";
-import styles from "../admin.module.scss";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import {
     IEstablishmentFront,
-    ILocationFront,
     IMediaFront,
     IOption,
     IPaginationEstablishmentRequest,
     ISearchItemFront,
 } from "@/lib/models";
-import {
-    Button,
-    Card,
-    Space,
-    Table,
-    Spin,
-    message,
-    Select,
-    Input,
-    Form,
-} from "antd";
+import { Button, Card, Space, Table, Spin, message, Select, Input } from "antd";
 import {
     PlusOutlined,
     EditOutlined,
@@ -28,7 +16,6 @@ import {
 } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
-import type { UploadFile } from "antd/es/upload/interface";
 
 import { FormCreateEstablishment } from "@/components/common/Form/Establishment/FormCreateEstablishment";
 import { FormUpdateEstablishment } from "@/components/common/Form/Establishment/FormUpdateEstablishment";
@@ -45,15 +32,6 @@ import { LocationService } from "@/lib/Api/location/location.service";
 
 const { Search } = Input;
 
-interface LocationFormValues {
-    title_ru: string;
-    title_en: string;
-    description_ru: string;
-    description_en: string;
-    category: string;
-    media?: UploadFile[];
-}
-
 interface Props {
     // openModal: (type: "establishment", item?: IEstablishmentFront) => void;
 }
@@ -61,13 +39,10 @@ interface Props {
 const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
     const locale = useLocale();
 
-    const [form] = Form.useForm<LocationFormValues>();
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [totalEstablishments, setTotalEstablishments] = useState(0);
 
-    const [countriesOfEstablishments, setCountriesOfEstablishments] =
-        useState<{ title: string; id: string }[]>();
     const [establishments, setEstablishments] = useState<IEstablishmentFront[]>(
         []
     );
@@ -78,10 +53,12 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
     const [locationsOptions, setLocationsOptions] = useState<IOption[]>([]);
     const [searchLocationId, setSearchLocationId] = useState<string>();
 
-    const [typeEstablishment, setTypeEstablishment] = useState<string>();
-    const [categoryOptions, setCategoryOption] = useState<IOption[]>([]);
-    const [categoryEstablishment, setCategoryEstablishment] =
+    const [filterTypeEstablishment, setFilterTypeEstablishment] =
+        useState<string>();
+    const [filterCategoryEstablishment, setFilterCategoryEstablishment] =
         useState<string[]>();
+
+    const [categoryOptions, setCategoryOption] = useState<IOption[]>([]);
     const typeOptions: IOption[] = Object.values(
         CONSTANT_TYPES_OF_ESTABLISHMENT_DB
     ).map((item) => ({
@@ -96,46 +73,33 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
     const [sortEstablishment, setSortEstablishment] =
         useState<TTypeSortEstablishmentServer>();
 
-    const establishmentService = new EstablishmentService();
-    const locationService = new LocationService();
-    const dataLoadManagerService = new DataLoadManagementService();
-    const searchService = new SearchService();
+    const services = useMemo(
+        () => ({
+            establishment: new EstablishmentService(),
+            location: new LocationService(),
+            dataLoadManager: new DataLoadManagementService(),
+            search: new SearchService(),
+        }),
+        []
+    );
 
-    useEffect(() => {
-        fetchAll(); // используем currentPage вместо 1
-    }, [
-        searchLocationId,
-        typeEstablishment,
-        categoryEstablishment,
-        sortEstablishment,
-        currentPage,
-    ]);
-    useEffect(() => {
-        dataLoadManagerService
-            .getCategories(locale, typeEstablishment || null)
-            .then((res) => {
-                if (res) {
-                    setCategoryOption(
-                        res.map((cat) => ({ label: cat.value, value: cat.id }))
-                    );
-                }
-            });
-    }, [typeEstablishment]);
-    const fetchAll = async () => {
+    const fetchAll = useCallback(async () => {
         setLoading(true);
         const bodyPagination: IPaginationEstablishmentRequest = {
             lang: locale,
             pagination: { page: currentPage, pageSize: pageSize }, // используем переданную страницу
             filter: {
                 locationId: searchLocationId,
-                categoryIds: categoryEstablishment,
-                typeIds: typeEstablishment ? [typeEstablishment] : undefined,
+                categoryIds: filterCategoryEstablishment,
+                typeIds: filterTypeEstablishment
+                    ? [filterTypeEstablishment]
+                    : undefined,
             },
             sort: { avgRate: sortEstablishment || "NONE" },
         };
 
         try {
-            const data = await establishmentService.getByPagination(
+            const data = await services.establishment.getByPagination(
                 bodyPagination
             );
             if (!data) {
@@ -152,24 +116,60 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
 
             // ... остальная логика
             setEstablishments(data || []);
+            message.info("обновлено");
         } catch {
             message.error("Ошибка загрузки заведений");
         } finally {
             setLoading(false);
         }
-    };
-    const countriesMap = useMemo(() => {
-        const map: Record<string, string> = {};
-        countriesOfEstablishments?.forEach((c) => {
-            map[c.id] = c.title;
-        });
-        return map;
-    }, [countriesOfEstablishments]);
+    }, [
+        services,
+        filterCategoryEstablishment,
+        currentPage,
+        locale,
+        pageSize,
+        searchLocationId,
+        sortEstablishment,
+        filterTypeEstablishment,
+    ]);
+    const initializeData = useCallback(async () => {
+        const [categoriesResponse, establishmentFetch] = await Promise.all([
+            services.dataLoadManager.getCategories(
+                locale,
+                filterTypeEstablishment || null
+            ),
+            fetchAll(),
+        ]);
+        if (categoriesResponse) {
+            setCategoryOption(
+                categoriesResponse.map((cat) => ({
+                    label: cat.value,
+                    value: cat.id,
+                }))
+            );
+        } else {
+            message.error("ошибка при получении категорий");
+        }
+    }, [services, fetchAll, filterTypeEstablishment, locale]);
+    useEffect(() => {
+        initializeData;
+    }, [initializeData]);
+    useEffect(() => {
+        fetchAll();
+    }, [
+        searchLocationId,
+        filterTypeEstablishment,
+        filterCategoryEstablishment,
+        sortEstablishment,
+        currentPage,
+        fetchAll,
+    ]);
+
     const fetchById = async (id: string) => {
         setLoading(true);
 
         try {
-            const data = await establishmentService.getById(id, locale);
+            const data = await services.establishment.getById(id, locale);
 
             setEstablishments(data ? [data] : []);
         } catch {
@@ -178,19 +178,11 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
             setLoading(false);
         }
     };
-
-    // Обработчик изменения страницы
-    const handlePageChange = (page: number, newPageSize?: number) => {
-        setCurrentPage(page);
-        if (newPageSize && newPageSize !== pageSize) {
-            setPageSize(newPageSize);
-        }
-    };
     const fetchLocationsByName = async (title: string) => {
         setSearchLoading(true);
         setCurrentPage(1);
         try {
-            const responseSearch = await searchService.querySearch({
+            const responseSearch = await services.search.querySearch({
                 term: title,
                 indexKey: "TO_GO",
                 localLang: locale,
@@ -210,6 +202,13 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
             message.error("Ошибка поиска");
         } finally {
             setSearchLoading(false);
+        }
+    };
+    // Обработчик изменения страницы
+    const handlePageChange = (page: number, newPageSize?: number) => {
+        setCurrentPage(page);
+        if (newPageSize && newPageSize !== pageSize) {
+            setPageSize(newPageSize);
         }
     };
 
@@ -239,10 +238,12 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
         },
         {
             title: "Страна",
-            dataIndex: ["location", "country", "id"],
+            dataIndex: ["location", "country", "title"],
             key: "country",
-            render: (idCountry: string) =>
-                countriesMap[idCountry] || "не найдена страна",
+            render: (titleCountry: string, record: IEstablishmentFront) =>
+                titleCountry,
+
+            // countriesMap[idCountry] || "не найдена страна",
         },
         {
             title: "Город",
@@ -298,8 +299,7 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
                     <Button
                         icon={<ReloadOutlined />}
                         onClick={() => {
-                            message.info("обновлено");
-                            fetchAll();
+                            initializeData();
                         }}
                     />
                 </Space>
@@ -335,10 +335,10 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
                     style={{ width: 200 }}
                     allowClear
                     options={typeOptions}
-                    value={typeEstablishment}
+                    value={filterTypeEstablishment}
                     onChange={(value) => {
-                        setTypeEstablishment(value);
-                        setCategoryEstablishment([]);
+                        setFilterTypeEstablishment(value);
+                        setFilterCategoryEstablishment([]);
                         setCurrentPage(1); // сбрасываем на первую страницу
                     }}
                 />
@@ -349,12 +349,12 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
                     style={{ width: 200 }}
                     allowClear
                     options={categoryOptions}
-                    value={categoryEstablishment}
+                    value={filterCategoryEstablishment}
                     onChange={(value) => {
-                        setCategoryEstablishment(value);
+                        setFilterCategoryEstablishment(value);
                         setCurrentPage(1); // сбрасываем на первую страницу
                     }}
-                    disabled={!typeEstablishment}
+                    disabled={!filterTypeEstablishment}
                 />
                 <Select
                     placeholder="Сортировка"

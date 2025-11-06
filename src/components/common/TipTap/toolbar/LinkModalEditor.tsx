@@ -1,13 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Input, Checkbox, Button } from "antd";
 interface IProp {
     editor: any;
     children: React.ReactNode | React.ReactNode[];
+    // value: string;
 }
 export const LinkModalEditor = ({ editor, children }: IProp) => {
     const [open, setOpen] = useState(false);
     const [url, setUrl] = useState("");
     const [noindex, setNoindex] = useState(false);
+
+    useEffect(() => {
+        if (!editor) return;
+
+        const update = () => {
+            const isLinkActive = editor.isActive("link");
+            setOpen(isLinkActive);
+
+            // Если ссылка активна, получаем её атрибуты
+            if (isLinkActive) {
+                const linkAttributes = editor.getAttributes("link");
+
+                setUrl(linkAttributes.href || "");
+                setNoindex(linkAttributes.rel === "nofollow");
+            } else {
+                // Сбрасываем значения, если ссылка не активна
+                setUrl("");
+                setNoindex(false);
+            }
+        };
+
+        editor.on("selectionUpdate", update);
+        return () => {
+            editor.off("selectionUpdate", update);
+        };
+    }, [editor]);
 
     const applyLink = () => {
         if (!url) {
@@ -32,12 +59,13 @@ export const LinkModalEditor = ({ editor, children }: IProp) => {
 
     return (
         <>
-            <div style={{ display: "inline-block" }}  onClick={() => setOpen(true)}>{children}</div>
-            {/* <Button
-                icon={<LinkOutlined />}
-                type={editor.isActive("link") ? "primary" : "default"}
+            <div
+                style={{ display: "inline-block" }}
                 onClick={() => setOpen(true)}
-            /> */}
+            >
+                {children}
+            </div>
+
             <Modal
                 title="Добавить ссылку"
                 open={open}

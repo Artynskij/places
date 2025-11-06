@@ -5,6 +5,8 @@ import {
 } from "../(establishment)/media.front";
 import { IContentArticle, IPersonEntity } from "../../server/entities";
 import { TLocale, TTipTapHTMLContent } from "../../types";
+import { IPersonFront } from "../(person)/person.front";
+
 
 export interface IArticleFront {
     id: string;
@@ -21,7 +23,7 @@ export interface IArticleFront {
         id: string;
         code: TArticleStatus;
     };
-    author?: IPersonEntity;
+    author?: IPersonFront;
 
     readingTime: number;
     date: string;

@@ -1,29 +1,32 @@
 import {
-    IBusinessAssignmentGetQueryRequest,
-    IBusinessAssignmentRequest,
+    IBusinessPersonAssignmentGetQueryRequest,
+    IBusinessPersonAssignmentRequest,
     IBusinessPersonAssignEntity,
 } from "@/lib/models";
 import apiClient from "../base/ApiClient";
-import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
+import { buildQueryString } from "@/lib/helpers/build-query-params-for-api";
 
-export class BusinessAssignmentApi {
-    constructor() {}
+export class BusinessPersonAssignmentApi {
+    private baseUrl: string;
+    constructor() {
+        this.baseUrl = "/person-business-assignments";
+    }
     async getByQuery({
         personId,
         businessId,
         establishmentId,
-    }: IBusinessAssignmentGetQueryRequest): Promise<
+    }: IBusinessPersonAssignmentGetQueryRequest): Promise<
         IBusinessPersonAssignEntity[] | null
     > {
         try {
-            const query = getQueryParamsForApi({
+            const query = buildQueryString({
                 personId,
                 businessId,
                 establishmentId,
             });
 
             const response = await apiClient.get(
-                `/person-business-assignments${query ? `?${query}` : ""}`
+                `${this.baseUrl}${query ? `?${query}` : ""}`
             );
             return response.data;
         } catch (error) {
@@ -39,9 +42,7 @@ export class BusinessAssignmentApi {
     ): Promise<IBusinessPersonAssignEntity | null> {
         try {
             const response = await apiClient.get(
-                `/person-business-assignments/${id}${
-                    lang ? `?lang=${lang}` : ""
-                }`
+                `${this.baseUrl}/${id}${lang ? `?lang=${lang}` : ""}`
             );
             return response.data;
         } catch (error) {
@@ -53,13 +54,10 @@ export class BusinessAssignmentApi {
     }
 
     async create(
-        body: IBusinessAssignmentRequest
+        body: IBusinessPersonAssignmentRequest
     ): Promise<IBusinessPersonAssignEntity | null> {
         try {
-            const response = await apiClient.post(
-                `/person-business-assignments`,
-                body
-            );
+            const response = await apiClient.post(`${this.baseUrl}`, body);
             return response.data;
         } catch (error) {
             console.error(`Ошибка при создании PersonAssignment `);
@@ -68,11 +66,11 @@ export class BusinessAssignmentApi {
     }
     async update(
         id: string,
-        body: IBusinessAssignmentRequest
+        body: IBusinessPersonAssignmentRequest
     ): Promise<IBusinessPersonAssignEntity | null> {
         try {
             const response = await apiClient.patch(
-                `/person-business-assignments/${id}`,
+                `${this.baseUrl}/${id}`,
 
                 body
             );
@@ -84,11 +82,11 @@ export class BusinessAssignmentApi {
     }
     async delete(
         id: string,
-        body: IBusinessAssignmentRequest
+        body: IBusinessPersonAssignmentRequest
     ): Promise<IBusinessPersonAssignEntity | null> {
         try {
             const response = await apiClient.patch(
-                `/person-business-assignments/${id}`,
+                `${this.baseUrl}/${id}`,
 
                 body
             );

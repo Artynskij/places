@@ -1,12 +1,16 @@
-import { getActuallyTitleServer } from "@/lib/helpers/get-title-server";
+import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 import {
     IArticleEntityWithPareContent,
     IArticleFront,
     IMediaFront,
 } from "@/lib/models";
+import { PersonMapper } from "../../(Person)/person/person.mapper";
 
 export default class ArticleMapper {
-    constructor() {}
+    private personMapper: PersonMapper;
+    constructor() {
+        this.personMapper = new PersonMapper();
+    }
     toFront(
         articleEntity: IArticleEntityWithPareContent,
         cdnHost: string
@@ -35,7 +39,7 @@ export default class ArticleMapper {
         const mainImage = mainImages?.[mainImages?.length - 1] || null;
         const typesArticle = articleEntity.article.ArticleTypeRelations.map(
             (typeConnectEntity) => {
-                const valueActually = getActuallyTitleServer(
+                const valueActually = extractActuallyTitleServer(
                     typeConnectEntity.ArticleTypeEntity.content.details
                 );
                 return {
@@ -48,7 +52,7 @@ export default class ArticleMapper {
         const subTypesArticle =
             articleEntity.article.ArticleSubTypeRelations.map(
                 (typeConnectEntity) => {
-                    const valueActually = getActuallyTitleServer(
+                    const valueActually = extractActuallyTitleServer(
                         typeConnectEntity.ArticleSubTypeEntity.content.details
                     );
                     return {
@@ -72,7 +76,11 @@ export default class ArticleMapper {
 
             type: typesArticle,
             subType: subTypesArticle,
-            author: articleEntity.article.Person,
+            author: this.personMapper.toFront(
+                { person: articleEntity.article.Person, content: null },
+                null,
+                cdnHost
+            ),
             reactions: contentDetailsEntity.contentValue?.reactions || [],
             date: contentDetailsEntity.contentValue?.date || "",
             contentEntity: articleEntity.content,

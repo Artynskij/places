@@ -25,7 +25,13 @@ export const MapCoordinatePicker = ({
     const locale = useLocale();
     const { byCoordinates, byName } = useMapboxGeocode();
     const { userLocation, errorUserLocation } = useUserLocation();
-    const locationService = new LocationService();
+
+    const services = useMemo(
+        () => ({
+            location: new LocationService(),
+        }),
+        []
+    );
     const centerMoscow = { lat: 51.77041291260454, lon: 29.195896311674147 };
     const zoom = 12;
     const [isInitialized, setIsInitialized] = useState(false);
@@ -50,7 +56,9 @@ export const MapCoordinatePicker = ({
                     setIsInitialized(true);
                     break;
                 case !!locationId:
-                    const location = await locationService.getById(locationId);
+                    const location = await services.location.getById(
+                        locationId
+                    );
 
                     const coordByName = location
                         ? await byName(location.title)
@@ -85,7 +93,15 @@ export const MapCoordinatePicker = ({
             }
         };
         getCenter();
-    }, [position, userLocation, errorUserLocation, locationId]);
+    }, [
+        position,
+        userLocation,
+        errorUserLocation,
+        locationId,
+        services,
+        byName,
+        isInitialized,
+    ]);
 
     const handlerClick = async (e: mapboxgl.MapMouseEvent) => {
         const { lng, lat } = e.lngLat;

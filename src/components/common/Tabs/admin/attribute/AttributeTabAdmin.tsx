@@ -22,7 +22,7 @@ import {
 } from "@ant-design/icons";
 import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
 import { useAlertMessage } from "@/lib/context";
-import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
+import { LanguageManagerBlock } from "@/components/common/Form/_components/LanguageManagerBlock/LanguageManagerBlock";
 import { TLocale } from "@/lib/models/types";
 
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
@@ -30,7 +30,6 @@ import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
 import { ICategoryFront, IOption, ITagFront, ITagRequest } from "@/lib/models";
 import { TagService } from "@/lib/Api/(Establishment)/tag.api";
 import { TagCategoryService } from "@/lib/Api/(Establishment)/tag-category.api";
-import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 
 const { Search } = Input;
 
@@ -236,8 +235,13 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
             setIsModalLoading(false);
         }
     };
- 
+
     const columns = [
+        {
+            title: "ID",
+            dataIndex: "id",
+            key: "id",
+        },
         {
             title: "Название",
             dataIndex: "value",
@@ -247,11 +251,6 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
                     <div style={{ fontWeight: 500 }}>{value}</div>
                 </div>
             ),
-        },
-        {
-            title: "ID",
-            dataIndex: "id",
-            key: "id",
         },
         {
             title: "Группа атрибутов",

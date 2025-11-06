@@ -3,7 +3,7 @@ import LocationsTabAdmin from "@/components/common/Tabs/admin/location/Locations
 import LocationTypesTabAdmin from "@/components/common/Tabs/admin/location/LocationTypesTabAdmin";
 import { Tabs } from "antd";
 
-const LocationsAdminScreen = () => {
+export const LocationsAdminScreen = () => {
     const tabs = [
         {
             key: "locations",
@@ -23,5 +23,3 @@ const LocationsAdminScreen = () => {
         </div>
     );
 };
-
-export default LocationsAdminScreen;

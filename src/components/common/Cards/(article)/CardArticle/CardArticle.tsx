@@ -82,7 +82,7 @@ export const CardArticle = ({
                             text={JSON.stringify(article.markdown)}
                         />
 
-                        <div>{article.author?.Id || ""}</div>
+                        <div>{article.author?.id || ""}</div>
                     </div>
                 )}
             </div>

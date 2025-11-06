@@ -2,16 +2,12 @@ import { TLocale } from "@/lib/models/types";
 import { Input, Select, Space, Tag, message } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { locales } from "@/config";
-import { useState, useEffect } from "react";
-
-interface LanguageDetail {
-    lang: TLocale;
-    value: string;
-}
+import { useState, useEffect, useCallback } from "react";
+import { IDetailLang } from "@/lib/models";
 
 interface IProp {
-    value?: LanguageDetail[];
-    onChange?: (details: LanguageDetail[]) => void;
+    value?: IDetailLang[];
+    onChange?: (details: IDetailLang[]) => void;
     error?: string;
     required?: boolean;
 }
@@ -32,7 +28,7 @@ export const LanguageManagerBlock = ({
     );
 
     // Валидация всех полей
-    const validateFields = () => {
+    const validateFields = useCallback(() => {
         const errors: { [key: string]: string } = {};
 
         value.forEach(({ lang, value: titleValue }) => {
@@ -43,12 +39,11 @@ export const LanguageManagerBlock = ({
 
         setFieldErrors(errors);
         return Object.keys(errors).length === 0;
-    };
+    }, [required, value]);
 
-    // Проверяем валидацию при изменении value
     useEffect(() => {
         validateFields();
-    }, [value]);
+    }, [validateFields]);
 
     const removeLanguage = (langCode: TLocale) => {
         if (currentLanguages.length > 1) {
@@ -74,25 +69,42 @@ export const LanguageManagerBlock = ({
     };
 
     const updateTitle = (langCode: TLocale, newValue: string) => {
+        let finalValue = newValue;
+        let englishError = "";
+
+        // Валидация только для английского языка
+        if (langCode === "en" && newValue) {
+            // Проверяем на неанглийские символы
+            if (!/^[a-zA-Z\s]*$/.test(newValue)) {
+                finalValue = ""; // Возвращаем пустую строку
+                englishError = "Только английские буквы.";
+            }
+        }
+
         const newDetails = value.map((item) =>
-            item.lang === langCode ? { ...item, value: newValue } : item
+            item.lang === langCode ? { ...item, value: finalValue } : item
         );
         onChange?.(newDetails);
 
         // Валидируем измененное поле
         if (required) {
-            if (!newValue.trim()) {
-                setFieldErrors((prev) => ({
-                    ...prev,
-                    [langCode]: `Заполните название на ${langCode.toUpperCase()}`,
-                }));
-            } else {
-                setFieldErrors((prev) => {
-                    const newErrors = { ...prev };
-                    delete newErrors[langCode];
-                    return newErrors;
-                });
+            const errors: { [key: string]: string } = {};
+
+            if (!finalValue.trim()) {
+                errors[langCode] =
+                    englishError ||
+                    `Заполните название на ${langCode.toUpperCase()}`;
             }
+
+            setFieldErrors((prev) => {
+                const newErrors = { ...prev };
+                if (Object.keys(errors).length > 0) {
+                    newErrors[langCode] = errors[langCode];
+                } else {
+                    delete newErrors[langCode];
+                }
+                return newErrors;
+            });
         }
     };
 

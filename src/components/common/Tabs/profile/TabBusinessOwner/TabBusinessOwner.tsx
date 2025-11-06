@@ -24,7 +24,7 @@ export const TabBusinessOwner = () => {
     const fetchData = useCallback(() => {
         if (user) {
             services.business
-                .getAssignment({ personId: user.id })
+                .getPersonAssignment({ personId: user.id })
                 .then((res) => {
                     if (res) {
                         const businessData = res

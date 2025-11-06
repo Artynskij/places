@@ -4,7 +4,7 @@ import style from "./tabReview.module.scss";
 import { mockReviews } from "@/asset/mockData/mockReviews";
 
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { IEstablishmentFront, IRateEstablishmentFront } from "@/lib/models";
 
@@ -19,13 +19,19 @@ export const TabReview = ({}: ITabReview) => {
     // );
     const { user, loadingUser } = useUser();
     const t = useTranslations("ProfilePage");
-    const establishmentService = new EstablishmentService();
+
+    const services = useMemo(
+        () => ({
+            establishment: new EstablishmentService(),
+        }),
+        []
+    );
     const [reviewsData, setReviewsData] = useState<
         IRateEstablishmentFront[] | null
     >(null);
-    useEffect(() => {
+    const initializeData = useCallback(async () => {
         if (!user) return;
-        establishmentService
+        services.establishment
             .getAllRatesReview({
                 page: 1,
                 limit: 100,
@@ -37,7 +43,10 @@ export const TabReview = ({}: ITabReview) => {
                     setReviewsData(res.rates);
                 }
             });
-    }, [loadingUser]);
+    }, [user, services]);
+    useEffect(() => {
+        initializeData();
+    }, [loadingUser, initializeData]);
     return (
         <div className={style.review}>
             <h3 className={style.review_title}>{t("reviewTab.myReview")}</h3>

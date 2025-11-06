@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Button, Card, Space, Table, message, Modal, Form, Input } from "antd";
 import {
     PlusOutlined,
@@ -23,16 +23,17 @@ const LocationTypesTabAdmin: React.FC = () => {
     const [form] = Form.useForm();
     const [modalLoading, setModalLoading] = useState(false);
 
-    const dataLoadManagerService = new DataLoadManagementService();
-    const locationTypesService = new LocationTypesService();
-    useEffect(() => {
-        fetchLocationTypes();
-    }, []);
-
-    const fetchLocationTypes = async () => {
+    const services = useMemo(
+        () => ({
+            dataLoadManager: new DataLoadManagementService(),
+            locationTypes: new LocationTypesService(),
+        }),
+        []
+    );
+    const fetchLocationTypes = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await dataLoadManagerService.getTypesLocation();
+            const res = await services.dataLoadManager.getTypesLocation();
             if (res) {
                 const types = res.map((item) => item.type);
                 setLocationTypes(types);
@@ -42,7 +43,10 @@ const LocationTypesTabAdmin: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [services]);
+    useEffect(() => {
+        fetchLocationTypes();
+    }, [fetchLocationTypes]);
 
     const handleEdit = (record: ILocationTypeEntity) => {
         setEditType(record);
@@ -54,7 +58,7 @@ const LocationTypesTabAdmin: React.FC = () => {
 
     const handleDelete = async (id: string) => {
         try {
-            await locationTypesService.delete(id);
+            await services.locationTypes.delete(id);
             message.success("Тип локации удален");
 
             fetchLocationTypes();
@@ -79,13 +83,13 @@ const LocationTypesTabAdmin: React.FC = () => {
                 content: null,
             };
             if (editType) {
-                await locationTypesService.update(
+                await services.locationTypes.update(
                     editType.Id,
                     bodyTypeLocation
                 );
                 message.success("Тип локации обновлен");
             } else {
-                await locationTypesService.create(bodyTypeLocation);
+                await services.locationTypes.create(bodyTypeLocation);
                 message.success("Тип локации создан");
             }
 

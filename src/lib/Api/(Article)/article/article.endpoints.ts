@@ -12,7 +12,7 @@ import {
     IPaginationArticleRequest,
 } from "@/lib/models/server/request/(article)/article.request";
 import apiClient from "../../base/ApiClient";
-import { getQueryParamsForApi } from "@/lib/helpers/get-query-params-for-api";
+import { buildQueryString } from "@/lib/helpers/build-query-params-for-api";
 
 export default class ArticleApi {
     constructor() {}
@@ -35,7 +35,7 @@ export default class ArticleApi {
         query: IArticleWithFilterRequest
     ): Promise<IArticleEntityWithPareContent[] | null> {
         try {
-            const queryParams = getQueryParamsForApi(query);
+            const queryParams = buildQueryString(query);
 
             const response = await apiClient.get(
                 `/articles${queryParams ? `?${queryParams}` : ""}`

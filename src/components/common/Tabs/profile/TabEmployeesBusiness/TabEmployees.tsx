@@ -3,7 +3,7 @@ import { FormInvite } from "@/components/common/Form/Invite/FormInvite";
 import style from "./tabEmployees.module.scss";
 import { Button } from "@/components/UI/Button/Button";
 import { IBusinessFront, IInvitesByQueryItemResponse } from "@/lib/models";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { InvitesService } from "@/lib/Api/invites/invites.service";
 import useLocale from "@/lib/hooks/useLocale";
 import { useUser } from "@/lib/context/UserContext/UserContext";
@@ -11,38 +11,38 @@ interface IProp {
     business: IBusinessFront;
 }
 export const TabEmployees = ({ business }: IProp) => {
-    const invitesService = new InvitesService();
+    const services = useMemo(() => ({ invites: new InvitesService() }), []);
     const locale = useLocale();
     const { user } = useUser();
     const [listInvites, setListInvites] =
         useState<IInvitesByQueryItemResponse[]>();
-    useEffect(() => {
-        if (!user) return;
-        const dataLoad = async () => {
-            const firstInvitesList = await invitesService.getByQuery({
+    const dataLoad = useCallback(async () => {
+        const firstInvitesList = await services.invites.getByQuery({
+            lang: locale,
+            businessId: business.Id,
+        });
+
+        if (!firstInvitesList) return;
+        const foundPersonInvite = firstInvitesList.find(
+            (item) => item.person.id === user?.id
+        );
+        if (!foundPersonInvite) return;
+        if (foundPersonInvite.activated) {
+            setListInvites(firstInvitesList);
+        } else {
+            await services.invites.applyPerson(foundPersonInvite.id);
+            const secondInvitesList = await services.invites.getByQuery({
                 lang: locale,
                 businessId: business.Id,
             });
-
-            if (!firstInvitesList) return;
-            const foundPersonInvite = firstInvitesList.find(
-                (item) => item.person.id === user?.id
-            );
-            if (!foundPersonInvite) return;
-            if (foundPersonInvite.activated) {
-                setListInvites(firstInvitesList);
-            } else {
-                await invitesService.applyPerson(foundPersonInvite.id);
-                const secondInvitesList = await invitesService.getByQuery({
-                    lang: locale,
-                    businessId: business.Id,
-                });
-                if (!secondInvitesList) return;
-                setListInvites(secondInvitesList);
-            }
-        };
+            if (!secondInvitesList) return;
+            setListInvites(secondInvitesList);
+        }
+    }, [locale, services, business, user]);
+    useEffect(() => {
+        if (!user) return;
         dataLoad();
-    }, []);
+    }, [dataLoad, user]);
     return (
         <div className={style.tab}>
             <div className={style.tab_title}>

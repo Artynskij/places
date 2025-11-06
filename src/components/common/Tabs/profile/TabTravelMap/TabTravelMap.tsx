@@ -5,19 +5,10 @@ import clsx from "clsx";
 import { InputCustom } from "@/components/UI/Input/InputCustom/InputCustom";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/UI/Button/Button";
-import {
-    IconArrowLeft,
-    IconArrowRight,
-    IconCancel,
-    IconDone,
-    IconEye,
-    IconLike,
-    IconStar,
-} from "@/components/common/Icons";
+
 import { useMapboxGeocode } from "@/lib/hooks/useMapboxGeocode";
 import { SearchService } from "@/lib/Api/search/search.service";
 import {
-    ILocationFront,
     IMapboxCoordProp,
     IPersonTravelMarkFront,
     ISearchItemFront,
@@ -34,7 +25,7 @@ import TravelMapIcon from "./_components/icon/TravelIcon";
 import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { Loader } from "@/components/common/Loader/Loader";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
-// interface ITravelList
+
 const TabTravelMap = () => {
     const locale = useLocale();
 
@@ -54,14 +45,20 @@ const TabTravelMap = () => {
     >(new Map());
 
     const [position, setPosition] = useState<IMapboxCoordProp>();
+    const services = useMemo(
+        () => ({
+            search: new SearchService(),
+            personTravelMark: new PersonTravelMarkService(),
+            person: new PersonService(),
+        }),
+        []
+    );
 
-    const searchService = new SearchService();
-    const personTravelMarkService = new PersonTravelMarkService();
     useEffect(() => {
         if (!user) {
             return;
         }
-        personTravelMarkService.getByPersonId(user.id).then((res) => {
+        services.personTravelMark.getByPersonId(user.id).then((res) => {
             if (res) {
                 setMarksMap(
                     new Map(res.map((mark) => [mark.location.id, mark]))
@@ -69,7 +66,7 @@ const TabTravelMap = () => {
             }
             return res;
         });
-    }, []);
+    }, [services, user]);
     const debouncedSearch = useCallback(
         debounce(async (value: string) => {
             if (!value.trim()) {
@@ -77,7 +74,7 @@ const TabTravelMap = () => {
                 return;
             }
             try {
-                const res = await searchService.querySearch({
+                const res = await services.search.querySearch({
                     indexKey: "TO_GO",
                     term: value,
                     localLang: locale,
@@ -114,11 +111,11 @@ const TabTravelMap = () => {
                 lat: +locationMapData.center[1],
                 bBox: locationMapData.bbox
                     ? {
-                        minLon: locationMapData.bbox[0],
-                        minLat: locationMapData.bbox[1],
-                        maxLon: locationMapData.bbox[2],
-                        maxLat: locationMapData.bbox[3],
-                    }
+                          minLon: locationMapData.bbox[0],
+                          minLat: locationMapData.bbox[1],
+                          maxLon: locationMapData.bbox[2],
+                          maxLat: locationMapData.bbox[3],
+                      }
                     : null,
             });
             notification.info({ message: "обновление центра" });
@@ -148,7 +145,9 @@ const TabTravelMap = () => {
         if (travelMark) {
             const updated = toggleValues(travelMark);
             if (Object.values(updated).filter(Boolean).length === 0) {
-                const res = await personTravelMarkService.delete(travelMark.id);
+                const res = await services.personTravelMark.delete(
+                    travelMark.id
+                );
                 if (res) {
                     setMarksMap((prev) => {
                         const newMap = new Map(prev);
@@ -162,7 +161,7 @@ const TabTravelMap = () => {
                     });
                 }
             } else {
-                const res = await personTravelMarkService.update(
+                const res = await services.personTravelMark.update(
                     travelMark.id,
                     {
                         Location: travelMark.location.id,
@@ -193,7 +192,7 @@ const TabTravelMap = () => {
         } else {
             if (!searchItem) return;
             const newValues = toggleValues();
-            const res = await personTravelMarkService.create({
+            const res = await services.personTravelMark.create({
                 Location: searchItem?.id,
                 Person: user.id,
                 IsLoved: newValues.isLoved,
@@ -252,7 +251,6 @@ const TabTravelMap = () => {
     const visitedList = marksArray.filter((mark) => mark.isVisited);
     const wantedList = marksArray.filter((mark) => mark.isWanted);
     const lovedList = marksArray.filter((mark) => mark.isLoved);
-    const personService = new PersonService();
 
     const [travelProgress, setTravelProgress] = useState<ITravelProgressFront>();
 
@@ -260,12 +258,12 @@ const TabTravelMap = () => {
         if (!user) {
             return;
         }
-        personService.getTravelProgress(user.id).then((res) => {
+        services.person.getTravelProgress(user.id).then((res) => {
             if (res) {
                 setTravelProgress(res);
             }
         });
-    }, []);
+    }, [services, user]);
 
     if (!user) return <Loader />;
     
@@ -274,21 +272,47 @@ const TabTravelMap = () => {
             <div className={style.tab_travel}>
                 <MapTravel position={position} />
                 <div className={style.blockAbsolute}>
-                    <div className={clsx(style.blockAbsolute_content, activeMarksList && style.blockAbsolute_content__active)}>
+                    <div
+                        className={clsx(
+                            style.blockAbsolute_content,
+                            activeMarksList &&
+                                style.blockAbsolute_content__active
+                        )}
+                    >
                         <>
-                            <div className={clsx(style.search, activeSearch && style.search_active)}>
+                            <div
+                                className={clsx(
+                                    style.search,
+                                    activeSearch && style.search_active
+                                )}
+                            >
                                 <div className={style.search_block}>
                                     <div className={style.marks_legend}>
-                                        <div className={style.marks_legend_item}>
-                                            <TravelMapIcon active type="visited" />{" "}
+                                        <div
+                                            className={style.marks_legend_item}
+                                        >
+                                            <TravelMapIcon
+                                                active
+                                                type="visited"
+                                            />{" "}
                                             <span>- был</span>
                                         </div>
-                                        <div className={style.marks_legend_item}>
-                                            <TravelMapIcon active type="loved" />{" "}
+                                        <div
+                                            className={style.marks_legend_item}
+                                        >
+                                            <TravelMapIcon
+                                                active
+                                                type="loved"
+                                            />{" "}
                                             <span>- люблю</span>
                                         </div>
-                                        <div className={style.marks_legend_item}>
-                                            <TravelMapIcon active type="wanted" />
+                                        <div
+                                            className={style.marks_legend_item}
+                                        >
+                                            <TravelMapIcon
+                                                active
+                                                type="wanted"
+                                            />
                                             <span>- хочу</span>
                                         </div>
                                     </div>
@@ -303,19 +327,25 @@ const TabTravelMap = () => {
                                         {searchList.length > 0 &&
                                             searchList.map((searchItem) => {
                                                 const current = searchItem.id
-                                                    ? marksMap.get(searchItem.id)
+                                                    ? marksMap.get(
+                                                          searchItem.id
+                                                      )
                                                     : null;
 
                                                 return (
                                                     <li
-                                                        className={style.list_item}
+                                                        className={
+                                                            style.list_item
+                                                        }
                                                         key={searchItem.id}
                                                     >
                                                         <CardTravelList
                                                             current={
                                                                 current || null
                                                             }
-                                                            searchItem={searchItem}
+                                                            searchItem={
+                                                                searchItem
+                                                            }
                                                             handlerClickEye={
                                                                 handlerClickEye
                                                             }
@@ -327,9 +357,7 @@ const TabTravelMap = () => {
                                                 );
                                             })}
                                     </ul>
-                                    
                                 </div>
-
                             </div>
                             <div className={clsx(style.marks)}>
                                 {/* <Button
@@ -378,14 +406,13 @@ const TabTravelMap = () => {
                                 </div>
                                         
                                 {travelProgress && (
-                                        <div className={style.info_travel_block}>
-                                            Посетил:{" "}
-                                            {`${travelProgress.visitedCount} города(ов)`}-
-                                            {`${travelProgress.percentage}% мира`}.
-                                        </div>
-                                    )}
+                                    <div className={style.info_travel_block}>
+                                        Посетил:{" "}
+                                        {`${travelProgress.visitedCount} города(ов)`}
+                                        -{`${travelProgress.percentage}% мира`}.
+                                    </div>
+                                )}
                             </div>
-
                         </>
                     </div>
                     <div className={style.blockAbsolute_trigger}>
@@ -393,7 +420,11 @@ const TabTravelMap = () => {
                             onClick={() => {
                                 setActiveMarksList((prev) => !prev);
                             }}
-                            text={activeMarksList ? "Закрыть панель" : "Открыть панель"}
+                            text={
+                                activeMarksList
+                                    ? "Закрыть панель"
+                                    : "Открыть панель"
+                            }
                             className={style.marks_buttonOpen}
                         />
                     </div>

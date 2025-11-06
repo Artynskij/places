@@ -6,7 +6,7 @@ import { IconPlus } from "@/components/common/Icons";
 import { useTranslations } from "next-intl";
 import useLocale from "@/lib/hooks/useLocale";
 import { useUser } from "@/lib/context/UserContext/UserContext";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { IEstablishmentFront } from "@/lib/models";
 import { EstablishmentPersonAssignmentApi } from "@/lib/Api/(Establishment)/establishment/establishment-assignment.api";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
@@ -22,36 +22,42 @@ export const TabEstablishmentCreated = () => {
     const [establishmentsData, setEstablishmentsData] = useState<
         IEstablishmentFront[] | null
     >();
-    const establishmentPersonAssignmentService =
-        new EstablishmentPersonAssignmentApi();
-    const establishmentService = new EstablishmentService();
-    useEffect(() => {
-        async function getData() {
-            if (!user) {
-                return;
-            }
-            const estPersonAssign =
-                await establishmentPersonAssignmentService.getAll({
-                    personIds: [user.id],
-                });
-            const idsEstablishments = estPersonAssign
-                .map((item) => item.EstablishmentId)
-                .filter((item) => !!item) as string[];
-            const establishmentsResponse =
-                idsEstablishments.length > 0
-                    ? await establishmentService.getByPagination({
-                          pagination: { page: 1, pageSize: 10 },
-                          lang: locale,
-                          ids: idsEstablishments,
-                      })
-                    : [];
 
-            setEstablishmentsData(establishmentsResponse || []);
+    const services = useMemo(
+        () => ({
+            establishmentPersonAssignment:
+                new EstablishmentPersonAssignmentApi(),
+            establishment: new EstablishmentService(),
+        }),
+        []
+    );
+    const getData = useCallback(async () => {
+        if (!user) {
+            return;
         }
+        const estPersonAssign =
+            await services.establishmentPersonAssignment.getAll({
+                personIds: [user.id],
+            });
+        const idsEstablishments = estPersonAssign
+            .map((item) => item.EstablishmentId)
+            .filter((item) => !!item) as string[];
+        const establishmentsResponse =
+            idsEstablishments.length > 0
+                ? await services.establishment.getByPagination({
+                      pagination: { page: 1, pageSize: 10 },
+                      lang: locale,
+                      ids: idsEstablishments,
+                  })
+                : [];
+
+        setEstablishmentsData(establishmentsResponse || []);
+    }, [services, user, locale]);
+    useEffect(() => {
         if (user) {
             getData();
         }
-    }, []);
+    }, [getData, user]);
     return (
         <div className={style.tabEstablishment_content}>
             <div className={style.tab_title}>

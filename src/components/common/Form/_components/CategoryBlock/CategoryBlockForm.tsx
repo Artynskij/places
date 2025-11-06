@@ -2,7 +2,7 @@
 
 import style from "./categoryBlockForm.module.scss";
 import { Select } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { ICategoryFront } from "@/lib/models";
 import useLocale from "@/lib/hooks/useLocale";
@@ -24,19 +24,24 @@ const CategoryBlockForm = ({
     error,
     typeEstablishmentId,
 }: Props) => {
-    const dataLoadManagementService = new DataLoadManagementService();
+    const services = useMemo(
+        () => ({
+            dataLoadManagement: new DataLoadManagementService(),
+        }),
+        []
+    );
     const locale = useLocale();
     const [categories, setCategories] = useState<ICategoryFront[]>([]);
 
     useEffect(() => {
-        dataLoadManagementService
+        services.dataLoadManagement
             .getCategories(locale, typeEstablishmentId)
             .then((res) => {
                 if (res) {
                     setCategories(res);
                 }
             });
-    }, [typeEstablishmentId]);
+    }, [typeEstablishmentId, services, locale]);
 
     return (
         <div className={style.categoryBlockForm}>
@@ -44,10 +49,10 @@ const CategoryBlockForm = ({
                 mode="multiple"
                 allowClear
                 showSearch
-                optionFilterProp="label" 
-                style={{ width: "100%" }} 
+                optionFilterProp="label"
+                style={{ width: "100%" }}
                 placeholder="Выберите категории"
-                value={selectedCategories.map(String)} 
+                value={selectedCategories.map(String)}
                 onChange={(value) => {
                     onChange?.(value);
                 }}

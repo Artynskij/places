@@ -102,7 +102,13 @@ export const MapDisplay = ({ establishmentList, center }: MapDisplayProps) => {
         } else if (errorUserLocation) {
             setIsInitialized(true);
         }
-    }, [center, establishmentList, userLocation, errorUserLocation]);
+    }, [
+        center,
+        establishmentList,
+        userLocation,
+        errorUserLocation,
+        isInitialized,
+    ]);
 
     useEffect(() => {
         if (establishments.length <= 1) {

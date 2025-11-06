@@ -1,6 +1,6 @@
 "use client";
 import styles from "../admin.module.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
     Button,
     Card,
@@ -45,7 +45,7 @@ export const UserAdminScreen = () => {
 
     const [searchLoading, setSearchLoading] = useState(false);
 
-    const personService = new PersonService();
+    const services = useMemo(() => ({ person: new PersonService() }), []);
     // Статусы для фильтрации
     const statusOptions = [
         { value: "moderation", label: "На модерации", color: "orange" },
@@ -56,10 +56,10 @@ export const UserAdminScreen = () => {
     ];
 
     // Загрузка данных
-    const fetchPersons = async () => {
+    const fetchPersons = useCallback(async () => {
         setLoading(true);
         // await delay(600);
-        const personsServer = await personService.getAll({ lang: "ru" });
+        const personsServer = await services.person.getAll({ lang: "ru" });
 
         if (personsServer) {
             setPersons(personsServer);
@@ -67,8 +67,10 @@ export const UserAdminScreen = () => {
             message.error("Ошибка загрузки данных");
         }
         setLoading(false);
-    };
-
+    }, [services]);
+    useEffect(() => {
+        fetchPersons();
+    }, [fetchPersons]);
     // Поиск по ID
     const fetchById = async (id: string) => {
         setSearchLoading(true);
@@ -79,7 +81,7 @@ export const UserAdminScreen = () => {
                 return;
             }
 
-            const person = await personService.getById(id);
+            const person = await services.person.getById(id);
             if (person) {
                 setPersons([person]);
             } else {
@@ -103,21 +105,12 @@ export const UserAdminScreen = () => {
                 fetchPersons();
                 return;
             }
-
-            // const filtered = mockTourists.filter((p) =>
-            //     p.nickname?.toLowerCase().includes(username.toLowerCase())
-            // );
-            // setPersons(filtered);
         } catch {
             message.error("Ошибка поиска");
         } finally {
             setSearchLoading(false);
         }
     };
-
-    useEffect(() => {
-        fetchPersons();
-    }, []);
 
     const handleDelete = (id: string) => {
         Modal.confirm({
