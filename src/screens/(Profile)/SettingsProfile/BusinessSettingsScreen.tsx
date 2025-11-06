@@ -8,7 +8,7 @@ import { ROUTES } from "@/lib/config/Routes";
 import { Loader } from "@/components/common/Loader/Loader";
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { FormSoleProprietor } from "@/components/common/Form/Business/FormSoleProprietor";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BusinessService } from "@/lib/Api/business/business.service";
 import { FormIndividual } from "@/components/common/Form/Business/FormIndividual";
 import { FormLegalEntity } from "@/components/common/Form/Business/FormLegalEntity";
@@ -16,15 +16,16 @@ import { AuthGuard } from "@/components/common/Auth/guards/AuthGuard";
 interface IProps extends IBasePageProps<{ business: string }> {}
 export const BusinessSettingsScreen = ({ params }: IProps) => {
     const [businessData, setBusinessData] = useState<IBusinessFront>();
-    const businessService = new BusinessService();
+
+    const services = useMemo(() => ({ business: new BusinessService() }), []);
     const { user } = useUser();
 
     useEffect(() => {
-        businessService.getById(params.business).then((res) => {
+        services.business.getById(params.business).then((res) => {
             if (!res) return;
             setBusinessData(res);
         });
-    }, []);
+    }, [services, params]);
 
     return (
         <AuthGuard roles={["owner"]}>

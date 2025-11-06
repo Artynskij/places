@@ -20,7 +20,7 @@ import {
 } from "@ant-design/icons";
 import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
 import { useAlertMessage } from "@/lib/context";
-import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
+import { LanguageManagerBlock } from "@/components/common/Form/_components/LanguageManagerBlock/LanguageManagerBlock";
 import { TLocale } from "@/lib/models/types";
 import { locales } from "@/config";
 import { TagCategoryService } from "@/lib/Api/(Establishment)/tag-category.api";

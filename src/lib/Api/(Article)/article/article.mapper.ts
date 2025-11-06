@@ -4,9 +4,13 @@ import {
     IArticleFront,
     IMediaFront,
 } from "@/lib/models";
+import { PersonMapper } from "../../(Person)/person/person.mapper";
 
 export default class ArticleMapper {
-    constructor() {}
+    private personMapper: PersonMapper;
+    constructor() {
+        this.personMapper = new PersonMapper();
+    }
     toFront(
         articleEntity: IArticleEntityWithPareContent,
         cdnHost: string
@@ -72,7 +76,11 @@ export default class ArticleMapper {
 
             type: typesArticle,
             subType: subTypesArticle,
-            author: articleEntity.article.Person,
+            author: this.personMapper.toFront(
+                { person: articleEntity.article.Person, content: null },
+                null,
+                cdnHost
+            ),
             reactions: contentDetailsEntity.contentValue?.reactions || [],
             date: contentDetailsEntity.contentValue?.date || "",
             contentEntity: articleEntity.content,

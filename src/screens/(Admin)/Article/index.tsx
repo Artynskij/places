@@ -25,6 +25,11 @@ export const ArticleAdminScreen: React.FC = () => {
             label: "Управление Под-рубриками",
             children: <SubTypeArticleTabAdmin />,
         },
+        {
+            key: "hashTag",
+            label: "Управление хэштегами",
+            children: <div>пока няма</div>,
+        },
     ];
 
     return (

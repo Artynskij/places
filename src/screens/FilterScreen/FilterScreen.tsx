@@ -66,7 +66,7 @@ export default function FilterScreen({
             searchParams ? searchParams.sort : SELECT_FILTER_SORT[0].value
         );
         setIsLoading(false); // Скрываем лоадер при изменении URL
-    }, [pathname, searchParamsClient]);
+    }, [pathname, searchParamsClient, searchParams]);
     const viewType = useViewTypeList();
 
     const totalEstablishmentCount =

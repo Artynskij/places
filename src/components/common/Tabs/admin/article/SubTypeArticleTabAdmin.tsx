@@ -29,7 +29,7 @@ import {
     IOption,
 } from "@/lib/models";
 import { ArticleSubTypeService } from "@/lib/Api/(Article)/article-subType.api";
-import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
+import { LanguageManagerBlock } from "@/components/common/Form/_components/LanguageManagerBlock/LanguageManagerBlock";
 import { TLocale } from "@/lib/models/types";
 import { locales } from "@/config";
 import type { ColumnsType } from "antd/es/table";

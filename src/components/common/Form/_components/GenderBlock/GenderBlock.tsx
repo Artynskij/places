@@ -7,7 +7,7 @@ import { TLocale } from "@/lib/models/types/TLocale";
 import { Skeleton } from "antd";
 
 import useLocale from "@/lib/hooks/useLocale";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FieldError } from "react-hook-form";
 interface Props {
     selectedGender?: string;
@@ -15,16 +15,21 @@ interface Props {
     error: FieldError | null;
 }
 export const GenderBlockForm = ({ selectedGender, onChange, error }: Props) => {
-    const managerService = new DataLoadManagementService();
+    const services = useMemo(
+        () => ({
+            dataLoadManagement: new DataLoadManagementService(),
+        }),
+        []
+    );
     const [genderData, setGenderData] = useState<IGenderFront[]>();
     const locale = useLocale();
     useEffect(() => {
-        managerService.getGenders(locale).then((res) => {
+        services.dataLoadManagement.getGenders(locale).then((res) => {
             if (res) {
                 setGenderData(res);
             }
         });
-    }, []);
+    }, [services, locale]);
     if (!genderData)
         return (
             <div>

@@ -70,7 +70,13 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
         IArticleSubTypeFront[]
     >([]);
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-
+    useEffect(() => {
+        try {
+            JSON.stringify(articleData);
+        } catch (e) {
+            console.warn("⚠️ articleData имеет циклические ссылки");
+        }
+    }, [articleData]);
     const services = useMemo(
         () => ({
             article: new GeneralArticleService(),
@@ -94,19 +100,20 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
     }, [services]);
     useEffect(() => {
         loadInitialData();
-    }, [loadInitialData]);
+    }, [loadInitialData, isModalActive]);
     const initializeFormData = useCallback(() => {
         if (initialData) {
             const typeIds = initialData.type.map((item) => item.id);
             const subTypeIds = initialData.subType.map((item) => item.id);
             const content = initialData.contentEntity?.details[0];
+
             form.setFieldsValue({
                 descriptionSeo: "mockSeo",
                 titleSeo: "mockSeo",
                 description: content?.contentValue?.description,
                 title: content?.contentValue?.title,
-                typeIds: typeIds,
-                subTypeIds: subTypeIds,
+                typeIds: typeIds || [],
+                subTypeIds: subTypeIds || [],
                 lang: content?.lang,
                 mainImage: initialData.titleImage
                     ? [
@@ -139,8 +146,9 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
         }
     }, [form, initialData]);
     useEffect(() => {
+        if (!isModalActive) return;
         initializeFormData();
-    }, [initializeFormData]);
+    }, [initializeFormData, isModalActive]);
     const updateFilteredSubTypes = useCallback(() => {
         if (selectedTypes.length > 0) {
             const filtered = articleSubTypes.filter((subType) =>
@@ -234,7 +242,7 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
         );
 
         const selectedArticleSubTypes = articleSubTypes.filter((item) =>
-            values.subTypeIds.includes(item.id)
+            values.subTypeIds?.includes(item.id)
         );
 
         const generatedHTML = convertEditorJsonToHtml(
@@ -245,8 +253,8 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
         return {
             id: initialData?.id || Date.now().toString(),
             title: values.title,
-            subType: selectedArticleSubTypes,
-            type: selectedArticleTypes,
+            subType: selectedArticleSubTypes || [],
+            type: selectedArticleTypes || [],
             readingTime: 0,
             markdown: generatedHTML,
             date: new Date().toLocaleDateString("ru-RU"),

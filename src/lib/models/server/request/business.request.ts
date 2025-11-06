@@ -22,17 +22,33 @@ export interface IBusinessGetAllQueryRequest {
     OfficialName?: string;
     RegistrationNumber?: string;
 }
-interface BusinessAssignmentDataReq {
+
+// Buss Assign person
+interface BusinessPersonAssignmentDataReq {
     Person?: string;
     Business?: string;
     BusinessPosition?: string;
     IsOwnerVerified?: boolean;
 }
-// Buss Assign
-export interface IBusinessAssignmentRequest
-    extends IBaseModerationRequest<BusinessAssignmentDataReq> {}
 
-export interface IBusinessAssignmentGetQueryRequest {
+export interface IBusinessPersonAssignmentRequest
+    extends IBaseModerationRequest<BusinessPersonAssignmentDataReq> {}
+
+export interface IBusinessPersonAssignmentGetQueryRequest {
+    personId?: string;
+    businessId?: string;
+    establishmentId?: string;
+}
+// Buss Assign establishment
+interface BusinessEstablishmentAssignmentDataReq {
+    Establishment?: string;
+    Business?: string;
+
+    IsPrimary?: boolean;
+}
+export interface IBusinessEstablishmentAssignmentRequest
+    extends IBaseModerationRequest<BusinessEstablishmentAssignmentDataReq> {}
+export interface IBusinessEstablishmentAssignmentGetQueryRequest {
     personId?: string;
     businessId?: string;
     establishmentId?: string;

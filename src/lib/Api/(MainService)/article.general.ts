@@ -292,17 +292,18 @@ export class GeneralArticleService {
         // 4. добавление и удаление категории статье
 
         /// 4.1 удаление категорий
+
         for (let index = 0; index < initialArticle.type.length; index++) {
             const element = initialArticle.type[index];
             const existType = formData.typeIds.find(
                 (item) => item === element.id
             );
-            // const responseDelete = existType
-            //     ? await this.articleTypeService.deleteConnectionFromArticle({
-            //           articleId: vendorId,
-            //           articleTypeId: existType,
-            //       })
-            //     : true;
+            const responseDelete = !existType
+                ? await this.articleTypeService.deleteConnectionFromArticle({
+                      articleId: vendorId,
+                      articleTypeId: element.id,
+                  })
+                : true;
         }
         /// 4.2 добавление категорий
         const responseAttachType =
@@ -313,20 +314,25 @@ export class GeneralArticleService {
 
         // 5. добавление подкатегории статье
         /// 5.1 удаление подкатегории
-        for (let index = 0; index < formData.subTypeIds.length; index++) {
-            const element = formData.subTypeIds[index];
-            const existType = initialArticle.type.find(
-                (item) => item.id === element
-            );
-            const responseDelete = existType
-                ? await this.articleSubTypeService.deleteConnectionFromArticle({
-                      articleId: vendorId,
-                      articleSubTypeId: existType.id,
-                  })
-                : true;
+        if (formData.subTypeIds?.length) {
+            for (let index = 0; index < formData.subTypeIds.length; index++) {
+                const element = formData.subTypeIds[index];
+                const existType = initialArticle.type.find(
+                    (item) => item.id === element
+                );
+                const responseDelete = existType
+                    ? await this.articleSubTypeService.deleteConnectionFromArticle(
+                          {
+                              articleId: vendorId,
+                              articleSubTypeId: existType.id,
+                          }
+                      )
+                    : true;
+            }
         }
+
         /// 5.2 добавление подкатегории
-        if (formData.subTypeIds) {
+        if (formData.subTypeIds?.length) {
             const responseAttachSubType =
                 await this.articleSubTypeService.addBulkConnectionToArticle({
                     articleId: vendorId,

@@ -5,7 +5,7 @@ import { ModalCustom } from "@/components/UI/ModalCustom/ModalCustom";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { ITagBlockFront } from "@/lib/models";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Select, Tag } from "antd";
 import { FieldError } from "react-hook-form";
 import { IconCancel } from "@/components/common/Icons";
@@ -21,32 +21,40 @@ interface Props {
 
 const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
     const tTags = useTranslations("Tags");
-    const tagService = new DataLoadManagementService();
+    const services = useMemo(
+        () => ({
+            tag: new DataLoadManagementService(),
+        }),
+        []
+    );
+
     const locale = useLocale();
     const [activePopup, setActivePopup] = useState(false);
     const [tagsGrouped, setTagsGrouped] = useState<ITagBlockFront[]>([]);
     const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
 
     useEffect(() => {
-        tagService.getBlockTags(locale).then((res) => {
+        services.tag.getBlockTags(locale).then((res) => {
             if (res) setTagsGrouped(res);
         });
-    }, []);
+    }, [services, locale]);
 
     // Автоматически определяем выбранные группы на основе selectedTags
     useEffect(() => {
         if (tagsGrouped.length > 0 && selectedTags.length > 0) {
             const groupsWithSelectedTags = tagsGrouped
-                .filter(group => 
-                    group.tags.some(tag => 
+                .filter((group) =>
+                    group.tags.some((tag) =>
                         selectedTags.includes(String(tag.id))
                     )
                 )
-                .map(group => group.groupKey.key);
-            
-            setSelectedGroups(prev => {
+                .map((group) => group.groupKey.key);
+
+            setSelectedGroups((prev) => {
                 // Убираем дубликаты и сохраняем только уникальные группы
-                const uniqueGroups = [...new Set([...prev, ...groupsWithSelectedTags])];
+                const uniqueGroups = [
+                    ...new Set([...prev, ...groupsWithSelectedTags]),
+                ];
                 return uniqueGroups;
             });
         }

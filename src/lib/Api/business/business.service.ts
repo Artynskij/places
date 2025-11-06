@@ -1,11 +1,11 @@
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
-import { BusinessAssignmentApi } from "@/lib/Api/business/businessAssignment.endpoints";
+import { BusinessPersonAssignmentApi } from "@/lib/Api/business/business-person-assignment.endpoints";
 
 import BusinessApi from "./business.endpoints";
 
 import {
     IBaseModerationResponse,
-    IBusinessAssignmentGetQueryRequest,
+    IBusinessPersonAssignmentGetQueryRequest,
     IBusinessFront,
     IBusinessGetAllQueryRequest,
     IBusinessPersonAssignEntity,
@@ -16,13 +16,13 @@ import { InvitesService } from "../invites/invites.service";
 
 export class BusinessService {
     private BusinessApi: BusinessApi;
-    private BusinessAssignmentApi: BusinessAssignmentApi;
+    private BusinessAssignmentApi: BusinessPersonAssignmentApi;
     private DataLoadManagementService: DataLoadManagementService;
     private InvitesService: InvitesService;
 
     constructor() {
         this.BusinessApi = new BusinessApi();
-        this.BusinessAssignmentApi = new BusinessAssignmentApi();
+        this.BusinessAssignmentApi = new BusinessPersonAssignmentApi();
         this.DataLoadManagementService = new DataLoadManagementService();
         this.InvitesService = new InvitesService();
     }
@@ -119,8 +119,8 @@ export class BusinessService {
         return response;
     }
 
-    async getAssignment(
-        body: IBusinessAssignmentGetQueryRequest
+    async getPersonAssignment(
+        body: IBusinessPersonAssignmentGetQueryRequest
     ): Promise<IBusinessPersonAssignEntity[] | null> {
         const response = this.BusinessAssignmentApi.getByQuery(body);
         return response;

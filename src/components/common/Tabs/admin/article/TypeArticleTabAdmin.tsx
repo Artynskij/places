@@ -25,7 +25,7 @@ import {
     IOption,
 } from "@/lib/models";
 import { ArticleTypeService } from "@/lib/Api/(Article)/article-type.api";
-import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
+import { LanguageManagerBlock } from "@/components/common/Form/_components/LanguageManagerBlock/LanguageManagerBlock";
 import { TLocale } from "@/lib/models/types";
 
 import type { ColumnsType } from "antd/es/table";

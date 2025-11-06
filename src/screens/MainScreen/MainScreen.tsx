@@ -10,7 +10,11 @@ import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/front-database/tiles
 
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 
-import { IArticleFront, IBasePageProps } from "@/lib/models";
+import {
+    IArticleFront,
+    IArticleTypeWithArticles,
+    IBasePageProps,
+} from "@/lib/models";
 import { getTranslations } from "next-intl/server";
 import { ROUTES } from "@/lib/config/Routes";
 import FinderMainPage from "@/components/common/Finder/FinderMainPage/FinderMainPage";
@@ -19,15 +23,15 @@ import { CardArticleMainPage } from "@/components/common/Cards/(article)/CardArt
 
 interface IProps extends IBasePageProps {
     params: IBasePageProps["params"] & {};
-    articlesData: IArticleFront[] | [];
+    typeWithArticles: IArticleTypeWithArticles[] | [];
 }
 export const MainScreen = async ({
     params,
     searchParams,
-    articlesData,
+    typeWithArticles,
 }: IProps) => {
-    const newsCategoryData = articlesData.slice(0, 6);
-    const recommendCategoryData = articlesData.slice(0, 3);
+    // const newsCategoryData = articlesData.slice(0, 6);
+    // const recommendCategoryData = articlesData.slice(0, 3);
     const directionData = mockTowns.slice(0, 5);
     const t = await getTranslations("CategoryNews");
     // const api = new ApiEstablishment();
@@ -54,8 +58,36 @@ export const MainScreen = async ({
             <section>
                 <FinderMainPage />
             </section>
+
+            {typeWithArticles.map((item) => {
+                const articleType = item.type;
+                return (
+                    <section key={articleType.id}>
+                        <h2 className={style.title_second}>
+                            <Link href={ROUTES.NEWS.CATEGORY(articleType.id)}>
+                                {articleType.value}
+                            </Link>
+                        </h2>
+                        <div className={style.news_content}>
+                            {item.articles.map((item, index) => {
+                                return (
+                                    <CardArticleMainPage
+                                        key={`${CONSTANT_CATEGORIES_NEWS.news}-${item.id}`}
+                                        article={item}
+                                        category={CONSTANT_CATEGORIES_NEWS.news}
+                                        cardClass={style.cardNews}
+                                        contentClass={style.cardNews_content}
+                                        imgClass={style.cardNews_img}
+                                    />
+                                );
+                            })}
+                        </div>
+                    </section>
+                );
+            })}
+
             {/* news block */}
-            {newsCategoryData.length > 0 && (
+            {/* {newsCategoryData.length > 0 && (
                 <section>
                     <h2 className={style.title_second}>
                         <Link
@@ -81,10 +113,10 @@ export const MainScreen = async ({
                         })}
                     </div>
                 </section>
-            )}
+            )} */}
 
             {/* recommend block */}
-            {recommendCategoryData.length > 0 && (
+            {/* {recommendCategoryData.length > 0 && (
                 <section>
                     <h2 className={style.title_second}>
                         <Link
@@ -109,10 +141,10 @@ export const MainScreen = async ({
                         })}
                     </div>
                 </section>
-            )}
+            )} */}
 
             {/* overview block */}
-            {recommendCategoryData.length > 0 && (
+            {/* {recommendCategoryData.length > 0 && (
                 <section>
                     <h2 className={style.title_second}>
                         <Link
@@ -135,10 +167,10 @@ export const MainScreen = async ({
                         })}
                     </div>
                 </section>
-            )}
+            )} */}
 
             {/* blog block */}
-            <section>
+            {/* <section>
                 <h2 className={style.title_second}>
                     <Link
                         href={ROUTES.NEWS.CATEGORY(
@@ -159,7 +191,7 @@ export const MainScreen = async ({
                         );
                     })}
                 </div>
-            </section>
+            </section> */}
             <section>
                 <h2 className={style.title_second}>{t("bestDestination")}</h2>
                 <div className={style.direction_content}>

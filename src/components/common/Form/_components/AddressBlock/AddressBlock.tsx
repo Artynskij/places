@@ -1,6 +1,6 @@
 "use client";
 import style from "./addressBlock.module.scss";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { InputForm } from "@/components/UI/Input/InputForm/InputForm";
 
 import { FieldError, useFormContext } from "react-hook-form";
@@ -25,8 +25,13 @@ const AddressBlockForm: React.FC<Props> = ({ locationId, onChange, error }) => {
 
     const refDropdown = useRef<HTMLDivElement | null>(null);
 
-    const searchService = new SearchService();
-    const locationService = new LocationService();
+    const services = useMemo(
+        () => ({
+            search: new SearchService(),
+            location: new LocationService(),
+        }),
+        []
+    );
     const locale = useLocale();
 
     useEffect(() => {
@@ -49,9 +54,9 @@ const AddressBlockForm: React.FC<Props> = ({ locationId, onChange, error }) => {
     }, [showDropdown]);
     useEffect(() => {
         if (!!locationId) {
-            locationService.getById(locationId).then((location) => {
+            services.location.getById(locationId).then((location) => {
                 if (location) {
-                    locationService
+                    services.location
                         .getBreadcrumbData({
                             ids: location.pathBreadcrumb,
                             lang: locale,
@@ -64,9 +69,9 @@ const AddressBlockForm: React.FC<Props> = ({ locationId, onChange, error }) => {
                 }
             });
         }
-    }, [locationId]);
+    }, [locationId, services, locale]);
     const fetchLocationsSearch = async (value: string) => {
-        const data = await searchService.querySearch({
+        const data = await services.search.querySearch({
             term: value,
             indexKey: "TO_GO",
             localLang: locale,

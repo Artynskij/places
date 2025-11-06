@@ -50,7 +50,7 @@ export const ROUTES = {
         typeTag: "c" | "t"
     ) => `/${location}/${typeEst}/filter?filter=${typeTag}${tagId}`,
     NEWS: {
-        CATEGORY: (category: TCategoriesNews) => `/news/${category}`,
+        CATEGORY: (category: string) => `/news/${category}`,
         NEWS: (category: TCategoriesNews, news: string) =>
             `/news/${category}/${news}`,
         AUTHOR: (author: string) => `/news/author/${author}`,

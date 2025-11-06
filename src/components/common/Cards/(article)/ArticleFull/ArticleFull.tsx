@@ -12,17 +12,19 @@ import { BlockWatchCount } from "@/components/common/BlockFunctional/BlockWatchC
 import { TipTapViewer } from "@/components/common/TipTap/Viewer/TipTapViewer";
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 import { useEffect, useState } from "react";
+import { ROUTES } from "@/lib/config/Routes";
 interface IProp {
     article: IArticleFront;
 
     author?: IPersonFront;
 }
 
-export const CardArticleFull = ({ article,  author }: IProp) => {
+export const CardArticleFull = ({ article, author }: IProp) => {
     const [isClient, setIsClient] = useState(false);
     useEffect(() => {
         setIsClient(true);
     }, []);
+    const authorId = article.author?.id || author?.id;
     return (
         <>
             <div className={style.breadcrumb}>
@@ -44,10 +46,10 @@ export const CardArticleFull = ({ article,  author }: IProp) => {
                             "hover-underline",
                             style.underTitle_author
                         )}
-                        href={`#`}
+                        href={authorId ? ROUTES.NEWS.AUTHOR(authorId) : "#"}
                     >
-                        {author?.personName?.fullName ||
-                            article?.author?.Id ||
+                        {article.author?.personName?.fullName ||
+                            author?.personName?.fullName ||
                             "неизвестный автор"}
                     </Link>
                 </div>

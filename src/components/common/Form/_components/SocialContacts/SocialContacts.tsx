@@ -13,13 +13,12 @@ import { CONSTANT_SOCIAL_NETWORKS_ARRAY } from "@/asset/constants/social-network
 import { IOption } from "@/lib/models";
 import { TSocialNetworks } from "@/lib/models/types/TSocialNetworks";
 
-
 interface SocialContact {
     type: TSocialNetworks;
     url: string;
 }
 interface Props {
-    nameSelectImportant: string
+    nameSelectImportant: string;
     keysData: TSocialNetworks[];
     value: SocialContact[] | [];
     onChange: (value: SocialContact[]) => void;
@@ -40,12 +39,8 @@ export const SocialContactsBlockForm: FC<Props> = ({
     const usedTypes = useMemo(() => value.map((f) => f.type), [value]);
 
     const availableTypes = useMemo(
-        () => [
-            ...keysData.filter(
-                (type) => !usedTypes.includes(type)
-            ),
-        ],
-        [usedTypes]
+        () => [...keysData.filter((type) => !usedTypes.includes(type))],
+        [usedTypes, keysData]
     );
 
     const socialOptions: IOption[] = availableTypes.map((type) => ({
@@ -81,11 +76,8 @@ export const SocialContactsBlockForm: FC<Props> = ({
 
     return (
         <>
-
             {value.map((field, index) => (
-
                 <div key={field.type} className={style.socialRow}>
-
                     <InputForm
                         value={field.url || ""}
                         onChange={(e) =>

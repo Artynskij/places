@@ -139,7 +139,7 @@ export default function TipTapEditor({
             editor.off("selectionUpdate", update);
             editor.off("transaction", update);
         };
-    }, [editor, onEditorInit]);
+    }, [editor, onEditorInit, initialMediaStorage]);
 
     if (!editor) return <SpinnerAnt />;
 

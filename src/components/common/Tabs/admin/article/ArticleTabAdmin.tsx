@@ -207,7 +207,7 @@ export const ArticleTabAdmin: React.FC = () => {
             title: "Автор",
             dataIndex: "author",
             key: "author",
-            render: (author: IArticleFront["author"]) => author?.Nickname,
+            render: (author: IArticleFront["author"]) => author?.nickname,
         },
         {
             title: "Статус",

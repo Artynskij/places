@@ -32,8 +32,7 @@ import { useUser } from "@/lib/context/UserContext/UserContext";
 import useLocale from "@/lib/hooks/useLocale";
 import { TLocale } from "@/lib/models/types";
 import type { UploadFile } from "antd/es/upload/interface";
-import { LanguageManagerBlock } from "@/components/common/Form/_components/LangugageManagerBlock/LangugageManagerBlock";
-import { locales } from "@/config";
+import { LanguageManagerBlock } from "@/components/common/Form/_components/LanguageManagerBlock/LanguageManagerBlock";
 import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
 
@@ -49,11 +48,19 @@ const LocationsTabAdmin: React.FC = () => {
     const { user } = useUser();
     const locale = useLocale();
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [totalLocations, setTotalLocations] = useState(0);
+
     const [locations, setLocations] = useState<ILocationFront[]>([]);
     const [editLocation, setEditLocation] = useState<ILocationFront | null>(
         null
     );
     const [typesLocationsData, setTypesLocationsData] = useState<TOption[]>([]);
+
+    const [filterTypeLocationIds, setFilterTypeLocationIds] = useState<
+        string[] | null
+    >(null);
     const [searchOptions, setSearchOptions] = useState<TOption[]>([]);
 
     const [isLoading, setIsLoading] = useState(false);
@@ -62,26 +69,45 @@ const LocationsTabAdmin: React.FC = () => {
         CONSTANT_LANGS_DETAILS
     );
     const [isModalLoading, setIsModalLoading] = useState(false);
+
     const [form] = Form.useForm<LocationFormValues>();
     const services = useMemo(
         () => ({
             location: new LocationService(),
-            search: new SearchService(),
             fileUpload: new FileUploadService(),
             dataLoadManager: new DataLoadManagementService(),
             moderation: new ModerationService(),
+            search: new SearchService(),
         }),
         []
     );
+    const fetchAll = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const responseLocation = await services.location.getAll({
+                pagination: { page: currentPage, pageSize: pageSize },
+                locationTypeIds: filterTypeLocationIds,
+            });
 
+            if (!responseLocation) {
+                setLocations([]);
+                return;
+            }
+            setTotalLocations(responseLocation?.info.total || 0);
+            setLocations(responseLocation.locations);
+            message.info("обновлено");
+        } catch {
+            message.error("Ошибка загрузки локаций");
+        } finally {
+            setIsLoading(false);
+        }
+    }, [currentPage, pageSize, filterTypeLocationIds, services]);
     const initializeData = useCallback(async () => {
         setIsLoading(true);
         try {
             const [typesData, locationsData] = await Promise.all([
                 services.dataLoadManager.getTypesLocation(),
-                services.location.getAll({
-                    pagination: { page: 1, pageSize: 1000 },
-                }),
+                fetchAll,
             ]);
 
             if (typesData) {
@@ -91,18 +117,21 @@ const LocationsTabAdmin: React.FC = () => {
                 }));
                 setTypesLocationsData(transformData);
             }
-
-            setLocations(locationsData?.locations || []);
         } catch {
             message.error("Ошибка загрузки данных");
         } finally {
             setIsLoading(false);
         }
-    }, [services]);
+    }, [services, fetchAll]);
     useEffect(() => {
         initializeData();
     }, [initializeData]);
+    // обновление
+    useEffect(() => {
+        fetchAll();
+    }, [fetchAll, currentPage, pageSize, filterTypeLocationIds]);
 
+    // редактирование
     useEffect(() => {
         if (editLocation && isModalActive) {
             const details =
@@ -126,32 +155,7 @@ const LocationsTabAdmin: React.FC = () => {
             form.resetFields();
             setLanguageDetails(CONSTANT_LANGS_DETAILS);
         }
-    }, [editLocation, isModalActive, form, CONSTANT_LANGS_DETAILS]);
-
-    const fetchAll = async (idType?: string) => {
-        setIsLoading(true);
-        try {
-            const data = await services.location.getAll({
-                pagination: { page: 1, pageSize: 1000 },
-            });
-
-            if (!data) {
-                setLocations([]);
-                return;
-            }
-
-            const filteredData = idType
-                ? data.locations.filter(
-                      (item) => item.locationType?.id === idType
-                  )
-                : data.locations;
-            setLocations(filteredData);
-        } catch {
-            message.error("Ошибка загрузки локаций");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    }, [editLocation, isModalActive, form]);
 
     const fetchById = async (id: string) => {
         setIsLoading(true);
@@ -172,6 +176,7 @@ const LocationsTabAdmin: React.FC = () => {
                 locationsInside?.locations || []
             ).filter((item) => item.id !== locationById.id);
             setLocations([locationById, ...locationsInsideFiltered]);
+            setTotalLocations(locationsInside?.info.total || 0);
         } catch {
             message.error("Локация не найдена");
         } finally {
@@ -230,7 +235,13 @@ const LocationsTabAdmin: React.FC = () => {
     ) => {
         setLanguageDetails(details);
     };
-
+    // Обработчик изменения страницы
+    const handlePageChange = (page: number, newPageSize?: number) => {
+        setCurrentPage(page);
+        if (newPageSize && newPageSize !== pageSize) {
+            setPageSize(newPageSize);
+        }
+    };
     const handleSubmit = async () => {
         if (!user) {
             message.error("Нет пользователя");
@@ -298,7 +309,7 @@ const LocationsTabAdmin: React.FC = () => {
                 }
             } else {
                 // TODO: Реализовать создание новой локации
-                message.success("Локация создана");
+                message.info("Пока не возможно");
                 fetchAll();
                 handleModalClose();
             }
@@ -399,14 +410,13 @@ const LocationsTabAdmin: React.FC = () => {
                         <Button
                             icon={<ReloadOutlined />}
                             onClick={() => {
-                                message.info("обновлено");
-                                fetchAll();
+                                initializeData();
                             }}
                             loading={isLoading}
                         />
                     </Space>
                 }
-                title="Управление локациями"
+                title={`Управление локациями - ${totalLocations}`}
             >
                 <Space style={{ marginBottom: 16 }}>
                     <Search
@@ -428,20 +438,30 @@ const LocationsTabAdmin: React.FC = () => {
                         notFoundContent={null}
                         style={{ width: 300 }}
                         options={searchOptions}
+                        onClear={() => {
+                            fetchAll();
+                        }}
+                        allowClear
                     />
                     <Select
+                        mode="multiple"
                         showSearch
                         placeholder="Фильтрация по типу"
-                        onSelect={(id) => fetchAll(id)}
                         filterOption={(input, option) =>
                             (option?.label ?? "")
                                 .toLowerCase()
                                 .includes(input.toLowerCase())
                         }
                         style={{ width: 200 }}
+                        onChange={(ids) => {
+                            console.log(ids);
+                            setFilterTypeLocationIds(!!ids ? ids : null);
+                        }}
                         options={typesLocationsData}
                         allowClear
-                        onClear={() => fetchAll()}
+                        onClear={() => {
+                            setFilterTypeLocationIds(null);
+                        }}
                     />
                 </Space>
 
@@ -449,7 +469,11 @@ const LocationsTabAdmin: React.FC = () => {
                     columns={locationColumns}
                     dataSource={locations}
                     rowKey="id"
-                    pagination={{ pageSize: 10 }}
+                    pagination={{
+                        total: totalLocations,
+                        pageSize: pageSize,
+                        onChange: handlePageChange,
+                    }}
                     loading={isLoading}
                 />
             </Card>
