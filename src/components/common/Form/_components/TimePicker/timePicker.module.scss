@@ -1,6 +1,17 @@
 .time {
     position: relative;
     // margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $gap-medium;
+    &_input {
+        border-radius: $border-radius-5;
+        border-color: $color-blur-black;
+        border: 1px solid $color-blur-black;
+        padding:3px;
+        font-size: 16px;
+    }
     &_error {
         position: absolute;
         top: 100%;

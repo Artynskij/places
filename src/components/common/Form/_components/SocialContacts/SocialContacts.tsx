@@ -96,8 +96,8 @@ export const SocialContactsBlockForm: FC<Props> = ({
                             field.type.charAt(0).toUpperCase() +
                             field.type.slice(1)
                         }
-                        placeholder="Введите ссылку"
-                        type="text"
+                        placeholder="Введите номер"
+                        type="number"
                     />
                     <DeleteButton onClick={() => handleRemove(index)} />
                 </div>

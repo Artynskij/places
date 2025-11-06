@@ -17,21 +17,22 @@ interface Props {
 }
 
 const PhotoBlockForm = ({ value = [], onChange, error }: Props) => {
-    // const handlerToStart = (indexFile: number) => {
-    //     const newValue = [...value] as UploadFile[];
-    //     newValue.unshift(newValue.splice(indexFile, 1)[0]);
-    //     onChange?.(newValue);
-    // };
+    const handlerToStart = (indexFile: number) => {
+        const newValue = [...value] as UploadFile[];
+        newValue.unshift(newValue.splice(indexFile, 1)[0]);
+        onChange?.(newValue);
+    };
 
-    // const handlerRemove = (indexFile: number) => {
-    //     if (!value) return;
-    //     const newValue = [...value] as UploadFile[];
-    //     newValue.splice(indexFile, 1); // удаляем строго по индексу
-    //     onChange?.(newValue);
-    // };
+    const handlerRemove = (indexFile: number) => {
+        if (!value) return;
+        const newValue = [...value] as UploadFile[];
+        newValue.splice(indexFile, 1); // удаляем строго по индексу
+        onChange?.(newValue);
+    };
 
     return (
         <div className={style.photoBlock}>
+            <div className={style.photoBlock_title}><StarOutlined /> - Выбор главного фото</div>
             <Upload
                 fileList={(value || []).filter(Boolean) as UploadFile[]}
                 name="file"
@@ -40,30 +41,35 @@ const PhotoBlockForm = ({ value = [], onChange, error }: Props) => {
                 beforeUpload={() => false} // чтобы не грузить сразу, а только при сабмите
                 onChange={({ fileList }) => onChange(fileList)}
                 itemRender={(originNode, file, fileList) => {
-                    // const isMain = file === fileList[0];
+                    const isMain = file === fileList[0];
 
                     return (
-                        <div className={style.card}>
+                        <div className={style.card}
+                            style={{
+                                border: isMain ? '2px solid #fadb14' : 'none',
+
+                            }}>
+
                             {originNode}{" "}
-                            {/* 👈 тут сохраняется дефолтный preview + delete */}
-                            {/* своя кнопка "сделать главной" */}
-                            {/* <div
+
+                            <div
                                 className={style.card_buttonMain}
                                 style={{
                                     color: isMain ? "#fadb14" : "#999",
                                 }}
                                 onClick={(e) => {
-                                    e.stopPropagation(); 
+                                    e.stopPropagation();
                                     fileList.forEach((f, index) => {
                                         if (f.uid === file.uid) {
                                             handlerToStart(index);
                                         }
                                     });
-                                    
+
                                 }}
                             >
                                 {isMain ? <StarFilled /> : <StarOutlined />}
-                            </div> */}
+
+                            </div>
                         </div>
                     );
                 }}
@@ -73,6 +79,7 @@ const PhotoBlockForm = ({ value = [], onChange, error }: Props) => {
                     <div style={{ marginTop: 8 }}>Загрузить</div>
                 </div>
             </Upload>
+            
             {error && <SpanErrorForm text={error.message} />}
         </div>
     );

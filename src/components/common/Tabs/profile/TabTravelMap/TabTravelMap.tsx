@@ -105,7 +105,7 @@ const TabTravelMap = () => {
         const locationMapData = locationPath.features.find(
             (item) =>
                 item.text.toLocaleLowerCase() ===
-                locationSearchString.toLocaleLowerCase()
+                locationSearchString.toLocaleLowerCase()        
         );
 
         if (locationMapData) {
@@ -254,8 +254,7 @@ const TabTravelMap = () => {
     const lovedList = marksArray.filter((mark) => mark.isLoved);
     const personService = new PersonService();
 
-    const [travelProgress, setTravelProgress] =
-        useState<ITravelProgressFront>();
+    const [travelProgress, setTravelProgress] = useState<ITravelProgressFront>();
 
     useEffect(() => {
         if (!user) {
@@ -269,6 +268,7 @@ const TabTravelMap = () => {
     }, []);
 
     if (!user) return <Loader />;
+    
     return (
         <>
             <div className={style.tab_travel}>
@@ -276,7 +276,6 @@ const TabTravelMap = () => {
                 <div className={style.blockAbsolute}>
                     <div className={clsx(style.blockAbsolute_content, activeMarksList && style.blockAbsolute_content__active)}>
                         <>
-
                             <div className={clsx(style.search, activeSearch && style.search_active)}>
                                 <div className={style.search_block}>
                                     <div className={style.marks_legend}>
@@ -300,7 +299,6 @@ const TabTravelMap = () => {
                                         value={searchValue}
                                         placeholder="Поиск локации"
                                     />
-
                                     <ul className={style.list}>
                                         {searchList.length > 0 &&
                                             searchList.map((searchItem) => {
@@ -377,8 +375,8 @@ const TabTravelMap = () => {
                                         <TravelMapIcon active type="wanted" />{" "}
                                         <span>{`Хочу ${wantedList.length}`}</span>
                                     </div>
-                                    
                                 </div>
+                                        
                                 {travelProgress && (
                                         <div className={style.info_travel_block}>
                                             Посетил:{" "}
@@ -399,15 +397,8 @@ const TabTravelMap = () => {
                             className={style.marks_buttonOpen}
                         />
                     </div>
-
-
-
                 </div>
             </div>
-
-
-
-
 
             <ModalCustom
                 title="Был(а)"
