@@ -263,7 +263,7 @@ const FormCreateEstablishmentBase = ({
                         defaultValue={[]}
                         render={({ field, fieldState }) => (
                             <>
-                                <BlockExtraInfo text={typeUser === 'owner' ? "Необходимо загрузить хотя бы 5 фотографий" : 'Необходимо загрузить хотя бы 1 фотогрфию'} />
+                                <BlockExtraInfo text={typeUser === 'owner' ? "Необходимо загрузить хотя бы 5 фотографий " : 'Необходимо загрузить хотя бы 1 фотогрфию'} />
                                 <PhotoBlockForm
                                     error={fieldState.error || null}
                                     onChange={field.onChange}
@@ -341,7 +341,7 @@ const FormCreateEstablishmentBase = ({
                         control={control}
                         render={({ field }) => (
                             <SocialContactsBlockForm
-                                titleSpan=" Месенджеры"
+                                titleSpan="Месенджеры"
                                 keysData={CONSTANT_MESSENGER_NETWORKS_ARRAY}
                                 value={field.value || []}
                                 onChange={field.onChange}

@@ -8,10 +8,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import { Select, Tag } from "antd";
 import { FieldError } from "react-hook-form";
-import { IconCancel } from "@/components/common/Icons";
 import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
-
-const { Option } = Select;
 
 interface Props {
     selectedTags?: string[];
@@ -31,7 +28,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
     const locale = useLocale();
     const [activePopup, setActivePopup] = useState(false);
     const [tagsGrouped, setTagsGrouped] = useState<ITagBlockFront[]>([]);
-    const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
+    const [expandedGroups, setExpandedGroups] = useState<{ [key: string]: boolean }>({});
 
     useEffect(() => {
         services.tag.getBlockTags(locale).then((res) => {
@@ -39,72 +36,25 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
         });
     }, [services, locale]);
 
-    // Автоматически определяем выбранные группы на основе selectedTags
-    useEffect(() => {
-        if (tagsGrouped.length > 0 && selectedTags.length > 0) {
-            const groupsWithSelectedTags = tagsGrouped
-                .filter((group) =>
-                    group.tags.some((tag) =>
-                        selectedTags.includes(String(tag.id))
-                    )
-                )
-                .map((group) => group.groupKey.key);
+    const handleTagToggle = (tagId: string) => {
+        const stringTagId = String(tagId);
+        const isCurrentlySelected = selectedTags.includes(stringTagId);
 
-            setSelectedGroups((prev) => {
-                // Убираем дубликаты и сохраняем только уникальные группы
-                const uniqueGroups = [
-                    ...new Set([...prev, ...groupsWithSelectedTags]),
-                ];
-                return uniqueGroups;
-            });
+        let newSelectedTags: string[];
+
+        if (isCurrentlySelected) {
+            // Удаляем тег
+            newSelectedTags = selectedTags.filter(id => id !== stringTagId);
+        } else {
+            // Добавляем тег
+            newSelectedTags = [...selectedTags, stringTagId];
         }
-    }, [tagsGrouped, selectedTags]);
 
-    const handleGroupSelect = (groupKey: string) => {
-        if (!selectedGroups.includes(groupKey)) {
-            setSelectedGroups((prev) => [...prev, groupKey]);
-        }
+        onChange?.(newSelectedTags);
     };
 
-    const handleTagChange = (groupKey: string, selectedTagIds: string[]) => {
-        const group = tagsGrouped.find((g) => g.groupKey.key === groupKey);
-        const groupTagIds = group?.tags.map((t) => String(t.id)) || [];
-
-        // оставляем теги, не относящиеся к текущей группе, и добавляем новые из текущей
-        const newValue = [
-            ...selectedTags.filter((id) => !groupTagIds.includes(id)),
-            ...selectedTagIds,
-        ];
-
-        onChange?.(newValue);
-    };
-
-    const handleDeleteGroupSelect = (groupKey: string) => {
-        const group = tagsGrouped.find((g) => g.groupKey.key === groupKey);
-        if (!group) return;
-
-        const groupTagIds = group.tags.map((tag) => String(tag.id));
-
-        // Удаляем теги этой группы из общего списка
-        const updatedTags = selectedTags.filter(
-            (id) => !groupTagIds.includes(id)
-        );
-
-        onChange?.(updatedTags);
-
-        // Удаляем саму группу из выбранных
-        setSelectedGroups((prev) =>
-            prev.filter((prevItem) => prevItem !== groupKey)
-        );
-    };
-
-    const getSelectedTagsForGroup = (groupKey: string): string[] => {
-        const group = tagsGrouped.find((g) => g.groupKey.key === groupKey);
-        if (!group) return [];
-
-        return group.tags
-            .map((tag) => String(tag.id))
-            .filter((id) => selectedTags.includes(id));
+    const isTagSelected = (tagId: string): boolean => {
+        return selectedTags.includes(String(tagId));
     };
 
     const getTagLabelById = (id: string) => {
@@ -113,6 +63,73 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
             if (tag) return tag.value;
         }
         return id;
+    };
+
+    const toggleGroupExpansion = (groupKey: string) => {
+        setExpandedGroups(prev => ({
+            ...prev,
+            [groupKey]: !prev[groupKey]
+        }));
+    };
+
+    const renderTagGroup = (group: ITagBlockFront) => {
+        const groupKey = group.groupKey.key;
+        const isExpanded = expandedGroups[groupKey];
+        const displayTags = isExpanded ? group.tags : group.tags.slice(0, 30);
+        const hasMoreTags = group.tags.length > 30;
+
+        return (
+            <div key={groupKey} className={style.tagGroup}>
+                <h4 className={style.tagGroup_title}>
+                    {tTags(groupKey)}:
+                </h4>
+                <div className={style.tagList}>
+                    {displayTags.map((tag) => {
+                        const tagId = String(tag.id);
+                        const isSelected = isTagSelected(tagId);
+
+                        return (
+                            <Tag
+                                key={tagId}
+                                bordered={false}
+                                color={isSelected ? "gold" : "default"}
+                                onClick={() => handleTagToggle(tagId)}
+                                style={{
+                                    cursor: 'pointer',
+                                    marginBottom: '8px',
+                                    padding: '3px 6px',
+                                    border: isSelected ? '1px solid gold' : ''
+                                }}
+                            >
+                                {tag.value}
+                            </Tag>
+                        );
+                    })}
+                </div>
+                {hasMoreTags && (
+                    // <Button
+                    //     typeLogic="button"
+                    //     onClick={() => toggleGroupExpansion(groupKey)}
+                    //     text={isExpanded ? "Скрыть" : `Показать все (${group.tags.length})`}
+                    //     className={style.showMoreButton}
+                    // />
+
+                    <Tag
+
+                        color="blue"
+                        onClick={() => toggleGroupExpansion(groupKey)}
+                        style={{
+                            cursor: 'pointer',
+                            marginBottom: '8px',
+                            padding: '3px 6px',
+
+                        }}
+                    >
+                        {isExpanded ? "Скрыть" : `Показать все (${group.tags.length})`}
+                    </Tag>
+                )}
+            </div>
+        );
     };
 
     return (
@@ -131,67 +148,8 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
                 closeModal={() => setActivePopup(false)}
                 zIndex={11}
             >
-                <div>
-                    {/* Выбор группы тегов */}
-                    <Select
-                        style={{ width: "100%", marginBottom: 16 }}
-                        placeholder="Выберите группу"
-                        onChange={handleGroupSelect}
-                        options={tagsGrouped
-                            .filter(
-                                (group) =>
-                                    !selectedGroups.includes(group.groupKey.key)
-                            )
-                            .map((group) => ({
-                                value: group.groupKey.key,
-                                label: tTags(group.groupKey.key),
-                            }))}
-                        value={undefined}
-                        optionFilterProp="label"
-                    />
-
-                    {/* Селекты тегов по группам */}
-                    {selectedGroups.map((groupKey) => {
-                        const group = tagsGrouped.find(
-                            (g) => g.groupKey.key === groupKey
-                        );
-                        if (!group) return null;
-
-                        return (
-                            <div key={groupKey} className={style.selectGroup}>
-                                <label className={style.selectGroup_title}>
-                                    <span> {tTags(groupKey)}</span>
-
-                                    <IconCancel
-                                        onClick={() =>
-                                            handleDeleteGroupSelect(groupKey)
-                                        }
-                                        className={style.iconCancel}
-                                    />
-                                </label>
-                                <Select
-                                    mode="multiple"
-                                    showSearch
-                                    optionFilterProp="label"
-                                    filterOption={(input, option) =>
-                                        (option?.label as string)
-                                            .toLowerCase()
-                                            .includes(input.toLowerCase())
-                                    }
-                                    style={{ width: "100%" }}
-                                    placeholder="Выберите характеристики"
-                                    value={getSelectedTagsForGroup(groupKey)}
-                                    onChange={(selected) =>
-                                        handleTagChange(groupKey, selected)
-                                    }
-                                    options={group.tags.map((tag) => ({
-                                        value: String(tag.id),
-                                        label: tag.value,
-                                    }))}
-                                />
-                            </div>
-                        );
-                    })}
+                <div className={style.allGroupsContainer}>
+                    {tagsGrouped.map(renderTagGroup)}
                 </div>
                 <Button
                     onClick={() => setActivePopup(false)}
@@ -203,9 +161,20 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
             {/* Вывод всех выбранных тегов (например, для формы) */}
             {selectedTags.length > 0 && (
                 <div className={style.selectedList}>
-                    {selectedTags.map((id) => (
-                        <Tag key={id}>{getTagLabelById(id)}</Tag>
-                    ))}
+                    <h4>Выбранные характеристики:</h4>
+                    <div className={style.selectedTags}>
+                        {selectedTags.map((id) => (
+                            <Tag
+                                style={{ marginBottom: '8px' }}
+                                key={id}
+                                color="blue"
+                                closable
+                                onClose={() => handleTagToggle(id)}
+                            >
+                                {getTagLabelById(id)}
+                            </Tag>
+                        ))}
+                    </div>
                 </div>
             )}
 

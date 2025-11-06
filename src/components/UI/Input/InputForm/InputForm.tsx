@@ -7,12 +7,10 @@ import clsx from "clsx";
 import { SpanErrorForm } from "../../Span/SpanErrorForm";
 interface IIinputFormProps {
     error?: string;
-
     titleSpan: string;
-
     register?: FieldValues;
     placeholder?: string;
-    type?: "text" | "email" | "password";
+    type?: "text" | "email" | "password" | "number" ;
     inputClassName?: string;
     inlineStyle?: CSSProperties;
     titleNeighbor?: ReactNode;
@@ -59,8 +57,8 @@ export const InputForm: FC<IIinputFormProps> = ({
                     className={clsx(style.input, !!error && style.input_error)}
                     placeholder={placeholder}
                     onChange={(e) => {
-                        register?.onChange?.(e); // уведомляем react-hook-form
-                        onChange?.(e); // вызываем свой кастомный onChange
+                        register?.onChange?.(e); 
+                        onChange?.(e); 
                     }}
                     name={register?.name}
                     autoComplete={current}

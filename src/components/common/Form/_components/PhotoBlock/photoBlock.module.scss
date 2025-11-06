@@ -1,73 +1,12 @@
-.list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: $gap-small;
-    width: 100%;
-    &_item {
-        position: relative;
-        height: 100px;
-        border: 2px solid transparent;
-        border-radius: $border-radius-5;
-
-        &:first-child {
-            border-color: $color-main-gold;
-        }
-        &_img {
-            object-fit: cover;
-            border-radius: $border-radius-5;
-        }
-        &_iconDelete {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            right: 0;
-            top: 0;
-            transform: translate(20%, -20%);
-            z-index: 1;
-            cursor: pointer;
-            color: red;
-            transition: $transition;
-            padding: 1px;
-            border-radius: 50%;
-            background-color: $color-additional-background;
-            border: 1px solid transparent;
-            &:hover {
-                color: rgb(105, 11, 11);
-                border-color: $color-main-gold;
-            }
-        }
-        &_buttonToStart {
-            opacity: 0.2;
-            z-index: 1;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: $color-blur-black;
-            padding: 5px 7px;
-            border-radius: $border-radius-5;
-            transition: $transition;
-            color: $color-main-white;
-            cursor: pointer;
-            border: 1px solid transparent;
-        }
-        &:hover &_buttonToStart {
-            opacity: 1;
-            border: 1px solid $color-main-gold;
-        }
+.photoBlock {
+    margin-bottom: 20px;
+    &_title {
+        margin-bottom: 5px;
+        font-size: small;
     }
 }
-.ant-upload-list-picture-card {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 120px);
-    gap: 12px;
-}
-.photoBlock {
-    position: relative;
-    margin-bottom: 20px;
-}
 .card {
+    border-radius: $border-radius-10;
     width: 100%;
     height: 100%;
     & image {
@@ -83,9 +22,5 @@
         cursor: pointer;
         font-size: 18;
         z-index: 1;
-        // top: 2,
-        // right: 2,
-        // cursor: "pointer",
-        // fontSize: 18,
     }
 }

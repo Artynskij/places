@@ -102,7 +102,7 @@ const TabTravelMap = () => {
         const locationMapData = locationPath.features.find(
             (item) =>
                 item.text.toLocaleLowerCase() ===
-                locationSearchString.toLocaleLowerCase()
+                locationSearchString.toLocaleLowerCase()        
         );
 
         if (locationMapData) {
@@ -252,8 +252,7 @@ const TabTravelMap = () => {
     const wantedList = marksArray.filter((mark) => mark.isWanted);
     const lovedList = marksArray.filter((mark) => mark.isLoved);
 
-    const [travelProgress, setTravelProgress] =
-        useState<ITravelProgressFront>();
+    const [travelProgress, setTravelProgress] = useState<ITravelProgressFront>();
 
     useEffect(() => {
         if (!user) {
@@ -267,6 +266,7 @@ const TabTravelMap = () => {
     }, [services, user]);
 
     if (!user) return <Loader />;
+    
     return (
         <>
             <div className={style.tab_travel}>
@@ -323,7 +323,6 @@ const TabTravelMap = () => {
                                         value={searchValue}
                                         placeholder="Поиск локации"
                                     />
-
                                     <ul className={style.list}>
                                         {searchList.length > 0 &&
                                             searchList.map((searchItem) => {
@@ -405,6 +404,7 @@ const TabTravelMap = () => {
                                         <span>{`Хочу ${wantedList.length}`}</span>
                                     </div>
                                 </div>
+                                        
                                 {travelProgress && (
                                     <div className={style.info_travel_block}>
                                         Посетил:{" "}

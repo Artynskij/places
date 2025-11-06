@@ -4,38 +4,40 @@
     gap: $gap-medium;
     position: relative;
     margin-bottom: 20px;
+
     & &_button,
     & .button_accept {
-        border-radius: $border-radius-5;
+        border-radius: $border-radius-10;
     }
 }
 
-.selectGroup {
+.tagGroup {
     margin-bottom: 16px;
+
     &_title {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 4px;
-    }
-    &_title span {
-        @extend %Text18;
-        font-weight: 500;
+        font-size: 18px;
     }
 }
+
 .iconCancel {
     cursor: pointer;
     transition: $transition;
+
     &:hover {
         color: red;
     }
 }
+
 .selectedList {
-    // margin-bottom: 16px;
+    margin-bottom: 16px;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: $gap-small;
 }
+
 .error_text {
     position: absolute;
     top: 100%;

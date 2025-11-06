@@ -42,8 +42,6 @@
     display: flex;
     flex-direction: column;
     gap: $gap-medium;
-    // max-width: 1000px;
-    // margin: 0 auto;
 }
 .selectionBlock {
     display: flex;
@@ -60,7 +58,7 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         flex-wrap: wrap;
-        align-items: center;
+      
         gap: $gap-medium;
     }
 }

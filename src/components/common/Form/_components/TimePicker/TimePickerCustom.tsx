@@ -2,11 +2,9 @@
 
 import React from "react";
 import style from "./timePicker.module.scss"
-import { TimePicker as TimeAntd } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { SpanErrorForm } from "@/components/UI/Span/SpanErrorForm";
-
 dayjs.extend(customParseFormat);
 
 interface ITimePickerCustomProps {
@@ -21,22 +19,40 @@ export const TimePickerCustom = ({
     error,
 }: ITimePickerCustomProps) => {
     const format = "HH:mm";
-
     return (
         <div className={style.time}>
-            <TimeAntd.RangePicker
-                minuteStep={15}
-                format={format}
-                placeholder={["Открытие", "Закрытие"]}
-                value={value}
-                onChange={(dates) => {
-                    if (dates && dates[0] && dates[1]) {
-                        onChange?.([dates[0], dates[1]]);
+            <input
+                type="time"
+                className={style.time_input}
+                step={900}
+                value={value ? value[0].format(format) : ""}
+                onChange={(e) => {
+                    const start = dayjs(e.target.value, format);
+                    if (value && value[1]) {
+                        onChange?.([start, value[1]]);
                     } else {
-                        onChange?.(null);
+                        onChange?.([start, dayjs()]);
                     }
                 }}
             />
+
+            <div>/</div>
+
+            <input
+                type="time"
+                className={style.time_input}
+                step={900}
+                value={value ? value[1].format(format) : ""}
+                onChange={(e) => {
+                    const end = dayjs(e.target.value, format);
+                    if (value && value[0]) {
+                        onChange?.([value[0], end]);
+                    } else {
+                        onChange?.([dayjs(), end]);
+                    }
+                }}
+            />
+
             {error && <SpanErrorForm text={error || ''} />}
         </div>
     );

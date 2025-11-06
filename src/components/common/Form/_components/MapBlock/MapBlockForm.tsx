@@ -47,7 +47,7 @@ const MapBlockForm = ({ error, onChange, value, locationId }: Prop) => {
             <Button
                 className={style.mapBlock_button}
                 onClick={handleOpenMap}
-                text="Получить координаты"
+                text="Отметьте месторасположение объекта"
             />
             {mapActive && (
                 <ModalCustom

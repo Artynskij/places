@@ -150,11 +150,10 @@ export const ScheduleBlockForm = ({
         <div className={style.scheduleWrapper}>
             {days.map((day) => {
                 const current = internalSchedule?.[day] || { type: "default" };
-
                 return (
                     <div key={day} className={style.dayRow}>
                         <div className={style.dayLabel}>{tSchedule(day)}</div>
-
+                        
                         <SelectCustom
                             classNameCtn={style.select_ctn}
                             options={[

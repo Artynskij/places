@@ -349,8 +349,9 @@ export const FormSettingsTourist = () => {
                     />
                 </div>
             </div>
-           
-                
+
+            <div className={style.selectionBlock}>
+                <div className={style.selectionBlock_title}>Социальные сети и мессенджеры</div>
                 <div className={`${style.selectionBlock_content} ${style.social}`}>
                     <Controller
                         name="socialContacts"
@@ -371,9 +372,9 @@ export const FormSettingsTourist = () => {
                         )}
                     />
                 </div>
-            
-          
-                
+
+
+
                 <div className={`${style.selectionBlock_content} ${style.social}`}>
                     <Controller
                         name="messangerContacts"
@@ -394,8 +395,7 @@ export const FormSettingsTourist = () => {
                         )}
                     />
                 </div>
-            
-
+            </div>
             <Button
                 className={style.buttonSubmit}
                 typeLogic="submit"
