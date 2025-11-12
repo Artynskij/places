@@ -11,8 +11,6 @@ import {
     Input,
     Form,
     Modal,
-    message,
-    Spin,
 } from "antd";
 import {
     EditOutlined,
@@ -28,22 +26,17 @@ import { TLocale } from "@/lib/models/types";
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
 import { CategoryEstablishmentService } from "@/lib/Api/(Establishment)/category-establishement.api";
 import {
-    ICategoryEstablishmentEntity,
     ICategoryEstablishmentFront,
     ICategoryEstablishmentRequest,
     ICategoryRootEstablishmentFront,
     IOption,
+    IDetailLang,
 } from "@/lib/models";
 import { CategoryRootEstablishmentService } from "@/lib/Api/(Establishment)/category-root-establishment.api";
 import { CONSTANT_TYPES_OF_ESTABLISHMENT_DB } from "@/asset/constants/database/types-of-establishment";
 import { buildEntityField } from "@/lib/helpers/build-entity-field";
 import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
 const { Search } = Input;
-interface CategoryListTabProps {
-    // onCategoryEdit: (category: ICategory) => void;
-}
-
-type TDetails = { lang: TLocale; value: string };
 
 interface CategoryFormValues {
     name: string;
@@ -51,7 +44,7 @@ interface CategoryFormValues {
     rootCategoryId?: string;
 }
 
-export const CategoryTabAdmin = ({}: CategoryListTabProps) => {
+export const CategoryTabAdmin = () => {
     const services = useMemo(
         () => ({
             category: new CategoryEstablishmentService(),
@@ -86,7 +79,7 @@ export const CategoryTabAdmin = ({}: CategoryListTabProps) => {
         useState<ICategoryEstablishmentFront | null>(null);
     const [form] = Form.useForm<CategoryFormValues>();
 
-    const [languageDetails, setLanguageDetails] = useState<TDetails[]>(
+    const [languageDetails, setLanguageDetails] = useState<IDetailLang[]>(
         CONSTANT_LANGS_DETAILS
     );
 
@@ -202,7 +195,7 @@ export const CategoryTabAdmin = ({}: CategoryListTabProps) => {
         setLanguageDetails(CONSTANT_LANGS_DETAILS);
     };
 
-    const handleLanguageDetailsChange = (details: TDetails[]) => {
+    const handleLanguageDetailsChange = (details: IDetailLang[]) => {
         setLanguageDetails(details);
     };
 
@@ -342,17 +335,26 @@ export const CategoryTabAdmin = ({}: CategoryListTabProps) => {
             width: 150,
             render: (_: any, record: ICategoryEstablishmentFront) => (
                 <Space size="small">
-                    <Button
-                        icon={<EditOutlined />}
-                        size="small"
-                        onClick={() => handleEdit(record)}
-                    />
+                    <Tooltip title={"Редактировать"}>
+                        <Button
+                            icon={<EditOutlined />}
+                            size="small"
+                            onClick={() => handleEdit(record)}
+                        />
+                    </Tooltip>
                     <ModalConfirm
+                        title="Удаление группы атрибутов"
+                        content="Вы уверены, что хотите удалить эту группу атрибутов?"
                         handlerAction={() => handleDelete(record)}
-                        title="Удаление категории"
-                        content="Вы уверены, что хотите удалить эту категорию?"
                     >
-                        <Button danger icon={<DeleteOutlined />} size="small" />
+                        <Tooltip title={"Удалить"}>
+                            <Button
+                                danger
+                                icon={<DeleteOutlined />}
+                                size="small"
+                                disabled={true}
+                            />
+                        </Tooltip>
                     </ModalConfirm>
                 </Space>
             ),

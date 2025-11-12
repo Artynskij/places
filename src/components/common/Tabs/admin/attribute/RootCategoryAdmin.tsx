@@ -7,12 +7,9 @@ import {
     Tag,
     Card,
     Tooltip,
-    Select,
     Input,
     Form,
     Modal,
-    message,
-    Spin,
 } from "antd";
 import {
     EditOutlined,
@@ -30,23 +27,14 @@ import { CategoryRootEstablishmentService } from "@/lib/Api/(Establishment)/cate
 import {
     ICategoryRootEstablishmentFront,
     ICategoryRootEstablishmentRequest,
+    IDetailLang,
 } from "@/lib/models";
 import { buildEntityField } from "@/lib/helpers/build-entity-field";
 import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
 
 const { Search } = Input;
 
-interface RootCategoryListTabProps {
-    // onRootCategoryEdit: (rootCategory: IRootCategory) => void;
-}
-
-type TDetails = { lang: TLocale; value: string };
-
-interface RootCategoryFormValues {
-    // name: string;
-}
-
-export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
+export const RootCategoryTabAdmin = () => {
     const services = useMemo(
         () => ({
             rootCategory: new CategoryRootEstablishmentService(),
@@ -68,9 +56,9 @@ export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
     const [isModalLoading, setIsModalLoading] = useState(false);
     const [editRootCategory, setEditRootCategory] =
         useState<ICategoryRootEstablishmentFront | null>(null);
-    const [form] = Form.useForm<RootCategoryFormValues>();
+    const [form] = Form.useForm();
 
-    const [languageDetails, setLanguageDetails] = useState<TDetails[]>(
+    const [languageDetails, setLanguageDetails] = useState<IDetailLang[]>(
         CONSTANT_LANGS_DETAILS
     );
 
@@ -163,7 +151,7 @@ export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
         setLanguageDetails(CONSTANT_LANGS_DETAILS);
     };
 
-    const handleLanguageDetailsChange = (details: TDetails[]) => {
+    const handleLanguageDetailsChange = (details: IDetailLang[]) => {
         setLanguageDetails(details);
     };
 
@@ -290,17 +278,26 @@ export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
             width: 150,
             render: (_: any, record: ICategoryRootEstablishmentFront) => (
                 <Space size="small">
-                    <Button
-                        icon={<EditOutlined />}
-                        size="small"
-                        onClick={() => handleEdit(record)}
-                    />
+                    <Tooltip title={"Редактировать"}>
+                        <Button
+                            icon={<EditOutlined />}
+                            size="small"
+                            onClick={() => handleEdit(record)}
+                        />
+                    </Tooltip>
                     <ModalConfirm
+                        title="Удаление группы атрибутов"
+                        content="Вы уверены, что хотите удалить эту группу атрибутов?"
                         handlerAction={() => handleDelete(record)}
-                        title="Удаление главной категории"
-                        content="Вы уверены, что хотите удалить эту главную категорию?"
                     >
-                        <Button danger icon={<DeleteOutlined />} size="small" />
+                        <Tooltip title={"Удалить"}>
+                            <Button
+                                danger
+                                icon={<DeleteOutlined />}
+                                size="small"
+                                disabled={true}
+                            />
+                        </Tooltip>
                     </ModalConfirm>
                 </Space>
             ),
@@ -383,23 +380,6 @@ export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
                         onChange={handleLanguageDetailsChange}
                         required={true}
                     />
-                    {/* <Form.Item
-                        name="name"
-                        label="Название группы"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Введите название группы",
-                            },
-                            {
-                                min: 2,
-                                message:
-                                    "Название должно содержать минимум 2 символа",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Цвет, Размер, Материал и т.д." />
-                    </Form.Item> */}
                 </Form>
             </Modal>
         </>

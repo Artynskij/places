@@ -32,6 +32,7 @@ import type { ColumnsType } from "antd/es/table";
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
 import { buildEntityField } from "@/lib/helpers/build-entity-field";
 import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
+import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
 
 const { Search } = Input;
 
@@ -138,22 +139,13 @@ export const TypeArticleTabAdmin: React.FC = () => {
     };
 
     const handleDelete = async (record: IArticleTypeFront) => {
-        Modal.confirm({
-            title: "Удаление типа статьи",
-            content: `Вы уверены, что хотите удалить тип "${record.name}"?`,
-            okText: "Удалить",
-            cancelText: "Отмена",
-            okType: "danger",
-            onOk: async () => {
-                try {
-                    await services.articleType.delete(record.id);
-                    fetchAll();
-                    message.success("Тип статьи удален");
-                } catch {
-                    message.error("Ошибка при удалении типа статьи");
-                }
-            },
-        });
+        try {
+            await services.articleType.delete(record.id);
+            fetchAll();
+            message.success("Тип статьи удален");
+        } catch {
+            message.error("Ошибка при удалении типа статьи");
+        }
     };
 
     const handleModalClose = () => {
@@ -264,11 +256,6 @@ export const TypeArticleTabAdmin: React.FC = () => {
             key: "value",
         },
         {
-            title: "Ключ рубрики",
-            dataIndex: "name",
-            key: "name",
-        },
-        {
             title: "Языки",
             key: "languages",
             render: (_, record) => (
@@ -286,14 +273,14 @@ export const TypeArticleTabAdmin: React.FC = () => {
                 </Space>
             ),
         },
-        // {
-        //     title: "Кол-во статей",
-        //     dataIndex: "articleCount",
-        //     key: "articleCount",
-        //     render: (count: number) => (
-        //         <Tag color={count > 0 ? "blue" : "default"}>{count} статей</Tag>
-        //     ),
-        // },
+        {
+            title: "Кол-во статей",
+            dataIndex: "articlesCount",
+            key: "articlesCount",
+            render: (count: number) => (
+                <Tag color={count > 0 ? "blue" : "default"}>{count}</Tag>
+            ),
+        },
         {
             title: "Кол-во подрубрик",
             dataIndex: "subTypes",
@@ -309,19 +296,23 @@ export const TypeArticleTabAdmin: React.FC = () => {
             key: "actions",
             render: (_, record) => (
                 <Space>
-                    <Button
-                        icon={<EditOutlined />}
-                        size="middle"
-                        onClick={() => handleEdit(record)}
-                    />
-
-                    <Button
-                        danger
-                        icon={<DeleteOutlined />}
-                        size="middle"
-                        onClick={() => handleDelete(record)}
-                        disabled={0 > 0}
-                    />
+                    <Tooltip title={"Редактировать"}>
+                        <Button
+                            icon={<EditOutlined />}
+                            size="small"
+                            onClick={() => handleEdit(record)}
+                        />
+                    </Tooltip>
+                    <ModalConfirm handlerAction={() => handleDelete(record)}>
+                        <Tooltip title={"Удалить"}>
+                            <Button
+                                danger
+                                icon={<DeleteOutlined />}
+                                size="small"
+                                disabled={record.articlesCount > 0}
+                            />
+                        </Tooltip>
+                    </ModalConfirm>
                 </Space>
             ),
         },

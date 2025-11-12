@@ -1,7 +1,7 @@
 export * from "./(article)/article-hash-tag.front";
 export * from "./(article)/article-reaction.front";
 export * from "./(article)/article-subType.front";
-export * from "./(article)/article-category.front";
+export * from "./(article)/article-type.front";
 export * from "./(article)/article.front";
 
 export * from "./(establishment)/category-establishment.front";

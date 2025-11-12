@@ -31,6 +31,7 @@ export class ArticleTypeMapper {
             value: title,
             content: entity.content,
             subTypes: entity.articleType.SubTypes,
+            articlesCount: entity.articlesCount,
         };
     }
 }
@@ -68,7 +69,10 @@ export class ArticleTypeService extends BaseApiService<
 
             return res || null;
         } catch (error) {
-            console.error(`error [post /article-categories/categories/bulk`, error);
+            console.error(
+                `error [post /article-categories/categories/bulk`,
+                error
+            );
             return null;
         }
     }
@@ -83,7 +87,10 @@ export class ArticleTypeService extends BaseApiService<
 
             return res || null;
         } catch (error) {
-            console.error(`error [delete /article-categories/categories`, error);
+            console.error(
+                `error [delete /article-categories/categories`,
+                error
+            );
             return null;
         }
     }

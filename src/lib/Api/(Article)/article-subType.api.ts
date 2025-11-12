@@ -35,6 +35,7 @@ export class ArticleSubTypeMapper {
             content: entity.content,
             articleTypeId: entity.articleSubType.ArticleTypeId,
             articleType: entity.articleSubType.ArticleType,
+            articlesCount: entity.articlesCount,
         };
     }
 }

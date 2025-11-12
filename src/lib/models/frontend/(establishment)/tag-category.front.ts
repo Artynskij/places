@@ -5,5 +5,6 @@ export interface ITagCategoryFront {
     key: string;
     value: string;
     establishmentTypeId: string | null;
+    countTags?: number;
     content?: IContentSimpleEntity;
 }

@@ -22,7 +22,7 @@ import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
 import { useAlertMessage } from "@/lib/context";
 import { LanguageManagerBlock } from "@/components/common/Form/_components/LanguageManagerBlock/LanguageManagerBlock";
 import { TLocale } from "@/lib/models/types";
-import { locales } from "@/config";
+
 import { TagCategoryService } from "@/lib/Api/(Establishment)/tag-category.api";
 import {
     ITagCategoryFront,
@@ -30,14 +30,11 @@ import {
     ITagCategoryRequest,
 } from "@/lib/models";
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
-import {
-    CONSTANT_TYPES_OF_ESTABLISHMENT_ARRAY_DB,
-    CONSTANT_TYPES_OF_ESTABLISHMENT_DB,
-} from "@/asset/constants/database/types-of-establishment";
+import { CONSTANT_TYPES_OF_ESTABLISHMENT_ARRAY_DB } from "@/asset/constants/database/types-of-establishment";
 import { buildEntityField } from "@/lib/helpers/build-entity-field";
 import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
+import { TagService } from "@/lib/Api/(Establishment)/tag.api";
 
-const { Option } = Select;
 const { Search } = Input;
 
 interface GroupAttributeFormValues {
@@ -46,7 +43,10 @@ interface GroupAttributeFormValues {
 
 export const GroupAttributeTabAdmin = () => {
     const services = useMemo(
-        () => ({ tagCategory: new TagCategoryService() }),
+        () => ({
+            tagCategory: new TagCategoryService(),
+            tag: new TagService(),
+        }),
         []
     );
     const message = useAlertMessage();
@@ -67,14 +67,26 @@ export const GroupAttributeTabAdmin = () => {
     );
     const fetchAll = useCallback(async () => {
         setIsLoading(true);
-        const response = await services.tagCategory.getAll();
-        if (!response) {
+        const responseRootCategory = await services.tagCategory.getAll();
+        const tagsResponse = await services.tag.get();
+        if (!responseRootCategory) {
             message.error("не получилось обновить");
         } else {
-            setIsLoading(false);
             message.info("Обновлено");
-            setTagCategories(response);
+            const rootCategoriesWithCountTag = responseRootCategory.map(
+                (rootCategory) => {
+                    const foundTagCategory = tagsResponse?.filter(
+                        (tag) => tag.tagCategory.id === rootCategory.id
+                    );
+                    return {
+                        ...rootCategory,
+                        countTags: foundTagCategory?.length || 0,
+                    };
+                }
+            );
+            setTagCategories(rootCategoriesWithCountTag);
         }
+        setIsLoading(false);
     }, [message, services]);
     useEffect(() => {
         fetchAll();
@@ -169,7 +181,7 @@ export const GroupAttributeTabAdmin = () => {
                 englishName: englishName,
                 entity: ["name"],
             });
-            console.log(values.typeEstablishmentId);
+
             const bodyRequest: ITagCategoryRequest = {
                 source: {
                     Name: name,
@@ -235,12 +247,13 @@ export const GroupAttributeTabAdmin = () => {
                 establishmentTypeId: ITagCategoryFront["establishmentTypeId"]
             ) => (
                 <div style={{ fontWeight: 500 }}>
-                    {establishmentTypeId
-                        ? CONSTANT_TYPES_OF_ESTABLISHMENT_ARRAY_DB.find(
-                              (item) => item.id === establishmentTypeId
-                          )?.title
-                        : "не закреплён"}
-                    {/* {typeEstablishmentId} */}
+                    <Tag color={establishmentTypeId ? "blue" : "default"}>
+                        {establishmentTypeId
+                            ? CONSTANT_TYPES_OF_ESTABLISHMENT_ARRAY_DB.find(
+                                  (item) => item.id === establishmentTypeId
+                              )?.title
+                            : "не закреплён"}
+                    </Tag>
                 </div>
             ),
         },
@@ -265,22 +278,45 @@ export const GroupAttributeTabAdmin = () => {
             ),
         },
         {
+            title: "Кол-во аттрибутов",
+            dataIndex: "countTags",
+            key: "countTags",
+            render: (count: ITagCategoryFront["countTags"]) => (
+                <div style={{ fontWeight: 500 }}>
+                    <Tag color={count && count > 0 ? "blue" : "default"}>
+                        {count}
+                    </Tag>
+                </div>
+            ),
+        },
+        {
             title: "Действия",
             key: "actions",
             width: 150,
             render: (_: any, record: ITagCategoryFront) => (
                 <Space size="small">
-                    <Button
-                        icon={<EditOutlined />}
-                        size="small"
-                        onClick={() => handleEdit(record)}
-                    />
+                    <Tooltip title={"Редактировать"}>
+                        <Button
+                            icon={<EditOutlined />}
+                            size="small"
+                            onClick={() => handleEdit(record)}
+                        />
+                    </Tooltip>
                     <ModalConfirm
-                        handlerAction={() => handleDelete(record)}
                         title="Удаление группы атрибутов"
-                        content={`Вы уверены, что хотите удалить группу "${record.value}`}
+                        content="Вы уверены, что хотите удалить эту группу атрибутов?"
+                        handlerAction={() => handleDelete(record)}
                     >
-                        <Button danger icon={<DeleteOutlined />} size="small" />
+                        <Tooltip title={"Удалить"}>
+                            <Button
+                                danger
+                                icon={<DeleteOutlined />}
+                                size="small"
+                                disabled={
+                                    !!(record.countTags && record.countTags > 0)
+                                }
+                            />
+                        </Tooltip>
                     </ModalConfirm>
                 </Space>
             ),

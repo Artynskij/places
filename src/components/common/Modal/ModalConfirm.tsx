@@ -26,7 +26,6 @@ export const ModalConfirm = ({
     };
 
     const handleConfirm = () => {
-        message.success("Пока удаление невозможно");
         handlerAction();
         closeModal();
     };

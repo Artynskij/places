@@ -291,17 +291,26 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
             width: 150,
             render: (_: any, record: ITagFront) => (
                 <Space size="small">
-                    <Button
-                        icon={<EditOutlined />}
-                        size="small"
-                        onClick={() => handleEdit(record)}
-                    />
+                    <Tooltip title={"Редактировать"}>
+                        <Button
+                            icon={<EditOutlined />}
+                            size="small"
+                            onClick={() => handleEdit(record)}
+                        />
+                    </Tooltip>
                     <ModalConfirm
                         handlerAction={() => handleDelete(record)}
                         title="Удаление атрибута"
                         content="Вы уверены, что хотите удалить этот атрибут?"
                     >
-                        <Button danger icon={<DeleteOutlined />} size="small" />
+                        <Tooltip title={"Удалить"}>
+                            <Button
+                                danger
+                                icon={<DeleteOutlined />}
+                                size="small"
+                                disabled={true}
+                            />
+                        </Tooltip>
                     </ModalConfirm>
                 </Space>
             ),
