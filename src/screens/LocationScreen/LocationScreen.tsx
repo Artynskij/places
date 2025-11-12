@@ -35,11 +35,12 @@ interface IProps
         attraction: IEstablishmentFront[] | [];
     };
     locationData: ILocationFront;
-    townsData: ILocationFront[] | null;
+    // townsData: ILocationFront[] | null;
+    // districtsData: ILocationFront[] | null;
     tagsClassEstablishment: ITagWithEstablishmentFront[] | null;
-    dataTileContent: ILocationFront[] | null;
+    // dataTileContent: ILocationFront[] | null;
     breadcrumbData: ILocationFront[] | null;
-    totalLocations: number;
+    // totalLocations: number;
 }
 
 export default async function LocationScreen({
@@ -48,9 +49,10 @@ export default async function LocationScreen({
     typePage,
     dataEstablishment,
     locationData,
-    townsData,
+    // townsData,
+    // districtsData,
     tagsClassEstablishment,
-    dataTileContent,
+    // dataTileContent,
     breadcrumbData,
 }: IProps) {
     const tTiles = await getTranslations("Tiles");
@@ -96,9 +98,9 @@ export default async function LocationScreen({
             </section>
             <InfoSection
                 rootLocationPath={locationData.pathBreadcrumb}
-                townsData={townsData}
+                
                 searchParams={searchParams}
-                dataTileContent={dataTileContent}
+                
             />
 
             <section className={style.slider_block}>

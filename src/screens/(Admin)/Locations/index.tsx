@@ -7,7 +7,7 @@ export const LocationsAdminScreen = () => {
     const tabs = [
         {
             key: "locations",
-            label: "Локации",
+            label: "Список локаций",
             children: <LocationsTabAdmin />,
         },
         {

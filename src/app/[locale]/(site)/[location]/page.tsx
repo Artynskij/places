@@ -15,6 +15,8 @@ import { LocationService } from "@/lib/Api/location/location.service";
 import { EstablishmentTagsService } from "@/lib/Api/(Establishment)/establishment-tags/establishment-tags.service";
 import { CONSTANT_COUNTRIES_DB } from "@/asset/constants/database/countries.const";
 import { EstablishmentService } from "@/lib/Api/(Establishment)/establishment/establishment.service";
+import { LocationTypesService } from "@/lib/Api/location-types.api";
+import { CONSTANT_TYPE_LOCATION_DB } from "@/asset/constants/database/type-location";
 
 export async function generateMetadata({
     params,
@@ -32,7 +34,8 @@ export default async function CountryPage({ params, searchParams }: IProps) {
     const apiEstablishment = new EstablishmentService();
     const apiLocation = new LocationService();
     const apiTags = new EstablishmentTagsService();
-
+    const apiLocationType = new LocationTypesService();
+    // получение заведений для слайдера
     const eaterEstablishment = await apiEstablishment.getByPagination({
         pagination: { page: 1, pageSize: 10 },
         filter: {
@@ -59,15 +62,37 @@ export default async function CountryPage({ params, searchParams }: IProps) {
         },
         lang: params.locale,
     });
+    // получение локаций
     const locationData = await apiLocation.getById(params.location);
-    const townsResponse = await apiLocation.getAll({
-        lang: params.locale,
-        locationId: params.location,
-        pagination: {
-            page: 1,
-            pageSize: 10,
-        },
-    });
+    // const locationsTypesResponse = await apiLocationType.getAll();
+    // const districtTypes = locationsTypesResponse?.filter(
+    //     (item) =>
+    //         item.type.Name === CONSTANT_TYPE_LOCATION_DB.REGION ||
+    //         item.type.Name === CONSTANT_TYPE_LOCATION_DB.DISTRICT
+    // );
+    // const townsTypes = locationsTypesResponse?.filter(
+    //     (item) =>
+    //         item.type.Name === CONSTANT_TYPE_LOCATION_DB.CITY ||
+    //         item.type.Name === CONSTANT_TYPE_LOCATION_DB.TOWN
+    // );
+    // const townsResponse = await apiLocation.getAll({
+    //     lang: params.locale,
+    //     locationId: params.location,
+    //     locationTypeIds: townsTypes?.map((item) => item.type.Id) || null,
+    //     pagination: {
+    //         page: 1,
+    //         pageSize: 10,
+    //     },
+    // });
+    // const districtsResponse = await apiLocation.getAll({
+    //     lang: params.locale,
+    //     locationId: params.location,
+    //     locationTypeIds: districtTypes?.map((item) => item.type.Id) || null,
+    //     pagination: {
+    //         page: 1,
+    //         pageSize: 10,
+    //     },
+    // });
 
     if (!locationData) notFound();
     const tagsClassEstablishment =
@@ -95,9 +120,10 @@ export default async function CountryPage({ params, searchParams }: IProps) {
                 breadcrumbData={breadcrumbData}
                 locationData={locationData}
                 tagsClassEstablishment={tagsClassEstablishment}
-                townsData={townsResponse?.locations || null}
-                dataTileContent={townsResponse?.locations || null}
-                totalLocations={townsResponse?.info.total || 0}
+                // townsData={townsResponse?.locations || null}
+                // districtsData={districtsResponse?.locations || null}
+                // dataTileContent={townsResponse?.locations || null}
+                // totalLocations={townsResponse?.info.total || 0}
             />
         </>
     );

@@ -1,5 +1,6 @@
 import { IContentSimpleEntity } from "../../server/entities";
 import { ICategoryFront } from "../category.front";
+import { ITagCategoryFront } from "./tag-category.front";
 
 export interface ITagFront {
     id: string;
@@ -13,7 +14,7 @@ export interface ITagFront {
 }
 
 export interface ITagBlockFront {
-    groupKey: ICategoryFront;
+    groupKey: ITagCategoryFront;
     tags: ITagFront[];
 }
 

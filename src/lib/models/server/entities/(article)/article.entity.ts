@@ -24,6 +24,7 @@ export interface IArticleEntity extends IBaseEntity {
     ArticleType: string;
     ArticlesStatus: IArticleStatusEntity;
     ArticlesStatusId: string;
+    PublishedDate:string;
     PersonId: string;
     HashTags: string[];
     IsActive: boolean;

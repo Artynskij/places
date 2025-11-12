@@ -11,6 +11,7 @@ export * from "./(establishment)/rate-establishment.front";
 export * from "./(establishment)/establishment.front";
 export * from "./(establishment)/media.front";
 export * from "./(establishment)/schedule.front";
+export * from "./(establishment)/tag-category.front";
 export * from "./(establishment)/tag.front";
 
 export * from "./(person)/address.front";

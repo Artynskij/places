@@ -1,21 +1,23 @@
 import { BaseApiService } from "../base/BaseApi.service";
 import apiClient from "../base/ApiClient";
 import {
-    ICategoryFront,
+    ITagCategoryFront,
     ITagCategoryRequest,
     ITagCategoryWithContentPareEntity,
 } from "@/lib/models";
 import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 export class TagCategoryMapper {
     constructor() {}
-    toFront(entity: ITagCategoryWithContentPareEntity): ICategoryFront {
+    toFront(entity: ITagCategoryWithContentPareEntity): ITagCategoryFront {
         const valueActually = extractActuallyTitleServer(
             entity.content.details
         );
+
         return {
             id: entity.tagCategory.Id,
             key: entity.tagCategory.Name,
             content: entity.content,
+            establishmentTypeId: entity.tagCategory.Type?.Id || null,
             value: valueActually,
         };
     }
@@ -23,13 +25,13 @@ export class TagCategoryMapper {
 export class TagCategoryService extends BaseApiService<
     ITagCategoryWithContentPareEntity,
     ITagCategoryWithContentPareEntity,
-    ICategoryFront,
+    ITagCategoryFront,
     ITagCategoryRequest
     // IBaseModerationResponse
 > {
     protected baseUrl = "/tag-category";
     protected mapper = new TagCategoryMapper();
-    async getAll(): Promise<ICategoryFront[] | null> {
+    async getAll(): Promise<ITagCategoryFront[] | null> {
         try {
             const res = await apiClient.post<
                 ITagCategoryWithContentPareEntity[]

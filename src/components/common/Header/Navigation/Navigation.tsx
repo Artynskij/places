@@ -14,13 +14,13 @@ export const Navigation = (prop: INavigationProps) => {
                 <Link href={ROUTES.COUNTRIES}>
                     <li>{translations("text.navigation.mainPageLink")}</li>
                 </Link>
-                <Link href={ROUTES.NEWS.CATEGORY("news")}>
+                <Link href={ROUTES.NEWS.TYPE("news")}>
                     <li>{translations("text.navigation.newsLink")}</li>
                 </Link>
-                <Link href={ROUTES.NEWS.CATEGORY("recommend")}>
+                <Link href={ROUTES.NEWS.TYPE("recommend")}>
                     <li>{translations("text.navigation.recommendLink")}</li>
                 </Link>
-                <Link href={ROUTES.NEWS.CATEGORY("overview")}>
+                <Link href={ROUTES.NEWS.TYPE("overview")}>
                     <li>{translations("text.navigation.reviewsLink")}</li>
                 </Link>
             </menu>

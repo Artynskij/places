@@ -16,14 +16,13 @@ const TileContent = ({
     rootLocationPath,
 }: ITileContent) => {
     if (
-        (typeTileContent === "regions" || typeTileContent === "towns") &&
-        dataTileContent
+        (typeTileContent === "regions" || typeTileContent === "towns") 
     ) {
         return (
             <TileLocations
                 typeTileContent={typeTileContent}
                 rootLocationPath={rootLocationPath}
-                locations={dataTileContent}
+                // locations={dataTileContent}
             />
         );
     }

@@ -13,6 +13,7 @@ import { TipTapViewer } from "@/components/common/TipTap/Viewer/TipTapViewer";
 import { BlockReadTime } from "@/components/common/BlockFunctional/BlockReadTime";
 import { useEffect, useState } from "react";
 import { ROUTES } from "@/lib/config/Routes";
+import { createFormatDate } from "@/lib/helpers/create-format-date";
 interface IProp {
     article: IArticleFront;
 
@@ -32,6 +33,7 @@ export const CardArticleFull = ({ article, author }: IProp) => {
                     links={[
                         {
                             title: article?.type[0]?.value,
+                            href: ROUTES.NEWS.TYPE(article?.type[0]?.id),
                         },
                         { title: article?.title },
                     ]}
@@ -61,7 +63,7 @@ export const CardArticleFull = ({ article, author }: IProp) => {
                 <BlockWatchCount count={1000} />
 
                 <div className={style.underTitle_publicDate}>
-                    {article.date}
+                    {createFormatDate(article.publishedDate)}
                 </div>
             </div>
             <div className={style.description}>{article.description}</div>

@@ -13,22 +13,22 @@ export const AttributesAdminScreen: React.FC = () => {
     const tabs = [
         {
             key: "create",
-            label: "Упарвление группами аттрибутов",
+            label: "Группы аттрибутов",
             children: <GroupAttributeTabAdmin />,
         },
         {
             key: "list",
-            label: "Управление аттрибутами",
+            label: "Аттрибутами",
             children: <AttributeTabAdmin />,
         },
         {
             key: "rootCategory",
-            label: "Управление главными категориями",
+            label: "Главные категории",
             children: <RootCategoryTabAdmin />,
         },
         {
             key: "category",
-            label: "Управление категориями",
+            label: "Категориями",
             children: <CategoryTabAdmin />,
         },
     ];

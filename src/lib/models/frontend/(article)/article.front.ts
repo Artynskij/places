@@ -7,7 +7,6 @@ import { IContentArticle, IPersonEntity } from "../../server/entities";
 import { TLocale, TTipTapHTMLContent } from "../../types";
 import { IPersonFront } from "../(person)/person.front";
 
-
 export interface IArticleFront {
     id: string;
     title: string;
@@ -26,8 +25,7 @@ export interface IArticleFront {
     author?: IPersonFront;
 
     readingTime: number;
-    date: string;
-    // langsContent:TLocale[]
-
+    publishedDate: string;
+    createdDate: string;
     contentEntity: IContentArticle | null;
 }

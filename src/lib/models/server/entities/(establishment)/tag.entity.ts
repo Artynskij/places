@@ -3,7 +3,7 @@ import { ITagCategoryWithContentEntity } from "./parts/tag-category.entity";
 
 export interface ITagEntity {
     Id: string;
-    TagCategory: ITagCategoryWithContentEntity;
+    TagCategory?: ITagCategoryWithContentEntity;
 }
 export interface ITagWithContentEntity extends ITagEntity {
     content: IContentSimpleEntity;

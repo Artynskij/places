@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { IBasePageProps } from "@/lib/models/common/IType";
 import { unstable_setRequestLocale } from "next-intl/server";
-import ArticlesCategoryScreen from "@/screens/(Article)/ArticleCategoryScreen/ArticleCategoryScreen";
+import ArticlesTypeScreen from "@/screens/(Article)/ArticleTypeScreen/ArticleTypeScreen";
 import ArticleAuthorScreen from "@/screens/(Article)/ArticleAuthorScreen/ArticleAuthorScreen";
 import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";

@@ -24,6 +24,7 @@ export default class EstablishmentTagsMapper {
                                   groupTag.TagCategory.content.details[0]
                                       ?.value || groupTag.TagCategory.Name,
                               key: groupTag.TagCategory.Name,
+                              establishmentTypeId: "",
                           },
                           tags: groupTag.Tags.map((tag) => {
                               const countPrice =
@@ -55,11 +56,13 @@ export default class EstablishmentTagsMapper {
                                       tag.content.details[0]?.secondaryValue ||
                                       null,
                                   tagCategory: {
-                                      id: tag.TagCategory.Id,
-                                      key: tag.TagCategory.Name,
-                                      value: extractActuallyTitleServer(
-                                          tag.TagCategory.content.details
-                                      ),
+                                      id: tag.TagCategory?.Id || "",
+                                      key: tag.TagCategory?.Name || "",
+                                      value: tag.TagCategory
+                                          ? extractActuallyTitleServer(
+                                                tag.TagCategory?.content.details
+                                            )
+                                          : "",
                                   },
                                   iconName:
                                       tag.content.details[0]?.cIcon || null,
@@ -98,6 +101,7 @@ export default class EstablishmentTagsMapper {
                       id: "123",
                       key: "categories",
                       value: "Категории",
+                      establishmentTypeId: "",
                   },
                   tags: tags.categories
                       .map((cat) => {
@@ -146,7 +150,7 @@ export default class EstablishmentTagsMapper {
         const mappingData: ITagWithEstablishmentFront[] | null =
             tags?.map((tag) => {
                 const countPrice =
-                    tag.Tag.TagCategory.Name ===
+                    tag.Tag.TagCategory?.Name ===
                         CONSTANT_CATEGORY_CLASS_TAG_DB.price &&
                     tag.Tag.content.details[0]?.secondaryValue
                         ? this.createClassCount(
@@ -155,7 +159,7 @@ export default class EstablishmentTagsMapper {
                           )
                         : null;
                 const countStar =
-                    tag.Tag.TagCategory.Name ===
+                    tag.Tag.TagCategory?.Name ===
                     CONSTANT_CATEGORY_CLASS_TAG_DB.star
                         ? this.createClassCount(
                               tag.Tag.content.details[0].value || "UNDEFINED",
@@ -169,11 +173,13 @@ export default class EstablishmentTagsMapper {
                         key: tag.Tag.Id,
                         value: tag.Tag.content.details[0]?.value,
                         tagCategory: {
-                            id: tag.Tag.TagCategory.Id,
-                            key: tag.Tag.TagCategory.Name,
-                            value: extractActuallyTitleServer(
-                                tag.Tag.TagCategory.content.details
-                            ),
+                            id: tag.Tag.TagCategory?.Id || "",
+                            key: tag.Tag.TagCategory?.Name || "",
+                            value: tag.Tag.TagCategory
+                                ? extractActuallyTitleServer(
+                                      tag.Tag.TagCategory.content.details
+                                  )
+                                : "",
                         },
                         secondaryValue:
                             tag.Tag.content.details[0]?.secondaryValue || null,
@@ -181,12 +187,13 @@ export default class EstablishmentTagsMapper {
                         count: countStar || countPrice || null,
                     },
                     tagCategory: {
-                        id: tag.Tag.TagCategory.Id,
-                        value:
-                            extractActuallyTitleServer(
-                                tag.Tag.TagCategory.content.details
-                            ) || tag.Tag.TagCategory.Name,
-                        key: tag.Tag.TagCategory.Name,
+                        id: tag.Tag.TagCategory?.Id || "",
+                        value: tag.Tag.TagCategory
+                            ? extractActuallyTitleServer(
+                                  tag.Tag.TagCategory.content.details
+                              ) || tag.Tag.TagCategory.Name
+                            : "",
+                        key: tag.Tag.TagCategory?.Name || "",
                     },
                 };
             }) || null;

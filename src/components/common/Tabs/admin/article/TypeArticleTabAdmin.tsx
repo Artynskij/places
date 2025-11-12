@@ -31,6 +31,7 @@ import { TLocale } from "@/lib/models/types";
 import type { ColumnsType } from "antd/es/table";
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
 import { buildEntityField } from "@/lib/helpers/build-entity-field";
+import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
 
 const { Search } = Input;
 
@@ -252,6 +253,9 @@ export const TypeArticleTabAdmin: React.FC = () => {
             dataIndex: "id",
             key: "id",
             width: 80,
+            render: (id: IArticleTypeFront["id"]) => {
+                return <CopyClipboardButton text={id} />;
+            },
         },
 
         {

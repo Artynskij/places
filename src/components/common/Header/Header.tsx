@@ -84,15 +84,15 @@ export const Header = async () => {
                         >
                             <li className={"hover-underline"}>Рубрик</li>
                         </Link>
-                        <Link
+                        {/* <Link
                             className={style.header__second_link}
-                            href={ROUTES.NEWS.NEWS(
+                            href={ROUTES.NEWS.ARTICLE(
                                 "news",
                                 "01JJPD613ZCBDVPGBKN4JG3014"
                             )}
                         >
                             <li className={"hover-underline"}>Новости</li>
-                        </Link>
+                        </Link> */}
                         <Link
                             className={style.header__second_link}
                             href={ROUTES.NEWS.AUTHOR("name")}

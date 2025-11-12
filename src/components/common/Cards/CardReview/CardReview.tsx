@@ -15,7 +15,7 @@ import {
     CONSTANT_DEFAULT_AVATAR_URL,
     CONSTANT_DEFAULT_IMAGE_URL,
 } from "@/asset/constants/default.const";
-import { getFormatDate } from "@/lib/helpers/getFormatDate";
+import { createFormatDate } from "@/lib/helpers/create-format-date";
 
 interface ICardReview {
     review: IRateEstablishmentFront;
@@ -54,7 +54,7 @@ ICardReview) => {
                         </div>
 
                         <div className={style.user_dateReview}>
-                            {getFormatDate(review.CreatedDate)}
+                            {createFormatDate(review.CreatedDate)}
                         </div>
                     </div>
                 </div>
@@ -73,7 +73,7 @@ ICardReview) => {
                 </div> */}
 
                 <div className={style.reviewBody_dateVisit}>
-                    Дата посещения: {getFormatDate(review.PersonsVisitDate)}
+                    Дата посещения: {createFormatDate(review.PersonsVisitDate)}
                 </div>
                 <div className={style.reviewBody_additionalRate}>
                     {additionalRates.map((rate) => (

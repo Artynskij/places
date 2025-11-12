@@ -257,7 +257,7 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
             type: selectedArticleTypes || [],
             readingTime: 0,
             markdown: generatedHTML,
-            date: new Date().toLocaleDateString("ru-RU"),
+            publishedDate: new Date().toLocaleDateString("ru-RU"),
             description: values.description,
             reactions: [1, 2, 3, 4],
             media: editorData!.mediaStorage,
@@ -265,6 +265,7 @@ export const FormCreateArticle: React.FC<FormCreateArticleProps> = ({
                 id: "",
                 code: CONSTANT_ARTICLE_STATUS_DB.PENDING_REVIEW,
             },
+            createdDate: new Date().toDateString(),
             titleImage: await prepareTitleImage(fileMainImage, paramsFile),
             contentEntity: null,
         };

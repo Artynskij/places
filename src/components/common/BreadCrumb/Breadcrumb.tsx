@@ -8,44 +8,6 @@ interface IBreadcrumb {
     type?: "location";
 }
 export const Breadcrumb = ({ links, type }: IBreadcrumb) => {
-    const menuItems = [
-        {
-            key: "1",
-            label: (
-                <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="http://www.alipay.com/"
-                >
-                    General
-                </a>
-            ),
-        },
-        {
-            key: "2",
-            label: (
-                <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="http://www.taobao.com/"
-                >
-                    Layout
-                </a>
-            ),
-        },
-        {
-            key: "3",
-            label: (
-                <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="http://www.tmall.com/"
-                >
-                    Navigation
-                </a>
-            ),
-        },
-    ];
     const breadcrumbItems: BreadcrumbItemType[] = links;
     if (type === "location") {
         breadcrumbItems.unshift({

@@ -14,23 +14,23 @@ export interface IArticleWithFilterRequest {
     page?: number;
     pageSize?: number;
     personId?: string;
-    articleType?:string
+    articleTypeIds?: string[];
+    articleSubTypeIds?: string[];
 }
 interface ContentPartArticle {
     markdown?: string;
     tags?: string[];
     reactions?: number[];
     title: string;
-   
 }
 interface ContentArticle
     extends IContentMultilingualRequest<ContentPartArticle> {}
 export interface IArticleRequest {
     source: {
         PersonId?: string;
-        
         ArticlesStatusId?: string;
         ReadingTimeMinutes?: number;
+        PublishedDate?: string;
     };
     content: ContentArticle;
 }

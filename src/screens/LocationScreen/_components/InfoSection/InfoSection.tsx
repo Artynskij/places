@@ -3,7 +3,7 @@ import { CONSTANT_TILES } from "@/asset/constants/front-database/tiles.data";
 
 import style from "./infoSection.module.scss";
 import { Button } from "@/components/UI/Button/Button";
-import { CardInfo } from "../CardInfo/CardInfo";
+import { CardTile } from "../../../../components/common/Cards/CardTile/CardTile";
 import { FC, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
@@ -13,15 +13,13 @@ import { TTilesContent } from "@/lib/models/types";
 
 interface IInfoSection {
     searchParams: any;
-    townsData: ILocationFront[] | null;
+
     rootLocationPath: string;
-    dataTileContent: ILocationFront[] | null;
 }
 export const InfoSection: FC<IInfoSection> = ({
     searchParams,
 
     rootLocationPath,
-    dataTileContent,
 }) => {
     const tTiles = useTranslations("Tiles");
     const tText = useTranslations("LocationPage.text");
@@ -39,20 +37,20 @@ export const InfoSection: FC<IInfoSection> = ({
     return (
         <section className={style.info_block}>
             {CONSTANT_TILES.map((infoCard, index) => {
-                const activeParam = searchParams["popup"] === infoCard.value;
+                const activeParam = searchParams["popup"] === infoCard.key;
                 if (index > 5 && !showMoreTiles) {
                     return;
                 }
 
                 return (
-                    <CardInfo
+                    <CardTile
                         activeParam={activeParam}
                         titleText={tTiles(`text.${infoCard.title}`)}
                         seeMoreText={watchAllText}
                         key={infoCard.id}
                         data={infoCard}
-                        typeTileContent={infoCard.value as TTilesContent}
-                        dataTileContent={dataTileContent}
+                        typeTileContent={infoCard.key as TTilesContent}
+                        dataTileContent={null}
                         rootLocationPath={rootLocationPath}
                     />
                 );

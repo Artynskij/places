@@ -36,6 +36,7 @@ import { TLegalTypeOfBusiness } from "@/lib/models/types/TLegalTypeOfBusiness";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { InvitesService } from "@/lib/Api/invites/invites.service";
 import { CopyStringButton } from "@/components/common/ButtonFunctional/CopyStringButton";
+import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -54,7 +55,7 @@ interface BusinessFormValues {
 // Имитация API задержки
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export const BusinessAdminScreen = () => {
+export const BusinessListTabAdmin = () => {
     const locale = useLocale();
     const [modalActive, setModalActive] = useState(false);
     const [detailModalActive, setDetailModalActive] = useState(false);
@@ -282,8 +283,10 @@ export const BusinessAdminScreen = () => {
             title: "ID",
             dataIndex: "Id",
             key: "Id",
-            width: 120,
-            render: (id) => <code>{id}</code>,
+            width: 80,
+            render: (id: IBusinessEntity["Id"]) => {
+                return <CopyClipboardButton text={id} />;
+            },
         },
         {
             title: "Официальное название",
@@ -380,7 +383,7 @@ export const BusinessAdminScreen = () => {
 
     return (
         <Card
-            title="Управление бизнесами"
+            title={`Бизнесы  - ${businesses.length}`}
             extra={
                 <Button
                     icon={<ReloadOutlined />}
@@ -410,8 +413,6 @@ export const BusinessAdminScreen = () => {
                     style={{ width: 280 }}
                     enterButton={<SearchOutlined />}
                 />
-
-                <span>Найдено: {businesses.length} бизнесов</span>
             </Space>
 
             {/* Таблица */}

@@ -37,6 +37,7 @@ import { ArticleTypeService } from "@/lib/Api/(Article)/article-type.api";
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
 import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 import { buildEntityField } from "@/lib/helpers/build-entity-field";
+import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
 
 const { Search } = Input;
 
@@ -257,6 +258,9 @@ export const SubTypeArticleTabAdmin = () => {
             dataIndex: "id",
             key: "id",
             width: 80,
+            render: (id: IArticleSubTypeFront["id"]) => {
+                return <CopyClipboardButton text={id} />;
+            },
         },
         {
             title: "Название подрубрики",

@@ -1,8 +1,10 @@
-import { TCategoriesTags } from "@/lib/models/types/TCategoriesTags";
+
 import { IContentSimpleEntity } from "../../../base/content.entity";
-import { IBaseEntity, IBaseSimpleEntity } from "../../../base";
+import { IBaseEntity,  } from "../../../base";
+import {  ITypeEstablishmentWithContentEntity } from "../type-establishment.entity";
 export interface ITagCategoryEntity extends IBaseEntity {
     Name: string;
+    Type: ITypeEstablishmentWithContentEntity | null;
 }
 export interface ITagCategoryWithContentPareEntity {
     tagCategory: ITagCategoryEntity;

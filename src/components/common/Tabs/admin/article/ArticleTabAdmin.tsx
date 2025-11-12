@@ -1,12 +1,13 @@
 "use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Table, Button, Space, Tag, Image, Card, Select } from "antd";
+import { Table, Button, Space, Tag, Image, Card, Select, Tooltip } from "antd";
 import {
     EditOutlined,
     DeleteOutlined,
     EyeOutlined,
     ReloadOutlined,
     PlusOutlined,
+    FieldTimeOutlined,
 } from "@ant-design/icons";
 import { IArticleFront, IOption } from "@/lib/models";
 import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
@@ -16,11 +17,14 @@ import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
 import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoadManagement.service";
 import { useAlertMessage } from "@/lib/context";
 import { FormCreateArticle } from "@/components/common/Form/article/FormCreateArticle";
+import { createFormatDate } from "@/lib/helpers/create-format-date";
+import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
 
 const { Option } = Select;
 
 export const ArticleTabAdmin: React.FC = () => {
     const message = useAlertMessage();
+
     const tStatusArticle = useTranslations("StatusArticle");
 
     const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +41,7 @@ export const ArticleTabAdmin: React.FC = () => {
         []
     );
     const fetchAll = useCallback(async () => {
+        setIsLoading(true);
         const [responseArticles, responseStatuses] = await Promise.all([
             await services.article.getWithFilter({
                 page: 1,
@@ -60,9 +65,9 @@ export const ArticleTabAdmin: React.FC = () => {
         } else {
             message.error("ошибка при получении статусов статей");
         }
+        setIsLoading(false);
     }, [services, tStatusArticle, message]);
 
- 
     // Загрузка данных
     useEffect(() => {
         fetchAll();
@@ -81,14 +86,14 @@ export const ArticleTabAdmin: React.FC = () => {
 
     const handleCloseModal = () => {
         setIsModalActive(false);
-        fetchAll();
+        handleRefresh();
     };
 
     const handleDelete = async (article: IArticleFront) => {
         const responseDelete = await services.article.delete(article.id);
         if (responseDelete) {
             message.info("Статья удалена");
-            fetchAll();
+            handleRefresh();
         }
     };
 
@@ -100,10 +105,22 @@ export const ArticleTabAdmin: React.FC = () => {
             source: { ArticlesStatusId: newStatus.id as string },
         });
         if (res) {
-            fetchAll();
+            message.success("Обновлен статус");
+            handleRefresh();
+        } else {
+            message.success("Ошибка при обновлении статуса");
         }
     };
-
+    const handleUpdateDate = async (id: string) => {
+        const responsePublishedDate =
+            await services.article.updatePublishedDate(id);
+        if (responsePublishedDate) {
+            message.success("Обновлена дата");
+            handleRefresh();
+        } else {
+            message.success("Ошибка при обновлении даты");
+        }
+    };
     const handleRefresh = () => {
         message.info("Обновлено");
         fetchAll();
@@ -127,46 +144,71 @@ export const ArticleTabAdmin: React.FC = () => {
     const ArticleActions = ({ record }: { record: IArticleFront }) => (
         <Space>
             {statusOptions.length > 0 && (
-                <Select
-                    size="small"
-                    style={{ width: 140 }}
-                    defaultValue={record.status.code}
-                    onChange={(selectedValue) => {
-                        const newStatus = statusOptions.find(
-                            (item) => item.value === selectedValue
-                        );
-                        if (newStatus) {
-                            handleStatusChange(record.id, newStatus);
-                        }
-                    }}
-                    placeholder="Изменить статус"
-                >
-                    {statusOptions.map((option) => (
-                        <Option key={option.id} value={option.value}>
-                            {option.label}
-                        </Option>
-                    ))}
-                </Select>
+                <Tooltip title={"Изменить статус"}>
+                    <Select
+                        size="small"
+                        style={{ width: 140 }}
+                        defaultValue={record.status.code}
+                        onChange={(selectedValue) => {
+                            const newStatus = statusOptions.find(
+                                (item) => item.value === selectedValue
+                            );
+                            if (newStatus) {
+                                handleStatusChange(record.id, newStatus);
+                            }
+                        }}
+                        placeholder="Изменить статус"
+                    >
+                        {statusOptions.map((option) => (
+                            <Option key={option.id} value={option.value}>
+                                {option.label}
+                            </Option>
+                        ))}
+                    </Select>
+                </Tooltip>
             )}
-
+            <Tooltip title={"Обновить дату"}>
+                <Button
+                    icon={<FieldTimeOutlined />}
+                    size="middle"
+                    onClick={() => handleUpdateDate(record.id)}
+                />
+            </Tooltip>
             <PreviewEditor article={record}>
-                <Button type="primary" icon={<EyeOutlined />} size="middle" />
+                <Tooltip title={"Превью статьи"}>
+                    <Button
+                        type="primary"
+                        icon={<EyeOutlined />}
+                        size="middle"
+                    />
+                </Tooltip>
             </PreviewEditor>
 
-            <Button
-                icon={<EditOutlined />}
-                size="middle"
-                onClick={() => handleEdit(record)}
-            />
-
+            <Tooltip title={"Редактировать"}>
+                <Button
+                    icon={<EditOutlined />}
+                    size="middle"
+                    onClick={() => handleEdit(record)}
+                />
+            </Tooltip>
             <ModalConfirm handlerAction={() => handleDelete(record)}>
-                <Button danger icon={<DeleteOutlined />} size="middle" />
+                <Tooltip title={"Удалить"}>
+                    <Button danger icon={<DeleteOutlined />} size="middle" />
+                </Tooltip>
             </ModalConfirm>
         </Space>
     );
 
     const columns = [
-        { title: "ID", dataIndex: "id", key: "id" },
+        {
+            title: "ID",
+            dataIndex: "id",
+            key: "id",
+            width: 80,
+            render: (id: IArticleFront["id"]) => {
+                return <CopyClipboardButton text={id} />;
+            },
+        },
         {
             title: "Заголовок",
             dataIndex: "title",
@@ -215,6 +257,24 @@ export const ArticleTabAdmin: React.FC = () => {
             render: (_: any, record: IArticleFront) => (
                 <Tag color="green">{tStatusArticle(record.status.code)}</Tag>
             ),
+        },
+        {
+            title: "Дата создания",
+            dataIndex: "createdDate",
+            key: "createdDate",
+            render: (
+                date: IArticleFront["createdDate"],
+                record: IArticleFront
+            ) => <Tag color="default">{createFormatDate(date)}</Tag>,
+        },
+        {
+            title: "Дата публикации",
+            dataIndex: "publishedDate",
+            key: "publishedDate",
+            render: (
+                date: IArticleFront["publishedDate"],
+                record: IArticleFront
+            ) => <Tag color="blue">{createFormatDate(date)}</Tag>,
         },
         {
             title: "Действия",

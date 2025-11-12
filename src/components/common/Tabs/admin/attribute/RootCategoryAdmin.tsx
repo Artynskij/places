@@ -31,6 +31,8 @@ import {
     ICategoryRootEstablishmentFront,
     ICategoryRootEstablishmentRequest,
 } from "@/lib/models";
+import { buildEntityField } from "@/lib/helpers/build-entity-field";
+import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
 
 const { Search } = Input;
 
@@ -41,7 +43,7 @@ interface RootCategoryListTabProps {
 type TDetails = { lang: TLocale; value: string };
 
 interface RootCategoryFormValues {
-    name: string;
+    // name: string;
 }
 
 export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
@@ -183,16 +185,25 @@ export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
                 return;
             }
 
-            setIsModalLoading(true);
-
             const filledDetails = languageDetails.filter((item) =>
                 item.value.trim()
             );
-
+            const englishName = filledDetails.find(
+                (item) => item.lang === "en"
+            )?.value;
+            if (!englishName) {
+                message.error("заполнение английской версии обязательно");
+                return;
+            }
+            setIsModalLoading(true);
+            const { name } = buildEntityField({
+                englishName: englishName,
+                entity: ["name"],
+            });
             const rootCategoryRequest: ICategoryRootEstablishmentRequest = {
                 source: {
                     IsActive: true,
-                    Name: values.name,
+                    Name: name,
                     RefName: "places_team",
                 },
                 content: { details: filledDetails },
@@ -230,6 +241,15 @@ export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
 
     const columns = [
         {
+            title: "ID",
+            dataIndex: "id",
+            key: "id",
+            width: 80,
+            render: (id: ICategoryRootEstablishmentFront["id"]) => {
+                return <CopyClipboardButton text={id} />;
+            },
+        },
+        {
             title: "Название",
             dataIndex: "value",
             key: "value",
@@ -244,11 +264,7 @@ export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
                 </div>
             ),
         },
-        {
-            title: "ID",
-            dataIndex: "id",
-            key: "id",
-        },
+
         {
             title: "Значения по языкам",
             dataIndex: "content",
@@ -367,7 +383,7 @@ export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
                         onChange={handleLanguageDetailsChange}
                         required={true}
                     />
-                    <Form.Item
+                    {/* <Form.Item
                         name="name"
                         label="Название группы"
                         rules={[
@@ -383,7 +399,7 @@ export const RootCategoryTabAdmin = ({}: RootCategoryListTabProps) => {
                         ]}
                     >
                         <Input placeholder="Цвет, Размер, Материал и т.д." />
-                    </Form.Item>
+                    </Form.Item> */}
                 </Form>
             </Modal>
         </>

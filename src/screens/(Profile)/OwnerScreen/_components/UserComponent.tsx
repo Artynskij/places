@@ -13,7 +13,7 @@ import { useEffect } from "react";
 
 import { Loader } from "@/components/common/Loader/Loader";
 import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/default.const";
-import { getFormatDate } from "@/lib/helpers/getFormatDate";
+import { createFormatDate } from "@/lib/helpers/create-format-date";
 
 const UserComponent = () => {
     const t = useTranslations("ProfilePage.header");
@@ -77,7 +77,7 @@ const UserComponent = () => {
                 </h4>
                 <span className={style.bottom_mail}>{}</span>
                 <span className={style.bottom_date}>
-                    День регистрации: {getFormatDate(user.dateRegister)}
+                    День регистрации: {createFormatDate(user.dateRegister)}
                 </span>
             </div>
         </>

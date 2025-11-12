@@ -25,6 +25,6 @@ export const getUrlForUrl = (
     } else if (typeGlobal === "location") {
         return ROUTES.LOCATION.LOCATION(searchItem.id);
     } else {
-        return ROUTES.NEWS.NEWS("news", searchItem.id);
+        return ROUTES.NEWS.ARTICLE(searchItem.id);
     }
 };

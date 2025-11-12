@@ -5,7 +5,7 @@ export interface ICategoryRootEstablishmentRequest {
     source: {
         IsActive: boolean;
         Name: string;
-        RefName:string
+        RefName:string;
     };
     content: Omit<IContentSimpleEntity, "id">;
 }

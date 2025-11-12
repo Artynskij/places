@@ -12,6 +12,7 @@ import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoad
 import { ILocationTypeEntity } from "@/lib/models";
 import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
 import { LocationTypesService } from "@/lib/Api/location-types.api";
+import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
 
 const LocationTypesTabAdmin: React.FC = () => {
     const [locationTypes, setLocationTypes] = useState<ILocationTypeEntity[]>(
@@ -25,7 +26,6 @@ const LocationTypesTabAdmin: React.FC = () => {
 
     const services = useMemo(
         () => ({
-            dataLoadManager: new DataLoadManagementService(),
             locationTypes: new LocationTypesService(),
         }),
         []
@@ -33,7 +33,7 @@ const LocationTypesTabAdmin: React.FC = () => {
     const fetchLocationTypes = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await services.dataLoadManager.getTypesLocation();
+            const res = await services.locationTypes.getAll({});
             if (res) {
                 const types = res.map((item) => item.type);
                 setLocationTypes(types);
@@ -104,22 +104,19 @@ const LocationTypesTabAdmin: React.FC = () => {
 
     const locationTypeColumns: ColumnsType<ILocationTypeEntity> = [
         {
+            title: "ID",
+            width: 80,
+            dataIndex: "id",
+            key: "id",
+            render: (id: ILocationTypeEntity["Id"]) => {
+                return <CopyClipboardButton text={id} />;
+            },
+        },
+        {
             title: "Название",
             dataIndex: "Name",
             key: "Name",
         },
-        {
-            title: "ID",
-            dataIndex: "Id",
-            key: "Id",
-        },
-        // {
-        //     title: "Описание",
-        //     dataIndex: "Description",
-        //     key: "Description",
-        //     render: (description) => description || "-",
-        // },
-
         {
             title: "Действия",
             key: "actions",

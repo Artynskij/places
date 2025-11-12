@@ -50,9 +50,9 @@ export const ROUTES = {
         typeTag: "c" | "t"
     ) => `/${location}/${typeEst}/filter?filter=${typeTag}${tagId}`,
     NEWS: {
-        CATEGORY: (category: string) => `/news/${category}`,
-        NEWS: (category: TCategoriesNews, news: string) =>
-            `/news/${category}/${news}`,
+        TYPE: (type: string) => `/news/${type}`,
+        SUB_TYPE: (type: string, subType: string) => `/news/${type}/${subType}`,
+        ARTICLE: (article: string) => `/news/article/${article}`,
         AUTHOR: (author: string) => `/news/author/${author}`,
     },
     LOCATION: {
@@ -95,7 +95,7 @@ export const ROUTES = {
 
 export const ROUTES_FINDER = {
     location: (location: string) => ROUTES.LOCATION.LOCATION(location),
-    article: (news: string) => ROUTES.NEWS.NEWS("news", news),
+    article: (article: string) => ROUTES.NEWS.ARTICLE( article),
     establishment: (establishment: string) =>
         ROUTES.LOCATION.ESTABLISHMENT(
             "01JQW07E3T1TYF1S25MFZHR9G6",

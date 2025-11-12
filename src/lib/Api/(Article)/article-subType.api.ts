@@ -4,9 +4,9 @@ import {
     IArticleSubTypeRequest,
 } from "@/lib/models";
 import { BaseApiService } from "../base/BaseApi.service";
-import { BaseMapper } from "../base/BaseMapper";
+
 import apiClient from "../base/ApiClient";
-import { ArticleTypeMapper } from "./article-type.api";
+
 interface IConnectionSubTypeArticle {
     articleId: string;
     articleSubTypeId: string;

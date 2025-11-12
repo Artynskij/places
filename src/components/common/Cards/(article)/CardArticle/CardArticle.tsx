@@ -7,6 +7,7 @@ import { CONSTANTS_SCREENS } from "@/asset/constants/screens.const";
 import { IArticleFront } from "@/lib/models";
 import { ROUTES } from "@/lib/config/Routes";
 import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
+import { createFormatDate } from "@/lib/helpers/create-format-date";
 interface ICardNewsProp {
     article: IArticleFront;
     descriptionShow?: boolean;
@@ -22,7 +23,7 @@ export const CardArticle = ({
     if (!article) return <span>нету новости</span>;
     return (
         <Link
-            href={ROUTES.NEWS.NEWS("news", article.id)}
+            href={ROUTES.NEWS.ARTICLE(article.id)}
             className={`
         ${typeNew === "main" && style.card} 
         ${typeNew === "popular" && style.card_popular}
@@ -77,12 +78,11 @@ export const CardArticle = ({
                 )}
                 {typeNew === "main" && (
                     <div className={style.content_additional}>
+                        <div>{createFormatDate(article.publishedDate) || ""}</div>
                         <BlockReadTime
                             count={article.readingTime}
                             text={JSON.stringify(article.markdown)}
                         />
-
-                        <div>{article.author?.id || ""}</div>
                     </div>
                 )}
             </div>

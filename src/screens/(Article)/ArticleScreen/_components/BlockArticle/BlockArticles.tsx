@@ -27,8 +27,7 @@ interface IBlockArticles {
     article: IArticleFront | null;
     updateAnotherArticle: () => void;
     params: IBasePageProps["params"] & {
-        category: TCategoriesNews;
-        news: string;
+        article: string;
     };
 }
 export default function BlockArticles({
@@ -41,8 +40,6 @@ export default function BlockArticles({
         threshold: 0,
         rootMargin: "-50% 0px -50% 0px",
     });
-
-    const tCategoryNews = useTranslations("CategoryNews");
 
     useEffect(() => {
         if (observerUrl.inView && article) {
@@ -67,7 +64,7 @@ export default function BlockArticles({
             <div className={style.share}>
                 <BlockShare
                     baseUrl={baseUrl}
-                    linkPage={ROUTES.NEWS.NEWS("news", article.id)}
+                    linkPage={ROUTES.NEWS.ARTICLE(article.id)}
                     importTitle={article.title}
                 />
             </div>

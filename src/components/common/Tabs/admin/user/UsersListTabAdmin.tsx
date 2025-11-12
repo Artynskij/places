@@ -1,23 +1,19 @@
 "use client";
-import styles from "../admin.module.scss";
+
 import { useState, useEffect, useCallback, useMemo } from "react";
 import {
     Button,
     Card,
     Space,
     Table,
-    Spin,
     message,
-    Form,
     Modal,
     Input,
     Select,
     Tag,
     Avatar,
-    DatePicker,
 } from "antd";
 import {
-    EditOutlined,
     DeleteOutlined,
     UserOutlined,
     SearchOutlined,
@@ -27,6 +23,7 @@ import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 import { IPersonFront } from "@/lib/models";
+import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -39,7 +36,7 @@ interface IPerson extends IPersonFront {
 // Имитация API задержки
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export const UserAdminScreen = () => {
+export const UsersListTabAdmin = () => {
     const [persons, setPersons] = useState<IPerson[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -146,6 +143,15 @@ export const UserAdminScreen = () => {
     // Колонки таблицы
     const touristColumns: ColumnsType<IPerson> = [
         {
+            title: "ID",
+            dataIndex: "id",
+            key: "id",
+            width: 80,
+            render: (id: IPerson["id"]) => {
+                return <CopyClipboardButton text={id} />;
+            },
+        },
+        {
             title: "Аватар",
             dataIndex: "avatar",
             key: "avatar",
@@ -158,12 +164,6 @@ export const UserAdminScreen = () => {
                     style={{ backgroundColor: "#87d068" }}
                 />
             ),
-        },
-        {
-            title: "ID",
-            dataIndex: "id",
-            key: "id",
-            width: 120,
         },
         {
             title: "nickname",
