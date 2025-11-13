@@ -88,13 +88,13 @@ export const SocialContactsBlockForm: FC<Props> = ({
                             field.type.charAt(0).toUpperCase() +
                             field.type.slice(1)
                         }
-                        placeholder="Введите номер"
-                        type="number"
+                        placeholder={titleSpan === "Месенджеры" ? "Введите номер" : "Вставьте ссылку"}
+                        type={titleSpan === "Месенджеры" ? "number" : "text"}
                     />
                     <DeleteButton onClick={() => handleRemove(index)} />
                 </div>
-            ))}
-
+            ))} 
+            
             {availableTypes.length > 0 && (
                 <div className={style.selectSocialCtn}>
                     <div>{titleSpan}</div>
