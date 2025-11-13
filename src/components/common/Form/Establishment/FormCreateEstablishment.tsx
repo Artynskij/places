@@ -263,7 +263,7 @@ const FormCreateEstablishmentBase = ({
                         defaultValue={[]}
                         render={({ field, fieldState }) => (
                             <>
-                                <BlockExtraInfo text={typeUser === 'owner' ? "Необходимо загрузить хотя бы 5 фотографий " : 'Необходимо загрузить хотя бы 1 фотогрфию'} />
+                                <BlockExtraInfo text={typeUser === 'owner' ? "Необходимо загрузить хотя бы 5 фотографий " : 'Необходимо загрузить хотя бы 1 фотографию'} />
                                 <PhotoBlockForm
                                     error={fieldState.error || null}
                                     onChange={field.onChange}
@@ -333,6 +333,7 @@ const FormCreateEstablishmentBase = ({
                                         [index: number]: { url?: FieldError };
                                     }
                                 }
+                                
                             />
                         )}
                     />

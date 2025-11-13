@@ -52,8 +52,6 @@ const UserComponent = ({ }: IUserComponent) => {
     );
 
     if (!user) return <Loader />;
-
-
     return (
         <>
             <div className={style.container}>
