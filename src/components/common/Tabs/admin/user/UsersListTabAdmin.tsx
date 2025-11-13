@@ -12,6 +12,7 @@ import {
     Select,
     Tag,
     Avatar,
+    Tooltip,
 } from "antd";
 import {
     DeleteOutlined,
@@ -24,6 +25,7 @@ import dayjs from "dayjs";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
 import { IPersonFront } from "@/lib/models";
 import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
+import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -110,18 +112,7 @@ export const UsersListTabAdmin = () => {
     };
 
     const handleDelete = (id: string) => {
-        Modal.confirm({
-            title: "Подтверждение удаления",
-            content: "Вы уверены, что хотите удалить этого туриста?",
-            okText: "Удалить",
-            cancelText: "Отмена",
-            okType: "danger",
-            onOk: async () => {
-                await delay(300);
-                setPersons(persons.filter((p) => p.id !== id));
-                message.success("Турист удален");
-            },
-        });
+        message.error("Невозможно удалить");
     };
 
     const handleStatusChange = async (id: string, newStatus: string) => {
@@ -175,7 +166,7 @@ export const UsersListTabAdmin = () => {
             title: "ФИО",
             dataIndex: "personName",
             key: "fullName",
-            responsive: ["md"],
+
             render: (personName) =>
                 personName?.originalFullName ||
                 personName?.fullName || (
@@ -186,7 +177,7 @@ export const UsersListTabAdmin = () => {
             title: "Пол",
             dataIndex: "gender",
             key: "gender",
-            responsive: ["md"],
+
             render: (gender) =>
                 gender?.value || (
                     <span style={{ color: "red" }}>не заполнено</span>
@@ -196,7 +187,7 @@ export const UsersListTabAdmin = () => {
             title: "Email",
             dataIndex: "contacts",
             key: "email",
-            responsive: ["lg"],
+
             render: (contacts) =>
                 contacts?.email || (
                     <span style={{ color: "red" }}>не заполнено</span>
@@ -206,8 +197,7 @@ export const UsersListTabAdmin = () => {
             title: "Страна",
             dataIndex: "contacts",
             key: "country",
-            responsive: ["lg"],
-            // sorter: (a, b) => a.country.localeCompare(b.country),
+
             render: (contacts) =>
                 contacts?.address?.country || (
                     <span style={{ color: "red" }}>не заполнено</span>
@@ -217,7 +207,7 @@ export const UsersListTabAdmin = () => {
             title: "Город",
             dataIndex: "contacts",
             key: "city",
-            responsive: ["lg"],
+
             render: (contacts) =>
                 contacts?.address?.town || (
                     <span style={{ color: "red" }}>не заполнено</span>
@@ -227,17 +217,15 @@ export const UsersListTabAdmin = () => {
             title: "Владелец",
             dataIndex: "isVerified",
             key: "isVerified",
-            responsive: ["xl"],
+
             render: (isVerified) => (isVerified ? "да" : "нет"),
         },
         {
             title: "Дата создания",
             dataIndex: "dateRegister",
             key: "dateRegister",
-            responsive: ["xl"],
+
             render: (date) => dayjs(date).format("DD.MM.YYYY"),
-            sorter: (a, b) =>
-                dayjs(a.dateRegister).unix() - dayjs(b.dateRegister).unix(),
         },
         {
             title: "Статус",
@@ -251,11 +239,6 @@ export const UsersListTabAdmin = () => {
                     <Tag color={statusOption?.color}>{statusOption?.label}</Tag>
                 );
             },
-            filters: statusOptions.map((opt) => ({
-                text: opt.label,
-                value: opt.value,
-            })),
-            onFilter: (value, record) => record.status === value,
         },
         {
             title: "Действия",
@@ -279,13 +262,20 @@ export const UsersListTabAdmin = () => {
                             </Option>
                         ))}
                     </Select>
-
-                    <Button
-                        danger
-                        icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(record.id)}
-                        size="small"
-                    />
+                    <ModalConfirm
+                        title="Удаление пользователя"
+                        content="Вы уверены, что хотите удалить пользователя?"
+                        handlerAction={() => handleDelete(record.id)}
+                    >
+                        <Tooltip title={"Удалить"}>
+                            <Button
+                                danger
+                                icon={<DeleteOutlined />}
+                                size="small"
+                                disabled={true}
+                            />
+                        </Tooltip>
+                    </ModalConfirm>
                 </Space>
             ),
         },
@@ -311,8 +301,6 @@ export const UsersListTabAdmin = () => {
                     onSearch={fetchById}
                     allowClear
                     loading={searchLoading}
-                    style={{ width: 200 }}
-                    enterButton={<SearchOutlined />}
                 />
 
                 <Search
@@ -320,8 +308,6 @@ export const UsersListTabAdmin = () => {
                     onSearch={fetchByUsername}
                     allowClear
                     loading={searchLoading}
-                    style={{ width: 250 }}
-                    enterButton={<SearchOutlined />}
                 />
 
                 <span>Найдено: {persons.length} туристов</span>

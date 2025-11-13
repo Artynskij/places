@@ -4,6 +4,7 @@ export * from "./(Establishment)/establishment.response";
 export * from "./(Establishment)/rate-establishment.response";
 export * from "./(Establishment)/schedule.response";
 export * from "./(Establishment)/tags.response";
+export * from "./business.response";
 export * from "./consumption.response";
 export * from "./fileUpload.response";
 export * from "./invites.response";
