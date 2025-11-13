@@ -14,3 +14,4 @@ export interface ILocationFront {
     media: IMediaFront[] | null;
     content?: IContentSimpleEntityWithMedia;
 }
+

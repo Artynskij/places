@@ -180,7 +180,7 @@ export const FormSoleProprietor = ({ business, mode, closeModal }: IProp) => {
 
             <div className={style.selectionBlock}>
                 <div className={style.selectionBlock_title}>
-                    Адрес регистрации владельца бизнеса
+                    Юридический адрес
                 </div>
 
                 <InputForm

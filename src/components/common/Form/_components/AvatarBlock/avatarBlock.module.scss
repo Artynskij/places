@@ -24,7 +24,7 @@
         border: 5px solid $color-main-blue_hover;
         border-radius: $border-radius-5;
         &_image {
-            // border-radius: $border-radius-5;
+          object-fit: cover;
         }
     }
 }

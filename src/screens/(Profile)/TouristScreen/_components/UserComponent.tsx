@@ -1,14 +1,10 @@
 "use client";
 import { Button } from "@/components/UI/Button/Button";
 import style from "./userComponent.module.scss";
-
 import Image from "next/image";
-
 import Link from "next/link";
-
 import { IconEdit, IconEye, IconSettings } from "@/components/common/Icons";
 import { ROUTES } from "@/lib/config/Routes";
-
 import { useUser } from "@/lib/context/UserContext/UserContext";
 import { useEffect, useMemo, useState } from "react";
 import { PersonService } from "@/lib/Api/(Person)/person/person.service";
@@ -19,35 +15,45 @@ import { Loader } from "@/components/common/Loader/Loader";
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import { IUser } from "@/lib/models/common/IUser";
 import { getFormatDate } from "@/lib/helpers/getFormatDate";
-import { ITravelProgressFront } from "@/lib/models";
+import { IPersonTravelMarkFront, ITravelProgressFront } from "@/lib/models";
+import { BlockWorldVisited } from "@/components/common/BlockFunctional/BlockWorldVisited";
+import { PersonTravelMarkService } from "@/lib/Api/(Person)/personTravelMark.api";
 interface IUserComponent {
     // dataUser: (typeof mockTourist)[0];
 }
-const UserComponent = ({}: IUserComponent) => {
+const UserComponent = ({ }: IUserComponent) => {
     const services = useMemo(
         () => ({
             person: new PersonService(),
+            personTravelMark: new PersonTravelMarkService(),
         }),
         []
     );
 
     const { user } = useUser();
-    const [travelProgress, setTravelProgress] =
-        useState<ITravelProgressFront>();
+    const [travelProgress, setTravelProgress] = useState<ITravelProgressFront>();
+    const [marks, setMarks] = useState<IPersonTravelMarkFront[]>([]);
 
     useEffect(() => {
-        if (!user) {
-            return;
-        }
+        if (!user) return;
 
         services.person.getTravelProgress(user.id).then((res) => {
-            if (res) {
-                setTravelProgress(res);
-            }
+            if (res) setTravelProgress(res);
+        });
+
+        services.personTravelMark.getByPersonId(user.id).then((res) => {
+            if (res) setMarks(res);
         });
     }, [services, user]);
 
+    const visitedList = useMemo(
+        () => marks.filter((m) => m.isVisited),
+        [marks]
+    );
+
     if (!user) return <Loader />;
+
+
     return (
         <>
             <div className={style.container}>
@@ -67,15 +73,15 @@ const UserComponent = ({}: IUserComponent) => {
                         <div className={style.info_name}>
                             <span>
                                 {user.personName?.surname ||
-                                user.personName?.name ||
-                                user.personName?.secondName
+                                    user.personName?.name ||
+                                    user.personName?.secondName
                                     ? [
-                                          user.personName?.surname,
-                                          user.personName?.name,
-                                          user.personName?.secondName,
-                                      ]
-                                          .filter(Boolean)
-                                          .join(" ")
+                                        user.personName?.surname,
+                                        user.personName?.name,
+                                        user.personName?.secondName,
+                                    ]
+                                        .filter(Boolean)
+                                        .join(" ")
                                     : "(заполните имя)"}
                             </span>
                             {/* <SubscribeButton /> */}
@@ -94,7 +100,7 @@ const UserComponent = ({}: IUserComponent) => {
                         )} */}
 
                         {user.contacts?.address?.town ||
-                        user.contacts?.address?.country ? (
+                            user.contacts?.address?.country ? (
                             <div className={style.info_hometown}>
                                 Я из:{" "}
                                 {[
@@ -109,13 +115,14 @@ const UserComponent = ({}: IUserComponent) => {
                         <div className={style.info_register_block}>
                             День регистрации: {getFormatDate(user.dateRegister)}
                         </div>
-                        {travelProgress && (
+                        {/* {travelProgress && (
                             <div className={style.info_travel_block}>
                                 Посетил:{" "}
                                 {`${travelProgress.visitedCount} города(ов)`}-
                                 {`${travelProgress.percentage}% мира`}.
                             </div>
-                        )}
+                        )} */}
+                        <BlockWorldVisited travelMarks={visitedList} />
 
                         {user.aboutDescription && (
                             <div className={style.info_description}>

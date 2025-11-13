@@ -218,6 +218,7 @@ export const FormIndividual = ({ business, mode, closeModal }: IProp) => {
                 <div className={style.selectionBlock_title}>
                     Документы подтверждающие личность
                 </div>
+                
                 <div className={style.selectionBlock_content}>
                     <Controller
                         name="documentsVerify"

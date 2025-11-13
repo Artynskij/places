@@ -101,7 +101,7 @@ const AddressBlockForm: React.FC<Props> = ({ locationId, onChange, error }) => {
         <div className={style.addressBlock}>
             <div ref={refDropdown} className={style.dropdown}>
                 <InputForm
-                    titleSpan="Введите гоород, либо иной регион вашего объекта*"
+                    titleSpan="Введите город, либо иной регион вашего объекта*"
                     placeholder="Название локации"
                     type="text"
                     value={search}

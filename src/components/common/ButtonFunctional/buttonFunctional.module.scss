@@ -8,6 +8,7 @@
     align-items: center;
     gap: $gap-small;
 }
+
 .share_popup,
 .contact_popup,
 .schedule_popup {
@@ -23,17 +24,21 @@
     @extend %Text14;
     transform: scale(0);
     width: max-content;
+
     &_active {
         transform: scale(1);
     }
+
     & h4 {
         padding-bottom: 5px;
         border-bottom: 1px solid $color-main-black;
     }
 }
+
 .share {
     position: relative;
     transition: $transition;
+
     // &:hover {
     //   color: $color-main-gold;
     // }
@@ -44,6 +49,7 @@
         gap: $gap-small;
         cursor: pointer;
         transition: $transition;
+
         &.active {
             color: $color-main-gold;
         }
@@ -52,30 +58,34 @@
     &_popup_list {
         display: flex;
         gap: $gap-small;
+
         & a {
             display: flex;
             align-items: center;
         }
+
         &_item {
             font-size: 20px;
         }
     }
-    &_visible {
-    }
+
+    &_visible {}
 }
 
-.like {
-}
+.like {}
+
 .contact {
     &_popup {
         right: auto;
         padding: 20px;
+
         .contact &_list {
             cursor: default;
             display: flex;
             flex-direction: column;
             gap: $gap-medium;
             padding: 10px 0;
+
             &_item a {
                 display: flex;
                 align-items: center;
@@ -86,27 +96,32 @@
                     color: $color-main-black;
                     transition: $transition;
                 }
+
                 &:hover span {
                     color: $color-main-gold;
                 }
             }
+
             &_item_icon {
                 font-size: 16px;
             }
         }
     }
 }
+
 .schedule {
     &_popup {
         cursor: default;
         right: 0;
         padding: 20px;
+
         .schedule &_list {
             cursor: default;
             display: flex;
             flex-direction: column;
             gap: $gap-medium;
             padding: 10px 0;
+
             &_item {
                 display: flex;
                 align-items: center;
@@ -115,18 +130,20 @@
                 transition: $transition;
                 color: $color-main-black;
             }
+
             &_item_icon {
                 font-size: 16px;
             }
         }
     }
 }
+
 .uploadButton {
     display: flex;
     flex-direction: column;
     gap: $gap-small;
     position: relative;
-
+    margin-top: 10px;
     width: 100%;
 
     .oldFiles_block {
@@ -134,10 +151,12 @@
         grid-template-columns: repeat(3, 1fr);
         gap: $gap-small;
     }
+
     &_text {
         @extend %Text16;
     }
 }
+
 .delete {
     font-size: 50px;
     padding: 10px;
@@ -145,27 +164,33 @@
     color: red;
     cursor: pointer;
     transition: $transition;
+
     &:hover {
         color: rgb(92, 22, 22);
     }
 }
+
 .copyString {
     margin: 0 4px;
+
     &_icon {
         color: $color-main-black !important;
         transition: $transition;
     }
+
     &:hover {
         .copyString_icon {
             color: $color-main-blue_hover !important;
         }
     }
 }
+
 @include mediaPhone {
     .share_popup {
         &_list {
             justify-content: space-between;
             flex-wrap: wrap;
+
             &_item {
                 font-size: 30px;
             }

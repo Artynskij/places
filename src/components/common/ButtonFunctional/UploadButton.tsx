@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import style from "./buttonFunctional.module.scss";
-import { InboxOutlined } from "@ant-design/icons";
+import { DeleteOutlined, InboxOutlined } from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd";
 import { Upload } from "antd";
 import { RcFile } from "antd/es/upload";
@@ -15,6 +15,7 @@ import Image from "next/image";
 
 import clsx from 'clsx'
 
+
 const { Dragger } = Upload;
 
 interface Props {
@@ -22,18 +23,15 @@ interface Props {
     titleButton?: string;
     titleHelp?: string;
     className?: string;
-
     onChange?: (files: File[]) => void;
     value?: (File | undefined)[];
     downloadedValue?: IMediaFront[] | null;
     error: FieldError | null;
-
     accept?: "image" | "doc" | "video" | "all";
     maxSizeMB?: number;
     maxCount?: number;
     multiple?: boolean;
     action?: string;
-
     disabled?: boolean;
     type?: "box" | "avatar";
 }
@@ -43,7 +41,6 @@ export const UploadButton: React.FC<Props> = ({
     maxSizeMB,
     maxCount = 5,
     multiple = true,
-
     disabled = false,
     onChange,
     error,
@@ -55,7 +52,7 @@ export const UploadButton: React.FC<Props> = ({
     const message = useAlertMessage();
 
     const ACCEPT_MIME_MAP: Record<NonNullable<Props["accept"]>, string> = {
-        image: ".jpg,.jpeg,.png,.webp,.gif,.svg,.avif",
+        image: ".jpg,.jpeg,.png,.webp,.gif,.svg,.avif,.pdf",
         doc: ".pdf,.doc,.docx,.txt,.rtf",
         video: ".mp4,.webm,.ogg,.mov,.avi,.mkv",
         all: "*/*",
@@ -135,7 +132,6 @@ export const UploadButton: React.FC<Props> = ({
     const props: UploadProps = {
         name: "file",
         multiple,
-
         accept: resolvedAccept,
         maxCount,
         disabled,
@@ -178,11 +174,34 @@ export const UploadButton: React.FC<Props> = ({
     };
 
     return (
-        <div style={{width: '100%'}}>
-            <div className={clsx(style.uploadButton, !!className&&className)}>
+        <div style={{ width: '100%' }}>
+
+            <div className={clsx(style.uploadButton, !!className && className)}>
                 <Dragger
                     style={error?.message ? inlineStyles.error : {}}
                     {...props}
+                    
+                    // showUploadList={false}
+                    itemRender={(originNode, file, fileList, actions) => {
+                        return (
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    width: "100%",
+                                }}
+                            >
+                                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                    <DeleteOutlined
+                                        onClick={actions.remove}
+                                        style={{ color: "red", cursor: "pointer" }}
+                                    />
+                                    <span>{file.name}</span>
+                                </div>
+                            </div>
+                        );
+                    }}
                 >
                     {/* <div className={style.oldFiles_block}>
                     {downloadedValue?.map((media) => {
@@ -207,8 +226,7 @@ export const UploadButton: React.FC<Props> = ({
                                 Кликните или перетащите файл для загрузки
                             </p>
                             <p className={style.uploadButton_text}>
-                                Допустимые форматы:{" "}
-                                {resolvedAccept?.replaceAll(".", " ")}.
+                                Допустимые форматы: {accept === 'all' ? 'все форматы' : resolvedAccept?.replaceAll('.', ' ').replaceAll(',', ', ')}.
                             </p>
                             <p className={style.uploadButton_text}>
                                 Размер каждого файла должен быть не более 47 Мб.

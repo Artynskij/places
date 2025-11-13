@@ -46,6 +46,8 @@ import { PersonNameService } from "@/lib/Api/(Person)/personName.api";
 import { validationPersonOwner } from "@/lib/validationSchemas/person/personValid.schema";
 import { GeneralPersonService } from "@/lib/Api/(MainService)/person.general";
 import { ModerationService } from "@/lib/Api/moderation/moderation.service";
+import { BlockExtraInfo } from "../../BlockFunctional/BlockExtraInfo";
+
 // import { PersonNameService } from "@/lib/Api/(Person)/personName/personName.service";
 
 type TTypeForm = Yup.InferType<typeof validationPersonOwner>;
@@ -202,7 +204,7 @@ export const FormSettingsOwner = () => {
                                         handlerDeleteAvatar={
                                             handlerDeleteAvatar
                                         }
-                                        // className={style.avatar_upload}
+                                    // className={style.avatar_upload}
                                     />
                                 )}
                             />
@@ -268,40 +270,45 @@ export const FormSettingsOwner = () => {
                     Прикрепление подтверждающих документов*
                 </div>
                 <div className={style.selectionBlock_content}>
-                    <Controller
-                        control={control}
-                        name="passportDocument"
-                        render={({ field, fieldState }) => (
-                            <>
-                                <UploadButton
-                                    type="box"
-                                    titleSpan="Загрузить документ"
-                                    titleButton="загрузить документ"
-                                    accept="image"
-                                    value={field.value}
-                                    maxCount={5}
-                                    onChange={field.onChange}
-                                    error={fieldState.error || null}
-                                    className={style.document_upload}
-                                />
-                                <ul className={style.document_list}>
-                                    {field.value &&
-                                        field.value.length > 0 &&
-                                        field.value?.map((doc, index) => {
-                                            if (!doc) return null;
-                                            return (
-                                                <li key={doc.name}>
-                                                    {index + 1}. {doc.name}
-                                                </li>
-                                            );
-                                        })}
-                                </ul>
-                            </>
-                        )}
-                    />
+                    <div>
+                        <Controller
+                            control={control}
+                            name="passportDocument"
+                            render={({ field, fieldState }) => (
+
+                                <>
+                                    <BlockExtraInfo text="Прикрепите удостоверение личности (страницы, на которых указана информация по ФИО, данные удостоверения личности)" />
+
+                                    <UploadButton
+                                        type="box"
+                                        titleSpan="Загрузить документ"
+                                        titleButton="загрузить документ"
+                                        accept="image"
+                                        value={field.value}
+                                        maxCount={5}
+                                        onChange={field.onChange}
+                                        error={fieldState.error || null}
+                                        className={style.document_upload}
+                                    />
+
+                                    <ul className={style.document_list}>
+                                        {field.value &&
+                                            field.value.length > 0 &&
+                                            field.value?.map((doc, index) => {
+                                                if (!doc) return null;
+                                                return (
+                                                    <li key={doc.name}>
+                                                        {index + 1}. {doc.name}
+                                                    </li>
+                                                );
+                                            })}
+                                    </ul>
+                                </>
+                            )}
+                        />
+                    </div>
                 </div>
             </div>
-
             <Button
                 className={style.buttonSubmit}
                 typeLogic="submit"
