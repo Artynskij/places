@@ -17,7 +17,7 @@ interface Props {
 }
 
 const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
-    const tTags = useTranslations("Tags");
+    // const tTags = useTranslations("Tags");
     const services = useMemo(
         () => ({
             tag: new DataLoadManagementService(),
@@ -28,7 +28,9 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
     const locale = useLocale();
     const [activePopup, setActivePopup] = useState(false);
     const [tagsGrouped, setTagsGrouped] = useState<ITagBlockFront[]>([]);
-    const [expandedGroups, setExpandedGroups] = useState<{ [key: string]: boolean }>({});
+    const [expandedGroups, setExpandedGroups] = useState<{
+        [key: string]: boolean;
+    }>({});
 
     useEffect(() => {
         services.tag.getBlockTags(locale).then((res) => {
@@ -44,7 +46,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
 
         if (isCurrentlySelected) {
             // Удаляем тег
-            newSelectedTags = selectedTags.filter(id => id !== stringTagId);
+            newSelectedTags = selectedTags.filter((id) => id !== stringTagId);
         } else {
             // Добавляем тег
             newSelectedTags = [...selectedTags, stringTagId];
@@ -66,9 +68,9 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
     };
 
     const toggleGroupExpansion = (groupKey: string) => {
-        setExpandedGroups(prev => ({
+        setExpandedGroups((prev) => ({
             ...prev,
-            [groupKey]: !prev[groupKey]
+            [groupKey]: !prev[groupKey],
         }));
     };
 
@@ -81,7 +83,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
         return (
             <div key={groupKey} className={style.tagGroup}>
                 <h4 className={style.tagGroup_title}>
-                    {tTags(groupKey)}:
+                    {group.groupKey.value}:
                 </h4>
                 <div className={style.tagList}>
                     {displayTags.map((tag) => {
@@ -95,10 +97,10 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
                                 color={isSelected ? "gold" : "default"}
                                 onClick={() => handleTagToggle(tagId)}
                                 style={{
-                                    cursor: 'pointer',
-                                    marginBottom: '8px',
-                                    padding: '3px 6px',
-                                    border: isSelected ? '1px solid gold' : ''
+                                    cursor: "pointer",
+                                    marginBottom: "8px",
+                                    padding: "3px 6px",
+                                    border: isSelected ? "1px solid gold" : "",
                                 }}
                             >
                                 {tag.value}
@@ -115,17 +117,17 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
                     // />
 
                     <Tag
-
                         color="blue"
                         onClick={() => toggleGroupExpansion(groupKey)}
                         style={{
-                            cursor: 'pointer',
-                            marginBottom: '8px',
-                            padding: '3px 6px',
-
+                            cursor: "pointer",
+                            marginBottom: "8px",
+                            padding: "3px 6px",
                         }}
                     >
-                        {isExpanded ? "Скрыть" : `Показать все (${group.tags.length})`}
+                        {isExpanded
+                            ? "Скрыть"
+                            : `Показать все (${group.tags.length})`}
                     </Tag>
                 )}
             </div>
@@ -165,7 +167,7 @@ const TagBlockForm = ({ selectedTags = [], onChange, error }: Props) => {
                     <div className={style.selectedTags}>
                         {selectedTags.map((id) => (
                             <Tag
-                                style={{ marginBottom: '8px' }}
+                                style={{ marginBottom: "8px" }}
                                 key={id}
                                 color="blue"
                                 closable

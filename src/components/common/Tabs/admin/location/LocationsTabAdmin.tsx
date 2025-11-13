@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { ILocationFront, ISearchItemFront } from "@/lib/models";
+import { ILocationFront, IOption, ISearchItemFront } from "@/lib/models";
 import {
     Button,
     Card,
@@ -14,6 +14,7 @@ import {
     Form,
     Upload,
     Tag,
+    Tooltip,
 } from "antd";
 import {
     PlusOutlined,
@@ -35,9 +36,12 @@ import type { UploadFile } from "antd/es/upload/interface";
 import { LanguageManagerBlock } from "@/components/common/Form/_components/LanguageManagerBlock/LanguageManagerBlock";
 import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
+import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
+import { LocationTypesService } from "@/lib/Api/location-types.api";
 
 const { Search } = Input;
-type TOption = { label: string; value: string };
+const { Option } = Select;
+
 type TDetails = { lang: TLocale; value: string };
 interface LocationFormValues {
     locationType: string;
@@ -53,15 +57,16 @@ const LocationsTabAdmin: React.FC = () => {
     const [totalLocations, setTotalLocations] = useState(0);
 
     const [locations, setLocations] = useState<ILocationFront[]>([]);
+    const [locationIdFind, setLocationIdFind] = useState<string | null>("");
     const [editLocation, setEditLocation] = useState<ILocationFront | null>(
         null
     );
-    const [typesLocationsData, setTypesLocationsData] = useState<TOption[]>([]);
+    const [typesLocationsData, setTypesLocationsData] = useState<IOption[]>([]);
 
     const [filterTypeLocationIds, setFilterTypeLocationIds] = useState<
         string[] | null
     >(null);
-    const [searchOptions, setSearchOptions] = useState<TOption[]>([]);
+    const [searchOptions, setSearchOptions] = useState<IOption[]>([]);
 
     const [isLoading, setIsLoading] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
@@ -74,6 +79,7 @@ const LocationsTabAdmin: React.FC = () => {
     const services = useMemo(
         () => ({
             location: new LocationService(),
+            locationType: new LocationTypesService(),
             fileUpload: new FileUploadService(),
             dataLoadManager: new DataLoadManagementService(),
             moderation: new ModerationService(),
@@ -83,6 +89,7 @@ const LocationsTabAdmin: React.FC = () => {
     );
     const fetchAll = useCallback(async () => {
         setIsLoading(true);
+
         try {
             const responseLocation = await services.location.getAll({
                 pagination: { page: currentPage, pageSize: pageSize },
@@ -95,25 +102,64 @@ const LocationsTabAdmin: React.FC = () => {
             }
             setTotalLocations(responseLocation?.info.total || 0);
             setLocations(responseLocation.locations);
-            message.info("обновлено");
         } catch {
             message.error("Ошибка загрузки локаций");
         } finally {
             setIsLoading(false);
         }
     }, [currentPage, pageSize, filterTypeLocationIds, services]);
+    const fetchById = useCallback(
+        async (id: string) => {
+            setIsLoading(true);
+            try {
+                const [locationById, locationsInside] = await Promise.all([
+                    services.location.getById(id),
+                    services.location.getAll({
+                        pagination: { page: 1, pageSize: 1000 },
+                        locationId: id,
+                        locationTypeIds: filterTypeLocationIds,
+                    }),
+                ]);
+
+                if (!locationById) {
+                    throw Error("Локация не найдена");
+                }
+
+                const locationsInsideFiltered = (
+                    locationsInside?.locations || []
+                ).filter((item) => item.id !== locationById.id);
+                setLocations([locationById, ...locationsInsideFiltered]);
+                setTotalLocations(locationsInside?.info.total || 0);
+            } catch {
+                message.error("Локация не найдена");
+            } finally {
+                setIsLoading(false);
+            }
+        },
+        [services, filterTypeLocationIds]
+    );
+    const handleRefresh = useCallback(async () => {
+        if (locationIdFind) {
+            await fetchById(locationIdFind);
+        } else {
+            await fetchAll();
+        }
+
+        message.info("Обновлено");
+    }, [fetchAll, locationIdFind, fetchById]);
     const initializeData = useCallback(async () => {
         setIsLoading(true);
         try {
-            const [typesData, locationsData] = await Promise.all([
-                services.dataLoadManager.getTypesLocation(),
-                fetchAll,
+            const [typesData] = await Promise.all([
+                services.locationType.getAll(),
+                // handleRefresh,
             ]);
 
             if (typesData) {
                 const transformData = typesData.map((item) => ({
                     label: item.type.Name,
                     value: item.type.Id,
+                    id: item.type.Id,
                 }));
                 setTypesLocationsData(transformData);
             }
@@ -122,14 +168,20 @@ const LocationsTabAdmin: React.FC = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [services, fetchAll]);
+    }, [services]);
     useEffect(() => {
         initializeData();
     }, [initializeData]);
     // обновление
     useEffect(() => {
-        fetchAll();
-    }, [fetchAll, currentPage, pageSize, filterTypeLocationIds]);
+        handleRefresh();
+    }, [
+        currentPage,
+        pageSize,
+        filterTypeLocationIds,
+        handleRefresh,
+        locationIdFind,
+    ]);
 
     // редактирование
     useEffect(() => {
@@ -156,33 +208,6 @@ const LocationsTabAdmin: React.FC = () => {
             setLanguageDetails(CONSTANT_LANGS_DETAILS);
         }
     }, [editLocation, isModalActive, form]);
-
-    const fetchById = async (id: string) => {
-        setIsLoading(true);
-        try {
-            const [locationById, locationsInside] = await Promise.all([
-                services.location.getById(id),
-                services.location.getAll({
-                    pagination: { page: 1, pageSize: 1000 },
-                    locationId: id,
-                }),
-            ]);
-
-            if (!locationById) {
-                throw Error("Локация не найдена");
-            }
-
-            const locationsInsideFiltered = (
-                locationsInside?.locations || []
-            ).filter((item) => item.id !== locationById.id);
-            setLocations([locationById, ...locationsInsideFiltered]);
-            setTotalLocations(locationsInside?.info.total || 0);
-        } catch {
-            message.error("Локация не найдена");
-        } finally {
-            setIsLoading(false);
-        }
-    };
 
     const findSearchLocationByTitle = async (title: string) => {
         if (!title.trim()) {
@@ -235,6 +260,36 @@ const LocationsTabAdmin: React.FC = () => {
     ) => {
         setLanguageDetails(details);
     };
+    const handleChangeTypLocation = async (
+        idLocation: string,
+        idType: string
+    ) => {
+        if (!user) {
+            return;
+        }
+        setIsLoading(true);
+        const moderationObject = await services.moderation.getModerationData(
+            user.id
+        );
+
+        if (!moderationObject) {
+            message.error("Ошибка с получением токенов модерации");
+            setIsLoading(false);
+            return;
+        }
+        const resUpdate = await services.location.update(idLocation, {
+            moderation: moderationObject,
+            data: { source: { LocationType: idType } },
+        });
+        if (resUpdate) {
+            message.success("Статус обновлен");
+        } else {
+            message.success("Ошибка при обновлении статуса");
+        }
+        setIsLoading(false);
+        handleRefresh();
+    };
+
     // Обработчик изменения страницы
     const handlePageChange = (page: number, newPageSize?: number) => {
         setCurrentPage(page);
@@ -302,7 +357,7 @@ const LocationsTabAdmin: React.FC = () => {
 
                 if (updatedLocation) {
                     message.success("Локация обновлена");
-                    fetchAll();
+                    handleRefresh();
                     handleModalClose();
                 } else {
                     message.error("Ошибка при обновлении локации");
@@ -310,7 +365,7 @@ const LocationsTabAdmin: React.FC = () => {
             } else {
                 // TODO: Реализовать создание новой локации
                 message.info("Пока не возможно");
-                fetchAll();
+                handleRefresh();
                 handleModalClose();
             }
         } catch (error) {
@@ -322,9 +377,17 @@ const LocationsTabAdmin: React.FC = () => {
     };
 
     const locationColumns: ColumnsType<ILocationFront> = [
+        {
+            title: "ID",
+            dataIndex: "id",
+            key: "id",
+            render: (id: ILocationFront["id"]) => {
+                return <CopyClipboardButton text={id} />;
+            },
+        },
         { title: "Название", dataIndex: "title", key: "title" },
         {
-            title: "Название",
+            title: "Страна",
             dataIndex: "country",
             key: "title",
             render: (country: ILocationFront["country"]) => (
@@ -339,11 +402,35 @@ const LocationsTabAdmin: React.FC = () => {
                 </Space>
             ),
         },
-        { title: "ID", dataIndex: "id", key: "id" },
+
         {
             title: "Тип локации",
-            dataIndex: ["locationType", "title"],
+            dataIndex: ["locationType"],
             key: "locationType",
+            render: (locationType: ILocationFront["locationType"], record) => {
+                return (
+                    <Tooltip title={"Изменить статус"}>
+                        <Select
+                            size="small"
+                            style={{ width: 140 }}
+                            defaultValue={locationType?.id}
+                            onChange={(selectedValue) => {
+                                handleChangeTypLocation(
+                                    record.id,
+                                    selectedValue
+                                );
+                            }}
+                            placeholder="Изменить статус"
+                        >
+                            {typesLocationsData.map((option) => (
+                                <Option key={option.id} value={option.value}>
+                                    {option.label}
+                                </Option>
+                            ))}
+                        </Select>
+                    </Tooltip>
+                );
+            },
         },
         {
             title: "Языки",
@@ -411,19 +498,19 @@ const LocationsTabAdmin: React.FC = () => {
                             icon={<ReloadOutlined />}
                             onClick={() => {
                                 initializeData();
+                                handleRefresh();
                             }}
                             loading={isLoading}
                         />
                     </Space>
                 }
-                title={`Управление локациями - ${totalLocations}`}
+                title={`Локации - ${totalLocations}`}
             >
                 <Space style={{ marginBottom: 16 }}>
                     <Search
                         placeholder="Поиск по ID"
                         onSearch={(value) => {
-                            if (!value) return fetchAll();
-                            fetchById(value);
+                            setLocationIdFind(!!value ? value : null);
                         }}
                         allowClear
                         loading={isLoading}
@@ -433,13 +520,13 @@ const LocationsTabAdmin: React.FC = () => {
                         showSearch
                         placeholder="Поиск по названию"
                         onSearch={findSearchLocationByTitle}
-                        onSelect={(id) => fetchById(id)}
+                        onSelect={(id) => setLocationIdFind(id)}
                         filterOption={false}
                         notFoundContent={null}
                         style={{ width: 300 }}
                         options={searchOptions}
                         onClear={() => {
-                            fetchAll();
+                            setLocationIdFind(null);
                         }}
                         allowClear
                     />
@@ -454,7 +541,6 @@ const LocationsTabAdmin: React.FC = () => {
                         }
                         style={{ width: 200 }}
                         onChange={(ids) => {
-                            console.log(ids);
                             setFilterTypeLocationIds(!!ids ? ids : null);
                         }}
                         options={typesLocationsData}
@@ -488,8 +574,9 @@ const LocationsTabAdmin: React.FC = () => {
                 okText={editLocation ? "Сохранить" : "Создать"}
                 cancelText="Отмена"
                 confirmLoading={isModalLoading}
+                onOk={handleSubmit}
             >
-                <Form form={form} layout="vertical" onFinish={handleSubmit}>
+                <Form form={form} layout="vertical">
                     <LanguageManagerBlock
                         value={languageDetails}
                         onChange={handleLanguageDetailsChange}

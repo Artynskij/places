@@ -17,14 +17,20 @@ export class DataLoadManagementMapper {
             (acc, tag) => {
                 const detail = tag.content.details[0];
                 const tagCategory = tag.tag.TagCategory;
-                const groupKey = tagCategory.Name || "unknown type";
+                const groupKey = tagCategory?.Name || "unknown type";
 
                 if (!acc[groupKey]) {
                     acc[groupKey] = {
                         groupKey: {
-                            id: tagCategory.Id,
+                            establishmentTypeId: tagCategory?.Type?.Id || "",
+                            content: tagCategory?.content,
+                            id: tagCategory?.Id || "",
                             key: groupKey,
-                            value: groupKey,
+                            value: tagCategory
+                                ? extractActuallyTitleServer(
+                                      tagCategory.content.details
+                                  )
+                                : "",
                         },
                         tags: [],
                     };
@@ -37,12 +43,14 @@ export class DataLoadManagementMapper {
                     secondaryValue: detail.secondaryValue || null,
                     iconName: detail.cIcon || null,
                     tagCategory: {
-                        id: tag.tag.TagCategory.Id,
-                        key: tag.tag.TagCategory.Name,
-                        value: extractActuallyTitleServer(
-                            tag.tag.TagCategory.content.details
-                        ),
-                        content: tag.tag.TagCategory.content,
+                        id: tag.tag.TagCategory?.Id || "",
+                        key: tag.tag.TagCategory?.Name || "",
+                        value: tag.tag.TagCategory
+                            ? extractActuallyTitleServer(
+                                  tag.tag.TagCategory.content.details
+                              )
+                            : "",
+                        content: tag.tag.TagCategory?.content,
                     },
                 });
 
@@ -68,6 +76,7 @@ export class DataLoadManagementMapper {
                     id: "",
                     key: "other",
                     value: "",
+                    establishmentTypeId: null,
                 },
                 tags: singleGroups
                     .flatMap((g) => g.tags)

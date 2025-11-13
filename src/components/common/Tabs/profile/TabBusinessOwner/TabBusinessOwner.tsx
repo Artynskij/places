@@ -14,7 +14,7 @@ import { BusinessForm } from "@/components/common/Form/Business/BusinessForm";
 import { log } from "console";
 
 import { Card } from "antd";
-import { getFormatDate } from "@/lib/helpers/getFormatDate";
+import { createFormatDate } from "@/lib/helpers/create-format-date";
 
 export const TabBusinessOwner = () => {
     const services = useMemo(() => ({ business: new BusinessService() }), []);
@@ -76,7 +76,7 @@ export const TabBusinessOwner = () => {
                                     <span className={style.description}>
                                         Дата добавления на сайт:
                                     </span>
-                                    {getFormatDate(business.CreatedDate)}
+                                    {createFormatDate(business.CreatedDate)}
                                 </p>
                                 <p>
                                     <span className={style.description}>

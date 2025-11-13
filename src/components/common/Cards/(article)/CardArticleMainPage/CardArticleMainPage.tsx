@@ -41,7 +41,7 @@ export const CardArticleMainPage = ({
                 </span>
                 <div className={style.card_content_additional}>
                     <span className={style.card_content_date}>
-                        {article.date}
+                        {article.publishedDate}
                     </span>
                     <span className={style.card_content_date}>
                         <BlockReadTime

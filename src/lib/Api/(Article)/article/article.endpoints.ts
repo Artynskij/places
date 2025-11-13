@@ -67,6 +67,17 @@ export default class ArticleApi {
             return null;
         }
     }
+    async updatePublishDate(id: string): Promise<boolean | null> {
+        try {
+            const response = await apiClient.patch(
+                `/admin/articles/${id}/renew`
+            );
+            return !!response.data;
+        } catch (error) {
+            console.error("Ошибка при обновлении даты в статье", error);
+            return null;
+        }
+    }
 
     async delete(id: string): Promise<Boolean | null> {
         try {

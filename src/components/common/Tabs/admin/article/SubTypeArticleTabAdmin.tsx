@@ -11,7 +11,6 @@ import {
     Tag,
     Card,
     Select,
-    Spin,
     Tooltip,
 } from "antd";
 import {
@@ -35,8 +34,9 @@ import { locales } from "@/config";
 import type { ColumnsType } from "antd/es/table";
 import { ArticleTypeService } from "@/lib/Api/(Article)/article-type.api";
 import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
-import { extractActuallyTitleServer } from "@/lib/helpers/extract-title-server";
 import { buildEntityField } from "@/lib/helpers/build-entity-field";
+import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
+import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
 
 const { Search } = Input;
 
@@ -135,25 +135,15 @@ export const SubTypeArticleTabAdmin = () => {
     };
 
     const handleDelete = async (record: IArticleSubTypeFront) => {
-        Modal.confirm({
-            title: "Удаление подрубрики статьи",
-            content: `Вы уверены, что хотите удалить подрубрику "${record.name}"?`,
-            okText: "Удалить",
-            cancelText: "Отмена",
-            okType: "danger",
-            onOk: async () => {
-                console.log(record);
-                try {
-                    await services.articleSubType.delete(record.id);
-                    setSubTypesArticle((prev) =>
-                        prev.filter((c) => c.id !== record.id)
-                    );
-                    message.success("Подрубрика статьи удалена");
-                } catch {
-                    message.error("Ошибка при удалении подрубрики статьи");
-                }
-            },
-        });
+        try {
+            await services.articleSubType.delete(record.id);
+            setSubTypesArticle((prev) =>
+                prev.filter((c) => c.id !== record.id)
+            );
+            message.success("Подрубрика статьи удалена");
+        } catch {
+            message.error("Ошибка при удалении подрубрики статьи");
+        }
     };
 
     const handleModalClose = () => {
@@ -257,6 +247,9 @@ export const SubTypeArticleTabAdmin = () => {
             dataIndex: "id",
             key: "id",
             width: 80,
+            render: (id: IArticleSubTypeFront["id"]) => {
+                return <CopyClipboardButton text={id} />;
+            },
         },
         {
             title: "Название подрубрики",
@@ -302,14 +295,14 @@ export const SubTypeArticleTabAdmin = () => {
                 </Space>
             ),
         },
-        // {
-        //     title: "Кол-во статей",
-        //     dataIndex: "articleCount",
-        //     key: "articleCount",
-        //     render: (count: number) => (
-        //         <Tag color={count > 0 ? "blue" : "default"}>{count} статей</Tag>
-        //     ),
-        // },
+        {
+            title: "Кол-во статей",
+            dataIndex: "articlesCount",
+            key: "articlesCount",
+            render: (count: number) => (
+                <Tag color={count > 0 ? "blue" : "default"}>{count}</Tag>
+            ),
+        },
         // {
         //     title: "Дата создания",
         //     dataIndex: "createdAt",
@@ -321,18 +314,24 @@ export const SubTypeArticleTabAdmin = () => {
             key: "actions",
             render: (_, record) => (
                 <Space>
-                    <Button
-                        icon={<EditOutlined />}
-                        size="middle"
-                        onClick={() => handleEdit(record)}
-                    />
-                    <Button
-                        danger
-                        icon={<DeleteOutlined />}
-                        size="middle"
-                        onClick={() => handleDelete(record)}
-                        // disabled={(record.articleCount || 0) > 0}
-                    />
+                    <Tooltip title={"Редактировать"}>
+                        <Button
+                            icon={<EditOutlined />}
+                            size="small"
+                            onClick={() => handleEdit(record)}
+                        />
+                    </Tooltip>
+
+                    <ModalConfirm handlerAction={() => handleDelete(record)}>
+                        <Tooltip title={"Удалить"}>
+                            <Button
+                                danger
+                                icon={<DeleteOutlined />}
+                                size="small"
+                                disabled={record.articlesCount > 0}
+                            />
+                        </Tooltip>
+                    </ModalConfirm>
                 </Space>
             ),
         },

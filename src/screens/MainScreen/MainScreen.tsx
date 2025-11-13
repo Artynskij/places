@@ -59,17 +59,23 @@ export const MainScreen = async ({
                 <FinderMainPage />
             </section>
 
-            {typeWithArticles.map((item) => {
+            {typeWithArticles.map((item, index) => {
                 const articleType = item.type;
                 return (
                     <section key={articleType.id}>
                         <h2 className={style.title_second}>
-                            <Link href={ROUTES.NEWS.CATEGORY(articleType.id)}>
+                            <Link href={ROUTES.NEWS.TYPE(articleType.id)}>
                                 {articleType.value}
                             </Link>
                         </h2>
-                        <div className={style.news_content}>
-                            {item.articles.map((item, index) => {
+                        <div
+                            className={
+                                index === 0
+                                    ? style.news_content
+                                    : style.recommend_content
+                            }
+                        >
+                            {item.articles.map((item) => {
                                 return (
                                     <CardArticleMainPage
                                         key={`${CONSTANT_CATEGORIES_NEWS.news}-${item.id}`}

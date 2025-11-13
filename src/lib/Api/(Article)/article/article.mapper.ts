@@ -82,7 +82,8 @@ export default class ArticleMapper {
                 cdnHost
             ),
             reactions: contentDetailsEntity.contentValue?.reactions || [],
-            date: contentDetailsEntity.contentValue?.date || "",
+            publishedDate: articleEntity.article.PublishedDate || "",
+            createdDate: articleEntity.article.CreatedDate,
             contentEntity: articleEntity.content,
             readingTime: articleEntity.article.ReadingTimeMinutes,
         };

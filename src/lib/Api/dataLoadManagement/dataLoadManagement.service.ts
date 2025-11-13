@@ -55,11 +55,8 @@ export class DataLoadManagementService {
 
         return response;
     }
-    async getTypesLocation(): Promise<ILocationTypeWithContentEntity[] | null> {
-        const response = await this.DataLoadManagementApi.getTypesLocation();
-
-        return response;
-    }
+  
+    
     async getBlockTags(locale: string): Promise<ITagBlockFront[] | null> {
         const response =
             await this.DataLoadManagementApi.getTagsBlockOfEstablishments(

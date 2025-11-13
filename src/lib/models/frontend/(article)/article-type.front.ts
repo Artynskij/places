@@ -7,8 +7,9 @@ export interface IArticleTypeFront extends IBaseSimpleFront {
     description: string | null;
     sortOrder: number | null;
     subTypes: IArticleSubTypeEntity[];
+    articlesCount: number;
 }
-export interface IArticleTypeWithArticles{
-    type:IArticleTypeFront,
-    articles:IArticleFront[]
+export interface IArticleTypeWithArticles {
+    type: IArticleTypeFront;
+    articles: IArticleFront[];
 }

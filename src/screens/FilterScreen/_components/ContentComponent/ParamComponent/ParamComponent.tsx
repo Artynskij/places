@@ -23,7 +23,7 @@ const ParamComponent = ({ dataTags, setIsLoading }: IParamComponentProp) => {
     useEffect(() => {
         const searchParamsArray = searchParams
             .get(CONSTANT_SEARCH_PARAMS.FILTER)
-            ?.split("%");
+            ?.split(CONSTANT_SEARCH_PARAMS.ampersand);
         if (!searchParamsArray) {
             setDataParams(null);
             return;

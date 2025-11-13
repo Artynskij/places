@@ -38,10 +38,10 @@ export class ArticleService {
         for (let index = 0; index < typesArticle.length; index++) {
             const typeFront = typesArticle[index];
             const articlesByType = await this.getWithFilter({
-                articleType: typeFront.id,
+                articleTypeIds: [typeFront.id, ""],
                 lang: lang,
             });
-            if (articlesByType && typeFront) {
+            if (!!articlesByType?.length && typeFront) {
                 responseMain.push({
                     type: typeFront,
                     articles: articlesByType,
@@ -83,6 +83,14 @@ export class ArticleService {
         const response = await this.articleApi.update(id, body);
         return response;
     }
+    async updatePublishedDate(
+        id: string,
+       
+    ): Promise<boolean | null> {
+        const response = await this.articleApi.updatePublishDate(id);
+        return response;
+    }
+
     async delete(id: string): Promise<Boolean> {
         const response = await this.articleApi.delete(id);
         return !!response;

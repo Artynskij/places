@@ -14,10 +14,10 @@ import { CONSTANT_DEFAULT_AVATAR_URL } from "@/asset/constants/default.const";
 import { Loader } from "@/components/common/Loader/Loader";
 import { IPersonFront } from "@/lib/models/frontend/(person)/person.front";
 import { IUser } from "@/lib/models/common/IUser";
-import { getFormatDate } from "@/lib/helpers/getFormatDate";
+import { createFormatDate } from "@/lib/helpers/create-format-date";
 import { IPersonTravelMarkFront, ITravelProgressFront } from "@/lib/models";
-import { BlockWorldVisited } from "@/components/common/BlockFunctional/BlockWorldVisited";
 import { PersonTravelMarkService } from "@/lib/Api/(Person)/personTravelMark.api";
+import { BlockWorldVisited } from "@/components/common/BlockFunctional/BlockWorldVisited";
 interface IUserComponent {
     // dataUser: (typeof mockTourist)[0];
 }
@@ -113,7 +113,8 @@ const UserComponent = ({ }: IUserComponent) => {
                         ) : null}
 
                         <div className={style.info_register_block}>
-                            День регистрации: {getFormatDate(user.dateRegister)}
+                            День регистрации:{" "}
+                            {createFormatDate(user.dateRegister)}
                         </div>
                         {/* {travelProgress && (
                             <div className={style.info_travel_block}>

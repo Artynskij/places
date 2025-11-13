@@ -74,7 +74,7 @@ export const TabPublication = () => {
                                             style.cardArticle_content_date
                                         }
                                     >
-                                        {article.date}
+                                        {article.publishedDate}
                                     </span>
                                     <span
                                         className={

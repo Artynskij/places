@@ -12,22 +12,22 @@ import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
 export async function generateMetadata({
     params,
 }: {
-    params: { category: string; news: string };
+    params: {  article: string };
 }) {
     return {
-        title: `${process.env.BASE_NAME} | ${params.news}`,
+        title: `${process.env.BASE_NAME} | ${params.article}`,
     };
 }
 
 interface IProps
-    extends IBasePageProps<{ category: TCategoriesNews; news: string }> {}
+    extends IBasePageProps<{ article: string }> {}
 
 export default async function NewsCategoryPage({
     params,
     searchParams,
 }: IProps) {
     const apiArticles = new ArticleService();
-    const article = await apiArticles.getById(params.news, params.locale);
+    const article = await apiArticles.getById(params.article, params.locale);
     const popularNews =
         (await apiArticles.getWithFilter({
             lang: params.locale,

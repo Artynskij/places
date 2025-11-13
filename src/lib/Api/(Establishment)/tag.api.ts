@@ -22,11 +22,14 @@ export class TagMapper {
             id: entity.tag.Id,
             key: "",
             tagCategory: {
-                id: entity.tag.TagCategory.Id,
-                key: entity.tag.TagCategory.Name,
-                value: extractActuallyTitleServer(
-                    entity.tag.TagCategory.content.details
-                ),
+                id: entity.tag.TagCategory?.Id || "",
+                key: entity.tag.TagCategory?.Name || "",
+                value: entity.tag.TagCategory
+                    ? extractActuallyTitleServer(
+                          entity.tag.TagCategory?.content.details
+                      )
+                    : "",
+                content: entity.tag.TagCategory?.content,
             },
             content: entity.content,
             iconName: entity.content.details[0].cIcon || "",

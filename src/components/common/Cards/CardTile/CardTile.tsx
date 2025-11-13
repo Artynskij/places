@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 
-import style from "./cardInfo.module.scss";
+import style from "./cardTile.module.scss";
 
 import Image from "next/image";
 
@@ -10,13 +10,13 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { IconArrowRight } from "@/components/common/Icons";
 import { Popup } from "@/components/common/Popup/Popup";
 
-import TileContent from "../Tiles/TileContent";
+import TileContent from "../../Tiles/TileContent";
 import { IDataCardInfo, ILocationFront } from "@/lib/models";
 import { TTilesContent } from "@/lib/models/types";
 
 // import  TileContent  from "@/screens/LocationScreen/_components/Tiles/TileContent";
 
-interface ICardInfo {
+interface ICardTile {
     data: IDataCardInfo;
     markDownContent?: string;
     activeParam: boolean;
@@ -27,7 +27,7 @@ interface ICardInfo {
     rootLocationPath: string;
 }
 
-export const CardInfo: FC<ICardInfo> = ({
+export const CardTile: FC<ICardTile> = ({
     data,
     markDownContent,
     activeParam,
@@ -43,7 +43,7 @@ export const CardInfo: FC<ICardInfo> = ({
     const searchParams = useSearchParams();
     function openPopup() {
         setActive(true);
-        router.replace(`${pathname}?popup=${data.value}`, { scroll: false });
+        router.replace(`${pathname}?popup=${data.key}`, { scroll: false });
     }
 
     function closePopup(_item?: boolean) {

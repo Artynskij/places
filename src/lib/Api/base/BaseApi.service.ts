@@ -1,5 +1,6 @@
 import { ILocationFront } from "@/lib/models";
 import apiClient from "./ApiClient";
+import { TLocale } from "@/lib/models/types";
 
 export abstract class BaseApiService<
     EntityType,
@@ -45,12 +46,12 @@ export abstract class BaseApiService<
             return null;
         }
     }
-    async get(): Promise<FrontType[] | null> {
+    async get(locale: TLocale = "ru"): Promise<FrontType[] | null> {
         try {
             const cdnHost = await this.getCdnHost();
 
             const res = await apiClient.get<EntityWithContentType[]>(
-                this.baseUrl
+                `${this.baseUrl}${locale ? `?locale=${locale}` : ""}`
             );
 
             return res.data.map((item) => this.mapper.toFront(item, cdnHost));

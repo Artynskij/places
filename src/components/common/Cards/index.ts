@@ -1,4 +1,4 @@
-import { CardInfo } from "../../../screens/LocationScreen/_components/CardInfo/CardInfo";
+import { CardTile } from "./CardTile/CardTile";
 import { CardList } from "./CardList/CardList";
 import { CardSearch } from "./CardSearch/CardSearch";
 import { CardSliderFilter } from "./CardSliderFilter/CardSliderFilter";
@@ -7,7 +7,7 @@ import { CardSliderMainPage } from "./CardSliderMainPage/CardSliderMainPage";
 import { CardArticle } from "./(article)/CardArticle/CardArticle";
 
 export {
-    CardInfo,
+    CardTile as CardInfo,
     CardList,
     CardSearch,
     CardSliderFilter,

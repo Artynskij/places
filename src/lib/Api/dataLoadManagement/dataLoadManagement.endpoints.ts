@@ -60,15 +60,7 @@ export default class DataLoadManagementApi {
             return null;
         }
     }
-    async getTypesLocation(): Promise<ILocationTypeWithContentEntity[] | null> {
-        try {
-            const response = await apiClient.post(`/types-of-location/get-all`);
-            return response.data;
-        } catch (error) {
-            console.error(`Ошибка при получении справочника типов локаций`);
-            return null;
-        }
-    }
+
     async getTagsBlockOfEstablishments(
         locale: string
     ): Promise<ITagWithContentPareEntity[] | null> {

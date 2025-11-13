@@ -38,7 +38,7 @@ export const CONSTANT_TILES = [
     {
         id: 1,
         title: "generalInfo",
-        value: "info",
+        key: "info",
         iconDefault: knowledge,
         iconActive: knowledgeGold,
         body: `<p>Казахстан&nbsp;— большое государство в&nbsp;Центральной Азии. Он&nbsp;занимает девятое место в&nbsp;мире по&nbsp;величине территории и&nbsp;является крупнейшей 
@@ -50,7 +50,7 @@ export const CONSTANT_TILES = [
     {
         id: 2,
         title: "towns",
-        value: "towns",
+        key: "towns",
         iconDefault: town,
         iconActive: townGold,
         body: "Тут карточки городов",
@@ -58,7 +58,7 @@ export const CONSTANT_TILES = [
     {
         id: 3,
         title: "regions",
-        value: "regions",
+        key: "regions",
         iconDefault: region,
         iconActive: regionGold,
         body: "Тут карточки ругионов",
@@ -66,7 +66,7 @@ export const CONSTANT_TILES = [
     {
         id: 4,
         title: "traditions",
-        value: "tradition",
+        key: "tradition",
         iconDefault: traditions,
         iconActive: traditionsGold,
         body: `<p>Культура Казахстана является отражением истории этого народа, она представляет собой огромный пласт различных видов искусства, традиций и&nbsp;быта, 
@@ -155,7 +155,7 @@ export const CONSTANT_TILES = [
     {
         id: 5,
         title: "visa",
-        value: "visa",
+        key: "visa",
         iconDefault: visa,
         iconActive: visaGold,
         body: `<article>
@@ -195,7 +195,7 @@ export const CONSTANT_TILES = [
     {
         id: 6,
         title: "safety",
-        value: "safety",
+        key: "safety",
         iconDefault: safety,
         iconActive: safetyGold,
         body: "lorem ipsum",
@@ -203,7 +203,7 @@ export const CONSTANT_TILES = [
     {
         id: 7,
         title: "transport",
-        value: "transport",
+        key: "transport",
         iconDefault: transport,
         iconActive: transportGold,
         body: "lorem ipsum",
@@ -211,7 +211,7 @@ export const CONSTANT_TILES = [
     {
         id: 8,
         title: "connection",
-        value: "connection",
+        key: "connection",
         iconDefault: connection,
         iconActive: connectionGold,
         body: "lorem ipsum",
@@ -219,7 +219,7 @@ export const CONSTANT_TILES = [
     {
         id: 9,
         title: "kitchen",
-        value: "kitchen",
+        key: "kitchen",
         iconDefault: kitchen,
         iconActive: kitchenGold,
         body: "lorem ipsum",
@@ -227,7 +227,7 @@ export const CONSTANT_TILES = [
     {
         id: 10,
         title: "figures",
-        value: "humans",
+        key: "humans",
         iconDefault: human,
         iconActive: humanGold,
         body: "lorem ipsum",
@@ -235,7 +235,7 @@ export const CONSTANT_TILES = [
     {
         id: 11,
         title: "souvenirs",
-        value: "bring",
+        key: "bring",
         iconDefault: bring,
         iconActive: bringGold,
         body: "lorem ipsum",
@@ -243,7 +243,7 @@ export const CONSTANT_TILES = [
     {
         id: 12,
         title: "phrasebook",
-        value: "phrasebook",
+        key: "phrasebook",
         iconDefault: phrasebook,
         iconActive: phrasebookGold,
         body: "lorem ipsum",

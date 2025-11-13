@@ -7,4 +7,5 @@ export interface IArticleSubTypeFront extends IBaseSimpleFront {
     sortOrder: number | null;
     articleTypeId: string;
     articleType: IArticleTypeEntity;
+    articlesCount: number;
 }

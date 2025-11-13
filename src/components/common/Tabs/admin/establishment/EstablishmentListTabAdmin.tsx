@@ -7,7 +7,17 @@ import {
     IPaginationEstablishmentRequest,
     ISearchItemFront,
 } from "@/lib/models";
-import { Button, Card, Space, Table, Spin, message, Select, Input } from "antd";
+import {
+    Button,
+    Card,
+    Space,
+    Table,
+    Spin,
+    message,
+    Select,
+    Input,
+    Tag,
+} from "antd";
 import {
     PlusOutlined,
     EditOutlined,
@@ -29,6 +39,7 @@ import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoad
 import { SELECT_FILTER_SORT } from "@/asset/constants/front-database/select-sort.data";
 import { TTypeSortEstablishmentServer } from "@/lib/models/types";
 import { LocationService } from "@/lib/Api/location/location.service";
+import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
 
 const { Search } = Input;
 
@@ -36,7 +47,7 @@ interface Props {
     // openModal: (type: "establishment", item?: IEstablishmentFront) => void;
 }
 
-const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
+const EstablishmentListTabAdmin: React.FC<Props> = ({}) => {
     const locale = useLocale();
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -218,30 +229,42 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
     };
 
     const columns: ColumnsType<IEstablishmentFront> = [
+        {
+            title: "ID",
+            dataIndex: ["id"],
+            key: "id",
+            width: 80,
+            render: (id: IEstablishmentFront["id"]) => {
+                return <CopyClipboardButton text={id} />;
+            },
+        },
         { title: "Название", dataIndex: "title", key: "title" },
         {
             title: "Тип",
             dataIndex: "typeEstablishment",
             key: "typeEstablishment",
-            render: (type: keyof typeof CONSTANT_TYPES_OF_ESTABLISHMENT_DB) =>
-                CONSTANT_TYPES_OF_ESTABLISHMENT_DB[type]?.title || type,
+            render: (type: keyof typeof CONSTANT_TYPES_OF_ESTABLISHMENT_DB) => (
+                <Tag color="blue">
+                    {CONSTANT_TYPES_OF_ESTABLISHMENT_DB[type]?.title || type}
+                </Tag>
+            ),
         },
-        {
-            title: "id",
-            dataIndex: ["id"],
-            key: "id",
-        },
+
         {
             title: "Категория",
             dataIndex: ["category", "value"],
             key: "category",
+            render: (category) => {
+                return <Tag color="blue">{category}</Tag>;
+            },
         },
         {
             title: "Страна",
             dataIndex: ["location", "country", "title"],
             key: "country",
-            render: (titleCountry: string, record: IEstablishmentFront) =>
-                titleCountry,
+            render: (titleCountry: string, record: IEstablishmentFront) => (
+                <Tag color="blue">{titleCountry}</Tag>
+            ),
 
             // countriesMap[idCountry] || "не найдена страна",
         },
@@ -249,6 +272,9 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
             title: "Город",
             dataIndex: ["location", "town", "title"],
             key: "town",
+            render: (town) => {
+                return <Tag color="blue">{town}</Tag>;
+            },
         },
         {
             title: "медиа",
@@ -286,8 +312,8 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
 
     return (
         <Card
-            title={`Заведения ${
-                establishments?.[0]?.location.info.totalEstablishment || ""
+            title={`Заведения - ${
+                establishments?.[0]?.location.info.totalEstablishment || 0
             }`}
             extra={
                 <Space>
@@ -384,4 +410,4 @@ const EstablishmentsAdminScreen: React.FC<Props> = ({}) => {
     );
 };
 
-export default EstablishmentsAdminScreen;
+export default EstablishmentListTabAdmin;

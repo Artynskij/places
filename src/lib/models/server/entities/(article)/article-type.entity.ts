@@ -13,6 +13,7 @@ export interface IArticleTypeEntity
 export interface IArticleTypeWithContentPareEntity {
     articleType: IArticleTypeEntity;
     content: IContentSimpleEntity;
+    articlesCount: number;
 }
 export interface IArticleTypeRelation extends IBaseEntity {
     ArticleId: string;

@@ -30,6 +30,7 @@ import { CONSTANT_LANGS_DETAILS } from "@/asset/constants/langs-details";
 import { ICategoryFront, IOption, ITagFront, ITagRequest } from "@/lib/models";
 import { TagService } from "@/lib/Api/(Establishment)/tag.api";
 import { TagCategoryService } from "@/lib/Api/(Establishment)/tag-category.api";
+import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
 
 const { Search } = Input;
 
@@ -189,8 +190,6 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
                 return;
             }
 
-            setIsModalLoading(true);
-
             const selectedGroup = tagCategories.find(
                 (g) => g.id === values.groupId
             );
@@ -198,7 +197,7 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
                 message.error("Группа атрибутов не найдена");
                 return;
             }
-
+            setIsModalLoading(true);
             const filledDetails = languageDetails.filter((item) =>
                 item.value.trim()
             );
@@ -241,6 +240,10 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
             title: "ID",
             dataIndex: "id",
             key: "id",
+            width: 80,
+            render: (id: ITagFront["id"]) => {
+                return <CopyClipboardButton text={id} />;
+            },
         },
         {
             title: "Название",
@@ -288,17 +291,26 @@ export const AttributeTabAdmin = ({}: AttributeListTabProps) => {
             width: 150,
             render: (_: any, record: ITagFront) => (
                 <Space size="small">
-                    <Button
-                        icon={<EditOutlined />}
-                        size="small"
-                        onClick={() => handleEdit(record)}
-                    />
+                    <Tooltip title={"Редактировать"}>
+                        <Button
+                            icon={<EditOutlined />}
+                            size="small"
+                            onClick={() => handleEdit(record)}
+                        />
+                    </Tooltip>
                     <ModalConfirm
                         handlerAction={() => handleDelete(record)}
                         title="Удаление атрибута"
                         content="Вы уверены, что хотите удалить этот атрибут?"
                     >
-                        <Button danger icon={<DeleteOutlined />} size="small" />
+                        <Tooltip title={"Удалить"}>
+                            <Button
+                                danger
+                                icon={<DeleteOutlined />}
+                                size="small"
+                                disabled={true}
+                            />
+                        </Tooltip>
                     </ModalConfirm>
                 </Space>
             ),

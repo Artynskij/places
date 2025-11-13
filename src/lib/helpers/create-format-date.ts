@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ru";
 
 // Форматируем дату в ДД.ММ.ГГГГ
-export const getFormatDate = (value: string) => {
+export const createFormatDate = (value: string) => {
     if (!value) return "";
 
     // Серверный формат YYYY/DD/MM

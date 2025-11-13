@@ -16,7 +16,7 @@ import { TCategoriesNews } from "@/lib/models/types/TCategoriesNews";
 import { ArticleService } from "@/lib/Api/(Article)/article/article.service";
 
 interface IProps
-    extends IBasePageProps<{ category: TCategoriesNews; news: string }> {
+    extends IBasePageProps<{  article: string }> {
     articleData: IArticleFront | null;
     popularNews: IArticleFront[] | [];
 }

@@ -8,7 +8,6 @@ export interface ICategoryEstablishmentRequest {
         Type: {
             Id: string;
         };
-        RefName: string;
     };
     content: Omit<IContentSimpleEntity, "id">;
 }
