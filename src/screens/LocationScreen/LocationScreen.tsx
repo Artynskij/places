@@ -46,7 +46,6 @@ interface IProps
 export default async function LocationScreen({
     params,
     searchParams,
-    typePage,
     dataEstablishment,
     locationData,
     // townsData,

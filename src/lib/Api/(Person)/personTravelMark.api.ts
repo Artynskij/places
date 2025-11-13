@@ -20,6 +20,7 @@ export class PersonTravelMarkMapper {
             location: {
                 id: data.Location.Id,
                 title: data.Location.content?.details[0].value || "нету title",
+                path:data.Location.Path,
             },
             personId: data.Person.Id,
         };

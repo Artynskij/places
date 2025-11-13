@@ -228,7 +228,7 @@ export const MainScreen = async ({
                                             style.cardDirection_content_title
                                         }
                                     >
-                                        {`${directionItem.location}, ${directionItem.title}`}
+                                        {` ${directionItem.title}, ${directionItem.location}`}
                                     </h4>
                                 </div>
                             </Link>
