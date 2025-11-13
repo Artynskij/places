@@ -20,6 +20,7 @@ import {
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./admin.module.scss";
 import { ROUTES } from "@/lib/config/Routes";
+import Link from "next/link";
 
 const { Header, Sider, Content } = Layout;
 
@@ -31,38 +32,60 @@ const menuItems = [
     {
         key: ROUTES.ADMIN.USERS,
         icon: <UserOutlined />,
-        label: "Пользователи",
+        label: (
+            <Link href={ROUTES.ADMIN.USERS} className={styles.menuLink}>
+                Пользователи
+            </Link>
+        ),
     },
     {
         key: ROUTES.ADMIN.BUSINESS,
         icon: <ShopOutlined />,
-        label: "Бизнесы",
+        label: (
+            <Link href={ROUTES.ADMIN.BUSINESS} className={styles.menuLink}>
+                Бизнесы
+            </Link>
+        ),
     },
     {
         key: ROUTES.ADMIN.ESTABLISHMENTS,
         icon: <BuildOutlined />,
-        label: "Объекты",
+        label: (
+            <Link
+                href={ROUTES.ADMIN.ESTABLISHMENTS}
+                className={styles.menuLink}
+            >
+                Объекты
+            </Link>
+        ),
     },
     {
         key: ROUTES.ADMIN.LOCATIONS,
         icon: <EnvironmentOutlined />,
-        label: "Локации",
+        label: (
+            <Link href={ROUTES.ADMIN.LOCATIONS} className={styles.menuLink}>
+                Локации
+            </Link>
+        ),
     },
     {
         key: ROUTES.ADMIN.ATTRIBUTES,
         icon: <TagOutlined />,
-        label: "Атрибуты",
+        label: (
+            <Link href={ROUTES.ADMIN.ATTRIBUTES} className={styles.menuLink}>
+                Атрибуты
+            </Link>
+        ),
     },
     {
         key: ROUTES.ADMIN.ARTICLES,
         icon: <FileTextOutlined />,
-        label: "Статьи",
+        label: (
+            <Link href={ROUTES.ADMIN.ARTICLES} className={styles.menuLink}>
+                Статьи
+            </Link>
+        ),
     },
-    // {
-    //     key: ROUTES.ADMIN.DATA_MANAGER,
-    //     icon: <DatabaseOutlined />,
-    //     label: "Данные",
-    // },
 ];
 
 // Альтернативный вариант с более специфичными иконками:
