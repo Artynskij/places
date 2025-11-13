@@ -17,7 +17,6 @@ export const TabFavoritesTourist = () => {
     const baseUrl = useBaseUrl();
     const { favorites } = useFavorites();
     useEffect(() => {
-        console.log(favorites);
         setFavoritesData(favorites);
     }, [favorites]);
 

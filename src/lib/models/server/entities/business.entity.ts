@@ -19,7 +19,7 @@ export interface IBusinessEntity extends IBaseEntity {
     Establishment: IEstablishmentEntity | null;
     LegalType: IBusinessLegalTypesEntity;
 }
-export interface IBusinessWithContentEntity {
+export interface IBusinessWithContentPareEntity {
     id: string;
     business: IBusinessEntity;
     content: IContentMultilingualEntity | null;

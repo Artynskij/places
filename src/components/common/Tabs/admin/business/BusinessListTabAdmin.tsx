@@ -14,6 +14,7 @@ import {
     Select,
     Tag,
     Descriptions,
+    Tooltip,
 } from "antd";
 import {
     EditOutlined,
@@ -37,6 +38,8 @@ import { DataLoadManagementService } from "@/lib/Api/dataLoadManagement/dataLoad
 import { InvitesService } from "@/lib/Api/invites/invites.service";
 import { CopyStringButton } from "@/components/common/ButtonFunctional/CopyStringButton";
 import { CopyClipboardButton } from "@/components/common/ButtonFunctional/CopyClipboardButton";
+import { createFormatDate } from "@/lib/helpers/create-format-date";
+import { ModalConfirm } from "@/components/common/Modal/ModalConfirm";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -51,9 +54,6 @@ interface BusinessFormValues {
     establishmentName: string;
     establishmentDescription: string;
 }
-
-// Имитация API задержки
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const BusinessListTabAdmin = () => {
     const locale = useLocale();
@@ -88,8 +88,7 @@ export const BusinessListTabAdmin = () => {
 
         services.business.getAll({ lang: locale }).then((res) => {
             if (res) {
-                const business = res.map((item) => item.business);
-
+                const business = res.data.map((item) => item.business);
                 setBusinesses(business);
             } else {
                 message.error("Ошибка загрузки данных бизнесов");
@@ -151,7 +150,7 @@ export const BusinessListTabAdmin = () => {
                 .getAll({ lang: locale, OfficialName: name })
                 .then((res) => {
                     if (res) {
-                        const business = res.map((item) => item.business);
+                        const business = res.data.map((item) => item.business);
 
                         setBusinesses(business);
                     } else {
@@ -184,7 +183,7 @@ export const BusinessListTabAdmin = () => {
         try {
             const values = await form.validateFields();
             setLoading(true);
-            await delay(400);
+            // await delay(400);
 
             // Обновляем данные
             const updatedBusinesses = businesses.map((business) =>
@@ -248,18 +247,7 @@ export const BusinessListTabAdmin = () => {
     };
 
     const handleDelete = (id: string) => {
-        Modal.confirm({
-            title: "Подтверждение удаления",
-            content: "Вы уверены, что хотите удалить этот бизнес?",
-            okText: "Удалить",
-            cancelText: "Отмена",
-            okType: "danger",
-            onOk: async () => {
-                await delay(300);
-                setBusinesses(businesses.filter((p) => p.Id !== id));
-                message.success("Бизнес удален");
-            },
-        });
+        message.error("Не возможно удалить бизнес");
     };
 
     const getLegalTypeLabel = (code: TLegalTypeOfBusiness) => {
@@ -292,7 +280,7 @@ export const BusinessListTabAdmin = () => {
             title: "Официальное название",
             dataIndex: "OfficialName",
             key: "OfficialName",
-            sorter: (a, b) => a.OfficialName.localeCompare(b.OfficialName),
+            // sorter: (a, b) => a.OfficialName.localeCompare(b.OfficialName),
         },
         {
             title: "Рег. номер",
@@ -310,72 +298,88 @@ export const BusinessListTabAdmin = () => {
                     {getLegalTypeLabel(code)}
                 </Tag>
             ),
-            filters: legalTypeOptions?.map((opt) => ({
-                text: opt.value,
-                value: opt.code,
-            })),
-            onFilter: (value, record) => record.LegalType.Code === value,
+            // filters: legalTypeOptions?.map((opt) => ({
+            //     text: opt.value,
+            //     value: opt.code,
+            // })),
+            // onFilter: (value, record) => record.LegalType.Code === value,
         },
         {
             title: "Email",
             dataIndex: ["Contacts", "Email"],
             key: "Email",
-            responsive: ["lg"],
+            // responsive: ["lg"],
         },
         {
             title: "Телефон",
             dataIndex: ["Contacts", "Phone"],
             key: "Phone",
-            responsive: ["lg"],
+            // responsive: ["lg"],
         },
         {
             title: "Дата регистрации",
             dataIndex: "RegistrationDate",
             key: "RegistrationDate",
-            responsive: ["xl"],
+            // responsive: ["xl"],
             render: (date) =>
                 date ? (
                     dayjs(date).format("DD.MM.YYYY")
                 ) : (
                     <span style={{ color: "#999" }}>не указана</span>
                 ),
-            sorter: (a, b) => {
-                const dateA = a.RegistrationDate
-                    ? dayjs(a.RegistrationDate).unix()
-                    : 0;
-                const dateB = b.RegistrationDate
-                    ? dayjs(b.RegistrationDate).unix()
-                    : 0;
-                return dateA - dateB;
+            // sorter: (a, b) => {
+            //     const dateA = a.RegistrationDate
+            //         ? dayjs(a.RegistrationDate).unix()
+            //         : 0;
+            //     const dateB = b.RegistrationDate
+            //         ? dayjs(b.RegistrationDate).unix()
+            //         : 0;
+            //     return dateA - dateB;
+            // },
+        },
+        {
+            title: "Дата создания",
+            dataIndex: "CreatedDate",
+            key: "CreatedDate",
+            render: (date) => {
+                return <Tag color="blue">{createFormatDate(date)}</Tag>;
             },
         },
         {
             title: "Действия",
             key: "actions",
-            fixed: "right",
-            width: 180,
+            // fixed: "right",
+            // width: 180,
             render: (_, record) => (
                 <Space>
-                    <Button
-                        icon={<EyeOutlined />}
-                        onClick={() => handleViewDetails(record)}
-                        size="small"
+                    <Tooltip title={"Детали"}>
+                        <Button
+                            icon={<EyeOutlined />}
+                            onClick={() => handleViewDetails(record)}
+                            size="small"
+                        />
+                    </Tooltip>
+                    <Tooltip title={"Редактировать"}>
+                        <Button
+                            icon={<EditOutlined />}
+                            onClick={() => handleEdit(record)}
+                            size="small"
+                        />
+                    </Tooltip>
+                    <ModalConfirm
+                        title="Удаление бизнеса"
+                        content="Вы уверены что хотите удалить бизнес."
+                        handlerAction={() => handleDelete(record.Id)}
                     >
-                        Детали
-                    </Button>
-                    <Button
-                        icon={<EditOutlined />}
-                        onClick={() => handleEdit(record)}
-                        size="small"
-                    >
-                        Редакт.
-                    </Button>
-                    <Button
-                        danger
-                        icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(record.Id)}
-                        size="small"
-                    />
+                        <Tooltip title={"Удалить"}>
+                            <Button
+                                danger
+                                icon={<DeleteOutlined />}
+                                size="small"
+                                disabled={true}
+                            />
+                        </Tooltip>
+                    </ModalConfirm>
                 </Space>
             ),
         },
@@ -401,8 +405,6 @@ export const BusinessListTabAdmin = () => {
                     onSearch={fetchById}
                     allowClear
                     loading={searchLoading}
-                    style={{ width: 220 }}
-                    enterButton={<SearchOutlined />}
                 />
 
                 <Search
@@ -410,8 +412,6 @@ export const BusinessListTabAdmin = () => {
                     onSearch={fetchByName}
                     allowClear
                     loading={searchLoading}
-                    style={{ width: 280 }}
-                    enterButton={<SearchOutlined />}
                 />
             </Space>
 

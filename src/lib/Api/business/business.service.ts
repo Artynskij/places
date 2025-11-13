@@ -10,7 +10,8 @@ import {
     IBusinessGetAllQueryRequest,
     IBusinessPersonAssignEntity,
     IBusinessRequest,
-    IBusinessWithContentEntity,
+    IBusinessWithContentPareEntity,
+    IBusinessPaginationResponse,
 } from "@/lib/models";
 import { InvitesService } from "../invites/invites.service";
 
@@ -28,7 +29,7 @@ export class BusinessService {
     }
     async getAll(
         query: IBusinessGetAllQueryRequest
-    ): Promise<IBusinessWithContentEntity[] | null> {
+    ): Promise<IBusinessPaginationResponse | null> {
         const response = this.BusinessApi.getAll(query);
         return response;
     }

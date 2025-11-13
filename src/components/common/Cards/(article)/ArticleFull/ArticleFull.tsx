@@ -55,7 +55,6 @@ export const CardArticleFull = ({ article, author }: IProp) => {
                             "неизвестный автор"}
                     </Link>
                 </div>
-
                 <BlockReadTime
                     count={article.readingTime}
                     text={JSON.stringify(article.markdown)}

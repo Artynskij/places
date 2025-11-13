@@ -1,11 +1,15 @@
 import {
     IBusinessEntity,
-    IBusinessWithContentEntity,
+    IBusinessWithContentPareEntity,
 } from "@/lib/models/server/entities/business.entity";
 
 import { IBaseModerationResponse } from "@/lib/models/server/base/base.response";
 import apiClient from "../base/ApiClient";
-import { IBusinessGetAllQueryRequest, IBusinessRequest } from "@/lib/models";
+import {
+    IBusinessGetAllQueryRequest,
+    IBusinessPaginationResponse,
+    IBusinessRequest,
+} from "@/lib/models";
 import { buildQueryString } from "@/lib/helpers/build-query-params-for-api";
 
 export default class BusinessApi {
@@ -13,12 +17,12 @@ export default class BusinessApi {
 
     async getAll(
         query: IBusinessGetAllQueryRequest
-    ): Promise<IBusinessWithContentEntity[] | null> {
+    ): Promise<IBusinessPaginationResponse | null> {
         try {
             const queryString = buildQueryString(query);
             const url = queryString
-                ? `/businesses?${queryString}`
-                : "/businesses";
+                ? `/businesses/getAll?${queryString}`
+                : "/businesses/getAll";
             const response = await apiClient.get(url);
             return response.data;
         } catch (error) {
@@ -29,7 +33,7 @@ export default class BusinessApi {
     async getById(
         id: string,
         lang?: string
-    ): Promise<IBusinessWithContentEntity | null> {
+    ): Promise<IBusinessWithContentPareEntity | null> {
         try {
             const response = await apiClient.get(
                 `/businesses/${id}${lang ? `?lang=${lang}` : ""}`

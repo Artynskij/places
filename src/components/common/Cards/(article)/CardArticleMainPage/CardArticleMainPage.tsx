@@ -1,14 +1,15 @@
 import { CONSTANT_DEFAULT_IMAGE_URL } from "@/asset/constants/default.const";
 import style from "./cardArticle.module.scss";
-import { CONSTANT_CATEGORIES_NEWS } from "@/asset/constants/front-database/tiles.data";
 import { IArticleFront } from "@/lib/models";
 import Image from "next/image";
 import Link from "next/link";
 import { BlockReadTime } from "../../../BlockFunctional/BlockReadTime";
 import clsx from "clsx";
+import { createFormatDate } from "@/lib/helpers/create-format-date";
+import { ROUTES } from "@/lib/config/Routes";
 interface IProp {
     article: IArticleFront;
-    category: string;
+
     cardClass?: string;
     contentClass?: string;
     imgClass?: string;
@@ -18,11 +19,10 @@ export const CardArticleMainPage = ({
     cardClass,
     contentClass,
     imgClass,
-    category,
 }: IProp) => {
     return (
         <Link
-            href={`/news/${category}/${article.id}`}
+            href={ROUTES.NEWS.ARTICLE(article.id)}
             className={clsx(style.card, cardClass)}
         >
             <div className={style.card_image}>
@@ -41,7 +41,7 @@ export const CardArticleMainPage = ({
                 </span>
                 <div className={style.card_content_additional}>
                     <span className={style.card_content_date}>
-                        {article.publishedDate}
+                        {createFormatDate(article.publishedDate)}
                     </span>
                     <span className={style.card_content_date}>
                         <BlockReadTime

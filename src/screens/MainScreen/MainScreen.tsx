@@ -80,7 +80,6 @@ export const MainScreen = async ({
                                     <CardArticleMainPage
                                         key={`${CONSTANT_CATEGORIES_NEWS.news}-${item.id}`}
                                         article={item}
-                                        category={CONSTANT_CATEGORIES_NEWS.news}
                                         cardClass={style.cardNews}
                                         contentClass={style.cardNews_content}
                                         imgClass={style.cardNews_img}
